@@ -1,6 +1,8 @@
+import ConstructionIcon from '@mui/icons-material/Construction';
+import Display from "../commons/Display";
 
 const Queue = () => (
-    <div>Hello Queue...</div>
+    <Display text="Queue" icon={<ConstructionIcon sx={{ fontSize: 100 }} color="secondary" />} />
 );
 
 export default Queue;
