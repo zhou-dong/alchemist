@@ -2,9 +2,12 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+
 import theme from "./theme";
 import Side from './Side';
 import Main from "./Main";
+import Display from '../commons/Display';
 
 import Stack from "../stack";
 import Queue from "../queue";
@@ -24,6 +27,7 @@ const sideItems = (
 
 const SubApps = () => (
     <Routes>
+        <Route path="/" element={<Display text="Alchemist" icon={<HomeIcon sx={{ fontSize: 100 }} color="secondary" />} />} />
         <Route path="stack" element={<Stack />} />
         <Route path="queue" element={<Queue />} />
         <Route path="tree" element={<Tree />} />
