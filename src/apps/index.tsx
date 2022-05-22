@@ -38,14 +38,14 @@ function Apps() {
     const [open, setOpen] = React.useState<boolean>(true);
 
     return (
-        <ThemeProvider theme={theme}>
-            <Box sx={{ display: "flex", width: "100%", height: "100%" }}>
+        <Box sx={{ display: "flex", width: "100%", height: "100%" }}>
+            <ThemeProvider theme={theme}>
                 <Side open={open} drawerWidth={drawerWidth} setOpen={setOpen} items={sideItems} />
-                <Main open={open} drawer_width={drawerWidth} >
-                    <SubApps />
-                </Main>
-            </Box>
-        </ThemeProvider>
+            </ThemeProvider>
+            <Main open={open} drawer_width={drawerWidth} >
+                <SubApps />
+            </Main>
+        </Box>
     );
 }
 
