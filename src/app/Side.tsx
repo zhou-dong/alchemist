@@ -50,15 +50,17 @@ const OpenDrawer: React.FC<{
 );
 
 const Title = () => (
-    <Typography variant="h6" align="center" style={{ width: "100%", fontWeight: "normal", height: "48px", lineHeight: "48px" }}>
-        <MaterialLink
-            component={RouterLink}
-            to="/"
-            style={{ textDecoration: 'none' }}
-        >
-            Alchemist
-        </MaterialLink>
-    </Typography>
+    <Toolbar>
+        <Typography variant="h5" align="center" style={{ width: "100%", fontWeight: "normal", height: "48px", lineHeight: "48px" }}>
+            <MaterialLink
+                component={RouterLink}
+                to="/"
+                style={{ textDecoration: 'none' }}
+            >
+                Alchemist
+            </MaterialLink>
+        </Typography>
+    </Toolbar>
 );
 
 const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
@@ -71,7 +73,7 @@ const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
                     textDecoration: 'none',
                     textAlign: 'center',
                     width: "100%",
-                    textTransform: "uppercase",
+                    // textTransform: "uppercase",
                 }}
             >
                 <ListItemText primary={name} />

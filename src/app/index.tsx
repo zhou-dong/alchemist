@@ -2,22 +2,21 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
+import Home from './Home';
 
 import theme from "./theme";
 import Side from './Side';
 import Main from "./Main";
-import Display from '../commons/Display';
 
-import Stack from "../stack";
-import Queue from "../queue";
-import Tree from "../tree";
-import DP from "../dp";
-import Sorting from "../sorting";
+import Stack from "../collections/Stack";
+import Queue from "../collections/Queue";
+import Tree from "../collections/Tree";
+import DP from "../collections/Dp";
+import Sorting from "../collections/Sorting";
 
 const sideItems = (
     [
-        { name: "DP", path: "dp" },
+        { name: "Dynamic Programming", path: "dynamic-programming" },
         { name: "Sorting", path: "sorting" },
         { name: "Tree", path: "tree" },
         { name: "Stack", path: "stack" },
@@ -27,7 +26,7 @@ const sideItems = (
 
 const SubApps = () => (
     <Routes>
-        <Route path="/" element={<Display text="Alchemist" icon={<HomeIcon sx={{ fontSize: 100 }} color="secondary" />} />} />
+        <Route path="/" element={<Home />} />
         <Route path="stack" element={<Stack />} />
         <Route path="queue" element={<Queue />} />
         <Route path="tree" element={<Tree />} />
@@ -38,7 +37,7 @@ const SubApps = () => (
 
 function Apps() {
 
-    const drawerWidth = 110;
+    const drawerWidth = 220;
     const [open, setOpen] = React.useState<boolean>(true);
 
     return (

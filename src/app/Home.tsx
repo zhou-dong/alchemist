@@ -1,6 +1,6 @@
-import { IconProps, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import { styled } from '@mui/material/styles';
-import { ReactElement } from "react";
+import HomeIcon from '@mui/icons-material/Home';
 
 const Center = styled("div")(() => ({
     border: 0,
@@ -13,15 +13,10 @@ const Center = styled("div")(() => ({
     flexWrap: "nowrap",
 }));
 
-interface Props {
-    text?: string;
-    icon?: ReactElement<IconProps>;
-}
-
-const Display = ({ text, icon }: Props) => (
+const Home = () => (
     <Center>
         <div style={{ marginTop: "-100px" }} >
-            {icon}
+            < HomeIcon sx={{ fontSize: 100 }} color="secondary" />
         </div>
         <Typography
             align="center"
@@ -29,9 +24,9 @@ const Display = ({ text, icon }: Props) => (
             sx={{ marginTop: "-100px" }}
             color="secondary"
         >
-            {text}
+            Alchemist
         </Typography>
     </Center>
 );
 
-export default Display;
+export default Home;
