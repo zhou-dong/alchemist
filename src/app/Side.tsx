@@ -67,6 +67,7 @@ const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
     <ListItem disablePadding>
         <ListItemButton style={{ paddingLeft: 0, paddingRight: 0 }}>
             <MaterialLink
+                color="textPrimary"
                 component={RouterLink}
                 to={path}
                 style={{
@@ -75,7 +76,6 @@ const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
                     width: "100%",
                     // textTransform: "uppercase",
                 }}
-                color="textPrimary"
             >
                 <ListItemText primary={name} />
             </MaterialLink>
