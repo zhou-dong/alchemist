@@ -16,7 +16,7 @@ import Sorting from "../collections/Sorting";
 
 const sideItems = (
     [
-        { name: "Dynamic Programming", path: "dynamic-programming" },
+        { name: "DP", path: "dp" },
         { name: "Sorting", path: "sorting" },
         { name: "Tree", path: "tree" },
         { name: "Stack", path: "stack" },
@@ -26,18 +26,32 @@ const sideItems = (
 
 const SubApps = () => (
     <Routes>
-        <Route path="/" element={<Home />} />
+        <Route index element={<Home />} />
         <Route path="stack" element={<Stack />} />
         <Route path="queue" element={<Queue />} />
         <Route path="tree" element={<Tree />} />
-        <Route path="sorting" element={<Sorting />} />
+        <>
+            <Route path="sorting" element={<Sorting />} />
+
+            <Route path="sorting/bubble-sort" element={<div>Bubble Sort</div>} />
+            <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />
+            <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
+            <Route path="sorting/insertion-sort" element={<div>Insertion Sort</div>} />
+            <Route path="sorting/quick-sort" element={<div>Quick Sort</div>} />
+            <Route path="sorting/heap-sort" element={<div>Heap Sort</div>} />
+            <Route path="sorting/counting-sort" element={<div>Counting Sort</div>} />
+            <Route path="sorting/bucket-sort" element={<div>Bucket Sort</div>} />
+            <Route path="sorting/radix-sort" element={<div>Redix Sort</div>} />
+        </>
+
+
         <Route path="dp" element={< DP />} />
     </Routes>
 );
 
 function Apps() {
 
-    const drawerWidth = 220;
+    const drawerWidth = 150;
     const [open, setOpen] = React.useState<boolean>(true);
 
     return (

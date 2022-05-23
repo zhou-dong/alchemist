@@ -26,7 +26,7 @@ const CloseDrawer: React.FC<{
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ drawerWidth, setOpen }) => (
     <ChevronPosition drawer_width={drawerWidth}>
-        <Divider style={{ borderBottom: "1px solid white" }} />
+        <Divider />
         <ChevronHolder>
             <IconButton onClick={() => setOpen(false)}>
                 <ChevronLeft color="primary" />
@@ -44,14 +44,14 @@ const OpenDrawer: React.FC<{
             sx={{ ...(open && { display: 'none' }) }}
             onClick={() => setOpen(true)}
         >
-            <Menu color="secondary" />
+            <Menu color="primary" />
         </IconButton>
     </Toolbar>
 );
 
 const Title = () => (
     <Toolbar>
-        <Typography variant="h5" align="center" style={{ width: "100%", fontWeight: "normal", height: "48px", lineHeight: "48px" }}>
+        <Typography variant="h5" align="center" color="success" style={{ width: "100%", fontWeight: "normal", height: "48px", lineHeight: "48px" }}>
             <MaterialLink
                 component={RouterLink}
                 to="/"
@@ -75,8 +75,9 @@ const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
                     width: "100%",
                     // textTransform: "uppercase",
                 }}
+                color="textPrimary"
             >
-                <ListItemText primary={name} />
+                <ListItemText primary={name} color="success" />
             </MaterialLink>
         </ListItemButton>
     </ListItem>
@@ -119,7 +120,7 @@ const Side = ({ drawerWidth, open, setOpen, items }: Props) => (
             }}
         >
             <Title />
-            <Divider style={{ borderBottom: "1px solid white" }} />
+            <Divider />
             <Items items={items} />
             <CloseDrawer drawerWidth={drawerWidth} setOpen={setOpen} />
         </Drawer>
