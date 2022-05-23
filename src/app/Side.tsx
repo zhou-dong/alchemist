@@ -77,7 +77,7 @@ const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
                 }}
                 color="textPrimary"
             >
-                <ListItemText primary={name} color="success" />
+                <ListItemText primary={name} />
             </MaterialLink>
         </ListItemButton>
     </ListItem>
