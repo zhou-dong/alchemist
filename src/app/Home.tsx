@@ -18,14 +18,13 @@ const Home = () => (
         <div style={{ marginTop: "-100px" }} >
             < HomeIcon sx={{ fontSize: 100 }} color="success" />
         </div>
-        <Typography
+        {/* <Typography
             align="center"
             variant="h1"
             sx={{ marginTop: "-100px" }}
-            color="primary"
         >
             Alchemist
-        </Typography>
+        </Typography> */}
     </Center>
 );
 

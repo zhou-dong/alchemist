@@ -33,11 +33,11 @@ const Algorithm = ({ title, subHeader, description, path }: AlgorithmProps) => (
 );
 
 const Sorting = () => (
-    <Grid container spacing={1} sx={{ padding: 2 }}>
-        <Algorithm title="Bobble Sort" subHeader="Sorting" description={description} path="sorting/bubble-sort" />
-        <Algorithm title="Selection Sort" subHeader="Sorting" description={description} path="sorting/selection-sort" />
-        <Algorithm title="Merge Sort" subHeader="Sorting" description={description} path="sorting/merge-sort" />
-        <Algorithm title="Insertion Sort" subHeader="Sorting" description={description} path="sorting/insertion-sort" />
+    <Grid container spacing={2} sx={{ padding: 2 }}>
+        <Algorithm title="Bobble Sort" subHeader="Sorting" description={description} path="/sorting/bubble-sort" />
+        <Algorithm title="Selection Sort" subHeader="Sorting" description={description} path="/sorting/selection-sort" />
+        <Algorithm title="Merge Sort" subHeader="Sorting" description={description} path="/sorting/merge-sort" />
+        <Algorithm title="Insertion Sort" subHeader="Sorting" description={description} path="/sorting/insertion-sort" />
         <Algorithm title="Quick Sort" subHeader="Sorting" description={description} path="sorting/quick-sort" />
         <Algorithm title="Heap Sort" subHeader="Sorting" description={description} path="sorting/heap-sort" />
         <Algorithm title="Counting Sort" subHeader="Sorting" description={description} path="sorting/counting-sort" />

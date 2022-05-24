@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './Home';
 
 import theme from "./theme";
-import Side from './Side';
+import Side, { OpenDrawer, Title } from './Side';
 import Main from "./Main";
 
 import Stack from "../collections/Stack";
@@ -13,6 +13,8 @@ import Queue from "../collections/Queue";
 import Tree from "../collections/Tree";
 import DP from "../collections/Dp";
 import Sorting from "../collections/Sorting";
+import { Toolbar } from '@mui/material';
+import Header from './Header';
 
 const sideItems = (
     [
@@ -51,18 +53,28 @@ const SubApps = () => (
 
 function Apps() {
 
-    const drawerWidth = 150;
+    const drawerWidth = 240;
     const [open, setOpen] = React.useState<boolean>(true);
 
     return (
-        <Box sx={{ display: "flex", width: "100%", height: "100%" }}>
-            <ThemeProvider theme={theme}>
-                <Side open={open} drawerWidth={drawerWidth} setOpen={setOpen} items={sideItems} />
-            </ThemeProvider>
-            <Main open={open} drawer_width={drawerWidth} >
-                <SubApps />
-            </Main>
-        </Box>
+        <>
+            <Box sx={{
+                display: "flex",
+                width: "100%",
+                height: "100%"
+            }}>
+                <ThemeProvider theme={theme}>
+                    <Side open={open} drawerWidth={drawerWidth} setOpen={setOpen} items={sideItems} />
+                </ThemeProvider>
+                <Main open={open} drawer_width={drawerWidth} >
+                    <ThemeProvider theme={theme}>
+                        <Header />
+                    </ThemeProvider>
+                    <SubApps />
+                </Main>
+            </Box>
+        </>
+
     );
 }
 

@@ -2,15 +2,11 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import MaterialLink from "@mui/material/Link";
 import { styled } from '@mui/material/styles';
-import { Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
+import { Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import { ChevronLeft, Menu } from '@mui/icons-material';
-
-const bottom = 0;
 
 const ChevronPosition = styled("div")<{ drawer_width: number }>(({ drawer_width }) => ({
     width: drawer_width,
-    position: "fixed",
-    bottom,
 }));
 
 const ChevronHolder = styled('div')(({ theme }) => ({
@@ -29,38 +25,34 @@ const CloseDrawer: React.FC<{
         <Divider />
         <ChevronHolder>
             <IconButton onClick={() => setOpen(false)}>
-                <ChevronLeft color="primary" />
+                <ChevronLeft />
             </IconButton>
         </ChevronHolder>
     </ChevronPosition>
 );
 
-const OpenDrawer: React.FC<{
+export const Title = () => (
+    <Typography variant="h6" align="center" style={{ fontWeight: "normal" }}>
+        <MaterialLink
+            component={RouterLink}
+            to="/"
+            style={{ textDecoration: 'none' }}
+        >
+            alchemist
+        </MaterialLink>
+    </Typography>
+);
+
+export const OpenDrawer: React.FC<{
     open: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ open, setOpen }) => (
-    <Toolbar sx={{ position: "fixed", bottom }}>
-        <IconButton
-            sx={{ ...(open && { display: 'none' }) }}
-            onClick={() => setOpen(true)}
-        >
-            <Menu color="primary" />
-        </IconButton>
-    </Toolbar>
-);
-
-const Title = () => (
-    <Toolbar>
-        <Typography variant="h5" align="center" color="success" style={{ width: "100%", fontWeight: "normal", height: "48px", lineHeight: "48px" }}>
-            <MaterialLink
-                component={RouterLink}
-                to="/"
-                style={{ textDecoration: 'none' }}
-            >
-                Alchemist
-            </MaterialLink>
-        </Typography>
-    </Toolbar>
+    <IconButton
+        sx={{ ...(open && { display: 'none' }), marginRight: "10px" }}
+        onClick={() => setOpen(true)}
+    >
+        <Menu />
+    </IconButton>
 );
 
 const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
@@ -77,6 +69,7 @@ const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
                     // textTransform: "uppercase",
                 }}
             >
+
                 <ListItemText primary={name} />
             </MaterialLink>
         </ListItemButton>
@@ -84,7 +77,7 @@ const Item: React.FC<{ name: string, path: string }> = ({ name, path }) => (
 );
 
 const Items: React.FC<{ items: ItemProps[] }> = ({ items }) => (
-    <List sx={{ padding: 0 }}>
+    <List>
         {
             items.map((item, index) => (
                 <Item key={index} name={item.name} path={item.path} />
@@ -119,13 +112,13 @@ const Side = ({ drawerWidth, open, setOpen, items }: Props) => (
                 },
             }}
         >
-            <Title />
+            <CloseDrawer drawerWidth={drawerWidth} setOpen={setOpen} />
             <Divider />
             <Items items={items} />
-            <CloseDrawer drawerWidth={drawerWidth} setOpen={setOpen} />
         </Drawer>
         <OpenDrawer open={open} setOpen={setOpen} />
     </>
+
 );
 
 export default Side;
