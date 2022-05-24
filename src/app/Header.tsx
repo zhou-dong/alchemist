@@ -65,14 +65,13 @@ export default function SearchAppBar() {
                 }}
             >
                 <Toolbar>
-                    <IconButton component={RouterLink} to="/">
+                    <IconButton component={RouterLink} to="/" sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <HomeIcon color="primary" />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div" color="primary" sx={{
                         display: { xs: 'none', sm: 'block' },
                         fontWeight: "normal"
-                    }}
-                    >
+                    }}>
                         <MaterialLink component={RouterLink} to="/" style={{ textDecoration: 'none' }}>
                             alchemist
                         </MaterialLink>
@@ -89,7 +88,6 @@ export default function SearchAppBar() {
                             />
                         </Search>
                     </div>
-
                 </Toolbar>
             </AppBar>
         </Box>
