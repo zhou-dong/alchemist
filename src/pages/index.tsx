@@ -1,36 +1,23 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Home from './list';
 
-import { ProblemsProvider } from '../problems/commons/ProblemsContext';
+import * as React from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import Logo from './Logo';
+import Filters from "./Filters";
+import MenuButton from './Menu';
+import List from './Lists';
+import theme from "./theme";
 
-const SubApps = () => (
-    <Routes>
-        <Route index element={<Home />} />
-        <>
-            <Route path="sorting/bubble-sort" element={<div>Bubble Sort</div>} />
-            <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />
-            <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
-            <Route path="sorting/insertion-sort" element={<div>Insertion Sort</div>} />
-            <Route path="sorting/quick-sort" element={<div>Quick Sort</div>} />
-            <Route path="sorting/heap-sort" element={<div>Heap Sort</div>} />
-            <Route path="sorting/counting-sort" element={<div>Counting Sort</div>} />
-            <Route path="sorting/bucket-sort" element={<div>Bucket Sort</div>} />
-            <Route path="sorting/radix-sort" element={<div>Redix Sort</div>} />
-        </>
-    </Routes>
-);
-
-function Apps() {
+const Home = () => {
+    const [open, setOpen] = React.useState<boolean>(false);
 
     return (
-        <>
-            <ProblemsProvider>
-                <SubApps />
-            </ProblemsProvider>
-        </>
+        <ThemeProvider theme={theme}>
+            <Logo />
+            <MenuButton open={open} setOpen={setOpen} />
+            <Filters open={open} setOpen={setOpen} />
+            <List />
+        </ThemeProvider>
+    )
+};
 
-    );
-}
-
-export default Apps;
+export default Home;
