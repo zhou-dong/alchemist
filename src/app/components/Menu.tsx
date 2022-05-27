@@ -12,7 +12,7 @@ const MenuButton = ({ open, setOpen }: Props) => (
         <IconButton
             sx={{
                 ...(open && { display: 'none' }),
-                border: "1px solid"
+                border: "1px solid grey"
             }}
             onClick={() => setOpen(true)}
         >
