@@ -12,32 +12,14 @@ const Algorithm = ({ title, path }: AlgorithmProps) => (
     <Grid item xs={6} md={4} lg={2}>
         <Card>
             <CardActionArea component={RouterLink} to={path}>
-
                 <CardMedia
                     component="img"
-                    // height="262.83"
                     image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
                 >
-
                 </CardMedia>
-
-                {/* <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                </Typography> */}
-                {/* <CardContent>
-                    <Typography gutterBottom variant="body1" component="div">
-                        {title}
-                    </Typography>
-                </CardContent> */}
                 <Typography gutterBottom variant="subtitle1" component="div">
                     {title}
                 </Typography>
-                {/* <CardHeader
-                    title={title}
-                    titleTypographyProps={{ variant: "subtitle2" }} */}
-                {/* // subheader={subHeader} */}
-                {/* /> */}
             </CardActionArea>
             <CardActions disableSpacing>
                 <IconButton>

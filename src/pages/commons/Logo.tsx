@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import MaterialLink from "@mui/material/Link";
 
 const Logo = () => (
-    <Toolbar sx={{ position: "fixed", bottom: 0 }}>
+    <Toolbar>
         <Typography
             variant="h6"
             color="primary"
