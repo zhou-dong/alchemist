@@ -4,10 +4,10 @@ import { ThemeProvider } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/list/Home';
 
-import theme from "./pages/theme";
+import theme from "./pages/list/theme";
 import Main from "./pages/playground/Main";
 
-import Logo from './pages/components/Logo';
+import Logo from './pages/commons/Logo';
 import { ProblemsProvider } from './problems/commons/ProblemsContext';
 
 const SubApps = () => (
