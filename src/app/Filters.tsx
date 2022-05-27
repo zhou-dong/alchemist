@@ -147,7 +147,7 @@ const Filters = ({ open, setOpen }: Props) => {
                 </Grid>
             </DialogContent>
 
-            <DialogActions id="draggable-dialog-title">
+            <DialogActions>
                 <Button onClick={handleClose}>Close</Button>
             </DialogActions>
         </Dialog>
