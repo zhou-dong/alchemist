@@ -7,22 +7,13 @@ import Home from './Home';
 import theme from "./theme";
 import Main from "./Main";
 
-import Stack from "../collections/Stack";
-import Queue from "../collections/Queue";
-import Tree from "../collections/Tree";
-import DP from "../collections/Dp";
 import Logo from './components/Logo';
 import { ProblemsProvider } from '../problems/ProblemsContext';
 
 const SubApps = () => (
     <Routes>
         <Route index element={<Home />} />
-        <Route path="stack" element={<Stack />} />
-        <Route path="queue" element={<Queue />} />
-        <Route path="tree" element={<Tree />} />
         <>
-            {/* <Route path="sorting" element={<Sorting />} /> */}
-
             <Route path="sorting/bubble-sort" element={<div>Bubble Sort</div>} />
             <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />
             <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
@@ -33,7 +24,6 @@ const SubApps = () => (
             <Route path="sorting/bucket-sort" element={<div>Bucket Sort</div>} />
             <Route path="sorting/radix-sort" element={<div>Redix Sort</div>} />
         </>
-        <Route path="dp" element={< DP />} />
     </Routes>
 );
 
