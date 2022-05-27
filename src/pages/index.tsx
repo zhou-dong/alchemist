@@ -8,7 +8,7 @@ import theme from "./theme";
 import Main from "./playground/Main";
 
 import Logo from './components/Logo';
-import { ProblemsProvider } from '../algorithms/commons/ProblemsContext';
+import { ProblemsProvider } from '../problems/commons/ProblemsContext';
 
 const SubApps = () => (
     <Routes>
