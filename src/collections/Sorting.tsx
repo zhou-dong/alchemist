@@ -1,15 +1,14 @@
 import { Link as RouterLink } from "react-router-dom";
 import { FavoriteBorder, ThumbDownOffAlt, ThumbUpOffAlt } from "@mui/icons-material";
-import { Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Grid, IconButton, Typography } from "@mui/material";
+import { Card, CardActionArea, CardActions, CardMedia, Grid, IconButton, Typography } from "@mui/material";
 import { useProblems } from "../problems/ProblemsContext";
 
 interface AlgorithmProps {
     title: string;
-    subHeader: string;
     path: string;
 }
 
-const Algorithm = ({ title, subHeader, path }: AlgorithmProps) => (
+const Algorithm = ({ title, path }: AlgorithmProps) => (
     <Grid item xs={6} md={4} lg={2}>
         <Card>
             <CardActionArea component={RouterLink} to={path}>
@@ -63,7 +62,7 @@ const Sorting = () => {
         <Grid container spacing={2} sx={{ padding: 2 }}>
             {
                 problems.map((problem, index) => (
-                    <Algorithm key={index} title={problem.name} subHeader="" path={problem.path} />
+                    <Algorithm key={index} title={problem.name} path={problem.path} />
                 ))
             }
         </Grid>

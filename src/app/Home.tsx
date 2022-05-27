@@ -4,8 +4,6 @@ import { styled } from '@mui/material/styles';
 import Filters from "./Filters";
 import MenuButton from './Menu';
 import Sortings from '../collections/Sorting';
-import { useProblems } from '../problems/ProblemsContext';
-import { problems as allProblems } from "../problems/problems";
 
 const Center = styled("div")(() => ({
     border: 0,
@@ -21,14 +19,13 @@ const Center = styled("div")(() => ({
 
 const Home = () => {
     const [open, setOpen] = React.useState<boolean>(false);
-    const [segments, setSegments] = React.useState<number[]>([]);
-
 
     return (
         <>
             <MenuButton open={open} setOpen={setOpen} />
             <Filters open={open} setOpen={setOpen} />
             <Sortings />
+            <Center>center</Center>
         </>
     )
 };

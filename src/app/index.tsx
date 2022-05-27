@@ -5,27 +5,14 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './Home';
 
 import theme from "./theme";
-import MenuButton from './Menu';
 import Main from "./Main";
 
 import Stack from "../collections/Stack";
 import Queue from "../collections/Queue";
 import Tree from "../collections/Tree";
 import DP from "../collections/Dp";
-import Sorting from "../collections/Sorting";
-import { Toolbar } from '@mui/material';
-import Header from './components/Logo';
+import Logo from './components/Logo';
 import { ProblemsProvider } from '../problems/ProblemsContext';
-
-const sideItems = (
-    [
-        { name: "DP", path: "dp" },
-        { name: "Sorting", path: "sorting" },
-        { name: "Tree", path: "tree" },
-        { name: "Stack", path: "stack" },
-        { name: "Queue", path: "queue" },
-    ]
-);
 
 const SubApps = () => (
     <Routes>
@@ -53,7 +40,6 @@ const SubApps = () => (
 function Apps() {
 
     const drawerWidth = 240;
-    const [open, setOpen] = React.useState<boolean>(true);
 
     return (
         <>
@@ -63,13 +49,13 @@ function Apps() {
                     width: "100%",
                     // height: "100%"
                 }}>
-                    <Main open={open} drawer_width={drawerWidth} >
+                    <Main open={true} drawer_width={drawerWidth} >
                         <ProblemsProvider>
                             <SubApps />
                         </ProblemsProvider>
                     </Main>
                 </Box>
-                <Header />
+                <Logo />
             </ThemeProvider>
         </>
 
