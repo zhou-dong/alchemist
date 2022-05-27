@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Lists';
+import Home from './pages';
 
 import { ProblemsProvider } from './problems/commons/ProblemsContext';
 
