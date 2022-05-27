@@ -2,15 +2,20 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link as RouterLink } from "react-router-dom";
 import MaterialLink from "@mui/material/Link";
+import { green } from '@mui/material/colors';
 
 const Logo = () => (
     <Toolbar>
-        <Typography
-            variant="h6"
-            color="primary"
-            sx={{ fontWeight: "normal" }}
-        >
-            <MaterialLink component={RouterLink} to="/" style={{ textDecoration: 'none' }}>
+        <Typography variant="h6">
+            <MaterialLink
+                component={RouterLink}
+                to="/"
+                sx={{
+                    textDecoration: 'none',
+                    fontWeight: "normal",
+                    color: green[600],
+                }}
+            >
                 Alchemist
             </MaterialLink>
         </Typography>
