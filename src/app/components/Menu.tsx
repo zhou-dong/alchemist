@@ -8,7 +8,7 @@ interface Props {
 }
 
 const MenuButton = ({ open, setOpen }: Props) => (
-    <Toolbar sx={{ position: "static", paddingTop: "10px" }}>
+    <Toolbar sx={{ marginTop: "10px" }}>
         <IconButton
             sx={{
                 ...(open && { display: 'none' }),
