@@ -1,6 +1,6 @@
 import React from "react";
-import { Problem } from "./problem";
-import { problems as allProblems } from "./problems";
+import { Problem } from "./game";
+import { problems as allProblems } from "./games";
 
 const ProblemsContext = React.createContext<{
     problems: Problem[],

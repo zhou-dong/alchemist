@@ -9,7 +9,7 @@ import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import GoogleIcon from '@mui/icons-material/Google';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { useProblems } from '../games/commons/ProblemsContext';
+import { useProblems } from '../games/commons/GamesContext';
 
 const StyledRowHeader = styled(Grid)(() => ({
     display: 'flex',

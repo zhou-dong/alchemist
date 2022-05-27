@@ -1,4 +1,4 @@
-import { Problem } from "./problem";
+import { Problem } from "./game";
 
 export const problems: Problem[] = [
     {
