@@ -2,7 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 
 import Filters from "./Filters";
-import MenuButton from './Menu';
+import MenuButton from './components/Menu';
 import Sortings from '../collections/Sorting';
 
 const Center = styled("div")(() => ({
