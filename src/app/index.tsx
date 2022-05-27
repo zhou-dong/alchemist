@@ -2,13 +2,13 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
-import Home from './Home';
+import Home from './list/Home';
 
 import theme from "./theme";
-import Main from "./Main";
+import Main from "./playground/Main";
 
 import Logo from './components/Logo';
-import { ProblemsProvider } from '../problems/ProblemsContext';
+import { ProblemsProvider } from '../algorithms/commons/ProblemsContext';
 
 const SubApps = () => (
     <Routes>

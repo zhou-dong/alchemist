@@ -2,8 +2,8 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 
 import Filters from "./Filters";
-import MenuButton from './components/Menu';
-import Sortings from '../collections/Sorting';
+import MenuButton from './Menu';
+import Playground from '../playground/Playground';
 
 const Center = styled("div")(() => ({
     border: 0,
@@ -24,7 +24,7 @@ const Home = () => {
         <>
             <MenuButton open={open} setOpen={setOpen} />
             <Filters open={open} setOpen={setOpen} />
-            <Sortings />
+            <Playground />
             <Center>center</Center>
         </>
     )

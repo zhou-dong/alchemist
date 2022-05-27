@@ -1,7 +1,7 @@
 import { Link as RouterLink } from "react-router-dom";
 import { FavoriteBorder, ThumbDownOffAlt, ThumbUpOffAlt } from "@mui/icons-material";
 import { Card, CardActionArea, CardActions, CardMedia, Grid, IconButton, Typography } from "@mui/material";
-import { useProblems } from "../problems/ProblemsContext";
+import { useProblems } from "../../algorithms/commons/ProblemsContext";
 
 interface AlgorithmProps {
     title: string;
