@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './Home';
 
 import theme from "./theme";
-import Side, { OpenDrawer, Title } from './Side';
+import MenuButton from './Menu';
 import Main from "./Main";
 
 import Stack from "../collections/Stack";
@@ -14,7 +14,8 @@ import Tree from "../collections/Tree";
 import DP from "../collections/Dp";
 import Sorting from "../collections/Sorting";
 import { Toolbar } from '@mui/material';
-import Header from './Header';
+import Header from './components/Logo';
+import { ProblemsProvider } from '../problems/ProblemsContext';
 
 const sideItems = (
     [
@@ -33,7 +34,7 @@ const SubApps = () => (
         <Route path="queue" element={<Queue />} />
         <Route path="tree" element={<Tree />} />
         <>
-            <Route path="sorting" element={<Sorting />} />
+            {/* <Route path="sorting" element={<Sorting />} /> */}
 
             <Route path="sorting/bubble-sort" element={<div>Bubble Sort</div>} />
             <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />
@@ -45,8 +46,6 @@ const SubApps = () => (
             <Route path="sorting/bucket-sort" element={<div>Bucket Sort</div>} />
             <Route path="sorting/radix-sort" element={<div>Redix Sort</div>} />
         </>
-
-
         <Route path="dp" element={< DP />} />
     </Routes>
 );
@@ -58,21 +57,20 @@ function Apps() {
 
     return (
         <>
-            <Box sx={{
-                display: "flex",
-                width: "100%",
-                height: "100%"
-            }}>
-                <ThemeProvider theme={theme}>
-                    <Side open={open} drawerWidth={drawerWidth} setOpen={setOpen} items={sideItems} />
-                </ThemeProvider>
-                <Main open={open} drawer_width={drawerWidth} >
-                    <ThemeProvider theme={theme}>
-                        <Header />
-                    </ThemeProvider>
-                    <SubApps />
-                </Main>
-            </Box>
+            <ThemeProvider theme={theme}>
+                <Box sx={{
+                    display: "flex",
+                    width: "100%",
+                    // height: "100%"
+                }}>
+                    <Main open={open} drawer_width={drawerWidth} >
+                        <ProblemsProvider>
+                            <SubApps />
+                        </ProblemsProvider>
+                    </Main>
+                </Box>
+                <Header />
+            </ThemeProvider>
         </>
 
     );

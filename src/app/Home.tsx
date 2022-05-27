@@ -1,6 +1,11 @@
-import { Typography } from "@mui/material"
+import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import HomeIcon from '@mui/icons-material/Home';
+
+import Filters from "./Filters";
+import MenuButton from './Menu';
+import Sortings from '../collections/Sorting';
+import { useProblems } from '../problems/ProblemsContext';
+import { problems as allProblems } from "../problems/problems";
 
 const Center = styled("div")(() => ({
     border: 0,
@@ -13,19 +18,19 @@ const Center = styled("div")(() => ({
     flexWrap: "nowrap",
 }));
 
-const Home = () => (
-    <Center>
-        <div style={{ marginTop: "-100px" }} >
-            < HomeIcon sx={{ fontSize: 100 }} color="success" />
-        </div>
-        {/* <Typography
-            align="center"
-            variant="h1"
-            sx={{ marginTop: "-100px" }}
-        >
-            Alchemist
-        </Typography> */}
-    </Center>
-);
+
+const Home = () => {
+    const [open, setOpen] = React.useState<boolean>(false);
+    const [segments, setSegments] = React.useState<number[]>([]);
+
+
+    return (
+        <>
+            <MenuButton open={open} setOpen={setOpen} />
+            <Filters open={open} setOpen={setOpen} />
+            <Sortings />
+        </>
+    )
+};
 
 export default Home;
