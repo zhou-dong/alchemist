@@ -62,12 +62,7 @@ const ComponentItem: React.FC<{
             value={value}
             selected={selected}
             sx={{ border: 0 }}
-            onChange={() => {
-                console.log("on change", !selected);
-
-                setSelected(!selected)
-            }
-            }
+            onChange={() => setSelected(!selected)}
             onClick={() => onClick(!selected)}
         >
             {child}
