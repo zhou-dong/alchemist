@@ -1,13 +1,11 @@
-import React from "react";
 import GameWrapper from "../../commons/GameWrapper";
 
 const EditDistance = () => (
 
-    <GameWrapper >
+    <GameWrapper name="Edit Distance">
         <>hello world</>
     </GameWrapper>
 
 );
 
 export default EditDistance;
-

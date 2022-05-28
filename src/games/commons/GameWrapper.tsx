@@ -5,6 +5,7 @@ import Logo from "../../Logo";
 import { IconButton, Toolbar } from "@mui/material";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { useGames } from "./GamesContext";
 
 const LogoContainer = styled("div")({
     position: "fixed",
@@ -32,29 +33,37 @@ const BeforeContainer = styled("div")(({ }) => ({
     left: 0,
 }));
 
-const GameWrapper: React.FC<{ children: JSX.Element }> = ({ children }) => (
-    <Body>
-        <LogoContainer>
-            <Logo />
-        </LogoContainer>
-        {children}
+const GameWrapper: React.FC<{ children: JSX.Element, name: string }> = ({ children, name }) => {
+    const { games } = useGames();
 
-        <BeforeContainer>
-            <Toolbar>
-                <IconButton component={RouterLink} to="/">
-                    <NavigateBeforeIcon />
-                </IconButton>
-            </Toolbar>
-        </BeforeContainer>
+    const index = games.map(game => game.name).indexOf(name);
+    const previous = games[index - 1];
+    const next = games[index + 1];
 
-        <NextContainer>
-            <Toolbar>
-                <IconButton component={RouterLink} to="/">
-                    <NavigateNextIcon />
-                </IconButton>
-            </Toolbar>
-        </NextContainer>
-    </Body>
-);
+    return (
+        <Body>
+            <LogoContainer>
+                <Logo />
+            </LogoContainer>
+            {children}
+
+            <BeforeContainer>
+                <Toolbar>
+                    <IconButton component={RouterLink} to={previous ? previous.path : "/"} disabled={index <= 0}>
+                        <NavigateBeforeIcon />
+                    </IconButton>
+                </Toolbar>
+            </BeforeContainer>
+
+            <NextContainer>
+                <Toolbar>
+                    <IconButton component={RouterLink} to={next ? next.path : "/"} disabled={index >= games.length - 1}>
+                        <NavigateNextIcon />
+                    </IconButton>
+                </Toolbar>
+            </NextContainer>
+        </Body>
+    )
+};
 
 export default GameWrapper;
