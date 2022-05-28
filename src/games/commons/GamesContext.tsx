@@ -35,9 +35,7 @@ export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [difficulties, setDifficulties] = React.useState<Difficulty[]>([])
 
     React.useEffect(
-        () => {
-            setGames(() => filter(allGames, categories, companies, difficulties))
-        },
+        () => setGames(() => filter(allGames, categories, companies, difficulties)),
         [categories, companies, difficulties]
     );
 
