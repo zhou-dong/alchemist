@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import EditDistance from './games/dp/edit-distance';
 import Home from './home';
 
 const App = () => (
@@ -14,6 +15,10 @@ const App = () => (
             <Route path="sorting/counting-sort" element={<div>Counting Sort</div>} />
             <Route path="sorting/bucket-sort" element={<div>Bucket Sort</div>} />
             <Route path="sorting/radix-sort" element={<div>Redix Sort</div>} />
+        </>
+
+        <>
+            <Route path="dp/edit-distance" element={<EditDistance />} />
         </>
     </Routes>
 );
