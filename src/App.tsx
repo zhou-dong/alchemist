@@ -5,6 +5,7 @@ import Home from './home';
 const App = () => (
     <Routes>
         <Route index element={<Home />} />
+
         <>
             <Route path="sorting/bubble-sort" element={<div>Bubble Sort</div>} />
             <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />

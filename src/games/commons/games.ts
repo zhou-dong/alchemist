@@ -46,4 +46,9 @@ export const games: Game[] = [
         path: "/sorting/radix-sort",
         segments: [2, 3]
     },
+    {
+        name: "Edit Distance",
+        path: "/dp/edit-distance",
+        segments: [4]
+    },
 ];
