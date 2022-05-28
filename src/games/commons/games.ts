@@ -1,6 +1,6 @@
-import { Problem } from "./game";
+import { Game } from "./game";
 
-export const problems: Problem[] = [
+export const games: Game[] = [
     {
         name: "Bobble Sort",
         path: "/sorting/bubble-sort",

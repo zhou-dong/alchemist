@@ -1,4 +1,4 @@
-export interface Problem {
+export interface Game {
     name: string;
     path: string;
     segments: number[];

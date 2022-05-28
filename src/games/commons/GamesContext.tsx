@@ -1,9 +1,9 @@
 import React from "react";
-import { Problem } from "./game";
-import { problems as allProblems } from "./games";
+import { Game } from "./game";
+import { games as allProblems } from "./games";
 
 const ProblemsContext = React.createContext<{
-    problems: Problem[],
+    problems: Game[],
     setSegments: React.Dispatch<React.SetStateAction<number[]>>
 }>({
     problems: [],
@@ -26,7 +26,7 @@ const filterSegments = (segmentsOne: number[], segmentsTwo: number[]): boolean =
 };
 
 export const ProblemsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [problems, setProblems] = React.useState<Problem[]>(allProblems);
+    const [problems, setProblems] = React.useState<Game[]>(allProblems);
     const [segments, setSegments] = React.useState<number[]>([]);
 
     React.useEffect(() => {
