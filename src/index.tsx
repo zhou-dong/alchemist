@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ProblemsProvider } from './games/commons/GamesContext';
+import { GamesProvider } from './games/commons/GamesContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,9 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ProblemsProvider>
+      <GamesProvider>
         <App />
-      </ProblemsProvider>
+      </GamesProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

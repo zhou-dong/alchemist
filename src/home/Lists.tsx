@@ -1,7 +1,7 @@
 import { Link as RouterLink } from "react-router-dom";
 import { FavoriteBorder, ThumbDownOffAlt, ThumbUpOffAlt } from "@mui/icons-material";
 import { Card, CardActionArea, CardActions, CardMedia, Grid, IconButton, Typography } from "@mui/material";
-import { useProblems } from "../games/commons/GamesContext";
+import { useGames } from "../games/commons/GamesContext";
 
 interface AlgorithmProps {
     title: string;
@@ -38,13 +38,13 @@ const Algorithm = ({ title, path }: AlgorithmProps) => (
 
 const Sorting = () => {
 
-    const { problems } = useProblems();
+    const { games } = useGames();
 
     return (
         <Grid container spacing={2} sx={{ padding: 2 }}>
             {
-                problems.map((problem, index) => (
-                    <Algorithm key={index} title={problem.name} path={problem.path} />
+                games.map((game, index) => (
+                    <Algorithm key={index} title={game.name} path={game.path} />
                 ))
             }
         </Grid>

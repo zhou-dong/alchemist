@@ -1,49 +1,49 @@
 import React from "react";
 import { Game } from "./game";
-import { games as allProblems } from "./games";
+import { games as allGames } from "./games";
+import { filter } from "./gamesFilter";
+import Category from "./segments/category";
+import Company from "./segments/company";
+import Difficulty from "./segments/difficulty";
 
-const ProblemsContext = React.createContext<{
-    problems: Game[],
-    setSegments: React.Dispatch<React.SetStateAction<number[]>>
+const GamesContext = React.createContext<{
+    games: Game[],
+    categories: Category[],
+    companies: Company[],
+    difficulties: Difficulty[],
+    setCategories: React.Dispatch<React.SetStateAction<Category[]>>,
+    setCompanies: React.Dispatch<React.SetStateAction<Company[]>>,
+    setDifficulties: React.Dispatch<React.SetStateAction<Difficulty[]>>,
 }>({
-    problems: [],
-    setSegments: () => { }
+    games: [],
+    categories: [],
+    companies: [],
+    difficulties: [],
+    setCategories: () => { },
+    setCompanies: () => { },
+    setDifficulties: () => { },
 });
 
-export const useProblems = () => {
-    return React.useContext(ProblemsContext);
+export const useGames = () => {
+    return React.useContext(GamesContext);
 };
 
-const filterSegments = (segmentsOne: number[], segmentsTwo: number[]): boolean => {
+export const GamesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [games, setGames] = React.useState<Game[]>(allGames);
+    const [categories, setCategories] = React.useState<Category[]>([]);
+    const [companies, setCompanies] = React.useState<Company[]>([]);
+    const [difficulties, setDifficulties] = React.useState<Difficulty[]>([])
 
-    for (let i = 0; i < segmentsOne.length; i++) {
-        if (segmentsTwo.includes(segmentsOne[i])) {
-            return true;
-        }
-    }
-
-    return false;
-};
-
-export const ProblemsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [problems, setProblems] = React.useState<Game[]>(allProblems);
-    const [segments, setSegments] = React.useState<number[]>([]);
-
-    React.useEffect(() => {
-        setProblems(
-            () => {
-                if (segments.length === 0) {
-                    return allProblems;
-                } else {
-                    return allProblems.filter(problem => filterSegments(segments, problem.segments));
-                }
-            }
-        )
-    }, [segments]);
+    React.useEffect(
+        () => {
+            setGames(() => filter(allGames, categories, companies, difficulties))
+        },
+        [categories, companies, difficulties]
+    );
 
     return (
-        <ProblemsContext.Provider value={{ problems, setSegments }}>
+        <GamesContext.Provider value={{ games, categories, companies, difficulties, setCategories, setCompanies, setDifficulties }}>
             {children}
-        </ProblemsContext.Provider>
+        </GamesContext.Provider>
     );
 };

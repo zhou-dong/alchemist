@@ -9,7 +9,10 @@ import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import GoogleIcon from '@mui/icons-material/Google';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { useProblems } from '../games/commons/GamesContext';
+import { useGames } from '../games/commons/GamesContext';
+import Company from '../games/commons/segments/company';
+import Difficulty from '../games/commons/segments/difficulty';
+import Category from '../games/commons/segments/category';
 
 const StyledRowHeader = styled(Grid)(() => ({
     display: 'flex',
@@ -26,17 +29,20 @@ const RowHeader: React.FC<{ icon: React.ReactNode, name: string }> = ({ icon, na
     </>
 );
 
-const TextItem: React.FC<{ name: string, value: string }> = ({ name, value }) => {
-    const [selected, setSelected] = React.useState<boolean>(false);
+const TextItem: React.FC<{
+    name: string,
+    initSelected: boolean,
+    onClick: (selected: boolean) => void
+}> = ({ name, initSelected, onClick }) => {
+    const [selected, setSelected] = React.useState<boolean>(initSelected);
 
     return (
         <ToggleButton
-            value={value}
+            value={name}
             selected={selected}
             sx={{ border: 0 }}
-            onChange={() => {
-                setSelected(!selected);
-            }}
+            onChange={() => setSelected(!selected)}
+            onClick={() => onClick(!selected)}
         >
             {name}
         </ToggleButton>
@@ -46,10 +52,10 @@ const TextItem: React.FC<{ name: string, value: string }> = ({ name, value }) =>
 const ComponentItem: React.FC<{
     child: React.ReactNode,
     value: string,
-    segment: number,
-    setSegments: React.Dispatch<React.SetStateAction<number[]>>,
-}> = ({ child, value, segment, setSegments }) => {
-    const [selected, setSelected] = React.useState<boolean>(false);
+    initSelected: boolean,
+    onClick: (selected: boolean) => void
+}> = ({ child, value, initSelected, onClick }) => {
+    const [selected, setSelected] = React.useState<boolean>(initSelected);
 
     return (
         <ToggleButton
@@ -57,66 +63,137 @@ const ComponentItem: React.FC<{
             selected={selected}
             sx={{ border: 0 }}
             onChange={() => {
-                setSelected(!selected);
-            }}
-            onClick={() => {
-                setSegments(segments => {
-                    const set = new Set(segments);
-                    if (!selected) {
-                        set.add(segment)
-                    } else {
-                        set.delete(segment);
-                    }
-                    return Array.from(set);
-                })
-            }}
+                console.log("on change", !selected);
+
+                setSelected(!selected)
+            }
+            }
+            onClick={() => onClick(!selected)}
         >
             {child}
         </ToggleButton>
     );
 }
 
-const Category = () => (
-    <>
-        <StyledRowHeader item md={2} sm={3} xs={12}>
-            <RowHeader name="Category" icon={<CategoryOutlinedIcon />} />
-        </StyledRowHeader>
-        <Grid item md={10} sm={9} xs={12}>
-            <TextItem name="Stack" value="stack" />
-            <TextItem name="Queue" value="queue" />
-            <TextItem name="Sorting" value="sorting" />
-            <TextItem name="Tree" value="tree" />
-            <TextItem name="Two Pointers" value="two-pointers" />
-            <TextItem name="Dynamic Programming" value="dynamic-programming" />
-        </Grid>
-    </>
-);
+const calculateSelected = <T,>(arr: T[], item: T): boolean => {
+    return arr.includes(item);
+}
 
-const Difficulty = () => (
-    <>
-        <StyledRowHeader item md={2} sm={3} xs={12}>
-            <RowHeader name="Difficulty" icon={<PsychologyOutlinedIcon />} />
-        </StyledRowHeader>
-        <Grid item md={10} sm={9} xs={12}>
-            <TextItem name="easy" value="easy" />
-            <TextItem name="medium" value="medium" />
-            <TextItem name="hard" value="hard" />
-        </Grid>
-    </>
-);
+const updateSegments = <T,>(segments: T[], segment: T, selected: boolean): T[] => {
+    const set = new Set(segments);
+    selected ? set.add(segment) : set.delete(segment);
+    return Array.from(set);
+}
 
-const Company = () => {
-    const { setSegments } = useProblems();
+const Categories = () => {
+
+    const { categories, setCategories } = useGames();
+
+    return (
+        <>
+            <StyledRowHeader item md={2} sm={3} xs={12}>
+                <RowHeader name="Category" icon={<CategoryOutlinedIcon />} />
+            </StyledRowHeader>
+            <Grid item md={10} sm={9} xs={12}>
+                <TextItem
+                    name="Stack"
+                    initSelected={calculateSelected(categories, Category.Stack)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Stack, selected))}
+                />
+                <TextItem
+                    name="Queue"
+                    initSelected={calculateSelected(categories, Category.Queue)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Queue, selected))}
+                />
+                <TextItem
+                    name="Sorting"
+                    initSelected={calculateSelected(categories, Category.Sorting)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Sorting, selected))} />
+                <TextItem
+                    name="Tree"
+                    initSelected={calculateSelected(categories, Category.Tree)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Tree, selected))}
+                />
+                <TextItem
+                    name="Two Pointers"
+                    initSelected={calculateSelected(categories, Category.TwoPointers)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.TwoPointers, selected))}
+                />
+                <TextItem
+                    name="Dynamic Programming"
+                    initSelected={calculateSelected(categories, Category.DynamicProgramming)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.DynamicProgramming, selected))}
+                />
+            </Grid>
+        </>
+    )
+};
+
+const Difficulties = () => {
+
+    const { difficulties, setDifficulties } = useGames();
+
+    return (
+        <>
+            <StyledRowHeader item md={2} sm={3} xs={12}>
+                <RowHeader name="Difficulty" icon={<PsychologyOutlinedIcon />} />
+            </StyledRowHeader>
+            <Grid item md={10} sm={9} xs={12}>
+                <TextItem
+                    name="easy"
+                    initSelected={calculateSelected(difficulties, Difficulty.Easy)}
+                    onClick={(selected: boolean) => setDifficulties(items => updateSegments(items, Difficulty.Easy, selected))}
+                />
+                <TextItem
+                    name="medium"
+                    initSelected={calculateSelected(difficulties, Difficulty.Medium)}
+                    onClick={(selected: boolean) => setDifficulties(items => updateSegments(items, Difficulty.Medium, selected))}
+                />
+                <TextItem
+                    name="hard"
+                    initSelected={calculateSelected(difficulties, Difficulty.Hard)}
+                    onClick={(selected: boolean) => setDifficulties(items => updateSegments(items, Difficulty.Hard, selected))}
+                />
+            </Grid>
+        </>
+    )
+};
+
+
+
+const Companies = () => {
+
+    const { companies, setCompanies } = useGames();
     return (
         <>
             <StyledRowHeader item md={2} sm={3} xs={12}>
                 <RowHeader name="Company" icon={<BusinessOutlinedIcon />} />
             </StyledRowHeader>
             <Grid item md={10} sm={9} xs={12}>
-                <ComponentItem child={<GoogleIcon />} value="google" segment={1} setSegments={setSegments} />
-                <ComponentItem child={<AppleIcon />} value="apple" segment={2} setSegments={setSegments} />
-                <ComponentItem child={<FacebookRoundedIcon />} value="facebook" segment={3} setSegments={setSegments} />
-                <ComponentItem child={<TwitterIcon />} value="twitter" segment={4} setSegments={setSegments} />
+                <ComponentItem
+                    child={<GoogleIcon />}
+                    value="google"
+                    initSelected={calculateSelected(companies, Company.Google)}
+                    onClick={(selected: boolean) => setCompanies(items => updateSegments(items, Company.Google, selected))}
+                />
+                <ComponentItem
+                    child={<AppleIcon />}
+                    value="apple"
+                    initSelected={calculateSelected(companies, Company.Apple)}
+                    onClick={(selected: boolean) => setCompanies(items => updateSegments(items, Company.Apple, selected))}
+                />
+                <ComponentItem
+                    child={<FacebookRoundedIcon />}
+                    value="facebook"
+                    initSelected={calculateSelected(companies, Company.Facebook)}
+                    onClick={(selected: boolean) => setCompanies(items => updateSegments(items, Company.Facebook, selected))}
+                />
+                <ComponentItem
+                    child={<TwitterIcon />}
+                    value="twitter"
+                    initSelected={calculateSelected(companies, Company.Twitter)}
+                    onClick={(selected: boolean) => setCompanies(items => updateSegments(items, Company.Twitter, selected))}
+                />
             </Grid>
         </>
     )
@@ -141,9 +218,9 @@ const Filters = ({ open, setOpen }: Props) => {
         >
             <DialogContent>
                 <Grid container spacing={1}>
-                    <Category />
-                    <Difficulty />
-                    <Company />
+                    <Categories />
+                    <Difficulties />
+                    <Companies />
                 </Grid>
             </DialogContent>
 
