@@ -63,7 +63,7 @@ const GameWrapper: React.FC<{ children: JSX.Element, name: string }> = ({ childr
                 </Toolbar>
             </NextContainer>
         </Body>
-    )
+    );
 };
 
 export default GameWrapper;
