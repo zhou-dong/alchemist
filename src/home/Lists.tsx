@@ -9,7 +9,7 @@ interface AlgorithmProps {
 }
 
 const Algorithm = ({ title, path }: AlgorithmProps) => (
-    <Grid item xs={6} md={4} lg={2}>
+    <Grid item xs={6} sm={4} md={3} lg={2}>
         <Card>
             <CardActionArea component={RouterLink} to={path}>
                 <CardMedia

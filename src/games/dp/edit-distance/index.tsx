@@ -3,7 +3,7 @@ import GameWrapper from "../../commons/GameWrapper";
 const EditDistance = () => (
 
     <GameWrapper name="Edit Distance">
-        <>hello world</>
+        <>hello world Edit distance</>
     </GameWrapper>
 
 );

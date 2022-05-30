@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink } from "react-router-dom";
-import Logo from "../../Logo";
+import Logo from "../../commons/Logo";
 import { IconButton, Toolbar } from "@mui/material";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
@@ -41,7 +41,8 @@ const GameWrapper: React.FC<{ children: JSX.Element, name: string }> = ({ childr
     const next = games[index + 1];
 
     return (
-        <Body>
+        // <Body>
+        <>
             <LogoContainer>
                 <Logo />
             </LogoContainer>
@@ -62,7 +63,8 @@ const GameWrapper: React.FC<{ children: JSX.Element, name: string }> = ({ childr
                     </IconButton>
                 </Toolbar>
             </NextContainer>
-        </Body>
+        </>
+        // </Body>
     );
 };
 

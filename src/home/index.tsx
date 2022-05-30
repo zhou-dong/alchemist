@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Pagination from '@mui/material/Pagination';
-import Logo from '../Logo';
+import Logo from '../commons/Logo';
 import Filters from "./Filters";
 import MenuButton from './Menu';
 import List from './Lists';
