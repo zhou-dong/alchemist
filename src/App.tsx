@@ -2,12 +2,14 @@ import { Route, Routes } from 'react-router-dom';
 import EditDistance from './games/dp/edit-distance';
 import Home from './home';
 
+import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
+
 const App = () => (
     <Routes>
         <Route index element={<Home />} />
 
         <>
-            <Route path="sorting/bubble-sort" element={<div>Bubble Sort</div>} />
+            <Route path="sorting/bubble-sort" element={<BubbleSortAnimation />} />
             <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />
             <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
             <Route path="sorting/insertion-sort" element={<div>Insertion Sort</div>} />

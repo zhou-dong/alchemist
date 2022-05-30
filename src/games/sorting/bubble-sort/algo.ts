@@ -1,5 +1,5 @@
 import Container from "../commons/container";
-import { Step } from "../commons/step";
+import Step from "../commons/step";
 
 const swap = (arrays: Container[], a: number, b: number): void => {
     const temp = arrays[a];
