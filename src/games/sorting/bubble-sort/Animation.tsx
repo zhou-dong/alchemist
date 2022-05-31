@@ -9,12 +9,7 @@ import Step from "../commons/step";
 import Container from '../commons/container';
 import Steps from '../components/Steps';
 import GameWrapper from '../../commons/GameWrapper';
-
-const clearScene = (scene: THREE.Scene) => {
-    while (scene.children.length > 0) {
-        scene.remove(scene.children[0]);
-    }
-}
+import { clearScene } from '../commons/three';
 
 class Item extends THREE.Mesh implements Container {
     payload: number;
@@ -56,15 +51,14 @@ interface Props {
     values: number[];
 }
 
-const Animation = ({ renderer, camera, scene, values }: Props) => {
+const duration = 1;
+const ease = "power1";
+let animationFrameId = -1;
 
-    const duration = 1;
-    const ease = "power1";
-    let animationFrameId = -1;
+const Animation = ({ renderer, camera, scene, values }: Props) => {
 
     const [items, setItems] = React.useState<Item[]>(createItems(values));
     const [index, setIndex] = React.useState<number>(0);
-    const steps = React.useMemo(() => sort(items), [items]);
 
     React.useEffect(() => {
         clearScene(scene);
@@ -77,7 +71,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
 
         // cancel animation
         return () => cancelAnimationFrame(animationFrameId);
-    }, [items]);
+    }, [items, renderer, scene, camera]);
 
     const run = async (step: Step): Promise<void> => {
         const { a, b, exchange } = step;
@@ -94,6 +88,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
 
     const play = async () => {
         animate();
+        const steps = sort(items);
         for (let i = 0; i < steps.length; i++) {
             setIndex(i + 1);
             await run(steps[i]);
@@ -110,18 +105,14 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
-
         if (ref && ref.current) {
             const parent = ref.current;
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
-            }
             parent.appendChild(renderer.domElement);
         }
 
         // cancel animation
         return () => cancelAnimationFrame(animationFrameId);
-    }, [ref]);
+    }, [ref, renderer]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
