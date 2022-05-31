@@ -59,6 +59,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
 
     const [items, setItems] = React.useState<Item[]>(createItems(values));
     const [index, setIndex] = React.useState<number>(0);
+    const [refreshDisabled, setRefreshDisabled] = React.useState(false);
 
     React.useEffect(() => {
         clearScene(scene);
@@ -87,13 +88,15 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
     }
 
     const play = async () => {
-        animate();
+        setRefreshDisabled(true);
         const steps = sort(items);
+        animate();
         for (let i = 0; i < steps.length; i++) {
             setIndex(i + 1);
             await run(steps[i]);
         }
         cancelAnimationFrame(animationFrameId);
+        setRefreshDisabled(false);
     }
 
     const refresh = () => {
@@ -129,9 +132,11 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
                 }}>
                     play
                 </Button>
-                <Button sx={{ position: "fixed", bottom: "100px", left: "50px" }} onClick={() => {
-                    refresh();
-                }}>
+                <Button sx={{ position: "fixed", bottom: "100px", left: "50px" }}
+                    disabled={refreshDisabled}
+                    onClick={() => {
+                        refresh();
+                    }}>
                     refresh
                 </Button>
             </>
