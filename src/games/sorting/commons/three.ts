@@ -16,4 +16,10 @@ const createScene = () => {
     return new THREE.Scene();
 }
 
-export { createRenderer, createCamera, createScene };
+const clearScene = (scene: THREE.Scene) => {
+    while (scene.children.length > 0) {
+        scene.remove(scene.children[0]);
+    }
+}
+
+export { createRenderer, createCamera, createScene, clearScene };
