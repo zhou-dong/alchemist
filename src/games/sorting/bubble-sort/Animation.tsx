@@ -10,21 +10,11 @@ import Container from '../commons/container';
 import Steps from '../components/Steps';
 import GameWrapper from '../../commons/GameWrapper';
 
-
-const createCamera = () => {
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
-    return camera;
+const clearScene = (scene: THREE.Scene) => {
+    while (scene.children.length > 0) {
+        scene.remove(scene.children[0]);
+    }
 }
-
-const createRenderer = () => {
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    return renderer;
-}
-
-const renderer = createRenderer();
-const camera = createCamera();
 
 class Item extends THREE.Mesh implements Container {
     payload: number;
@@ -36,23 +26,13 @@ class Item extends THREE.Mesh implements Container {
     }
 }
 
-interface Params {
-    setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
-}
-
-const size = 6;
-const colors = generateColor("#9fffcb", "#7ae582", size);
-
-function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-}
-
-const createItems = (): Item[] => {
+const createItems = (values: number[]): Item[] => {
+    const colors = generateColor("#9fffcb", "#7ae582", values.length);
     const items: Item[] = [];
 
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < values.length; i++) {
         const material = new THREE.MeshBasicMaterial({ color: colors[i] });
-        let height = 6 - i;
+        let height = values[i];
         const item = new Item(height, material, 1, height);
         item.position.setX(i - 8 + 2 * i);
         item.position.setY(height / 2 - 3);
@@ -63,29 +43,40 @@ const createItems = (): Item[] => {
     return items;
 }
 
-const duration = 1;
-const ease = "power1";
-
 function waitSeconds(seconds: number) {
     return new Promise(resolve => {
         setTimeout(() => resolve(1), seconds * 1000);
     });
 }
 
-const scene = new THREE.Scene();
+interface Props {
+    renderer: THREE.Renderer;
+    camera: THREE.Camera;
+    scene: THREE.Scene;
+    values: number[];
+}
 
-const Animation = () => {
+const Animation = ({ renderer, camera, scene, values }: Props) => {
 
-    const [items, setItems] = React.useState<Item[]>(
-        createItems()
-    );
+    const duration = 1;
+    const ease = "power1";
+    let animationFrameId = -1;
 
+    const [items, setItems] = React.useState<Item[]>(createItems(values));
     const [index, setIndex] = React.useState<number>(0);
+    const steps = React.useMemo(() => sort(items), [items]);
 
     React.useEffect(() => {
+        clearScene(scene);
+
         items.forEach(item => {
             scene.add(item);
         })
+
+        renderer.render(scene, camera);
+
+        // cancel animation
+        return () => cancelAnimationFrame(animationFrameId);
     }, [items]);
 
     const run = async (step: Step): Promise<void> => {
@@ -102,43 +93,42 @@ const Animation = () => {
     }
 
     const play = async () => {
-        const steps = sort(items);
+        animate();
         for (let i = 0; i < steps.length; i++) {
             setIndex(i + 1);
             await run(steps[i]);
         }
+        cancelAnimationFrame(animationFrameId);
     }
 
     const refresh = () => {
-        while (scene.children.length > 0) {
-            scene.remove(scene.children[0]);
-        }
-        setItems(() => createItems());
+        cancelAnimationFrame(animationFrameId);
+        setIndex(0);
+        setItems(() => createItems(values));
     }
 
-
-    // ----------- render -----------
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
+
         if (ref && ref.current) {
-            ref.current.appendChild(renderer.domElement);
+            const parent = ref.current;
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+            parent.appendChild(renderer.domElement);
         }
+
+        // cancel animation
+        return () => cancelAnimationFrame(animationFrameId);
     }, [ref]);
 
     function animate() {
-        requestAnimationFrame(animate);
-        if (scene) {
-            renderer.render(scene, camera);
-        }
+        animationFrameId = requestAnimationFrame(animate);
+        renderer.render(scene, camera);
     };
 
-    animate();
-
-    // ----------- render -----------
-
     return (
-
         <GameWrapper name="Bubble Sort Animation">
             <>
                 <div ref={ref}></div>
