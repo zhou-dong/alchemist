@@ -12,15 +12,6 @@ const LogoContainer = styled("div")({
     top: 0
 });
 
-const Body = styled('main')(({ theme }) => ({
-    border: 0,
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-    flexGrow: 1,
-    padding: theme.spacing(0),
-}));
-
 const NextContainer = styled("div")(({ }) => ({
     position: "fixed",
     bottom: 0,
@@ -41,11 +32,11 @@ const GameWrapper: React.FC<{ children: JSX.Element, name: string }> = ({ childr
     const next = games[index + 1];
 
     return (
-        // <Body>
         <>
             <LogoContainer>
                 <Logo />
             </LogoContainer>
+
             {children}
 
             <BeforeContainer>
@@ -64,7 +55,6 @@ const GameWrapper: React.FC<{ children: JSX.Element, name: string }> = ({ childr
                 </Toolbar>
             </NextContainer>
         </>
-        // </Body>
     );
 };
 
