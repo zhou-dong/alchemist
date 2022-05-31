@@ -6,10 +6,6 @@ import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 
 import { createRenderer, createCamera, createScene } from "./games/sorting/commons/three";
 
-function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-}
-
 const renderer = createRenderer();
 const camera = createCamera();
 
