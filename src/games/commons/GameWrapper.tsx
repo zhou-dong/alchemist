@@ -12,13 +12,13 @@ const LogoContainer = styled("div")({
     top: 0
 });
 
-const NextContainer = styled("div")(({ }) => ({
+const NextContainer = styled("div")(() => ({
     position: "fixed",
     bottom: 0,
     right: 0,
 }));
 
-const BeforeContainer = styled("div")(({ }) => ({
+const BeforeContainer = styled("div")(() => ({
     position: "fixed",
     bottom: 0,
     left: 0,
