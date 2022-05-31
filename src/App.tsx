@@ -9,7 +9,7 @@ const App = () => (
         <Route index element={<Home />} />
 
         <>
-            <Route path="sorting/bubble-sort" element={<BubbleSortAnimation />} />
+            <Route path="sorting/bubble-sort" element={<BubbleSortAnimation values={[6, 5, 4, 3, 2, 1]} />} />
             <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />
             <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
             <Route path="sorting/insertion-sort" element={<div>Insertion Sort</div>} />
