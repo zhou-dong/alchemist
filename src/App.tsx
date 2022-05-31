@@ -4,12 +4,21 @@ import Home from './home';
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 
+import { createRenderer, createCamera, createScene } from "./games/sorting/commons/three";
+
+function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+}
+
+const renderer = createRenderer();
+const camera = createCamera();
+
 const App = () => (
     <Routes>
         <Route index element={<Home />} />
 
         <>
-            <Route path="sorting/bubble-sort" element={<BubbleSortAnimation values={[6, 5, 4, 3, 2, 1]} />} />
+            <Route path="sorting/bubble-sort" element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
             <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />
             <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
             <Route path="sorting/insertion-sort" element={<div>Insertion Sort</div>} />
