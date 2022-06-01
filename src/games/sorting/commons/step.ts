@@ -1,4 +1,3 @@
-import { Step } from "@mui/material";
 import Container from "./container"
 
 type Step = {
@@ -9,3 +8,9 @@ type Step = {
 }
 
 export default Step;
+
+export const swap = (arrays: Container[], a: number, b: number): void => {
+    const temp = arrays[a];
+    arrays[a] = arrays[b];
+    arrays[b] = temp;
+}
