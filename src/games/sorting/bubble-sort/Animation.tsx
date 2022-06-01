@@ -141,7 +141,6 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
             parent.appendChild(renderer.domElement);
         }
 
-        // cancel animation
         return () => cancelAnimationFrame(animationFrameId);
     }, [ref, renderer]);
 
