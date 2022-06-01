@@ -109,19 +109,19 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
         setRefreshDisabled(true);
 
         const steps = sort(items);
+
         animate();
         for (let i = 0; i < steps.length; i++) {
             setIndex(i + 1);
             await run(steps[i]);
         }
-        const { a, b } = steps[steps.length - 1];
 
+        const { a, b } = steps[steps.length - 1];
         changeColor(a, finishedColor);
         changeColor(b, finishedColor);
         await waitSeconds(duration);
 
         cancelAnimationFrame(animationFrameId);
-
         setRefreshDisabled(false);
     }
 
