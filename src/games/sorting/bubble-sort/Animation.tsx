@@ -4,7 +4,6 @@ import { Button } from '@mui/material';
 import gsap from 'gsap';
 
 import { sort } from './algo';
-import { generateColor } from "../../../commons/colorsGenerator";
 import Step from "../commons/step";
 import Container from '../commons/container';
 import Steps from '../components/Steps';
@@ -21,12 +20,15 @@ class Item extends THREE.Mesh implements Container {
     }
 }
 
+const initialColor = "gold";
+const enabledColor = "lightgreen";
+const finishedColor = "pink";
+
 const createItems = (values: number[]): Item[] => {
-    const colors = generateColor("#9fffcb", "#7ae582", values.length);
     const items: Item[] = [];
 
     for (let i = 0; i < values.length; i++) {
-        const material = new THREE.MeshBasicMaterial({ color: colors[i] });
+        const material = new THREE.MeshBasicMaterial({ color: initialColor });
         let height = values[i];
         const item = new Item(height, material, 1, height);
         item.position.setX(i - 8 + 2 * i);
@@ -49,6 +51,22 @@ interface Props {
     camera: THREE.Camera;
     scene: THREE.Scene;
     values: number[];
+}
+
+const changeColor = (c: Container, color: THREE.ColorRepresentation): void => {
+    ((c as any).material as THREE.MeshBasicMaterial).color.set(color);
+}
+
+const onComplete = (c: Container, finished?: Container) => {
+    if (finished && finished === c) {
+        changeColor(c, finishedColor);
+    } else {
+        changeColor(c, initialColor);
+    }
+}
+
+const onStart = (c: Container) => {
+    changeColor(c, enabledColor);
 }
 
 const duration = 1;
@@ -75,12 +93,12 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
     }, [items, renderer, scene, camera]);
 
     const run = async (step: Step): Promise<void> => {
-        const { a, b, exchange } = step;
+        const { a, b, exchange, finished } = step;
         const temp = a.position.clone();
 
         if (exchange) {
-            gsap.to(a.position, { x: b.position.x, duration, ease, });
-            gsap.to(b.position, { x: temp.x, duration, ease, });
+            gsap.to(a.position, { x: b.position.x, duration, ease, onComplete: () => onComplete(a, finished), onStart: () => onStart(a) });
+            gsap.to(b.position, { x: temp.x, duration, ease, onComplete: () => onComplete(b, finished), onStart: () => onStart(b) });
         }
 
         await waitSeconds(duration);
@@ -89,13 +107,21 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
 
     const play = async () => {
         setRefreshDisabled(true);
+
         const steps = sort(items);
         animate();
         for (let i = 0; i < steps.length; i++) {
             setIndex(i + 1);
             await run(steps[i]);
         }
+        const { a, b } = steps[steps.length - 1];
+
+        changeColor(a, finishedColor);
+        changeColor(b, finishedColor);
+        await waitSeconds(duration);
+
         cancelAnimationFrame(animationFrameId);
+
         setRefreshDisabled(false);
     }
 
