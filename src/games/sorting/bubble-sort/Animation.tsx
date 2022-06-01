@@ -32,7 +32,7 @@ const createItems = (values: number[]): Item[] => {
         let height = values[i];
         const item = new Item(height, material, 1, height);
         item.position.setX(i - 8 + 2 * i);
-        item.position.setY(height / 2 - 3);
+        item.position.setY(height / 2 - 2);
         item.position.setZ(-6);
         items.push(item);
     }
@@ -78,6 +78,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
     const [items, setItems] = React.useState<Item[]>(createItems(values));
     const [index, setIndex] = React.useState<number>(0);
     const [refreshDisabled, setRefreshDisabled] = React.useState(false);
+    const [playDisabled, setPlayDisabled] = React.useState(false);
 
     React.useEffect(() => {
         clearScene(scene);
@@ -88,7 +89,6 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
 
         renderer.render(scene, camera);
 
-        // cancel animation
         return () => cancelAnimationFrame(animationFrameId);
     }, [items, renderer, scene, camera]);
 
@@ -107,6 +107,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
 
     const play = async () => {
         setRefreshDisabled(true);
+        setPlayDisabled(true);
 
         const steps = sort(items);
 
@@ -129,6 +130,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
         cancelAnimationFrame(animationFrameId);
         setIndex(0);
         setItems(() => createItems(values));
+        setPlayDisabled(false);
     }
 
     const ref = React.useRef<HTMLDivElement>(null);
@@ -153,18 +155,29 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
             <>
                 <div ref={ref}></div>
                 <Steps steps={index} />
-                <Button sx={{ position: "fixed", bottom: "100px" }} onClick={() => {
-                    play();
-                }}>
-                    play
-                </Button>
-                <Button sx={{ position: "fixed", bottom: "100px", left: "50px" }}
-                    disabled={refreshDisabled}
-                    onClick={() => {
-                        refresh();
-                    }}>
-                    refresh
-                </Button>
+
+                <div style={{ position: "fixed", bottom: "150px", width: "100%", margin: "auto", textAlign: "center" }}>
+                    <Button
+                        size='large'
+                        disabled={playDisabled}
+                        onClick={() => {
+                            play();
+                        }}
+                    >
+                        play
+                    </Button>
+                    <Button
+                        size='large'
+                        disabled={refreshDisabled}
+                        onClick={() => {
+                            refresh();
+                        }}
+                    >
+                        refresh
+                    </Button>
+                </div>
+
+
             </>
         </GameWrapper>
     );
