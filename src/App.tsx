@@ -4,10 +4,12 @@ import Home from './home';
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 
-import { createRenderer, createCamera, createScene } from "./games/sorting/commons/three";
+import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/commons/three";
 
 const renderer = createRenderer();
 const camera = createCamera();
+
+window.addEventListener('resize', () => onWindowResize(renderer, camera), false);
 
 const App = () => (
     <Routes>

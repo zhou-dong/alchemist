@@ -22,4 +22,10 @@ const clearScene = (scene: THREE.Scene) => {
     }
 }
 
-export { createRenderer, createCamera, createScene, clearScene };
+function onWindowResize(renderer: THREE.Renderer, camera: THREE.PerspectiveCamera) {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+export { createRenderer, createCamera, createScene, clearScene, onWindowResize };
