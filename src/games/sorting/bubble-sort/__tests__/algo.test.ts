@@ -2,7 +2,7 @@ import * as THREE from "three";
 import Container from "../../commons/container";
 import { sort } from "../algo";
 
-test("bubble sort", () => {
+test("BubbleSort", () => {
     const fakePosition = new THREE.Vector3(0, 0, 0);
     const arrays: Container[] = [];
     arrays.push({ position: fakePosition, payload: 5 });
