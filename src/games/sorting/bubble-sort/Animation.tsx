@@ -9,6 +9,7 @@ import Container from '../commons/container';
 import Steps from '../components/Steps';
 import GameWrapper from '../../commons/GameWrapper';
 import { clearScene } from '../commons/three';
+import { waitSeconds } from '../commons/helps';
 
 class Item extends THREE.Mesh implements Container {
     payload: number;
@@ -38,12 +39,6 @@ const createItems = (values: number[]): Item[] => {
     }
 
     return items;
-}
-
-function waitSeconds(seconds: number) {
-    return new Promise(resolve => {
-        setTimeout(() => resolve(1), seconds * 1000);
-    });
 }
 
 interface Props {
