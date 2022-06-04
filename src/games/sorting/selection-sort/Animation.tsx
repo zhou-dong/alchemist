@@ -1,6 +1,6 @@
 import React from 'react';
 import * as THREE from 'three';
-import { Avatar, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import gsap from 'gsap';
 
 import { sort } from './algo';
@@ -24,6 +24,22 @@ class Item extends THREE.Mesh implements Container {
 const initialColor = "gold";
 const enabledColor = "lightgreen";
 const finishedColor = "pink";
+const indicatorColor = "lightgrey";
+
+const createIndicator = () => {
+    const geometry = new THREE.SphereGeometry(1, 12, 12);
+    const material = new THREE.MeshBasicMaterial({ color: indicatorColor });
+    const sphere = new THREE.Mesh(geometry, material);
+
+    sphere.position.setX(calculateX(0));
+    sphere.position.setY(-3.3);
+    sphere.position.setZ(-6);
+    return sphere;
+};
+
+const calculateX = (i: number): number => {
+    return i - 8 + 2 * i;
+}
 
 const createItems = (values: number[]): Item[] => {
     const items: Item[] = [];
@@ -56,6 +72,8 @@ const duration = 1;
 const ease = "power1";
 let animationFrameId = -1;
 
+const indicator = createIndicator();
+
 const Animation = ({ renderer, camera, scene, values }: Props) => {
 
     const [items, setItems] = React.useState<Item[]>(createItems(values));
@@ -63,14 +81,14 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
     const [refreshDisabled, setRefreshDisabled] = React.useState(false);
     const [playDisabled, setPlayDisabled] = React.useState(false);
 
-    const [minimum, setMinimum] = React.useState(Math.max);
-
     React.useEffect(() => {
         clearScene(scene);
 
         items.forEach(item => {
             scene.add(item);
         })
+        indicator.position.setX(calculateX(0));
+        scene.add(indicator);
 
         renderer.render(scene, camera);
 
@@ -80,7 +98,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
     const run = async (step: Step): Promise<void> => {
         const { min, a, b, exchange } = step;
 
-        setMinimum(min);
+        indicator.position.setX(calculateX(min));
 
         if (exchange) {
             if (a === b) {
@@ -136,6 +154,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
 
         const last = items[items.length - 1];
         changeColor(last, finishedColor);
+        scene.remove(indicator);
         await waitSeconds(duration);
 
         cancelAnimationFrame(animationFrameId);
@@ -170,7 +189,6 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
             <>
                 <div ref={ref}></div>
                 <Steps steps={index} />
-                <Avatar sx={{ position: "fixed", top: "100px", left: "100px" }}>{minimum}</Avatar>
 
                 <div style={{ position: "fixed", bottom: "150px", width: "100%", margin: "auto", textAlign: "center" }}>
                     <Button
