@@ -3,6 +3,7 @@ import EditDistance from './games/dp/edit-distance';
 import Home from './home';
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
+import SelectionSortAnimation from "./games/sorting/selection-sort/Animation";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/commons/three";
 
@@ -17,7 +18,7 @@ const App = () => (
 
         <>
             <Route path="sorting/bubble-sort" element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
-            <Route path="sorting/selection-sort" element={<div>Selection Sort</div>} />
+            <Route path="sorting/selection-sort" element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
             <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
             <Route path="sorting/insertion-sort" element={<div>Insertion Sort</div>} />
             <Route path="sorting/quick-sort" element={<div>Quick Sort</div>} />
