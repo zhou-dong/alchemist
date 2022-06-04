@@ -171,7 +171,6 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
                     </Button>
                 </div>
 
-
             </>
         </GameWrapper>
     );
