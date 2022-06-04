@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import gsap from 'gsap';
 
 import { sort } from './algo';
-import Step from "../commons/step";
+import Step from "./step";
 import Container from '../commons/container';
 import Steps from '../components/Steps';
 import GameWrapper from '../../commons/GameWrapper';
