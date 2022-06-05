@@ -87,7 +87,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
         items.forEach(item => {
             scene.add(item);
         })
-        indicator.position.setX(calculateX(0));
+        indicator.position.setX(calculateX(1));
         scene.add(indicator);
 
         renderer.render(scene, camera);
