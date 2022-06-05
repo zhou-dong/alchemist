@@ -5,7 +5,7 @@ import MaterialLink from "@mui/material/Link";
 import { green } from '@mui/material/colors';
 
 const Logo = () => (
-    <Toolbar>
+    <Toolbar sx={{ position: "fixed" }}>
         <Typography variant="h6">
             <MaterialLink
                 component={RouterLink}
