@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Pagination from '@mui/material/Pagination';
-import Logo from '../commons/Logo';
 import Filters from "./Filters";
 import MenuButton from './Menu';
 import List from './Lists';
@@ -17,6 +16,7 @@ const PaginationContainer = styled("div")({
     justifyContent: "center",
     alignItems: "center",
 });
+
 const SimplePagination = () => (
     <div>
         <Pagination count={100} defaultPage={6} boundaryCount={2} />
@@ -28,7 +28,6 @@ const Home = () => {
 
     return (
         <>
-            <Logo />
             <MenuButton open={open} setOpen={setOpen} />
             <Filters open={open} setOpen={setOpen} />
             <List />
