@@ -19,16 +19,16 @@ export const games: Game[] = [
         difficulties: [],
     },
     {
-        name: "Merge Sort",
-        path: "/sorting/merge-sort",
-
+        name: "Insertion Sort",
+        path: "/sorting/insertion-sort",
         categories: [Category.Sorting],
         companies: [],
         difficulties: [],
     },
     {
-        name: "Insertion Sort",
-        path: "/sorting/insertion-sort",
+        name: "Merge Sort",
+        path: "/sorting/merge-sort",
+
         categories: [Category.Sorting],
         companies: [],
         difficulties: [],
