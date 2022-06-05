@@ -13,7 +13,6 @@ export const sort = (arrays: Container[]): Step[] => {
             if (arrays[j].payload < arrays[min].payload) {
                 min = j;
             }
-
             steps.push({ min, a: arrays[i], b: arrays[j], exchange: false });
         }
 
