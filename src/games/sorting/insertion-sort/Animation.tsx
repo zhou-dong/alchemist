@@ -119,13 +119,11 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
                             duration: duration / 2,
                             ease,
                             onStart: () => changeColor(a, enabledColor),
-                            onComplete: () => changeColor(a, initialColor),
                         })
                         .to(a.position, {
                             y: calculateY(a.payload),
                             duration: duration / 2,
                             ease,
-                            onStart: () => changeColor(a, enabledColor),
                             onComplete: () => changeColor(a, initialColor),
                         });
                 }
