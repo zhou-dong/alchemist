@@ -203,7 +203,6 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
                         refresh
                     </Button>
                 </div>
-
             </>
         </GameWrapper>
     );
