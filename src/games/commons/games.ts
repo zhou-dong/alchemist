@@ -3,14 +3,10 @@ import Category from "./segments/category";
 import Company from "./segments/company";
 import Difficulty from "./segments/difficulty";
 
+import { bubbleSort } from "../sorting/bubble-sort/info";
+
 export const games: Game[] = [
-    {
-        name: "Bobble Sort",
-        path: "/sorting/bubble-sort",
-        categories: [Category.Sorting],
-        companies: [],
-        difficulties: [Difficulty.Easy],
-    },
+    bubbleSort,
     {
         name: "Selection Sort",
         path: "/sorting/selection-sort",
