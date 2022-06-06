@@ -101,7 +101,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
                 });
                 break;
             case Action.Override:
-                if (index) {
+                if (index !== undefined) {
                     gsap.to(a.position, {
                         x: calculateX(index),
                         duration,
@@ -113,14 +113,21 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
                 break;
             case Action.Insert:
                 if (index !== undefined) {
-                    gsap.to(a.position, {
-                        x: calculateX(index),
-                        y: calculateY(a.payload),
-                        duration,
-                        ease,
-                        onStart: () => changeColor(a, enabledColor),
-                        onComplete: () => changeColor(a, initialColor),
-                    });
+                    gsap.timeline()
+                        .to(a.position, {
+                            x: calculateX(index),
+                            duration: duration / 2,
+                            ease,
+                            onStart: () => changeColor(a, enabledColor),
+                            onComplete: () => changeColor(a, initialColor),
+                        })
+                        .to(a.position, {
+                            y: calculateY(a.payload),
+                            duration: duration / 2,
+                            ease,
+                            onStart: () => changeColor(a, enabledColor),
+                            onComplete: () => changeColor(a, initialColor),
+                        });
                 }
                 break;
             default:
