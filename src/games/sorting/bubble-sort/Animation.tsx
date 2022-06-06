@@ -11,6 +11,8 @@ import GameWrapper from '../../commons/GameWrapper';
 import { clearScene } from '../commons/three';
 import { waitSeconds } from '../commons/helps';
 
+import info from "./info";
+
 class Item extends THREE.Mesh implements Container {
     payload: number;
 
@@ -144,10 +146,8 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
         renderer.render(scene, camera);
     };
 
-    const path = "/sorting/bubble-sort"
-
     return (
-        <GameWrapper path={path}>
+        <GameWrapper path={info.name}>
             <>
                 <div ref={ref}></div>
                 <Steps steps={index} />
