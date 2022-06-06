@@ -3,24 +3,14 @@ import Category from "./segments/category";
 import Company from "./segments/company";
 import Difficulty from "./segments/difficulty";
 
-import { bubbleSort } from "../sorting/bubble-sort/info";
+import bubbleSort from "../sorting/bubble-sort/info";
+import insertionSort from "../sorting/insertion-sort/info";
+import selectionSort from "../sorting/selection-sort/info";
 
 export const games: Game[] = [
     bubbleSort,
-    {
-        name: "Selection Sort",
-        path: "/sorting/selection-sort",
-        categories: [Category.Sorting],
-        companies: [],
-        difficulties: [],
-    },
-    {
-        name: "Insertion Sort",
-        path: "/sorting/insertion-sort",
-        categories: [Category.Sorting],
-        companies: [],
-        difficulties: [],
-    },
+    selectionSort,
+    insertionSort,
     {
         name: "Merge Sort",
         path: "/sorting/merge-sort",
