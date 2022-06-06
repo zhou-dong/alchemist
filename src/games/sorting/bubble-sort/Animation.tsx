@@ -144,8 +144,10 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
         renderer.render(scene, camera);
     };
 
+    const path = "/sorting/bubble-sort"
+
     return (
-        <GameWrapper name="Bubble Sort Animation">
+        <GameWrapper path={path}>
             <>
                 <div ref={ref}></div>
                 <Steps steps={index} />

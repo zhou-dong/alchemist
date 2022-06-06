@@ -184,8 +184,10 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
         renderer.render(scene, camera);
     };
 
+    const path = "/sorting/selection-sort"
+
     return (
-        <GameWrapper name="Selection Sort Animation">
+        <GameWrapper path={path}>
             <>
                 <div ref={ref}></div>
                 <Steps steps={index} />

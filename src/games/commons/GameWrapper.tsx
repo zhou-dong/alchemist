@@ -24,10 +24,10 @@ const BeforeContainer = styled("div")(() => ({
     left: 0,
 }));
 
-const GameWrapper: React.FC<{ children: JSX.Element, name: string }> = ({ children, name }) => {
+const GameWrapper: React.FC<{ children: JSX.Element, path: string }> = ({ children, path }) => {
     const { games } = useGames();
 
-    const index = games.map(game => game.name).indexOf(name);
+    const index = games.map(game => game.path).indexOf(path);
     const previous = games[index - 1];
     const next = games[index + 1];
 

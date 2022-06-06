@@ -2,7 +2,7 @@ import GameWrapper from "../../commons/GameWrapper";
 
 const EditDistance = () => (
 
-    <GameWrapper name="Edit Distance">
+    <GameWrapper path="/dp/edit-distance">
         <>hello world Edit distance</>
     </GameWrapper>
 
