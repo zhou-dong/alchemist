@@ -147,7 +147,7 @@ const Animation = ({ renderer, camera, scene, values }: Props) => {
     };
 
     return (
-        <GameWrapper path={info.name}>
+        <GameWrapper path={info.path}>
             <>
                 <div ref={ref}></div>
                 <Steps steps={index} />
