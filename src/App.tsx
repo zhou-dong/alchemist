@@ -6,7 +6,7 @@ import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import SelectionSortAnimation from "./games/sorting/selection-sort/Animation";
 import InsertionSortAnimation from "./games/sorting/insertion-sort/Animation";
 
-import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/commons/three";
+import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
 const renderer = createRenderer();

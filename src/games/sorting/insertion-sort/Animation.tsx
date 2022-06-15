@@ -5,11 +5,11 @@ import gsap from 'gsap';
 
 import { sort } from './algo';
 import { Action, Step } from "./step";
-import Container from '../commons/container';
-import Steps from '../components/Steps';
+import Container from '../_commons/container';
+import Steps from '../_components/Steps';
 import GameWrapper from '../../commons/GameWrapper';
-import { clearScene } from '../commons/three';
-import { waitSeconds } from '../commons/helps';
+import { clearScene } from '../_commons/three';
+import { waitSeconds } from '../_commons/helps';
 
 import info from "./info";
 

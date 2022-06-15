@@ -1,5 +1,5 @@
-import Container from "../commons/container";
-import { swap } from "../commons/helps";
+import Container from "../_commons/container";
+import { swap } from "../_commons/helps";
 import Step from "./step";
 
 export const sort = (arrays: Container[]): Step[] => {
