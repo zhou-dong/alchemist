@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Main = ({ handleRefresh }: Props) => (
-    <Tooltip title="REFRESH" placement="top">
+    <Tooltip title="Refresh" placement="top">
         <IconButton onClick={handleRefresh}>
             <RefreshOutlinedIcon />
         </IconButton>
