@@ -10,10 +10,9 @@ import CodeBlock, { languages } from './CodeBlock';
 
 export interface Props {
     readonly title: string;
-    readonly formulaOpen: boolean;
-    readonly formula: string;
-    readonly handleFormulaOnClose?: () => any;
-    readonly handleCloseFormulaClick: () => any;
+    readonly openFormular: boolean;
+    readonly formular: string;
+    readonly handleCloseFormular: () => any;
 }
 
 const StyledTitle = styled(DialogTitle)(({ theme }) => ({
@@ -22,15 +21,15 @@ const StyledTitle = styled(DialogTitle)(({ theme }) => ({
 }));
 
 const InfoModal = (props: Props) => (
-    <Dialog open={props.formulaOpen} onClose={props.handleFormulaOnClose} scroll="paper">
+    <Dialog open={props.openFormular} onClose={props.handleCloseFormular} scroll="paper">
         <StyledTitle>
             <Typography variant="body1">FORMULA</Typography>
         </StyledTitle>
-        <DialogContent sx={{ paddingTop: 0 }}>
-            <CodeBlock code={props.formula} language={languages.Javascript} />
+        <DialogContent>
+            <CodeBlock code={props.formular} language={languages.Javascript} />
         </DialogContent>
-        <DialogActions sx={{ paddingTop: 0 }}>
-            <Button autoFocus onClick={props.handleCloseFormulaClick}>CLOSE</Button>
+        <DialogActions>
+            <Button onClick={props.handleCloseFormular}>CLOSE</Button>
         </DialogActions>
     </Dialog>
 );

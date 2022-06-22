@@ -9,9 +9,11 @@ interface Props {
 }
 
 const Code = (props: Props) => (
-    <code style={{ fontSize: "16px" }}>
-        {props.code}
-    </code>
+    <pre>
+        <code style={{ fontSize: "16px" }}>
+            {props.code}
+        </code>
+    </pre>
 );
 
 export default Code;

@@ -1,33 +1,39 @@
+import * as React from 'react';
+import { Point } from "../_commons/point";
 // import { State, Point } from '../../store/BasicState';
 // import { addHelperStyles } from '.';
 // import { helperStyle, warn } from '../../pages/withRoot';
 
-// const isMatch = ({ row, col }: Point, r: number, c: number) => (row === r && col === c);
+const isMatch = ({ row, col }: Point, r: number, c: number) => (row === r && col === c);
 
-// const newTableStyles = (table: React.CSSProperties[][]): React.CSSProperties[][] =>
-//     table.map(row => row.map(() => ({})));
+const newTableStyles = (table: React.CSSProperties[][]): React.CSSProperties[][] => {
+    return table.map(row => row.map(() => ({})));
+}
 
-// const updateTable = (table: (string | number)[][], point: Point, value: number): (string | number)[][] =>
-//     table.map((row, rowIndex) => {
-//         return row.map((cell, colIndex) => isMatch(point, rowIndex, colIndex) ? value : cell);
-//     });
+const updateTable = (table: (string | number)[][], point: Point, value: number): (string | number)[][] => {
+    return table.map((row, rowIndex) => {
+        return row.map((cell, colIndex) => isMatch(point, rowIndex, colIndex) ? value : cell);
+    })
+}
 
-// const nonCorrect = (comparedTable: (string | number)[][], { row, col }: Point, value: number): boolean =>
-//     (comparedTable[row][col] !== value);
+const nonCorrect = (comparedTable: (string | number)[][], { row, col }: Point, value: number): boolean => {
+    return (comparedTable[row][col] !== value);
+}
 
-// const getLastCell = (table: (string | number)[][]): Point => {
-//     const row = table.length - 1;
-//     const col = table[row].length - 1;
-//     return { row, col };
-// };
+const getLastCell = (table: (string | number)[][]): Point => {
+    const row = table.length - 1;
+    const col = table[row].length - 1;
+    return { row, col };
+};
 
-// const isLastCell = (table: (string | number)[][], point: Point): boolean => {
-//     const { row, col } = getLastCell(table);
-//     return isMatch(point, row, col);
-// };
+const isLastCell = (table: (string | number)[][], point: Point): boolean => {
+    const { row, col } = getLastCell(table);
+    return isMatch(point, row, col);
+};
 
-// const getNextPoint = (table: (string | number)[][], { row, col }: Point): Point =>
-//     (col === table[row].length - 1) ? { row: row + 1, col: 2 } : { row, col: col + 1 };
+const getNextPoint = (table: (string | number)[][], { row, col }: Point): Point => {
+    return (col === table[row].length - 1) ? { row: row + 1, col: 2 } : { row, col: col + 1 };
+}
 
 // const update = (value: number, state: State): State => {
 

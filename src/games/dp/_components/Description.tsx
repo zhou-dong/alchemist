@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import ReactMarkdown from "react-markdown";
 
 const StyledReactMarkdown = styled(ReactMarkdown)(({ }) => ({
@@ -25,47 +24,46 @@ const StyledReactMarkdown = styled(ReactMarkdown)(({ }) => ({
 
 export interface Props {
     readonly title: string;
-    readonly dialogOpen: boolean;
+    readonly openDialog: boolean;
     readonly example: string;
-    readonly alUsecases: string;
+    readonly usecases: string;
     readonly description: string;
-    readonly handleDialogOnClose?: () => any;
-    readonly handleCloseDialogClick: () => any;
+    readonly handleCloseDialog: () => any;
 }
 
-const description = ({ description }: Props) => (
-    <StyledReactMarkdown>{description}</StyledReactMarkdown>
+const description = ({ description, title }: Props) => (
+    <>
+        <Typography>{title}</Typography>
+        <Divider />
+        <StyledReactMarkdown>{description}</StyledReactMarkdown>
+    </>
 );
 
-const alUsecases = ({ alUsecases }: Props) => (
+const Usecases = ({ usecases }: Props) => (
     <React.Fragment>
         <Typography>Use Cases</Typography>
         <Divider />
-        <StyledReactMarkdown>{alUsecases}</StyledReactMarkdown>
+        <StyledReactMarkdown>{usecases}</StyledReactMarkdown>
     </React.Fragment>
 );
 
 const example = ({ example }: Props) => (
     <React.Fragment>
-        <Typography>Example</Typography>
+        <Typography>Examples</Typography>
         <Divider />
         <StyledReactMarkdown>{example}</StyledReactMarkdown>
     </React.Fragment>
 );
 
 const InfoModal = (props: Props) => (
-    <Dialog open={props.dialogOpen} onClose={props.handleDialogOnClose} scroll="paper" >
-        <DialogTitle>
-            <Typography>{props.title}</Typography>
-        </DialogTitle>
-        <Divider />
+    <Dialog open={props.openDialog} onClose={props.handleCloseDialog} scroll="paper" >
         <DialogContent>
             {props.description && description(props)}
-            {props.alUsecases && alUsecases(props)}
+            {props.usecases && Usecases(props)}
             {props.example && example(props)}
         </DialogContent>
         <DialogActions>
-            <Button onClick={props.handleCloseDialogClick}>CLOSE</Button>
+            <Button onClick={props.handleCloseDialog}>CLOSE</Button>
         </DialogActions>
     </Dialog>
 );

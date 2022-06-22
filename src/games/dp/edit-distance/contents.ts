@@ -1,12 +1,15 @@
-export const formula = `if (char1 === char2) {
-table[row][col] = table[row - 1][col - 1];
+export const title = 'EDIT DISTANCE';
+
+export const formular = `
+if (char1 === char2) {
+    table[row][col] = table[row - 1][col - 1];
 } else {
-const min = Math.min(
-    table[row - 1][col - 1],
-    table[row - 1][col],
-    table[row][col - 1]
-);
-table[row][col] = min + 1;
+    const min = Math.min(
+        table[row - 1][col - 1],
+        table[row - 1][col],
+        table[row][col - 1]
+    );
+    table[row][col] = min + 1;
 }`;
 
 export const description = `
@@ -18,7 +21,7 @@ transform one string into the other.
 \\- From Wikipedia.
 `;
 
-export const alUsecases = `
+export const usecases = `
 1. In natural language processing, where automatic spelling 
 correction can determine candidate corrections for a misspelled 
 word by selecting words from a dictionary that have a low distance 
