@@ -27,7 +27,7 @@ const Main = (props: Props) => {
 
     return (
         <>
-            <Tooltip title="CODE" placement='top'>
+            <Tooltip title="Code" placement='top'>
                 <IconButton onClick={handleOpenFormular}>
                     <CodeIcon />
                 </IconButton>
