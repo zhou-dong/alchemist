@@ -62,7 +62,7 @@ const Main = (props: Props) => {
 
     return (
         <>
-            <Tooltip title="DESCRIPTION" placement="top">
+            <Tooltip title="Description" placement="top">
                 <IconButton onClick={handleOpenDescription}>
                     {props.success ? <CheckCircleOutline sx={{ color: 'green' }} /> : <AssignmentOutlined />}
                 </IconButton>
