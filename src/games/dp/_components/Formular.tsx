@@ -1,4 +1,5 @@
-import { Typography } from '@mui/material';
+import * as React from 'react';
+import { IconButton, Tooltip, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -7,12 +8,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { styled } from '@mui/material/styles';
 
 import CodeBlock, { languages } from './CodeBlock';
+import CodeIcon from '@mui/icons-material/Code';
 
 export interface Props {
     readonly title: string;
-    readonly openFormular: boolean;
     readonly formular: string;
-    readonly handleCloseFormular: () => any;
 }
 
 const StyledTitle = styled(DialogTitle)(({ theme }) => ({
@@ -20,19 +20,31 @@ const StyledTitle = styled(DialogTitle)(({ theme }) => ({
     paddingBottom: 0,
 }));
 
-const InfoModal = (props: Props) => (
-    <Dialog open={props.openFormular} onClose={props.handleCloseFormular} scroll="paper">
-        <StyledTitle>
-            <Typography variant="body1">FORMULAR</Typography>
-        </StyledTitle>
-        <DialogContent>
-            <CodeBlock code={props.formular} language={languages.Javascript} />
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={props.handleCloseFormular}>CLOSE</Button>
-        </DialogActions>
-    </Dialog>
-);
+const Main = (props: Props) => {
+    const [openFormular, setOpenFormular] = React.useState(false);
+    const handleOpenFormular = () => setOpenFormular(true);
+    const handleCloseFormular = () => setOpenFormular(false);
 
-export default InfoModal;
+    return (
+        <>
+            <Tooltip title="CODE" placement='top'>
+                <IconButton onClick={handleOpenFormular}>
+                    <CodeIcon />
+                </IconButton>
+            </Tooltip>
+            <Dialog open={openFormular} onClose={handleCloseFormular} scroll="paper">
+                <StyledTitle>
+                    <Typography variant="body1">FORMULAR</Typography>
+                </StyledTitle>
+                <DialogContent>
+                    <CodeBlock code={props.formular} language={languages.Javascript} />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseFormular}>CLOSE</Button>
+                </DialogActions>
+            </Dialog>
+        </>
+    );
+};
 
+export default Main;
