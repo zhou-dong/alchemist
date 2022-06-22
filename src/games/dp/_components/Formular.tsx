@@ -23,7 +23,7 @@ const StyledTitle = styled(DialogTitle)(({ theme }) => ({
 const InfoModal = (props: Props) => (
     <Dialog open={props.openFormular} onClose={props.handleCloseFormular} scroll="paper">
         <StyledTitle>
-            <Typography variant="body1">FORMULA</Typography>
+            <Typography variant="body1">FORMULAR</Typography>
         </StyledTitle>
         <DialogContent>
             <CodeBlock code={props.formular} language={languages.Javascript} />
