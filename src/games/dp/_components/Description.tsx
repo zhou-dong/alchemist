@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Divider } from '@mui/material';
+import { Divider, IconButton, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -7,6 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import ReactMarkdown from "react-markdown";
+import { AssignmentOutlined, CheckCircleOutline } from '@mui/icons-material';
 
 const StyledReactMarkdown = styled(ReactMarkdown)(({ }) => ({
     fontSize: "16px",
@@ -23,12 +24,11 @@ const StyledReactMarkdown = styled(ReactMarkdown)(({ }) => ({
 }));
 
 export interface Props {
+    readonly success: boolean;
     readonly title: string;
-    readonly openDialog: boolean;
     readonly example: string;
     readonly usecases: string;
     readonly description: string;
-    readonly handleCloseDialog: () => any;
 }
 
 const description = ({ description, title }: Props) => (
@@ -55,17 +55,30 @@ const example = ({ example }: Props) => (
     </React.Fragment>
 );
 
-const InfoModal = (props: Props) => (
-    <Dialog open={props.openDialog} onClose={props.handleCloseDialog} scroll="paper" >
-        <DialogContent>
-            {props.description && description(props)}
-            {props.usecases && Usecases(props)}
-            {props.example && example(props)}
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={props.handleCloseDialog}>CLOSE</Button>
-        </DialogActions>
-    </Dialog>
-);
+const Main = (props: Props) => {
+    const [openDescription, setOpenDescription] = React.useState(false);
+    const handleOpenDescription = () => setOpenDescription(true);
+    const handleCloseDescription = () => setOpenDescription(false);
 
-export default InfoModal;
+    return (
+        <>
+            <Tooltip title="DESCRIPTION" placement="top">
+                <IconButton onClick={handleOpenDescription}>
+                    {props.success ? <CheckCircleOutline sx={{ color: 'green' }} /> : <AssignmentOutlined />}
+                </IconButton>
+            </Tooltip>
+            <Dialog open={openDescription} onClose={handleCloseDescription} scroll="paper" >
+                <DialogContent>
+                    {props.description && description(props)}
+                    {props.usecases && Usecases(props)}
+                    {props.example && example(props)}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDescription}>CLOSE</Button>
+                </DialogActions>
+            </Dialog>
+        </>
+    );
+}
+
+export default Main;
