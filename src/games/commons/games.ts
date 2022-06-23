@@ -1,11 +1,10 @@
 import { Game } from "./game";
 import Category from "./segments/category";
-import Company from "./segments/company";
-import Difficulty from "./segments/difficulty";
 
 import bubbleSort from "../sorting/bubble-sort/info";
 import insertionSort from "../sorting/insertion-sort/info";
 import selectionSort from "../sorting/selection-sort/info";
+import editDistance from "../dp/edit-distance/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -56,11 +55,5 @@ export const games: Game[] = [
         companies: [],
         difficulties: [],
     },
-    {
-        name: "Edit Distance",
-        path: "/dp/edit-distance",
-        categories: [Category.DynamicProgramming],
-        companies: [Company.Google],
-        difficulties: [Difficulty.Hard],
-    },
+    editDistance,
 ];
