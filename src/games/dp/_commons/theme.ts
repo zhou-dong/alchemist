@@ -22,7 +22,7 @@ const theme = createTheme({
         MuiTable: {
             styleOverrides: {
                 root: {
-                    width: '0',
+                    width: '55%',
                     borderRadius: 12,
                     display: "inline-table"
                 }
@@ -46,9 +46,7 @@ const theme = createTheme({
                     fontSize: 14,
                     fontWeight: 400,
                     height: 35,
-                    width: 70,
-                    minWidth: 70,
-                    maxWidth: 70
+                    minWidth: 30,
                 },
                 head: {
                     borderWidth: 1,
@@ -59,9 +57,7 @@ const theme = createTheme({
                     fontSize: 15,
                     fontWeight: 600,
                     height: 35,
-                    width: 70,
-                    minWidth: 70,
-                    maxWidth: 70
+                    minWidth: 30,
                 }
             }
         }
