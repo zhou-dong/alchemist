@@ -7,9 +7,11 @@ const StyledButton = styled(Button)(({ theme }) => ({
         backgroundColor: theme.palette.primary.light,
     },
     minWidth: 70,
+    width: 70,
     minHeight: 35,
     fontSize: 14,
     padding: 0,
+    borderColor: "lightgray",
 }));
 
 const booleanToString = (data: boolean): string => data ? 'TRUE' : 'FALSE';
@@ -41,7 +43,7 @@ const Buttons = (props: Props) => {
         throw new Error('Alchemy Buttons errors: array-styles size dont match');
     }
     return (
-        <ButtonGroup size="large" key={0} style={{ marginTop: "20px" }}>
+        <ButtonGroup size="large" key={0} sx={{ marginTop: "20px", borderColor: "gray" }}>
             {buttons.map((data, index) => cell(index, data, buttonsStyles[index], { ...props }))}
         </ButtonGroup>
     );
