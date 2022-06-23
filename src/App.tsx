@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 import EditDistance from './games/dp/edit-distance';
 import Home from './home';
 
@@ -14,9 +15,16 @@ const camera = createCamera();
 
 window.addEventListener('resize', () => onWindowResize(renderer, camera), false);
 
+const LogoContainer = styled("div")({
+    position: "fixed",
+    top: 0
+});
+
 const App = () => (
     <>
-        <Logo />
+        <LogoContainer>
+            <Logo />
+        </LogoContainer>
         <Routes>
             <Route index element={<Home />} />
 
