@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import ReactMarkdown from "react-markdown";
 import { AssignmentOutlined, CheckCircleOutline } from '@mui/icons-material';
 
-const StyledReactMarkdown = styled(ReactMarkdown)(({ }) => ({
+const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     fontSize: "16px",
     "& table": {
         borderCollapse: "collapse",
