@@ -23,6 +23,7 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     width: '55%',
+                    maxWidth: "800px",
                     borderRadius: 12,
                     display: "inline-table"
                 }
