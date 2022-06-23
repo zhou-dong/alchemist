@@ -1,6 +1,6 @@
-export const title = 'EDIT DISTANCE';
+export const title = 'Edit Distance';
 
-export const formular = `
+export const formula = `
 if (char1 === char2) {
     table[row][col] = table[row - 1][col - 1];
 } else {

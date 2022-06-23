@@ -12,7 +12,7 @@ import CodeIcon from '@mui/icons-material/Code';
 
 export interface Props {
     readonly title: string;
-    readonly formular: string;
+    readonly formula: string;
 }
 
 const StyledTitle = styled(DialogTitle)(({ theme }) => ({
@@ -34,10 +34,10 @@ const Main = (props: Props) => {
             </Tooltip>
             <Dialog open={openFormular} onClose={handleCloseFormular} scroll="paper">
                 <StyledTitle>
-                    <Typography variant="body1">FORMULAR</Typography>
+                    <Typography variant="body1">FORMULA</Typography>
                 </StyledTitle>
                 <DialogContent>
-                    <CodeBlock code={props.formular} language={languages.Javascript} />
+                    <CodeBlock code={props.formula} language={languages.Javascript} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseFormular}>CLOSE</Button>
