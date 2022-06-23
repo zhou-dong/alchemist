@@ -8,12 +8,13 @@ import { ThemeProvider, Typography } from '@mui/material';
 import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
-import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
+import { createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
 import { errorStyle, helperStyle } from "../_commons/styles";
 import Table from '../_components/Table';
 import theme from '../_commons/theme';
 import Buttons from '../_components/Buttons';
+import { addHelperStyles } from './utils';
 
 const bases = 'ACGT';
 const random = (max: number) => Math.floor(Math.random() * max);
@@ -35,12 +36,12 @@ const buildData = () => {
 
 const EditDistance = () => {
 
-    const data = buildData();
     const [steps, setSteps] = React.useState(0);
     const [errors, setErrors] = React.useState(0);
     const [success, setSuccess] = React.useState(false);
-
     const [currentPoint, setCurrentPoint] = React.useState(startPoint);
+
+    const data = buildData();
     const [table, setTable] = React.useState(data.table);
     const [tableStyles, setTableStyles] = React.useState(data.tableStyles);
     const [buttons, setButtons] = React.useState(data.buttons);
