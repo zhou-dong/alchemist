@@ -1,16 +1,10 @@
 import * as React from "react";
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink } from "react-router-dom";
-import Logo from "../../commons/Logo";
 import { IconButton, Toolbar } from "@mui/material";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useGames } from "./GamesContext";
-
-const LogoContainer = styled("div")({
-    position: "fixed",
-    top: 0
-});
 
 const NextContainer = styled("div")(() => ({
     position: "fixed",
@@ -33,10 +27,6 @@ const GameWrapper: React.FC<{ children: JSX.Element, path: string }> = ({ childr
 
     return (
         <>
-            <LogoContainer>
-                <Logo />
-            </LogoContainer>
-
             {children}
 
             <BeforeContainer>
