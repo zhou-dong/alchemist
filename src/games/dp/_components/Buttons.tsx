@@ -25,7 +25,7 @@ const cellContent = (data: number | string | boolean) => {
 export interface Props {
     readonly buttons: Array<number | string | boolean>;
     readonly buttonsStyles: Array<React.CSSProperties>;
-    readonly handleButtonClick: (data: number | string | boolean) => any; // Action;
+    readonly handleButtonClick: (data: number | string | boolean) => any;
 }
 
 const cell = (
