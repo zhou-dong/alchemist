@@ -43,8 +43,6 @@ const createComparedTable = (stringOne: string, stringTwo: string): (number | st
     return tableMatrix;
 };
 
-
-
 const createTableStyles = (stringOne: string, stringTwo: string): (React.CSSProperties)[][] => {
     const rows = stringTwo.length + 2;
     const cols = stringOne.length + 2;
