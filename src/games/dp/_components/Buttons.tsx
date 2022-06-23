@@ -10,6 +10,8 @@ const StyledButton = styled(Button)(({ theme }) => ({
     width: 70,
     minHeight: 35,
     fontSize: 14,
+    color: "black",
+    fontWeight: "normal",
     padding: 0,
     borderColor: "lightgray",
 }));
