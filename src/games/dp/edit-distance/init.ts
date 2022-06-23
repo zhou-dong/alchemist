@@ -67,7 +67,6 @@ const createButtonsStyles = (stringOne: string, stringTwo: string): (React.CSSPr
 };
 
 export {
-    addHelperStyles,
     createTableMatrix,
     createComparedTable,
     createTableStyles,
