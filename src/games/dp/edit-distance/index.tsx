@@ -4,7 +4,7 @@ import { Centered } from "../_components/Centered";
 import Description from "../_components/Description";
 import Formula from "../_components/Formula";
 import { description, example, title, formula, usecases } from "./contents";
-import { IconButton, ThemeProvider, Tooltip, Typography } from '@mui/material';
+import { ThemeProvider, Typography } from '@mui/material';
 import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
@@ -54,14 +54,20 @@ const EditDistance = () => {
     return (
         <GameWrapper path="/dp/edit-distance">
             <ThemeProvider theme={theme}>
-                <Centered>
+                <Centered sx={{ marginTop: 40 }}>
                     <Typography display="inline" variant='body1'>
                         {title.toUpperCase()}
                     </Typography>
                     <div>
                         <Steps steps={steps} />
                         <Errors errors={errors} />
-                        <Description success={success} title={title} example={example} usecases={usecases} description={description} />
+                        <Description
+                            success={success}
+                            title={title}
+                            example={example}
+                            usecases={usecases}
+                            description={description}
+                        />
                         <Formula title={title} formula={formula} />
                         <Refresh handleRefresh={handleRefresh} />
                     </div>
