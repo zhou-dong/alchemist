@@ -117,7 +117,7 @@ const EditDistance = () => {
                 <Centered>
                     <Typography
                         variant='body1'
-                        sx={{ paddingTop: "100px" }}
+                        sx={{ marginTop: "100px" }}
                     >
                         {title.toUpperCase()}
                     </Typography>
