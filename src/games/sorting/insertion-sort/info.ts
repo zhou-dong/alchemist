@@ -8,6 +8,7 @@ const insertionSort: Game = {
     categories: [Category.Sorting],
     companies: [],
     difficulty: Difficulty.Easy,
+    img: "img/edit_distance"
 }
 
 export default insertionSort;

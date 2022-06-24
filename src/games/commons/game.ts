@@ -8,4 +8,5 @@ export interface Game {
     categories: Category[];
     companies: Company[];
     difficulty: Difficulty;
+    img: string;
 }

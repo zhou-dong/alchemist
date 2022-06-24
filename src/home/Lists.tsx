@@ -4,11 +4,12 @@ import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconBu
 import { useGames } from "../games/commons/GamesContext";
 
 interface AlgorithmProps {
+    img: string;
     title: string;
     path: string;
 }
 
-const Algorithm = ({ title, path }: AlgorithmProps) => (
+const Algorithm = ({ title, path, img }: AlgorithmProps) => (
     <Grid item xs={6} sm={4} md={3} lg={2}>
         <Card>
             <CardActionArea component={RouterLink} to={path}>
@@ -19,7 +20,7 @@ const Algorithm = ({ title, path }: AlgorithmProps) => (
                 </CardContent>
                 <CardMedia
                     component="img"
-                    image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+                    image={img}
                 >
                 </CardMedia>
             </CardActionArea>
@@ -50,6 +51,7 @@ const Sorting = () => {
                         key={index}
                         title={game.name}
                         path={game.path}
+                        img={game.img}
                     />
                 ))
             }

@@ -18,6 +18,7 @@ export const games: Game[] = [
         categories: [Category.Sorting],
         companies: [],
         difficulty: Difficulty.Easy,
+        img: "img/edit_distance"
     },
     {
         name: "Quick Sort",
@@ -26,6 +27,7 @@ export const games: Game[] = [
         categories: [Category.Sorting],
         companies: [],
         difficulty: Difficulty.Easy,
+        img: "img/edit_distance"
     },
     {
         name: "Heap Sort",
@@ -34,6 +36,7 @@ export const games: Game[] = [
         categories: [Category.Sorting],
         companies: [],
         difficulty: Difficulty.Easy,
+        img: "img/edit_distance"
     },
     {
         name: "Counting Sort",
@@ -41,6 +44,7 @@ export const games: Game[] = [
         categories: [Category.Sorting],
         companies: [],
         difficulty: Difficulty.Easy,
+        img: "img/edit_distance"
     },
     {
         name: "Bucket Sort",
@@ -48,6 +52,7 @@ export const games: Game[] = [
         categories: [Category.Sorting],
         companies: [],
         difficulty: Difficulty.Easy,
+        img: "img/edit_distance"
     },
     {
         name: "Radix Sort",
@@ -55,6 +60,7 @@ export const games: Game[] = [
         categories: [Category.Sorting],
         companies: [],
         difficulty: Difficulty.Easy,
+        img: "img/edit_distance"
     },
     editDistance,
 ];
