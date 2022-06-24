@@ -15,6 +15,7 @@ import Table from '../_components/Table';
 import theme from '../_commons/theme';
 import Buttons from '../_components/Buttons';
 import { addHelperStyles } from './utils';
+import info from "./info";
 
 const bases = 'ACGT';
 const random = (max: number) => Math.floor(Math.random() * max);
@@ -112,14 +113,14 @@ const EditDistance = () => {
     }
 
     return (
-        <GameWrapper path="/dp/edit-distance">
+        <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
                 <Centered>
                     <Typography
                         variant='body1'
                         sx={{ marginTop: "100px" }}
                     >
-                        {title.toUpperCase()}
+                        {title}
                     </Typography>
                     <div style={{ marginTop: "25px" }}>
                         <Steps steps={steps} />

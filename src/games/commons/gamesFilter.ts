@@ -44,6 +44,6 @@ const filterDifficulty = (games: Game[], difficulties: Difficulty[]): Game[] => 
     if (difficulties.length === 0) {
         return games;
     } else {
-        return games.filter(game => intersect(difficulties, game.difficulties).length > 0);
+        return games.filter(game => difficulties.includes(game.difficulty));
     }
 }

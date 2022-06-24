@@ -7,7 +7,7 @@ const selectionSort: Game = {
     path: "/sorting/selection-sort",
     categories: [Category.Sorting],
     companies: [],
-    difficulties: [Difficulty.Easy],
+    difficulty: Difficulty.Easy,
 }
 
 export default selectionSort;

@@ -7,7 +7,7 @@ const bubbleSort: Game = {
     path: "/sorting/bubble-sort",
     categories: [Category.Sorting],
     companies: [],
-    difficulties: [Difficulty.Easy],
+    difficulty: Difficulty.Easy,
 }
 
 export default bubbleSort;

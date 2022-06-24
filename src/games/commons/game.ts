@@ -7,5 +7,5 @@ export interface Game {
     path: string;
     categories: Category[];
     companies: Company[];
-    difficulties: Difficulty[];
+    difficulty: Difficulty;
 }

@@ -7,7 +7,7 @@ const insertionSort: Game = {
     path: "/sorting/insertion-sort",
     categories: [Category.Sorting],
     companies: [],
-    difficulties: [Difficulty.Easy],
+    difficulty: Difficulty.Easy,
 }
 
 export default insertionSort;

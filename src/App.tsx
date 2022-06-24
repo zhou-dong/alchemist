@@ -7,6 +7,8 @@ import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import SelectionSortAnimation from "./games/sorting/selection-sort/Animation";
 import InsertionSortAnimation from "./games/sorting/insertion-sort/Animation";
 
+import EditDistanceInfo from './games/dp/edit-distance/info';
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -41,7 +43,7 @@ const App = () => (
             </>
 
             <>
-                <Route path="dp/edit-distance" element={<EditDistance />} />
+                <Route path={EditDistanceInfo.path} element={<EditDistance />} />
             </>
         </Routes>
     </>

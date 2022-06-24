@@ -9,7 +9,7 @@ const info: Game = {
     path: "/dp/edit-distance",
     categories: [Category.DynamicProgramming],
     companies: [Company.Google],
-    difficulties: [Difficulty.Hard],
+    difficulty: Difficulty.Hard,
 }
 
 export default info;
