@@ -8,7 +8,7 @@ const selectionSort: Game = {
     categories: [Category.Sorting],
     companies: [],
     difficulty: Difficulty.Easy,
-    img: "img/edit_distance"
+    img: "img/selection_sort.png"
 }
 
 export default selectionSort;

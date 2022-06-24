@@ -8,7 +8,7 @@ const bubbleSort: Game = {
     categories: [Category.Sorting],
     companies: [],
     difficulty: Difficulty.Easy,
-    img: "img/edit_distance"
+    img: "img/bubble_sort.png"
 }
 
 export default bubbleSort;

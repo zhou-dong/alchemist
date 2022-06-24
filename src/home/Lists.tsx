@@ -12,12 +12,12 @@ interface AlgorithmProps {
 const Algorithm = ({ title, path, img }: AlgorithmProps) => (
     <Grid item xs={6} sm={4} md={3} lg={2}>
         <Card>
+            <CardContent>
+                <Typography variant="subtitle1">
+                    {title}
+                </Typography>
+            </CardContent>
             <CardActionArea component={RouterLink} to={path}>
-                <CardContent>
-                    <Typography variant="subtitle1">
-                        {title}
-                    </Typography>
-                </CardContent>
                 <CardMedia
                     component="img"
                     image={img}
