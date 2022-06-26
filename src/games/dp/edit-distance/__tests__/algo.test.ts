@@ -12,5 +12,5 @@ test("edit-distance", () => {
     const table = createDpTable(str1, str2);
     const distance = getLastCell(table);
 
-    expect(distance === 3);
+    expect(distance).toBe(3);
 });
