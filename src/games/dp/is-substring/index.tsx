@@ -9,7 +9,7 @@ import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
-import { updateTable, nonCorrect, isLastCell, isSuccessCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
+import { updateTable, nonCorrect, isLastCell, isSuccessCell, createNewTableStyles, getNextPoint } from "./update";
 import { errorStyle, helperStyle } from "../_commons/styles";
 import Table from '../_components/Table';
 import theme from '../_commons/theme';
