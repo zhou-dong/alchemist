@@ -12,7 +12,6 @@ const addHelperStyles = (styles: React.CSSProperties[][], point: Point, table: (
     }
 };
 
-
 const startPoint: Point = {
     row: 2,
     col: 2,
