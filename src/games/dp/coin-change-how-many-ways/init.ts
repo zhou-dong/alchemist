@@ -1,6 +1,6 @@
 import createDPTable from './algo';
 import { Point } from "../_commons/point";
-import { addHelperStyles } from "./utils";
+import { helperStyle, helperStyleSecondary } from '../_commons/styles';
 
 const startPoint: Point = {
     row: 2,
@@ -11,6 +11,16 @@ interface TableSize {
     rows: number;
     cols: number;
 }
+
+const addHelperStyles = (styles: React.CSSProperties[][], point: Point, table: (number | string)[][]): void => {
+    styles[0][point.col] = helperStyle;
+    styles[point.row][0] = helperStyle;
+    styles[point.row - 1][point.col] = helperStyleSecondary;
+    const coin = Number(table[point.row][0]);
+    if (point.col - coin - 1 >= 0) {
+        styles[point.row][point.col - coin] = helperStyleSecondary;
+    }
+};
 
 const getTableSize = (coins: number[], total: number): TableSize => {
     const rows = coins.length + 2;
@@ -75,6 +85,7 @@ const createButtonsStyles = (coins: number[], total: number): (React.CSSProperti
 };
 
 export {
+    addHelperStyles,
     createTableMatrix,
     createComparedTable,
     createTableStyles,
