@@ -17,25 +17,31 @@ import Buttons from '../_components/Buttons';
 import { addHelperStyles } from './utils';
 import info from "./info";
 
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
-
-const createRandom = (): string => {
-    return Array(5).fill(bases.length).map(random).map(i => bases[i]).join('');
-}
+const shuffle = (array: number[]) => {
+    for (let i = array.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
 
 const buildData = () => {
-    const stringOne = createRandom();
-    const stringTwo = createRandom();
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
+    const totalCoins = [1, 2, 3, 4, 5, 6, 7];
+    const total = 6;
+
+    const coins = Array.from(shuffle(totalCoins));
+    coins.pop();
+    coins.pop();
+
+    const table = createTableMatrix(coins, total);
+    const tableStyles = createTableStyles(coins, total);
+    const buttons = createButtons(coins, total);
+    const buttonsStyles = createButtonsStyles(coins, total);
+    const comparedTable = createComparedTable(coins, total);
     return { buttons, buttonsStyles, table, tableStyles, comparedTable };
 }
 
-const EditDistance = () => {
+const Main = () => {
 
     const [steps, setSteps] = React.useState(0);
     const [errors, setErrors] = React.useState(0);
@@ -104,7 +110,7 @@ const EditDistance = () => {
 
         setTableStyles(() => {
             const newTableStyles = createNewTableStyles(tableStyles);
-            addHelperStyles(newTableStyles, nextPoint)
+            addHelperStyles(newTableStyles, nextPoint, table);
             return newTableStyles;
         });
 
@@ -147,7 +153,7 @@ const EditDistance = () => {
                 </Centered>
             </ThemeProvider>
         </GameWrapper>
-    );
+    )
 }
 
-export default EditDistance;
+export default Main;

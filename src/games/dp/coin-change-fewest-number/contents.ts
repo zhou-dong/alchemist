@@ -1,4 +1,4 @@
-export const title = 'Coin Change';
+export const title = 'Coin Change (Fewest Number)';
 
 export const formula = `
   if (coin > col) {

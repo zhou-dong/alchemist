@@ -1,13 +1,17 @@
 import { Route, Routes } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import EditDistance from './games/dp/edit-distance';
+
 import Home from './home';
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import SelectionSortAnimation from "./games/sorting/selection-sort/Animation";
 import InsertionSortAnimation from "./games/sorting/insertion-sort/Animation";
 
+import EditDistance from './games/dp/edit-distance';
 import EditDistanceInfo from './games/dp/edit-distance/info';
+
+import CoinChangeFewestNumber from "./games/dp/coin-change-fewest-number";
+import CoinChangeFewestNumberInfo from "./games/dp/coin-change-fewest-number/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -44,6 +48,7 @@ const App = () => (
 
             <>
                 <Route path={EditDistanceInfo.path} element={<EditDistance />} />
+                <Route path={CoinChangeFewestNumberInfo.path} element={<CoinChangeFewestNumber />} />
             </>
         </Routes>
     </>
