@@ -5,11 +5,11 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/is-subsequence",
+    path: "/dp/is-substring",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Easy,
-    img: "/img/is_subsequence.png"
+    img: "/img/is_substring.png"
 }
 
 export default info;

@@ -9,6 +9,7 @@ import coinChangeHowManyWays from "../dp/coin-change-how-many-ways/info";
 import longestCommonSubsequence from "../dp/longest-common-subsequence/info";
 import longestCommonSubstring from "../dp/longest-common-substring/info";
 import isSubsequence from "../dp/is-subsequence/info";
+import isSubstring from "../dp/is-substring/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -20,4 +21,5 @@ export const games: Game[] = [
     longestCommonSubsequence,
     longestCommonSubstring,
     isSubsequence,
+    isSubstring,
 ];
