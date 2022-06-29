@@ -10,7 +10,7 @@ const Steps = ({ steps }: Props) => (
         sx={{ border: "none" }}
         variant="outlined"
         icon={<StepsIcon />}
-        label={`Steps: ${steps}`}
+        label={`STEPS: ${steps}`}
     />
 );
 
