@@ -8,13 +8,12 @@ import { ThemeProvider, Typography } from '@mui/material';
 import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
-import { createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
+import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
 import { errorStyle, helperStyle } from "../_commons/styles";
 import Table from '../_components/Table';
 import theme from '../_commons/theme';
 import Buttons from '../_components/Buttons';
-import { addHelperStyles } from './utils';
 import info from "./info";
 
 const shuffle = (array: number[]) => {
