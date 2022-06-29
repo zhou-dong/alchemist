@@ -20,6 +20,9 @@ import LongestCommonSubsequenceInfo from "./games/dp/longest-common-subsequence/
 import LongestCommonSubstring from "./games/dp/longest-common-substring";
 import LongestCommonSubstringInfo from "./games/dp/longest-common-substring/info";
 
+import IsSubsequence from "./games/dp/is-subsequence";
+import IsSubsequenceInfo from "./games/dp/is-subsequence/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -59,6 +62,7 @@ const App = () => (
                 <Route path={CoinChangeHowManyWaysInfo.path} element={<CoinChangeHowManyWays />} />
                 <Route path={LongestCommonSubsequenceInfo.path} element={<LongestCommonSubsequence />} />
                 <Route path={LongestCommonSubstringInfo.path} element={<LongestCommonSubstring />} />
+                <Route path={IsSubsequenceInfo.path} element={<IsSubsequence />} />
             </>
         </Routes>
     </>
