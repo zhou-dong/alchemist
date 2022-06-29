@@ -1,6 +1,16 @@
 import createDPTable from './algo';
 import { Point } from "../_commons/point";
-import { addHelperStyles } from "./utils";
+import { helperStyle } from '../_commons/styles';
+
+const addHelperStyles = (styles: React.CSSProperties[][], point: Point): void => {
+    for (let col = 0; col < styles[0].length && col <= point.col; col++) {
+        styles[0][col] = helperStyle;
+    }
+
+    for (let row = 0; row < styles.length && row <= point.row; row++) {
+        styles[row][0] = helperStyle;
+    }
+};
 
 const startPoint: Point = {
     row: 2,
@@ -67,6 +77,7 @@ const createButtonsStyles = (stringOne: string, stringTwo: string): (React.CSSPr
 };
 
 export {
+    addHelperStyles,
     createTableMatrix,
     createComparedTable,
     createTableStyles,
