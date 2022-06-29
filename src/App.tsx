@@ -12,6 +12,8 @@ import EditDistanceInfo from './games/dp/edit-distance/info';
 
 import CoinChangeFewestNumber from "./games/dp/coin-change-fewest-number";
 import CoinChangeFewestNumberInfo from "./games/dp/coin-change-fewest-number/info";
+import CoinChangeHowManyWays from "./games/dp/coin-change-how-many-ways";
+import CoinChangeHowManyWaysInfo from "./games/dp/coin-change-how-many-ways/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -49,6 +51,7 @@ const App = () => (
             <>
                 <Route path={EditDistanceInfo.path} element={<EditDistance />} />
                 <Route path={CoinChangeFewestNumberInfo.path} element={<CoinChangeFewestNumber />} />
+                <Route path={CoinChangeHowManyWaysInfo.path} element={<CoinChangeHowManyWays />} />
             </>
         </Routes>
     </>

@@ -5,6 +5,7 @@ import insertionSort from "../sorting/insertion-sort/info";
 import selectionSort from "../sorting/selection-sort/info";
 import editDistance from "../dp/edit-distance/info";
 import coinChangeFewestNumber from "../dp/coin-change-fewest-number/info";
+import coinChangeHowManyWays from "../dp/coin-change-how-many-ways/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -12,4 +13,5 @@ export const games: Game[] = [
     insertionSort,
     editDistance,
     coinChangeFewestNumber,
+    coinChangeHowManyWays
 ];
