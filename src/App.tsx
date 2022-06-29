@@ -17,6 +17,8 @@ import CoinChangeHowManyWaysInfo from "./games/dp/coin-change-how-many-ways/info
 
 import LongestCommonSubsequence from "./games/dp/longest-common-subsequence";
 import LongestCommonSubsequenceInfo from "./games/dp/longest-common-subsequence/info";
+import LongestCommonSubstring from "./games/dp/longest-common-substring";
+import LongestCommonSubstringInfo from "./games/dp/longest-common-substring/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -56,6 +58,7 @@ const App = () => (
                 <Route path={CoinChangeFewestNumberInfo.path} element={<CoinChangeFewestNumber />} />
                 <Route path={CoinChangeHowManyWaysInfo.path} element={<CoinChangeHowManyWays />} />
                 <Route path={LongestCommonSubsequenceInfo.path} element={<LongestCommonSubsequence />} />
+                <Route path={LongestCommonSubstringInfo.path} element={<LongestCommonSubstring />} />
             </>
         </Routes>
     </>
