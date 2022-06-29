@@ -31,7 +31,7 @@ const buildData = () => {
     return { buttons, buttonsStyles, table, tableStyles, comparedTable };
 }
 
-const EditDistance = () => {
+const Main = () => {
 
     const [steps, setSteps] = React.useState(0);
     const [errors, setErrors] = React.useState(0);
@@ -146,4 +146,4 @@ const EditDistance = () => {
     );
 }
 
-export default EditDistance;
+export default Main;
