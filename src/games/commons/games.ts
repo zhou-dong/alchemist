@@ -10,6 +10,7 @@ import longestCommonSubsequence from "../dp/longest-common-subsequence/info";
 import longestCommonSubstring from "../dp/longest-common-substring/info";
 import isSubsequence from "../dp/is-subsequence/info";
 import isSubstring from "../dp/is-substring/info";
+import minimumPathSum from "../dp/minimum-path-sum/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -22,4 +23,5 @@ export const games: Game[] = [
     longestCommonSubstring,
     isSubsequence,
     isSubstring,
+    minimumPathSum,
 ];
