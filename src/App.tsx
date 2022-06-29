@@ -15,6 +15,9 @@ import CoinChangeFewestNumberInfo from "./games/dp/coin-change-fewest-number/inf
 import CoinChangeHowManyWays from "./games/dp/coin-change-how-many-ways";
 import CoinChangeHowManyWaysInfo from "./games/dp/coin-change-how-many-ways/info";
 
+import LongestCommonSubsequence from "./games/dp/longest-common-subsequence";
+import LongestCommonSubsequenceInfo from "./games/dp/longest-common-subsequence/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -52,6 +55,7 @@ const App = () => (
                 <Route path={EditDistanceInfo.path} element={<EditDistance />} />
                 <Route path={CoinChangeFewestNumberInfo.path} element={<CoinChangeFewestNumber />} />
                 <Route path={CoinChangeHowManyWaysInfo.path} element={<CoinChangeHowManyWays />} />
+                <Route path={LongestCommonSubsequenceInfo.path} element={<LongestCommonSubsequence />} />
             </>
         </Routes>
     </>

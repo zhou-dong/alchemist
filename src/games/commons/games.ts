@@ -6,6 +6,7 @@ import selectionSort from "../sorting/selection-sort/info";
 import editDistance from "../dp/edit-distance/info";
 import coinChangeFewestNumber from "../dp/coin-change-fewest-number/info";
 import coinChangeHowManyWays from "../dp/coin-change-how-many-ways/info";
+import longestCommonSubsequence from "../dp/longest-common-subsequence/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -13,5 +14,6 @@ export const games: Game[] = [
     insertionSort,
     editDistance,
     coinChangeFewestNumber,
-    coinChangeHowManyWays
+    coinChangeHowManyWays,
+    longestCommonSubsequence,
 ];
