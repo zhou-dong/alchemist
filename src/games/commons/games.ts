@@ -17,6 +17,7 @@ import regularExpression from "../dp/regular-expression/info";
 import wordBreak from '../dp/word-break/info';
 import knapsackProblem from "../dp/knapsack-problem/info";
 import subsetSumProblem from "../dp/subset-sum-problem/info";
+import minimumNumberOfJumpsToReachEnd from "../dp/minimum-number-of-jumps-to-reach-end/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -36,4 +37,5 @@ export const games: Game[] = [
     wordBreak,
     knapsackProblem,
     subsetSumProblem,
+    minimumNumberOfJumpsToReachEnd
 ];

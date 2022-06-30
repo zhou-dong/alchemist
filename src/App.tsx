@@ -43,6 +43,9 @@ import RegularExpressionInfo from "./games/dp/regular-expression/info";
 import SubsetSumProblem from "./games/dp/subset-sum-problem";
 import SubsetSumProblemInfo from "./games/dp/subset-sum-problem/info";
 
+import MinimumNumberOfJumpsToReachEnd from "./games/dp/minimum-number-of-jumps-to-reach-end";
+import MinimumNumberOfJumpsToReachEndInfo from "./games/dp/minimum-number-of-jumps-to-reach-end/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -91,6 +94,7 @@ const App = () => (
                 <Route path={WildcardMatchingInfo.path} element={<WildcardMatching />} />
                 <Route path={RegularExpressionInfo.path} element={<RegularExpression />} />
                 <Route path={SubsetSumProblemInfo.path} element={<SubsetSumProblem />} />
+                <Route path={MinimumNumberOfJumpsToReachEndInfo.path} element={<MinimumNumberOfJumpsToReachEnd />} />
             </>
         </Routes>
     </>
