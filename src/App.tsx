@@ -45,6 +45,8 @@ import SubsetSumProblemInfo from "./games/dp/subset-sum-problem/info";
 
 import MinimumNumberOfJumpsToReachEnd from "./games/dp/minimum-number-of-jumps-to-reach-end";
 import MinimumNumberOfJumpsToReachEndInfo from "./games/dp/minimum-number-of-jumps-to-reach-end/info";
+import MinimumNumberOfJumpsToReachEndII from "./games/dp/minimum-number-of-jumps-to-reach-end-ii";
+import MinimumNumberOfJumpsToReachEndIIInfo from "./games/dp/minimum-number-of-jumps-to-reach-end-ii/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -95,6 +97,7 @@ const App = () => (
                 <Route path={RegularExpressionInfo.path} element={<RegularExpression />} />
                 <Route path={SubsetSumProblemInfo.path} element={<SubsetSumProblem />} />
                 <Route path={MinimumNumberOfJumpsToReachEndInfo.path} element={<MinimumNumberOfJumpsToReachEnd />} />
+                <Route path={MinimumNumberOfJumpsToReachEndIIInfo.path} element={<MinimumNumberOfJumpsToReachEndII />} />
             </>
         </Routes>
     </>
