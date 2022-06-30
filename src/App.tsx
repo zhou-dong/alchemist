@@ -40,6 +40,9 @@ import WildcardMatchingInfo from "./games/dp/wildcard-matching/info";
 import RegularExpression from "./games/dp/regular-expression";
 import RegularExpressionInfo from "./games/dp/regular-expression/info";
 
+import SubsetSumProblem from "./games/dp/subset-sum-problem";
+import SubsetSumProblemInfo from "./games/dp/subset-sum-problem/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -87,6 +90,7 @@ const App = () => (
                 <Route path={RodCuttingProblemInfo.path} element={<RodCuttingProblem />} />
                 <Route path={WildcardMatchingInfo.path} element={<WildcardMatching />} />
                 <Route path={RegularExpressionInfo.path} element={<RegularExpression />} />
+                <Route path={SubsetSumProblemInfo.path} element={<SubsetSumProblem />} />
             </>
         </Routes>
     </>

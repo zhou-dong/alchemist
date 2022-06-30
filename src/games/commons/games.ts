@@ -16,6 +16,7 @@ import wildcardMatching from "../dp/wildcard-matching/info";
 import regularExpression from "../dp/regular-expression/info";
 import wordBreak from '../dp/word-break/info';
 import knapsackProblem from "../dp/knapsack-problem/info";
+import subsetSumProblem from "../dp/subset-sum-problem/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -34,4 +35,5 @@ export const games: Game[] = [
     regularExpression,
     wordBreak,
     knapsackProblem,
+    subsetSumProblem,
 ];
