@@ -9,6 +9,8 @@ import InsertionSortAnimation from "./games/sorting/insertion-sort/Animation";
 
 import EditDistance from './games/dp/edit-distance';
 import EditDistanceInfo from './games/dp/edit-distance/info';
+import WordBreak from './games/dp/word-break';
+import WordBreakInfo from './games/dp/word-break/info';
 
 import CoinChangeFewestNumber from "./games/dp/coin-change-fewest-number";
 import CoinChangeFewestNumberInfo from "./games/dp/coin-change-fewest-number/info";
@@ -71,6 +73,7 @@ const App = () => (
 
             <>
                 <Route path={EditDistanceInfo.path} element={<EditDistance />} />
+                <Route path={WordBreakInfo.path} element={<WordBreak />} />
                 <Route path={CoinChangeFewestNumberInfo.path} element={<CoinChangeFewestNumber />} />
                 <Route path={CoinChangeHowManyWaysInfo.path} element={<CoinChangeHowManyWays />} />
                 <Route path={LongestCommonSubsequenceInfo.path} element={<LongestCommonSubsequence />} />

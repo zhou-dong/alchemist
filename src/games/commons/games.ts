@@ -14,6 +14,7 @@ import minimumPathSum from "../dp/minimum-path-sum/info";
 import rodCuttingProblem from "../dp/rod-cutting-problem/info";
 import wildcardMatching from "../dp/wildcard-matching/info";
 import regularExpression from "../dp/regular-expression/info";
+import wordBreak from '../dp/word-break/info';
 
 export const games: Game[] = [
     bubbleSort,
@@ -30,4 +31,5 @@ export const games: Game[] = [
     rodCuttingProblem,
     wildcardMatching,
     regularExpression,
+    wordBreak,
 ];
