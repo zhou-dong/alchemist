@@ -30,6 +30,8 @@ import IsSubstringInfo from "./games/dp/is-substring/info";
 import MinimumPathSum from "./games/dp/minimum-path-sum";
 import MinimumPathSumInfo from "./games/dp/minimum-path-sum/info";
 
+import KnapsackProblem from "./games/dp/knapsack-problem";
+import KnapsackProblemInfo from "./games/dp/knapsack-problem/info";
 import RodCuttingProblem from "./games/dp/rod-cutting-problem";
 import RodCuttingProblemInfo from "./games/dp/rod-cutting-problem/info";
 
@@ -81,6 +83,7 @@ const App = () => (
                 <Route path={IsSubsequenceInfo.path} element={<IsSubsequence />} />
                 <Route path={IsSubstringInfo.path} element={<IsSubstring />} />
                 <Route path={MinimumPathSumInfo.path} element={<MinimumPathSum />} />
+                <Route path={KnapsackProblemInfo.path} element={<KnapsackProblem />} />
                 <Route path={RodCuttingProblemInfo.path} element={<RodCuttingProblem />} />
                 <Route path={WildcardMatchingInfo.path} element={<WildcardMatching />} />
                 <Route path={RegularExpressionInfo.path} element={<RegularExpression />} />
