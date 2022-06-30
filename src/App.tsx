@@ -48,6 +48,9 @@ import MinimumNumberOfJumpsToReachEndInfo from "./games/dp/minimum-number-of-jum
 import MinimumNumberOfJumpsToReachEndII from "./games/dp/minimum-number-of-jumps-to-reach-end-ii";
 import MinimumNumberOfJumpsToReachEndIIInfo from "./games/dp/minimum-number-of-jumps-to-reach-end-ii/info";
 
+import LongestIncreasingSubsequence from "./games/dp/longest-increasing-subsequence";
+import LongestIncreasingSubsequenceInfo from "./games/dp/longest-increasing-subsequence/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -98,6 +101,7 @@ const App = () => (
                 <Route path={SubsetSumProblemInfo.path} element={<SubsetSumProblem />} />
                 <Route path={MinimumNumberOfJumpsToReachEndInfo.path} element={<MinimumNumberOfJumpsToReachEnd />} />
                 <Route path={MinimumNumberOfJumpsToReachEndIIInfo.path} element={<MinimumNumberOfJumpsToReachEndII />} />
+                <Route path={LongestIncreasingSubsequenceInfo.path} element={<LongestIncreasingSubsequence />} />
             </>
         </Routes>
     </>

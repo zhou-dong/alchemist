@@ -19,6 +19,7 @@ import knapsackProblem from "../dp/knapsack-problem/info";
 import subsetSumProblem from "../dp/subset-sum-problem/info";
 import minimumNumberOfJumpsToReachEnd from "../dp/minimum-number-of-jumps-to-reach-end/info";
 import minimumNumberOfJumpsToReachEnd2 from "../dp/minimum-number-of-jumps-to-reach-end-ii/info";
+import longestIncreasingSubsequence from "../dp/longest-increasing-subsequence/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -40,4 +41,5 @@ export const games: Game[] = [
     subsetSumProblem,
     minimumNumberOfJumpsToReachEnd,
     minimumNumberOfJumpsToReachEnd2,
+    longestIncreasingSubsequence
 ];
