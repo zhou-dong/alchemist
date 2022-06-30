@@ -33,6 +33,8 @@ import RodCuttingProblemInfo from "./games/dp/rod-cutting-problem/info";
 
 import WildcardMatching from "./games/dp/wildcard-matching";
 import WildcardMatchingInfo from "./games/dp/wildcard-matching/info";
+import RegularExpression from "./games/dp/regular-expression";
+import RegularExpressionInfo from "./games/dp/regular-expression/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -78,6 +80,7 @@ const App = () => (
                 <Route path={MinimumPathSumInfo.path} element={<MinimumPathSum />} />
                 <Route path={RodCuttingProblemInfo.path} element={<RodCuttingProblem />} />
                 <Route path={WildcardMatchingInfo.path} element={<WildcardMatching />} />
+                <Route path={RegularExpressionInfo.path} element={<RegularExpression />} />
             </>
         </Routes>
     </>

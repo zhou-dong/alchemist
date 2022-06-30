@@ -13,6 +13,7 @@ import isSubstring from "../dp/is-substring/info";
 import minimumPathSum from "../dp/minimum-path-sum/info";
 import rodCuttingProblem from "../dp/rod-cutting-problem/info";
 import wildcardMatching from "../dp/wildcard-matching/info";
+import regularExpression from "../dp/regular-expression/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -28,4 +29,5 @@ export const games: Game[] = [
     minimumPathSum,
     rodCuttingProblem,
     wildcardMatching,
+    regularExpression,
 ];
