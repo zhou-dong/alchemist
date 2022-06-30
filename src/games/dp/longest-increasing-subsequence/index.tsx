@@ -79,6 +79,7 @@ const EditDistance = () => {
 
             setTableStyles(() => {
                 const newTableStyles = createNewTableStyles(tableStyles);
+                updateTable(table, currentPoint, value);
                 setSuccessStyle(table, newTableStyles);
                 return newTableStyles;
             });
