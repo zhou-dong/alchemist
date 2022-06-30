@@ -7,6 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import ReactMarkdown from "react-markdown";
+import gfm from "remark-gfm";
 import { AssignmentOutlined, CheckCircleOutline } from '@mui/icons-material';
 
 const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
@@ -51,7 +52,7 @@ const example = ({ example }: Props) => (
     <React.Fragment>
         <Typography>Examples</Typography>
         <Divider />
-        <StyledReactMarkdown>{example}</StyledReactMarkdown>
+        <StyledReactMarkdown remarkPlugins={[gfm]}>{example}</StyledReactMarkdown>
     </React.Fragment>
 );
 

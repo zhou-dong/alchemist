@@ -28,6 +28,9 @@ import IsSubstringInfo from "./games/dp/is-substring/info";
 import MinimumPathSum from "./games/dp/minimum-path-sum";
 import MinimumPathSumInfo from "./games/dp/minimum-path-sum/info";
 
+import RodCuttingProblem from "./games/dp/rod-cutting-problem";
+import RodCuttingProblemInfo from "./games/dp/rod-cutting-problem/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -70,6 +73,7 @@ const App = () => (
                 <Route path={IsSubsequenceInfo.path} element={<IsSubsequence />} />
                 <Route path={IsSubstringInfo.path} element={<IsSubstring />} />
                 <Route path={MinimumPathSumInfo.path} element={<MinimumPathSum />} />
+                <Route path={RodCuttingProblemInfo.path} element={<RodCuttingProblem />} />
             </>
         </Routes>
     </>
