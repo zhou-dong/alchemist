@@ -31,6 +31,9 @@ import MinimumPathSumInfo from "./games/dp/minimum-path-sum/info";
 import RodCuttingProblem from "./games/dp/rod-cutting-problem";
 import RodCuttingProblemInfo from "./games/dp/rod-cutting-problem/info";
 
+import WildcardMatching from "./games/dp/wildcard-matching";
+import WildcardMatchingInfo from "./games/dp/wildcard-matching/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -74,6 +77,7 @@ const App = () => (
                 <Route path={IsSubstringInfo.path} element={<IsSubstring />} />
                 <Route path={MinimumPathSumInfo.path} element={<MinimumPathSum />} />
                 <Route path={RodCuttingProblemInfo.path} element={<RodCuttingProblem />} />
+                <Route path={WildcardMatchingInfo.path} element={<WildcardMatching />} />
             </>
         </Routes>
     </>
