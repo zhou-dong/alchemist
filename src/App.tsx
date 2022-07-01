@@ -64,6 +64,9 @@ import PalindromePartitioningInfo from "./games/dp/palindrome-partitioning/info"
 import HouseRobber from "./games/dp/house-robber";
 import HouseRobberInfo from "./games/dp/house-robber/info";
 
+import EggDroppingProblem from "./games/dp/egg-dropping-problem";
+import EggDroppingProblemInfo from "./games/dp/egg-dropping-problem/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -120,6 +123,7 @@ const App = () => (
                 <Route path={LongestPalindromicSubstringInfo.path} element={<LongestPalindromicSubstring />} />
                 <Route path={PalindromePartitioningInfo.path} element={<PalindromePartitioning />} />
                 <Route path={HouseRobberInfo.path} element={<HouseRobber />} />
+                <Route path={EggDroppingProblemInfo.path} element={<EggDroppingProblem />} />
             </>
         </Routes>
     </>

@@ -9,30 +9,28 @@ import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
-import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
+import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getNextPoint, createHelperTable } from "./update";
 import { errorStyle, helperStyle } from "../_commons/styles";
 import Table from '../_components/Table';
 import theme from '../_commons/theme';
 import Buttons from '../_components/Buttons';
 import info from "./info";
 import { CheckCircleOutline } from '@mui/icons-material';
+import HelperTable from './HelperTable';
 
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
-
-const createRandom = (): string => {
-    return Array(5).fill(bases.length).map(random).map(i => bases[i]).join('');
-}
+const eggs = 3;
+const size = 7;
 
 const buildData = () => {
-    const stringOne = createRandom();
-    const stringTwo = createRandom();
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
-    return { buttons, buttonsStyles, table, tableStyles, comparedTable };
+    const resultsInDifferentFloors: number[] = [];
+    const helperTable: (string | number)[][] = [];
+
+    const table = createTableMatrix(eggs, size);
+    const tableStyles = createTableStyles(eggs, size);
+    const buttons = createButtons(eggs, size);
+    const buttonsStyles = createButtonsStyles(eggs, size);
+    const comparedTable = createComparedTable(eggs, size);
+    return { buttons, buttonsStyles, table, tableStyles, comparedTable, resultsInDifferentFloors, helperTable };
 }
 
 const Main = () => {
@@ -48,6 +46,8 @@ const Main = () => {
     const [buttons, setButtons] = React.useState(data.buttons);
     const [buttonsStyles, setButtonsStyles] = React.useState(data.buttonsStyles);
     const [comparedTable, setComparedTable] = React.useState(data.comparedTable);
+    const [helperTable, setHelperTable] = React.useState(data.helperTable);
+    const [resultsInDifferentFloors, setResultsInDifferentFloors] = React.useState(data.resultsInDifferentFloors);
 
     const handleRefresh = () => {
         setSteps(0);
@@ -61,6 +61,8 @@ const Main = () => {
         setButtons(data.buttons);
         setButtonsStyles(data.buttonsStyles);
         setComparedTable(data.comparedTable);
+        setHelperTable(data.helperTable);
+        setResultsInDifferentFloors(data.resultsInDifferentFloors);
     }
 
     const handleClick = (value: number) => {
@@ -84,9 +86,8 @@ const Main = () => {
             setTable((t) => updateTable(t, currentPoint, value));
 
             setTableStyles(() => {
-                const lastCell = getLastCell(table);
                 const newTableStyles = createNewTableStyles(tableStyles);
-                newTableStyles[lastCell.row][lastCell.col] = helperStyle;
+                newTableStyles[currentPoint.row][currentPoint.col] = helperStyle;
                 return newTableStyles;
             });
 
@@ -98,14 +99,24 @@ const Main = () => {
 
         setTable((t) => {
             const t1 = updateTable(t, currentPoint, value);
-            const t2 = updateTable(t1, nextPoint, "?");
-            return t2;
+            t1[nextPoint.row][nextPoint.col] = "?";
+            return t1;
         })
 
         setTableStyles(() => {
             const newTableStyles = createNewTableStyles(tableStyles);
             addHelperStyles(newTableStyles, nextPoint)
             return newTableStyles;
+        });
+
+        const helper = createHelperTable(nextPoint, comparedTable);
+
+        setHelperTable(() => {
+            return helper.helperTable;
+        });
+
+        setResultsInDifferentFloors(() => {
+            return helper.resultsInDifferentFloors;
         });
 
         setCurrentPoint(nextPoint);
@@ -133,6 +144,15 @@ const Main = () => {
                         <Refresh handleRefresh={handleRefresh} />
                     </div>
                     <Table table={table} tableStyles={tableStyles} />
+
+                    {helperTable.length > 0 && <HelperTable
+                        helperTable={helperTable}
+                        currentPoint={currentPoint}
+                        comparedTable={comparedTable}
+                        resultsInDifferentFloors={resultsInDifferentFloors}
+                    />
+                    }
+
                     <div style={{ marginTop: "20px" }}>
                         <Buttons
                             buttons={buttons}
