@@ -69,6 +69,8 @@ import EggDroppingProblemInfo from "./games/dp/egg-dropping-problem/info";
 
 import TrappingRainWater from "./games/dp/trapping-rain-water";
 import TrappingRainWaterInfo from "./games/dp/trapping-rain-water/info";
+import TrappingRainWaterII from "./games/dp/trapping-rain-water-ii";
+import TrappingRainWaterIIInfo from "./games/dp/trapping-rain-water-ii/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -128,6 +130,7 @@ const App = () => (
                 <Route path={HouseRobberInfo.path} element={<HouseRobber />} />
                 <Route path={EggDroppingProblemInfo.path} element={<EggDroppingProblem />} />
                 <Route path={TrappingRainWaterInfo.path} element={<TrappingRainWater />} />
+                <Route path={TrappingRainWaterIIInfo.path} element={<TrappingRainWaterII />} />
             </>
         </Routes>
     </>
