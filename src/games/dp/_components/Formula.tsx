@@ -32,7 +32,7 @@ const Main = (props: Props) => {
                     <CodeIcon />
                 </IconButton>
             </Tooltip>
-            <Dialog open={openFormular} onClose={handleCloseFormular} scroll="paper">
+            <Dialog open={openFormular} onClose={handleCloseFormular} scroll="paper" maxWidth="xl">
                 <StyledTitle>
                     <Typography variant="body1">FORMULA</Typography>
                 </StyledTitle>
