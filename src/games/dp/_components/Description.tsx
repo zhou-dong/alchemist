@@ -68,7 +68,7 @@ const Main = (props: Props) => {
                     <AssignmentOutlined />
                 </IconButton>
             </Tooltip>
-            <Dialog open={openDescription} onClose={handleCloseDescription} scroll="paper" >
+            <Dialog open={openDescription} onClose={handleCloseDescription} scroll="paper" maxWidth="xl">
                 <DialogContent>
                     {props.description && description(props)}
                     {props.usecases && Usecases(props)}
