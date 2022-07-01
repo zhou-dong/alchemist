@@ -6,8 +6,6 @@ const StyledButton = styled(Button)(({ theme }) => ({
         cursor: 'pointer',
         backgroundColor: theme.palette.primary.light,
     },
-    minWidth: 70,
-    width: 70,
     minHeight: 35,
     fontSize: 14,
     color: "black",

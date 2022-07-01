@@ -72,6 +72,9 @@ import TrappingRainWaterInfo from "./games/dp/trapping-rain-water/info";
 import TrappingRainWaterII from "./games/two-pointer/trapping-rain-water-ii";
 import TrappingRainWaterIIInfo from "./games/two-pointer/trapping-rain-water-ii/info";
 
+import TwoSum from "./games/hash-table/two-sum";
+import TwoSumInfo from "./games/hash-table/two-sum/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -131,6 +134,7 @@ const App = () => (
                 <Route path={EggDroppingProblemInfo.path} element={<EggDroppingProblem />} />
                 <Route path={TrappingRainWaterInfo.path} element={<TrappingRainWater />} />
                 <Route path={TrappingRainWaterIIInfo.path} element={<TrappingRainWaterII />} />
+                <Route path={TwoSumInfo.path} element={<TwoSum />} />
             </>
         </Routes>
     </>

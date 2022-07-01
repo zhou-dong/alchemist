@@ -28,6 +28,7 @@ import houseRobber from "../dp/house-robber/info";
 import eggDroppingProblem from "../dp/egg-dropping-problem/info";
 import trappingRainWater from "../dp/trapping-rain-water/info";
 import trappingRainWaterII from "../two-pointer/trapping-rain-water-ii/info";
+import twoSum from "../hash-table/two-sum/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -57,5 +58,6 @@ export const games: Game[] = [
     houseRobber,
     eggDroppingProblem,
     trappingRainWater,
-    trappingRainWaterII
+    trappingRainWaterII,
+    twoSum
 ];
