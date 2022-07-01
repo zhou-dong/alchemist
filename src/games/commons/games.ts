@@ -26,6 +26,7 @@ import longestPalindromicSubstring from "../dp/longest-palindromic-substring/inf
 import palindromePartitioning from "../dp/palindrome-partitioning/info";
 import houseRobber from "../dp/house-robber/info";
 import eggDroppingProblem from "../dp/egg-dropping-problem/info";
+import trappingRainWater from "../dp/trapping-rain-water/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -53,5 +54,6 @@ export const games: Game[] = [
     longestPalindromicSubstring,
     palindromePartitioning,
     houseRobber,
-    eggDroppingProblem
+    eggDroppingProblem,
+    trappingRainWater
 ];
