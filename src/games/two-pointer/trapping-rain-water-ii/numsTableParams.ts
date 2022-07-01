@@ -1,5 +1,5 @@
 import { Guiders } from "./algo";
-import { Point } from "../_commons/point";
+import { Point } from "../../dp/_commons/point";
 
 interface NumsTableParams {
     current: Point;

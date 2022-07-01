@@ -1,21 +1,21 @@
 import * as React from 'react';
 import GameWrapper from "../../commons/GameWrapper";
-import { Centered } from "../_components/Centered";
-import Description from "../_components/Description";
-import Formula from "../_components/Formula";
+import { Centered } from "../../dp/_components/Centered";
+import Description from "../../dp/_components/Description";
+import Formula from "../../dp/_components/Formula";
 import { description, example, title, formula, usecases } from "./contents";
 import { Table, TableBody, TableCell, TableRow, ThemeProvider, Typography } from '@mui/material';
-import Steps from '../_components/Steps';
-import Errors from '../_components/Errors';
-import Refresh from "../_components/Refresh";
+import Steps from '../../dp/_components/Steps';
+import Errors from '../../dp/_components/Errors';
+import Refresh from "../../dp/_components/Refresh";
 import {
     createTableMatrix, createTableStyles, createButtonsStyles, createButtons,
     startPoint, createLeftMax, createRightMax, createDPTable, createGuiders
 } from "./init";
 import { isSuccess } from "./update";
-import DisplayTable from '../_components/Table';
-import theme from '../_commons/theme';
-import Buttons from '../_components/Buttons';
+import DisplayTable from '../../dp/_components/Table';
+import theme from '../../dp/_commons/theme';
+import Buttons from '../../dp/_components/Buttons';
 import info from "./info";
 import { CheckCircleOutline } from '@mui/icons-material';
 import Heights from './Heights';

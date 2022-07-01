@@ -1,4 +1,4 @@
-import { Point } from "../_commons/point";
+import { Point } from "../../dp/_commons/point";
 import { Guiders } from "./algo";
 
 export const isSuccess = (value: string, currentPoint: Point, guiders: Guiders): boolean => {

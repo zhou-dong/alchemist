@@ -69,8 +69,8 @@ import EggDroppingProblemInfo from "./games/dp/egg-dropping-problem/info";
 
 import TrappingRainWater from "./games/dp/trapping-rain-water";
 import TrappingRainWaterInfo from "./games/dp/trapping-rain-water/info";
-import TrappingRainWaterII from "./games/dp/trapping-rain-water-ii";
-import TrappingRainWaterIIInfo from "./games/dp/trapping-rain-water-ii/info";
+import TrappingRainWaterII from "./games/two-pointer/trapping-rain-water-ii";
+import TrappingRainWaterIIInfo from "./games/two-pointer/trapping-rain-water-ii/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';

@@ -1,6 +1,6 @@
 import createDPTable, { createLeftMax, createRightMax, createGuiders } from './algo';
-import { Point } from "../_commons/point";
-import { helperStyle, helperStyleSecondary } from '../_commons/styles';
+import { Point } from "../../dp/_commons/point";
+import { helperStyle, helperStyleSecondary } from '../../dp/_commons/styles';
 
 const startPoint: Point = {
     row: 0,

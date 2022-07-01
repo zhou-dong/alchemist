@@ -27,7 +27,7 @@ import palindromePartitioning from "../dp/palindrome-partitioning/info";
 import houseRobber from "../dp/house-robber/info";
 import eggDroppingProblem from "../dp/egg-dropping-problem/info";
 import trappingRainWater from "../dp/trapping-rain-water/info";
-import trappingRainWaterII from "../dp/trapping-rain-water-ii/info";
+import trappingRainWaterII from "../two-pointer/trapping-rain-water-ii/info";
 
 export const games: Game[] = [
     bubbleSort,

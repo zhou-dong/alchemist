@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/trapping-rain-water-ii",
+    path: "/two-pointer/trapping-rain-water-ii",
     categories: [Category.TwoPointers],
     companies: [],
     difficulty: Difficulty.Hard,
