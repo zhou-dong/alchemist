@@ -17,6 +17,7 @@ import Buttons from '../_components/Buttons';
 import info from "./info";
 import { KnapSackItem } from './KnapsackItem';
 import Animator from './Animator'
+import { CheckCircleOutline } from '@mui/icons-material';
 
 const random = (max: number) => Math.floor(Math.random() * max) + 1;
 const totalWeight = 6;
@@ -116,11 +117,9 @@ const Main = () => {
         <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
                 <Centered>
-                    <Typography
-                        variant='body1'
-                        sx={{ marginTop: "100px" }}
-                    >
-                        {title}
+                    <div style={{ marginTop: "100px" }}></div>
+                    <Typography variant='body1' display="inline-flex" sx={{ verticalAlign: 'middle' }}>
+                        {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
                     </Typography>
                     <Grid container>
                         <Grid item md={12} lg={6} >

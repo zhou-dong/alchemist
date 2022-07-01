@@ -9,7 +9,7 @@ import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
-import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
+import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getNext } from "./update";
 import { errorStyle, helperStyle } from "../_commons/styles";
 import Table from '../_components/Table';
 import theme from '../_commons/theme';
@@ -17,27 +17,31 @@ import Buttons from '../_components/Buttons';
 import info from "./info";
 import { CheckCircleOutline } from '@mui/icons-material';
 
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
+const size = 6;
+const random = (sequence: string): string => {
+    const index = Math.floor(Math.random() * sequence.length);
+    return sequence.charAt(index);
+};
 
 const buildData = () => {
-    const stringOne: string = Array(8).fill(bases.length).map(random).map(i => bases[i]).join('');
-    const stringTwo: string = Array(4).fill(bases.length).map(random).map(i => bases[i]).join('');
+    const sequence = 'abcd';
+    const input = Array(size).fill(sequence).map(random).join('');
 
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo, table);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
+    const table = createTableMatrix(input);
+    const tableStyles = createTableStyles(input);
+    const buttons = createButtons(input);
+    const buttonsStyles = createButtonsStyles(input);
+    const comparedTable = createComparedTable(input);
     return { buttons, buttonsStyles, table, tableStyles, comparedTable };
 }
 
-const Main = () => {
+const EditDistance = () => {
 
     const [steps, setSteps] = React.useState(0);
     const [errors, setErrors] = React.useState(0);
     const [success, setSuccess] = React.useState(false);
     const [currentPoint, setCurrentPoint] = React.useState(startPoint);
+    const [length, setLength] = React.useState(1);
 
     const data = buildData();
     const [table, setTable] = React.useState(data.table);
@@ -51,6 +55,7 @@ const Main = () => {
         setErrors(0);
         setSuccess(false);
         setCurrentPoint(startPoint);
+        setLength(1);
 
         const data = buildData();
         setTable(data.table);
@@ -81,9 +86,9 @@ const Main = () => {
             setTable((t) => updateTable(t, currentPoint, value));
 
             setTableStyles(() => {
-                const lastCell = getLastCell(table);
                 const newTableStyles = createNewTableStyles(tableStyles);
-                newTableStyles[lastCell.row][lastCell.col] = helperStyle;
+                const row = newTableStyles[2];
+                row[row.length - 1] = helperStyle;
                 return newTableStyles;
             });
 
@@ -91,7 +96,7 @@ const Main = () => {
             return;
         }
 
-        const nextPoint = getNextPoint(table, currentPoint);
+        const nextPoint = getNext(table, currentPoint, length);
 
         setTable((t) => {
             const t1 = updateTable(t, currentPoint, value);
@@ -101,11 +106,12 @@ const Main = () => {
 
         setTableStyles(() => {
             const newTableStyles = createNewTableStyles(tableStyles);
-            addHelperStyles(newTableStyles, nextPoint, table);
+            addHelperStyles(newTableStyles, nextPoint, nextPoint.length, table);
             return newTableStyles;
         });
 
         setCurrentPoint(nextPoint);
+        setLength(nextPoint.length);
     }
 
     return (
@@ -142,7 +148,7 @@ const Main = () => {
                 </Centered>
             </ThemeProvider>
         </GameWrapper>
-    )
+    );
 }
 
-export default Main;
+export default EditDistance;

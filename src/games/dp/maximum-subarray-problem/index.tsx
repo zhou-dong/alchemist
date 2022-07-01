@@ -8,31 +8,35 @@ import { ThemeProvider, Typography } from '@mui/material';
 import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
-import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
-import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
-import { errorStyle, helperStyle } from "../_commons/styles";
+import {
+    addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint, addMaxSumRange,
+    updateMaxValueStyles,
+} from "./init";
+import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getNextPoint } from "./update";
+import { errorStyle } from "../_commons/styles";
 import Table from '../_components/Table';
 import theme from '../_commons/theme';
 import Buttons from '../_components/Buttons';
 import info from "./info";
 import { CheckCircleOutline } from '@mui/icons-material';
 
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
+const maxNumber = 15;
+const size = 9;
+const random = (max: number) => Math.floor(Math.random() * max) + 1;
+const randomInt = (max: number) => random(2) === 1 ? random(max) : 0 - random(max);
 
 const buildData = () => {
-    const stringOne: string = Array(8).fill(bases.length).map(random).map(i => bases[i]).join('');
-    const stringTwo: string = Array(4).fill(bases.length).map(random).map(i => bases[i]).join('');
+    const data = Array(size).fill(maxNumber).map(randomInt);
 
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo, table);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
+    const table = createTableMatrix(data);
+    const tableStyles = createTableStyles(data);
+    const buttons = createButtons(data);
+    const buttonsStyles = createButtonsStyles(data);
+    const comparedTable = createComparedTable(data);
     return { buttons, buttonsStyles, table, tableStyles, comparedTable };
 }
 
-const Main = () => {
+const EditDistance = () => {
 
     const [steps, setSteps] = React.useState(0);
     const [errors, setErrors] = React.useState(0);
@@ -81,9 +85,9 @@ const Main = () => {
             setTable((t) => updateTable(t, currentPoint, value));
 
             setTableStyles(() => {
-                const lastCell = getLastCell(table);
                 const newTableStyles = createNewTableStyles(tableStyles);
-                newTableStyles[lastCell.row][lastCell.col] = helperStyle;
+                addMaxSumRange(newTableStyles, currentPoint, comparedTable);
+                updateMaxValueStyles(newTableStyles, currentPoint, comparedTable);
                 return newTableStyles;
             });
 
@@ -101,7 +105,7 @@ const Main = () => {
 
         setTableStyles(() => {
             const newTableStyles = createNewTableStyles(tableStyles);
-            addHelperStyles(newTableStyles, nextPoint, table);
+            addHelperStyles(newTableStyles, nextPoint, comparedTable);
             return newTableStyles;
         });
 
@@ -142,7 +146,7 @@ const Main = () => {
                 </Centered>
             </ThemeProvider>
         </GameWrapper>
-    )
+    );
 }
 
-export default Main;
+export default EditDistance;

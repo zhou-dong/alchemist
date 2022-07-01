@@ -16,6 +16,7 @@ import theme from '../_commons/theme';
 import Buttons from '../_components/Buttons';
 import info from "./info";
 import { RodCuttingItem } from './RodCuttingItem';
+import { CheckCircleOutline } from '@mui/icons-material';
 
 const shuffle = (array: RodCuttingItem[]) => {
     for (let i = array.length - 1; i > 0; i -= 1) {
@@ -123,11 +124,9 @@ const EditDistance = () => {
         <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
                 <Centered>
-                    <Typography
-                        variant='body1'
-                        sx={{ marginTop: "100px" }}
-                    >
-                        {title}
+                    <div style={{ marginTop: "100px" }}></div>
+                    <Typography variant='body1' display="inline-flex" sx={{ verticalAlign: 'middle' }}>
+                        {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
                     </Typography>
                     <div style={{ marginTop: "25px" }}>
                         <Steps steps={steps} />

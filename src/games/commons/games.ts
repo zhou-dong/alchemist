@@ -20,6 +20,11 @@ import subsetSumProblem from "../dp/subset-sum-problem/info";
 import minimumNumberOfJumpsToReachEnd from "../dp/minimum-number-of-jumps-to-reach-end/info";
 import minimumNumberOfJumpsToReachEnd2 from "../dp/minimum-number-of-jumps-to-reach-end-ii/info";
 import longestIncreasingSubsequence from "../dp/longest-increasing-subsequence/info";
+import maximumSubarrayProblem from "../dp/maximum-subarray-problem/info";
+import longestPalindromicSubsequence from "../dp/longest-palindromic-subsequence/info";
+import longestPalindromicSubstring from "../dp/longest-palindromic-substring/info";
+import palindromePartitioning from "../dp/palindrome-partitioning/info";
+import houseRobber from "../dp/house-robber/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -41,5 +46,10 @@ export const games: Game[] = [
     subsetSumProblem,
     minimumNumberOfJumpsToReachEnd,
     minimumNumberOfJumpsToReachEnd2,
-    longestIncreasingSubsequence
+    longestIncreasingSubsequence,
+    maximumSubarrayProblem,
+    longestPalindromicSubsequence,
+    longestPalindromicSubstring,
+    palindromePartitioning,
+    houseRobber
 ];

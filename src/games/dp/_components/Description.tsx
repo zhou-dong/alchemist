@@ -8,7 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
-import { AssignmentOutlined, CheckCircleOutline } from '@mui/icons-material';
+import { AssignmentOutlined } from '@mui/icons-material';
 
 const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     fontSize: "16px",
@@ -65,7 +65,7 @@ const Main = (props: Props) => {
         <>
             <Tooltip title="Description" placement="top">
                 <IconButton onClick={handleOpenDescription}>
-                    {props.success ? <CheckCircleOutline sx={{ color: 'green' }} /> : <AssignmentOutlined />}
+                    <AssignmentOutlined />
                 </IconButton>
             </Tooltip>
             <Dialog open={openDescription} onClose={handleCloseDescription} scroll="paper" >

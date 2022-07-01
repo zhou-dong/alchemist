@@ -8,8 +8,8 @@ import { ThemeProvider, Typography } from '@mui/material';
 import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
-import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
-import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
+import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint, createComparedMarksTable } from "./init";
+import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getNext } from "./update";
 import { errorStyle, helperStyle } from "../_commons/styles";
 import Table from '../_components/Table';
 import theme from '../_commons/theme';
@@ -17,27 +17,32 @@ import Buttons from '../_components/Buttons';
 import info from "./info";
 import { CheckCircleOutline } from '@mui/icons-material';
 
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
+const size = 6;
+const random = (sequence: string): string => {
+    const index = Math.floor(Math.random() * sequence.length);
+    return sequence.charAt(index);
+};
 
 const buildData = () => {
-    const stringOne: string = Array(8).fill(bases.length).map(random).map(i => bases[i]).join('');
-    const stringTwo: string = Array(4).fill(bases.length).map(random).map(i => bases[i]).join('');
+    const sequence = 'bcd';
+    const input = Array(size).fill(sequence).map(random).join('');
 
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo, table);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
-    return { buttons, buttonsStyles, table, tableStyles, comparedTable };
+    const table = createTableMatrix(input);
+    const tableStyles = createTableStyles(input);
+    const buttons = createButtons();
+    const buttonsStyles = createButtonsStyles();
+    const comparedTable = createComparedTable(input);
+    const marksTable = createComparedMarksTable(input);
+    return { buttons, buttonsStyles, table, tableStyles, comparedTable, marksTable };
 }
 
-const Main = () => {
+const EditDistance = () => {
 
     const [steps, setSteps] = React.useState(0);
     const [errors, setErrors] = React.useState(0);
     const [success, setSuccess] = React.useState(false);
     const [currentPoint, setCurrentPoint] = React.useState(startPoint);
+    const [length, setLength] = React.useState(1);
 
     const data = buildData();
     const [table, setTable] = React.useState(data.table);
@@ -45,12 +50,14 @@ const Main = () => {
     const [buttons, setButtons] = React.useState(data.buttons);
     const [buttonsStyles, setButtonsStyles] = React.useState(data.buttonsStyles);
     const [comparedTable, setComparedTable] = React.useState(data.comparedTable);
+    const [marksTable, setMarksTable] = React.useState(data.marksTable);
 
     const handleRefresh = () => {
         setSteps(0);
         setErrors(0);
         setSuccess(false);
         setCurrentPoint(startPoint);
+        setLength(1);
 
         const data = buildData();
         setTable(data.table);
@@ -58,9 +65,10 @@ const Main = () => {
         setButtons(data.buttons);
         setButtonsStyles(data.buttonsStyles);
         setComparedTable(data.comparedTable);
+        setMarksTable(data.marksTable);
     }
 
-    const handleClick = (value: number) => {
+    const handleClick = (value: boolean) => {
         if (success) {
             return;
         }
@@ -78,12 +86,15 @@ const Main = () => {
         }
 
         if (isLastCell(table, currentPoint)) {
-            setTable((t) => updateTable(t, currentPoint, value));
+            setTable((t) => {
+                const t1 = updateTable(t, currentPoint, value);
+                t1[0][0] = marksTable[currentPoint.row][currentPoint.col] + "";
+                return t1;
+            });
 
             setTableStyles(() => {
-                const lastCell = getLastCell(table);
                 const newTableStyles = createNewTableStyles(tableStyles);
-                newTableStyles[lastCell.row][lastCell.col] = helperStyle;
+                newTableStyles[0][0] = helperStyle;
                 return newTableStyles;
             });
 
@@ -91,21 +102,23 @@ const Main = () => {
             return;
         }
 
-        const nextPoint = getNextPoint(table, currentPoint);
+        const nextPoint = getNext(table, currentPoint, length);
 
         setTable((t) => {
             const t1 = updateTable(t, currentPoint, value);
-            const t2 = updateTable(t1, nextPoint, "?");
-            return t2;
+            t1[0][0] = marksTable[currentPoint.row][currentPoint.col] + "";
+            t1[nextPoint.row][nextPoint.col] = "?";
+            return t1;
         })
 
         setTableStyles(() => {
             const newTableStyles = createNewTableStyles(tableStyles);
-            addHelperStyles(newTableStyles, nextPoint, table);
+            addHelperStyles(newTableStyles, nextPoint, nextPoint.length, table);
             return newTableStyles;
         });
 
         setCurrentPoint(nextPoint);
+        setLength(nextPoint.length);
     }
 
     return (
@@ -135,14 +148,14 @@ const Main = () => {
                             buttons={buttons}
                             buttonsStyles={buttonsStyles}
                             handleButtonClick={function (data: number | string | boolean) {
-                                handleClick(Number(data))
+                                handleClick(Boolean(data))
                             }}
                         />
                     </div>
                 </Centered>
             </ThemeProvider>
         </GameWrapper>
-    )
+    );
 }
 
-export default Main;
+export default EditDistance;

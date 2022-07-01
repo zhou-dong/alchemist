@@ -51,6 +51,19 @@ import MinimumNumberOfJumpsToReachEndIIInfo from "./games/dp/minimum-number-of-j
 import LongestIncreasingSubsequence from "./games/dp/longest-increasing-subsequence";
 import LongestIncreasingSubsequenceInfo from "./games/dp/longest-increasing-subsequence/info";
 
+import MaximumSubarrayProblem from "./games/dp/maximum-subarray-problem";
+import MaximumSubarrayProblemInfo from "./games/dp/maximum-subarray-problem/info";
+
+import LongestPalindromicSubsequence from "./games/dp/longest-palindromic-subsequence";
+import LongestPalindromicSubsequenceInfo from "./games/dp/longest-palindromic-subsequence/info";
+import LongestPalindromicSubstring from "./games/dp/longest-palindromic-substring";
+import LongestPalindromicSubstringInfo from "./games/dp/longest-palindromic-substring/info";
+import PalindromePartitioning from "./games/dp/palindrome-partitioning";
+import PalindromePartitioningInfo from "./games/dp/palindrome-partitioning/info";
+
+import HouseRobber from "./games/dp/house-robber";
+import HouseRobberInfo from "./games/dp/house-robber/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -102,6 +115,11 @@ const App = () => (
                 <Route path={MinimumNumberOfJumpsToReachEndInfo.path} element={<MinimumNumberOfJumpsToReachEnd />} />
                 <Route path={MinimumNumberOfJumpsToReachEndIIInfo.path} element={<MinimumNumberOfJumpsToReachEndII />} />
                 <Route path={LongestIncreasingSubsequenceInfo.path} element={<LongestIncreasingSubsequence />} />
+                <Route path={MaximumSubarrayProblemInfo.path} element={<MaximumSubarrayProblem />} />
+                <Route path={LongestPalindromicSubsequenceInfo.path} element={<LongestPalindromicSubsequence />} />
+                <Route path={LongestPalindromicSubstringInfo.path} element={<LongestPalindromicSubstring />} />
+                <Route path={PalindromePartitioningInfo.path} element={<PalindromePartitioning />} />
+                <Route path={HouseRobberInfo.path} element={<HouseRobber />} />
             </>
         </Routes>
     </>

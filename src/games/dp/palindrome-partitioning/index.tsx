@@ -8,8 +8,11 @@ import { ThemeProvider, Typography } from '@mui/material';
 import Steps from '../_components/Steps';
 import Errors from '../_components/Errors';
 import Refresh from "../_components/Refresh";
-import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
-import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
+import {
+    addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint,
+    createPalindromeTable, createPalindromeTableStyles, addHelperStylesToPalindromeTable
+} from "./init";
+import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getNext } from "./update";
 import { errorStyle, helperStyle } from "../_commons/styles";
 import Table from '../_components/Table';
 import theme from '../_commons/theme';
@@ -17,27 +20,34 @@ import Buttons from '../_components/Buttons';
 import info from "./info";
 import { CheckCircleOutline } from '@mui/icons-material';
 
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
+const size = 6;
+const random = (sequence: string): string => {
+    const index = Math.floor(Math.random() * sequence.length);
+    return sequence.charAt(index);
+};
 
 const buildData = () => {
-    const stringOne: string = Array(8).fill(bases.length).map(random).map(i => bases[i]).join('');
-    const stringTwo: string = Array(4).fill(bases.length).map(random).map(i => bases[i]).join('');
+    const sequence = 'abcd';
+    const input = Array(size).fill(sequence).map(random).join('');
 
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo, table);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
-    return { buttons, buttonsStyles, table, tableStyles, comparedTable };
+    const table = createTableMatrix(input);
+    const tableStyles = createTableStyles(input);
+    const buttons = createButtons(input);
+    const buttonsStyles = createButtonsStyles(input);
+    const comparedTable = createComparedTable(input);
+
+    const palindromeTable = createPalindromeTable(input);
+    const palindromeTableStyles = createPalindromeTableStyles(input);
+    return { buttons, buttonsStyles, table, tableStyles, comparedTable, palindromeTable, palindromeTableStyles };
 }
 
-const Main = () => {
+const EditDistance = () => {
 
     const [steps, setSteps] = React.useState(0);
     const [errors, setErrors] = React.useState(0);
     const [success, setSuccess] = React.useState(false);
     const [currentPoint, setCurrentPoint] = React.useState(startPoint);
+    const [length, setLength] = React.useState(1);
 
     const data = buildData();
     const [table, setTable] = React.useState(data.table);
@@ -45,12 +55,15 @@ const Main = () => {
     const [buttons, setButtons] = React.useState(data.buttons);
     const [buttonsStyles, setButtonsStyles] = React.useState(data.buttonsStyles);
     const [comparedTable, setComparedTable] = React.useState(data.comparedTable);
+    const [palindromeTable, setPalindromeTable] = React.useState(data.palindromeTable);
+    const [palindromeTableStyles, setPalindromeTableStyles] = React.useState(data.palindromeTableStyles);
 
     const handleRefresh = () => {
         setSteps(0);
         setErrors(0);
         setSuccess(false);
         setCurrentPoint(startPoint);
+        setLength(1);
 
         const data = buildData();
         setTable(data.table);
@@ -58,6 +71,8 @@ const Main = () => {
         setButtons(data.buttons);
         setButtonsStyles(data.buttonsStyles);
         setComparedTable(data.comparedTable);
+        setPalindromeTable(data.palindromeTable);
+        setPalindromeTableStyles(data.palindromeTableStyles);
     }
 
     const handleClick = (value: number) => {
@@ -81,9 +96,9 @@ const Main = () => {
             setTable((t) => updateTable(t, currentPoint, value));
 
             setTableStyles(() => {
-                const lastCell = getLastCell(table);
                 const newTableStyles = createNewTableStyles(tableStyles);
-                newTableStyles[lastCell.row][lastCell.col] = helperStyle;
+                const row = newTableStyles[2];
+                row[row.length - 1] = helperStyle;
                 return newTableStyles;
             });
 
@@ -91,28 +106,35 @@ const Main = () => {
             return;
         }
 
-        const nextPoint = getNextPoint(table, currentPoint);
+        const nextPoint = getNext(table, currentPoint, length);
 
         setTable((t) => {
             const t1 = updateTable(t, currentPoint, value);
-            const t2 = updateTable(t1, nextPoint, "?");
-            return t2;
+            t1[nextPoint.row][nextPoint.col] = "?"
+            return t1;
         })
 
         setTableStyles(() => {
             const newTableStyles = createNewTableStyles(tableStyles);
-            addHelperStyles(newTableStyles, nextPoint, table);
+            addHelperStyles(newTableStyles, nextPoint, nextPoint.length, comparedTable);
+            return newTableStyles;
+        });
+
+        setPalindromeTableStyles(() => {
+            const newTableStyles = createNewTableStyles(palindromeTableStyles);
+            addHelperStylesToPalindromeTable(newTableStyles, nextPoint, nextPoint.length, comparedTable);
             return newTableStyles;
         });
 
         setCurrentPoint(nextPoint);
+        setLength(nextPoint.length);
     }
 
     return (
         <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
                 <Centered>
-                    <div style={{ marginTop: "100px" }}></div>
+                    <div style={{ marginTop: "60px" }}></div>
                     <Typography variant='body1' display="inline-flex" sx={{ verticalAlign: 'middle' }}>
                         {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
                     </Typography>
@@ -129,6 +151,11 @@ const Main = () => {
                         <Formula title={title} formula={formula} />
                         <Refresh handleRefresh={handleRefresh} />
                     </div>
+
+                    <div style={{ fontSize: "18px", fontWeight: "bold" }}>Palindrome Table</div>
+                    <Table table={palindromeTable} tableStyles={palindromeTableStyles} />
+                    <div style={{ margin: "10px 0" }} />
+                    <div style={{ fontSize: "18px", fontWeight: "bold" }}>DP Table</div>
                     <Table table={table} tableStyles={tableStyles} />
                     <div style={{ marginTop: "20px" }}>
                         <Buttons
@@ -142,7 +169,7 @@ const Main = () => {
                 </Centered>
             </ThemeProvider>
         </GameWrapper>
-    )
+    );
 }
 
-export default Main;
+export default EditDistance;

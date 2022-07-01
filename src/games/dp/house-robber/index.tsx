@@ -17,22 +17,20 @@ import Buttons from '../_components/Buttons';
 import info from "./info";
 import { CheckCircleOutline } from '@mui/icons-material';
 
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
+const random = (max: number) => Math.floor(Math.random() * max) + 1;
 
 const buildData = () => {
-    const stringOne: string = Array(8).fill(bases.length).map(random).map(i => bases[i]).join('');
-    const stringTwo: string = Array(4).fill(bases.length).map(random).map(i => bases[i]).join('');
+    const houses = Array(8).fill(10).map(random);
 
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo, table);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
+    const table = createTableMatrix(houses);
+    const tableStyles = createTableStyles(houses);
+    const buttons = createButtons(houses);
+    const buttonsStyles = createButtonsStyles(houses);
+    const comparedTable = createComparedTable(houses);
     return { buttons, buttonsStyles, table, tableStyles, comparedTable };
 }
 
-const Main = () => {
+const EditDistance = () => {
 
     const [steps, setSteps] = React.useState(0);
     const [errors, setErrors] = React.useState(0);
@@ -94,14 +92,12 @@ const Main = () => {
         const nextPoint = getNextPoint(table, currentPoint);
 
         setTable((t) => {
-            const t1 = updateTable(t, currentPoint, value);
-            const t2 = updateTable(t1, nextPoint, "?");
-            return t2;
+            return updateTable(t, currentPoint, value);
         })
 
         setTableStyles(() => {
             const newTableStyles = createNewTableStyles(tableStyles);
-            addHelperStyles(newTableStyles, nextPoint, table);
+            addHelperStyles(newTableStyles, nextPoint)
             return newTableStyles;
         });
 
@@ -142,7 +138,7 @@ const Main = () => {
                 </Centered>
             </ThemeProvider>
         </GameWrapper>
-    )
+    );
 }
 
-export default Main;
+export default EditDistance;
