@@ -35,9 +35,6 @@ import binaryTreePreorderTraversal from "../tree/binary-tree-preorder-traversal/
 import twoThreeTreeRedBlackTree from "../tree/two-three-tree_vs-red-black-tree/info";
 
 export const games: Game[] = [
-    bubbleSort,
-    selectionSort,
-    insertionSort,
     editDistance,
     coinChangeFewestNumber,
     coinChangeHowManyWays,
@@ -67,5 +64,8 @@ export const games: Game[] = [
     binaryTreeInorderTraversal,
     binaryTreePostorderTraversal,
     binaryTreePreorderTraversal,
-    twoThreeTreeRedBlackTree
+    twoThreeTreeRedBlackTree,
+    bubbleSort,
+    selectionSort,
+    insertionSort,
 ];
