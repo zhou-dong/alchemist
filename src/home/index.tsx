@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Pagination from '@mui/material/Pagination';
 import Filters from "./Filters";
 import MenuButton from './Menu';
-import List from './Lists';
+import List from './List';
 
 const PaginationContainer = styled("div")({
     // position: "fixed",
