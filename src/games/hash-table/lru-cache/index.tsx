@@ -27,12 +27,6 @@ const TeamCell = styled(TableCell)(({ theme }) => ({
     border: "none"
 }));
 
-const TeamIndex = styled(Avatar)(({ theme }) => ({
-    width: theme.spacing(4),
-    height: theme.spacing(4),
-    padding: 0,
-}));
-
 interface Team {
     id: number;
     abbreviation: string;
@@ -209,7 +203,7 @@ const Result = ({ team }: ResultParams) => {
     );
 }
 
-export default () => {
+const Main = () => {
     const ref = useRef<HTMLDivElement>(null);
 
     window.addEventListener('resize', () => {
@@ -304,3 +298,5 @@ export default () => {
         </>
     );
 };
+
+export default Main;
