@@ -85,6 +85,9 @@ import BinaryTreePreorderTraversalInfo from "./games/tree/binary-tree-preorder-t
 import TwoThreeTreeRedBlackTree, { buildTreeData } from "./games/tree/two-three-tree_vs-red-black-tree";
 import TwoThreeTreeRedBlackTreeInfo from "./games/tree/two-three-tree_vs-red-black-tree/info";
 
+import LRU from "./games/hash-table/lru-cache";
+import LRUInfo from "./games/hash-table/lru-cache/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -149,6 +152,7 @@ const App = () => (
                 <Route path={BinaryTreePostorderTraversalInfo.path} element={<BinaryTreePostorderTraversal />} />
                 <Route path={BinaryTreePreorderTraversalInfo.path} element={<BinaryTreePreorderTraversal />} />
                 <Route path={TwoThreeTreeRedBlackTreeInfo.path} element={<TwoThreeTreeRedBlackTree input={buildTreeData()} />} />
+                <Route path={LRUInfo.path} element={<LRU />} />
             </>
         </Routes>
     </>
