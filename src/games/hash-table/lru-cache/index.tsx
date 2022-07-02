@@ -8,6 +8,8 @@ import LRUCache from "./LRUCache";
 import nbaTeams from "./nba_teams.json" // fetch nba teams from: "https://www.balldontlie.io/api/v1/teams"
 
 import { styled } from '@mui/material/styles';
+import GameWrapper from "../../commons/GameWrapper";
+import info from "./info";
 
 const DisplayTeamCell = styled(TableCell)(() => ({
     fontSize: "12px",
@@ -225,77 +227,79 @@ const Main = () => {
     const [size, setSize] = useState<number>(0);
 
     return (
-        <>
-            <Typography
-                sx={{
+        <GameWrapper path={info.path}>
+            <>
+                <Typography
+                    sx={{
+                        position: "fixed",
+                        top: "80px",
+                        width: "100%",
+                    }}
+                    align="center"
+                >
+                    Least Recently Used (LRU) cache
+                </Typography>
+
+                <Table sx={{
                     position: "fixed",
-                    top: "80px",
-                    width: "100%",
-                }}
-                align="center"
-            >
-                Least Recently Used (LRU) cache
-            </Typography>
+                    top: "100px",
+                    left: "30px",
+                    color: "gray",
+                    width: "120px",
+                }}>
+                    <TableBody>
+                        <TableRow>
+                            <DisplayTeamCell padding="none">capacity</DisplayTeamCell>
+                            <DisplayTeamCell padding="none">{capacity}</DisplayTeamCell>
+                        </TableRow>
+                        <TableRow>
+                            <DisplayTeamCell padding="none">size</DisplayTeamCell>
+                            <DisplayTeamCell padding="none">{size}</DisplayTeamCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
 
-            <Table sx={{
-                position: "fixed",
-                top: "100px",
-                left: "30px",
-                color: "gray",
-                width: "120px",
-            }}>
-                <TableBody>
-                    <TableRow>
-                        <DisplayTeamCell padding="none">capacity</DisplayTeamCell>
-                        <DisplayTeamCell padding="none">{capacity}</DisplayTeamCell>
-                    </TableRow>
-                    <TableRow>
-                        <DisplayTeamCell padding="none">size</DisplayTeamCell>
-                        <DisplayTeamCell padding="none">{size}</DisplayTeamCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+                <Result team={result} />
 
-            <Result team={result} />
+                <Teams />
 
-            <Teams />
+                <div ref={ref} style={{ overflow: "hidden" }} />
 
-            <div ref={ref} style={{ overflow: "hidden" }} />
-
-            <Grid
-                container
-                spacing={5}
-                sx={{
-                    position: "fixed",
-                    bottom: "70px",
-                    width: "100%",
-                    justifyContent: "center",
-                }}
-            >
-                <Grid item>
-                    {
-                        buttionsDisabled ?
-                            <FormControl disabled>
-                                <GetSelector setButtionsDisabled={setButtionsDisabled} setResult={setResult} setSize={setSize} />
-                            </FormControl> :
-                            <FormControl>
-                                <GetSelector setButtionsDisabled={setButtionsDisabled} setResult={setResult} setSize={setSize} />
-                            </FormControl>
-                    }
+                <Grid
+                    container
+                    spacing={5}
+                    sx={{
+                        position: "fixed",
+                        bottom: "70px",
+                        width: "100%",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Grid item>
+                        {
+                            buttionsDisabled ?
+                                <FormControl disabled>
+                                    <GetSelector setButtionsDisabled={setButtionsDisabled} setResult={setResult} setSize={setSize} />
+                                </FormControl> :
+                                <FormControl>
+                                    <GetSelector setButtionsDisabled={setButtionsDisabled} setResult={setResult} setSize={setSize} />
+                                </FormControl>
+                        }
+                    </Grid>
+                    <Grid item>
+                        {
+                            buttionsDisabled ?
+                                <FormControl disabled>
+                                    <PutSelector setButtionsDisabled={setButtionsDisabled} setResult={setResult} setSize={setSize} />
+                                </FormControl> :
+                                <FormControl>
+                                    <PutSelector setButtionsDisabled={setButtionsDisabled} setResult={setResult} setSize={setSize} />
+                                </FormControl>
+                        }
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    {
-                        buttionsDisabled ?
-                            <FormControl disabled>
-                                <PutSelector setButtionsDisabled={setButtionsDisabled} setResult={setResult} setSize={setSize} />
-                            </FormControl> :
-                            <FormControl>
-                                <PutSelector setButtionsDisabled={setButtionsDisabled} setResult={setResult} setSize={setSize} />
-                            </FormControl>
-                    }
-                </Grid>
-            </Grid>
-        </>
+            </>
+        </GameWrapper>
     );
 };
 
