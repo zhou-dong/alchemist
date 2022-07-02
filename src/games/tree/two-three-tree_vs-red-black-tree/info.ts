@@ -4,7 +4,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: "2-3Tree Vs RedBlackTree",
-    path: "/tree/two-three-tree-red-black-tree",
+    path: "/algorithms/two-three-tree-red-black-tree",
     categories: [Category.Tree],
     companies: [],
     difficulty: Difficulty.Hard,

@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/tree/binary-tree-postorder-traversal",
+    path: "/algorithms/binary-tree-postorder-traversal",
     categories: [Category.Tree],
     companies: [],
     difficulty: Difficulty.Easy,

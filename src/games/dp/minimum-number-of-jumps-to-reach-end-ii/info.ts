@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/minimum-jumps-to-end-ii",
+    path: "/algorithms/minimum-jumps-to-end-ii",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Medium,

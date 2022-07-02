@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/palindrome-partitioning",
+    path: "/algorithms/palindrome-partitioning",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Hard,

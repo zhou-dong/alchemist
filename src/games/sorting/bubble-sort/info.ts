@@ -4,7 +4,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const bubbleSort: Game = {
     name: "Bobble Sort",
-    path: "/sorting/bubble-sort",
+    path: "/algorithms/bubble-sort",
     categories: [Category.Sorting],
     companies: [],
     difficulty: Difficulty.Easy,

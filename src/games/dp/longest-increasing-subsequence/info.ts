@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/longest-increasing-subsequence",
+    path: "/algorithms/longest-increasing-subsequence",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Medium,

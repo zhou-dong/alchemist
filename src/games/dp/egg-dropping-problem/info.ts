@@ -6,7 +6,7 @@ import Company from "../../commons/segments/company";
 
 const info: Game = {
     name: title,
-    path: "/dp/egg-dropping-problem",
+    path: "/algorithms/egg-dropping-problem",
     categories: [Category.DynamicProgramming],
     companies: [Company.Google],
     difficulty: Difficulty.Hard,

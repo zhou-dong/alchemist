@@ -6,7 +6,7 @@ import Company from "../../commons/segments/company";
 
 const info: Game = {
     name: title,
-    path: "/dp/edit-distance",
+    path: "/algorithms/edit-distance",
     categories: [Category.DynamicProgramming],
     companies: [Company.Google],
     difficulty: Difficulty.Hard,

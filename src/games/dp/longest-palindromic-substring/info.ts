@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/longest-palindromic-substring",
+    path: "/algorithms/longest-palindromic-substring",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Hard,

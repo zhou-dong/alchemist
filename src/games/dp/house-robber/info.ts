@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/house-robber",
+    path: "/algorithms/house-robber",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Medium,

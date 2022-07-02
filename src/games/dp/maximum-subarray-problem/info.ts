@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/maximum-subarray-problem",
+    path: "/algorithms/maximum-subarray-problem",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Medium,

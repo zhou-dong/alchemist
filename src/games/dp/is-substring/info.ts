@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/is-substring",
+    path: "/algorithms/is-substring",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Easy,

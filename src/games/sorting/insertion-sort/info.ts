@@ -4,7 +4,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const insertionSort: Game = {
     name: "Insertion Sort",
-    path: "/sorting/insertion-sort",
+    path: "/algorithms/insertion-sort",
     categories: [Category.Sorting],
     companies: [],
     difficulty: Difficulty.Easy,

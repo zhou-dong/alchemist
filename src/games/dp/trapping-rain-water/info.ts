@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/dp/trapping-rain-water",
+    path: "/algorithms/trapping-rain-water",
     categories: [Category.DynamicProgramming],
     companies: [],
     difficulty: Difficulty.Hard,

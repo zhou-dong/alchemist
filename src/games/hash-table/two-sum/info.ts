@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/hash-table/two-sum",
+    path: "/algorithms/two-sum",
     categories: [Category.HashTable],
     companies: [],
     difficulty: Difficulty.Easy,
