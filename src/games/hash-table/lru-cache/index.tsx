@@ -252,11 +252,11 @@ export default () => {
             }}>
                 <TableBody>
                     <TableRow>
-                        <DisplayTeamCell padding="none" style={{ fontWeight: "bold" }}>capacity</DisplayTeamCell>
+                        <DisplayTeamCell padding="none">capacity</DisplayTeamCell>
                         <DisplayTeamCell padding="none">{capacity}</DisplayTeamCell>
                     </TableRow>
                     <TableRow>
-                        <DisplayTeamCell padding="none" style={{ fontWeight: "bold" }}>size</DisplayTeamCell>
+                        <DisplayTeamCell padding="none">size</DisplayTeamCell>
                         <DisplayTeamCell padding="none">{size}</DisplayTeamCell>
                     </TableRow>
                 </TableBody>
