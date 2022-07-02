@@ -4,8 +4,11 @@ import { styled } from '@mui/material/styles';
 import Home from './home';
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
+import BubbleSortAnimationInfo from "./games/sorting/bubble-sort/info";
 import SelectionSortAnimation from "./games/sorting/selection-sort/Animation";
+import SelectionSortAnimationInfo from "./games/sorting/selection-sort/info";
 import InsertionSortAnimation from "./games/sorting/insertion-sort/Animation";
+import InsertionSortAnimationInfo from "./games/sorting/insertion-sort/info";
 
 import EditDistance from './games/dp/edit-distance';
 import EditDistanceInfo from './games/dp/edit-distance/info';
@@ -110,9 +113,9 @@ const App = () => (
             <Route index element={<Home />} />
 
             <>
-                <Route path="sorting/bubble-sort" element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
-                <Route path="sorting/selection-sort" element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
-                <Route path="sorting/insertion-sort" element={<InsertionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
+                <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
+                <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
+                <Route path={InsertionSortAnimationInfo.path} element={<InsertionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
                 <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
                 <Route path="sorting/quick-sort" element={<div>Quick Sort</div>} />
                 <Route path="sorting/heap-sort" element={<div>Heap Sort</div>} />
