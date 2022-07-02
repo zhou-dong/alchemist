@@ -10,7 +10,7 @@ interface AlgorithmProps {
 }
 
 const Algorithm = ({ title, path, img }: AlgorithmProps) => (
-    <Grid item xs={6} sm={4} md={3} lg={2}>
+    <Grid item xs={6} sm={4} md={3}>
         <Card>
             <CardContent>
                 <Typography variant="subtitle1">
@@ -44,7 +44,7 @@ const Sorting = () => {
     const { games } = useGames();
 
     return (
-        <Grid container spacing={2} sx={{ padding: 2 }}>
+        <Grid container spacing={4}>
             {
                 games.map((game, index) => (
                     <Algorithm
