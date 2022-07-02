@@ -79,6 +79,8 @@ import BinaryTreeInorderTraversal from "./games/tree/binary-tree-inorder-travers
 import BinaryTreeInorderTraversalInfo from "./games/tree/binary-tree-inorder-traversal/info";
 import BinaryTreePostorderTraversal from "./games/tree/binary-tree-postorder-traversal";
 import BinaryTreePostorderTraversalInfo from "./games/tree/binary-tree-postorder-traversal/info";
+import BinaryTreePreorderTraversal from "./games/tree/binary-tree-preorder-traversal";
+import BinaryTreePreorderTraversalInfo from "./games/tree/binary-tree-preorder-traversal/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -142,6 +144,7 @@ const App = () => (
                 <Route path={TwoSumInfo.path} element={<TwoSum />} />
                 <Route path={BinaryTreeInorderTraversalInfo.path} element={<BinaryTreeInorderTraversal />} />
                 <Route path={BinaryTreePostorderTraversalInfo.path} element={<BinaryTreePostorderTraversal />} />
+                <Route path={BinaryTreePreorderTraversalInfo.path} element={<BinaryTreePreorderTraversal />} />
             </>
         </Routes>
     </>
