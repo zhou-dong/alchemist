@@ -29,6 +29,7 @@ import eggDroppingProblem from "../dp/egg-dropping-problem/info";
 import trappingRainWater from "../dp/trapping-rain-water/info";
 import trappingRainWaterII from "../two-pointer/trapping-rain-water-ii/info";
 import twoSum from "../hash-table/two-sum/info";
+import binaryTreeInorderTraversal from "../tree/binary-tree-inorder-traversal/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -59,5 +60,6 @@ export const games: Game[] = [
     eggDroppingProblem,
     trappingRainWater,
     trappingRainWaterII,
-    twoSum
+    twoSum,
+    binaryTreeInorderTraversal
 ];

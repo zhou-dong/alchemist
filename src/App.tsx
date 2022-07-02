@@ -75,6 +75,9 @@ import TrappingRainWaterIIInfo from "./games/two-pointer/trapping-rain-water-ii/
 import TwoSum from "./games/hash-table/two-sum";
 import TwoSumInfo from "./games/hash-table/two-sum/info";
 
+import BinaryTreeInorderTraversal from "./games/tree/binary-tree-inorder-traversal";
+import BinaryTreeInorderTraversalInfo from "./games/tree/binary-tree-inorder-traversal/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -135,6 +138,7 @@ const App = () => (
                 <Route path={TrappingRainWaterInfo.path} element={<TrappingRainWater />} />
                 <Route path={TrappingRainWaterIIInfo.path} element={<TrappingRainWaterII />} />
                 <Route path={TwoSumInfo.path} element={<TwoSum />} />
+                <Route path={BinaryTreeInorderTraversalInfo.path} element={<BinaryTreeInorderTraversal />} />
             </>
         </Routes>
     </>
