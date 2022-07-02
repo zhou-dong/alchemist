@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { FavoriteBorder, ThumbDownOffAlt, ThumbUpOffAlt } from "@mui/icons-material";
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, Typography } from "@mui/material";
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Container, Grid, IconButton, Typography } from "@mui/material";
 import { useGames } from "../games/commons/GamesContext";
 
 interface AlgorithmProps {
@@ -44,18 +44,20 @@ const Sorting = () => {
     const { games } = useGames();
 
     return (
-        <Grid container spacing={4}>
-            {
-                games.map((game, index) => (
-                    <Algorithm
-                        key={index}
-                        title={game.name}
-                        path={game.path}
-                        img={game.img}
-                    />
-                ))
-            }
-        </Grid>
+        <Container maxWidth="xl">
+            <Grid container spacing={4}>
+                {
+                    games.map((game, index) => (
+                        <Algorithm
+                            key={index}
+                            title={game.name}
+                            path={game.path}
+                            img={game.img}
+                        />
+                    ))
+                }
+            </Grid>
+        </Container>
     )
 };
 

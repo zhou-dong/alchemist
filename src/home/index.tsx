@@ -28,7 +28,9 @@ const Home = () => {
 
     return (
         <>
-            <MenuButton open={open} setOpen={setOpen} />
+            <div style={{ width: "100%", height: "80px", minHeight: "80px" }} >
+                <MenuButton open={open} setOpen={setOpen} />
+            </div>
             <Filters open={open} setOpen={setOpen} />
             <List />
             <PaginationContainer>
