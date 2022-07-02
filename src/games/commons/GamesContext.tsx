@@ -1,6 +1,6 @@
 import React from "react";
 import { Game } from "./game";
-import { games as allGames } from "./games";
+import { games as allGames } from "../games";
 import { filter } from "./gamesFilter";
 import Category from "./segments/category";
 import Company from "./segments/company";
