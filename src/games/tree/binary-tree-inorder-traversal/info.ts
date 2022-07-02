@@ -9,7 +9,7 @@ const info: Game = {
     categories: [Category.Tree],
     companies: [],
     difficulty: Difficulty.Easy,
-    img: "/img/two_sum.png"
+    img: "/img/binary_tree_inorder_traversal.png"
 }
 
 export default info;
