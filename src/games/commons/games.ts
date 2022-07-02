@@ -30,6 +30,7 @@ import trappingRainWater from "../dp/trapping-rain-water/info";
 import trappingRainWaterII from "../two-pointer/trapping-rain-water-ii/info";
 import twoSum from "../hash-table/two-sum/info";
 import binaryTreeInorderTraversal from "../tree/binary-tree-inorder-traversal/info";
+import binaryTreePostorderTraversal from "../tree/binary-tree-postorder-traversal/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -61,5 +62,6 @@ export const games: Game[] = [
     trappingRainWater,
     trappingRainWaterII,
     twoSum,
-    binaryTreeInorderTraversal
+    binaryTreeInorderTraversal,
+    binaryTreePostorderTraversal
 ];
