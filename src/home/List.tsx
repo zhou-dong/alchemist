@@ -1,6 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { FavoriteBorder, ThumbDownOffAlt, ThumbUpOffAlt } from "@mui/icons-material";
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
 import { useGames } from "../games/commons/GamesContext";
 
 interface AlgorithmProps {
@@ -12,11 +11,6 @@ interface AlgorithmProps {
 const Algorithm = ({ title, path, img }: AlgorithmProps) => (
     <Grid item xs={6} sm={4} md={3}>
         <Card>
-            <CardContent>
-                <Typography variant="subtitle1">
-                    {title}
-                </Typography>
-            </CardContent>
             <CardActionArea component={RouterLink} to={path}>
                 <CardMedia
                     component="img"
@@ -24,17 +18,11 @@ const Algorithm = ({ title, path, img }: AlgorithmProps) => (
                 >
                 </CardMedia>
             </CardActionArea>
-            <CardActions disableSpacing>
-                <IconButton>
-                    <ThumbUpOffAlt />
-                </IconButton>
-                <IconButton>
-                    <ThumbDownOffAlt />
-                </IconButton>
-                <IconButton>
-                    <FavoriteBorder />
-                </IconButton>
-            </CardActions>
+            <CardContent>
+                <Typography variant="subtitle1">
+                    {title}
+                </Typography>
+            </CardContent>
         </Card>
     </Grid >
 );
