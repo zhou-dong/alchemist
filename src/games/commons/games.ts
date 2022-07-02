@@ -32,6 +32,7 @@ import twoSum from "../hash-table/two-sum/info";
 import binaryTreeInorderTraversal from "../tree/binary-tree-inorder-traversal/info";
 import binaryTreePostorderTraversal from "../tree/binary-tree-postorder-traversal/info";
 import binaryTreePreorderTraversal from "../tree/binary-tree-preorder-traversal/info";
+import twoThreeTreeRedBlackTree from "../tree/two-three-tree_vs-red-black-tree/info";
 
 export const games: Game[] = [
     bubbleSort,
@@ -65,5 +66,6 @@ export const games: Game[] = [
     twoSum,
     binaryTreeInorderTraversal,
     binaryTreePostorderTraversal,
-    binaryTreePreorderTraversal
+    binaryTreePreorderTraversal,
+    twoThreeTreeRedBlackTree
 ];
