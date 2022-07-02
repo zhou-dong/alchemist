@@ -2,6 +2,7 @@
   "name": "alchemist",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://alchemist-al.com",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -27,6 +28,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -52,6 +55,7 @@
   },
   "devDependencies": {
     "@types/react-syntax-highlighter": "^15.5.2",
-    "@types/three": "^0.140.0"
+    "@types/three": "^0.140.0",
+    "gh-pages": "^4.0.0"
   }
 }
