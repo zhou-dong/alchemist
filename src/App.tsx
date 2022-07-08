@@ -158,7 +158,7 @@ const App = () => (
                 <Route path={BinaryTreePostorderTraversalInfo.path} element={<BinaryTreePostorderTraversal />} />
                 <Route path={BinaryTreePreorderTraversalInfo.path} element={<BinaryTreePreorderTraversal />} />
                 <Route path={TwoThreeTreeRedBlackTreeInfo.path} element={<TwoThreeTreeRedBlackTree input={buildTreeData()} />} />
-                <Route path={ValidParenthesesInfo.path} element={<ValidParentheses />} />
+                <Route path={ValidParenthesesInfo.path} element={<ValidParentheses renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={LRUInfo.path} element={<LRU />} />
             </>
         </Routes>
