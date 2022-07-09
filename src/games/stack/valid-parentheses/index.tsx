@@ -6,7 +6,6 @@ import Queue from '../../../data-structures/queue';
 import { clearScene, font } from '../../../commons/three';
 import { buildStackNodeParams, stackShellParams, buildQueueNodeParams, queueShellParams } from './styles';
 
-
 interface Props {
     renderer: THREE.Renderer;
     camera: THREE.Camera;
