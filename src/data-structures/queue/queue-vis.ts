@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import * as THREE from 'three';
-import { TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
 import { Cube } from '../_commons/three/cube';
+import { NodeParams, ShellParams } from '../_commons/three/collectionParams';
 import { TextCube } from '../_commons/three/text-cube';
 import { wait } from '../_commons/utils';
 import { IQueue } from './queue';
@@ -9,54 +9,28 @@ import QueueAlgo from './queue-algo';
 
 export default class QueueVis<T> implements IQueue<T> {
   private queue: QueueAlgo<TextCube<T>>;
-  private queueShell: QueueAlgo<Cube>;
-  private queuePosition: THREE.Vector3;
-
-  private nodeMaterial: THREE.Material;
-  private nodeTextMaterial: THREE.Material;
-  private nodeTextGeometryParameters: TextGeometryParameters;
-  private nodeInitPosition: THREE.Vector3;
-  private nodeTextAdjust: THREE.Vector3;
-  private nodeWidth: number;
-  private nodeHeight: number;
-  private nodeDepth: number;
-
+  private nodeParams: NodeParams;
+  private shellParams: ShellParams;
   private scene: THREE.Scene;
   private duration: number;
 
   constructor(
-    queueMaterial: THREE.Material,
-    queuePosition: THREE.Vector3,
-    queueShellSize: number,
-    nodeMaterial: THREE.Material,
-    nodeTextMaterial: THREE.Material,
-    nodeTextGeometryParameters: TextGeometryParameters,
-    nodeInitPosition: THREE.Vector3,
-    nodeTextAdjust: THREE.Vector3,
-    nodeWidth: number,
-    nodeHeight: number,
-    nodeDepth: number,
+    nodeParams: NodeParams,
+    shellParams: ShellParams,
     scene: THREE.Scene,
     duration: number
   ) {
-    this.queuePosition = queuePosition;
-    this.nodeMaterial = nodeMaterial;
-    this.nodeTextMaterial = nodeTextMaterial;
-    this.nodeTextGeometryParameters = nodeTextGeometryParameters;
-    this.nodeInitPosition = nodeInitPosition;
-    this.nodeTextAdjust = nodeTextAdjust;
-    this.nodeWidth = nodeWidth;
-    this.nodeHeight = nodeHeight;
-    this.nodeDepth = nodeDepth;
+    this.nodeParams = nodeParams;
+    this.shellParams = shellParams;
     this.scene = scene;
-    this.queue = new QueueAlgo<TextCube<T>>();
-    this.queueShell = new QueueAlgo<Cube>();
     this.duration = duration;
-    this.buildQueueShell(queueMaterial, queueShellSize);
+    this.queue = new QueueAlgo<TextCube<T>>();
+    this.buildQueueShell();
   }
 
   async enqueue(value: T): Promise<number> {
     const item = this.createItem(value);
+    this.initItemPosition(item);
     await this.playEnqueue(item);
     return this.queue.enqueue(item);
   }
@@ -64,31 +38,49 @@ export default class QueueVis<T> implements IQueue<T> {
   private createItem(value: T): TextCube<T> {
     return new TextCube<T>(
       value,
-      this.nodeTextMaterial,
-      this.nodeTextGeometryParameters,
-      this.nodeMaterial,
+      this.nodeParams.textMaterial,
+      this.nodeParams.textGeometryParameters,
+      this.nodeParams.material,
       this.buildBoxGeometry(),
       this.scene
     );
   }
 
-  private buildBoxGeometry(): THREE.BoxGeometry {
-    return new THREE.BoxGeometry(
-      this.nodeWidth,
-      this.nodeHeight,
-      this.nodeDepth
-    );
+  private initItemPosition(item: TextCube<T>): void {
+    this.initItemNodePosition(item);
+    this.initItemTextPosition(item);
   }
 
-  private buildQueueShell(material: THREE.Material, shellSize: number) {
-    const { x, y, z } = this.queuePosition;
-    for (let i = 0; i < shellSize; i++) {
+  private initItemNodePosition(item: TextCube<T>): void {
+    const { x, y, z } = this.nodeParams.initPosition;
+    item.x = x;
+    item.y = y;
+    item.z = z;
+  }
+
+  private initItemTextPosition(item: TextCube<T>): void {
+    item.textX = this.adjustTextX(item.x);
+    item.textY = this.adjustTextY(item.y);
+    item.textZ = item.z;
+  }
+
+  private buildBoxGeometry(): THREE.BoxGeometry {
+    const { width, height, depth } = this.nodeParams;
+    return new THREE.BoxGeometry(width, height, depth);
+  }
+
+  private buildQueueShell() {
+    const queueShell = new QueueAlgo<Cube>();
+    const { material, position, size } = this.shellParams;
+    const { width } = this.nodeParams;
+    const { x, y, z } = position;
+    for (let i = 0; i < size; i++) {
       const cube = new Cube(this.buildBoxGeometry(), material, this.scene);
-      cube.x = x - this.nodeWidth * i;
+      cube.x = x - width * i;
       cube.y = y;
       cube.z = z;
       cube.show();
-      this.queueShell.enqueue(cube);
+      queueShell.enqueue(cube);
     }
   }
 
@@ -136,29 +128,24 @@ export default class QueueVis<T> implements IQueue<T> {
   }
 
   private adjustTextX(x: number): number {
-    return x - this.nodeWidth / 2.7 + this.nodeTextAdjust.x;
+    const { width, textAdjust } = this.nodeParams;
+    return x - width / 2.7 + textAdjust.x;
   }
 
   private adjustTextY(y: number): number {
-    return y - this.nodeHeight / 2 + this.nodeTextAdjust.y;
+    const { height, textAdjust } = this.nodeParams;
+    return y - height / 2 + textAdjust.y;
   }
 
   private async playEnqueue(item: TextCube<T>): Promise<void> {
+    const { position } = this.shellParams;
     const width = this.sumItemsWidth();
 
-    item.x = this.nodeInitPosition.x;
-    item.y = this.nodeInitPosition.y;
-    item.z = this.nodeInitPosition.z;
-
-    item.textX = this.adjustTextX(item.x);
-    item.textY = this.adjustTextY(item.y);
-    item.textZ = item.z;
-
-    const nodeEndPosition = this.queuePosition
+    const nodeEndPosition = position
       .clone()
-      .setX(this.queuePosition.x - width);
+      .setX(position.x - width);
 
-    const textEndPosition = this.queuePosition
+    const textEndPosition = position
       .clone()
       .setX(this.adjustTextX(nodeEndPosition.x))
       .setY(this.adjustTextY(nodeEndPosition.y));
@@ -180,7 +167,9 @@ export default class QueueVis<T> implements IQueue<T> {
   }
 
   private async playDequeue(item: TextCube<T>): Promise<void> {
-    const { x } = this.queuePosition;
+    const { width } = this.nodeParams;
+    const { position } = this.shellParams;
+    const { x } = position;
 
     const endX = x + 10;
     const endTextX = this.adjustTextX(endX);
@@ -195,7 +184,7 @@ export default class QueueVis<T> implements IQueue<T> {
     while (iterator.hasNext()) {
       const current = iterator.next();
 
-      const nodeNewX = x - this.nodeWidth * index;
+      const nodeNewX = x - width * index;
       const textNewX = this.adjustTextX(nodeNewX);
 
       gsap.to(current.mesh.position, {

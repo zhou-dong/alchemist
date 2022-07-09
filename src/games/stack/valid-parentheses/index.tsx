@@ -1,10 +1,11 @@
 import React from 'react';
 import * as THREE from 'three';
-import { Font } from "three/examples/jsm/loaders/FontLoader";
-import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import AlgoInput from "./AlgoInput";
 import Stack from '../../../data-structures/stack';
 import { clearScene, loadFont } from '../../../commons/three';
+import { buildStackNodeParams, stackShellParams, buildQueueNodeParams, queueShellParams } from './styles';
+import Queue from '../../../data-structures/queue';
+import { Font } from 'three/examples/jsm/loaders/FontLoader';
 
 interface Props {
     renderer: THREE.Renderer;
@@ -12,44 +13,28 @@ interface Props {
     scene: THREE.Scene;
 }
 
+const buildStack = (font: Font, scene: THREE.Scene, duration: number): Stack<string> => {
+    const stackNodeParams = buildStackNodeParams(font);
+    return new Stack<string>(stackNodeParams, stackShellParams, scene, duration);
+}
+
+const buildQueue = (font: Font, scene: THREE.Scene, duration: number): Stack<string> => {
+    const queueNodeParams = buildQueueNodeParams(font);
+    return new Stack<string>(queueNodeParams, queueShellParams, scene, duration);
+}
+
 const duration = 0.5;
-
-const nodeAdjust = new THREE.Vector3(0.22, 0.2, 0);
-
-const buildStackNodeParams = (font: Font) => {
-    const nodeTextGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
-    return {
-        width: 1,
-        height: 1,
-        depth: 1,
-        material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.5, transparent: true }),
-        textMaterial: new THREE.MeshBasicMaterial({ color: "black" }),
-        textGeometryParameters: nodeTextGeometryParameters,
-        initPosition: new THREE.Vector3(-10, 1, 0),
-        textAdjust: nodeAdjust,
-    }
-};
-
-const stackShellParams = {
-    material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
-    position: new THREE.Vector3(11, 1, 0),
-    size: 14,
-};
 
 let animationFrameId = -1;
 const Main = ({ renderer, camera, scene }: Props) => {
 
     const [stack, setStack] = React.useState<Stack<string>>();
+    const [queue, setQueue] = React.useState<Queue<string>>();
 
     React.useEffect(() => {
         loadFont().then(font => {
             const stackNodeParams = buildStackNodeParams(font);
-            const stack = new Stack<string>(
-                stackNodeParams,
-                stackShellParams,
-                scene,
-                duration
-            );
+            const stack = new Stack<string>(stackNodeParams, stackShellParams, scene, duration);
             setStack(stack);
         })
     }, [scene])
