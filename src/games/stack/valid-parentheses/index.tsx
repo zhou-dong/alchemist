@@ -2,18 +2,16 @@ import React from 'react';
 import * as THREE from 'three';
 import AlgoInput from "./AlgoInput";
 import Stack from '../../../data-structures/stack';
-import { clearScene } from '../../../commons/three';
-import { buildStackNodeParams, stackShellParams, buildQueueNodeParams, queueShellParams } from './styles';
 import Queue from '../../../data-structures/queue';
-import fontJson from "../../../commons/fonts/Roboto_Regular.json";
-import { Font } from 'three/examples/jsm/loaders/FontLoader';
+import { clearScene, font } from '../../../commons/three';
+import { buildStackNodeParams, stackShellParams, buildQueueNodeParams, queueShellParams } from './styles';
+
 
 interface Props {
     renderer: THREE.Renderer;
     camera: THREE.Camera;
     scene: THREE.Scene;
 }
-const font = new Font(fontJson);
 
 const duration = 0.5;
 let animationFrameId = -1;
@@ -39,8 +37,7 @@ const Main = ({ renderer, camera, scene }: Props) => {
 
     React.useEffect(() => {
         if (ref && ref.current) {
-            const parent = ref.current;
-            parent.appendChild(renderer.domElement);
+            ref.current.appendChild(renderer.domElement);
         }
 
         return () => cancelAnimationFrame(animationFrameId);

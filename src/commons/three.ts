@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import fontJson from "./fonts/Roboto_Regular.json";
 
 const createRenderer = () => {
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, });
@@ -36,4 +37,6 @@ const loadFont = (): Promise<Font> => {
     });
 };
 
-export { createRenderer, createCamera, createScene, clearScene, onWindowResize, loadFont };
+const font = new Font(fontJson);
+
+export { createRenderer, createCamera, createScene, clearScene, onWindowResize, loadFont, font };
