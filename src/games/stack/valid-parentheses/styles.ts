@@ -13,14 +13,14 @@ export const buildStackNodeParams = (font: Font) => {
         material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.5, transparent: true }),
         textMaterial: new THREE.MeshBasicMaterial({ color: "black" }),
         textGeometryParameters: nodeTextGeometryParameters,
-        initPosition: new THREE.Vector3(-10, 1, 0),
+        initPosition: new THREE.Vector3(-10, 2, -4),
         textAdjust: nodeAdjust,
     }
 };
 
 export const stackShellParams = {
     material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
-    position: new THREE.Vector3(11, 1, 0),
+    position: new THREE.Vector3(11, 2, -4),
     size: 14,
 };
 
@@ -30,16 +30,16 @@ export const buildQueueNodeParams = (font: Font) => {
         width: 1,
         height: 1,
         depth: 1,
-        material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.5, transparent: true }),
-        textMaterial: new THREE.MeshBasicMaterial({ color: "black" }),
+        material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.5, transparent: true }),
+        textMaterial: new THREE.MeshBasicMaterial({ color: "red" }),
         textGeometryParameters: nodeTextGeometryParameters,
-        initPosition: new THREE.Vector3(-10, 1, 0),
+        initPosition: new THREE.Vector3(-10, -1, -4),
         textAdjust: nodeAdjust,
     }
 };
 
 export const queueShellParams = {
-    material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
-    position: new THREE.Vector3(11, 1, 0),
-    size: 14,
+    material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.3, transparent: true }),
+    position: new THREE.Vector3(4, -1, -4),
+    size: 10,
 };

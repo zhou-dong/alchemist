@@ -1,36 +1,33 @@
 import * as React from 'react';
 import { Button, ButtonGroup } from "@mui/material";
 import BackspaceIcon from '@mui/icons-material/Backspace';
-import Stack from '../../../data-structures/stack';
+import Queue from '../../../data-structures/queue';
 
 interface Props {
-    stack?: Stack<string>;
+    queue: Queue<string>;
     animate: () => void;
     cancelAnimate: () => void;
 }
 
-const Main = ({ stack, animate, cancelAnimate }: Props) => {
+const Main = ({ animate, cancelAnimate, queue }: Props) => {
 
     const [disabled, setDisabled] = React.useState(false);
 
     const push = async (value: string) => {
-        if (stack) {
-            setDisabled(true);
-            animate();
-            await stack.push(value);
-            cancelAnimate();
-            setDisabled(false);
-        }
+        setDisabled(true);
+        animate();
+        await queue.enqueue(value);
+        cancelAnimate();
+        setDisabled(false);
+
     }
 
     const pop = async () => {
-        if (stack) {
-            setDisabled(true);
-            animate();
-            await stack.pop();
-            cancelAnimate();
-            setDisabled(false);
-        }
+        setDisabled(true);
+        animate();
+        await queue.dequeue();
+        cancelAnimate();
+        setDisabled(false);
     }
 
     return (
