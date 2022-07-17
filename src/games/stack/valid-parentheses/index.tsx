@@ -1,10 +1,10 @@
 import React from 'react';
 import * as THREE from 'three';
-import AlgoInput from "./AlgoInput";
+import AlgoInput from "./Algo";
 import Stack from '../../../data-structures/stack';
 import Queue from '../../../data-structures/queue';
-import { clearScene, font } from '../../../commons/three';
-import { buildStackNodeParams, stackShellParams, buildQueueNodeParams, queueShellParams } from './styles';
+import { clearScene, font, registerOrbitControls } from '../../../commons/three';
+import { buildStackNodeParams, buildStackShellParams, buildQueueNodeParams, buildQueueShellParams } from './styles';
 
 interface Props {
     renderer: THREE.Renderer;
@@ -17,35 +17,42 @@ let animationFrameId = -1;
 
 const Main = ({ renderer, camera, scene }: Props) => {
 
+    const [queue, setQueue] = React.useState<Queue<string>>();
+    const [stack, setStack] = React.useState<Stack<string>>();
+
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
         renderer.render(scene, camera);
-    };
+    }
 
     function cancelAnimate() {
         cancelAnimationFrame(animationFrameId);
     }
 
-    clearScene(scene);
-
-    const stack = new Stack<string>(buildStackNodeParams(font), stackShellParams, scene, duration);
-    const queue = new Queue<string>(buildQueueNodeParams(font), queueShellParams, scene, duration);
-    renderer.render(scene, camera);
-
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
+
+        const init = () => {
+            clearScene(scene);
+            setQueue(new Queue<string>(buildQueueNodeParams(font), buildQueueShellParams(1), scene, duration))
+            setStack(new Stack<string>(buildStackNodeParams(font), buildStackShellParams(1), scene, duration))
+            registerOrbitControls(camera, renderer, scene);
+            renderer.render(scene, camera);
+        }
+
         if (ref && ref.current) {
+            init();
             ref.current.appendChild(renderer.domElement);
         }
 
         return () => cancelAnimationFrame(animationFrameId);
-    }, [ref, renderer]);
+    }, [ref, renderer, scene, camera]);
 
     return (
         <>
             <div ref={ref}></div>
-            <AlgoInput queue={queue} animate={animate} cancelAnimate={cancelAnimate} />
+            <AlgoInput queue={queue} stack={stack} animate={animate} cancelAnimate={cancelAnimate} />
         </>
     );
 }

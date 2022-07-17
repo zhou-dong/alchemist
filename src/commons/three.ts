@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import fontJson from "./fonts/Roboto_Regular.json";
 
@@ -39,4 +40,11 @@ const loadFont = (): Promise<Font> => {
 
 const font = new Font(fontJson);
 
-export { createRenderer, createCamera, createScene, clearScene, onWindowResize, loadFont, font };
+function registerOrbitControls(camera: THREE.Camera, renderer: THREE.Renderer, scene: THREE.Scene): void {
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.rotateSpeed = 0.5;
+    controls.update();
+    controls.addEventListener('change', () => renderer.render(scene, camera));
+}
+
+export { createRenderer, createCamera, createScene, clearScene, onWindowResize, loadFont, font, registerOrbitControls };
