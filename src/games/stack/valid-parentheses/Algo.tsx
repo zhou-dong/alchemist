@@ -1,12 +1,21 @@
 import * as React from 'react';
+import * as THREE from 'three';
 import { Button, ButtonGroup } from "@mui/material";
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import Queue from '../../../data-structures/queue';
 import Stack from '../../../data-structures/stack';
 import { wait } from '../../../data-structures/_commons/utils';
+import { TextCube } from '../../../data-structures/_commons/three/text-cube';
+import { clearScene, font, registerOrbitControls } from '../../../commons/three';
+import { buildStackNodeParams, buildStackShellParams, buildQueueNodeParams, buildQueueShellParams } from './styles';
+
+const queueNodeParams = buildQueueNodeParams(font);
+const stackNodeParams = buildStackNodeParams(font);
+
 interface Props {
     queue?: Queue<string>;
     stack?: Stack<string>;
+    scene: THREE.Scene;
     animate: () => void;
     cancelAnimate: () => void;
 }
@@ -20,8 +29,21 @@ const pairs = new Map([
     ['{', '}']
 ]);
 
+const calculateTextX = (x: number, nodeWidth: number,): number => {
+    const factor = 0.22;
+    return x - nodeWidth / 2.7 + factor;
+}
 
-const Main = ({ animate, cancelAnimate, queue, stack }: Props) => {
+const calculateTextY = (y: number, nodeHeight: number): number => {
+    const factor = 0.2;
+    return y - nodeHeight / 2 + factor;
+}
+
+const calculateTextZ = (z: number, nodeDepth: number): number => {
+    return z;
+}
+
+const Main = ({ animate, cancelAnimate, queue, stack, scene }: Props) => {
 
     const [disabled, setDisabled] = React.useState(false);
 
@@ -32,7 +54,19 @@ const Main = ({ animate, cancelAnimate, queue, stack }: Props) => {
 
         setDisabled(true);
         animate();
-        await queue.enqueue(value);
+
+        const item = new TextCube<string>(
+            value,
+            queueNodeParams.textMaterial,
+            queueNodeParams.textGeometryParameters,
+            queueNodeParams.material,
+            new THREE.BoxGeometry(queueNodeParams.width, queueNodeParams.height, queueNodeParams.depth),
+            scene
+        );
+
+        item.show();
+
+        await queue.enqueue(item);
         setDisabled(false);
         cancelAnimate();
     }
@@ -63,12 +97,14 @@ const Main = ({ animate, cancelAnimate, queue, stack }: Props) => {
                 break;
             }
 
-            if (pairs.has(item)) {
+            const value = item.value;
+
+            if (pairs.has(value)) {
                 const stackItem = await stack.pop();
                 if (!stackItem) {
                     break;
                 }
-                if (pairs.get(item) !== stackItem) {
+                if (pairs.get(value) !== stackItem.value) {
                     break;
                 }
             } else {

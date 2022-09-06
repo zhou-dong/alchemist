@@ -1,13 +1,20 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
 
+export interface NodeSize {
+  width: number;
+  height: number;
+  depth: number;
+
+  textAdjust: THREE.Vector3;
+}
+
 export interface NodeParams {
   width: number;
   height: number;
   depth: number;
 
   material: THREE.Material;
-
   textMaterial: THREE.Material;
   textGeometryParameters: TextGeometryParameters;
 

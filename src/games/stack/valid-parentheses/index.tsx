@@ -52,7 +52,7 @@ const Main = ({ renderer, camera, scene }: Props) => {
     return (
         <>
             <div ref={ref}></div>
-            <AlgoInput queue={queue} stack={stack} animate={animate} cancelAnimate={cancelAnimate} />
+            <AlgoInput queue={queue} stack={stack} scene={scene} animate={animate} cancelAnimate={cancelAnimate} />
         </>
     );
 }
