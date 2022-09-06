@@ -5,8 +5,6 @@ export interface NodeSize {
   width: number;
   height: number;
   depth: number;
-
-  textAdjust: THREE.Vector3;
 }
 
 export interface NodeParams {

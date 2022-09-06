@@ -1,25 +1,23 @@
 import * as THREE from 'three';
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
+import { NodeSize, ShellParams } from '../../../data-structures/_commons/three/collectionParams';
+import { font } from '../../../commons/three';
 
-const nodeAdjust = new THREE.Vector3(0.22, 0.2, 0);
-const width = 1;
-const height = 1;
-const depth = 1;
+export const nodeSize: NodeSize = {
+    width: 1, height: 1, depth: 1
+}
 
-export const buildStackNodeParams = (font: Font) => {
-    const nodeTextGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
-    return {
-        width, height, depth,
-        material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.5, transparent: true }),
-        textMaterial: new THREE.MeshBasicMaterial({ color: "black" }),
-        textGeometryParameters: nodeTextGeometryParameters,
-        initPosition: new THREE.Vector3(-10, -1, -4),
-        textAdjust: nodeAdjust,
-    }
+const nodeTextGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
+export const nodeParams = {
+    textMaterial: new THREE.MeshBasicMaterial({ color: "red" }),
+    textGeometryParameters: nodeTextGeometryParameters,
+    cubeMaterial: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.5, transparent: true }),
+    cubeGeometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
+    initPosition: new THREE.Vector3(-10, 2, -4),
 };
 
-export const buildStackShellParams = (size: number) => {
+export const buildStackShellParams = (size: number): ShellParams => {
     return {
         material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
         position: new THREE.Vector3(0, -1, -4),
@@ -27,19 +25,7 @@ export const buildStackShellParams = (size: number) => {
     }
 };
 
-export const buildQueueNodeParams = (font: Font) => {
-    const nodeTextGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
-    return {
-        width, height, depth,
-        material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.5, transparent: true }),
-        textMaterial: new THREE.MeshBasicMaterial({ color: "red" }),
-        textGeometryParameters: nodeTextGeometryParameters,
-        initPosition: new THREE.Vector3(-10, 2, -4),
-        textAdjust: nodeAdjust,
-    }
-};
-
-export const buildQueueShellParams = (size: number) => {
+export const buildQueueShellParams = (size: number): ShellParams => {
     return {
         material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.3, transparent: true }),
         position: new THREE.Vector3(0, 2, -4),

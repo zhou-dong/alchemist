@@ -6,11 +6,7 @@ import Queue from '../../../data-structures/queue';
 import Stack from '../../../data-structures/stack';
 import { wait } from '../../../data-structures/_commons/utils';
 import { TextCube } from '../../../data-structures/_commons/three/text-cube';
-import { font } from '../../../commons/three';
-import { buildStackNodeParams, buildStackShellParams, buildQueueNodeParams, buildQueueShellParams } from './styles';
-
-const queueNodeParams = buildQueueNodeParams(font);
-const stackNodeParams = buildStackNodeParams(font);
+import { nodeParams } from './styles';
 
 interface Props {
     queue?: Queue<string>;
@@ -26,18 +22,20 @@ const pairs = new Map([
     ['{', '}']
 ]);
 
-const calculateTextX = (x: number, nodeWidth: number,): number => {
-    const factor = 0.22;
-    return x - nodeWidth / 2.7 + factor;
-}
+const createItem = (value: string, scene: THREE.Scene): TextCube<string> => {
+    const { textMaterial, textGeometryParameters, cubeMaterial, cubeGeometry, initPosition } = nodeParams;
 
-const calculateTextY = (y: number, nodeHeight: number): number => {
-    const factor = 0.2;
-    return y - nodeHeight / 2 + factor;
-}
+    const item = new TextCube<string>(value, textMaterial, textGeometryParameters, cubeMaterial, cubeGeometry, scene);
 
-const calculateTextZ = (z: number, nodeDepth: number): number => {
-    return z;
+    item.x = initPosition.x;
+    item.y = initPosition.y;
+    item.z = initPosition.z;
+
+    item.textX = item.x - 0.1;
+    item.textY = item.y - 0.26;
+    item.textZ = initPosition.z;
+
+    return item;
 }
 
 const Main = ({ animate, cancelAnimate, queue, stack, scene }: Props) => {
@@ -52,18 +50,7 @@ const Main = ({ animate, cancelAnimate, queue, stack, scene }: Props) => {
         setDisabled(true);
         animate();
 
-        const item = new TextCube<string>(
-            value,
-            queueNodeParams.textMaterial,
-            queueNodeParams.textGeometryParameters,
-            queueNodeParams.material,
-            new THREE.BoxGeometry(queueNodeParams.width, queueNodeParams.height, queueNodeParams.depth),
-            scene
-        );
-
-        item.textX = calculateTextX(item.textX, item.width);
-        item.textY = calculateTextY(item.textY, item.height);
-        item.textZ = calculateTextZ(item.textZ, item.depth);
+        const item = createItem(value, scene);
 
         item.show();
 
@@ -79,7 +66,10 @@ const Main = ({ animate, cancelAnimate, queue, stack, scene }: Props) => {
 
         setDisabled(true);
         animate();
-        await queue.dequeue();
+        const item = await queue.dequeue();
+        if (item) {
+            item.hide();
+        }
         setDisabled(false);
         cancelAnimate();
     }
