@@ -6,7 +6,7 @@ import Queue from '../../../data-structures/queue';
 import Stack from '../../../data-structures/stack';
 import { wait } from '../../../data-structures/_commons/utils';
 import { TextCube } from '../../../data-structures/_commons/three/text-cube';
-import { clearScene, font, registerOrbitControls } from '../../../commons/three';
+import { font } from '../../../commons/three';
 import { buildStackNodeParams, buildStackShellParams, buildQueueNodeParams, buildQueueShellParams } from './styles';
 
 const queueNodeParams = buildQueueNodeParams(font);
@@ -21,9 +21,6 @@ interface Props {
 }
 
 const pairs = new Map([
-    // [')', '('],
-    // [']', '['],
-    // ['}', '{'],
     ['(', ')'],
     ['[', ']'],
     ['{', '}']
@@ -63,6 +60,10 @@ const Main = ({ animate, cancelAnimate, queue, stack, scene }: Props) => {
             new THREE.BoxGeometry(queueNodeParams.width, queueNodeParams.height, queueNodeParams.depth),
             scene
         );
+
+        item.textX = calculateTextX(item.textX, item.width);
+        item.textY = calculateTextY(item.textY, item.height);
+        item.textZ = calculateTextZ(item.textZ, item.depth);
 
         item.show();
 
@@ -107,6 +108,9 @@ const Main = ({ animate, cancelAnimate, queue, stack, scene }: Props) => {
                 if (pairs.get(value) !== stackItem.value) {
                     break;
                 }
+                item.hide();
+                stackItem.hide();
+                await wait(1);
             } else {
                 await stack.push(item);
             }

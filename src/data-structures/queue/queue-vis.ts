@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { Cube } from '../_commons/three/cube';
 import { NodeSize, ShellParams } from '../_commons/three/collectionParams';
 import { TextCube } from '../_commons/three/text-cube';
-import { wait } from '../_commons/utils';
+import { calDestination, calDistance, wait } from '../_commons/utils';
 import { IQueue } from './queue';
 import QueueAlgo from './queue-algo';
 
@@ -78,8 +78,8 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     const width = this.sumQueueWidth(this.queue);
 
     const nodeEndPosition = position.clone().setX(position.x - width);
-    const distance = this.calDistance(item.mesh.position, nodeEndPosition);
-    const textEndPosition = this.calDestination(item.textMesh.position, distance);
+    const distance = calDistance(item.mesh.position, nodeEndPosition);
+    const textEndPosition = calDestination(item.textMesh.position, distance);
 
     gsap.to(item.mesh.position, { ...nodeEndPosition, duration: this.duration });
     gsap.to(item.textMesh.position, { ...textEndPosition, duration: this.duration });
@@ -96,13 +96,6 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     return result;
   }
 
-  private calDistance(from: THREE.Vector3, to: THREE.Vector3): THREE.Vector3 {
-    return new THREE.Vector3(to.x - from.x, to.y - from.y, to.z - from.z);
-  }
-
-  private calDestination(from: THREE.Vector3, distance: THREE.Vector3): THREE.Vector3 {
-    return new THREE.Vector3(from.x + distance.x, from.y + distance.y, from.z + distance.z);
-  }
 
   private playDequeue(): void {
     const iterator = this.queue.iterator();
