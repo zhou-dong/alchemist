@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { NodeSize, ShellParams } from '../../../data-structures/_commons/three/collectionParams';
 import { font } from '../../../commons/three';
