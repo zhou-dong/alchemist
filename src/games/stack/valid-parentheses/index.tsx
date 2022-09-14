@@ -4,7 +4,7 @@ import AlgoInput from "./Algo";
 import Stack from '../../../data-structures/stack';
 import Queue from '../../../data-structures/queue';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import { buildStackShellParams, buildQueueShellParams, nodeSize } from './styles';
+import { stackShellParams, queueShellParams, nodeSize } from './styles';
 
 interface Props {
     renderer: THREE.Renderer;
@@ -35,8 +35,8 @@ const Main = ({ renderer, camera, scene }: Props) => {
 
         const init = () => {
             clearScene(scene);
-            setQueue(new Queue<string>(nodeSize, buildQueueShellParams(1), scene, duration))
-            setStack(new Stack<string>(nodeSize, buildStackShellParams(1), scene, duration))
+            setQueue(new Queue<string>(nodeSize, queueShellParams, scene, duration))
+            setStack(new Stack<string>(nodeSize, stackShellParams, scene, duration))
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
