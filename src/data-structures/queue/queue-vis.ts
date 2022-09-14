@@ -96,7 +96,6 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     return result;
   }
 
-
   private playDequeue(): void {
     const iterator = this.queue.iterator();
     while (iterator.hasNext()) {
