@@ -16,18 +16,16 @@ export const nodeParams = {
     initPosition: new THREE.Vector3(-10, 2, -4),
 };
 
-export const buildStackShellParams = (size: number): ShellParams => {
-    return {
-        material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
-        position: new THREE.Vector3(0, -1, -4),
-        size,
-    }
+const shellSize = 5;
+
+export const stackShellParams: ShellParams = {
+    material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
+    position: new THREE.Vector3(0, -1, -4),
+    size: shellSize,
 };
 
-export const buildQueueShellParams = (size: number): ShellParams => {
-    return {
-        material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.3, transparent: true }),
-        position: new THREE.Vector3(0, 2, -4),
-        size,
-    }
+export const queueShellParams: ShellParams = {
+    material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.3, transparent: true }),
+    position: new THREE.Vector3(0, 2, -4),
+    size: shellSize,
 };
