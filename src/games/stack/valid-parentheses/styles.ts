@@ -16,11 +16,11 @@ export const nodeParams = {
     initPosition: new THREE.Vector3(-10, 2, -4),
 };
 
-const shellSize = 5;
+const shellSize = 6;
 
 export const queueShellParams: ShellParams = {
     material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.3, transparent: true }),
-    position: new THREE.Vector3(0, 2, -4),
+    position: new THREE.Vector3(0, 5, -4),
     size: shellSize,
 };
 
