@@ -18,14 +18,14 @@ export const nodeParams = {
 
 const shellSize = 5;
 
-export const stackShellParams: ShellParams = {
-    material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
-    position: new THREE.Vector3(0, -1, -4),
-    size: shellSize,
-};
-
 export const queueShellParams: ShellParams = {
     material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.3, transparent: true }),
     position: new THREE.Vector3(0, 2, -4),
+    size: shellSize,
+};
+
+export const stackShellParams: ShellParams = {
+    material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
+    position: new THREE.Vector3(0, -1, -4),
     size: shellSize,
 };
