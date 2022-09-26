@@ -52,10 +52,6 @@ export default function BasicSpeedDial() {
                 variant="elevation"
                 elevation={8}
                 sx={{
-                    position: "fixed",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    top: 100,
                     p: '2px 4px',
                     display: 'flex',
                     width: 300,
