@@ -1,13 +1,15 @@
 import React from 'react';
 import * as THREE from 'three';
-import Algo from "./PlayAnimation";
+import Algo from "./Algo";
 import Stack from '../../../data-structures/stack';
 import Queue from '../../../data-structures/queue';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { stackShellParams, queueShellParams, nodeSize } from './styles';
 import AlgoInput from "./AlgoInput";
-import AlgoDescription from "./AlgoDescription";
+import AlgoDescription from "./AlgoMenu";
 import Title from './Title';
+import GameWrapper from '../../commons/GameWrapper';
+import info from "./info";
 
 interface Props {
     renderer: THREE.Renderer;
@@ -53,13 +55,17 @@ const Main = ({ renderer, camera, scene }: Props) => {
     }, [ref, renderer, scene, camera]);
 
     return (
-        <>
-            <Title />
-            <AlgoInput />
-            <AlgoDescription />
-            <div ref={ref}></div>
-            <Algo queue={queue} stack={stack} scene={scene} animate={animate} cancelAnimate={cancelAnimate} />
-        </>
+
+        <GameWrapper path={info.path}>
+            <>
+                <Title />
+                <AlgoInput />
+                <AlgoDescription />
+                <div ref={ref}></div>
+                {/* <Algo queue={queue} stack={stack} scene={scene} animate={animate} cancelAnimate={cancelAnimate} /> */}
+                <Algo />
+            </>
+        </GameWrapper>
     );
 }
 
