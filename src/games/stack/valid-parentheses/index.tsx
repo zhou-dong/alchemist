@@ -1,6 +1,6 @@
 import React from 'react';
 import * as THREE from 'three';
-import Algo from "./Algo";
+import Algo from "./PlayAnimation";
 import Stack from '../../../data-structures/stack';
 import Queue from '../../../data-structures/queue';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
