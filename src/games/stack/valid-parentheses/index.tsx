@@ -1,10 +1,13 @@
 import React from 'react';
 import * as THREE from 'three';
-import AlgoInput from "./Algo";
+import Algo from "./Algo";
 import Stack from '../../../data-structures/stack';
 import Queue from '../../../data-structures/queue';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { stackShellParams, queueShellParams, nodeSize } from './styles';
+import AlgoInput from "./AlgoInput";
+import AlgoDescription from "./AlgoDescription";
+import Title from './Title';
 
 interface Props {
     renderer: THREE.Renderer;
@@ -51,8 +54,11 @@ const Main = ({ renderer, camera, scene }: Props) => {
 
     return (
         <>
+            <Title />
+            <AlgoInput />
+            <AlgoDescription />
             <div ref={ref}></div>
-            <AlgoInput queue={queue} stack={stack} scene={scene} animate={animate} cancelAnimate={cancelAnimate} />
+            <Algo queue={queue} stack={stack} scene={scene} animate={animate} cancelAnimate={cancelAnimate} />
         </>
     );
 }

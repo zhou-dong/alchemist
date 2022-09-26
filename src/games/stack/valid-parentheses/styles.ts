@@ -9,9 +9,9 @@ export const nodeSize: NodeSize = {
 
 const nodeTextGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
 export const nodeParams = {
-    textMaterial: new THREE.MeshBasicMaterial({ color: "red" }),
+    textMaterial: new THREE.MeshBasicMaterial({ color: "black" }),
     textGeometryParameters: nodeTextGeometryParameters,
-    cubeMaterial: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.5, transparent: true }),
+    cubeMaterial: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.6, transparent: true }),
     cubeGeometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
     initPosition: new THREE.Vector3(-10, 2, -4),
 };
@@ -19,13 +19,13 @@ export const nodeParams = {
 const shellSize = 6;
 
 export const queueShellParams: ShellParams = {
-    material: new THREE.MeshBasicMaterial({ color: "purple", opacity: 0.3, transparent: true }),
-    position: new THREE.Vector3(0, 5, -4),
+    material: new THREE.MeshBasicMaterial({ color: "gold", opacity: 0.2, transparent: true }),
+    position: new THREE.Vector3(4, 2, -4),
     size: shellSize,
 };
 
 export const stackShellParams: ShellParams = {
-    material: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.3, transparent: true }),
-    position: new THREE.Vector3(0, -1, -4),
+    material: new THREE.MeshBasicMaterial({ color: "gold", opacity: 0.2, transparent: true }),
+    position: new THREE.Vector3(4, -1, -4),
     size: shellSize,
 };

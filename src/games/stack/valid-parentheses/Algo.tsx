@@ -115,7 +115,7 @@ const Main = ({ animate, cancelAnimate, queue, stack, scene }: Props) => {
     return (
         <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "100px" }}>
 
-            <ButtonGroup variant="outlined" aria-label="valid parentheses input" size="large" disabled={disabled}>
+            <ButtonGroup variant="contained" aria-label="valid parentheses input" size="medium" disabled={disabled}>
                 <Button onClick={() => enQueue("(")}>(</Button>
                 <Button onClick={() => enQueue(")")}>)</Button>
                 <Button onClick={() => enQueue("[")}>[</Button>
@@ -123,12 +123,12 @@ const Main = ({ animate, cancelAnimate, queue, stack, scene }: Props) => {
                 <Button onClick={() => enQueue("{")}>{"{"}</Button>
                 <Button onClick={() => enQueue("}")}>{"}"}</Button>
 
-                <Button endIcon={<BackspaceIcon />} onClick={deQueue}>Delete</Button>
+                <Button endIcon={<BackspaceIcon />} onClick={deQueue}></Button>
             </ButtonGroup>
 
             <div style={{ margin: "20px" }}></div>
 
-            <Button variant='outlined' disabled={disabled} onClick={createStack}>
+            <Button variant='contained' disabled={disabled} onClick={createStack} size="small">
                 Play
             </Button>
         </div>
