@@ -7,9 +7,10 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
-import { Divider, InputBase } from '@mui/material';
+import { Button, ButtonGroup, Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
+import BackspaceIcon from '@mui/icons-material/Backspace';
 
 const buildInInputs = [
     { label: "( ) [ ] { }", value: "()[]{}" },
@@ -102,6 +103,23 @@ export default function BasicSpeedDial() {
                         </MenuItem>
                     ))
                 }
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                    <ButtonGroup variant="outlined" aria-label="valid parentheses input" size="small">
+                        <Button onClick={() => setInput(current => current + "(")}>(</Button>
+                        <Button onClick={() => setInput(current => current + ")")}>)</Button>
+                        <Button onClick={() => setInput(current => current + "[")}>[</Button>
+                        <Button onClick={() => setInput(current => current + "]")}>]</Button>
+                        <Button onClick={() => setInput(current => current + "{")}>{"{"}</Button>
+                        <Button onClick={() => setInput(current => current + "}")}>{"}"}</Button>
+
+                        <Button endIcon={<BackspaceIcon />} onClick={() => {
+                            setInput(current => current.slice(0, current.length - 1))
+                        }}>
+                        </Button>
+                    </ButtonGroup>
+
+                </MenuItem>
             </Menu>
         </>
     );
