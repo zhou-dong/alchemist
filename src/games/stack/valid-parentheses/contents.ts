@@ -1,7 +1,7 @@
 export const title = "Valid Parentheses";
 
 export const formula = `
-static Set<Character> set = new HashSet<>(Arrays.asList(new Character[] { '(', '[', '{' }));;
+static Set<Character> set = new HashSet<>(Arrays.asList(new Character[] { '(', '[', '{' }));
 static Map<Character, Character> map = new HashMap<>();
 
 static {
