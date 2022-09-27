@@ -12,6 +12,8 @@ import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 
 const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     fontSize: "16px",
+    marginTop: 0,
+    paddingTop: 0,
     paddingLeft: 10,
     paddingRight: 10,
 }));

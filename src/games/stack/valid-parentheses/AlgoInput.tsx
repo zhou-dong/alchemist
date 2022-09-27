@@ -20,13 +20,17 @@ const buildInInputs = [
 
 export default function BasicSpeedDial() {
 
+    const reference = React.useRef(null);
     const [input, setInput] = React.useState("");
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
-    const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handleMenuOpen = () => {
+        if (reference && reference.current) {
+            setAnchorEl(reference.current);
+        }
+
     };
 
     const handleMenuClose = () => {
@@ -49,6 +53,7 @@ export default function BasicSpeedDial() {
     return (
         <>
             <Paper
+                ref={reference}
                 variant="elevation"
                 elevation={8}
                 sx={{
@@ -100,7 +105,7 @@ export default function BasicSpeedDial() {
                     ))
                 }
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
+                <MenuItem sx={{ width: "308px", overflow: "hidden" }}>
                     <ButtonGroup variant="outlined" aria-label="valid parentheses input" size="small">
                         <Button onClick={() => setInput(current => current + "(")}>(</Button>
                         <Button onClick={() => setInput(current => current + ")")}>)</Button>
