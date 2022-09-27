@@ -25,7 +25,7 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
 
   increaseShells(shell: Cube) {
     const { x, y, z } = this.position;
-    shell.x = x - this.getShellLength();
+    shell.x = x - this.getShellsLength();
     shell.y = y;
     shell.z = z;
     this.shells.push(shell);
@@ -35,7 +35,7 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     return this.shells.pop();
   }
 
-  private getShellLength(): number {
+  private getShellsLength(): number {
     return this.shells.reduce((accumulator, current) => accumulator + current.width, 0)
   }
 
