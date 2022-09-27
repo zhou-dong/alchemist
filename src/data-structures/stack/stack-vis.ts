@@ -1,7 +1,6 @@
 import gsap from 'gsap';
 import * as THREE from 'three';
 import { Cube } from '../_commons/three/cube';
-import { NodeSize, ShellParams } from '../_commons/three/collectionParams';
 import { TextCube } from '../_commons/three/text-cube';
 import { calDestination, calDistance, wait } from '../_commons/utils';
 import { IStack } from './stack';
@@ -9,40 +8,35 @@ import { StackAlgo } from './stack-algo';
 
 export class StackVis<T> implements IStack<TextCube<T>> {
 
+    private shells: Cube[];
     private stack: StackAlgo<TextCube<T>>;
-    private nodeSize: NodeSize;
-    private shellParams: ShellParams;
-    private scene: THREE.Scene;
     private duration: number;
+    private position: THREE.Vector3;
 
     constructor(
-        nodeSize: NodeSize,
-        shellParams: ShellParams,
-        scene: THREE.Scene,
+        position: THREE.Vector3,
         duration: number
     ) {
-        this.nodeSize = nodeSize;
-        this.shellParams = shellParams;
-        this.scene = scene;
+        this.position = position;
         this.duration = duration;
+        this.shells = [];
         this.stack = new StackAlgo();
-        this.buildStackShell();
     }
 
-    private buildStackShell() {
-        const shell = new StackAlgo<Cube>();
-        const { material, position, size } = this.shellParams;
-        const { width, height, depth } = this.nodeSize;
-        const { x, y, z } = position;
-        for (let i = 0; i < size; i++) {
-            const geometry = new THREE.BoxGeometry(width, height, depth)
-            const cube = new Cube(geometry, material, this.scene);
-            cube.x = x - width * i;
-            cube.y = y;
-            cube.z = z;
-            cube.show();
-            shell.push(cube);
-        }
+    increaseShells(shell: Cube) {
+        const { x, y, z } = this.position;
+        shell.x = x - this.getShellsLength();
+        shell.y = y;
+        shell.z = z;
+        this.shells.push(shell);
+    }
+
+    decreaseShells(): Cube | undefined {
+        return this.shells.pop();
+    }
+
+    private getShellsLength(): number {
+        return this.shells.reduce((accumulator, current) => accumulator + current.width, 0)
     }
 
     async push(item: TextCube<T>): Promise<number> {
@@ -59,8 +53,8 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         await this.shiftNodesForPush(items.length);
 
         items.forEach((item, i) => {
-            const x = this.getTopX() + (items.length - 1 - i) * item.width;
-            this.move(item, new THREE.Vector3(x, this.getTopY(), this.getTopZ()));
+            const x = this.position.x + (items.length - 1 - i) * item.width;
+            this.move(item, new THREE.Vector3(x, this.position.y, this.position.z));
         });
 
         await wait(this.duration);
@@ -105,21 +99,6 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         }
 
         await wait(this.duration);
-    }
-
-    private getTopX(): number {
-        const { width } = this.nodeSize;
-        const { position, size } = this.shellParams;
-        const { x } = position;
-        return x - width * (size - 1);
-    }
-
-    private getTopY(): number {
-        return this.shellParams.position.y;
-    }
-
-    private getTopZ(): number {
-        return this.shellParams.position.z;
     }
 
     private playPop(): void {
