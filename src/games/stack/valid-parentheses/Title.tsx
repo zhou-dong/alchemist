@@ -7,7 +7,7 @@ export default function Title() {
     return (
         <Box sx={{
             position: "fixed",
-            top: 60,
+            top: 40,
             flexGrow: 1,
             width: "100%",
             display: 'flex',
