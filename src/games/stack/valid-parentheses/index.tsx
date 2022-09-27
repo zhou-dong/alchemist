@@ -40,8 +40,8 @@ const Main = ({ renderer, camera, scene }: Props) => {
 
         const init = () => {
             clearScene(scene);
-            setQueue(new Queue<string>(nodeSize, queueShellParams, scene, duration))
-            setStack(new Stack<string>(nodeSize, stackShellParams, scene, duration))
+            setQueue(new Queue<string>(queueShellParams.position, duration));
+            setStack(new Stack<string>(stackShellParams.position, duration));
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
