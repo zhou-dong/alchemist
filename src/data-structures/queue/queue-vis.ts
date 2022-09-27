@@ -20,7 +20,7 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     this.position = position;
     this.duration = duration;
     this.shells = [];
-    this.queue = new QueueAlgo<TextCube<T>>();
+    this.queue = new QueueAlgo();
   }
 
   increaseShells(shell: Cube) {
