@@ -81,7 +81,7 @@ export default function BasicSpeedDial() {
 
     return (
         <>
-            <Stack spacing={2} sx={{ position: 'fixed', top: 92, left: 40 }}>
+            <Stack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
 
                 <Item
                     name="input"
