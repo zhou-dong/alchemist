@@ -17,10 +17,11 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
 }));
 
 const Item: React.FC<{
+    defaultOpen: boolean,
     name: string,
     icon: JSX.Element,
     popover: JSX.Element
-}> = ({ icon, popover, name }) => {
+}> = ({ icon, popover, name, defaultOpen }) => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
@@ -33,9 +34,18 @@ const Item: React.FC<{
         }
     }
 
+    const reference = React.useRef(null);
+
+    React.useEffect(() => {
+        if (defaultOpen) {
+            setAnchorEl(reference.current);
+        }
+    }, [reference])
+
     return (
         <>
             <ToggleButton
+                ref={reference}
                 onChange={handleToggle}
                 aria-label={name}
                 size="large"
@@ -75,18 +85,21 @@ export default function BasicSpeedDial() {
                     name="input"
                     icon={<InputIcon fontSize="medium" />}
                     popover={<AlgoInput />}
+                    defaultOpen={true}
                 />
 
                 <Item
                     name="description"
                     icon={<DescriptionIcon fontSize="medium" />}
                     popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
+                    defaultOpen={false}
                 />
 
                 <Item
                     name="code"
                     icon={<CodeIcon fontSize="medium" />}
                     popover={<CodeBlock code={formula} language={languages.Javascript} />}
+                    defaultOpen={false}
                 />
             </Stack>
         </>
