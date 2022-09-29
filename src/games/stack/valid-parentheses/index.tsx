@@ -6,7 +6,7 @@ import Queue from '../../../data-structures/queue';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { stackShellParams, queueShellParams, nodeSize } from './styles';
 
-import AlgoDescription from "./AlgoMenu";
+import AlgoMenu from "./AlgoMenu";
 import Title from './Title';
 import GameWrapper from '../../commons/GameWrapper';
 import info from "./info";
@@ -59,7 +59,7 @@ const Main = ({ renderer, camera, scene }: Props) => {
         <GameWrapper path={info.path}>
             <>
                 <Title />
-                <AlgoDescription />
+                <AlgoMenu />
                 <div ref={ref}></div>
                 {/* <Algo queue={queue} stack={stack} scene={scene} animate={animate} cancelAnimate={cancelAnimate} /> */}
                 <Algo />
