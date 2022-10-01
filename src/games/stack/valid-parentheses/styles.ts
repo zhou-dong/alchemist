@@ -8,6 +8,7 @@ export const nodeSize: NodeSize = {
 }
 
 const nodeTextGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
+
 export const nodeParams = {
     textMaterial: new THREE.MeshBasicMaterial({ color: "black" }),
     textGeometryParameters: nodeTextGeometryParameters,
