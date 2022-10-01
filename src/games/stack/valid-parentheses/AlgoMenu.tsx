@@ -42,7 +42,7 @@ const Item: React.FC<{
         if (defaultOpen) {
             setAnchorEl(reference.current);
         }
-    }, [reference])
+    }, [defaultOpen, reference])
 
     return (
         <>
