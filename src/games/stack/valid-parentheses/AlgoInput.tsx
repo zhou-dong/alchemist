@@ -11,14 +11,119 @@ import { Button, ButtonGroup, Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import BackspaceIcon from '@mui/icons-material/Backspace';
+import { useContainer } from "./ContainerContext";
+import { TextCube } from '../../../data-structures/_commons/three/text-cube';
+import { nodeParams } from './styles';
 
-const buildInInputs = [
-    { label: "( ) [ ] { }", value: "()[]{}" },
-    { label: "{ [ ( ) ] }", value: "{[()]}" },
-    { label: "{ [ ( ) ( ) ] }", value: "{[()()]}" }
-];
+const DropDown: React.FC<{
+    anchorEl: HTMLElement | null,
+    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
+    open: boolean,
+    setInput: React.Dispatch<React.SetStateAction<string>>
+}> = ({ anchorEl, setAnchorEl, open, setInput }) => {
 
-export default function BasicSpeedDial() {
+    const buildInInputs = [
+        { label: "( ) [ ] { }", value: "()[]{}" },
+        { label: "{ [ ( ) ] }", value: "{[()]}" },
+        { label: "{ [ ( ) ( ) ] }", value: "{[()()]}" }
+    ];
+
+    const parentheses = "()[]{}";
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    return (
+        <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleMenuClose}
+        >
+            {
+                buildInInputs.map(({ label, value }, index) => (
+                    <MenuItem
+                        key={index}
+                        onClick={() => {
+                            handleMenuClose();
+                            setInput(value);
+                        }}>
+                        <ListItemIcon>
+                            <InputIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>
+                            {label}
+                        </ListItemText>
+                    </MenuItem>
+                ))
+            }
+            <Divider sx={{ my: 0.5 }} />
+            <MenuItem sx={{ width: "308px", overflow: "hidden" }}>
+                <ButtonGroup variant="outlined" aria-label="valid parentheses input" size="small">
+                    {
+                        Array.from(parentheses).map((parenthese, index) =>
+                            <Button key={index} onClick={() => setInput(current => current + parenthese)}>
+                                {parenthese}
+                            </Button>
+                        )
+                    }
+                    <Button
+                        endIcon={<BackspaceIcon />}
+                        onClick={() => setInput(current => current.slice(0, current.length - 1))}
+                    >
+                    </Button>
+                </ButtonGroup>
+            </MenuItem>
+        </Menu>
+    );
+}
+
+const createItem = (value: string, scene: THREE.Scene): TextCube<string> => {
+    const { textMaterial, textGeometryParameters, cubeMaterial, cubeGeometry, initPosition } = nodeParams;
+
+    const item = new TextCube<string>(value, textMaterial, textGeometryParameters, cubeMaterial, cubeGeometry, scene);
+
+    item.x = initPosition.x;
+    item.y = initPosition.y;
+    item.z = initPosition.z;
+
+    item.textX = item.x - 0.1;
+    item.textY = item.y - 0.26;
+    item.textZ = initPosition.z;
+
+    return item;
+}
+
+const Submit: React.FC<{ input: string, setInput: React.Dispatch<React.SetStateAction<string>> }> = ({ input, setInput }) => {
+    const { stack, queue, scene, animate, cancelAnimate } = useContainer();
+
+    const disabled = !Boolean(input);
+
+    const handleSubmit = async () => {
+        if (!queue || !stack) {
+            return;
+        }
+        const characters = Array.from(input);
+        animate();
+        for (let i = 0; i < characters.length; i++) {
+            const character = characters[i];
+            const item = createItem(character, scene);
+            item.show();
+            await queue.enqueue(item)
+        }
+        cancelAnimate();
+
+        setInput("");
+    }
+
+    return (
+        <IconButton color="primary" sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
+            <OutputIcon />
+        </IconButton>
+    );
+}
+
+export default function AlgoInput() {
 
     const reference = React.useRef(null);
     const [input, setInput] = React.useState("");
@@ -30,11 +135,6 @@ export default function BasicSpeedDial() {
         if (reference && reference.current) {
             setAnchorEl(reference.current);
         }
-
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
     };
 
     const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,51 +177,15 @@ export default function BasicSpeedDial() {
                     <ClearIcon />
                 </IconButton>
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton color="primary" sx={{ p: '10px' }} aria-label="submit input">
-                    <OutputIcon />
-                </IconButton>
+                <Submit input={input} setInput={setInput} />
             </Paper>
 
-            <Menu
+            <DropDown
                 anchorEl={anchorEl}
+                setAnchorEl={setAnchorEl}
                 open={open}
-                onClose={handleMenuClose}
-            >
-                {
-                    buildInInputs.map(({ label, value }, index) => (
-                        <MenuItem
-                            key={index}
-                            onClick={() => {
-                                handleMenuClose();
-                                setInput(value);
-                            }}>
-                            <ListItemIcon>
-                                <InputIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>
-                                {label}
-                            </ListItemText>
-                        </MenuItem>
-                    ))
-                }
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem sx={{ width: "308px", overflow: "hidden" }}>
-                    <ButtonGroup variant="outlined" aria-label="valid parentheses input" size="small">
-                        <Button onClick={() => setInput(current => current + "(")}>(</Button>
-                        <Button onClick={() => setInput(current => current + ")")}>)</Button>
-                        <Button onClick={() => setInput(current => current + "[")}>[</Button>
-                        <Button onClick={() => setInput(current => current + "]")}>]</Button>
-                        <Button onClick={() => setInput(current => current + "{")}>{"{"}</Button>
-                        <Button onClick={() => setInput(current => current + "}")}>{"}"}</Button>
-
-                        <Button endIcon={<BackspaceIcon />} onClick={() => {
-                            setInput(current => current.slice(0, current.length - 1))
-                        }}>
-                        </Button>
-                    </ButtonGroup>
-
-                </MenuItem>
-            </Menu>
+                setInput={setInput}
+            />
         </>
     );
 }
