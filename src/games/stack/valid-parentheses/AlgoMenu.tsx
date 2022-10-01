@@ -2,13 +2,15 @@ import * as React from 'react';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CodeIcon from '@mui/icons-material/Code';
 import { Popover, ToggleButton } from '@mui/material';
-import Stack from '@mui/material/Stack';
+import MuiStack from '@mui/material/Stack';
 import InputIcon from '@mui/icons-material/Input';
 import AlgoInput from "./AlgoInput";
 import { description, formula } from "./contents";
 import ReactMarkdown from "react-markdown";
 import { styled } from '@mui/material/styles';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
+import Stack from '../../../data-structures/stack';
+import Queue from '../../../data-structures/queue';
 
 const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     fontSize: "16px",
@@ -77,11 +79,15 @@ const Item: React.FC<{
     )
 }
 
+interface Props {
+
+}
+
 export default function BasicSpeedDial() {
 
     return (
         <>
-            <Stack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
+            <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
 
                 <Item
                     name="input"
@@ -103,7 +109,7 @@ export default function BasicSpeedDial() {
                     popover={<CodeBlock code={formula} language={languages.Javascript} />}
                     defaultOpen={false}
                 />
-            </Stack>
+            </MuiStack>
         </>
 
     );
