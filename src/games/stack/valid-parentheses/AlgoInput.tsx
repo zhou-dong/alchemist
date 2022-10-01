@@ -95,27 +95,24 @@ const createItem = (value: string, scene: THREE.Scene): TextCube<string> => {
 }
 
 const Submit: React.FC<{ input: string, setInput: React.Dispatch<React.SetStateAction<string>> }> = ({ input, setInput }) => {
-    const { stack, queue, scene, animate, cancelAnimate } = useContainer();
-
-    const disabled = !Boolean(input);
-
+    const { queue, scene, animate, cancelAnimate } = useContainer();
     const handleSubmit = async () => {
-        if (!queue || !stack) {
+        if (!queue) {
             return;
         }
         const characters = Array.from(input);
         animate();
-        for (let i = 0; i < characters.length; i++) {
+        for (let i = characters.length - 1; i >= 0; i--) {
             const character = characters[i];
             const item = createItem(character, scene);
             item.show();
             await queue.enqueue(item)
         }
         cancelAnimate();
-
         setInput("");
     }
 
+    const disabled = !Boolean(input);
     return (
         <IconButton color="primary" sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
             <OutputIcon />
