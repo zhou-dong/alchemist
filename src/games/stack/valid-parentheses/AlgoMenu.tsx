@@ -9,8 +9,6 @@ import { description, formula } from "./contents";
 import ReactMarkdown from "react-markdown";
 import { styled } from '@mui/material/styles';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import Stack from '../../../data-structures/stack';
-import Queue from '../../../data-structures/queue';
 
 const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     fontSize: "16px",
@@ -79,12 +77,7 @@ const Item: React.FC<{
     )
 }
 
-interface Props {
-
-}
-
 export default function BasicSpeedDial() {
-
     return (
         <>
             <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
@@ -111,6 +104,5 @@ export default function BasicSpeedDial() {
                 />
             </MuiStack>
         </>
-
     );
 }
