@@ -19,11 +19,10 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
 }));
 
 const Item: React.FC<{
-    defaultOpen: boolean,
     name: string,
     icon: JSX.Element,
     popover: JSX.Element
-}> = ({ icon, popover, name, defaultOpen }) => {
+}> = ({ icon, popover, name }) => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
@@ -36,25 +35,15 @@ const Item: React.FC<{
         }
     }
 
-    const reference = React.useRef(null);
-
-    React.useEffect(() => {
-        if (defaultOpen) {
-            setAnchorEl(reference.current);
-        }
-    }, [defaultOpen, reference])
-
     return (
         <>
             <ToggleButton
-                ref={reference}
                 onChange={handleToggle}
                 aria-label={name}
                 size="large"
                 sx={{ borderRadius: "50%" }}
                 value={name}
                 selected={open}
-                color="primary"
             >
                 {icon}
             </ToggleButton>
@@ -77,26 +66,72 @@ const Item: React.FC<{
     )
 }
 
+const Input = () => {
+
+    const name = "input";
+
+    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+    const open = Boolean(anchorEl);
+
+    const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
+        if (anchorEl) {
+            setAnchorEl(null);
+        } else {
+            setAnchorEl(event.currentTarget);
+        }
+    }
+
+    const reference = React.useRef(null);
+
+    React.useEffect(() => {
+        setAnchorEl(reference.current);
+    }, [reference])
+
+    return (
+        <>
+            <ToggleButton
+                ref={reference}
+                onChange={handleToggle}
+                aria-label={name}
+                size="large"
+                sx={{ borderRadius: "50%" }}
+                value={name}
+                selected={open}
+            >
+                <InputIcon fontSize="medium" />
+            </ToggleButton>
+            <Popover
+                open={open}
+                anchorEl={anchorEl}
+                onClose={() => setAnchorEl(null)}
+                anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'center',
+                    horizontal: 'left',
+                }}
+            >
+                <AlgoInput setAnchorEl={setAnchorEl} />
+            </Popover>
+        </>
+    )
+}
+
 export default function BasicSpeedDial() {
     return (
         <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
-            <Item
-                name="input"
-                icon={<InputIcon fontSize="medium" />}
-                popover={<AlgoInput />}
-                defaultOpen={true}
-            />
+            <Input />
             <Item
                 name="description"
                 icon={<DescriptionIcon fontSize="medium" />}
                 popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
-                defaultOpen={false}
             />
             <Item
                 name="code"
                 icon={<CodeIcon fontSize="medium" />}
                 popover={<CodeBlock code={formula} language={languages.Javascript} />}
-                defaultOpen={false}
             />
         </MuiStack>
     );

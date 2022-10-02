@@ -94,8 +94,12 @@ const createItem = (value: string, scene: THREE.Scene): TextCube<string> => {
     return item;
 }
 
-const Submit: React.FC<{ input: string, setInput: React.Dispatch<React.SetStateAction<string>> }> = ({ input, setInput }) => {
-    const { queue, scene, animate, cancelAnimate } = useContainer();
+const Submit: React.FC<{
+    input: string,
+    setInput: React.Dispatch<React.SetStateAction<string>>,
+    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+}> = ({ input, setInput, setAnchorEl }) => {
+    const { queue, scene, animate, cancelAnimate, setDisplayActions } = useContainer();
     const handleSubmit = async () => {
         if (!queue) {
             return;
@@ -110,6 +114,8 @@ const Submit: React.FC<{ input: string, setInput: React.Dispatch<React.SetStateA
         }
         cancelAnimate();
         setInput("");
+        setAnchorEl(null);
+        setDisplayActions(true);
     }
 
     const disabled = !Boolean(input);
@@ -120,17 +126,21 @@ const Submit: React.FC<{ input: string, setInput: React.Dispatch<React.SetStateA
     );
 }
 
-export default function AlgoInput() {
+interface Props {
+    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+}
+
+export default function AlgoInput({ setAnchorEl }: Props) {
 
     const reference = React.useRef(null);
     const [input, setInput] = React.useState("");
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
+    const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(menuAnchorEl);
 
     const handleMenuOpen = () => {
         if (reference && reference.current) {
-            setAnchorEl(reference.current);
+            setMenuAnchorEl(reference.current);
         }
     };
 
@@ -174,12 +184,12 @@ export default function AlgoInput() {
                     <ClearIcon />
                 </IconButton>
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <Submit input={input} setInput={setInput} />
+                <Submit input={input} setInput={setInput} setAnchorEl={setAnchorEl} />
             </Paper>
 
             <DropDown
-                anchorEl={anchorEl}
-                setAnchorEl={setAnchorEl}
+                anchorEl={menuAnchorEl}
+                setAnchorEl={setMenuAnchorEl}
                 open={open}
                 setInput={setInput}
             />

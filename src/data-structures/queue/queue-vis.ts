@@ -1,8 +1,7 @@
-import gsap from 'gsap';
 import * as THREE from 'three';
 import { Cube } from '../_commons/three/cube';
 import { TextCube } from '../_commons/three/text-cube';
-import { calDestination, calDistance, wait } from '../_commons/utils';
+import { wait } from '../_commons/utils';
 import { IQueue } from './queue';
 import QueueAlgo from './queue-algo';
 
@@ -69,14 +68,8 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
 
   private async playEnqueue(item: TextCube<T>): Promise<void> {
     const width = this.sumQueueWidth(this.queue);
-
     const nodeEndPosition = this.position.clone().setX(this.position.x - width);
-    const distance = calDistance(item.mesh.position, nodeEndPosition);
-    const textEndPosition = calDestination(item.textMesh.position, distance);
-
-    gsap.to(item.mesh.position, { ...nodeEndPosition, duration: this.duration });
-    gsap.to(item.textMesh.position, { ...textEndPosition, duration: this.duration });
-
+    item.move(nodeEndPosition, this.duration);
     await wait(this.duration);
   }
 
@@ -93,8 +86,8 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     const iterator = this.queue.iterator();
     while (iterator.hasNext()) {
       const current = iterator.next();
-      gsap.to(current.mesh.position, { x: current.x + current.width, duration: this.duration });
-      gsap.to(current.textMesh.position, { x: current.textX + current.width, duration: this.duration });;
+      const position = new THREE.Vector3(current.x + current.width, current.y, current.z);
+      current.move(position, this.duration);
     }
   }
 

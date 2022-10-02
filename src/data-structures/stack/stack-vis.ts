@@ -1,8 +1,7 @@
-import gsap from 'gsap';
 import * as THREE from 'three';
 import { Cube } from '../_commons/three/cube';
 import { TextCube } from '../_commons/three/text-cube';
-import { calDestination, calDistance, wait } from '../_commons/utils';
+import { wait } from '../_commons/utils';
 import { IStack } from './stack';
 import { StackAlgo } from './stack-algo';
 
@@ -40,32 +39,15 @@ export class StackVis<T> implements IStack<TextCube<T>> {
     }
 
     async push(item: TextCube<T>): Promise<number> {
-        await this.playPush([item]);
+        await this.playPush(item);
         return this.stack.push(item);
     }
 
-    async pushElements(items: TextCube<T>[]): Promise<void> {
-        await this.playPush(items);
-        items.forEach(item => this.stack.push(item));
-    }
-
-    private async playPush(items: TextCube<T>[]): Promise<void> {
-        await this.shiftNodesForPush(items.length);
-
-        items.forEach((item, i) => {
-            const x = this.position.x + (items.length - 1 - i) * item.width;
-            this.move(item, new THREE.Vector3(x, this.position.y, this.position.z));
-        });
-
+    private async playPush(item: TextCube<T>): Promise<void> {
+        await this.shiftNodesForPush();
+        const position = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
+        item.move(position, this.duration);
         await wait(this.duration);
-    }
-
-    private move(item: TextCube<T>, position: THREE.Vector3): void {
-        const distance = calDistance(item.mesh.position, position);
-        const textEndPosition = calDestination(item.textMesh.position, distance);
-
-        gsap.to(item.mesh.position, { ...position, duration: this.duration });
-        gsap.to(item.textMesh.position, { ...textEndPosition, duration: this.duration });
     }
 
     async pop(): Promise<TextCube<T> | undefined> {
@@ -89,13 +71,12 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         return this.stack.size();
     }
 
-    private async shiftNodesForPush(nodes: number): Promise<void> {
+    private async shiftNodesForPush(): Promise<void> {
         const iterator = this.stack.iterator();
         while (iterator.hasNext()) {
             const current = iterator.next();
-            const distance = current.width * nodes;
-            gsap.to(current.mesh.position, { x: current.x + distance, duration: this.duration });
-            gsap.to(current.textMesh.position, { x: current.textX + distance, duration: this.duration });
+            const position = new THREE.Vector3(current.x - current.width, current.y, current.z);
+            current.move(position, this.duration);
         }
 
         await wait(this.duration);
@@ -105,8 +86,8 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         const iterator = this.stack.iterator();
         while (iterator.hasNext()) {
             const current = iterator.next();
-            gsap.to(current.mesh.position, { x: current.x - current.width, duration: this.duration });
-            gsap.to(current.textMesh.position, { x: current.textX - current.width, duration: this.duration });
+            const position = new THREE.Vector3(current.x + current.width, current.y, current.z);
+            current.move(position, this.duration);
         }
     }
 

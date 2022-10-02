@@ -9,15 +9,21 @@ const ContainerContext = React.createContext<{
     stack?: Stack<string>,
     queue?: Queue<string>,
     scene: THREE.Scene;
+    duration: number;
     animate: () => void;
     cancelAnimate: () => void;
+    displayActions: boolean;
+    setDisplayActions: React.Dispatch<React.SetStateAction<boolean>>
 }>({
+    duration: 0,
     scene: new THREE.Scene(),
     animate: () => { },
-    cancelAnimate: () => { }
+    cancelAnimate: () => { },
+    displayActions: false,
+    setDisplayActions: () => { }
 });
 
-const duration = 0.5;
+
 let animationFrameId = -1;
 
 export const ContainerProvider: React.FC<{
@@ -26,11 +32,12 @@ export const ContainerProvider: React.FC<{
     camera: THREE.Camera,
     scene: THREE.Scene,
 }> = ({ children, renderer, camera, scene }) => {
-
+    const duration = 0.5;
     const ref = React.useRef<HTMLDivElement>(null);
 
     const [queue, setQueue] = React.useState<Queue<string>>();
     const [stack, setStack] = React.useState<Stack<string>>();
+    const [displayActions, setDisplayActions] = React.useState(false);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -60,7 +67,7 @@ export const ContainerProvider: React.FC<{
     }, [ref, renderer, scene, camera]);
 
     return (
-        <ContainerContext.Provider value={{ stack, queue, scene, animate, cancelAnimate }}>
+        <ContainerContext.Provider value={{ stack, queue, scene, animate, cancelAnimate, duration, displayActions, setDisplayActions }}>
             {children}
             <div ref={ref}></div>
         </ContainerContext.Provider>
