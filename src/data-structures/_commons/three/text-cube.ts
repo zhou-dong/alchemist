@@ -1,14 +1,13 @@
 import * as THREE from 'three';
-import {
-  TextGeometry,
-  TextGeometryParameters,
-} from 'three/examples/jsm/geometries/TextGeometry';
+import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
 import { Cube } from './cube';
 import { TextCube as ITextCube } from '../text-cube';
+import { calDestination } from '../utils';
+import gsap from 'gsap';
 
 export class TextCube<T> extends Cube implements ITextCube<T> {
   private _value: T;
-  public textMesh: THREE.Mesh;
+  private textMesh: THREE.Mesh;
 
   constructor(
     value: T,
@@ -51,6 +50,14 @@ export class TextCube<T> extends Cube implements ITextCube<T> {
 
   public set textZ(v: number) {
     this.textMesh.position.setZ(v);
+  }
+
+  public move(position: THREE.Vector3, duration: number) {
+    const distance = super.distance(position);
+    const textEndPosition = calDestination(this.textMesh.position, distance);
+
+    super.move(position, duration)
+    gsap.to(this.textMesh.position, { ...textEndPosition, duration });
   }
 
   public show(): void {
