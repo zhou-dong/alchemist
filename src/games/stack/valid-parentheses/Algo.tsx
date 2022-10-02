@@ -7,22 +7,6 @@ import DangerousIcon from '@mui/icons-material/Dangerous';
 import { useContainer } from "./ContainerContext";
 import { wait } from '../../../data-structures/_commons/utils';
 
-// private buildStackShell() {
-//     const shell = new StackAlgo<Cube>();
-//     const { material, position, size } = this.shellParams;
-//     const { width, height, depth } = this.nodeSize;
-//     const { x, y, z } = position;
-//     for (let i = 0; i < size; i++) {
-//         const geometry = new THREE.BoxGeometry(width, height, depth)
-//         const cube = new Cube(geometry, material, this.scene);
-//         cube.x = x - width * i;
-//         cube.y = y;
-//         cube.z = z;
-//         cube.show();
-//         shell.push(cube);
-//     }
-// }
-
 const Actions = () => {
 
     const { queue, stack, animate, cancelAnimate, duration, displayActions } = useContainer();
