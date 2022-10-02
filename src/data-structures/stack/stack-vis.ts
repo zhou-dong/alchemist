@@ -16,11 +16,7 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         position: THREE.Vector3,
         duration?: number
     ) {
-        if (duration) {
-            this.duration = duration
-        } else {
-            this.duration = 0;
-        }
+        this.duration = duration ? duration : 0;
         this.position = position;
         this.shells = [];
         this.stack = new StackAlgo();
