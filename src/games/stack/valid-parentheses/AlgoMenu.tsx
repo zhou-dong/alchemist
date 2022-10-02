@@ -79,30 +79,25 @@ const Item: React.FC<{
 
 export default function BasicSpeedDial() {
     return (
-        <>
-            <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
-
-                <Item
-                    name="input"
-                    icon={<InputIcon fontSize="medium" />}
-                    popover={<AlgoInput />}
-                    defaultOpen={true}
-                />
-
-                <Item
-                    name="description"
-                    icon={<DescriptionIcon fontSize="medium" />}
-                    popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
-                    defaultOpen={false}
-                />
-
-                <Item
-                    name="code"
-                    icon={<CodeIcon fontSize="medium" />}
-                    popover={<CodeBlock code={formula} language={languages.Javascript} />}
-                    defaultOpen={false}
-                />
-            </MuiStack>
-        </>
+        <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
+            <Item
+                name="input"
+                icon={<InputIcon fontSize="medium" />}
+                popover={<AlgoInput />}
+                defaultOpen={true}
+            />
+            <Item
+                name="description"
+                icon={<DescriptionIcon fontSize="medium" />}
+                popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
+                defaultOpen={false}
+            />
+            <Item
+                name="code"
+                icon={<CodeIcon fontSize="medium" />}
+                popover={<CodeBlock code={formula} language={languages.Javascript} />}
+                defaultOpen={false}
+            />
+        </MuiStack>
     );
 }
