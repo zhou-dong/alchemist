@@ -9,7 +9,7 @@ import { wait } from '../../../data-structures/_commons/utils';
 
 const Actions = () => {
 
-    const { queue, stack, animate, cancelAnimate, duration, displayActions } = useContainer();
+    const { queue, stack, animate, cancelAnimate, duration } = useContainer();
     const [actionDisabled, setActionDisabled] = React.useState(false);
 
     const handleAddToStack = async () => {
