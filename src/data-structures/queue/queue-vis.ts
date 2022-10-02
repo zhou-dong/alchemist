@@ -24,7 +24,7 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
 
   increaseShells(shell: Cube) {
     const { x, y, z } = this.position;
-    shell.x = x - this.getShellsLength();
+    shell.x = x + this.getShellsLength();
     shell.y = y;
     shell.z = z;
     this.shells.push(shell);
@@ -68,7 +68,7 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
 
   private async playEnqueue(item: TextCube<T>): Promise<void> {
     const width = this.sumQueueWidth(this.queue);
-    const nodeEndPosition = this.position.clone().setX(this.position.x - width);
+    const nodeEndPosition = this.position.clone().setX(this.position.x + width);
     item.move(nodeEndPosition, this.duration);
     await wait(this.duration);
   }
@@ -86,7 +86,7 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     const iterator = this.queue.iterator();
     while (iterator.hasNext()) {
       const current = iterator.next();
-      const position = new THREE.Vector3(current.x + current.width, current.y, current.z);
+      const position = new THREE.Vector3(current.x - current.width, current.y, current.z);
       current.move(position, this.duration);
     }
     await wait(this.duration);

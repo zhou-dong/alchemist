@@ -156,7 +156,7 @@ const Submit: React.FC<{
             shell.show();
             stack.increaseShells(shell);
         }
-        for (let i = characters.length - 1; i >= 0; i--) {
+        for (let i = 0; i < characters.length; i++) {
             const character = characters[i];
             const item = createItem(character, scene);
             item.show();
