@@ -1,11 +1,13 @@
 import * as THREE from 'three';
+import gsap from 'gsap';
 import { Cube as ICube } from '../cube';
+import { calDistance } from '../utils';
 
 export class Cube implements ICube {
   protected scene: THREE.Scene;
   private geometry: THREE.BoxGeometry;
   private material: THREE.Material;
-  public mesh: THREE.Mesh;
+  private mesh: THREE.Mesh;
 
   constructor(
     geometry: THREE.BoxGeometry,
@@ -64,6 +66,14 @@ export class Cube implements ICube {
 
   public set depth(v: number) {
     this.mesh.scale.setZ(v);
+  }
+
+  protected distance(position: THREE.Vector3): THREE.Vector3 {
+    return calDistance(this.mesh.position, position);
+  }
+
+  public move(position: THREE.Vector3, duration: number) {
+    gsap.to(this.mesh.position, { ...position, duration });
   }
 
   public show(): void {
