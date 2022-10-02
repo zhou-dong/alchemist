@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
 
-export const nodeSize = {
+const nodeSize = {
     width: 1, height: 1, depth: 1
 }
 

@@ -7,17 +7,22 @@ import QueueAlgo from './queue-algo';
 
 export default class QueueVis<T> implements IQueue<TextCube<T>> {
 
+  public duration: number;
   private shells: Cube[];
   private queue: QueueAlgo<TextCube<T>>;
-  private duration: number;
   private position: THREE.Vector3;
 
   constructor(
     position: THREE.Vector3,
-    duration: number
+    duration?: number
   ) {
+    if (duration) {
+      this.duration = duration
+    } else {
+      this.duration = 0;
+    }
     this.position = position;
-    this.duration = duration;
+
     this.shells = [];
     this.queue = new QueueAlgo();
   }

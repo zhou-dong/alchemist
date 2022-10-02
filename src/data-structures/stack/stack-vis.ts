@@ -7,17 +7,21 @@ import { StackAlgo } from './stack-algo';
 
 export class StackVis<T> implements IStack<TextCube<T>> {
 
+    public duration: number;
     private shells: Cube[];
     private stack: StackAlgo<TextCube<T>>;
-    private duration: number;
     private position: THREE.Vector3;
 
     constructor(
         position: THREE.Vector3,
-        duration: number
+        duration?: number
     ) {
+        if (duration) {
+            this.duration = duration
+        } else {
+            this.duration = 0;
+        }
         this.position = position;
-        this.duration = duration;
         this.shells = [];
         this.stack = new StackAlgo();
     }
