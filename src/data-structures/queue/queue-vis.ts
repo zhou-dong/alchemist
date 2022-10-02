@@ -44,7 +44,7 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
   }
 
   async dequeue(): Promise<TextCube<T> | undefined> {
-    this.playDequeue();
+    await this.playDequeue();
     return this.queue.dequeue();
   }
 
@@ -82,13 +82,14 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     return result;
   }
 
-  private playDequeue(): void {
+  private async playDequeue(): Promise<void> {
     const iterator = this.queue.iterator();
     while (iterator.hasNext()) {
       const current = iterator.next();
       const position = new THREE.Vector3(current.x + current.width, current.y, current.z);
       current.move(position, this.duration);
     }
+    await wait(this.duration);
   }
 
   private playPeek(item: TextCube<T>): Promise<void> {

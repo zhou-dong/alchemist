@@ -13,7 +13,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import { useContainer } from "./ContainerContext";
 import { TextCube } from '../../../data-structures/_commons/three/text-cube';
-import { nodeParams } from './styles';
+import { Cube } from '../../../data-structures/_commons/three/cube';
+import { nodeParams, stackShellParams } from './styles';
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -78,6 +79,11 @@ const DropDown: React.FC<{
     );
 }
 
+const createStackShell = (scene: THREE.Scene): Cube => {
+    const { material, geometry } = stackShellParams;
+    return new Cube(geometry, material, scene);
+}
+
 const createItem = (value: string, scene: THREE.Scene): TextCube<string> => {
     const { textMaterial, textGeometryParameters, cubeMaterial, cubeGeometry, initPosition } = nodeParams;
 
@@ -99,13 +105,57 @@ const Submit: React.FC<{
     setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
-    const { queue, scene, animate, cancelAnimate, setDisplayActions } = useContainer();
-    const handleSubmit = async () => {
+    const { queue, stack, scene, animate, cancelAnimate, setDisplayActions } = useContainer();
+
+    const clearStackShell = () => {
+        if (!stack) {
+            return;
+        }
+        let shell = stack.decreaseShells();
+        while (shell) {
+            shell.hide();
+            shell = stack.decreaseShells();
+        }
+    }
+
+    const clearStack = async () => {
+        if (!stack) {
+            return;
+        }
+        let item = await stack.pop();
+        while (item) {
+            item.hide();
+            item = await stack.pop();
+        }
+    }
+
+    const clearQueue = async () => {
         if (!queue) {
             return;
         }
+        let item = await queue.dequeue();
+        while (item) {
+            item.hide();
+            item = await queue.dequeue();
+        }
+    }
+
+    const handleSubmit = async () => {
+        if (!queue || !stack) {
+            return;
+        }
         const characters = Array.from(input);
+        setInput("");
+        setAnchorEl(null);
         animate();
+        clearStackShell();
+        await clearQueue();
+        await clearStack();
+        for (let i = 0; i < characters.length; i++) {
+            const shell = createStackShell(scene);
+            shell.show();
+            stack.increaseShells(shell);
+        }
         for (let i = characters.length - 1; i >= 0; i--) {
             const character = characters[i];
             const item = createItem(character, scene);
@@ -113,8 +163,6 @@ const Submit: React.FC<{
             await queue.enqueue(item)
         }
         cancelAnimate();
-        setInput("");
-        setAnchorEl(null);
         setDisplayActions(true);
     }
 

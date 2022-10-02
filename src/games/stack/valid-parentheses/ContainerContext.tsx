@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import Stack from '../../../data-structures/stack';
 import Queue from '../../../data-structures/queue';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import { stackShellParams, queueShellParams } from './styles';
+import { stackPosition, queuePosition } from './styles';
 
 const ContainerContext = React.createContext<{
     stack?: Stack<string>,
@@ -52,8 +52,8 @@ export const ContainerProvider: React.FC<{
 
         const init = () => {
             clearScene(scene);
-            setQueue(new Queue<string>(queueShellParams.position, duration));
-            setStack(new Stack<string>(stackShellParams.position, duration));
+            setQueue(new Queue<string>(queuePosition, duration));
+            setStack(new Stack<string>(stackPosition, duration));
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }

@@ -1,9 +1,8 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
-import { NodeSize, ShellParams } from '../../../data-structures/_commons/three/collectionParams';
 import { font } from '../../../commons/three';
 
-export const nodeSize: NodeSize = {
+export const nodeSize = {
     width: 1, height: 1, depth: 1
 }
 
@@ -17,16 +16,15 @@ export const nodeParams = {
     initPosition: new THREE.Vector3(-10, 2, -4),
 };
 
-const shellSize = 6;
-
-export const queueShellParams: ShellParams = {
+export const queueShellParams = {
     material: new THREE.MeshBasicMaterial({ color: "gold", opacity: 0.2, transparent: true }),
-    position: new THREE.Vector3(4, 2, -4),
-    size: shellSize,
+    geometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
 };
 
-export const stackShellParams: ShellParams = {
+export const stackShellParams = {
     material: new THREE.MeshBasicMaterial({ color: "gold", opacity: 0.2, transparent: true }),
-    position: new THREE.Vector3(4, -1, -4),
-    size: shellSize,
+    geometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
 };
+
+export const stackPosition = new THREE.Vector3(4, -1, -4);
+export const queuePosition = new THREE.Vector3(4, 2, -4);

@@ -24,7 +24,7 @@ export class StackVis<T> implements IStack<TextCube<T>> {
 
     increaseShells(shell: Cube) {
         const { x, y, z } = this.position;
-        shell.x = x - this.getShellsLength();
+        shell.x = x - this.getShellsWidth();
         shell.y = y;
         shell.z = z;
         this.shells.push(shell);
@@ -34,7 +34,7 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         return this.shells.pop();
     }
 
-    private getShellsLength(): number {
+    private getShellsWidth(): number {
         return this.shells.reduce((accumulator, current) => accumulator + current.width, 0)
     }
 
@@ -44,14 +44,14 @@ export class StackVis<T> implements IStack<TextCube<T>> {
     }
 
     private async playPush(item: TextCube<T>): Promise<void> {
-        await this.shiftNodesForPush();
+        this.shiftNodesForPush();
         const position = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
         item.move(position, this.duration);
         await wait(this.duration);
     }
 
     async pop(): Promise<TextCube<T> | undefined> {
-        this.playPop();
+        await this.playPop();
         return this.stack.pop();;
     }
 
@@ -78,17 +78,16 @@ export class StackVis<T> implements IStack<TextCube<T>> {
             const position = new THREE.Vector3(current.x - current.width, current.y, current.z);
             current.move(position, this.duration);
         }
-
-        await wait(this.duration);
     }
 
-    private playPop(): void {
+    private async playPop(): Promise<void> {
         const iterator = this.stack.iterator();
         while (iterator.hasNext()) {
             const current = iterator.next();
             const position = new THREE.Vector3(current.x + current.width, current.y, current.z);
             current.move(position, this.duration);
         }
+        await wait(this.duration);
     }
 
     private playPeek(item: TextCube<T> | undefined): Promise<void> {
