@@ -13,7 +13,7 @@ export const nodeParams = {
     textGeometryParameters: nodeTextGeometryParameters,
     cubeMaterial: new THREE.MeshBasicMaterial({ color: "green", opacity: 0.6, transparent: true }),
     cubeGeometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
-    initPosition: new THREE.Vector3(-10, 2, -4),
+    initPosition: new THREE.Vector3(10, 2, -4),
 };
 
 export const queueShellParams = {
@@ -26,5 +26,5 @@ export const stackShellParams = {
     geometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
 };
 
-export const stackPosition = new THREE.Vector3(4, -1, -4);
-export const queuePosition = new THREE.Vector3(4, 2, -4);
+export const stackPosition = new THREE.Vector3(-4, -1, -4);
+export const queuePosition = new THREE.Vector3(-4, 2, -4);
