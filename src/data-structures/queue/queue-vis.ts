@@ -16,13 +16,8 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     position: THREE.Vector3,
     duration?: number
   ) {
-    if (duration) {
-      this.duration = duration
-    } else {
-      this.duration = 0;
-    }
+    this.duration = duration ? duration : 0;
     this.position = position;
-
     this.shells = [];
     this.queue = new QueueAlgo();
   }
