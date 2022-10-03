@@ -47,4 +47,30 @@ function registerOrbitControls(camera: THREE.Camera, renderer: THREE.Renderer, s
     controls.addEventListener('change', () => renderer.render(scene, camera));
 }
 
-export { createRenderer, createCamera, createScene, clearScene, onWindowResize, loadFont, font, registerOrbitControls };
+const createDefaultGridHelper = () => {
+    const gridHelper = new THREE.GridHelper(2000, 100, "black", "black");
+    gridHelper.position.y = -459;
+    const material = gridHelper.material;
+    if (material instanceof THREE.Material) {
+        material.opacity = 0.95;
+        material.transparent = true;
+    }
+    return gridHelper;
+}
+
+function registeGrid(scene: THREE.Scene, gridHelper: THREE.GridHelper) {
+    scene.add(gridHelper);
+}
+
+export {
+    createRenderer,
+    createCamera,
+    createScene,
+    clearScene,
+    onWindowResize,
+    loadFont,
+    font,
+    registerOrbitControls,
+    registeGrid,
+    createDefaultGridHelper
+};

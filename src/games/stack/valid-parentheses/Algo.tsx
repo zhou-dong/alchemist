@@ -3,12 +3,13 @@ import * as THREE from 'three';
 import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
-import DangerousIcon from '@mui/icons-material/Dangerous';
 import { useContainer } from "./ContainerContext";
 import { wait } from '../../../data-structures/_commons/utils';
+import Instructions from "./Instructions";
 
 const Actions = () => {
 
+    const [instructionsAnchorEl, setInstructionsAnchorEl] = React.useState<null | HTMLElement>(null);
     const { queue, stack, animate, cancelAnimate, duration } = useContainer();
     const [actionDisabled, setActionDisabled] = React.useState(false);
 
@@ -57,11 +58,21 @@ const Actions = () => {
         setActionDisabled(false);
     };
 
+    const instructionsRef = React.useRef();
+    React.useEffect(() => {
+        if (instructionsRef && instructionsRef.current) {
+            setInstructionsAnchorEl(instructionsRef.current)
+        }
+    }, [instructionsRef]);
+
+
     return (
-        <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "100px" }}>
+        <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "200px" }}>
 
-            <ToggleButtonGroup disabled={actionDisabled}>
-
+            <ToggleButtonGroup
+                ref={instructionsRef}
+                disabled={actionDisabled}
+            >
                 <Tooltip title="Add to Stack" placement="top">
                     <ToggleButton
                         value="AddToQueueIcon"
@@ -72,7 +83,6 @@ const Actions = () => {
                         <AddToQueueIcon />
                     </ToggleButton>
                 </Tooltip>
-
                 <Tooltip title="Remove from Stack" placement="top">
                     <ToggleButton
                         value="RemoveFromQueueIcon"
@@ -83,19 +93,20 @@ const Actions = () => {
                         <RemoveFromQueueIcon />
                     </ToggleButton>
                 </Tooltip>
-
-                <Tooltip title="Invalid Parentheses" placement="top">
-                    <ToggleButton
-                        value="invalid"
-                        size='large'
-                        sx={{ borderColor: "gray" }}
-                    >
-                        <DangerousIcon />
-                    </ToggleButton>
-                </Tooltip>
-
             </ToggleButtonGroup>
 
+            <Instructions
+                anchorEl={instructionsAnchorEl}
+                setAnchorEl={setInstructionsAnchorEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }}
+            />
         </div>
     )
 }

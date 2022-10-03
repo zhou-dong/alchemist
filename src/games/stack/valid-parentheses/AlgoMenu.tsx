@@ -1,7 +1,7 @@
 import * as React from 'react';
-import DescriptionIcon from '@mui/icons-material/Description';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
-import { Popover, ToggleButton } from '@mui/material';
+import { Popover, ToggleButton, PopoverOrigin } from '@mui/material';
 import MuiStack from '@mui/material/Stack';
 import InputIcon from '@mui/icons-material/Input';
 import AlgoInput from "./AlgoInput";
@@ -9,6 +9,17 @@ import { description, formula } from "./contents";
 import ReactMarkdown from "react-markdown";
 import { styled } from '@mui/material/styles';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
+import Instructions from './Instructions';
+
+const anchorOrigin: PopoverOrigin = {
+    vertical: 'center',
+    horizontal: 'right',
+};
+const transformOrigin: PopoverOrigin = {
+    vertical: 'center',
+    horizontal: 'left',
+};
 
 const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     fontSize: "16px",
@@ -28,11 +39,7 @@ const Item: React.FC<{
     const open = Boolean(anchorEl);
 
     const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
-        if (anchorEl) {
-            setAnchorEl(null);
-        } else {
-            setAnchorEl(event.currentTarget);
-        }
+        anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
     }
 
     return (
@@ -51,14 +58,8 @@ const Item: React.FC<{
                 open={open}
                 anchorEl={anchorEl}
                 onClose={() => setAnchorEl(null)}
-                anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'right',
-                }}
-                transformOrigin={{
-                    vertical: 'center',
-                    horizontal: 'left',
-                }}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
             >
                 {popover}
             </Popover>
@@ -69,16 +70,11 @@ const Item: React.FC<{
 const Input = () => {
 
     const name = "input";
-
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
 
     const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
-        if (anchorEl) {
-            setAnchorEl(null);
-        } else {
-            setAnchorEl(event.currentTarget);
-        }
+        anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
     }
 
     const reference = React.useRef(null);
@@ -104,17 +100,43 @@ const Input = () => {
                 open={open}
                 anchorEl={anchorEl}
                 onClose={() => setAnchorEl(null)}
-                anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'right',
-                }}
-                transformOrigin={{
-                    vertical: 'center',
-                    horizontal: 'left',
-                }}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
             >
                 <AlgoInput setAnchorEl={setAnchorEl} />
             </Popover>
+        </>
+    )
+}
+
+const Tips = () => {
+
+    const name = "tips";
+    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+    const open = Boolean(anchorEl);
+
+    const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
+        anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
+    }
+
+    return (
+        <>
+            <ToggleButton
+                onChange={handleToggle}
+                aria-label={name}
+                size="large"
+                sx={{ borderRadius: "50%" }}
+                value={name}
+                selected={open}
+            >
+                <TipsAndUpdatesOutlinedIcon fontSize="medium" />
+            </ToggleButton>
+            <Instructions
+                anchorEl={anchorEl}
+                setAnchorEl={setAnchorEl}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
+            />
         </>
     )
 }
@@ -125,7 +147,7 @@ export default function BasicSpeedDial() {
             <Input />
             <Item
                 name="description"
-                icon={<DescriptionIcon fontSize="medium" />}
+                icon={<DescriptionOutlinedIcon fontSize="medium" />}
                 popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
             />
             <Item
@@ -133,6 +155,7 @@ export default function BasicSpeedDial() {
                 icon={<CodeIcon fontSize="medium" />}
                 popover={<CodeBlock code={formula} language={languages.Javascript} />}
             />
+            <Tips />
         </MuiStack>
     );
 }

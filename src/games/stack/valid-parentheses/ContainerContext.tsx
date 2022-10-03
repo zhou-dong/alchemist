@@ -8,21 +8,20 @@ import { stackPosition, queuePosition } from './styles';
 const ContainerContext = React.createContext<{
     stack?: Stack<string>,
     queue?: Queue<string>,
-    scene: THREE.Scene;
-    duration: number;
-    animate: () => void;
-    cancelAnimate: () => void;
-    displayActions: boolean;
-    setDisplayActions: React.Dispatch<React.SetStateAction<boolean>>
+    scene: THREE.Scene,
+    duration: number,
+    animate: () => void,
+    cancelAnimate: () => void,
+    displayActions: boolean,
+    setDisplayActions: React.Dispatch<React.SetStateAction<boolean>>,
 }>({
     duration: 0,
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
     displayActions: false,
-    setDisplayActions: () => { }
+    setDisplayActions: () => { },
 });
-
 
 let animationFrameId = -1;
 
@@ -67,7 +66,16 @@ export const ContainerProvider: React.FC<{
     }, [ref, renderer, scene, camera]);
 
     return (
-        <ContainerContext.Provider value={{ stack, queue, scene, animate, cancelAnimate, duration, displayActions, setDisplayActions }}>
+        <ContainerContext.Provider value={{
+            stack,
+            queue,
+            scene,
+            animate,
+            cancelAnimate,
+            duration,
+            displayActions,
+            setDisplayActions,
+        }}>
             {children}
             <div ref={ref}></div>
         </ContainerContext.Provider>
