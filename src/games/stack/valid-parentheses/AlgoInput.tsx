@@ -105,7 +105,7 @@ const Submit: React.FC<{
     setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
-    const { queue, stack, scene, animate, cancelAnimate, setDisplayActions } = useContainer();
+    const { queue, stack, scene, animate, cancelAnimate, setDisplayActions, setSuccess } = useContainer();
 
     const clearStackShell = () => {
         if (!stack) {
@@ -144,6 +144,7 @@ const Submit: React.FC<{
         if (!queue || !stack) {
             return;
         }
+        setSuccess(false);
         const characters = Array.from(input);
         setInput("");
         setAnchorEl(null);

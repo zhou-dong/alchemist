@@ -14,6 +14,8 @@ const ContainerContext = React.createContext<{
     cancelAnimate: () => void,
     displayActions: boolean,
     setDisplayActions: React.Dispatch<React.SetStateAction<boolean>>,
+    success: boolean,
+    setSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }>({
     duration: 0,
     scene: new THREE.Scene(),
@@ -21,6 +23,8 @@ const ContainerContext = React.createContext<{
     cancelAnimate: () => { },
     displayActions: false,
     setDisplayActions: () => { },
+    success: false,
+    setSuccess: () => { }
 });
 
 let animationFrameId = -1;
@@ -37,6 +41,7 @@ export const ContainerProvider: React.FC<{
     const [queue, setQueue] = React.useState<Queue<string>>();
     const [stack, setStack] = React.useState<Stack<string>>();
     const [displayActions, setDisplayActions] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -75,6 +80,8 @@ export const ContainerProvider: React.FC<{
             duration,
             displayActions,
             setDisplayActions,
+            success,
+            setSuccess
         }}>
             {children}
             <div ref={ref}></div>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Paper, Popover, PopoverOrigin, Typography } from '@mui/material';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
+import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
 
 interface Props {
     anchorEl: HTMLElement | null;
@@ -42,6 +43,16 @@ export default function Instructions({ anchorEl, setAnchorEl, anchorOrigin, tran
                     <Typography>Use&nbsp;</Typography>
                     <RemoveFromQueueIcon />
                     <Typography>&nbsp;to remove parenthesis from stack.</Typography>
+                </div>
+                <div style={{
+                    marginTop: 10,
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap'
+                }}>
+                    <Typography>Use&nbsp;</Typography>
+                    <DangerousOutlinedIcon />
+                    <Typography>&nbsp;to identify the invalid parentheses.</Typography>
                 </div>
             </Paper>
         </Popover>

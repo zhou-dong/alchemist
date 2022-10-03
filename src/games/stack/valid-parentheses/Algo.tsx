@@ -7,6 +7,7 @@ import { useContainer } from "./ContainerContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import Instructions from "./Instructions";
 import AlgoMap from "./AlgoMap";
+import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
 
 const Table: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
     return (
@@ -64,15 +65,13 @@ const MessageAlert = ({ content, open, setOpen }: MessageProps) => {
     );
 }
 
-interface ActionsProps {
-    parenthesisMap: Map<string, string>;
-    setAlertOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    setAlertContent: React.Dispatch<React.SetStateAction<AlertContent>>;
-};
+const Actions: React.FC<{
+    parenthesisMap: Map<string, string>,
+    setAlertOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setAlertContent: React.Dispatch<React.SetStateAction<AlertContent>>,
+}> = ({ parenthesisMap, setAlertOpen, setAlertContent }) => {
 
-const Actions = ({ parenthesisMap, setAlertOpen, setAlertContent }: ActionsProps) => {
-
-    const { queue, stack, animate, cancelAnimate, duration } = useContainer();
+    const { queue, stack, animate, cancelAnimate, duration, setSuccess } = useContainer();
     const [actionDisabled, setActionDisabled] = React.useState(false);
 
     const handleAddToStack = async () => {
@@ -158,7 +157,48 @@ const Actions = ({ parenthesisMap, setAlertOpen, setAlertContent }: ActionsProps
         }
         cancelAnimate();
         setActionDisabled(false);
+
+        const q = await queue.peek();
+        const s = await stack.peek();
+        if (!q && !s) {
+            setSuccess(true);
+        }
     };
+
+    const identifyInvalidParentheses = async () => {
+        if (!queue || !stack) {
+            return;
+        }
+
+        const queueTemp = await queue.peek();
+        const stackTemp = await stack.peek();
+
+        // Add to stack
+        if (queueTemp && !parenthesisMap.has(queueTemp.value)) {
+            setAlertContent({
+                title: "Identify Invalid Parentheses Error",
+                message: `map.has( ${queueTemp.value} ) === false`
+            });
+            setAlertOpen(true);
+            return;
+        }
+
+        // Remove from stack
+        if (queueTemp && stackTemp) {
+            if (stackTemp.value === parenthesisMap.get(queueTemp.value)) {
+                setAlertContent({
+                    title: "Identify Invalid Parentheses Error",
+                    message: `Stack item:[ ${stackTemp.value} ] === map.get( ${queueTemp.value} )`
+                });
+                setAlertOpen(true);
+                return;
+            }
+        }
+
+
+
+        setSuccess(true);
+    }
 
     return (
         <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "200px" }}>
@@ -183,6 +223,18 @@ const Actions = ({ parenthesisMap, setAlertOpen, setAlertContent }: ActionsProps
                         <RemoveFromQueueIcon />
                     </ToggleButton>
                 </Tooltip>
+                <Tooltip title="Invalid Parentheses" placement="top">
+                    <ToggleButton
+                        value="RemoveFromQueueIcon"
+                        size='large'
+                        sx={{ borderColor: "gray" }}
+                        onClick={identifyInvalidParentheses}
+                    >
+                        <DangerousOutlinedIcon />
+                    </ToggleButton>
+                </Tooltip>
+
+
             </ToggleButtonGroup>
         </div>
     )
