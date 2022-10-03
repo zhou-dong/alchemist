@@ -8,7 +8,7 @@ const nodeTextGeometryParameters: TextGeometryParameters = { font, size: 0.6, he
 export const nodeParams = {
     textMaterial: new THREE.MeshBasicMaterial({ color: "blue" }),
     textGeometryParameters: nodeTextGeometryParameters,
-    cubeMaterial: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.7, transparent: true }),
+    cubeMaterial: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.5, transparent: true }),
     cubeGeometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
     initPosition: new THREE.Vector3(10, 2, -4),
 };
