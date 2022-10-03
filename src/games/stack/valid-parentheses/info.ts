@@ -9,7 +9,7 @@ const info: Game = {
     categories: [Category.Stack],
     companies: [],
     difficulty: Difficulty.Easy,
-    img: "/img/valid-parentheses.png"
+    img: "/img/valid_parentheses.png"
 }
 
 export default info;
