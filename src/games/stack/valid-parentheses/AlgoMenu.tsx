@@ -16,6 +16,7 @@ const anchorOrigin: PopoverOrigin = {
     vertical: 'center',
     horizontal: 'right',
 };
+
 const transformOrigin: PopoverOrigin = {
     vertical: 'center',
     horizontal: 'left',
