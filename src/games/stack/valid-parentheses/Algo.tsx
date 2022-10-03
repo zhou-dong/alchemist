@@ -8,6 +8,7 @@ import { wait } from '../../../data-structures/_commons/utils';
 import Instructions from "./Instructions";
 import AlgoMap from "./AlgoMap";
 import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
+import AlgoAlert, { AlgoAlertContent } from "./AlgoAlert"
 
 const Table: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
     return (
@@ -22,55 +23,10 @@ const Table: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisM
     );
 }
 
-interface AlertContent {
-    title: string;
-    message: string;
-}
+const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
 
-interface MessageProps {
-    content: AlertContent;
-    open: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const MessageAlert = ({ content, open, setOpen }: MessageProps) => {
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const DisplayAlert = () => (
-        <div style={{
-            width: "100%",
-            textAlign: "center",
-            position: "fixed",
-            bottom: "200px",
-        }}>
-            <Alert
-                variant="filled"
-                severity="error"
-                sx={{ width: "30%", margin: "auto" }}
-                onClose={handleClose}
-            >
-                <AlertTitle>{content.title}</AlertTitle>
-                {content.message}
-            </Alert>
-        </div>
-    );
-
-    return (
-        <>
-            {open && <DisplayAlert />}
-        </>
-    );
-}
-
-const Actions: React.FC<{
-    parenthesisMap: Map<string, string>,
-    setAlertOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    setAlertContent: React.Dispatch<React.SetStateAction<AlertContent>>,
-}> = ({ parenthesisMap, setAlertOpen, setAlertContent }) => {
-
+    const [alertAnchorEl, setAlertAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [alertContent, setAlertContent] = React.useState<AlgoAlertContent>({ title: "", message: "" });
     const { queue, stack, animate, cancelAnimate, duration, setSuccess } = useAlgoContext();
     const [actionDisabled, setActionDisabled] = React.useState(false);
 
@@ -84,7 +40,7 @@ const Actions: React.FC<{
                 title: "Add To Stack Error",
                 message: "Already went through all the parentheses."
             });
-            setAlertOpen(true);
+            setAlertAnchorEl(document.body);
             return;
         }
         if (parenthesisMap.has(temp.value)) {
@@ -92,7 +48,7 @@ const Actions: React.FC<{
                 title: "Add To Stack Error",
                 message: `Map contains "${temp.value}", should call [Remove From Stack].`
             });
-            setAlertOpen(true);
+            setAlertAnchorEl(document.body);
             return;
         }
 
@@ -118,7 +74,7 @@ const Actions: React.FC<{
                 title: "Remove From Stack Error",
                 message: "Stack is empty, can not remove item from stack."
             });
-            setAlertOpen(true);
+            setAlertAnchorEl(document.body);
             return;
         }
         if (!queueTemp) {
@@ -126,7 +82,7 @@ const Actions: React.FC<{
                 title: "Remove From Stack Error",
                 message: "Already went through all the parentheses."
             });
-            setAlertOpen(true);
+            setAlertAnchorEl(document.body);
             return;
         }
         if (stackTemp.value !== parenthesisMap.get(queueTemp.value)) {
@@ -134,7 +90,7 @@ const Actions: React.FC<{
                 title: "Remove From Stack Error",
                 message: `Stack item:[ ${stackTemp.value} ] !== map.get( ${queueTemp.value} )`
             });
-            setAlertOpen(true);
+            setAlertAnchorEl(document.body);
             return;
         }
 
@@ -179,7 +135,7 @@ const Actions: React.FC<{
                 title: "Identify Invalid Parentheses Error",
                 message: `map.has( ${queueTemp.value} ) === false`
             });
-            setAlertOpen(true);
+            setAlertAnchorEl(document.body);
             return;
         }
 
@@ -190,7 +146,7 @@ const Actions: React.FC<{
                     title: "Identify Invalid Parentheses Error",
                     message: `Stack item:[ ${stackTemp.value} ] === map.get( ${queueTemp.value} )`
                 });
-                setAlertOpen(true);
+                setAlertAnchorEl(document.body);
                 return;
             }
         }
@@ -233,9 +189,9 @@ const Actions: React.FC<{
                         <DangerousOutlinedIcon />
                     </ToggleButton>
                 </Tooltip>
-
-
             </ToggleButtonGroup>
+
+            <AlgoAlert anchorEl={alertAnchorEl} setAnchorEl={setAlertAnchorEl} content={alertContent} />
         </div>
     )
 };
@@ -245,7 +201,7 @@ export default function Algo() {
     const [alertOpen, setAlertOpen] = React.useState(false);
     const { displayActions } = useAlgoContext();
 
-    const [alertContent, setAlertContent] = React.useState<AlertContent>({ title: "", message: "" });
+    const [alertContent, setAlertContent] = React.useState<AlgoAlertContent>({ title: "", message: "" });
 
     const parenthesisMap: Map<string, string> = new Map<string, string>();
     parenthesisMap.set(")", "(");
@@ -263,13 +219,8 @@ export default function Algo() {
 
     const Display = () => (
         <>
-            <Actions
-                parenthesisMap={parenthesisMap}
-                setAlertOpen={setAlertOpen}
-                setAlertContent={setAlertContent}
-            />
+            <Actions parenthesisMap={parenthesisMap} />
             <Table parenthesisMap={parenthesisMap} />
-            <MessageAlert content={alertContent} open={alertOpen} setOpen={setAlertOpen} />
             <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "200px" }}>
                 <ToggleButtonGroup ref={instructionsRef}>123</ToggleButtonGroup>
             </div>
