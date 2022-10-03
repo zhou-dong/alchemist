@@ -133,7 +133,7 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
         if (queueTemp && !parenthesisMap.has(queueTemp.value)) {
             setAlertContent({
                 title: "Identify Invalid Parentheses Error",
-                message: `map.has( ${queueTemp.value} ) === false`
+                message: `map.has( ${queueTemp.value} ) === false, should [Add to Stack]`
             });
             setAlertAnchorEl(document.body);
             return;
@@ -150,8 +150,6 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
                 return;
             }
         }
-
-
 
         setSuccess(true);
     }
