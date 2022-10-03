@@ -8,13 +8,13 @@ const nodeTextGeometryParameters: TextGeometryParameters = { font, size: 0.6, he
 export const nodeParams = {
     textMaterial: new THREE.MeshBasicMaterial({ color: "blue" }),
     textGeometryParameters: nodeTextGeometryParameters,
-    cubeMaterial: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.6, transparent: true }),
+    cubeMaterial: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.7, transparent: true }),
     cubeGeometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
     initPosition: new THREE.Vector3(10, 2, -4),
 };
 
 export const stackShellParams = {
-    material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.6, transparent: true }),
+    material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.2, transparent: true }),
     geometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
 };
 
