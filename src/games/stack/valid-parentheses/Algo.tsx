@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as THREE from 'three';
-import { Alert, AlertTitle, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
 import { useAlgoContext } from "./AlgoContext";
@@ -198,11 +198,7 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
 
 export default function Algo() {
 
-    const [alertOpen, setAlertOpen] = React.useState(false);
     const { displayActions } = useAlgoContext();
-
-    const [alertContent, setAlertContent] = React.useState<AlgoAlertContent>({ title: "", message: "" });
-
     const parenthesisMap: Map<string, string> = new Map<string, string>();
     parenthesisMap.set(")", "(");
     parenthesisMap.set("]", "[");
