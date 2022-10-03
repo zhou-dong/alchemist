@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as THREE from 'three';
-import { Alert, AlertTitle, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
+import { Alert, AlertTitle, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
 import { useContainer } from "./ContainerContext";
@@ -204,11 +204,10 @@ export default function Algo() {
     const instructionsRef = React.useRef();
 
     React.useEffect(() => {
-        if (displayActions && instructionsRef && instructionsRef.current) {
-            setInstructionsAnchorEl(instructionsRef.current)
+        if (displayActions) {
+            setInstructionsAnchorEl(document.body);
         }
-        console.log("effect")
-    }, [displayActions, instructionsRef]);
+    }, [displayActions]);
 
     const Display = () => (
         <>
@@ -219,6 +218,9 @@ export default function Algo() {
             />
             <Table parenthesisMap={parenthesisMap} />
             <MessageAlert content={alertContent} open={alertOpen} setOpen={setAlertOpen} />
+            <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "200px" }}>
+                <ToggleButtonGroup ref={instructionsRef}>123</ToggleButtonGroup>
+            </div>
             <Instructions
                 anchorEl={instructionsAnchorEl}
                 setAnchorEl={setInstructionsAnchorEl}
