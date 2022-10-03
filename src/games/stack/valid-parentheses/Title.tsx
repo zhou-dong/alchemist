@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import info from "./info";
 import { Typography } from '@mui/material';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import { useContainer } from "./ContainerContext";
+import { useContainer } from "./AlgoContext";
 
 export default function Title() {
 

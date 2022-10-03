@@ -11,7 +11,7 @@ import { Button, ButtonGroup, Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import BackspaceIcon from '@mui/icons-material/Backspace';
-import { useContainer } from "./ContainerContext";
+import { useContainer } from "./AlgoContext";
 import { TextCube } from '../../../data-structures/_commons/three/text-cube';
 import { Cube } from '../../../data-structures/_commons/three/cube';
 import { nodeParams, stackShellParams } from './styles';

@@ -4,7 +4,7 @@ import AlgoMenu from "./AlgoMenu";
 import Title from './Title';
 import GameWrapper from '../../commons/GameWrapper';
 import info from "./info";
-import { ContainerProvider } from "./ContainerContext";
+import { ContainerProvider } from "./AlgoContext";
 import { ThemeProvider } from '@mui/material';
 import theme from "../../../commons/theme";
 

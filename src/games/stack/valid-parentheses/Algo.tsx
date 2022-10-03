@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as THREE from 'three';
-import { Alert, AlertTitle, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material';
+import { Alert, AlertTitle, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
-import { useContainer } from "./ContainerContext";
+import { useContainer } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import Instructions from "./Instructions";
 import AlgoMap from "./AlgoMap";
