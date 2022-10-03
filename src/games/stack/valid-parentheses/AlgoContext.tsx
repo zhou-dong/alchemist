@@ -5,7 +5,7 @@ import Queue from '../../../data-structures/queue';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { stackPosition, queuePosition } from './styles';
 
-const ContainerContext = React.createContext<{
+const AlgoContext = React.createContext<{
     stack?: Stack<string>,
     queue?: Queue<string>,
     scene: THREE.Scene,
@@ -29,7 +29,7 @@ const ContainerContext = React.createContext<{
 
 let animationFrameId = -1;
 
-export const ContainerProvider: React.FC<{
+export const AlgoContextProvider: React.FC<{
     children: React.ReactNode,
     renderer: THREE.Renderer,
     camera: THREE.Camera,
@@ -71,7 +71,7 @@ export const ContainerProvider: React.FC<{
     }, [ref, renderer, scene, camera]);
 
     return (
-        <ContainerContext.Provider value={{
+        <AlgoContext.Provider value={{
             stack,
             queue,
             scene,
@@ -85,10 +85,10 @@ export const ContainerProvider: React.FC<{
         }}>
             {children}
             <div ref={ref}></div>
-        </ContainerContext.Provider>
+        </AlgoContext.Provider>
     )
 }
 
-export const useContainer = () => {
-    return React.useContext(ContainerContext);
+export const useAlgoContext = () => {
+    return React.useContext(AlgoContext);
 };

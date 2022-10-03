@@ -11,7 +11,7 @@ import { Button, ButtonGroup, Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import BackspaceIcon from '@mui/icons-material/Backspace';
-import { useContainer } from "./AlgoContext";
+import { useAlgoContext } from "./AlgoContext";
 import { TextCube } from '../../../data-structures/_commons/three/text-cube';
 import { Cube } from '../../../data-structures/_commons/three/cube';
 import { nodeParams, stackShellParams } from './styles';
@@ -105,7 +105,7 @@ const Submit: React.FC<{
     setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
-    const { queue, stack, scene, animate, cancelAnimate, setDisplayActions, setSuccess } = useContainer();
+    const { queue, stack, scene, animate, cancelAnimate, setDisplayActions, setSuccess } = useAlgoContext();
 
     const clearStackShell = () => {
         if (!stack) {

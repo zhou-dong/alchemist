@@ -4,7 +4,7 @@ import AlgoMenu from "./AlgoMenu";
 import Title from './Title';
 import GameWrapper from '../../commons/GameWrapper';
 import info from "./info";
-import { ContainerProvider } from "./AlgoContext";
+import { AlgoContextProvider } from "./AlgoContext";
 import { ThemeProvider } from '@mui/material';
 import theme from "../../../commons/theme";
 
@@ -18,11 +18,11 @@ const Main = ({ renderer, camera, scene }: Props) => {
     return (
         <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
-                <ContainerProvider renderer={renderer} camera={camera} scene={scene}>
+                <AlgoContextProvider renderer={renderer} camera={camera} scene={scene}>
                     <Title />
                     <AlgoMenu />
                     <Algo />
-                </ContainerProvider>
+                </AlgoContextProvider>
             </ThemeProvider>
 
         </GameWrapper>

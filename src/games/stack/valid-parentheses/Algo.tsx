@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { Alert, AlertTitle, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
-import { useContainer } from "./AlgoContext";
+import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import Instructions from "./Instructions";
 import AlgoMap from "./AlgoMap";
@@ -71,7 +71,7 @@ const Actions: React.FC<{
     setAlertContent: React.Dispatch<React.SetStateAction<AlertContent>>,
 }> = ({ parenthesisMap, setAlertOpen, setAlertContent }) => {
 
-    const { queue, stack, animate, cancelAnimate, duration, setSuccess } = useContainer();
+    const { queue, stack, animate, cancelAnimate, duration, setSuccess } = useAlgoContext();
     const [actionDisabled, setActionDisabled] = React.useState(false);
 
     const handleAddToStack = async () => {
@@ -243,7 +243,7 @@ const Actions: React.FC<{
 export default function Algo() {
 
     const [alertOpen, setAlertOpen] = React.useState(false);
-    const { displayActions } = useContainer();
+    const { displayActions } = useAlgoContext();
 
     const [alertContent, setAlertContent] = React.useState<AlertContent>({ title: "", message: "" });
 

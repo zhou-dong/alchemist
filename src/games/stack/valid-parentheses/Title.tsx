@@ -3,11 +3,11 @@ import Box from '@mui/material/Box';
 import info from "./info";
 import { Typography } from '@mui/material';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import { useContainer } from "./AlgoContext";
+import { useAlgoContext } from "./AlgoContext";
 
 export default function Title() {
 
-    const { success } = useContainer();
+    const { success } = useAlgoContext();
 
     return (
         <Box
