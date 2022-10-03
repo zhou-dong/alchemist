@@ -142,7 +142,7 @@ const Tips = () => {
     )
 }
 
-export default function BasicSpeedDial() {
+export default function AlgoMenu() {
     return (
         <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
             <Input />

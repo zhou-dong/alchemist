@@ -60,7 +60,7 @@ const DropDown: React.FC<{
             }
             <Divider sx={{ my: 0.5 }} />
             <MenuItem sx={{ width: "308px", overflow: "hidden" }}>
-                <ButtonGroup variant="outlined" aria-label="valid parentheses input" size="small">
+                <ButtonGroup variant="outlined" aria-label="valid parentheses input" size="small" color='inherit'>
                     {
                         Array.from(parentheses).map((parenthese, index) =>
                             <Button key={index} onClick={() => setInput(current => current + parenthese)}>
@@ -168,7 +168,7 @@ const Submit: React.FC<{
 
     const disabled = !Boolean(input);
     return (
-        <IconButton color="primary" sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
+        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
             <OutputIcon />
         </IconButton>
     );

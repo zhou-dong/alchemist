@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as THREE from 'three';
-import { ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
+import { Alert, AlertTitle, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import RemoveFromQueueIcon from '@mui/icons-material/RemoveFromQueue';
 import { useContainer } from "./ContainerContext";
@@ -12,6 +12,7 @@ const Table: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisM
     return (
         <div style={{
             position: "fixed",
+            textAlign: "center",
             right: 200,
             top: 112
         }}>
@@ -20,9 +21,57 @@ const Table: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisM
     );
 }
 
-const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
+interface AlertContent {
+    title: string;
+    message: string;
+}
 
-    const [instructionsAnchorEl, setInstructionsAnchorEl] = React.useState<null | HTMLElement>(null);
+interface MessageProps {
+    content: AlertContent;
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const MessageAlert = ({ content, open, setOpen }: MessageProps) => {
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const DisplayAlert = () => (
+        <div style={{
+            width: "100%",
+            textAlign: "center",
+            position: "fixed",
+            bottom: "200px",
+        }}>
+            <Alert
+                variant="filled"
+                severity="error"
+                sx={{ width: "30%", margin: "auto" }}
+                onClose={handleClose}
+            >
+                <AlertTitle>{content.title}</AlertTitle>
+                {content.message}
+            </Alert>
+        </div>
+    );
+
+    return (
+        <>
+            {open && <DisplayAlert />}
+        </>
+    );
+}
+
+interface ActionsProps {
+    parenthesisMap: Map<string, string>;
+    setAlertOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setAlertContent: React.Dispatch<React.SetStateAction<AlertContent>>;
+};
+
+const Actions = ({ parenthesisMap, setAlertOpen, setAlertContent }: ActionsProps) => {
+
     const { queue, stack, animate, cancelAnimate, duration } = useContainer();
     const [actionDisabled, setActionDisabled] = React.useState(false);
 
@@ -32,9 +81,19 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
         }
         const temp = await queue.peek();
         if (!temp) {
+            setAlertContent({
+                title: "Add To Stack Error",
+                message: "Already went through all the parentheses."
+            });
+            setAlertOpen(true);
             return;
         }
         if (parenthesisMap.has(temp.value)) {
+            setAlertContent({
+                title: "Add To Stack Error",
+                message: `Map contains "${temp.value}", should call [Remove From Stack].`
+            });
+            setAlertOpen(true);
             return;
         }
 
@@ -55,10 +114,28 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
 
         const queueTemp = await queue.peek();
         const stackTemp = await stack.peek();
-        if (!queueTemp || !stackTemp) {
+        if (!stackTemp) {
+            setAlertContent({
+                title: "Remove From Stack Error",
+                message: "Stack is empty, can not remove item from stack."
+            });
+            setAlertOpen(true);
+            return;
+        }
+        if (!queueTemp) {
+            setAlertContent({
+                title: "Remove From Stack Error",
+                message: "Already went through all the parentheses."
+            });
+            setAlertOpen(true);
             return;
         }
         if (stackTemp.value !== parenthesisMap.get(queueTemp.value)) {
+            setAlertContent({
+                title: "Remove From Stack Error",
+                message: `Stack item:[ ${stackTemp.value} ] !== map.get( ${queueTemp.value} )`
+            });
+            setAlertOpen(true);
             return;
         }
 
@@ -83,19 +160,9 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
         setActionDisabled(false);
     };
 
-    const instructionsRef = React.useRef();
-    React.useEffect(() => {
-        if (instructionsRef && instructionsRef.current) {
-            setInstructionsAnchorEl(instructionsRef.current)
-        }
-    }, [instructionsRef]);
-
     return (
         <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "200px" }}>
-            <ToggleButtonGroup
-                ref={instructionsRef}
-                disabled={actionDisabled}
-            >
+            <ToggleButtonGroup disabled={actionDisabled}>
                 <Tooltip title="Add to Stack" placement="top">
                     <ToggleButton
                         value="AddToQueueIcon"
@@ -117,7 +184,41 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
                     </ToggleButton>
                 </Tooltip>
             </ToggleButtonGroup>
+        </div>
+    )
+};
 
+export default function Algo() {
+
+    const [alertOpen, setAlertOpen] = React.useState(false);
+    const { displayActions } = useContainer();
+
+    const [alertContent, setAlertContent] = React.useState<AlertContent>({ title: "", message: "" });
+
+    const parenthesisMap: Map<string, string> = new Map<string, string>();
+    parenthesisMap.set(")", "(");
+    parenthesisMap.set("]", "[");
+    parenthesisMap.set("}", "{");
+
+    const [instructionsAnchorEl, setInstructionsAnchorEl] = React.useState<null | HTMLElement>(null);
+    const instructionsRef = React.useRef();
+
+    React.useEffect(() => {
+        if (displayActions && instructionsRef && instructionsRef.current) {
+            setInstructionsAnchorEl(instructionsRef.current)
+        }
+        console.log("effect")
+    }, [displayActions, instructionsRef]);
+
+    const Display = () => (
+        <>
+            <Actions
+                parenthesisMap={parenthesisMap}
+                setAlertOpen={setAlertOpen}
+                setAlertContent={setAlertContent}
+            />
+            <Table parenthesisMap={parenthesisMap} />
+            <MessageAlert content={alertContent} open={alertOpen} setOpen={setAlertOpen} />
             <Instructions
                 anchorEl={instructionsAnchorEl}
                 setAnchorEl={setInstructionsAnchorEl}
@@ -130,25 +231,8 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
                     horizontal: 'center',
                 }}
             />
-        </div>
-    )
-}
-
-export default function Algo() {
-
-    const parenthesisMap: Map<string, string> = new Map<string, string>();
-    parenthesisMap.set(")", "(");
-    parenthesisMap.set("]", "[");
-    parenthesisMap.set("}", "{");
-
-    const Display = () => (
-        <>
-            <Actions parenthesisMap={parenthesisMap} />
-            <Table parenthesisMap={parenthesisMap} />
         </>
     );
-
-    const { displayActions } = useContainer();
 
     return (
         <>
