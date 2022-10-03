@@ -37,7 +37,6 @@ const AlgoAlert = ({ content, anchorEl, setAnchorEl }: MessageProps) => {
             <Alert
                 variant="filled"
                 severity="error"
-                // sx={{ width: "100%", margin: "auto" }}
                 onClose={handleClose}
             >
                 <AlertTitle>{content.title}</AlertTitle>
