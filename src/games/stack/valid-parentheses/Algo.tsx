@@ -36,8 +36,8 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
     const markSuccess = async () => {
         await clearStack();
         await clearQueue();
-        setSuccess(true);
         setDisplayActions(false);
+        setSuccess(true);
     };
 
     const handleAddToStack = async () => {
