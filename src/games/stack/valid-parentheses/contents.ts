@@ -1,26 +1,26 @@
 export const title = "Valid Parentheses";
 
-export const formula = `
-static Set<Character> set = new HashSet<>(Arrays.asList(new Character[] { '(', '[', '{' }));
-static Map<Character, Character> map = new HashMap<>();
+export const formula = `function isValid(s: string): boolean {
 
-static {
-    map.put(')', '(');
-    map.put(']', '[');
-    map.put('}', '{');
-}
+    const map: Map<string, string> = new Map([
+        [")", "("], ["]", "["], ["}", "{"]
+    ]);
 
-public boolean isValid(String s) {
-    Stack<Character> stack = new Stack<>();
-    for (char c : s.toCharArray()) {
-        if (set.contains(c)) {
-            stack.add(c);
-        } else if (stack.isEmpty() || stack.pop() != map.get(c)) {
+    const stack: string[] = [];
+    const chars = Array.from(s);
+
+    for (let i = 0; i < chars.length; i++) {
+        const char = chars[i];
+        if (!map.has(char)) {
+            stack.push(char);
+        } else if (stack.pop() !== map.get(char)) {
             return false;
         }
     }
-    return stack.size() == 0;
-}
+
+    return stack.length === 0;
+
+};
 `;
 
 export const description = `
