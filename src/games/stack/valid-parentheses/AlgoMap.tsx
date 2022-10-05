@@ -44,7 +44,7 @@ export default function AlgoMap({ activedKey, parenthesisMap }: Props) {
         <AlgoMapContainer>
             <Stack direction="row" spacing={1} sx={{ alignItems: "center", marginBottom: 1 }}>
                 <TableViewOutlinedIcon sx={{ ...getIconStyle(activedKey, parenthesisMap) }} fontSize="medium" />
-                <Typography variant='body1'>Parentheses Map</Typography>
+                <Typography variant='body1'>Parenthesis Map</Typography>
             </Stack>
             <TableContainer component={Paper} variant="outlined">
                 <Table>
