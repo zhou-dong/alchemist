@@ -105,39 +105,22 @@ const Submit: React.FC<{
     setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
-    const { queue, stack, scene, animate, cancelAnimate, setDisplayActions, setSuccess } = useAlgoContext();
-
-    const clearStackShell = () => {
-        if (!stack) {
-            return;
-        }
-        let shell = stack.decreaseShells();
-        while (shell) {
-            shell.hide();
-            shell = stack.decreaseShells();
-        }
-    }
+    const { queue, stack, scene, animate, cancelAnimate, setDisplayActions, setSuccess, setActivedKey } = useAlgoContext();
 
     const clearStack = async () => {
         if (!stack) {
             return;
         }
-        let item = await stack.pop();
-        while (item) {
-            item.hide();
-            item = await stack.pop();
-        }
+        stack.emptyShells();
+        await stack.empty();
     }
 
     const clearQueue = async () => {
         if (!queue) {
             return;
         }
-        let item = await queue.dequeue();
-        while (item) {
-            item.hide();
-            item = await queue.dequeue();
-        }
+        queue.emptyShells();
+        await queue.empty();
     }
 
     const handleSubmit = async () => {
@@ -149,7 +132,6 @@ const Submit: React.FC<{
         setInput("");
         setAnchorEl(null);
         animate();
-        clearStackShell();
         await clearQueue();
         await clearStack();
         for (let i = 0; i < characters.length; i++) {
@@ -165,6 +147,7 @@ const Submit: React.FC<{
         }
         cancelAnimate();
         setDisplayActions(true);
+        setActivedKey(characters[0]);
     }
 
     const disabled = !Boolean(input);
