@@ -10,20 +10,11 @@ import AlgoMap from "./AlgoMap";
 import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
 import AlgoAlert, { AlgoAlertContent } from "./AlgoAlert"
 
-const Table: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
-    return (
-        <div style={{
-            position: "fixed",
-            textAlign: "center",
-            right: 200,
-            top: 112
-        }}>
-            <AlgoMap parenthesisMap={parenthesisMap} />
-        </div>
-    );
-}
-
-const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
+const Actions: React.FC<{
+    parenthesisMap: Map<string, string>,
+    activedKey: string | null,
+    setActivedKey: React.Dispatch<React.SetStateAction<string | null>>
+}> = ({ activedKey, setActivedKey, parenthesisMap }) => {
 
     const [alertAnchorEl, setAlertAnchorEl] = React.useState<null | HTMLElement>(null);
     const [alertContent, setAlertContent] = React.useState<AlgoAlertContent>({ title: "", message: "" });
@@ -34,6 +25,7 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
         if (!queue || !stack) {
             return;
         }
+
         const temp = await queue.peek();
         if (!temp) {
             setAlertContent({
@@ -60,6 +52,13 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
         }
         cancelAnimate();
         setActionDisabled(false);
+
+        const next = await queue.peek();
+        if (next) {
+            setActivedKey(next.value);
+        } else {
+            setActivedKey(null);
+        }
     };
 
     const handleRemoveFromStack = async () => {
@@ -119,6 +118,13 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
         if (!q && !s) {
             setSuccess(true);
         }
+
+        const next = await queue.peek();
+        if (next) {
+            setActivedKey(next.value);
+        } else {
+            setActivedKey(null);
+        }
     };
 
     const identifyInvalidParentheses = async () => {
@@ -152,6 +158,13 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
         }
 
         setSuccess(true);
+
+        const next = await queue.peek();
+        if (next) {
+            setActivedKey(next.value);
+        } else {
+            setActivedKey(null);
+        }
     }
 
     return (
@@ -189,6 +202,7 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
                 </Tooltip>
             </ToggleButtonGroup>
 
+            <AlgoMap activedKey={activedKey} parenthesisMap={parenthesisMap} />
             <AlgoAlert anchorEl={alertAnchorEl} setAnchorEl={setAlertAnchorEl} content={alertContent} />
         </div>
     )
@@ -196,28 +210,30 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
 
 export default function Algo() {
 
-    const { displayActions } = useAlgoContext();
+    const { displayActions, queue } = useAlgoContext();
     const parenthesisMap: Map<string, string> = new Map<string, string>();
     parenthesisMap.set(")", "(");
     parenthesisMap.set("]", "[");
     parenthesisMap.set("}", "{");
 
+    const [activedKey, setActivedKey] = React.useState<string | null>(null);
     const [instructionsAnchorEl, setInstructionsAnchorEl] = React.useState<null | HTMLElement>(null);
-    const instructionsRef = React.useRef();
-
     React.useEffect(() => {
         if (displayActions) {
             setInstructionsAnchorEl(document.body);
+        }
+        if (queue) {
+            queue.peek().then(first => {
+                if (first) {
+                    setActivedKey(first.value);
+                }
+            })
         }
     }, [displayActions]);
 
     const Display = () => (
         <>
-            <Actions parenthesisMap={parenthesisMap} />
-            <Table parenthesisMap={parenthesisMap} />
-            <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "200px" }}>
-                <ToggleButtonGroup ref={instructionsRef}>123</ToggleButtonGroup>
-            </div>
+            <Actions parenthesisMap={parenthesisMap} activedKey={activedKey} setActivedKey={setActivedKey} />
             <Instructions
                 anchorEl={instructionsAnchorEl}
                 setAnchorEl={setInstructionsAnchorEl}
