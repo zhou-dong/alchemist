@@ -10,16 +10,35 @@ import AlgoMap from "./AlgoMap";
 import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
 import AlgoAlert, { AlgoAlertContent } from "./AlgoAlert"
 
-const Actions: React.FC<{
-    parenthesisMap: Map<string, string>,
-    activedKey: string | null,
-    setActivedKey: React.Dispatch<React.SetStateAction<string | null>>
-}> = ({ activedKey, setActivedKey, parenthesisMap }) => {
+const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
 
     const [alertAnchorEl, setAlertAnchorEl] = React.useState<null | HTMLElement>(null);
     const [alertContent, setAlertContent] = React.useState<AlgoAlertContent>({ title: "", message: "" });
-    const { queue, stack, animate, cancelAnimate, duration, setSuccess } = useAlgoContext();
+    const { queue, stack, animate, cancelAnimate, duration, setSuccess, setDisplayActions, activedKey, setActivedKey } = useAlgoContext();
     const [actionDisabled, setActionDisabled] = React.useState(false);
+
+    const clearStack = async () => {
+        if (!stack) {
+            return;
+        }
+        stack.emptyShells();
+        await stack.empty();
+    }
+
+    const clearQueue = async () => {
+        if (!queue) {
+            return;
+        }
+        queue.emptyShells();
+        await queue.empty();
+    }
+
+    const markSuccess = async () => {
+        await clearStack();
+        await clearQueue();
+        setSuccess(true);
+        setDisplayActions(false);
+    };
 
     const handleAddToStack = async () => {
         if (!queue || !stack) {
@@ -110,14 +129,15 @@ const Actions: React.FC<{
             stackItem.hide();
             await wait(0.05);
         }
-        cancelAnimate();
-        setActionDisabled(false);
 
         const q = await queue.peek();
         const s = await stack.peek();
         if (!q && !s) {
-            setSuccess(true);
+            await markSuccess();
         }
+
+        cancelAnimate();
+        setActionDisabled(false);
 
         const next = await queue.peek();
         if (next) {
@@ -157,14 +177,16 @@ const Actions: React.FC<{
             }
         }
 
-        setSuccess(true);
-
         const next = await queue.peek();
         if (next) {
             setActivedKey(next.value);
         } else {
             setActivedKey(null);
         }
+
+        animate();
+        await markSuccess();
+        cancelAnimate();
     }
 
     return (
@@ -210,13 +232,12 @@ const Actions: React.FC<{
 
 export default function Algo() {
 
-    const { displayActions, queue } = useAlgoContext();
+    const { displayActions, queue, setActivedKey } = useAlgoContext();
     const parenthesisMap: Map<string, string> = new Map<string, string>();
     parenthesisMap.set(")", "(");
     parenthesisMap.set("]", "[");
     parenthesisMap.set("}", "{");
 
-    const [activedKey, setActivedKey] = React.useState<string | null>(null);
     const [instructionsAnchorEl, setInstructionsAnchorEl] = React.useState<null | HTMLElement>(null);
     React.useEffect(() => {
         if (displayActions) {
@@ -233,7 +254,7 @@ export default function Algo() {
 
     const Display = () => (
         <>
-            <Actions parenthesisMap={parenthesisMap} activedKey={activedKey} setActivedKey={setActivedKey} />
+            <Actions parenthesisMap={parenthesisMap} />
             <Instructions
                 anchorEl={instructionsAnchorEl}
                 setAnchorEl={setInstructionsAnchorEl}
