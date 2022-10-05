@@ -15,7 +15,9 @@ const AlgoContext = React.createContext<{
     displayActions: boolean,
     setDisplayActions: React.Dispatch<React.SetStateAction<boolean>>,
     success: boolean,
-    setSuccess: React.Dispatch<React.SetStateAction<boolean>>
+    setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
+    activedKey: string | null,
+    setActivedKey: React.Dispatch<React.SetStateAction<string | null>>
 }>({
     duration: 0,
     scene: new THREE.Scene(),
@@ -24,7 +26,9 @@ const AlgoContext = React.createContext<{
     displayActions: false,
     setDisplayActions: () => { },
     success: false,
-    setSuccess: () => { }
+    setSuccess: () => { },
+    activedKey: null,
+    setActivedKey: () => { }
 });
 
 let animationFrameId = -1;
@@ -42,6 +46,7 @@ export const AlgoContextProvider: React.FC<{
     const [stack, setStack] = React.useState<Stack<string>>();
     const [displayActions, setDisplayActions] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
+    const [activedKey, setActivedKey] = React.useState<string | null>(null);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -81,7 +86,9 @@ export const AlgoContextProvider: React.FC<{
             displayActions,
             setDisplayActions,
             success,
-            setSuccess
+            setSuccess,
+            activedKey,
+            setActivedKey
         }}>
             {children}
             <div ref={ref}></div>
