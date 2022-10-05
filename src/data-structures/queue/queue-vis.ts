@@ -34,6 +34,22 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     return this.shells.pop();
   }
 
+  emptyShells() {
+    let item = this.shells.pop();
+    while (item) {
+      item.hide();
+      item = this.shells.pop();
+    }
+  }
+
+  async empty() {
+    let item = await this.dequeue();
+    while (item) {
+      item.hide();
+      item = await this.dequeue();
+    }
+  }
+
   private getShellsLength(): number {
     return this.shells.reduce((accumulator, current) => accumulator + current.width, 0)
   }
