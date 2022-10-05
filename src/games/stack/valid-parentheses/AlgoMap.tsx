@@ -7,14 +7,30 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Stack, Typography } from '@mui/material';
 import TableViewOutlinedIcon from '@mui/icons-material/TableViewOutlined';
+import { styled } from '@mui/material/styles';
+
+const AlgoMapContainer = styled("div")(() => ({
+    position: "fixed",
+    textAlign: "center",
+    right: 200,
+    top: 112
+}));
 
 interface Props {
+    activedKey: string | null;
     parenthesisMap: Map<string, string>;
 }
 
-export default function AlgoMap({ parenthesisMap }: Props) {
+const activedFontStyle = { color: "blue", fontWeight: "bold", fontSize: 30 };
+const inactivedFontStyle = {}
+
+const getFontStyle = (key: string, activeKey: string | null) => {
+    return (activeKey && activeKey === key) ? activedFontStyle : inactivedFontStyle;
+}
+
+export default function AlgoMap({ activedKey, parenthesisMap }: Props) {
     return (
-        <>
+        <AlgoMapContainer>
             <Stack direction="row" spacing={1} sx={{ alignItems: "center", marginBottom: 1 }}>
                 <TableViewOutlinedIcon sx={{ color: "rgba(0, 0, 0, 0.54)" }} fontSize="medium" />
                 <Typography variant='body1'>Parentheses Map</Typography>
@@ -31,14 +47,14 @@ export default function AlgoMap({ parenthesisMap }: Props) {
                         {
                             Array.from(parenthesisMap.entries()).map(([key, value]: [string, string]) => (
                                 <TableRow key={key} hover>
-                                    <TableCell align="center">{key}</TableCell>
-                                    <TableCell align="center" sx={{ borderLeft: "1px solid lightgrey" }}>{value}</TableCell>
+                                    <TableCell align="center" sx={{ ...getFontStyle(key, activedKey) }}>{key}</TableCell>
+                                    <TableCell align="center" sx={{ ...getFontStyle(key, activedKey), borderLeft: "1px solid lightgrey" }}>{value}</TableCell>
                                 </TableRow>
                             ))
                         }
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </AlgoMapContainer>
     );
 }
