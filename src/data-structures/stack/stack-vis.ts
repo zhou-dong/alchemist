@@ -34,6 +34,22 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         return this.shells.pop();
     }
 
+    emptyShells() {
+        let item = this.shells.pop();
+        while (item) {
+            item.hide();
+            item = this.shells.pop();
+        }
+    }
+
+    async empty() {
+        let item = await this.pop();
+        while (item) {
+            item.hide();
+            item = await this.pop();
+        }
+    }
+
     private getShellsWidth(): number {
         return this.shells.reduce((accumulator, current) => accumulator + current.width, 0)
     }
