@@ -6,7 +6,7 @@ import Difficulty from "../../commons/segments/difficulty";
 const info: Game = {
     name: title,
     path: "/algorithms/valid-parentheses",
-    categories: [Category.Stack],
+    categories: [Category.Stack, Category.HashTable],
     companies: [],
     difficulty: Difficulty.Easy,
     img: "/img/valid_parentheses.png"
