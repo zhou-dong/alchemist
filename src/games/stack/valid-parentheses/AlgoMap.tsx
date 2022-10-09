@@ -21,15 +21,9 @@ const getHeadCellStyle = (activedKey: string | null, parenthesisMap: Map<string,
 }
 
 const getBodyCellStyle = (key: string, activeKey: string | null) => {
-    const activedKeyStyle = { color: "blue", fontWeight: "bolder" };
+    const activedKeyStyle = { color: "blue", fontWeight: 900 };
     const inactivedKeyStyle = {};
     return (activeKey && activeKey === key) ? activedKeyStyle : inactivedKeyStyle;
-};
-
-const getIconStyle = (activedKey: string | null, parenthesisMap: Map<string, string>) => {
-    const containsKeyIconStyle = { color: "blue" };
-    const notContainersKeyIconStyle = { color: "red" };
-    return (activedKey && parenthesisMap.has(activedKey)) ? containsKeyIconStyle : notContainersKeyIconStyle;
 };
 
 export default function AlgoMap({ activedKey, parenthesisMap }: Props) {
@@ -42,7 +36,7 @@ export default function AlgoMap({ activedKey, parenthesisMap }: Props) {
 
             <AccordionSummary>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-                    <TableViewOutlinedIcon sx={{ ...getIconStyle(activedKey, parenthesisMap) }} fontSize="medium" />
+                    <TableViewOutlinedIcon fontSize="medium" />
                     <Typography variant='body1'>Map</Typography>
                 </Stack>
             </AccordionSummary>
