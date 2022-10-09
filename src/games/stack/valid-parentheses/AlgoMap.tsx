@@ -15,8 +15,8 @@ interface Props {
 }
 
 const getHeadCellStyle = (activedKey: string | null, parenthesisMap: Map<string, string>) => {
-    const containsKeyStyle = {};
-    const notContainersKeyStyle = { color: "red", fontWeight: "bolder" };
+    const containsKeyStyle = { width: 50 };
+    const notContainersKeyStyle = { color: "red", fontWeight: "bolder", width: 50 };
     return (activedKey && parenthesisMap.has(activedKey)) ? containsKeyStyle : notContainersKeyStyle;
 }
 
@@ -49,11 +49,11 @@ export default function AlgoMap({ activedKey, parenthesisMap }: Props) {
 
             <AccordionDetails>
                 <TableContainer component={Paper} variant="outlined">
-                    <Table>
+                    <Table size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" sx={{ ...getHeadCellStyle(activedKey, parenthesisMap), width: 50 }}>Key</TableCell>
-                                <TableCell align="center" sx={{ ...getHeadCellStyle(activedKey, parenthesisMap), borderLeft: "1px solid lightgrey", width: 50 }}>Value</TableCell>
+                                <TableCell align="center" sx={{ ...getHeadCellStyle(activedKey, parenthesisMap) }}>Key</TableCell>
+                                <TableCell align="center" sx={{ ...getHeadCellStyle(activedKey, parenthesisMap), borderLeft: "1px solid lightgrey" }}>Value</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
