@@ -1,16 +1,16 @@
 import * as React from 'react';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import CodeIcon from '@mui/icons-material/Code';
 import { Popover, ToggleButton, PopoverOrigin } from '@mui/material';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import MuiStack from '@mui/material/Stack';
 import InputIcon from '@mui/icons-material/Input';
 import AlgoInput from "./AlgoInput";
-import { description, formula } from "./contents";
+import { description, solution } from "./contents";
 import ReactMarkdown from "react-markdown";
 import { styled } from '@mui/material/styles';
-import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 import Instructions from './Instructions';
+import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 
 const anchorOrigin: PopoverOrigin = {
     vertical: 'center',
@@ -22,6 +22,17 @@ const transformOrigin: PopoverOrigin = {
     horizontal: 'left',
 };
 
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        fontSize: 13,
+    },
+}));
+
 const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     fontSize: "16px",
     marginTop: 0,
@@ -29,6 +40,10 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     paddingLeft: 10,
     paddingRight: 10,
 }));
+
+const capitalize = (name: string): string => {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+}
 
 const Item: React.FC<{
     name: string,
@@ -45,16 +60,18 @@ const Item: React.FC<{
 
     return (
         <>
-            <ToggleButton
-                onChange={handleToggle}
-                aria-label={name}
-                size="large"
-                sx={{ borderRadius: "50%" }}
-                value={name}
-                selected={open}
-            >
-                {icon}
-            </ToggleButton>
+            <LightTooltip title={capitalize(name)} placement="right">
+                <ToggleButton
+                    onChange={handleToggle}
+                    aria-label={name}
+                    size="large"
+                    sx={{ borderRadius: "50%" }}
+                    value={name}
+                    selected={open}
+                >
+                    {icon}
+                </ToggleButton>
+            </LightTooltip>
             <Popover
                 open={open}
                 anchorEl={anchorEl}
@@ -86,17 +103,19 @@ const Input = () => {
 
     return (
         <>
-            <ToggleButton
-                ref={reference}
-                onChange={handleToggle}
-                aria-label={name}
-                size="large"
-                sx={{ borderRadius: "50%" }}
-                value={name}
-                selected={open}
-            >
-                <InputIcon fontSize="medium" />
-            </ToggleButton>
+            <LightTooltip title={capitalize(name)} placement="right">
+                <ToggleButton
+                    ref={reference}
+                    onChange={handleToggle}
+                    aria-label={name}
+                    size="large"
+                    sx={{ borderRadius: "50%" }}
+                    value={name}
+                    selected={open}
+                >
+                    <InputIcon fontSize="medium" />
+                </ToggleButton>
+            </LightTooltip>
             <Popover
                 open={open}
                 anchorEl={anchorEl}
@@ -122,16 +141,18 @@ const Tips = () => {
 
     return (
         <>
-            <ToggleButton
-                onChange={handleToggle}
-                aria-label={name}
-                size="large"
-                sx={{ borderRadius: "50%" }}
-                value={name}
-                selected={open}
-            >
-                <TipsAndUpdatesOutlinedIcon fontSize="medium" />
-            </ToggleButton>
+            <LightTooltip title={capitalize(name)} placement="right">
+                <ToggleButton
+                    onChange={handleToggle}
+                    aria-label={name}
+                    size="large"
+                    sx={{ borderRadius: "50%" }}
+                    value={name}
+                    selected={open}
+                >
+                    <TipsAndUpdatesOutlinedIcon fontSize="medium" />
+                </ToggleButton>
+            </LightTooltip>
             <Instructions
                 anchorEl={anchorEl}
                 setAnchorEl={setAnchorEl}
@@ -152,9 +173,9 @@ export default function AlgoMenu() {
                 popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
             />
             <Item
-                name="code"
-                icon={<CodeIcon fontSize="medium" />}
-                popover={<CodeBlock code={formula} language={languages.Javascript} />}
+                name="solution"
+                icon={<EmojiObjectsOutlinedIcon fontSize="medium" />}
+                popover={<StyledReactMarkdown>{solution}</StyledReactMarkdown>}
             />
             <Tips />
         </MuiStack>

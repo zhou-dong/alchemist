@@ -18,5 +18,5 @@ export const stackShellParams = {
     geometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
 };
 
-export const queuePosition = new THREE.Vector3(-4, 3, -4);
-export const stackPosition = new THREE.Vector3(-4, 0, -4);
+export const queuePosition = new THREE.Vector3(-7, 3, -4);
+export const stackPosition = new THREE.Vector3(-7, 0, -4);

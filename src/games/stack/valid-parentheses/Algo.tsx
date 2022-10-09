@@ -9,6 +9,15 @@ import Instructions from "./Instructions";
 import AlgoMap from "./AlgoMap";
 import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
 import AlgoAlert, { AlgoAlertContent } from "./AlgoAlert"
+import { styled } from '@mui/material/styles';
+import AlgoCode from './AlgoCode';
+
+const AlgoMapContainer = styled("div")(() => ({
+    position: "fixed",
+    textAlign: "center",
+    right: 40,
+    top: 60
+}));
 
 const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
 
@@ -224,7 +233,11 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
                 </Tooltip>
             </ToggleButtonGroup>
 
-            <AlgoMap activedKey={activedKey} parenthesisMap={parenthesisMap} />
+            <AlgoMapContainer>
+                <AlgoMap activedKey={activedKey} parenthesisMap={parenthesisMap} />
+                <AlgoCode activedKey={activedKey} parenthesisMap={parenthesisMap} />
+            </AlgoMapContainer>
+
             <AlgoAlert anchorEl={alertAnchorEl} setAnchorEl={setAlertAnchorEl} content={alertContent} />
         </div>
     )
@@ -250,7 +263,7 @@ export default function Algo() {
                 }
             })
         }
-    }, [displayActions]);
+    }, [displayActions, queue, setActivedKey]);
 
     const Display = () => (
         <>
