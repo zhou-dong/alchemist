@@ -15,7 +15,7 @@ import AlgoCode from './AlgoCode';
 const AlgoMapContainer = styled("div")(() => ({
     position: "fixed",
     textAlign: "center",
-    right: 40,
+    right: 45,
     top: 60
 }));
 
