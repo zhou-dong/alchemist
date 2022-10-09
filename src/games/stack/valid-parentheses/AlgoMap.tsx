@@ -16,7 +16,7 @@ interface Props {
 
 const getHeadCellStyle = (activedKey: string | null, parenthesisMap: Map<string, string>) => {
     const containsKeyStyle = { width: 50 };
-    const notContainersKeyStyle = { color: "red", fontWeight: "bolder", width: 50 };
+    const notContainersKeyStyle = { color: "red", fontWeight: "bold", width: 50 };
     return (activedKey && parenthesisMap.has(activedKey)) ? containsKeyStyle : notContainersKeyStyle;
 }
 
