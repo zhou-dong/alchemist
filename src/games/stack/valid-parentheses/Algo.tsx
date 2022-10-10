@@ -11,6 +11,8 @@ import DangerousOutlinedIcon from '@mui/icons-material/DangerousOutlined';
 import AlgoAlert, { AlgoAlertContent } from "./AlgoAlert"
 import { styled } from '@mui/material/styles';
 import AlgoCode from './AlgoCode';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import { State } from "./AlgoState";
 
 const AlgoMapContainer = styled("div")(() => ({
     position: "fixed",
@@ -19,12 +21,21 @@ const AlgoMapContainer = styled("div")(() => ({
     top: 60
 }));
 
-const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesisMap }) => {
+const Actions = () => {
 
     const [alertAnchorEl, setAlertAnchorEl] = React.useState<null | HTMLElement>(null);
     const [alertContent, setAlertContent] = React.useState<AlgoAlertContent>({ title: "", message: "" });
-    const { queue, stack, animate, cancelAnimate, duration, setSuccess, setDisplayActions, activedKey, setActivedKey } = useAlgoContext();
+    const { queue, stack, animate, cancelAnimate, duration, setSuccess, setActivedKey, state, parenthesisMap, setState } = useAlgoContext();
     const [actionDisabled, setActionDisabled] = React.useState(false);
+
+    React.useEffect(() => {
+        if (state === State.Typing || state === State.Finished) {
+            setActionDisabled(true);
+        }
+        if (state === State.Playing) {
+            setActionDisabled(false);
+        }
+    }, [state]);
 
     const clearStack = async () => {
         if (!stack) {
@@ -43,9 +54,11 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
     }
 
     const markSuccess = async () => {
+        animate();
         await clearStack();
         await clearQueue();
-        setDisplayActions(false);
+        cancelAnimate();
+        setState(State.Finished);
         setSuccess(true);
     };
 
@@ -139,12 +152,6 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
             await wait(0.05);
         }
 
-        const q = await queue.peek();
-        const s = await stack.peek();
-        if (!q && !s) {
-            await markSuccess();
-        }
-
         cancelAnimate();
         setActionDisabled(false);
 
@@ -186,16 +193,37 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
             }
         }
 
-        const next = await queue.peek();
-        if (next) {
-            setActivedKey(next.value);
-        } else {
-            setActivedKey(null);
+        // valid parentheses
+        if (!queueTemp && !stackTemp) {
+            setAlertContent({
+                title: "Identify Invalid Parentheses Error",
+                message: `This is a valid parentheses.`
+            });
+            setAlertAnchorEl(document.body);
+            return;
         }
 
-        animate();
         await markSuccess();
-        cancelAnimate();
+    }
+
+    const handleClickSuccess = async () => {
+        if (!queue || !stack) {
+            return;
+        }
+
+        const queueTemp = await queue.peek();
+        const stackTemp = await stack.peek();
+
+        if (!queueTemp && !stackTemp) {
+            await markSuccess();
+        } else {
+            setAlertContent({
+                title: "Mark Valid Parentheses Failed.",
+                message: "Mark Valid Parentheses Failed."
+            });
+            setAlertAnchorEl(document.body);
+        }
+
     }
 
     return (
@@ -231,12 +259,17 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
                         <DangerousOutlinedIcon />
                     </ToggleButton>
                 </Tooltip>
+                <Tooltip title="Valid Parentheses" placement="top">
+                    <ToggleButton
+                        value="RemoveFromQueueIcon"
+                        size='large'
+                        sx={{ borderColor: "gray" }}
+                        onClick={handleClickSuccess}
+                    >
+                        <CheckCircleOutlinedIcon />
+                    </ToggleButton>
+                </Tooltip>
             </ToggleButtonGroup>
-
-            <AlgoMapContainer>
-                <AlgoMap activedKey={activedKey} parenthesisMap={parenthesisMap} />
-                <AlgoCode activedKey={activedKey} parenthesisMap={parenthesisMap} />
-            </AlgoMapContainer>
 
             <AlgoAlert anchorEl={alertAnchorEl} setAnchorEl={setAlertAnchorEl} content={alertContent} />
         </div>
@@ -245,29 +278,23 @@ const Actions: React.FC<{ parenthesisMap: Map<string, string> }> = ({ parenthesi
 
 export default function Algo() {
 
-    const { displayActions, queue, setActivedKey } = useAlgoContext();
-    const parenthesisMap: Map<string, string> = new Map<string, string>();
-    parenthesisMap.set(")", "(");
-    parenthesisMap.set("]", "[");
-    parenthesisMap.set("}", "{");
+    const { displayInstructions } = useAlgoContext();
 
     const [instructionsAnchorEl, setInstructionsAnchorEl] = React.useState<null | HTMLElement>(null);
     React.useEffect(() => {
-        if (displayActions) {
+        if (displayInstructions) {
             setInstructionsAnchorEl(document.body);
         }
-        if (queue) {
-            queue.peek().then(first => {
-                if (first) {
-                    setActivedKey(first.value);
-                }
-            })
-        }
-    }, [displayActions, queue, setActivedKey]);
+    }, [displayInstructions]);
 
-    const Display = () => (
+    return (
         <>
-            <Actions parenthesisMap={parenthesisMap} />
+            <AlgoMapContainer>
+                <AlgoMap />
+                <AlgoCode />
+            </AlgoMapContainer>
+
+            <Actions />
             <Instructions
                 anchorEl={instructionsAnchorEl}
                 setAnchorEl={setInstructionsAnchorEl}
@@ -280,12 +307,6 @@ export default function Algo() {
                     horizontal: 'center',
                 }}
             />
-        </>
-    );
-
-    return (
-        <>
-            {displayActions && <Display />}
         </>
     )
 }
