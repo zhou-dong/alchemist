@@ -14,7 +14,7 @@ export const nodeParams = {
 };
 
 export const stackShellParams = {
-    material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.5, transparent: true }),
+    material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.2, transparent: true }),
     geometry: new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth),
 };
 
