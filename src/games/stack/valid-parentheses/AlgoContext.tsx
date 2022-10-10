@@ -4,6 +4,7 @@ import Stack from '../../../data-structures/stack';
 import Queue from '../../../data-structures/queue';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { stackPosition, queuePosition } from './styles';
+import { State } from "./AlgoState";
 
 const AlgoContext = React.createContext<{
     stack?: Stack<string>,
@@ -17,7 +18,10 @@ const AlgoContext = React.createContext<{
     success: boolean,
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
     activedKey: string | null,
-    setActivedKey: React.Dispatch<React.SetStateAction<string | null>>
+    setActivedKey: React.Dispatch<React.SetStateAction<string | null>>,
+    state: State,
+    setState: React.Dispatch<React.SetStateAction<State>>,
+    parenthesisMap: Map<string, string>
 }>({
     duration: 0,
     scene: new THREE.Scene(),
@@ -28,7 +32,10 @@ const AlgoContext = React.createContext<{
     success: false,
     setSuccess: () => { },
     activedKey: null,
-    setActivedKey: () => { }
+    setActivedKey: () => { },
+    state: State.Typing,
+    setState: () => { },
+    parenthesisMap: new Map<string, string>()
 });
 
 let animationFrameId = -1;
@@ -42,11 +49,17 @@ export const AlgoContextProvider: React.FC<{
     const duration = 0.5;
     const ref = React.useRef<HTMLDivElement>(null);
 
+    const [state, setState] = React.useState(State.Typing);
     const [queue, setQueue] = React.useState<Queue<string>>();
     const [stack, setStack] = React.useState<Stack<string>>();
     const [displayActions, setDisplayActions] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
     const [activedKey, setActivedKey] = React.useState<string | null>(null);
+
+    const parenthesisMap: Map<string, string> = new Map<string, string>();
+    parenthesisMap.set(")", "(");
+    parenthesisMap.set("]", "[");
+    parenthesisMap.set("}", "{");
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -88,7 +101,10 @@ export const AlgoContextProvider: React.FC<{
             success,
             setSuccess,
             activedKey,
-            setActivedKey
+            setActivedKey,
+            state,
+            setState,
+            parenthesisMap
         }}>
             {children}
             <div ref={ref}></div>
