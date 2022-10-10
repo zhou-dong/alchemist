@@ -45,7 +45,7 @@ export default function AlgoMap() {
 
     const { activedKey, parenthesisMap, state } = useAlgoContext();
 
-    const [expanded, setExpanded] = React.useState(true);
+    const [expanded, setExpanded] = React.useState(false);
     const handleChange = () => { setExpanded(!expanded) };
     React.useEffect(() => {
         if (state === State.Typing || state === State.Finished) {
