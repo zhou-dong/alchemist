@@ -119,6 +119,11 @@ const Categories = () => {
                     initSelected={calculateSelected(categories, Category.DynamicProgramming)}
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.DynamicProgramming, selected))}
                 />
+                <TextItem
+                    name="Hash Table"
+                    initSelected={calculateSelected(categories, Category.HashTable)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.HashTable, selected))}
+                />
             </Grid>
         </>
     )

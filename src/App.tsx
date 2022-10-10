@@ -91,6 +91,9 @@ import TwoThreeTreeRedBlackTreeInfo from "./games/tree/two-three-tree_vs-red-bla
 import LRU from "./games/hash-table/lru-cache";
 import LRUInfo from "./games/hash-table/lru-cache/info";
 
+import ValidParentheses from "./games/stack/valid-parentheses";
+import ValidParenthesesInfo from "./games/stack/valid-parentheses/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -155,6 +158,7 @@ const App = () => (
                 <Route path={BinaryTreePostorderTraversalInfo.path} element={<BinaryTreePostorderTraversal />} />
                 <Route path={BinaryTreePreorderTraversalInfo.path} element={<BinaryTreePreorderTraversal />} />
                 <Route path={TwoThreeTreeRedBlackTreeInfo.path} element={<TwoThreeTreeRedBlackTree input={buildTreeData()} />} />
+                <Route path={ValidParenthesesInfo.path} element={<ValidParentheses renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={LRUInfo.path} element={<LRU />} />
             </>
         </Routes>

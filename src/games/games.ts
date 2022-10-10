@@ -34,6 +34,7 @@ import binaryTreePostorderTraversal from "./tree/binary-tree-postorder-traversal
 import binaryTreePreorderTraversal from "./tree/binary-tree-preorder-traversal/info";
 import twoThreeTreeRedBlackTree from "./tree/two-three-tree_vs-red-black-tree/info";
 import LRU from "./hash-table/lru-cache/info";
+import validParentheses from "./stack/valid-parentheses/info";
 
 export const games: Game[] = [
     editDistance,
@@ -69,5 +70,6 @@ export const games: Game[] = [
     bubbleSort,
     selectionSort,
     insertionSort,
-    LRU
+    LRU,
+    validParentheses
 ];
