@@ -15,6 +15,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { TextCube } from '../../../data-structures/_commons/three/text-cube';
 import { Cube } from '../../../data-structures/_commons/three/cube';
 import { nodeParams, stackShellParams } from './styles';
+import { State } from './AlgoState';
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -105,7 +106,7 @@ const Submit: React.FC<{
     setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
-    const { queue, stack, scene, animate, cancelAnimate, setDisplayActions, setSuccess, setActivedKey } = useAlgoContext();
+    const { queue, stack, scene, animate, cancelAnimate, setDisplayInstructions, setSuccess, setActivedKey, setState } = useAlgoContext();
 
     const clearStack = async () => {
         if (!stack) {
@@ -128,6 +129,7 @@ const Submit: React.FC<{
             return;
         }
         setSuccess(false);
+        setState(State.Typing);
         const characters = Array.from(input);
         setInput("");
         setAnchorEl(null);
@@ -146,8 +148,9 @@ const Submit: React.FC<{
             await queue.enqueue(item)
         }
         cancelAnimate();
-        setDisplayActions(true);
+        setDisplayInstructions(true);
         setActivedKey(characters[0]);
+        setState(State.Playing);
     }
 
     const disabled = !Boolean(input);
