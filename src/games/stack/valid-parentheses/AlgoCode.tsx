@@ -27,7 +27,7 @@ const AlgoCode = () => {
         setHighLightLine(() => getHighLightLineNumber(activedKey, parenthesisMap, state));
     }, [activedKey, parenthesisMap, state]);
 
-    const [expanded, setExpanded] = React.useState(true);
+    const [expanded, setExpanded] = React.useState(false);
     const handleChange = () => { setExpanded(!expanded) };
     React.useEffect(() => {
         if (state === State.Typing || state === State.Finished) {
@@ -37,6 +37,7 @@ const AlgoCode = () => {
             setExpanded(true);
         }
     }, [state]);
+
 
     return (
         <Accordion expanded={expanded} onChange={handleChange}>
