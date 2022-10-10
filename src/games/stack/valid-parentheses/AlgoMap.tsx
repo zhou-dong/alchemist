@@ -8,28 +8,53 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Accordion, AccordionDetails, AccordionSummary, Stack, Typography } from '@mui/material';
 import TableViewOutlinedIcon from '@mui/icons-material/TableViewOutlined';
+import { useAlgoContext } from "./AlgoContext";
+import { State } from "./AlgoState";
 
-interface Props {
-    activedKey: string | null;
-    parenthesisMap: Map<string, string>;
-}
+const getHeadCellStyle = (activedKey: string | null, parenthesisMap: Map<string, string>, state: State) => {
+    const regularStyle = { width: 50 };
 
-const getHeadCellStyle = (activedKey: string | null, parenthesisMap: Map<string, string>) => {
-    const containsKeyStyle = { width: 50 };
+    if (state === State.Typing || state === State.Finished) {
+        return regularStyle;
+    }
+
+    if (activedKey === null) {
+        return regularStyle;
+    }
+
     const notContainersKeyStyle = { backgroundColor: "purple", color: "white", fontWeight: "bold", width: 50 };
-    return (activedKey && parenthesisMap.has(activedKey)) ? containsKeyStyle : notContainersKeyStyle;
+    return parenthesisMap.has(activedKey) ? regularStyle : notContainersKeyStyle;
 }
 
-const getBodyCellStyle = (key: string, activeKey: string | null) => {
-    const activedKeyStyle = { backgroundColor: "blue", color: "white", fontWeight: "bold" };
-    const inactivedKeyStyle = {};
-    return (activeKey && activeKey === key) ? activedKeyStyle : inactivedKeyStyle;
+const getBodyCellStyle = (key: string, activedKey: string | null, state: State) => {
+    const regularStyle = {};
+
+    if (state === State.Typing || state === State.Finished) {
+        return regularStyle;
+    }
+
+    if (activedKey === null) {
+        return regularStyle;
+    }
+
+    const activedStyle = { backgroundColor: "blue", color: "white", fontWeight: "bold" };
+    return activedKey === key ? activedStyle : regularStyle;
 };
 
-export default function AlgoMap({ activedKey, parenthesisMap }: Props) {
+export default function AlgoMap() {
+
+    const { activedKey, parenthesisMap, state } = useAlgoContext();
 
     const [expanded, setExpanded] = React.useState(true);
     const handleChange = () => { setExpanded(!expanded) };
+    React.useEffect(() => {
+        if (state === State.Typing || state === State.Finished) {
+            setExpanded(false);
+        }
+        if (state === State.Playing) {
+            setExpanded(true);
+        }
+    }, [state]);
 
     return (
         <Accordion expanded={expanded} onChange={handleChange}>
@@ -46,16 +71,16 @@ export default function AlgoMap({ activedKey, parenthesisMap }: Props) {
                     <Table size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" sx={{ ...getHeadCellStyle(activedKey, parenthesisMap) }}>Key</TableCell>
-                                <TableCell align="center" sx={{ ...getHeadCellStyle(activedKey, parenthesisMap), borderLeft: "1px solid lightgrey" }}>Value</TableCell>
+                                <TableCell align="center" sx={{ ...getHeadCellStyle(activedKey, parenthesisMap, state) }}>Key</TableCell>
+                                <TableCell align="center" sx={{ ...getHeadCellStyle(activedKey, parenthesisMap, state), borderLeft: "1px solid lightgrey" }}>Value</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {
                                 Array.from(parenthesisMap.entries()).map(([key, value]: [string, string]) => (
                                     <TableRow key={key} hover>
-                                        <TableCell align="center" sx={{ ...getBodyCellStyle(key, activedKey) }}>{key}</TableCell>
-                                        <TableCell align="center" sx={{ ...getBodyCellStyle(key, activedKey), borderLeft: "1px solid lightgrey" }}>{value}</TableCell>
+                                        <TableCell align="center" sx={{ ...getBodyCellStyle(key, activedKey, state) }}>{key}</TableCell>
+                                        <TableCell align="center" sx={{ ...getBodyCellStyle(key, activedKey, state), borderLeft: "1px solid lightgrey" }}>{value}</TableCell>
                                     </TableRow>
                                 ))
                             }
