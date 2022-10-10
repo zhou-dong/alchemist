@@ -16,12 +16,12 @@ interface Props {
 
 const getHeadCellStyle = (activedKey: string | null, parenthesisMap: Map<string, string>) => {
     const containsKeyStyle = { width: 50 };
-    const notContainersKeyStyle = { color: "red", fontWeight: "bold", width: 50 };
+    const notContainersKeyStyle = { backgroundColor: "purple", color: "white", fontWeight: "bold", width: 50 };
     return (activedKey && parenthesisMap.has(activedKey)) ? containsKeyStyle : notContainersKeyStyle;
 }
 
 const getBodyCellStyle = (key: string, activeKey: string | null) => {
-    const activedKeyStyle = { color: "blue", fontWeight: 900 };
+    const activedKeyStyle = { backgroundColor: "blue", color: "white", fontWeight: "bold" };
     const inactivedKeyStyle = {};
     return (activeKey && activeKey === key) ? activedKeyStyle : inactivedKeyStyle;
 };
