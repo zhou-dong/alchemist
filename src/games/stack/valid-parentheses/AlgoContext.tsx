@@ -13,8 +13,8 @@ const AlgoContext = React.createContext<{
     duration: number,
     animate: () => void,
     cancelAnimate: () => void,
-    displayActions: boolean,
-    setDisplayActions: React.Dispatch<React.SetStateAction<boolean>>,
+    displayInstructions: boolean,
+    setDisplayInstructions: React.Dispatch<React.SetStateAction<boolean>>,
     success: boolean,
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
     activedKey: string | null,
@@ -27,8 +27,8 @@ const AlgoContext = React.createContext<{
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    displayActions: false,
-    setDisplayActions: () => { },
+    displayInstructions: false,
+    setDisplayInstructions: () => { },
     success: false,
     setSuccess: () => { },
     activedKey: null,
@@ -52,7 +52,7 @@ export const AlgoContextProvider: React.FC<{
     const [state, setState] = React.useState(State.Typing);
     const [queue, setQueue] = React.useState<Queue<string>>();
     const [stack, setStack] = React.useState<Stack<string>>();
-    const [displayActions, setDisplayActions] = React.useState(false);
+    const [displayInstructions, setDisplayInstructions] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
     const [activedKey, setActivedKey] = React.useState<string | null>(null);
 
@@ -96,8 +96,8 @@ export const AlgoContextProvider: React.FC<{
             animate,
             cancelAnimate,
             duration,
-            displayActions,
-            setDisplayActions,
+            displayInstructions,
+            setDisplayInstructions,
             success,
             setSuccess,
             activedKey,
