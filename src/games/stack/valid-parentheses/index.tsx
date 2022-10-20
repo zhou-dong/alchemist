@@ -24,7 +24,6 @@ const Main = ({ renderer, camera, scene }: Props) => {
                     <Algo />
                 </AlgoContextProvider>
             </ThemeProvider>
-
         </GameWrapper>
     );
 }
