@@ -1,7 +1,6 @@
 import * as React from 'react';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { Popover, ToggleButton, PopoverOrigin } from '@mui/material';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import MuiStack from '@mui/material/Stack';
 import InputIcon from '@mui/icons-material/Input';
 import AlgoInput from "./AlgoInput";
@@ -11,6 +10,8 @@ import { styled } from '@mui/material/styles';
 import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 import Instructions from './Instructions';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
+import Instruction from '../../../commons/Instruction';
+import LightTooltip from '../../../commons/LightTooltip';
 
 const anchorOrigin: PopoverOrigin = {
     vertical: 'center',
@@ -22,17 +23,6 @@ const transformOrigin: PopoverOrigin = {
     horizontal: 'left',
 };
 
-const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-        backgroundColor: theme.palette.common.white,
-        color: 'rgba(0, 0, 0, 0.87)',
-        boxShadow: theme.shadows[1],
-        fontSize: 13,
-    },
-}));
-
 const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     fontSize: "16px",
     marginTop: 0,
@@ -43,46 +33,6 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
-}
-
-const Item: React.FC<{
-    name: string,
-    icon: JSX.Element,
-    popover: JSX.Element
-}> = ({ icon, popover, name }) => {
-
-    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-    const open = Boolean(anchorEl);
-
-    const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
-        anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
-    }
-
-    return (
-        <>
-            <LightTooltip title={capitalize(name)} placement="right">
-                <ToggleButton
-                    onChange={handleToggle}
-                    aria-label={name}
-                    size="large"
-                    sx={{ borderRadius: "50%" }}
-                    value={name}
-                    selected={open}
-                >
-                    {icon}
-                </ToggleButton>
-            </LightTooltip>
-            <Popover
-                open={open}
-                anchorEl={anchorEl}
-                onClose={() => setAnchorEl(null)}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            >
-                {popover}
-            </Popover>
-        </>
-    )
 }
 
 const Input = () => {
@@ -167,15 +117,19 @@ export default function AlgoMenu() {
     return (
         <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
             <Input />
-            <Item
-                name="description"
+            <Instruction
+                name="Description"
                 icon={<DescriptionOutlinedIcon fontSize="medium" />}
                 popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
             />
-            <Item
-                name="solution"
+            <Instruction
+                name="Solution"
                 icon={<EmojiObjectsOutlinedIcon fontSize="medium" />}
                 popover={<StyledReactMarkdown>{solution}</StyledReactMarkdown>}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
             />
             <Tips />
         </MuiStack>
