@@ -4,8 +4,8 @@ import Stack from "../../../data-structures/stack";
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 
 const AlgoContext = React.createContext<{
-    stackA?: Stack<string>,
-    stackB?: Stack<string>,
+    stackIn?: Stack<string>,
+    stackOut?: Stack<string>,
     scene: THREE.Scene,
     duration: number,
     animate: () => void,
@@ -34,8 +34,8 @@ export const AlgoContextProvider: React.FC<{
 
     const duration = 0.5;
 
-    const [stackA, setStackA] = React.useState<Stack<string>>();
-    const [stackB, setStackB] = React.useState<Stack<string>>();
+    const [stackIn, setStackIn] = React.useState<Stack<string>>();
+    const [stackOut, setStackOut] = React.useState<Stack<string>>();
     const [success, setSuccess] = React.useState(false);
 
     function animate() {
@@ -53,8 +53,8 @@ export const AlgoContextProvider: React.FC<{
 
         const init = () => {
             clearScene(scene);
-            setStackA(new Stack<string>(stackAPosition, duration));
-            setStackB(new Stack<string>(stackBPosition, duration));
+            setStackIn(new Stack<string>(stackAPosition, duration));
+            setStackOut(new Stack<string>(stackBPosition, duration));
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
@@ -68,8 +68,8 @@ export const AlgoContextProvider: React.FC<{
     return (
         <>
             <AlgoContext.Provider value={{
-                stackA,
-                stackB,
+                stackIn,
+                stackOut,
                 scene,
                 duration,
                 animate,
