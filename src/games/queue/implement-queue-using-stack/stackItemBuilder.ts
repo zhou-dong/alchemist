@@ -8,13 +8,10 @@ class StackItemBuilder<T> {
     private _value: T;
     private _scene: THREE.Scene;
 
-    private _width: number = 1;
-    private _height: number = 1;
-    private _depth: number = 1;
-
     private _textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "blue" });
     private _textGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
     private _cubeMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "white", opacity: 0, transparent: true });
+    private _cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 1);
     private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
     constructor(value: T, scene: THREE.Scene) {
@@ -33,9 +30,7 @@ class StackItemBuilder<T> {
     }
 
     cubeGeometry(width: number, height: number, depth: number): StackItemBuilder<T> {
-        this._width = width;
-        this._height = height;
-        this._depth = depth;
+        this._cubeGeometry = new THREE.BoxGeometry(width, height, depth);
         return this;
     }
 
@@ -50,13 +45,12 @@ class StackItemBuilder<T> {
     }
 
     build(): TextCube<T> {
-        const cubeGeometry = new THREE.BoxGeometry(this._width, this._height, this._depth);
         const item = new TextCube<T>(
             this._value,
             this._textMaterial,
             this._textGeometryParameters,
             this._cubeMaterial,
-            cubeGeometry,
+            this._cubeGeometry,
             this._scene
         );
 
