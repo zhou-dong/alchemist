@@ -12,10 +12,10 @@ class StackItemBuilder<T> {
     private _height: number = 1;
     private _depth: number = 1;
 
-    private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
     private _textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "blue" });
     private _textGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
     private _cubeMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "white", opacity: 0, transparent: true });
+    private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
     constructor(value: T, scene: THREE.Scene) {
         this._value = value;
