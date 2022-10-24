@@ -22,8 +22,8 @@ const AlgoContext = React.createContext<{
 });
 
 let animationFrameId = -1;
-const stackAPosition = new THREE.Vector3(0, 0, 0);
-const stackBPosition = new THREE.Vector3(0, 2, 0);
+const stackAPosition = new THREE.Vector3(-7, 3, -4);
+const stackBPosition = new THREE.Vector3(-7, 0, -4);
 
 export const AlgoContextProvider: React.FC<{
     children: React.ReactNode,
