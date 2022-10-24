@@ -12,10 +12,7 @@ class StackItemBuilder<T> {
     private _height: number = 1;
     private _depth: number = 1;
 
-    private _x: number = 0;
-    private _y: number = 0;
-    private _z: number = 0;
-
+    private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
     private _textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "blue" });
     private _textGeometryParameters: TextGeometryParameters = { font, size: 0.6, height: 0.1 };
     private _cubeMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "white", opacity: 0, transparent: true });
@@ -26,9 +23,7 @@ class StackItemBuilder<T> {
     }
 
     position(x: number, y: number, z: number): StackItemBuilder<T> {
-        this._x = x;
-        this._y = y;
-        this._z = z;
+        this._position = new THREE.Vector3(x, y, z);
         return this;
     }
 
@@ -70,13 +65,13 @@ class StackItemBuilder<T> {
     }
 
     private setPosition(item: TextCube<T>): void {
-        item.x = this._x;
-        item.y = this._y;
-        item.z = this._z;
+        item.x = this._position.x;
+        item.y = this._position.y;
+        item.z = this._position.z;
 
         item.textX = item.x - 0.1;
         item.textY = item.y - 0.26;
-        item.textZ = this._z;
+        item.textZ = item.z;
     }
 }
 
