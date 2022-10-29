@@ -14,10 +14,12 @@ class StackItemBuilder<T> {
     private _cubeMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "white", opacity: 0, transparent: true });
     private _cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(node.size.width, node.size.height, node.size.depth);
     private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+    private _show: boolean;
 
-    constructor(value: T, scene: THREE.Scene) {
+    constructor(value: T, scene: THREE.Scene, show: boolean) {
         this._value = value;
         this._scene = scene;
+        this._show = show;
     }
 
     position(x: number, y: number, z: number): StackItemBuilder<T> {
@@ -56,6 +58,10 @@ class StackItemBuilder<T> {
         );
 
         this.setPosition(item);
+
+        if (this._show) {
+            item.show();
+        }
         return item;
     }
 
