@@ -7,5 +7,5 @@ export const node = {
 }
 
 export const shell = {
-    material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.2, transparent: true }),
+    material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.5, transparent: true }),
 };
