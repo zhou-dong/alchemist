@@ -9,8 +9,10 @@ class StackShellBuilder {
     private _material: THREE.Material = shell.material;
     private _geometry: THREE.BoxGeometry = new THREE.BoxGeometry(node.size.width, node.size.height, node.size.depth);
     private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+    private _show: boolean = true;
 
-    constructor(scene: THREE.Scene) {
+    constructor(scene: THREE.Scene, show: boolean) {
+        this._show = show;
         this._scene = scene;
     }
 
@@ -32,6 +34,9 @@ class StackShellBuilder {
     build(): Cube {
         const item = new Cube(this._geometry, this._material, this._scene);
         this.setPosition(item);
+        if (this._show) {
+            item.show();
+        }
         return item;
     }
 
