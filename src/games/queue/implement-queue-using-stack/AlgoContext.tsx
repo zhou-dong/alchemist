@@ -2,6 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import Stack from "../../../data-structures/stack";
 import { clearScene, registerOrbitControls } from '../../../commons/three';
+import StackShellBuilder from "./stackShellBuilder";
 
 const AlgoContext = React.createContext<{
     stackIn?: Stack<string>,
@@ -14,6 +15,7 @@ const AlgoContext = React.createContext<{
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
     actionsDisabled: boolean,
     setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
+    minShellSize: number,
 }>({
     duration: 0,
     scene: new THREE.Scene(),
@@ -22,7 +24,8 @@ const AlgoContext = React.createContext<{
     success: false,
     setSuccess: () => { },
     actionsDisabled: false,
-    setActionsDisabled: () => { }
+    setActionsDisabled: () => { },
+    minShellSize: 0
 });
 
 let animationFrameId = -1;
@@ -37,6 +40,7 @@ export const AlgoContextProvider: React.FC<{
 }> = ({ children, renderer, camera, scene }) => {
 
     const duration = 0.5;
+    const minShellSize = 5;
 
     const [stackIn, setStackIn] = React.useState<Stack<string>>();
     const [stackOut, setStackOut] = React.useState<Stack<string>>();
@@ -58,8 +62,17 @@ export const AlgoContextProvider: React.FC<{
 
         const init = () => {
             clearScene(scene);
-            setStackIn(new Stack<string>(stackAPosition, duration));
-            setStackOut(new Stack<string>(stackBPosition, duration));
+
+            const sIn = new Stack<string>(stackAPosition, duration);
+            const sOut = new Stack<string>(stackBPosition, duration);
+
+            for (let i = 0; i < minShellSize; i++) {
+                sIn.increaseShells(new StackShellBuilder(scene, true).build())
+                sOut.increaseShells(new StackShellBuilder(scene, true).build())
+            }
+
+            setStackIn(sIn);
+            setStackOut(sOut);
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
@@ -82,7 +95,8 @@ export const AlgoContextProvider: React.FC<{
                 success,
                 setSuccess,
                 actionsDisabled,
-                setActionsDisabled
+                setActionsDisabled,
+                minShellSize
             }}>
                 {children}
                 <div ref={ref}></div>
