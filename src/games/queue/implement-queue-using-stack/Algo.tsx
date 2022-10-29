@@ -28,9 +28,7 @@ const Enqueue = () => {
     }
 
     return (
-        <>
-            <Button onClick={handleEnqueue} startIcon={<AddCircleOutlineOutlinedIcon />}>enqueue</Button>
-        </>
+        <Button onClick={handleEnqueue} startIcon={<AddCircleOutlineOutlinedIcon />}>enqueue</Button>
     );
 }
 
