@@ -12,6 +12,8 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     success: boolean,
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
+    actionsDisabled: boolean,
+    setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
 }>({
     duration: 0,
     scene: new THREE.Scene(),
@@ -19,6 +21,8 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => { },
     success: false,
     setSuccess: () => { },
+    actionsDisabled: false,
+    setActionsDisabled: () => { }
 });
 
 let animationFrameId = -1;
@@ -37,6 +41,7 @@ export const AlgoContextProvider: React.FC<{
     const [stackIn, setStackIn] = React.useState<Stack<string>>();
     const [stackOut, setStackOut] = React.useState<Stack<string>>();
     const [success, setSuccess] = React.useState(false);
+    const [actionsDisabled, setActionsDisabled] = React.useState(false);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -76,6 +81,8 @@ export const AlgoContextProvider: React.FC<{
                 cancelAnimate,
                 success,
                 setSuccess,
+                actionsDisabled,
+                setActionsDisabled
             }}>
                 {children}
                 <div ref={ref}></div>
