@@ -35,6 +35,7 @@ import binaryTreePreorderTraversal from "./tree/binary-tree-preorder-traversal/i
 import twoThreeTreeRedBlackTree from "./tree/two-three-tree_vs-red-black-tree/info";
 import LRU from "./hash-table/lru-cache/info";
 import validParentheses from "./stack/valid-parentheses/info";
+import ImplementQueueUsingStacks from "./queue/implement-queue-using-stack/info";
 
 export const games: Game[] = [
     editDistance,
@@ -71,5 +72,6 @@ export const games: Game[] = [
     selectionSort,
     insertionSort,
     LRU,
-    validParentheses
+    validParentheses,
+    ImplementQueueUsingStacks
 ];

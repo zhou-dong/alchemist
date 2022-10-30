@@ -34,7 +34,7 @@ const Code = ({ code, language, showLineNumbers, wrapLines, linesToHighlight }: 
         showLineNumbers={showLineNumbers}
         wrapLines={wrapLines}
         lineProps={(lineNumber: number): React.HTMLProps<HTMLElement> => highlightLine(lineNumber, linesToHighlight)}
-        customStyle={{ backgroundColor: "white", padding: 0, margin: 0 }}
+        customStyle={{ backgroundColor: "white" }}
     >
         {code}
     </SyntaxHighlighter>
