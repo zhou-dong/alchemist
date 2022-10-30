@@ -18,7 +18,7 @@ export default function Title() {
             alignItems: "center",
             justifyContent: "center",
         }}>
-            <Typography>
+            <Typography variant='h5'>
                 {info.name}
             </Typography>
 
