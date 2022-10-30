@@ -19,4 +19,8 @@ export const stackOutPosition = {
     stack: new THREE.Vector3(-3, 0, -4)
 }
 
-export const StackNameStyles = { color: "orange", size: 0.4, height: 0.1 };
+export const StackNameStyles = {
+    color: "orange",
+    size: 0.4,
+    height: 0.1
+};
