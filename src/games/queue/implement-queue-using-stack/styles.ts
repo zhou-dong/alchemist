@@ -9,3 +9,10 @@ export const node = {
 export const shell = {
     material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.5, transparent: true }),
 };
+
+export const stackInPosition = new THREE.Vector3(-3, 3, -4);
+export const stackOutPosition = new THREE.Vector3(-3, 0, -4);
+
+export const stackInTitlePosition = new THREE.Vector3(-3.6, 3.8, -4);
+export const stackOutTitlePosition = new THREE.Vector3(-3.6, 0.7, -4);
+export const titleStyles = { color: "orange", size: 0.4, height: 0.1 };

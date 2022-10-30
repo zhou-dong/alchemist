@@ -202,7 +202,7 @@ const Empty = () => {
         }
     }
 
-    const { stackIn, stackOut, animate, cancelAnimate, setActionsDisabled, scene, minShellSize } = useAlgoContext();
+    const { stackIn, stackOut, animate, cancelAnimate, setActionsDisabled } = useAlgoContext();
 
     const handleEmpty = async () => {
         if (!stackIn || !stackOut) {

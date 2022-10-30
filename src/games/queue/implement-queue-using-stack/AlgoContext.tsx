@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import Stack from "../../../data-structures/stack";
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import StackShellBuilder from "./stackShellBuilder";
+import { stackInPosition, stackOutPosition, stackInTitlePosition, stackOutTitlePosition } from "./styles";
+import StackTitle from "./stackTitle";
 
 const AlgoContext = React.createContext<{
     stackIn?: Stack<string>,
@@ -29,8 +31,6 @@ const AlgoContext = React.createContext<{
 });
 
 let animationFrameId = -1;
-const stackAPosition = new THREE.Vector3(-3, 3, -4);
-const stackBPosition = new THREE.Vector3(-3, 0, -4);
 
 export const AlgoContextProvider: React.FC<{
     children: React.ReactNode,
@@ -63,13 +63,16 @@ export const AlgoContextProvider: React.FC<{
         const init = () => {
             clearScene(scene);
 
-            const sIn = new Stack<string>(stackAPosition, duration);
-            const sOut = new Stack<string>(stackBPosition, duration);
+            const sIn = new Stack<string>(stackInPosition, duration);
+            const sOut = new Stack<string>(stackOutPosition, duration);
 
             for (let i = 0; i < minShellSize; i++) {
                 sIn.increaseShells(new StackShellBuilder(scene, true).build())
                 sOut.increaseShells(new StackShellBuilder(scene, true).build())
             }
+
+            new StackTitle("Stack In", stackInTitlePosition, scene);
+            new StackTitle("Stack Out", stackOutTitlePosition, scene);
 
             setStackIn(sIn);
             setStackOut(sOut);
