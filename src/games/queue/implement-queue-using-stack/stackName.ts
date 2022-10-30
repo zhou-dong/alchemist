@@ -1,26 +1,26 @@
 import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
 import { font } from '../../../commons/three';
-import { titleStyles } from "./styles";
+import { StackNameStyles } from "./styles";
 
-class StackTitle {
+class StackName {
 
-    constructor(title: string, position: THREE.Vector3, scene: THREE.Scene) {
-        const { color, size, height } = titleStyles;
-        const mesh = this.buildMesh(title, color, size, height);
+    constructor(name: string, position: THREE.Vector3, scene: THREE.Scene) {
+        const { color, size, height } = StackNameStyles;
+        const mesh = this.buildMesh(name, color, size, height);
         this.setPosition(mesh, position);
         this.show(mesh, scene);
     }
 
     private buildMesh(
-        title: string,
+        name: string,
         color: string,
         size: number,
         height: number
     ) {
         const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color });
         const textGeometryParameters: TextGeometryParameters = { font, size, height };
-        const textGeometry = new TextGeometry(title, textGeometryParameters);
+        const textGeometry = new TextGeometry(name, textGeometryParameters);
         return new THREE.Mesh(textGeometry, textMaterial);
     }
 
@@ -35,4 +35,4 @@ class StackTitle {
     }
 }
 
-export default StackTitle;
+export default StackName;
