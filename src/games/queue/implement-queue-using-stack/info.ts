@@ -9,7 +9,7 @@ const info: Game = {
     categories: [Category.Queue, Category.Stack],
     companies: [],
     difficulty: Difficulty.Easy,
-    img: "/img/valid_parentheses.png"
+    img: "/img/implement_queue_using_stacks.png"
 }
 
 export default info;

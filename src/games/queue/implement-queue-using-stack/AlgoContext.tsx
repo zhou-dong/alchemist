@@ -40,7 +40,7 @@ export const AlgoContextProvider: React.FC<{
 }> = ({ children, renderer, camera, scene }) => {
 
     const duration = 0.5;
-    const minShellSize = 5;
+    const minShellSize = 6;
 
     const [stackIn, setStackIn] = React.useState<Stack<string>>();
     const [stackOut, setStackOut] = React.useState<Stack<string>>();

@@ -70,7 +70,7 @@ class StackItemBuilder<T> {
         item.y = this._position.y;
         item.z = this._position.z;
 
-        item.textX = item.x - 0.3;
+        item.textX = item.x - 0.25;
         item.textY = item.y - 0.26;
         item.textZ = item.z;
     }
