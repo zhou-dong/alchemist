@@ -45,6 +45,23 @@ const decreaseShells = async (stack: Stack<string>, minShellSize: number) => {
     }
 }
 
+const shift = async (inn: Stack<string>, out: Stack<string>, minShellSize: number, scene: THREE.Scene) => {
+    const isOutEmpty: boolean = await out.isEmpty();
+
+    if (isOutEmpty) {
+        let item = await inn.pop();
+        await decreaseShells(inn, minShellSize);
+
+        while (item) {
+            await increaseShells(out, scene);
+            await out.push(item);
+
+            item = await inn.pop();
+            await decreaseShells(inn, minShellSize);
+        }
+    }
+}
+
 const Enqueue = () => {
 
     const { stackIn, scene, animate, cancelAnimate, actionsDisabled, setActionsDisabled, minShellSize } = useAlgoContext();
@@ -116,21 +133,7 @@ const Dequeue = () => {
     }
 
     const doDequeue = async (inn: Stack<string>, out: Stack<string>) => {
-        const isOutEmpty: boolean = await out.isEmpty();
-
-        if (isOutEmpty) {
-            let item = await inn.pop();
-            await decreaseShells(inn, minShellSize);
-
-            while (item) {
-                await increaseShells(out, scene);
-                await out.push(item);
-
-                item = await inn.pop();
-                await decreaseShells(inn, minShellSize);
-            }
-        }
-
+        await shift(inn, out, minShellSize, scene);
         const item = await out.pop();
         if (item) {
             item.hide();
@@ -153,10 +156,25 @@ const Empty = () => {
 }
 
 const Peek = () => {
+    const { stackIn, stackOut, animate, cancelAnimate, setActionsDisabled, scene, minShellSize } = useAlgoContext();
 
+    const handlePeek = async () => {
+        if (!stackIn || !stackOut) {
+            return;
+        }
+        setActionsDisabled(true);
+        animate();
+        await doPeek(stackIn, stackOut);
+        cancelAnimate();
+        setActionsDisabled(false);
+    }
+
+    const doPeek = async (inn: Stack<string>, out: Stack<string>) => {
+        await shift(inn, out, minShellSize, scene);
+    }
 
     return (
-        <Button startIcon={<ModeStandbyOutlinedIcon />}>peek</Button>
+        <Button onClick={handlePeek} startIcon={<ModeStandbyOutlinedIcon />}>peek</Button>
     )
 }
 
