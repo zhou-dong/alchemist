@@ -87,24 +87,22 @@ export const AlgoContextProvider: React.FC<{
     }, [ref, renderer, scene, camera]);
 
     return (
-        <>
-            <AlgoContext.Provider value={{
-                stackIn,
-                stackOut,
-                scene,
-                duration,
-                animate,
-                cancelAnimate,
-                success,
-                setSuccess,
-                actionsDisabled,
-                setActionsDisabled,
-                minShellSize
-            }}>
-                {children}
-                <div ref={ref}></div>
-            </AlgoContext.Provider>
-        </>
+        <AlgoContext.Provider value={{
+            stackIn,
+            stackOut,
+            scene,
+            duration,
+            animate,
+            cancelAnimate,
+            success,
+            setSuccess,
+            actionsDisabled,
+            setActionsDisabled,
+            minShellSize
+        }}>
+            {children}
+            <div ref={ref}></div>
+        </AlgoContext.Provider>
     );
 }
 
