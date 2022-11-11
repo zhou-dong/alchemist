@@ -97,6 +97,9 @@ import ValidParenthesesInfo from "./games/stack/valid-parentheses/info";
 import ImplementQueueUsingStacks from "./games/queue/implement-queue-using-stack";
 import ImplementQueueUsingStacksInfo from "./games/queue/implement-queue-using-stack/info";
 
+import ImplementStackUsingQueues from "./games/stack/implement-stack-using-queues";
+import ImplementStackUsingQueuesInfo from "./games/stack/implement-stack-using-queues/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -164,6 +167,7 @@ const App = () => (
                 <Route path={ValidParenthesesInfo.path} element={<ValidParentheses renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={LRUInfo.path} element={<LRU />} />
                 <Route path={ImplementQueueUsingStacksInfo.path} element={<ImplementQueueUsingStacks renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={ImplementStackUsingQueuesInfo.path} element={<ImplementStackUsingQueues renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>

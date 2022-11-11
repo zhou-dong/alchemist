@@ -1,14 +1,18 @@
 import React from "react";
 import * as THREE from 'three';
-import Stack from "../../../data-structures/stack";
+import Queue from "../../../data-structures/queue";
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import StackShellBuilder from "./stackShellBuilder";
-import { stackInPosition, stackOutPosition } from "./styles";
-import StackName from "./stackName";
+import QueueShellBuilder from "./queueShellBuilder";
+import { queueOnePosition, queueTwoPosition } from "./queueStyles";
+import QueueName from "./queueName";
 
 const AlgoContext = React.createContext<{
-    stackIn?: Stack<string>,
-    stackOut?: Stack<string>,
+    queueIn?: Queue<string>,
+    setQueueIn: React.Dispatch<React.SetStateAction<Queue<string> | undefined>>,
+    queueOut?: Queue<string>,
+    setQueueOut: React.Dispatch<React.SetStateAction<Queue<string> | undefined>>,
+    inQueueName?: QueueName,
+    outQueueName?: QueueName,
     scene: THREE.Scene,
     duration: number,
     animate: () => void,
@@ -19,6 +23,8 @@ const AlgoContext = React.createContext<{
     setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
     minShellSize: number,
 }>({
+    setQueueIn: () => { },
+    setQueueOut: () => { },
     duration: 0,
     scene: new THREE.Scene(),
     animate: () => { },
@@ -42,10 +48,12 @@ export const AlgoContextProvider: React.FC<{
     const duration = 0.5;
     const minShellSize = 6;
 
-    const [stackIn, setStackIn] = React.useState<Stack<string>>();
-    const [stackOut, setStackOut] = React.useState<Stack<string>>();
+    const [queueIn, setQueueIn] = React.useState<Queue<string>>();
+    const [queueOut, setQueueOut] = React.useState<Queue<string>>();
     const [success, setSuccess] = React.useState(false);
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
+    const [inQueueName, setInQueueName] = React.useState<QueueName>();
+    const [outQueueName, setOutQueueName] = React.useState<QueueName>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -63,19 +71,20 @@ export const AlgoContextProvider: React.FC<{
         const init = () => {
             clearScene(scene);
 
-            const sIn = new Stack<string>(stackInPosition.stack, duration);
-            const sOut = new Stack<string>(stackOutPosition.stack, duration);
+            const one = new Queue<string>(queueOnePosition.queue, duration);
+            const two = new Queue<string>(queueTwoPosition.queue, duration);
 
             for (let i = 0; i < minShellSize; i++) {
-                sIn.increaseShells(new StackShellBuilder(scene, true).build())
-                sOut.increaseShells(new StackShellBuilder(scene, true).build())
+                one.increaseShells(new QueueShellBuilder(scene, true).build());
+                two.increaseShells(new QueueShellBuilder(scene, true).build());
             }
 
-            new StackName("Stack In", stackInPosition.name, scene);
-            new StackName("Stack Out", stackOutPosition.name, scene);
+            setInQueueName(new QueueName("Queue In", queueOnePosition.name, scene));
+            setOutQueueName(new QueueName("Queue Out", queueTwoPosition.name, scene));
 
-            setStackIn(sIn);
-            setStackOut(sOut);
+            setQueueIn(one);
+            setQueueOut(two);
+
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
@@ -88,8 +97,12 @@ export const AlgoContextProvider: React.FC<{
 
     return (
         <AlgoContext.Provider value={{
-            stackIn,
-            stackOut,
+            inQueueName,
+            outQueueName,
+            queueIn,
+            setQueueIn,
+            queueOut,
+            setQueueOut,
             scene,
             duration,
             animate,

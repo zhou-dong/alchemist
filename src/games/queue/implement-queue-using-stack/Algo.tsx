@@ -280,7 +280,7 @@ const Actions = styled("div")(() => ({
     width: "100%",
     textAlign: "center",
     position: "fixed",
-    bottom: "250px"
+    bottom: 200
 }));
 
 const Main = () => {

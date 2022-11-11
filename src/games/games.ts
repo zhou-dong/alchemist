@@ -36,6 +36,7 @@ import twoThreeTreeRedBlackTree from "./tree/two-three-tree_vs-red-black-tree/in
 import LRU from "./hash-table/lru-cache/info";
 import validParentheses from "./stack/valid-parentheses/info";
 import ImplementQueueUsingStacks from "./queue/implement-queue-using-stack/info";
+import ImplementStackUsingQueues from "./stack/implement-stack-using-queues/info";
 
 export const games: Game[] = [
     editDistance,
@@ -73,5 +74,6 @@ export const games: Game[] = [
     insertionSort,
     LRU,
     validParentheses,
-    ImplementQueueUsingStacks
+    ImplementQueueUsingStacks,
+    ImplementStackUsingQueues
 ];
