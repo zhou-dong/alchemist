@@ -19,9 +19,14 @@ export default function Title() {
             justifyContent: "center",
         }}>
             <Typography variant='h5'>
-                {info.name}
+                Implement
             </Typography>
-
+            <Typography variant='h4' color="primary">
+                &nbsp;Stack&nbsp;
+            </Typography>
+            <Typography variant='h5'>
+                Using Queues
+            </Typography>
             {success && <>&nbsp;<CheckCircleOutlineOutlinedIcon color='primary' /></>}
         </Box>
     );
