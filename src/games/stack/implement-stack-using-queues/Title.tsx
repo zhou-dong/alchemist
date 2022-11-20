@@ -1,12 +1,7 @@
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import { useAlgoContext } from "./AlgoContext";
 
 export default function Title() {
-
-    const { success } = useAlgoContext();
-
     return (
         <Box sx={{
             position: "fixed",
@@ -26,7 +21,6 @@ export default function Title() {
             <Typography variant='h5'>
                 Using Queues
             </Typography>
-            {success && <>&nbsp;<CheckCircleOutlineOutlinedIcon color='primary' /></>}
         </Box>
     );
 }
