@@ -10,13 +10,9 @@ export const queue = {
     material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.5, transparent: true }),
 };
 
-export const queueOnePosition = {
-    name: new THREE.Vector3(-3.6, 3.8, -4),
-    queue: new THREE.Vector3(-3, 3, -4),
-}
-export const queueTwoPosition = {
-    name: new THREE.Vector3(-3.6, 0.7, -4),
-    queue: new THREE.Vector3(-3, 0, -4)
+export const queuePosition = {
+    name: new THREE.Vector3(-3.6, 3, -4),
+    queue: new THREE.Vector3(-3, 2, -4),
 }
 
 export const queueNameStyles = {

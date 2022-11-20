@@ -13,12 +13,6 @@ import QueueItemBuilder from './queueItemBuilder';
 import QueueName from "./queueName";
 import QueueShellBuilder from './queueShellBuilder';
 
-const getSize = async (inn: Queue<string>, out: Queue<string>): Promise<number> => {
-    const innSize = await inn.size();
-    const outSize = await out.size();
-    return innSize > outSize ? innSize : outSize;
-}
-
 const increaseShells = (queue: Queue<string>, scene: THREE.Scene, size: number) => {
     const increaseSize = size - queue.shellsLength;
     for (let i = 0; i < increaseSize; i++) {
@@ -87,17 +81,13 @@ const Actions = styled("div")(() => ({
 const Push = () => {
 
     const {
-        queueIn,
-        queueOut,
-        setQueueIn,
-        setQueueOut,
+        queue,
         scene,
         animate,
         cancelAnimate,
         actionsDisabled,
         setActionsDisabled,
-        inQueueName,
-        outQueueName,
+        queueName,
         duration
     } = useAlgoContext();
 
@@ -105,41 +95,32 @@ const Push = () => {
     const open = Boolean(anchorEl);
 
     const handlePush = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        if (!queueIn || !queueOut || !inQueueName || !outQueueName) {
+        if (!queue || !queueName) {
             return;
         }
         const value = event.currentTarget.value;
         setActionsDisabled(true);
         animate();
-        await doPush(queueIn, queueOut, value, inQueueName, outQueueName);
+        await doPush(queue, value, queueName);
         cancelAnimate();
         setActionsDisabled(false);
     }
 
-    const doPush = async (inn: Queue<string>, out: Queue<string>, value: string, inName: QueueName, outName: QueueName) => {
-        const size = await getSize(inn, out);
-        increaseShells(inn, scene, size);
-        increaseShells(out, scene, size);
+    const doPush = async (queue: Queue<string>, value: string, queueName: QueueName) => {
+        increaseShells(queue, scene, await queue.size());
 
         const item = new QueueItemBuilder<string>(value, scene, true).build();
-        await inn.enqueue(item);
+        await queue.enqueue(item);
 
-        let temp = await out.dequeue();
-        while (temp) {
-            await (inn.enqueue(temp));
-            temp = await out.dequeue();
+        const size = await queue.size();
+        for (let i = 0; i < size - 1; i++) {
+            const temp = await queue.dequeue();
+            if (temp) {
+                await queue.enqueue(temp);
+            }
         }
 
-        const positionOne = inName.position;
-        const positionTwo = outName.position;
-
-        inName.move(positionTwo, duration);
-        outName.move(positionOne, duration);
-
         await wait(duration);
-
-        setQueueIn(out);
-        setQueueOut(inn);
     }
 
     const openPopover = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -174,7 +155,7 @@ const Push = () => {
 }
 
 const Pop = () => {
-    const { queueIn, queueOut, animate, cancelAnimate, setActionsDisabled, minShellSize } = useAlgoContext();
+    const { queue, animate, cancelAnimate, setActionsDisabled, minShellSize } = useAlgoContext();
     const [value, setValue] = React.useState("");
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const ref = React.useRef(null);
@@ -186,23 +167,22 @@ const Pop = () => {
     }
 
     const handlePop = async () => {
-        if (!queueIn || !queueOut) {
+        if (!queue) {
             return;
         }
         setActionsDisabled(true);
         animate();
-        await doPop(queueIn, queueOut);
+        await doPop(queue);
         cancelAnimate();
         setActionsDisabled(false);
     }
 
-    const doPop = async (inn: Queue<string>, out: Queue<string>) => {
-        const item = await out.dequeue();
+    const doPop = async (queue: Queue<string>) => {
+        const item = await queue.dequeue();
         if (item) {
             item.hide();
-            const size = await getSize(inn, out);
-            decreaseShells(inn, minShellSize, size);
-            decreaseShells(out, minShellSize, size);
+            const size = await queue.size();
+            decreaseShells(queue, minShellSize, size);
             await wait(0.1);
         }
         if (item) {
@@ -220,7 +200,7 @@ const Pop = () => {
 }
 
 const Top = () => {
-    const { queueOut } = useAlgoContext();
+    const { queue } = useAlgoContext();
     const [value, setValue] = React.useState("");
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const ref = React.useRef(null);
@@ -232,11 +212,11 @@ const Top = () => {
     }
 
     const handleTop = async () => {
-        if (!queueOut) {
+        if (!queue) {
             return;
         }
 
-        const item = await queueOut.peek();
+        const item = await queue.peek();
 
         if (item) {
             setValue(item.value);
@@ -253,7 +233,7 @@ const Top = () => {
 }
 
 const Empty = () => {
-    const { queueOut } = useAlgoContext();
+    const { queue } = useAlgoContext();
     const [value, setValue] = React.useState("");
     const [color, setColor] = React.useState<string>(green[800]);
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -266,11 +246,11 @@ const Empty = () => {
     }
 
     const handleEmpty = async () => {
-        if (!queueOut) {
+        if (!queue) {
             return;
         }
 
-        const isEmpty = await queueOut.isEmpty();
+        const isEmpty = await queue.isEmpty();
         if (isEmpty) {
             setValue("T");
             setColor(deepOrange[800]);
