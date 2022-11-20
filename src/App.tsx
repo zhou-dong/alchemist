@@ -100,6 +100,9 @@ import ImplementQueueUsingStacksInfo from "./games/queue/implement-queue-using-s
 import ImplementStackUsingQueues from "./games/stack/implement-stack-using-queues";
 import ImplementStackUsingQueuesInfo from "./games/stack/implement-stack-using-queues/info";
 
+import ImplementStackUsingQueue from "./games/stack/implement-stack-using-queue";
+import ImplementStackUsingQueueInfo from "./games/stack/implement-stack-using-queue/info";
+
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
 
@@ -168,6 +171,7 @@ const App = () => (
                 <Route path={LRUInfo.path} element={<LRU />} />
                 <Route path={ImplementQueueUsingStacksInfo.path} element={<ImplementQueueUsingStacks renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ImplementStackUsingQueuesInfo.path} element={<ImplementStackUsingQueues renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={ImplementStackUsingQueueInfo.path} element={<ImplementStackUsingQueue renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>

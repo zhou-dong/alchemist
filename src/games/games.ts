@@ -37,6 +37,7 @@ import LRU from "./hash-table/lru-cache/info";
 import validParentheses from "./stack/valid-parentheses/info";
 import ImplementQueueUsingStacks from "./queue/implement-queue-using-stack/info";
 import ImplementStackUsingQueues from "./stack/implement-stack-using-queues/info";
+import ImplementStackUsingQueue from "./stack/implement-stack-using-queue/info";
 
 export const games: Game[] = [
     editDistance,
@@ -75,5 +76,6 @@ export const games: Game[] = [
     LRU,
     validParentheses,
     ImplementQueueUsingStacks,
-    ImplementStackUsingQueues
+    ImplementStackUsingQueues,
+    ImplementStackUsingQueue
 ];
