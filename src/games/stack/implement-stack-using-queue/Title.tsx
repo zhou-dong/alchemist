@@ -19,7 +19,7 @@ export default function Title() {
                 &nbsp;Stack&nbsp;
             </Typography>
             <Typography variant='h5'>
-                Using Queues
+                Using Queue
             </Typography>
         </Box>
     );

@@ -13,8 +13,6 @@ const AlgoContext = React.createContext<{
     duration: number,
     animate: () => void,
     cancelAnimate: () => void,
-    success: boolean,
-    setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
     actionsDisabled: boolean,
     setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
     minShellSize: number,
@@ -23,8 +21,6 @@ const AlgoContext = React.createContext<{
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    success: false,
-    setSuccess: () => { },
     actionsDisabled: false,
     setActionsDisabled: () => { },
     minShellSize: 0
@@ -44,7 +40,6 @@ export const AlgoContextProvider: React.FC<{
 
     const [stackIn, setStackIn] = React.useState<Stack<string>>();
     const [stackOut, setStackOut] = React.useState<Stack<string>>();
-    const [success, setSuccess] = React.useState(false);
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
 
     function animate() {
@@ -94,8 +89,6 @@ export const AlgoContextProvider: React.FC<{
             duration,
             animate,
             cancelAnimate,
-            success,
-            setSuccess,
             actionsDisabled,
             setActionsDisabled,
             minShellSize
