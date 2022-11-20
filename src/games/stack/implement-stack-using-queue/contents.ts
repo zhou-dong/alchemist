@@ -1,45 +1,36 @@
-export const title = "Implement Stack Using Queues";
+export const title = "Implement Stack Using Queue";
 
 export const formula = `class MyStack {
 
-    private queueIn: number[];
-    private queueOut: number[];
+    private queue: number[];
 
     constructor() {
-        this.queueIn = [];
-        this.queueOut = [];
+        this.queue = [];
     }
 
     push(x: number): void {
-        this.queueIn.push(x);
-        let item = this.queueOut.shift();
-        while (item) {
-            this.queueIn.push(item);
-            item = this.queueOut.shift();
+        this.queue.push(x);
+        const length = this.queue.length;
+        for (let i = 0; i < length - 1; i++) {
+            const item = this.queue.shift();
+            this.queue.push(item);
         }
-        this.swap();
-    }
-
-    private swap(): void {
-        const temp = this.queueIn;
-        this.queueIn = this.queueOut;
-        this.queueOut = temp;
     }
 
     pop(): number | undefined {
-        return this.queueOut.shift();
+        return this.queue.shift();
     }
 
     top(): number {
-        return this.queueOut[0];
+        return this.queue[0];
     }
 
     empty(): boolean {
-        return this.queueOut.length === 0;
+        return this.queue.length === 0;
     }
 }`;
 
-export const description = `Implement a last in first out (LIFO) stack using only two queues. 
+export const description = `Implement a last in first out (LIFO) stack using only one queue. 
 
 The implemented stack should support all the functions of a normal stack.
 
