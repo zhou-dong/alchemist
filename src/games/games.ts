@@ -38,6 +38,7 @@ import validParentheses from "./stack/valid-parentheses/info";
 import ImplementQueueUsingStacks from "./queue/implement-queue-using-stack/info";
 import ImplementStackUsingQueues from "./stack/implement-stack-using-queues/info";
 import ImplementStackUsingQueue from "./stack/implement-stack-using-queue/info";
+import BasicCalculator from "./stack/basic-calculator/info";
 
 export const games: Game[] = [
     editDistance,
@@ -77,5 +78,6 @@ export const games: Game[] = [
     validParentheses,
     ImplementQueueUsingStacks,
     ImplementStackUsingQueues,
-    ImplementStackUsingQueue
+    ImplementStackUsingQueue,
+    BasicCalculator
 ];
