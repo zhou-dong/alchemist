@@ -1,14 +1,14 @@
 import React from "react";
 import * as THREE from 'three';
 import Stack from "../../../data-structures/stack";
-import { clearScene, registerOrbitControls } from '../../../commons/three';
+import { clearScene } from '../../../commons/three';
 import StackShellBuilder from "./stackShellBuilder";
 import { stackPosition } from "./stackStyles";
 import StackName from "./stackName";
 import { State } from "./AlgoState";
 
 const AlgoContext = React.createContext<{
-    stack?: Stack<string>,
+    stack?: Stack<number>,
     stackName?: StackName,
     scene: THREE.Scene,
     duration: number,
@@ -25,6 +25,10 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     expression: string,
     setExpression: React.Dispatch<React.SetStateAction<string>>,
+    result: number,
+    setResult: React.Dispatch<React.SetStateAction<number>>,
+    sign: number,
+    setSign: React.Dispatch<React.SetStateAction<number>>,
 }>({
     duration: 0,
     scene: new THREE.Scene(),
@@ -41,6 +45,10 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     expression: "",
     setExpression: () => { },
+    result: 0,
+    setResult: () => { },
+    sign: 1,
+    setSign: () => { }
 });
 
 let animationFrameId = -1;
@@ -57,11 +65,13 @@ export const AlgoContextProvider: React.FC<{
 
     const [index, setIndex] = React.useState(-1);
     const [state, setState] = React.useState(State.Typing);
-    const [stack, setStack] = React.useState<Stack<string>>();
+    const [stack, setStack] = React.useState<Stack<number>>();
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
     const [stackName, setStackName] = React.useState<StackName>();
     const [success, setSuccess] = React.useState(false);
     const [expression, setExpression] = React.useState("");
+    const [result, setResult] = React.useState(0);
+    const [sign, setSign] = React.useState(1);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -78,13 +88,12 @@ export const AlgoContextProvider: React.FC<{
 
         const init = () => {
             clearScene(scene);
-            const stack = new Stack<string>(stackPosition.stack, duration);
+            const stack = new Stack<number>(stackPosition.stack, duration);
             for (let i = 0; i < minShellSize; i++) {
                 stack.increaseShells(new StackShellBuilder(scene, true).build());
             }
             setStackName(new StackName("Stack", stackPosition.name, scene));
             setStack(stack);
-            registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
 
@@ -112,7 +121,11 @@ export const AlgoContextProvider: React.FC<{
             index,
             setIndex,
             expression,
-            setExpression
+            setExpression,
+            result,
+            setResult,
+            sign,
+            setSign
         }}>
             {children}
             <div ref={ref}></div>

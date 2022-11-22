@@ -70,7 +70,12 @@ class StackItemBuilder<T> {
         item.y = this._position.y;
         item.z = this._position.z;
 
-        item.textX = item.x - 0.25;
+        const length = String(item.value).length;
+        if (length === 1) {
+            item.textX = item.x - 0.25;
+        } else {
+            item.textX = item.x - 0.45;
+        }
         item.textY = item.y - 0.26;
         item.textZ = item.z;
     }

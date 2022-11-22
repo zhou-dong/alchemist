@@ -12,12 +12,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import { useAlgoContext } from "./AlgoContext";
-import { TextCube } from '../../../data-structures/_commons/three/text-cube';
-import { Cube } from '../../../data-structures/_commons/three/cube';
-import { node, shell } from './stackStyles';
 import { State } from './AlgoState';
 import StackShellBuilder from './stackShellBuilder';
-import StackItemBuilder from './stackItemBuilder';
 import Stack from '../../../data-structures/stack';
 
 const DropDown: React.FC<{
@@ -106,20 +102,12 @@ const DropDown: React.FC<{
     );
 }
 
-const createStackShell = (scene: THREE.Scene): Cube => {
-    return new StackShellBuilder(scene, true).build();
-}
-
-const createItem = (value: string, scene: THREE.Scene): TextCube<string> => {
-    return new StackItemBuilder<string>(value, scene, true).build();
-}
-
 const Submit: React.FC<{
     input: string,
     setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
-    const { stack, scene, animate, cancelAnimate, setState, setSuccess, setIndex, setExpression, minShellSize } = useAlgoContext();
+    const { stack, scene, animate, cancelAnimate, setState, setSuccess, setIndex, setExpression, minShellSize, setResult, setSign } = useAlgoContext();
 
     const handleSubmit = async () => {
         if (!stack) {
@@ -132,23 +120,24 @@ const Submit: React.FC<{
         doSubmit(stack, expression);
     }
 
-    const doSubmit = async (s: Stack<string>, expression: string) => {
+    const doSubmit = async (s: Stack<number>, expression: string) => {
         setSuccess(false);
         setState(State.Typing);
         setInput("");
         setAnchorEl(null);
-        animate();
+        setExpression(expression);
         setIndex(0);
+        setResult(0);
+        setSign(1);
 
+        animate();
         await clearStack(s);
         cancelAnimate();
-
-        setExpression(expression);
         // setActivedKey(characters[0]);
         setState(State.Playing);
     }
 
-    const clearStack = async (s: Stack<string>) => {
+    const clearStack = async (s: Stack<number>) => {
         s.emptyShells();
         for (let i = 0; i < minShellSize; i++) {
             s.increaseShells(new StackShellBuilder(scene, true).build());
