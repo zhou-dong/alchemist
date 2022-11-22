@@ -1,26 +1,29 @@
 import { Button, ButtonGroup } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
-import { styled } from '@mui/material/styles';
-
-const AlgoExpression = styled(ButtonGroup)(() => ({
-    position: 'fixed',
-    top: 112,
-    left: "50%",
-    transform: "translateX(-50%)",
-}));
-
+import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 const Main = () => {
     const { index, expression } = useAlgoContext();
     return (
-        <AlgoExpression size="large" sx={{}}>
-            {
-                Array.from(expression).map((value, i) =>
-                    <Button key={i} disabled={index !== i}>
-                        {value}
-                    </Button>
-                )
-            }
-        </AlgoExpression>
+        <div style={{
+            position: 'fixed',
+            top: 112,
+            left: "50%",
+            transform: "translateX(-50%)",
+        }}>
+            <CodeBlock
+                code={expression}
+                language={languages.Javascript}
+            />
+            <ButtonGroup size="large">
+                {
+                    Array.from(expression).map((value, i) =>
+                        <Button key={i} disabled={index !== i}>
+                            {value}
+                        </Button>
+                    )
+                }
+            </ButtonGroup>
+        </div>
     );
 }
 
