@@ -21,6 +21,10 @@ const AlgoContext = React.createContext<{
     setState: React.Dispatch<React.SetStateAction<State>>,
     success: boolean,
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
+    index: number,
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
+    expression: string,
+    setExpression: React.Dispatch<React.SetStateAction<string>>,
 }>({
     duration: 0,
     scene: new THREE.Scene(),
@@ -33,6 +37,10 @@ const AlgoContext = React.createContext<{
     setState: () => { },
     success: false,
     setSuccess: () => { },
+    index: -1,
+    setIndex: () => { },
+    expression: "",
+    setExpression: () => { },
 });
 
 let animationFrameId = -1;
@@ -47,11 +55,13 @@ export const AlgoContextProvider: React.FC<{
     const duration = 0.5;
     const minShellSize = 6;
 
+    const [index, setIndex] = React.useState(-1);
     const [state, setState] = React.useState(State.Typing);
     const [stack, setStack] = React.useState<Stack<string>>();
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
     const [stackName, setStackName] = React.useState<StackName>();
     const [success, setSuccess] = React.useState(false);
+    const [expression, setExpression] = React.useState("");
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -98,7 +108,11 @@ export const AlgoContextProvider: React.FC<{
             setActionsDisabled,
             minShellSize,
             success,
-            setSuccess
+            setSuccess,
+            index,
+            setIndex,
+            expression,
+            setExpression
         }}>
             {children}
             <div ref={ref}></div>
