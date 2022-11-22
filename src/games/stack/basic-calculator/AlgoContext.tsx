@@ -5,6 +5,7 @@ import { clearScene, registerOrbitControls } from '../../../commons/three';
 import StackShellBuilder from "./stackShellBuilder";
 import { stackPosition } from "./stackStyles";
 import StackName from "./stackName";
+import { State } from "./AlgoState";
 
 const AlgoContext = React.createContext<{
     stack?: Stack<string>,
@@ -16,6 +17,10 @@ const AlgoContext = React.createContext<{
     actionsDisabled: boolean,
     setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
     minShellSize: number,
+    state: State,
+    setState: React.Dispatch<React.SetStateAction<State>>,
+    success: boolean,
+    setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
 }>({
     duration: 0,
     scene: new THREE.Scene(),
@@ -23,7 +28,11 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => { },
     actionsDisabled: false,
     setActionsDisabled: () => { },
-    minShellSize: 0
+    minShellSize: 0,
+    state: State.Typing,
+    setState: () => { },
+    success: false,
+    setSuccess: () => { },
 });
 
 let animationFrameId = -1;
@@ -38,9 +47,11 @@ export const AlgoContextProvider: React.FC<{
     const duration = 0.5;
     const minShellSize = 6;
 
+    const [state, setState] = React.useState(State.Typing);
     const [stack, setStack] = React.useState<Stack<string>>();
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
     const [stackName, setStackName] = React.useState<StackName>();
+    const [success, setSuccess] = React.useState(false);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -75,6 +86,8 @@ export const AlgoContextProvider: React.FC<{
 
     return (
         <AlgoContext.Provider value={{
+            state,
+            setState,
             stackName,
             stack,
             scene,
@@ -83,7 +96,9 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             actionsDisabled,
             setActionsDisabled,
-            minShellSize
+            minShellSize,
+            success,
+            setSuccess
         }}>
             {children}
             <div ref={ref}></div>
