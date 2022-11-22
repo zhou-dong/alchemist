@@ -1,4 +1,4 @@
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 const Main = () => {
@@ -14,15 +14,19 @@ const Main = () => {
                 code={expression}
                 language={languages.Javascript}
             />
-            <ButtonGroup size="large">
+            <ToggleButtonGroup
+                exclusive
+                size="large"
+                color="primary"
+            >
                 {
                     Array.from(expression).map((value, i) =>
-                        <Button key={i} disabled={index !== i}>
+                        <ToggleButton value={value} key={i} selected={index === i} sx={{ height: "45px", width: "45px", fontWeight: "500" }}>
                             {value}
-                        </Button>
+                        </ToggleButton>
                     )
                 }
-            </ButtonGroup>
+            </ToggleButtonGroup>
         </div>
     );
 }
