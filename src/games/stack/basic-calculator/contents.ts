@@ -72,6 +72,6 @@ Note: You are **not** allowed to use any built-in function which evaluates strin
 
 ##### Example 3:
 
-- Input: s = "11 + (12 - (3 - (6 + 5 + 2) - 1) + (8 - 3))"
-- Output: 39
+- Input: s = "11 + (12 - (3 - (6 + 5 + 2) - 1) + 4)"
+- Output: 38
 `;
