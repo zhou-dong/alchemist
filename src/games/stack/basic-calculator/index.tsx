@@ -6,6 +6,7 @@ import localTheme from "./theme";
 import Instructions from "./AlgoInstructions";
 import { AlgoContextProvider } from "./AlgoContext";
 import AlgoCode from './AlgoCode';
+import Title from './Title';
 
 interface Props {
     renderer: THREE.Renderer;
@@ -17,6 +18,7 @@ const Main = ({ renderer, camera, scene }: Props) => (
     <GameWrapper path={info.path}>
         <ThemeProvider theme={localTheme}>
             <AlgoContextProvider renderer={renderer} camera={camera} scene={scene}>
+                <Title />
                 <Instructions />
                 <AlgoCode />
             </AlgoContextProvider>
