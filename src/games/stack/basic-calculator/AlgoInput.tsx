@@ -133,7 +133,6 @@ const Submit: React.FC<{
         animate();
         await clearStack(s);
         cancelAnimate();
-        // setActivedKey(characters[0]);
         setState(State.Playing);
     }
 

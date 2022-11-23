@@ -4,7 +4,6 @@ export const shortFormula = `function calculate(s: string): number {
     let result = 0;
     let sign = 1;
     const stack: number[] = [];
-
     for (let i = 0; i < s.length; i++) {
         const c = s.charAt(i);
         if (isNumeric(c)) {

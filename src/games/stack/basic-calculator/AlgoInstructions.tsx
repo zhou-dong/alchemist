@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactMarkdown from "react-markdown";
 import MuiStack from '@mui/material/Stack';
-import { Paper, Popover, PopoverOrigin, Stack, ToggleButton, Typography } from '@mui/material';
+import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Instruction from '../../../commons/Instruction';
@@ -9,8 +9,6 @@ import { description } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
-import { useAlgoContext } from './AlgoContext';
-import AlgoClick from './AlgoClick';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -91,38 +89,4 @@ const Instructions = () => (
     </MuiStack>
 );
 
-const States = () => {
-    const { result, sign } = useAlgoContext();
-    return (
-        <Stack spacing={2} sx={{ position: 'fixed', top: 254, left: 40, zIndex: 1 }}>
-            <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
-                <Typography variant="body2" display="inline">
-                    RESULT:&nbsp;
-                </Typography>
-                <Typography variant="body2" display="inline" color="primary">
-                    {result}
-                </Typography>
-            </Paper>
-            <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
-                <Typography variant="body2" display="inline">
-                    SIGN :&nbsp;&nbsp;&nbsp;&nbsp;
-                </Typography>
-                <Typography variant="body2" display="inline" color="primary">
-                    {sign}
-                </Typography>
-            </Paper>
-            <AlgoClick />
-        </Stack>
-    )
-}
-
-const Main = () => {
-    return (
-        <>
-            <Instructions />
-            <States />
-        </>
-    );
-}
-
-export default Main;
+export default Instructions;

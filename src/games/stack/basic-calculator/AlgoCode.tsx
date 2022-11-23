@@ -8,6 +8,8 @@ import { shortFormula } from "./contents";
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import AlgoExpression from "./AlgoExpression";
+import AlgoClick from './AlgoClick';
+import info from "./info";
 
 function isNumeric(n: string) {
     const value = parseInt(n);
@@ -22,20 +24,70 @@ const getHighLightLineNumber = (index: number, expression: string, state: State)
 
     switch (character) {
         case "+":
-            return [15];
+            return [14];
         case "-":
-            return [17];
+            return [16];
         case "(":
-            return [19];
+            return [18];
         case ")":
-            return [24];
+            return [23];
         default:
             if (isNumeric(character)) {
-                return [8];
+                return [7];
             } else {
                 return [];
             }
     }
+}
+
+const States = () => {
+    const { result, sign } = useAlgoContext();
+    return (
+        <Stack spacing={2} direction="row" sx={{ marginTop: "10px" }}>
+            <AlgoClick />
+            <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
+                <Typography variant="body2" display="inline">
+                    RESULT:&nbsp;
+                </Typography>
+                <Typography variant="body2" display="inline" color="primary">
+                    {result}
+                </Typography>
+            </Paper>
+            <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
+                <Typography variant="body2" display="inline">
+                    SIGN :&nbsp;&nbsp;&nbsp;&nbsp;
+                </Typography>
+                <Typography variant="body2" display="inline" color="primary">
+                    {sign}
+                </Typography>
+            </Paper>
+        </Stack>
+    )
+}
+
+const Output = () => {
+    const { result } = useAlgoContext();
+    return (
+        <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
+            <Typography variant="body2" display="inline">
+                OUTPUT:&nbsp;
+            </Typography>
+            <Typography variant="body2" display="inline" color="primary">
+                {result}
+            </Typography>
+        </Paper>
+    );
+}
+
+const Input = () => {
+    const { expression } = useAlgoContext();
+    return (
+        <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
+            <Typography variant="body2" display="inline">
+                INPUT: {expression}
+            </Typography>
+        </Paper>
+    );
 }
 
 const AlgoCode = () => {
@@ -71,21 +123,15 @@ const AlgoCode = () => {
             <AccordionSummary>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
                     <DisplayCodeIcon />
-                    <Typography variant='subtitle1'>Code</Typography>
-
-                    <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
-                        <Typography variant="body2" display="inline">
-                            INPUT:&nbsp;
-                        </Typography>
-                        <Typography variant="body2" display="inline">
-                            {expression}
-                        </Typography>
-                    </Paper>
+                    <Typography variant='subtitle1'>{info.name}</Typography>
+                    <Input />
+                    {state === State.Finished && <Output />}
                 </Stack>
             </AccordionSummary>
 
             <AccordionDetails>
                 <AlgoExpression />
+                <States />
                 <CodeBlock
                     code={shortFormula}
                     language={languages.Typescript}
