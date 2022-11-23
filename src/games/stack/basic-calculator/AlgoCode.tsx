@@ -8,8 +8,6 @@ import { shortFormula } from "./contents";
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import AlgoExpression from "./AlgoExpression";
-import AlgoClick from './AlgoClick';
-import info from "./info";
 
 function isNumeric(n: string) {
     const value = parseInt(n);
@@ -38,39 +36,6 @@ const getHighLightLineNumber = (index: number, expression: string, state: State)
                 return [];
             }
     }
-}
-
-const States = () => {
-    const { result, sign, expression } = useAlgoContext();
-    return (
-        <Stack spacing={2} direction="row">
-            <AlgoClick />
-            <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
-                <Typography variant="body2" display="inline">
-                    INPUT:&nbsp;
-                </Typography>
-                <Typography variant="body2" display="inline">
-                    {expression}
-                </Typography>
-            </Paper>
-            <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
-                <Typography variant="body2" display="inline">
-                    RESULT:&nbsp;
-                </Typography>
-                <Typography variant="body2" display="inline" color="primary">
-                    {result}
-                </Typography>
-            </Paper>
-            <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
-                <Typography variant="body2" display="inline">
-                    SIGN:&nbsp;
-                </Typography>
-                <Typography variant="body2" display="inline" color="primary">
-                    {sign}
-                </Typography>
-            </Paper>
-        </Stack>
-    )
 }
 
 const AlgoCode = () => {
@@ -106,15 +71,21 @@ const AlgoCode = () => {
             <AccordionSummary>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
                     <DisplayCodeIcon />
-                    <Typography variant='subtitle1'>{info.name}</Typography>
+                    <Typography variant='subtitle1'>Code</Typography>
+
+                    <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
+                        <Typography variant="body2" display="inline">
+                            INPUT:&nbsp;
+                        </Typography>
+                        <Typography variant="body2" display="inline">
+                            {expression}
+                        </Typography>
+                    </Paper>
                 </Stack>
             </AccordionSummary>
 
             <AccordionDetails>
-                <Stack direction="column" spacing={2}>
-                    <States />
-                    <AlgoExpression />
-                </Stack>
+                <AlgoExpression />
                 <CodeBlock
                     code={shortFormula}
                     language={languages.Typescript}
@@ -132,7 +103,7 @@ const Position = styled("div")(() => ({
     display: "flex",
     justifyContent: "center",
     position: "fixed",
-    top: 20
+    top: 120
 }));
 
 const Main = () => (
