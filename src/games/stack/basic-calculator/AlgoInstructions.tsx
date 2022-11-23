@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactMarkdown from "react-markdown";
 import MuiStack from '@mui/material/Stack';
-import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
+import { Paper, Popover, PopoverOrigin, ToggleButton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
@@ -11,6 +11,9 @@ import { description, formula } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
+import { sign } from 'crypto';
+import { green } from '@mui/material/colors';
+import { useAlgoContext } from './AlgoContext';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -78,30 +81,57 @@ const Input = () => {
     )
 }
 
-const Main = () => (
-    <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
-        <Input />
-        <Instruction
-            name="Description"
-            icon={<DescriptionOutlinedIcon fontSize="medium" />}
-            popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
-            anchorOrigin={anchorOrigin}
-            transformOrigin={transformOrigin}
-        />
-        <Instruction
-            name="Code"
-            icon={<CodeIcon fontSize="medium" />}
-            popover={<CodeBlock
-                code={formula}
-                language={languages.Typescript}
-                showLineNumbers={true}
-                linesToHighlight={[]}
-                wrapLines={true}
-            />}
-            anchorOrigin={anchorOrigin}
-            transformOrigin={transformOrigin}
-        />
-    </MuiStack>
-);
+const Main = () => {
+    const { result, sign } = useAlgoContext();
+    return (
+        <>
+
+            <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
+                <Input />
+                <Instruction
+                    name="Description"
+                    icon={<DescriptionOutlinedIcon fontSize="medium" />}
+                    popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
+                    anchorOrigin={anchorOrigin}
+                    transformOrigin={transformOrigin}
+                />
+                <Instruction
+                    name="Code"
+                    icon={<CodeIcon fontSize="medium" />}
+                    popover={<CodeBlock
+                        code={formula}
+                        language={languages.Typescript}
+                        showLineNumbers={true}
+                        linesToHighlight={[]}
+                        wrapLines={true}
+                    />}
+                    anchorOrigin={anchorOrigin}
+                    transformOrigin={transformOrigin}
+                />
+
+            </MuiStack>
+
+            <MuiStack spacing={2} sx={{ position: 'fixed', top: 332, left: 40 }}>
+                <Paper sx={{ padding: "8px 16px", bgcolor: green[500], borderRadius: 10 }} variant="outlined">
+                    <Typography variant="h6" display="inline" sx={{ color: "#FFF" }}>
+                        RESULT:&nbsp;
+                    </Typography>
+                    <Typography variant="h6" display="inline" sx={{ color: "#FFF" }}>
+                        {result}
+                    </Typography>
+                </Paper>
+                <Paper sx={{ padding: "8px 16px", bgcolor: green[500], borderRadius: 10 }} variant="outlined">
+                    <Typography variant="h6" display="inline" sx={{ color: "#FFF" }}>
+                        SIGN:&nbsp;
+                    </Typography>
+                    <Typography variant="h6" display="inline" sx={{ color: "#FFF" }}>
+                        {sign}
+                    </Typography>
+                </Paper>
+            </MuiStack>
+        </>
+    );
+
+}
 
 export default Main;

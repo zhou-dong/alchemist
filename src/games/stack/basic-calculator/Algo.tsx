@@ -1,13 +1,12 @@
-import React from "react";
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
-import { Button, Paper, Stack as MuiStack, Typography } from '@mui/material';
-import AlgoExpression from "./AlgoExpression";
+import { Button } from '@mui/material';
 import { useAlgoContext } from './AlgoContext';
 import { State } from './AlgoState';
 import StackItemBuilder from "./stackItemBuilder";
 import { wait } from '../../../data-structures/_commons/utils';
 import Stack from "../../../data-structures/stack";
 import StackShellBuilder from "./stackShellBuilder";
+import AlgoCode from "./AlgoCode";
 
 const increaseShells = async (stack: Stack<number>, scene: THREE.Scene) => {
     const size = await stack.size();
@@ -60,7 +59,7 @@ const Main = () => {
         } else if (character === "(") {
             if (stack) {
                 await increaseShells(stack, scene);
-                setState(State.Typing);
+                setState(State.Computing);
                 animate();
                 await stack.push(new StackItemBuilder<number>(result, scene, true).build());
                 await stack.push(new StackItemBuilder<number>(sign, scene, true).build());
@@ -72,7 +71,7 @@ const Main = () => {
             }
         } else if (character === ")") {
             if (stack) {
-                setState(State.Typing);
+                setState(State.Computing);
                 animate();
                 const previousSign = await stack.pop();
                 if (previousSign) {
@@ -108,26 +107,7 @@ const Main = () => {
 
     return (
         <>
-            <MuiStack direction="row" spacing={2} sx={{ width: "100%", position: "fixed", bottom: "400px", justifyContent: "center" }}>
-                <Paper sx={{ padding: "8px 16px" }} elevation={4}>
-                    <Typography variant="h5" display="inline" sx={{ color: "gray" }}>
-                        RESULT: &nbsp;
-                    </Typography>
-                    <Typography variant="h5" display="inline" color="primary">
-                        {result}
-                    </Typography>
-                </Paper>
-                <Paper sx={{ padding: "8px 16px" }} elevation={4}>
-                    <Typography variant="h5" display="inline" sx={{ color: "gray" }}>
-                        SIGN: &nbsp;
-                    </Typography>
-                    <Typography variant="h5" display="inline" color="primary">
-                        {sign}
-                    </Typography>
-                </Paper>
-            </MuiStack>
-
-            <AlgoExpression />
+            <AlgoCode />
 
             <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "200px" }}>
                 <Button

@@ -11,8 +11,8 @@ export const shell = {
 };
 
 export const stackPosition = {
-    name: new THREE.Vector3(-3.6, 1.8, -4),
-    stack: new THREE.Vector3(-3, 1, -4),
+    name: new THREE.Vector3(-4.3, 6.0, -6),
+    stack: new THREE.Vector3(-2, 6.1, -6),
 }
 
 export const StackNameStyles = {

@@ -1,7 +1,7 @@
 import React from "react";
 import * as THREE from 'three';
 import Stack from "../../../data-structures/stack";
-import { clearScene } from '../../../commons/three';
+import { clearScene, registerOrbitControls } from '../../../commons/three';
 import StackShellBuilder from "./stackShellBuilder";
 import { stackPosition } from "./stackStyles";
 import StackName from "./stackName";
@@ -94,6 +94,7 @@ export const AlgoContextProvider: React.FC<{
             }
             setStackName(new StackName("Stack", stackPosition.name, scene));
             setStack(stack);
+            registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
 
