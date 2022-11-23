@@ -1,16 +1,16 @@
 import * as React from 'react';
 import ReactMarkdown from "react-markdown";
 import MuiStack from '@mui/material/Stack';
-import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
+import { Paper, Popover, PopoverOrigin, Stack, ToggleButton, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import CodeIcon from '@mui/icons-material/Code';
 import Instruction from '../../../commons/Instruction';
-import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import { description, formula } from "./contents";
+import { description } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
+import { useAlgoContext } from './AlgoContext';
+import AlgoClick from './AlgoClick';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -78,7 +78,7 @@ const Input = () => {
     )
 }
 
-const Main = () => (
+const Instructions = () => (
     <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
         <Input />
         <Instruction
@@ -88,21 +88,41 @@ const Main = () => (
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
         />
-        <Instruction
-            name="Code"
-            icon={<CodeIcon fontSize="medium" />}
-            popover={<CodeBlock
-                code={formula}
-                language={languages.Typescript}
-                showLineNumbers={true}
-                linesToHighlight={[]}
-                wrapLines={true}
-            />}
-            anchorOrigin={anchorOrigin}
-            transformOrigin={transformOrigin}
-        />
-
     </MuiStack>
 );
+
+const States = () => {
+    const { result, sign } = useAlgoContext();
+    return (
+        <Stack spacing={2} sx={{ position: 'fixed', top: 254, left: 40, zIndex: 1 }}>
+            <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
+                <Typography variant="body2" display="inline">
+                    RESULT:&nbsp;
+                </Typography>
+                <Typography variant="body2" display="inline" color="primary">
+                    {result}
+                </Typography>
+            </Paper>
+            <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
+                <Typography variant="body2" display="inline">
+                    SIGN :&nbsp;&nbsp;&nbsp;&nbsp;
+                </Typography>
+                <Typography variant="body2" display="inline" color="primary">
+                    {sign}
+                </Typography>
+            </Paper>
+            <AlgoClick />
+        </Stack>
+    )
+}
+
+const Main = () => {
+    return (
+        <>
+            <Instructions />
+            <States />
+        </>
+    );
+}
 
 export default Main;
