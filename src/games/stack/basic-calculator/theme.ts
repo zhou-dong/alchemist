@@ -7,6 +7,17 @@ const theme = createTheme({
             main: green[500],
         }
     },
+    typography: {
+        fontFamily: [
+            "Circular",
+            "-apple-system",
+            "BlinkMacSystemFont",
+            "Roboto",
+            "Helvetica Neue",
+            "sans-serif",
+            "monospace"
+        ].join(",")
+    },
     components: {
         MuiTable: {
             styleOverrides: {

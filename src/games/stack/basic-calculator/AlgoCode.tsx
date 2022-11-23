@@ -1,12 +1,15 @@
-import { Accordion, AccordionDetails, AccordionSummary, Stack, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Paper, Stack, Typography } from '@mui/material';
 import * as React from 'react';
 import CodeIcon from '@mui/icons-material/Code';
 import { styled } from '@mui/material/styles';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { shortFormula } from "./contents";
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import AlgoExpression from "./AlgoExpression";
+import AlgoClick from './AlgoClick';
+import info from "./info";
 
 function isNumeric(n: string) {
     const value = parseInt(n);
@@ -37,9 +40,42 @@ const getHighLightLineNumber = (index: number, expression: string, state: State)
     }
 }
 
+const States = () => {
+    const { result, sign, expression } = useAlgoContext();
+    return (
+        <Stack spacing={2} direction="row">
+            <AlgoClick />
+            <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
+                <Typography variant="body2" display="inline">
+                    INPUT:&nbsp;
+                </Typography>
+                <Typography variant="body2" display="inline">
+                    {expression}
+                </Typography>
+            </Paper>
+            <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
+                <Typography variant="body2" display="inline">
+                    RESULT:&nbsp;
+                </Typography>
+                <Typography variant="body2" display="inline" color="primary">
+                    {result}
+                </Typography>
+            </Paper>
+            <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
+                <Typography variant="body2" display="inline">
+                    SIGN:&nbsp;
+                </Typography>
+                <Typography variant="body2" display="inline" color="primary">
+                    {sign}
+                </Typography>
+            </Paper>
+        </Stack>
+    )
+}
+
 const AlgoCode = () => {
 
-    const { index, expression, state, result } = useAlgoContext();
+    const { index, expression, state } = useAlgoContext();
 
     const [highLightLine, setHighLightLine] = React.useState<number[]>([]);
     React.useEffect(() => {
@@ -57,28 +93,28 @@ const AlgoCode = () => {
         }
     }, [state]);
 
-    const AlgoResult = () => (
-        <>
-            <Typography variant='body1'>Result:</Typography>
-            <CodeBlock code={result.toString()} language={languages.Javascript} />
-        </>
-    )
+    const DisplayCodeIcon = () => {
+        if (state === State.Finished) {
+            return (<CheckCircleOutlineOutlinedIcon color='primary' />);
+        } else {
+            return (<CodeIcon fontSize="medium" />);
+        }
+    }
 
     return (
-        <Accordion expanded={expanded} onChange={handleChange}>
-
+        <Accordion expanded={expanded} onChange={handleChange} sx={{ zIndex: 0 }}>
             <AccordionSummary>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-                    <CodeIcon fontSize="medium" />
-                    <Typography variant='body1'>Code</Typography>
-                    <Typography variant='body1'>Input:</Typography>
-                    <CodeBlock code={expression} language={languages.Javascript} />
-                    {state === State.Finished && <AlgoResult />}
+                    <DisplayCodeIcon />
+                    <Typography variant='subtitle1'>{info.name}</Typography>
                 </Stack>
             </AccordionSummary>
 
-            <AccordionDetails sx={{ padding: 0, marginTop: -2 }}>
-                <AlgoExpression />
+            <AccordionDetails>
+                <Stack direction="column" spacing={2}>
+                    <States />
+                    <AlgoExpression />
+                </Stack>
                 <CodeBlock
                     code={shortFormula}
                     language={languages.Typescript}
@@ -87,9 +123,8 @@ const AlgoCode = () => {
                     wrapLines={true}
                 />
             </AccordionDetails>
-
         </Accordion>
-    )
+    );
 }
 
 const Position = styled("div")(() => ({
@@ -97,7 +132,7 @@ const Position = styled("div")(() => ({
     display: "flex",
     justifyContent: "center",
     position: "fixed",
-    top: 180
+    top: 20
 }));
 
 const Main = () => (

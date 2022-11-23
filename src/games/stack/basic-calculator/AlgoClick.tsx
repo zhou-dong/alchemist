@@ -6,7 +6,6 @@ import StackItemBuilder from "./stackItemBuilder";
 import { wait } from '../../../data-structures/_commons/utils';
 import Stack from "../../../data-structures/stack";
 import StackShellBuilder from "./stackShellBuilder";
-import AlgoCode from "./AlgoCode";
 
 const increaseShells = async (stack: Stack<number>, scene: THREE.Scene) => {
     const size = await stack.size();
@@ -106,23 +105,17 @@ const Main = () => {
     }
 
     return (
-        <>
-            <AlgoCode />
-
-            <div style={{ width: "100%", textAlign: "center", position: "fixed", bottom: "200px" }}>
-                <Button
-                    size="large"
-                    onClick={handleClick}
-                    disabled={state !== State.Playing}
-                    variant="contained"
-                    endIcon={<ArrowForwardOutlinedIcon />}
-                    sx={{ color: "#FFF" }}
-                >
-                    next
-                </Button>
-            </div>
-        </>
-    )
+        <Button
+            size="small"
+            onClick={handleClick}
+            disabled={state !== State.Playing}
+            variant="contained"
+            endIcon={<ArrowForwardOutlinedIcon />}
+            sx={{ color: "#FFF", borderRadius: 10 }}
+        >
+            next
+        </Button>
+    );
 };
 
 

@@ -1,8 +1,8 @@
 export const title = "Basic Calculator";
 
 export const shortFormula = `function calculate(s: string): number {
-    let sign = 1;
     let result = 0;
+    let sign = 1;
     const stack: number[] = [];
 
     for (let i = 0; i < s.length; i++) {
@@ -29,7 +29,6 @@ export const shortFormula = `function calculate(s: string): number {
             result = previousSign * result + previousResult;
         }
     }
-
     return result;
 }`
 
