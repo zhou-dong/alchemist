@@ -106,7 +106,7 @@ const Main = () => {
 
     return (
         <Button
-            size="small"
+            size="medium"
             onClick={handleClick}
             disabled={state !== State.Playing}
             variant="contained"
