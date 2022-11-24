@@ -98,10 +98,9 @@ const AlgoCode = () => {
     const [expanded, setExpanded] = React.useState(false);
     const handleChange = () => { setExpanded(!expanded) };
     React.useEffect(() => {
-        if (state === State.Typing || state === State.Finished) {
+        if (state === State.Typing) {
             setExpanded(false);
-        }
-        if (state === State.Playing) {
+        } else {
             setExpanded(true);
         }
     }, [state]);
