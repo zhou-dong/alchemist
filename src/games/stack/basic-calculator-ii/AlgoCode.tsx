@@ -17,8 +17,12 @@ function isNumeric(n: string) {
 }
 
 const getHighLightLineNumber = (index: number, expression: string, state: State, prevSign: string): number[] => {
-    if (state === State.Typing || state === State.Finished) {
+    if (state === State.Typing) {
         return [];
+    }
+
+    if (state === State.Finished) {
+        return [25];
     }
 
     if (index === expression.length) {
@@ -49,11 +53,11 @@ const States = () => {
     return (
         <Stack spacing={2} direction="row" sx={{ marginTop: "10px" }}>
             <AlgoClick />
-            <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
-                <Typography variant="body2" display="inline">
-                    PREVIOUS SIGN :&nbsp;&nbsp;&nbsp;&nbsp;
+            <Paper sx={{ padding: "0px 16px", borderRadius: 10, display: "flex", alignItems: "center" }} variant="outlined">
+                <Typography variant="body1" display="inline">
+                    Previous Sign:&nbsp;&nbsp;&nbsp;
                 </Typography>
-                <Typography variant="h5" display="inline" color="primary">
+                <Typography variant="h6" display="inline" color="primary">
                     {prevSign}
                 </Typography>
             </Paper>
@@ -64,11 +68,11 @@ const States = () => {
 const Output = () => {
     const { result } = useAlgoContext();
     return (
-        <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
+        <Paper sx={{ padding: "0px 10px", borderRadius: 10, display: "flex", alignItems: "center", height: "100%" }} variant="outlined">
             <Typography variant="body2" display="inline">
-                OUTPUT:&nbsp;
+                Output:&nbsp;
             </Typography>
-            <Typography variant="body2" display="inline" color="primary">
+            <Typography variant="body1" display="inline" color="primary">
                 {result}
             </Typography>
         </Paper>
@@ -78,9 +82,12 @@ const Output = () => {
 const Input = () => {
     const { expression } = useAlgoContext();
     return (
-        <Paper sx={{ padding: "8px 16px", borderRadius: 10 }} variant="outlined">
+        <Paper sx={{ padding: "0px 10px", borderRadius: 10, display: "flex", alignItems: "center", height: "100%" }} variant="outlined">
             <Typography variant="body2" display="inline">
-                INPUT: {expression}
+                Input:&nbsp;
+            </Typography>
+            <Typography variant="body2" display="inline">
+                {expression}
             </Typography>
         </Paper>
     );
@@ -118,7 +125,7 @@ const AlgoCode = () => {
             <AccordionSummary>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
                     <DisplayCodeIcon />
-                    <Typography variant='subtitle1'>{info.name}</Typography>
+                    <Typography variant='body1'>{info.name}</Typography>
                     <Input />
                     {state === State.Finished && <Output />}
                 </Stack>
