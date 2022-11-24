@@ -52,19 +52,18 @@ const Main = () => {
         }
 
         if (index === expression.length) {
-            setState(State.Computing);
+            setState(State.Finished);
             animate();
             let result = 0;
             let item = await stack.pop();
             while (item) {
                 result += item.value;
+                setResult(result);
                 item.hide();
                 item = await stack.pop();
             }
             await wait(0.5);
             cancelAnimate();
-            setResult(result);
-            setState(State.Finished);
             return;
         }
 
