@@ -68,8 +68,8 @@ const States = () => {
 const Output = () => {
     const { result } = useAlgoContext();
     return (
-        <Paper sx={{ padding: "0px 10px", borderRadius: 10, display: "flex", alignItems: "center", height: "100%" }} variant="outlined">
-            <Typography variant="body2" display="inline">
+        <Paper sx={{ padding: "3px 10px", borderRadius: 10, display: "flex", alignItems: "center", height: "100%" }} variant="outlined">
+            <Typography variant="body1" display="inline">
                 Output:&nbsp;
             </Typography>
             <Typography variant="body1" display="inline" color="primary">
@@ -82,11 +82,11 @@ const Output = () => {
 const Input = () => {
     const { expression } = useAlgoContext();
     return (
-        <Paper sx={{ padding: "0px 10px", borderRadius: 10, display: "flex", alignItems: "center", height: "100%" }} variant="outlined">
-            <Typography variant="body2" display="inline">
+        <Paper sx={{ padding: "3px 10px", borderRadius: 10, display: "flex", alignItems: "center", height: "100%" }} variant="outlined">
+            <Typography variant="body1" display="inline">
                 Input:&nbsp;
             </Typography>
-            <Typography variant="body2" display="inline">
+            <Typography variant="body1" display="inline">
                 {expression}
             </Typography>
         </Paper>
