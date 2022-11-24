@@ -26,7 +26,7 @@ const DropDown: React.FC<{
     const buildInInputs = [
         "1 + 2 * 3",
         "1 + 2 * 3 / 4",
-        "1 + 2 - 3 * 4 * 5 / 6 + 7 - 8"
+        "11 + 2 - 3 * 4 * 5 / 6 + 7 - 8"
     ];
 
     const handleMenuClose = () => {
