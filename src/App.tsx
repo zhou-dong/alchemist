@@ -81,6 +81,8 @@ import ImplementStackUsingQueue from "./games/stack/implement-stack-using-queue"
 import ImplementStackUsingQueueInfo from "./games/stack/implement-stack-using-queue/info";
 import BasicCalculator from "./games/stack/basic-calculator";
 import BasicCalculatorInfo from "./games/stack/basic-calculator/info";
+import BasicCalculatorII from "./games/stack/basic-calculator-ii";
+import BasicCalculatorIIInfo from "./games/stack/basic-calculator-ii/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -152,6 +154,7 @@ const App = () => (
                 <Route path={ImplementStackUsingQueuesInfo.path} element={<ImplementStackUsingQueues renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ImplementStackUsingQueueInfo.path} element={<ImplementStackUsingQueue renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BasicCalculatorInfo.path} element={<BasicCalculator renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={BasicCalculatorIIInfo.path} element={<BasicCalculatorII renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>
