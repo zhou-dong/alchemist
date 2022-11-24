@@ -24,9 +24,9 @@ const DropDown: React.FC<{
 }> = ({ anchorEl, setAnchorEl, open, setInput }) => {
 
     const buildInInputs = [
-        "1 + 1",
-        "12 - 3 + 8 + 6",
-        "11 + (12 - (3 - (6 + 5 + 2) - 1) + 4)"
+        "1 + 2 * 3",
+        "1 + 2 * 3 / 4",
+        "11 + 2 - 3 * 4 * 5 / 6 + 7 - 8"
     ];
 
     const handleMenuClose = () => {
@@ -93,7 +93,7 @@ const DropDown: React.FC<{
                             <Cell value='7' /><Cell value='8' /><Cell value='9' /><Delete />
                         </TableRow>
                         <TableRow>
-                            <Cell value='(' /><Cell value='0' /><Cell value=')' />
+                            <Cell value='*' /><Cell value='0' /><Cell value='/' />
                         </TableRow>
                     </TableBody>
                 </Table>
@@ -107,7 +107,7 @@ const Submit: React.FC<{
     setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
-    const { stack, scene, animate, cancelAnimate, setState, setSuccess, setIndex, setExpression, minShellSize, setResult, setSign } = useAlgoContext();
+    const { stack, scene, animate, cancelAnimate, setState, setSuccess, setIndex, setExpression, minShellSize, setResult, setPrevSign } = useAlgoContext();
 
     const handleSubmit = async () => {
         if (!stack) {
@@ -128,7 +128,7 @@ const Submit: React.FC<{
         setExpression(expression);
         setIndex(0);
         setResult(0);
-        setSign(1);
+        setPrevSign("+");
 
         animate();
         await clearStack(s);
@@ -171,7 +171,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
     };
 
     const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const validCharacters = "0123456789+-()";
+        const validCharacters = "0123456789+-*/";
         const text: string = e.currentTarget.value;
         let value = "";
         for (let i = 0; i < text.length; i++) {

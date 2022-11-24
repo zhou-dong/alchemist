@@ -16,49 +16,45 @@ function isNumeric(n: string) {
     return !isNaN(value) && isFinite(value);
 }
 
-const getHighLightLineNumber = (index: number, expression: string, state: State): number[] => {
+const getHighLightLineNumber = (index: number, expression: string, state: State, prevSign: string): number[] => {
     if (state === State.Typing || state === State.Finished) {
         return [];
     }
-    const character = expression.charAt(index);
 
-    switch (character) {
-        case "+":
-            return [14];
-        case "-":
-            return [16];
-        case "(":
-            return [18];
-        case ")":
-            return [23];
-        default:
-            if (isNumeric(character)) {
-                return [7];
-            } else {
-                return [];
-            }
+    if (index === expression.length) {
+        return [25];
     }
+
+    const character = expression.charAt(index);
+    if (isNumeric(character)) {
+        switch (prevSign) {
+            case "+":
+                return [12];
+            case "-":
+                return [14];
+            case "*":
+                return [16];
+            case "/":
+                return [18];
+        }
+    } else if (character !== "_") {
+        return [21];
+    }
+
+    return [];
 }
 
 const States = () => {
-    const { result, sign } = useAlgoContext();
+    const { prevSign } = useAlgoContext();
     return (
         <Stack spacing={2} direction="row" sx={{ marginTop: "10px" }}>
             <AlgoClick />
             <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
                 <Typography variant="body2" display="inline">
-                    RESULT:&nbsp;
+                    PREVIOUS SIGN :&nbsp;&nbsp;&nbsp;&nbsp;
                 </Typography>
-                <Typography variant="body2" display="inline" color="primary">
-                    {result}
-                </Typography>
-            </Paper>
-            <Paper sx={{ padding: "10px 16px", borderRadius: 10 }} variant="outlined">
-                <Typography variant="body2" display="inline">
-                    SIGN :&nbsp;&nbsp;&nbsp;&nbsp;
-                </Typography>
-                <Typography variant="body2" display="inline" color="primary">
-                    {sign}
+                <Typography variant="h5" display="inline" color="primary">
+                    {prevSign}
                 </Typography>
             </Paper>
         </Stack>
@@ -92,20 +88,19 @@ const Input = () => {
 
 const AlgoCode = () => {
 
-    const { index, expression, state } = useAlgoContext();
+    const { index, expression, state, prevSign } = useAlgoContext();
 
     const [highLightLine, setHighLightLine] = React.useState<number[]>([]);
     React.useEffect(() => {
-        setHighLightLine(() => getHighLightLineNumber(index, expression, state));
-    }, [index, expression, state]);
+        setHighLightLine(() => getHighLightLineNumber(index, expression, state, prevSign));
+    }, [index, expression, state, prevSign]);
 
     const [expanded, setExpanded] = React.useState(false);
     const handleChange = () => { setExpanded(!expanded) };
     React.useEffect(() => {
-        if (state === State.Typing || state === State.Finished) {
+        if (state === State.Typing) {
             setExpanded(false);
-        }
-        if (state === State.Playing) {
+        } else {
             setExpanded(true);
         }
     }, [state]);

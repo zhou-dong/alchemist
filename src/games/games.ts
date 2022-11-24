@@ -39,6 +39,7 @@ import ImplementQueueUsingStacks from "./queue/implement-queue-using-stack/info"
 import ImplementStackUsingQueues from "./stack/implement-stack-using-queues/info";
 import ImplementStackUsingQueue from "./stack/implement-stack-using-queue/info";
 import BasicCalculator from "./stack/basic-calculator/info";
+import BasicCalculatorII from "./stack/basic-calculator-ii/info";
 
 export const games: Game[] = [
     editDistance,
@@ -79,5 +80,6 @@ export const games: Game[] = [
     ImplementQueueUsingStacks,
     ImplementStackUsingQueues,
     ImplementStackUsingQueue,
-    BasicCalculator
+    BasicCalculator,
+    BasicCalculatorII
 ];
