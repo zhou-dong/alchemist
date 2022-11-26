@@ -6,9 +6,8 @@ enum Category {
     DynamicProgramming = "DP",
     TwoPointers = "Two Pointers",
     HashTable = "Hash Table",
-    Math = "Math"
+    Math = "Math",
+    SlidingWindow = "Sliding Window"
 }
 
-
 export default Category;
-
