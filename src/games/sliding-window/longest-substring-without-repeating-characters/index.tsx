@@ -5,17 +5,17 @@ import theme from '../../dp/_commons/theme';
 import info from "./info";
 import Demo from './Demo';
 import Play from './Play';
-import { AlgoContextProvider } from './AlgoContext';
+import { AlgoContextProvider, Alignment, useAlgoContext } from './AlgoContext';
 
 const Main = () => {
 
-    const [alignment, setAlignment] = React.useState('play');
+    const { alignment } = useAlgoContext();
 
     return (
         <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
                 <AlgoContextProvider >
-                    {alignment === "play" && <Play alignment={alignment} setAlignment={setAlignment} />}
+                    {alignment === Alignment.Play && <Play />}
                     {/* {alignment === "display" && <Demo alignment={alignment} setAlignment={setAlignment} />} */}
                 </AlgoContextProvider>
             </ThemeProvider>
