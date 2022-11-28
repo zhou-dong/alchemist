@@ -196,17 +196,7 @@ const Main = ({ alignment, setAlignment }: Props) => {
 
     return (
         <>
-            <AlgoInstructions
-                alignment={alignment}
-                setAlignment={setAlignment}
-                setInput={setInput}
-                setIndex={setIndex}
-                setRange={setRange}
-                setMap={setMap}
-                setLeft={setLeft}
-                setSuccess={setSuccess}
-                setMax={setMax}
-            />
+            <AlgoInstructions />
             <Centered>
                 <div style={{ marginTop: "60px" }} />
                 <Title />
