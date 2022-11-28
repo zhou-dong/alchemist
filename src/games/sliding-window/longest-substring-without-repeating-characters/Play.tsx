@@ -11,11 +11,6 @@ import AlgoInstructions from './Instructions';
 import InputTable from './InputTable';
 import { useAlgoContext } from './AlgoContext';
 
-interface Props {
-    alignment: string;
-    setAlignment: React.Dispatch<React.SetStateAction<string>>;
-}
-
 enum InputStatus {
     Filling, Finished
 }
@@ -132,9 +127,9 @@ const MapEntrySubmit: React.FC<{
     );
 }
 
-const Main = ({ alignment, setAlignment }: Props) => {
+const Main = () => {
 
-    const { index, setIndex, map, input, success, left, range, max, setInput, setRange, setMap, setLeft, setSuccess, setMax } = useAlgoContext();
+    const { index, setIndex, map, input, success, left, range, max } = useAlgoContext();
 
     const [indexStatus, setIndexStatus] = React.useState<InputStatus>(InputStatus.Filling);
     const [leftStatus, setLeftStatus] = React.useState<InputStatus>(InputStatus.Filling);
