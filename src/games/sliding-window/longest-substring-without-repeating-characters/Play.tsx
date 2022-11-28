@@ -8,7 +8,7 @@ import { CheckCircleOutline } from '@mui/icons-material';
 import HashTable from './HashTable';
 import AlgoInstructions from './Instructions';
 
-import InputTable, { IndexProps, LeftProps, Range, RangeProps } from './InputTable';
+import InputTable from './InputTable';
 import { useAlgoContext } from './AlgoContext';
 
 interface Props {
