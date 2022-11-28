@@ -12,7 +12,6 @@ import CodeIcon from '@mui/icons-material/Code';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { description, formula } from "./contents";
 import Switcher from './Switcher';
-import { IndexProps, LeftProps, RangeProps } from './InputTable';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -35,18 +34,6 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     paddingLeft: 10,
     paddingRight: 10,
 }));
-
-interface Props {
-    setInput: React.Dispatch<React.SetStateAction<string>>;
-    setIndex: React.Dispatch<React.SetStateAction<IndexProps>>;
-    setLeft: React.Dispatch<React.SetStateAction<LeftProps>>;
-    setRange: React.Dispatch<React.SetStateAction<RangeProps>>
-    setMap: React.Dispatch<React.SetStateAction<Map<string, number>>>;
-    setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-    setMax: React.Dispatch<React.SetStateAction<number>>;
-    alignment: string;
-    setAlignment: React.Dispatch<React.SetStateAction<string>>;
-}
 
 const Input = () => {
 
@@ -98,7 +85,7 @@ const SwitcherWrapper = styled("div")(() => ({
     left: 20,
 }));
 
-const Main = ({ setInput, setRange, setMap, setIndex, setLeft, setSuccess, setMax, alignment, setAlignment }: Props) => (
+const Main = () => (
     <>
         <SwitcherWrapper>
             <Switcher />
