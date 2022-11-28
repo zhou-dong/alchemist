@@ -12,6 +12,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { description, formula } from "./contents";
 import Switcher from './Switcher';
+import { IndexProps, LeftProps, RangeProps } from './InputTable';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -35,29 +36,19 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     paddingRight: 10,
 }));
 
-interface InputProps {
-    setInput: React.Dispatch<React.SetStateAction<string>>;
-    setRange: React.Dispatch<React.SetStateAction<Range | undefined>>
-    setMap: React.Dispatch<React.SetStateAction<Map<string, number>>>;
-    setIndex: React.Dispatch<React.SetStateAction<number>>;
-    setLeft: React.Dispatch<React.SetStateAction<number>>;
-    setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-    setMax: React.Dispatch<React.SetStateAction<number>>;
-}
-
 interface Props {
     setInput: React.Dispatch<React.SetStateAction<string>>;
-    setRange: React.Dispatch<React.SetStateAction<Range | undefined>>
+    setIndex: React.Dispatch<React.SetStateAction<IndexProps>>;
+    setLeft: React.Dispatch<React.SetStateAction<LeftProps>>;
+    setRange: React.Dispatch<React.SetStateAction<RangeProps>>
     setMap: React.Dispatch<React.SetStateAction<Map<string, number>>>;
-    setIndex: React.Dispatch<React.SetStateAction<number>>;
-    setLeft: React.Dispatch<React.SetStateAction<number>>;
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
     setMax: React.Dispatch<React.SetStateAction<number>>;
     alignment: string;
     setAlignment: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Input = ({ setInput, setRange, setMap, setIndex, setLeft, setSuccess, setMax }: InputProps) => {
+const Input = () => {
 
     const name = "input";
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -95,9 +86,7 @@ const Input = ({ setInput, setRange, setMap, setIndex, setLeft, setSuccess, setM
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             >
-                <AlgoInput
-                    setAnchorEl={setAnchorEl}
-                />
+                <AlgoInput setAnchorEl={setAnchorEl} />
             </Popover>
         </>
     )
@@ -115,15 +104,7 @@ const Main = ({ setInput, setRange, setMap, setIndex, setLeft, setSuccess, setMa
             <Switcher />
         </SwitcherWrapper>
         <Stack spacing={2} sx={{ position: 'fixed', top: 168, left: 40, zIndex: 1 }}>
-            <Input
-                setInput={setInput}
-                setIndex={setIndex}
-                setRange={setRange}
-                setMap={setMap}
-                setLeft={setLeft}
-                setSuccess={setSuccess}
-                setMax={setMax}
-            />
+            <Input />
             <Instruction
                 name="Description"
                 icon={<DescriptionOutlinedIcon fontSize="medium" />}

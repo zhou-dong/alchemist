@@ -1,38 +1,50 @@
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
 
-interface Range {
+export interface IndexProps {
+    index: number;
+    show: boolean;
+}
+
+export interface LeftProps {
+    left: number;
+    show: boolean;
+}
+
+export interface Range {
     left: number;
     right: number;
 }
 
-interface Props {
-    left: number;
-    input: string;
-    index: number;
-    range?: Range;
+export interface RangeProps {
+    range: Range;
+    show: boolean;
 }
 
-const buildCharCellStyles = (index: number, current: number) => {
-    if (index === current) {
+interface Props {
+    input: string;
+    index: IndexProps;
+    left: LeftProps;
+    range: RangeProps;
+}
+
+const buildCharCellStyles = (index: IndexProps, current: number) => {
+    if (index.index === current) {
         return { backgroundColor: "lightgreen", fontWeight: "bold" };
     } else {
         return {};
     }
 }
 
-const buildIndexCellStyles = (index: number, current: number) => {
-    if (index === current) {
+const buildIndexCellStyles = (index: IndexProps, current: number) => {
+    if (index.index === current) {
         return { backgroundColor: "gold" }
     } else {
         return {}
     }
 }
 
-const buildRangeStyles = (index: number, range: Range | undefined) => {
-    if (!range) {
-        return {};
-    }
-    const { left, right } = range;
+const buildRangeStyles = (index: number, range: RangeProps) => {
+    const { left, right } = range.range;
     if (index >= left && index <= right) {
         return { backgroundColor: "gold" };
     } else {
@@ -40,8 +52,8 @@ const buildRangeStyles = (index: number, range: Range | undefined) => {
     }
 }
 
-const buildLeftStyles = (index: number, left: number) => {
-    if (index === left) {
+const buildLeftStyles = (index: number, left: LeftProps) => {
+    if (index === left.left) {
         return { backgroundColor: "gold" };
     } else {
         return {};
@@ -83,7 +95,7 @@ const Main = ({ input, index, range, left }: Props) => {
                     {
                         input.split("").map((_, i) =>
                             <TableCell padding="none" key={i} style={{ ...buildLeftStyles(i, left) }}>
-                                {i === left && left}
+                                {i === left.left && left.left}
                             </TableCell>
                         )
                     }

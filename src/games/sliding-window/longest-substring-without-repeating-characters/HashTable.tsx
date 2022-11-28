@@ -18,7 +18,7 @@ const Main = ({ map, currentKey, input }: Props) => {
         <Table>
             <TableBody>
                 <TableRow>
-                    <TableCell padding="none" style={{ border: "none" }}>
+                    <TableCell padding="none" style={{ color: "gray" }}>
                         Key
                     </TableCell>
                     {
@@ -35,7 +35,7 @@ const Main = ({ map, currentKey, input }: Props) => {
                     }
                 </TableRow>
                 <TableRow>
-                    <TableCell padding="none" style={{ border: "none" }}>
+                    <TableCell padding="none" style={{ color: "gray" }}>
                         Value
                     </TableCell>
                     {
