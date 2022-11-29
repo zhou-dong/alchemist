@@ -9,6 +9,7 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
         color: 'rgba(0, 0, 0, 0.87)',
         boxShadow: theme.shadows[3],
         fontSize: 13,
+        maxWidth: "600px"
     },
 }));
 
