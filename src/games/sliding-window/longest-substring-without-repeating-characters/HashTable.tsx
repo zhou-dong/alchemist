@@ -1,16 +1,15 @@
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
-
-interface Props {
-    map: Map<string, number>;
-    currentKey: string;
-    input: string;
-}
+import { useAlgoContext } from "./AlgoContext";
 
 const buildTableCellStyles = (key: string, currentKey: string) => {
-    return (key === currentKey) ? { backgroundColor: "lightgreen", fontWeight: "bold" } : {};
+    return (key === currentKey) ? { backgroundColor: "lightgreen" } : {};
 }
 
-const Main = ({ map, currentKey, input }: Props) => {
+const Main = () => {
+
+    const { compared, index, input, mapIndex } = useAlgoContext();
+    const currentKey = compared.chars[index];
+    const map = (mapIndex === -1) ? new Map() : compared.maps[mapIndex];
 
     const size = new Set(input.split("")).size;
 
@@ -18,7 +17,7 @@ const Main = ({ map, currentKey, input }: Props) => {
         <Table>
             <TableBody>
                 <TableRow>
-                    <TableCell padding="none" style={{ border: "none" }}>
+                    <TableCell padding="none" style={{ color: "gray" }}>
                         Key
                     </TableCell>
                     {
@@ -35,7 +34,7 @@ const Main = ({ map, currentKey, input }: Props) => {
                     }
                 </TableRow>
                 <TableRow>
-                    <TableCell padding="none" style={{ border: "none" }}>
+                    <TableCell padding="none" style={{ color: "gray" }}>
                         Value
                     </TableCell>
                     {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactMarkdown from "react-markdown";
-import MuiStack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack';
 import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
@@ -11,7 +11,6 @@ import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { description, formula } from "./contents";
-import Range from "./range";
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -35,17 +34,7 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     paddingRight: 10,
 }));
 
-interface Props {
-    setInput: React.Dispatch<React.SetStateAction<string>>;
-    setRange: React.Dispatch<React.SetStateAction<Range>>;
-    setMap: React.Dispatch<React.SetStateAction<Map<string, number>>>;
-    setIndex: React.Dispatch<React.SetStateAction<number>>;
-    setLeft: React.Dispatch<React.SetStateAction<number>>;
-    setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-    setMax: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const Input = ({ setInput, setRange, setMap, setIndex, setLeft, setSuccess, setMax }: Props) => {
+const Input = () => {
 
     const name = "input";
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -83,27 +72,15 @@ const Input = ({ setInput, setRange, setMap, setIndex, setLeft, setSuccess, setM
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             >
-                <AlgoInput
-                    setAnchorEl={setAnchorEl}
-                    setInput={setInput}
-                    setIndex={setIndex}
-                    setRange={setRange}
-                    setMap={setMap}
-                    setLeft={setLeft}
-                    setSuccess={setSuccess}
-                    setMax={setMax}
-                />
+                <AlgoInput setAnchorEl={setAnchorEl} />
             </Popover>
         </>
     )
 }
 
-const Instructions = ({ setInput, setRange, setMap, setIndex, setLeft, setSuccess, setMax }: Props) => (
-    <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
-        <Input setInput={setInput} setIndex={setIndex} setRange={setRange} setMap={setMap} setLeft={setLeft} setSuccess={setSuccess}
-
-            setMax={setMax}
-        />
+const Main = () => (
+    <Stack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
+        <Input />
         <Instruction
             name="Description"
             icon={<DescriptionOutlinedIcon fontSize="medium" />}
@@ -124,7 +101,7 @@ const Instructions = ({ setInput, setRange, setMap, setIndex, setLeft, setSucces
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
         />
-    </MuiStack>
+    </Stack>
 );
 
-export default Instructions;
+export default Main;

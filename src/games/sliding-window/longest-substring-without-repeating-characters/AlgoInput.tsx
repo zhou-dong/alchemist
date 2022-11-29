@@ -4,40 +4,30 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import Range from "./range";
+import { defaultIndex, defaultMapIndex, defaultSuccess, useAlgoContext } from './AlgoContext';
+import { buildCompared } from "./compared";
 
-export const defaultMax = 0;
-export const defaultLeft = -1;
-export const defaultIndex = -1;
-export const defaultRange: Range = { left: -1, right: -1 };
-export const buildDefaultMap = () => { return new Map<string, number>() };
+const defaultInput = "abcabbcdef";
 
 const Submit: React.FC<{
-    defaultInput: string,
     data: string,
     setData: React.Dispatch<React.SetStateAction<string>>,
-    setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
-    setRange: React.Dispatch<React.SetStateAction<Range>>,
-    setMap: React.Dispatch<React.SetStateAction<Map<string, number>>>,
-    setIndex: React.Dispatch<React.SetStateAction<number>>,
-    setLeft: React.Dispatch<React.SetStateAction<number>>,
-    setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
-    setMax: React.Dispatch<React.SetStateAction<number>>
-}> = ({ data, setData, setInput, setAnchorEl, defaultInput, setRange, setMap, setIndex, setSuccess, setLeft, setMax }) => {
+}> = ({ data, setData, setAnchorEl }) => {
+
+    const { setInput, setIndex, setSuccess, setCompared, setMapIndex } = useAlgoContext();
 
     const handleSubmit = () => {
         if (data.length === 0) {
             setInput(defaultInput);
+            setCompared(() => buildCompared(defaultInput));
         } else {
             setInput(data);
+            setCompared(() => buildCompared(data));
         }
-        setRange(defaultRange);
-        setMap(buildDefaultMap());
         setIndex(defaultIndex);
-        setSuccess(false);
-        setLeft(defaultLeft);
-        setMax(defaultMax);
+        setSuccess(defaultSuccess);
+        setMapIndex(defaultMapIndex);
         setData("");
         setAnchorEl(null);
     }
@@ -51,31 +41,14 @@ const Submit: React.FC<{
 
 interface Props {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
-    setInput: React.Dispatch<React.SetStateAction<string>>;
-    setRange: React.Dispatch<React.SetStateAction<Range>>;
-    setMap: React.Dispatch<React.SetStateAction<Map<string, number>>>;
-    setIndex: React.Dispatch<React.SetStateAction<number>>;
-    setLeft: React.Dispatch<React.SetStateAction<number>>;
-    setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-    setMax: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function isLetter(character: string) {
     return character.length === 1 && character.match(/[a-z]/i);
 }
 
-export default function AlgoInput({
-    setAnchorEl,
-    setInput,
-    setRange,
-    setMap,
-    setIndex,
-    setLeft,
-    setSuccess,
-    setMax
-}: Props) {
+export default function AlgoInput({ setAnchorEl }: Props) {
 
-    const defaultInput = "abcabbcdef";
     const [data, setData] = React.useState("");
 
     const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,14 +89,6 @@ export default function AlgoInput({
                 data={data}
                 setData={setData}
                 setAnchorEl={setAnchorEl}
-                defaultInput={defaultInput}
-                setInput={setInput}
-                setIndex={setIndex}
-                setRange={setRange}
-                setMap={setMap}
-                setLeft={setLeft}
-                setSuccess={setSuccess}
-                setMax={setMax}
             />
         </Paper>
     );

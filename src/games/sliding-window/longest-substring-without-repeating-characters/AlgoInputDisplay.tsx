@@ -1,11 +1,15 @@
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
-import Range from "./range";
+
+interface Range {
+    left: number;
+    right: number;
+}
 
 interface Props {
     left: number;
     input: string;
     index: number;
-    range: Range;
+    range?: Range;
 }
 
 const buildCharCellStyles = (index: number, current: number) => {
@@ -18,25 +22,29 @@ const buildCharCellStyles = (index: number, current: number) => {
 
 const buildIndexCellStyles = (index: number, current: number) => {
     if (index === current) {
-        return { backgroundColor: "gold", border: "none" }
+        return { backgroundColor: "gold" }
     } else {
-        return { border: "none" }
+        return {}
     }
 }
 
-const buildRangeStyles = (index: number, { left, right }: Range) => {
+const buildRangeStyles = (index: number, range: Range | undefined) => {
+    if (!range) {
+        return {};
+    }
+    const { left, right } = range;
     if (index >= left && index <= right) {
-        return { border: "none", backgroundColor: "gold" };
+        return { backgroundColor: "gold" };
     } else {
-        return { border: "none" };
+        return {};
     }
 }
 
 const buildLeftStyles = (index: number, left: number) => {
     if (index === left) {
-        return { border: "none", backgroundColor: "gold" };
+        return { backgroundColor: "gold" };
     } else {
-        return { border: "none" };
+        return {};
     }
 }
 
@@ -45,7 +53,7 @@ const Main = ({ input, index, range, left }: Props) => {
         <Table>
             <TableBody>
                 <TableRow>
-                    <TableCell padding="none" style={{ border: "none" }}>
+                    <TableCell padding="none" style={{ color: "gray" }}>
                         Char
                     </TableCell>
                     {
@@ -57,7 +65,7 @@ const Main = ({ input, index, range, left }: Props) => {
                     }
                 </TableRow>
                 <TableRow>
-                    <TableCell padding="none" style={{ border: "none" }} align="right">
+                    <TableCell padding="none" style={{ color: "gray" }}>
                         Index
                     </TableCell>
                     {
@@ -69,7 +77,7 @@ const Main = ({ input, index, range, left }: Props) => {
                     }
                 </TableRow>
                 <TableRow>
-                    <TableCell padding="none" style={{ border: "none" }} >
+                    <TableCell padding="none" style={{ color: "gray" }}>
                         Left
                     </TableCell>
                     {
@@ -81,7 +89,7 @@ const Main = ({ input, index, range, left }: Props) => {
                     }
                 </TableRow>
                 <TableRow>
-                    <TableCell padding="none" style={{ border: "none" }}>
+                    <TableCell padding="none" style={{ color: "gray" }}>
                         Max
                     </TableCell>
                     {
