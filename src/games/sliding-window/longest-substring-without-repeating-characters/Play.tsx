@@ -3,13 +3,14 @@ import InputIcon from '@mui/icons-material/Input';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { Centered } from "../../dp/_components/Centered";
 import { title } from "./contents";
-import { Badge, CardContent, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { CardContent, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack, TextField, Typography } from '@mui/material';
 import { CheckCircleOutline } from '@mui/icons-material';
 import HashTable from './HashTable';
 import AlgoInstructions from './Instructions';
 import LightTooltip from '../../../commons/LightTooltip';
 import InputTable from './InputTable';
 import { useAlgoContext } from './AlgoContext';
+import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 
 enum InputStatus {
     Filling, Finished
@@ -50,39 +51,35 @@ const InputSubmit = ({ inputStatus, name, handleOnClick, success, tip }: InputPr
         }
     };
 
-    const [openTooltip, setOpenTooltip] = React.useState(false);
     const disabled: boolean = success || inputStatus === InputStatus.Finished;
+
+    const Tip = () => (
+        <CodeBlock code={tip} language={languages.Typescript} />
+    )
 
     return (
         <div>
-            <LightTooltip title={tip} open={openTooltip} placement="right-start">
-                <Badge
-                    badgeContent={"?"}
-                    color="info"
-                    onMouseOver={() => setOpenTooltip(true)}
-                    onMouseOut={() => setOpenTooltip(false)}
-                >
-                    <FormControl variant='outlined' size='small' sx={{ width: "150px" }}>
-                        <InputLabel htmlFor={id}>{name}</InputLabel>
-                        <OutlinedInput
-                            label={name}
-                            error={error}
-                            id={id}
-                            type='number'
-                            onChange={handleOnChange}
-                            disabled={disabled}
-                            endAdornment={
-                                <InputAdornment position='end'>
-                                    <IconButton color='primary' edge="end" onClick={onClick} size="small" disabled={disabled}>
-                                        <SubmitIcon inputStatus={inputStatus} success={success} />
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </Badge>
+            <LightTooltip title={<Tip />} placement="right-start" >
+                <FormControl variant='outlined' size='small' sx={{ width: "150px" }}>
+                    <InputLabel htmlFor={id}>{name}</InputLabel>
+                    <OutlinedInput
+                        label={name}
+                        error={error}
+                        id={id}
+                        type='number'
+                        onChange={handleOnChange}
+                        disabled={disabled}
+                        endAdornment={
+                            <InputAdornment position='end'>
+                                <IconButton color='primary' edge="end" onClick={onClick} size="small" disabled={disabled}>
+                                    <SubmitIcon inputStatus={inputStatus} success={success} />
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
             </LightTooltip>
-        </div>
+        </div >
     );
 }
 
@@ -116,7 +113,10 @@ const MapEntrySubmit = ({ inputStatus, setInputStatus, success }: MapEntrySubmit
     };
 
     const disabled: boolean = success || inputStatus === InputStatus.Finished;
-    const [openTooltip, setOpenTooltip] = React.useState(false);
+
+    const Tip = () => (
+        <CodeBlock code={"map.set(char, index)"} language={languages.Typescript} />
+    )
 
     return (
         <Stack direction="row" spacing={2} sx={{ justifyContent: "center", alignItems: "center" }}>
@@ -131,24 +131,17 @@ const MapEntrySubmit = ({ inputStatus, setInputStatus, success }: MapEntrySubmit
                 }}
                 sx={{ width: "150px" }}
             />
-            <LightTooltip title="map.set(character, index)" open={openTooltip} placement="right-start">
-                <Badge
-                    badgeContent={"?"}
-                    color="info"
-                    onMouseOver={() => setOpenTooltip(true)}
-                    onMouseOut={() => setOpenTooltip(false)}
-                >
-                    <TextField
-                        size="small"
-                        label="Map Value"
-                        variant='outlined'
-                        type="number"
-                        onChange={handleOnChange}
-                        disabled={disabled}
-                        error={error}
-                        sx={{ width: "150px" }}
-                    />
-                </Badge>
+            <LightTooltip title={<Tip />} placement="right-start">
+                <TextField
+                    size="small"
+                    label="Map Value"
+                    variant='outlined'
+                    type="number"
+                    onChange={handleOnChange}
+                    disabled={disabled}
+                    error={error}
+                    sx={{ width: "150px" }}
+                />
             </LightTooltip>
 
             <div>
@@ -239,7 +232,9 @@ const Main = () => {
                 name="Left"
                 handleOnClick={handleLeftOnClick}
                 success={success}
-                tip="left = Math.max(left, map.get(character) + 1)"
+                tip={`if (map.has(char)) {
+    left = Math.max(left, map.get(char) + 1);
+}`}
             />
             <InputSubmit
                 inputStatus={maxStatus}
