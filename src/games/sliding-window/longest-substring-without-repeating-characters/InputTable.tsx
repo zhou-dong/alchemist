@@ -1,114 +1,130 @@
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
+import { useAlgoContext } from "./AlgoContext";
+import { Range } from "./compared";
 
-export interface IndexProps {
-    index: number;
-    show: boolean;
-}
-
-export interface LeftProps {
-    left: number;
-    show: boolean;
-}
-
-export interface Range {
-    left: number;
-    right: number;
-}
-
-export interface RangeProps {
-    range: Range;
-    show: boolean;
-}
-
-interface Props {
-    input: string;
-    index: IndexProps;
-    left: LeftProps;
-    range: RangeProps;
-}
-
-const buildCharCellStyles = (index: IndexProps, current: number) => {
-    if (index.index === current) {
-        return { backgroundColor: "lightgreen", fontWeight: "bold" };
+const charStyles = (index: number, i: number) => {
+    if (index === i) {
+        return { backgroundColor: "lightgreen" };
     } else {
         return {};
     }
 }
 
-const buildIndexCellStyles = (index: IndexProps, current: number) => {
-    if (index.index === current) {
+const indexStyles = (index: number, i: number) => {
+    if (index !== i) {
+        return {};
+    } else {
         return { backgroundColor: "gold" }
-    } else {
-        return {}
     }
 }
 
-const buildRangeStyles = (index: number, range: RangeProps) => {
-    const { left, right } = range.range;
-    if (index >= left && index <= right) {
-        return { backgroundColor: "gold" };
-    } else {
+const rangeStyles = ({ left, right }: Range, i: number) => {
+    if (i < left || i > right) {
         return {};
-    }
-}
-
-const buildLeftStyles = (index: number, left: LeftProps) => {
-    if (index === left.left) {
-        return { backgroundColor: "gold" };
     } else {
-        return {};
+        return { backgroundColor: "gold" }
     }
 }
 
-const Main = ({ input, index, range, left }: Props) => {
+const Main = () => {
+    const { index, compared } = useAlgoContext();
+    const { chars, indices, lefts, maxs, ranges } = compared;
+
+    const CharCells = () => (
+        <>
+            {
+                chars.map((ch, i) =>
+                    <TableCell padding="none" key={i} style={charStyles(index, i)}>
+                        {ch}
+                    </TableCell>
+                )
+            }
+        </>
+    );
+
+    const IndexCells = () => (
+        <>
+            {
+                indices.map((item, i) =>
+                    <TableCell padding="none" key={i} style={indexStyles(item, index)}>
+                        {item}
+                    </TableCell>
+                )
+            }
+        </>
+    );
+
+    const LeftCells = () => (
+        <>
+            {
+                lefts.map((left, i) =>
+                    <TableCell padding="none" key={i}>
+                        {left.show && left.value}
+                    </TableCell>
+                )
+            }
+        </>
+    );
+
+    const MaxCells = () => (
+        <>
+            {
+                maxs.map((max, i) =>
+                    <TableCell padding="none" key={i}>
+                        {max.show && max.value}
+                    </TableCell>
+                )
+            }
+        </>
+    );
+
+    const RangeCells = () => {
+        const range = ranges[index];
+        return (
+            <>
+                {
+                    Array.from(Array(chars.length).keys()).map(num =>
+                        <TableCell padding="none" key={num} sx={rangeStyles(range, num)} />
+                    )
+                }
+            </>
+        );
+    };
+
+    const titleStyles = { color: "gray" };
+
     return (
         <Table>
             <TableBody>
                 <TableRow>
-                    <TableCell padding="none" style={{ color: "gray" }}>
+                    <TableCell padding="none" style={titleStyles}>
                         Char
                     </TableCell>
-                    {
-                        input.split("").map((character, i) =>
-                            <TableCell padding="none" key={i} style={buildCharCellStyles(index, i)}>
-                                {character}
-                            </TableCell>
-                        )
-                    }
+                    <CharCells />
                 </TableRow>
                 <TableRow>
-                    <TableCell padding="none" style={{ color: "gray" }}>
+                    <TableCell padding="none" style={titleStyles}>
                         Index
                     </TableCell>
-                    {
-                        input.split("").map((_, i) =>
-                            <TableCell padding="none" key={i} style={{ ...buildIndexCellStyles(index, i) }}>
-                                {i}
-                            </TableCell>
-                        )
-                    }
+                    <IndexCells />
                 </TableRow>
                 <TableRow>
-                    <TableCell padding="none" style={{ color: "gray" }}>
+                    <TableCell padding="none" style={titleStyles}>
                         Left
                     </TableCell>
-                    {
-                        input.split("").map((_, i) =>
-                            <TableCell padding="none" key={i} style={{ ...buildLeftStyles(i, left) }}>
-                                {i === left.left && left.left}
-                            </TableCell>
-                        )
-                    }
+                    <LeftCells />
                 </TableRow>
                 <TableRow>
-                    <TableCell padding="none" style={{ color: "gray" }}>
+                    <TableCell padding="none" style={titleStyles}>
                         Max
                     </TableCell>
-                    {
-                        input.split("").map((_, i) =>
-                            <TableCell padding="none" key={i} style={buildRangeStyles(i, range)} />
-                        )
-                    }
+                    <MaxCells />
+                </TableRow>
+                <TableRow>
+                    <TableCell padding="none" style={titleStyles}>
+                        Range
+                    </TableCell>
+                    <RangeCells />
                 </TableRow>
             </TableBody>
         </Table >
