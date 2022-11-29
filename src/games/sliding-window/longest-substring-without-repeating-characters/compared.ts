@@ -1,4 +1,7 @@
-import { Range } from "./InputTable";
+export interface Range {
+    left: number;
+    right: number;
+}
 
 export interface LeftProps {
     value: number;
