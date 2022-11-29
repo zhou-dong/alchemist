@@ -15,7 +15,7 @@ enum InputStatus {
     Filling, Finished
 }
 
-const InputSubmitIcon: React.FC<{ inputStatus: InputStatus }> = ({ inputStatus }) => {
+const SubmitIcon: React.FC<{ inputStatus: InputStatus }> = ({ inputStatus }) => {
     if (inputStatus === InputStatus.Filling) {
         return <InputIcon fontSize='small' />;
     } else {
@@ -23,13 +23,15 @@ const InputSubmitIcon: React.FC<{ inputStatus: InputStatus }> = ({ inputStatus }
     }
 }
 
-const InputSubmit: React.FC<{
-    target: number,
-    name: string,
-    inputStatus: InputStatus,
-    setInputStatus: React.Dispatch<React.SetStateAction<InputStatus>>
-}> = ({ target, name, inputStatus, setInputStatus }) => {
+interface InputProps {
+    inputStatus: InputStatus;
+    name: string;
+    handleOnClick: (value: number) => boolean;
+}
 
+const InputSubmit = ({ inputStatus, name, handleOnClick }: InputProps) => {
+
+    const id = "input-" + name;
     const [error, setError] = React.useState(false);
     const [value, setValue] = React.useState(-1);
 
@@ -37,16 +39,14 @@ const InputSubmit: React.FC<{
         setValue(Number(event.target.value));
     };
 
-    const handleOnClick = () => {
-        if (target !== value) {
-            setError(true);
-        } else {
+    const onClick = () => {
+        const success = handleOnClick(value);
+        if (success) {
             setError(false);
-            setInputStatus(InputStatus.Finished);
+        } else {
+            setError(true);
         }
     };
-
-    const id = "input-" + name;
 
     return (
         <div>
@@ -61,8 +61,8 @@ const InputSubmit: React.FC<{
                     disabled={inputStatus === InputStatus.Finished}
                     endAdornment={
                         <InputAdornment position='end'>
-                            <IconButton color='primary' edge="end" onClick={handleOnClick} size="small">
-                                <InputSubmitIcon inputStatus={inputStatus} />
+                            <IconButton color='primary' edge="end" onClick={onClick} size="small">
+                                <SubmitIcon inputStatus={inputStatus} />
                             </IconButton>
                         </InputAdornment>
                     }
@@ -120,7 +120,7 @@ const MapEntrySubmit: React.FC<{
             />
             <div>
                 <IconButton sx={{ border: "1px solid gray" }} size="medium" onClick={handleOnClick} color='primary'>
-                    <InputSubmitIcon inputStatus={inputStatus} />
+                    <SubmitIcon inputStatus={inputStatus} />
                 </IconButton>
             </div>
         </Stack>
@@ -129,35 +129,35 @@ const MapEntrySubmit: React.FC<{
 
 const Main = () => {
 
-    const { index, setIndex, map, input, success, left, range, max } = useAlgoContext();
+    const { index, setIndex, input, success, compared, setCompared } = useAlgoContext();
 
-    const [indexStatus, setIndexStatus] = React.useState<InputStatus>(InputStatus.Filling);
     const [leftStatus, setLeftStatus] = React.useState<InputStatus>(InputStatus.Filling);
     const [maxStatus, setMaxStatus] = React.useState<InputStatus>(InputStatus.Filling);
     const [mapStatus, setMapStatus] = React.useState<InputStatus>(InputStatus.Filling);
 
     React.useEffect(() => {
-        if (indexStatus === InputStatus.Finished
-            && leftStatus === InputStatus.Finished
+        if (leftStatus === InputStatus.Finished
             && maxStatus === InputStatus.Finished
         ) {
-            setIndexStatus(InputStatus.Filling);
+
+            setIndex(i => i + 1);
+
             setLeftStatus(InputStatus.Filling);
             setMaxStatus(InputStatus.Filling);
 
 
         }
 
-    }, [indexStatus, leftStatus, maxStatus, setIndex])
+    }, [leftStatus, maxStatus, setIndex])
 
     const HTable = () => {
-        const key = (index.index > 0 && index.index < input.length) ? input.charAt(index.index) : ""
+        const key = (index > 0 && index < input.length) ? input.charAt(index) : ""
         return (
             <CardContent>
                 <Typography variant="subtitle1" sx={{ color: "gray" }}>
                     Hash Table
                 </Typography>
-                <HashTable map={map} currentKey={key} input={input} />
+                <HashTable map={new Map()} currentKey={key} input={input} />
             </CardContent>
         );
     }
@@ -167,7 +167,7 @@ const Main = () => {
             <Typography variant="subtitle1" sx={{ color: "gray" }}>
                 Input
             </Typography>
-            <InputTable input={input} index={index} range={range} left={left} />
+            <InputTable />
         </CardContent>
     );
 
@@ -180,11 +180,32 @@ const Main = () => {
         </Stack>
     );
 
+    const handleLeftOnClick = (value: number): boolean => {
+        if (compared.lefts[index].value === value) {
+            setLeftStatus(InputStatus.Finished);
+            compared.lefts[index].show = true;
+            setCompared(compared);
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const handleMaxOnClick = (value: number): boolean => {
+        if (compared.maxs[index].value === value) {
+            setMaxStatus(InputStatus.Finished);
+            compared.maxs[index].show = true;
+            setCompared(compared);
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     const Actions = () => (
         <Stack spacing={2}>
-            <InputSubmit name="Index" target={index.index} inputStatus={indexStatus} setInputStatus={setIndexStatus} />
-            <InputSubmit name="Left" target={left.left} inputStatus={leftStatus} setInputStatus={setLeftStatus} />
-            <InputSubmit name="Max" target={max} inputStatus={maxStatus} setInputStatus={setMaxStatus} />
+            <InputSubmit inputStatus={leftStatus} name="Left" handleOnClick={handleLeftOnClick} />
+            <InputSubmit inputStatus={maxStatus} name="Max" handleOnClick={handleMaxOnClick} />
             <MapEntrySubmit mapKey={"a"} mapValue={1} inputStatus={mapStatus} setInputStatus={setMapStatus} />
         </Stack>
     );
