@@ -1,9 +1,8 @@
 import React from "react";
 import { Compared, emptyCompared } from "./compared";
 
-export enum Alignment { Play, Demo };
-const defaultAlignment: Alignment = Alignment.Play;
 export const defaultIndex = 0;
+export const defaultMapIndex = -1;
 export const defaultSuccess = false;
 
 const AlgoContext = React.createContext<{
@@ -13,10 +12,10 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     success: boolean,
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>
-    alignment: Alignment;
-    setAlignment: React.Dispatch<React.SetStateAction<Alignment>>,
     compared: Compared,
     setCompared: React.Dispatch<React.SetStateAction<Compared>>,
+    mapIndex: number,
+    setMapIndex: React.Dispatch<React.SetStateAction<number>>
 }>({
     input: "",
     setInput: () => { },
@@ -24,10 +23,10 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     success: defaultSuccess,
     setSuccess: () => { },
-    alignment: defaultAlignment,
-    setAlignment: () => { },
     compared: emptyCompared,
     setCompared: () => { },
+    mapIndex: defaultMapIndex,
+    setMapIndex: () => { }
 });
 
 export const useAlgoContext = () => {
@@ -39,8 +38,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [input, setInput] = React.useState("");
     const [index, setIndex] = React.useState(defaultIndex);
     const [success, setSuccess] = React.useState(defaultSuccess);
-    const [alignment, setAlignment] = React.useState<Alignment>(defaultAlignment);
     const [compared, setCompared] = React.useState<Compared>(emptyCompared);
+    const [mapIndex, setMapIndex] = React.useState(defaultMapIndex);
 
     return (
         <AlgoContext.Provider value={{
@@ -50,10 +49,10 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setIndex,
             success,
             setSuccess,
-            alignment,
-            setAlignment,
             compared,
             setCompared,
+            mapIndex,
+            setMapIndex
         }}>
             {children}
         </AlgoContext.Provider>

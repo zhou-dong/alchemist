@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import { defaultIndex, defaultSuccess, useAlgoContext } from './AlgoContext';
+import { defaultIndex, defaultMapIndex, defaultSuccess, useAlgoContext } from './AlgoContext';
 import { buildCompared } from "./compared";
 
 const defaultInput = "abcabbcdef";
@@ -15,7 +15,7 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
 }> = ({ data, setData, setAnchorEl }) => {
 
-    const { setInput, setIndex, setSuccess, setCompared } = useAlgoContext();
+    const { setInput, setIndex, setSuccess, setCompared, setMapIndex } = useAlgoContext();
 
     const handleSubmit = () => {
         if (data.length === 0) {
@@ -27,6 +27,7 @@ const Submit: React.FC<{
         }
         setIndex(defaultIndex);
         setSuccess(defaultSuccess);
+        setMapIndex(defaultMapIndex);
         setData("");
         setAnchorEl(null);
     }

@@ -79,7 +79,7 @@ const Main = () => {
     );
 
     const RangeCells = () => {
-        const range = ranges[index];
+        const range = (index >= ranges.length) ? ranges[ranges.length - 1] : ranges[index];
         return (
             <>
                 {

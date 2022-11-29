@@ -11,7 +11,6 @@ import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { description, formula } from "./contents";
-import Switcher from './Switcher';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -79,41 +78,30 @@ const Input = () => {
     )
 }
 
-const SwitcherWrapper = styled("div")(() => ({
-    position: "fixed",
-    top: 100,
-    left: 20,
-}));
-
 const Main = () => (
-    <>
-        <SwitcherWrapper>
-            <Switcher />
-        </SwitcherWrapper>
-        <Stack spacing={2} sx={{ position: 'fixed', top: 168, left: 40, zIndex: 1 }}>
-            <Input />
-            <Instruction
-                name="Description"
-                icon={<DescriptionOutlinedIcon fontSize="medium" />}
-                popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            />
-            <Instruction
-                name="Code"
-                icon={<CodeIcon fontSize="medium" />}
-                popover={<CodeBlock
-                    code={formula}
-                    language={languages.Typescript}
-                    showLineNumbers={true}
-                    linesToHighlight={[]}
-                    wrapLines={true}
-                />}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            />
-        </Stack>
-    </>
+    <Stack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
+        <Input />
+        <Instruction
+            name="Description"
+            icon={<DescriptionOutlinedIcon fontSize="medium" />}
+            popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+        />
+        <Instruction
+            name="Code"
+            icon={<CodeIcon fontSize="medium" />}
+            popover={<CodeBlock
+                code={formula}
+                language={languages.Typescript}
+                showLineNumbers={true}
+                linesToHighlight={[]}
+                wrapLines={true}
+            />}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+        />
+    </Stack>
 );
 
 export default Main;
