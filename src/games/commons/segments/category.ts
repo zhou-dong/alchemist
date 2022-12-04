@@ -7,7 +7,8 @@ enum Category {
     TwoPointers = "Two Pointers",
     HashTable = "Hash Table",
     Math = "Math",
-    SlidingWindow = "Sliding Window"
+    SlidingWindow = "Sliding Window",
+    FlipDirection = "Flip Direction"
 }
 
 export default Category;
