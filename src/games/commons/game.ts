@@ -9,4 +9,5 @@ export interface Game {
     companies: Company[];
     difficulty: Difficulty;
     img: string;
+    leetcodeId?: number;
 }

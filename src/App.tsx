@@ -85,6 +85,8 @@ import BasicCalculatorII from "./games/stack/basic-calculator-ii";
 import BasicCalculatorIIInfo from "./games/stack/basic-calculator-ii/info";
 import LongestSubstringWithoutRepeatingCharacters from "./games/sliding-window/longest-substring-without-repeating-characters";
 import LongestSubstringWithoutRepeatingCharactersInfo from "./games/sliding-window/longest-substring-without-repeating-characters/info";
+import ZigzagConversion from "./games/flip-direction/zigzag-conversion";
+import ZigzagConversionInfo from "./games/flip-direction/zigzag-conversion/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -117,9 +119,6 @@ const App = () => (
                 <Route path="sorting/counting-sort" element={<div>Counting Sort</div>} />
                 <Route path="sorting/bucket-sort" element={<div>Bucket Sort</div>} />
                 <Route path="sorting/radix-sort" element={<div>Redix Sort</div>} />
-            </>
-
-            <>
                 <Route path={EditDistanceInfo.path} element={<EditDistance />} />
                 <Route path={WordBreakInfo.path} element={<WordBreak />} />
                 <Route path={CoinChangeFewestNumberInfo.path} element={<CoinChangeFewestNumber />} />
@@ -158,6 +157,7 @@ const App = () => (
                 <Route path={BasicCalculatorInfo.path} element={<BasicCalculator renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BasicCalculatorIIInfo.path} element={<BasicCalculatorII renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={LongestSubstringWithoutRepeatingCharactersInfo.path} element={<LongestSubstringWithoutRepeatingCharacters />} />
+                <Route path={ZigzagConversionInfo.path} element={<ZigzagConversion />} />
             </>
         </Routes>
     </>

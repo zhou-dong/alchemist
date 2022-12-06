@@ -41,6 +41,7 @@ import ImplementStackUsingQueue from "./stack/implement-stack-using-queue/info";
 import BasicCalculator from "./stack/basic-calculator/info";
 import BasicCalculatorII from "./stack/basic-calculator-ii/info";
 import LongestSubstringWithoutRepeatingCharacters from "./sliding-window/longest-substring-without-repeating-characters/info";
+import ZigzagConversion from "./flip-direction/zigzag-conversion/info";
 
 export const games: Game[] = [
     editDistance,
@@ -83,5 +84,6 @@ export const games: Game[] = [
     ImplementStackUsingQueue,
     BasicCalculator,
     BasicCalculatorII,
-    LongestSubstringWithoutRepeatingCharacters
+    LongestSubstringWithoutRepeatingCharacters,
+    ZigzagConversion
 ];
