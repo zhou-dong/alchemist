@@ -13,8 +13,7 @@ const Main = () => {
             display="flex"
             sx={{
                 justifyContent: "center",
-                alignItems: "center",
-                marginTop: "60px"
+                alignItems: "center"
             }}
         >
             Zigzag Conversion {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
