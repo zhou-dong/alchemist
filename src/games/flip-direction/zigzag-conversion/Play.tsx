@@ -123,9 +123,9 @@ const Play = () => {
     }, [row, numRows])
 
     return (
-        <Grid container sx={{ marginTop: "40px" }}>
-            <Grid item xs={12} md={2} ></Grid>
-            <Grid item xs={12} md={4}>
+        <Grid container sx={{ width: "70%", margin: "auto", marginTop: "40px", }}>
+
+            <Grid item xs={12} md={6}>
                 <Stack sx={{ justifyContent: "center", alignItems: "center", paddingTop: "2px" }}>
                     <Chip avatar={<TipsAndUpdatesOutlinedIcon />} label="Flip Direction" variant='outlined' size='medium' />
                     <CodeBlock
@@ -138,7 +138,7 @@ const Play = () => {
                 </Stack>
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={6}>
                 <Stack>
                     <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                         <DisplayBox name="num rows" value={numRows} />
@@ -193,7 +193,6 @@ const Play = () => {
 
             </Grid>
 
-            <Grid item xs={12} md={2} ></Grid>
         </Grid>
     )
 }
