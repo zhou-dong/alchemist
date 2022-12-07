@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Paper, Stack, styled, Table, TableBody, TableCell, TableRow, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Button, Chip, Grid, Paper, Stack, styled, Table, TableBody, TableCell, TableRow, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { useAlgoContext } from './AlgoContext';
 import { State } from './AlgoState';
 import Title from './Title';
 import LightTooltip from '../../../commons/LightTooltip';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
+import { formula } from "./contents";
 
 const DisplayInput = () => {
     const { inputString, index } = useAlgoContext();
@@ -113,46 +114,69 @@ const Next = () => {
 }
 
 const InlineCenter = styled("div")(() => ({
-    textAlign: "center", margin: "auto"
+    textAlign: "center"
 }))
 
-const flagExpression = `if (currentRow === 0 || currentRow === numRows - 1) {
-    flag = -1 * flag; // flip direction
-}`
+const flagExpression = `if (row === 0 || row === numRows - 1) {
+    flag = -1 * flag;
+}
+
+row += flag;
+`
 
 const Play = () => {
-    const { index, flag, row, numRows } = useAlgoContext();
+    const { flag, row, numRows } = useAlgoContext();
 
     return (
-        <>
-            <div style={{ marginTop: 20 }} />
-            <InlineCenter>
-                <DisplayInput />
-            </InlineCenter>
+        <Grid container sx={{ marginTop: "60px" }}>
+            <Grid item xs={12} md={6} sx={{ float: "right" }}>
+                <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+                    <CodeBlock
+                        code={formula}
+                        language={languages.Typescript}
+                        showLineNumbers={true}
+                        linesToHighlight={[]}
+                        wrapLines={true}
+                    />
+                </Stack>
+            </Grid>
 
-            <div style={{ marginTop: 20 }} />
-            <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                <DisplayBox name="num rows" value={numRows} />
-                <DisplayConverted />
-            </Stack>
+            <Grid item xs={12} md={6} sx={{ float: "left" }}>
+                <Stack>
+                    <div style={{ marginTop: 40 }} />
+                    <InlineCenter>
+                        <DisplayInput />
+                    </InlineCenter>
 
-            <div style={{ marginTop: 20 }} />
-            <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                <DisplayBox name="index" value={index} />
-                <TipedDisplayBox name="current row" value={row} tip="currentRow += flag;" />
-                <TipedDisplayBox name="flag" value={flag} tip={flagExpression} />
-            </Stack>
+                    <div style={{ marginTop: 20 }} />
+                    <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+                        <DisplayBox name="num rows" value={numRows} />
+                        <DisplayConverted />
+                    </Stack>
 
-            <div style={{ marginTop: 20 }} />
-            <InlineCenter>
-                <Rows />
-            </InlineCenter>
+                    <div style={{ marginTop: 20 }} />
+                    <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+                        <TipedDisplayBox name="row" value={row} tip="row += flag;" />
+                        <TipedDisplayBox name="flag" value={flag} tip={flagExpression} />
+                    </Stack>
 
-            <div style={{ marginTop: 30 }} />
-            <InlineCenter>
-                <Next />
-            </InlineCenter>
-        </>
+                    <div style={{ marginTop: 20 }} />
+                    <div>
+
+                    </div>
+                    <InlineCenter>
+                        <Rows />
+                    </InlineCenter>
+
+                    <div style={{ marginTop: 30 }} />
+                    <InlineCenter>
+                        <Next />
+                    </InlineCenter>
+                </Stack>
+
+            </Grid>
+
+        </Grid>
     )
 }
 
