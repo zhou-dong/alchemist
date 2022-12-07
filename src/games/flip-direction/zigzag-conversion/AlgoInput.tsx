@@ -84,10 +84,11 @@ const Submit: React.FC<{
             }
             rows.push(row);
         }
+        rows[0][0] = inputString.charAt(0);
         setConverted(converted);
         setInputString(inputString);
         setFlag(-1);
-        setIndex(0);
+        setIndex(1);
         setRow(0);
         setRows(rows);
         setAnchorEl(null);

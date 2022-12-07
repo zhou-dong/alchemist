@@ -4,10 +4,8 @@ import MuiStack from '@mui/material/Stack';
 import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import CodeIcon from '@mui/icons-material/Code';
-import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import Instruction from '../../../commons/Instruction';
-import { description, formula, examples } from "./contents";
+import { description, examples } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
@@ -87,19 +85,6 @@ const Main = () => {
                 name="Description"
                 icon={<DescriptionOutlinedIcon fontSize="medium" />}
                 popover={<StyledReactMarkdown>{description + examples}</StyledReactMarkdown>}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            />
-            <Instruction
-                name="Code"
-                icon={<CodeIcon fontSize="medium" />}
-                popover={<CodeBlock
-                    code={formula}
-                    language={languages.Typescript}
-                    showLineNumbers={true}
-                    linesToHighlight={[]}
-                    wrapLines={true}
-                />}
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             />

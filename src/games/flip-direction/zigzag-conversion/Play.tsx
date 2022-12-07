@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, Chip, Grid, Paper, Stack, styled, Table, TableBody, TableCell, TableRow, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Button, Chip, Divider, Grid, Paper, Stack, styled, Table, TableBody, TableCell, TableRow, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { useAlgoContext } from './AlgoContext';
 import { State } from './AlgoState';
 import Title from './Title';
-import LightTooltip from '../../../commons/LightTooltip';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { formula } from "./contents";
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
 const DisplayInput = () => {
     const { inputString, index } = useAlgoContext();
@@ -54,19 +55,6 @@ const DisplayBox: React.FC<{ name: string, value: string | number }> = ({ name, 
     </Paper>
 );
 
-const TipedDisplayBox: React.FC<{ name: string, value: string | number, tip: string }> = ({ name, value, tip }) => (
-    <LightTooltip title={<CodeBlock code={tip} language={languages.Typescript} />} placement="bottom" >
-        <Paper variant='outlined' sx={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "5px 12px", borderRadius: "30px" }}>
-            <Typography display="flex">
-                {name}:&nbsp;
-            </Typography>
-            <Typography color="primary" display="flex">
-                {value}
-            </Typography>
-        </Paper>
-    </LightTooltip>
-);
-
 const DisplayConverted = () => {
     const { converted, state } = useAlgoContext();
     return (
@@ -85,17 +73,17 @@ const Next = () => {
             return;
         }
 
+        const newFlag = (row === 0 || row === rows.length - 1) ? flag * -1 : flag;
+        const newRow = row + newFlag;
+
         const character: string = inputString.charAt(index);
         for (let col = 0; col < rows[row].length; col++) {
-            const cell = rows[row][col];
+            const cell = rows[newRow][col];
             if (cell === -1) {
-                rows[row][col] = character;
+                rows[newRow][col] = character;
                 break;
             }
         }
-
-        const newFlag = (row === 0 || row === rows.length - 1) ? flag * -1 : flag;
-        const newRow = row + newFlag;
 
         setFlag(newFlag);
         setRow(newRow);
@@ -119,54 +107,83 @@ const InlineCenter = styled("div")(() => ({
 
 const flagExpression = `if (row === 0 || row === numRows - 1) {
     flag = -1 * flag;
-}
-
-row += flag;
-`
+}`
 
 const Play = () => {
     const { flag, row, numRows } = useAlgoContext();
 
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([16]);
+
+    React.useEffect(() => {
+        if (row === 0 || row === numRows - 1) {
+            setLinesToHighlight([14, 16]);
+        } else {
+            setLinesToHighlight([16]);
+        }
+    }, [row, numRows])
+
     return (
-        <Grid container sx={{ marginTop: "60px" }}>
-            <Grid item xs={12} md={6} sx={{ float: "right" }}>
-                <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+        <Grid container sx={{ marginTop: "40px" }}>
+            <Grid item xs={12} md={2} ></Grid>
+            <Grid item xs={12} md={4}>
+                <Stack sx={{ justifyContent: "center", alignItems: "center", paddingTop: "2px" }}>
+                    <Chip avatar={<TipsAndUpdatesOutlinedIcon />} label="Flip Direction" variant='outlined' size='medium' />
                     <CodeBlock
                         code={formula}
                         language={languages.Typescript}
                         showLineNumbers={true}
-                        linesToHighlight={[]}
+                        linesToHighlight={linesToHighlight}
                         wrapLines={true}
                     />
                 </Stack>
             </Grid>
 
-            <Grid item xs={12} md={6} sx={{ float: "left" }}>
+            <Grid item xs={12} md={4}>
                 <Stack>
-                    <div style={{ marginTop: 40 }} />
-                    <InlineCenter>
-                        <DisplayInput />
-                    </InlineCenter>
-
-                    <div style={{ marginTop: 20 }} />
                     <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
                         <DisplayBox name="num rows" value={numRows} />
                         <DisplayConverted />
                     </Stack>
 
                     <div style={{ marginTop: 20 }} />
-                    <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                        <TipedDisplayBox name="row" value={row} tip="row += flag;" />
-                        <TipedDisplayBox name="flag" value={flag} tip={flagExpression} />
-                    </Stack>
+                    <InlineCenter>
+                        <DisplayInput />
+                    </InlineCenter>
+
 
                     <div style={{ marginTop: 20 }} />
-                    <div>
-
-                    </div>
                     <InlineCenter>
                         <Rows />
                     </InlineCenter>
+
+                    <div style={{ marginTop: 20 }} />
+                    <Stack direction="column" spacing={2} sx={{ justifyContent: "center", alignItems: "center" }}>
+                        <Paper variant='outlined'>
+                            <Stack direction="row" sx={{ alignItems: "center" }}>
+                                <div style={{ margin: "0 8px" }}>
+                                    <DisplayBox name="flag" value={flag} />
+                                </div>
+                                <Divider sx={{ height: 46, m: 0.5 }} orientation="vertical" />
+                                <CodeBlock
+                                    code={flagExpression}
+                                    language={languages.Typescript}
+                                />
+                            </Stack>
+                        </Paper>
+
+                        <Paper variant='outlined'>
+                            <Stack direction="row" sx={{ alignItems: "center" }}>
+                                <div style={{ margin: "0 8px" }}>
+                                    <DisplayBox name="row" value={row} />
+                                </div>
+                                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                                <CodeBlock
+                                    code={"row += flag;"}
+                                    language={languages.Typescript}
+                                />
+                            </Stack>
+                        </Paper>
+                    </Stack>
 
                     <div style={{ marginTop: 30 }} />
                     <InlineCenter>
@@ -176,6 +193,7 @@ const Play = () => {
 
             </Grid>
 
+            <Grid item xs={12} md={2} ></Grid>
         </Grid>
     )
 }
