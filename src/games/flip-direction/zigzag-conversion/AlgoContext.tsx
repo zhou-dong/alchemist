@@ -28,7 +28,7 @@ const AlgoContext = React.createContext<{
     setNumRows: () => { },
     inputString: "",
     setInputString: () => { },
-    index: 0,
+    index: 1,
     setIndex: () => { },
     rows: [],
     setRows: () => { },
@@ -45,7 +45,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [state, setState] = React.useState(State.Typing);
     const [numRows, setNumRows] = React.useState(defaultNumRows);
     const [inputString, setInputString] = React.useState(defaultInputString);
-    const [index, setIndex] = React.useState(0);
+    const [index, setIndex] = React.useState(1);
     const [row, setRow] = React.useState(0);
     const [rows, setRows] = React.useState<(string | number)[][]>([]);
     const [flag, setFlag] = React.useState(-1);

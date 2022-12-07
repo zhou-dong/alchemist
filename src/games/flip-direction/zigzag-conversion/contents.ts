@@ -8,18 +8,18 @@ export const formula = `function convert(s: string, numRows: number): string {
         rows[i] = "";
     }
 
-    let rowIndex = 0;
+    let row = 0;
     let flag = -1;
     for (let i = 0; i < s.length; i++) {
-        rows[rowIndex] = rows[rowIndex] + s.charAt(i);
-        if (rowIndex === 0 || rowIndex === numRows - 1) {
+        rows[row] = rows[row] + s.charAt(i);
+        if (row === 0 || row === numRows - 1) {
             flag = -1 * flag;
         }
-        rowIndex += flag;
+        row += flag;
     }
 
     return rows.reduce((a, b) => a + b);
-};`;
+}`;
 
 export const description = `
 #### Description
