@@ -6,7 +6,6 @@ import Title from './Title';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { formula } from "./contents";
 import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
-import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
 const DisplayInput = () => {
     const { inputString, index } = useAlgoContext();
