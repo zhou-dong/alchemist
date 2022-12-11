@@ -1,88 +1,26 @@
 import * as React from 'react';
 import OutputIcon from '@mui/icons-material/Output';
 import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
-import { Divider, FormControl, InputLabel, Select, SelectChangeEvent, TextField } from '@mui/material';
-import { useAlgoContext, defaultInputString, defaultNumRows } from './AlgoContext';
+import { Divider, InputBase } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import { defaultValue, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 
-const TextInput: React.FC<{
-    setValue: React.Dispatch<React.SetStateAction<string>>
-}> = ({ setValue }) => {
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-    };
-
-    return (
-        <TextField
-            size='small'
-            required
-            label="Input String"
-            onChange={handleChange}
-            sx={{ flex: 1 }}
-            placeholder={defaultInputString}
-            InputLabelProps={{
-                shrink: true,
-            }}
-        />
-    );
-}
-
-const RowsSelection: React.FC<{
-    value: number,
-    setValue: React.Dispatch<React.SetStateAction<number>>
-}> = ({ value, setValue }) => {
-
-    const htmlId = "select-num-rows";
-    const label = "rows";
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setValue(+event.target.value);
-    };
-
-    return (
-        <FormControl sx={{ m: 1, minWidth: 60 }} size="small">
-            <InputLabel id={htmlId}>{label}</InputLabel>
-            <Select
-                labelId={htmlId}
-                id={htmlId}
-                value={value + ""}
-                label={label}
-                onChange={handleChange}
-            >
-                {
-                    Array.from(Array(9).keys()).map(item =>
-                        <MenuItem key={item} value={item + 1}>
-                            {item + 1}
-                        </MenuItem>
-                    )
-                }
-            </Select>
-        </FormControl>
-    )
-}
-
 const Submit: React.FC<{
-    text: string,
-    num: number,
+    input: string,
+    setInput: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ setAnchorEl, text, num }) => {
+}> = ({ input, setInput, setAnchorEl }) => {
 
-    const { setNumRows, setInputString, setState, setRows, setRow, setFlag, setIndex, setConverted } = useAlgoContext();
+    const { setValue, setState } = useAlgoContext();
 
     const handleSubmit = () => {
-        const inputString = (text.trim().length === 0) ? defaultInputString : text
-        const rows: (string | number)[][] = [];
-        setInputString(inputString);
-        setFlag(-1);
-        setIndex(1);
-        setRow(0);
-        setRows(rows);
-        setAnchorEl(null);
-        setNumRows(num);
+        let newValue: number = (!input) ? defaultValue : parseInt(input);
+        setValue(newValue);
         setState(State.Playing);
+        setInput("");
+        setAnchorEl(null);
     }
 
     return (
@@ -96,10 +34,22 @@ interface Props {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
 
-export default function AlgoInput({ setAnchorEl }: Props) {
+const Main = ({ setAnchorEl }: Props) => {
 
-    const [text, setText] = React.useState(defaultInputString);
-    const [num, setNum] = React.useState(defaultNumRows);
+    const [input, setInput] = React.useState("");
+
+    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const validCharacters = "0123456789";
+        const text: string = e.currentTarget.value;
+        let value = "";
+        for (let i = 0; i < text.length; i++) {
+            const character = text.charAt(i);
+            if (validCharacters.includes(character)) {
+                value += character;
+            }
+        }
+        setInput(value);
+    }
 
     return (
         <Paper
@@ -108,15 +58,23 @@ export default function AlgoInput({ setAnchorEl }: Props) {
             sx={{
                 p: '2px 4px',
                 display: 'flex',
-                width: 392,
-                alignItems: "center",
-                paddingLeft: "12px",
+                width: 200,
+                alignItems: "center"
             }}
         >
-            <TextInput setValue={setText} />
-            <RowsSelection value={num} setValue={setNum} />
+            <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder={defaultValue + ""}
+                value={input}
+                onChange={handleTextFieldChange}
+            />
+            <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => setInput("")}>
+                <ClearIcon />
+            </IconButton>
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <Submit setAnchorEl={setAnchorEl} text={text} num={num} />
+            <Submit input={input} setInput={setInput} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
+
+export default Main;
