@@ -12,7 +12,6 @@ const Main = () => (
         <ThemeProvider theme={theme}>
             <AlgoContextProvider>
                 <Introduction />
-                <div style={{ marginTop: "60px" }} />
                 <Title />
                 <Play />
             </AlgoContextProvider>
