@@ -2,16 +2,14 @@ import GameWrapper from '../../commons/GameWrapper';
 import info from "./info";
 import { ThemeProvider } from '@mui/material';
 import theme from '../../dp/_commons/theme';
-import Introduction from "./Introduction";
 import { AlgoContextProvider } from "./AlgoContext";
-// import Play from './Play';
+import Play from './Play';
 
 const Main = () => (
     <GameWrapper path={info.path}>
         <ThemeProvider theme={theme}>
             <AlgoContextProvider>
-                <Introduction />
-                {/* <Play /> */}
+                <Play />
             </AlgoContextProvider>
         </ThemeProvider>
     </GameWrapper>
