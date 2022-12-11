@@ -8,16 +8,19 @@ const Main = () => {
     const { state } = useAlgoContext();
 
     return (
-        <Typography
-            variant='body1'
-            display="flex"
-            sx={{
-                justifyContent: "center",
-                alignItems: "center"
-            }}
-        >
-            Palindrome Number {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
-        </Typography>
+        <>
+            <div style={{ marginTop: "60px" }} />
+            <Typography
+                variant='body1'
+                display="flex"
+                sx={{
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
+                Palindrome Number {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
+            </Typography>
+        </>
     );
 }
 
