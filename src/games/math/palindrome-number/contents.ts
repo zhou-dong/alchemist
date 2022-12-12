@@ -1,7 +1,7 @@
 export const title = "Palindrome Number";
 
 export const formula = `function isPalindrome(x: number): boolean {
-
+    
     if (x < 0 || (x % 10 === 0 && x !== 0)) {
         return false;
     }
