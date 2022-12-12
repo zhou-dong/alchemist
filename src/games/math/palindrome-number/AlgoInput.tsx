@@ -6,6 +6,7 @@ import { Divider, InputBase } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { defaultValue, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
+import { calculatePalindrome } from "./algo";
 
 const Submit: React.FC<{
     input: string,
@@ -13,14 +14,16 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
 
-    const { setValue, setState } = useAlgoContext();
+    const { setValue, setState, setResult, setIndex } = useAlgoContext();
 
     const handleSubmit = () => {
         let newValue: number = (!input) ? defaultValue : parseInt(input);
+        setIndex(0);
         setValue(newValue);
         setState(State.Playing);
         setInput("");
         setAnchorEl(null);
+        setResult(() => calculatePalindrome(newValue))
     }
 
     return (
