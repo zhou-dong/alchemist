@@ -5,9 +5,7 @@ import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Instruction from '../../../commons/Instruction';
-import { description, examples, formula } from "./contents";
-import CodeIcon from '@mui/icons-material/Code';
-import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
+import { description, examples } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
@@ -78,33 +76,17 @@ const Input = () => {
     )
 }
 
-const Main = () => {
-
-    return (
-        <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
-            <Input />
-            <Instruction
-                name="Description"
-                icon={<DescriptionOutlinedIcon fontSize="medium" />}
-                popover={<StyledReactMarkdown>{description + examples}</StyledReactMarkdown>}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            />
-            <Instruction
-                name="Code"
-                icon={<CodeIcon fontSize="medium" />}
-                popover={<CodeBlock
-                    code={formula}
-                    language={languages.Typescript}
-                    showLineNumbers={true}
-                    linesToHighlight={[]}
-                    wrapLines={true}
-                />}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            />
-        </MuiStack>
-    );
-}
+const Main = () => (
+    <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
+        <Input />
+        <Instruction
+            name="Description"
+            icon={<DescriptionOutlinedIcon fontSize="medium" />}
+            popover={<StyledReactMarkdown>{description + examples}</StyledReactMarkdown>}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+        />
+    </MuiStack>
+);
 
 export default Main;
