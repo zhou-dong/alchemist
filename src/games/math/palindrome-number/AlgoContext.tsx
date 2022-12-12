@@ -1,74 +1,53 @@
 import React from "react";
 import { State } from "./AlgoState";
+import { Result, defaultResult } from "./algo";
 
-export const defaultNumRows = 3;
-export const defaultInputString = "alchemist";
+export const defaultValue = 121;
 
 const AlgoContext = React.createContext<{
+    value: number,
+    setValue: React.Dispatch<React.SetStateAction<number>>,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    numRows: number,
-    setNumRows: React.Dispatch<React.SetStateAction<number>>,
-    inputString: string,
-    setInputString: React.Dispatch<React.SetStateAction<string>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    rows: (string | number)[][],
-    setRows: React.Dispatch<React.SetStateAction<(string | number)[][]>>
-    flag: number,
-    setFlag: React.Dispatch<React.SetStateAction<number>>,
-    row: number,
-    setRow: React.Dispatch<React.SetStateAction<number>>,
-    converted: string,
-    setConverted: React.Dispatch<React.SetStateAction<string>>,
+    converted: number,
+    setConverted: React.Dispatch<React.SetStateAction<number>>,
+    result: Result,
+    setResult: React.Dispatch<React.SetStateAction<Result>>,
 }>({
+    value: defaultValue,
+    setValue: () => { },
     state: State.Typing,
     setState: () => { },
-    numRows: defaultNumRows,
-    setNumRows: () => { },
-    inputString: "",
-    setInputString: () => { },
-    index: 1,
+    index: 0,
     setIndex: () => { },
-    rows: [],
-    setRows: () => { },
-    flag: -1,
-    setFlag: () => { },
-    row: 0,
-    setRow: () => { },
-    converted: "",
+    converted: 0,
     setConverted: () => { },
+    result: defaultResult,
+    setResult: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [state, setState] = React.useState(State.Typing);
-    const [numRows, setNumRows] = React.useState(defaultNumRows);
-    const [inputString, setInputString] = React.useState(defaultInputString);
-    const [index, setIndex] = React.useState(1);
-    const [row, setRow] = React.useState(0);
-    const [rows, setRows] = React.useState<(string | number)[][]>([]);
-    const [flag, setFlag] = React.useState(-1);
-    const [converted, setConverted] = React.useState<string>("");
+    const [index, setIndex] = React.useState(0);
+    const [value, setValue] = React.useState(defaultValue);
+    const [converted, setConverted] = React.useState(0);
+    const [result, setResult] = React.useState<Result>(defaultResult);
 
     return (
         <AlgoContext.Provider value={{
             state,
             setState,
-            numRows,
-            setNumRows,
-            inputString,
-            setInputString,
             index,
             setIndex,
-            rows,
-            setRows,
-            flag,
-            setFlag,
-            row,
-            setRow,
+            value,
+            setValue,
             converted,
-            setConverted
+            setConverted,
+            result,
+            setResult,
         }}>
             {children}
         </AlgoContext.Provider>
