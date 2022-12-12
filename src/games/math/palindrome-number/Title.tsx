@@ -8,8 +8,7 @@ const Main = () => {
     const { state } = useAlgoContext();
 
     return (
-        <>
-            <div style={{ marginTop: "60px" }} />
+        <div style={{ marginTop: "60px", marginBottom: "20px" }} >
             <Typography
                 variant='body1'
                 display="flex"
@@ -20,7 +19,7 @@ const Main = () => {
             >
                 Palindrome Number {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
             </Typography>
-        </>
+        </div>
     );
 }
 
