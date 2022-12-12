@@ -8,7 +8,7 @@ const Main = () => {
     const { state } = useAlgoContext();
 
     return (
-        <div style={{ marginTop: "60px", marginBottom: "20px" }} >
+        <div style={{ marginTop: "40px", marginBottom: "10px" }} >
             <Typography
                 variant='body1'
                 display="flex"
