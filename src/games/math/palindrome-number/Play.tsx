@@ -151,10 +151,12 @@ const Main = () => {
         if (item.reverted !== value) {
             return false;
         }
+
         // disable input-reverted
         setRevertedDisabled(true);
         setRevertedFocused(false);
         setRevertedSuccess(true);
+
         // enable input x
         setXDisabled(false);
         setXFocused(true);
@@ -180,12 +182,12 @@ const Main = () => {
             // enable input-reverted
             setRevertedDisabled(false);
             setRevertedFocused(true);
-            setLinesToHighlight([9]);
             setRevertedSuccess(false);
+            setLinesToHighlight([9]);
 
+            // update help expression
             setRevertedTip(`${item.reverted} * 10 + ${item.x} % 10`);
             setXTip(`Math.floor(${item.x} / 10)`);
-
             setIndex(i => i + 1);
         }
 
