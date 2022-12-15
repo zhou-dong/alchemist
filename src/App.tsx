@@ -89,6 +89,8 @@ import ZigzagConversion from "./games/flip-direction/zigzag-conversion";
 import ZigzagConversionInfo from "./games/flip-direction/zigzag-conversion/info";
 import PalindromeNumber from "./games/math/palindrome-number";
 import PalindromeNumberInfo from "./games/math/palindrome-number/info";
+import ReverseInteger from "./games/math/reverse-integer";
+import ReverseIntegerInfo from "./games/math/reverse-integer/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -161,6 +163,7 @@ const App = () => (
                 <Route path={LongestSubstringWithoutRepeatingCharactersInfo.path} element={<LongestSubstringWithoutRepeatingCharacters />} />
                 <Route path={ZigzagConversionInfo.path} element={<ZigzagConversion />} />
                 <Route path={PalindromeNumberInfo.path} element={<PalindromeNumber />} />
+                <Route path={ReverseIntegerInfo.path} element={<ReverseInteger />} />
             </>
         </Routes>
     </>

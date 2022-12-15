@@ -43,6 +43,7 @@ import BasicCalculatorII from "./stack/basic-calculator-ii/info";
 import LongestSubstringWithoutRepeatingCharacters from "./sliding-window/longest-substring-without-repeating-characters/info";
 import ZigzagConversion from "./flip-direction/zigzag-conversion/info";
 import PalindromeNumber from "./math/palindrome-number/info";
+import ReverseInteger from "./math/reverse-integer/info";
 
 export const games: Game[] = [
     editDistance,
@@ -87,5 +88,6 @@ export const games: Game[] = [
     BasicCalculatorII,
     LongestSubstringWithoutRepeatingCharacters,
     ZigzagConversion,
-    PalindromeNumber
+    PalindromeNumber,
+    ReverseInteger
 ];

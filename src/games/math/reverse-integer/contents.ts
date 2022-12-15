@@ -1,23 +1,52 @@
-export const title = "Palindrome Number";
+export const title = "Reverse Integer";
 
-export const formula = `function isPalindrome(x: number): boolean {
-    
-    if (x < 0 || (x % 10 === 0 && x !== 0)) {
-        return false;
+export const formula0 = `// Solution 1
+function reverse(x: number): number {
+    const max = Math.pow(2, 31) - 1; //  2147483647
+    const min = Math.pow(-2, 31);    // -2147483648
+
+    let reversed = 0;
+    while (x != 0) {
+        const digit = x % 10;
+        if (reversed > ~~(max / 10) || (reversed === ~~(max / 10) && digit > max % 10)) {
+            return 0;
+        }
+        if (reversed < ~~(min / 10) || (reversed === ~~(min / 10) && digit < min % 10)) {
+            return 0;
+        }
+        reversed = reversed * 10 + digit;
+        x = ~~(x / 10);
     }
+    return reversed;
+};`;
 
-    let reverted: number = 0;
-    while (x > reverted) {
-        reverted = reverted * 10 + x % 10;
-        x = Math.floor(x / 10);
+export const formula1 = `// Solution 2
+function reverse(x: number): number {
+    const max = Math.pow(2, 31) - 1; //  2147483647
+    const min = Math.pow(-2, 31);    // -2147483648
+
+    let reversed = 0;
+    while (x != 0) {
+        if (reversed > ~~(max / 10)) {
+            return 0;
+        }
+        if (reversed < ~~(min / 10)) {
+            return 0;
+        }
+        const digit = x % 10;
+        reversed = reversed * 10 + digit;
+        x = ~~(x / 10);
     }
-
-    return x === reverted || x === Math.floor(reverted / 10);
+    return reversed;
 };`;
 
 export const description = `#### Description
 
-Given an integer x, return ***true*** if x is a palindrome, and ***false*** otherwise.
+Given a signed 32-bit integer **x**, return **x** with its digits reversed. 
+If reversing **x** causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], 
+then return **0**.
+
+Assume the environment does not allow you to store 64-bit integers (signed or unsigned).
 `;
 
 export const solution = ``;
@@ -30,16 +59,16 @@ export const examples = `
 
 #### Example 1:
 
-- Input: x = 121
-- Output: true
+- Input: x = 123
+- Output: 321
 
 #### Example 2:
 
-- Input: x = -121
-- Output: false
+- Input: x = -123
+- Output: -321
 
 #### Example 3:
 
-- Input: x = 20
-- Output: false
+- Input: x = 120
+- Output: 21
 `;
