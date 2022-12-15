@@ -1,6 +1,6 @@
 export const title = "Reverse Integer";
 
-export const formula0 = `// Solution 1
+export const formula1 = `// Solution 1
 function reverse(x: number): number {
     const max = Math.pow(2, 31) - 1; //  2147483647
     const min = Math.pow(-2, 31);    // -2147483648
@@ -20,7 +20,7 @@ function reverse(x: number): number {
     return reversed;
 };`;
 
-export const formula1 = `// Solution 2
+export const formula2 = `// Solution 2
 function reverse(x: number): number {
     const max = Math.pow(2, 31) - 1; //  2147483647
     const min = Math.pow(-2, 31);    // -2147483648
@@ -35,6 +35,21 @@ function reverse(x: number): number {
         }
         const digit = x % 10;
         reversed = reversed * 10 + digit;
+        x = ~~(x / 10);
+    }
+    return reversed;
+};`;
+
+export const formula3 = `function reverse(x: number): number {
+    const max = Math.pow(2, 31) - 1;
+    const min = Math.pow(-2, 31);
+
+    let reversed = 0;
+    while (x != 0) {
+        if (reversed > ~~(max / 10) || reversed < ~~(min / 10)) {
+            return 0;
+        }
+        reversed = reversed * 10 + x % 10;
         x = ~~(x / 10);
     }
     return reversed;

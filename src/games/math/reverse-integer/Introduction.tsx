@@ -5,7 +5,7 @@ import { Divider, Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Instruction from '../../../commons/Instruction';
-import { description, examples, formula0, formula1 } from "./contents";
+import { description, examples, formula1, formula2 } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
@@ -25,9 +25,9 @@ So we could simply Solution1 to Solution 2.
 const Solution = () => (
     <>
         <MuiStack direction="row" >
-            <CodeBlock code={formula0} language={languages.Typescript} showLineNumbers={true} />
-            <Divider sx={{ height: "370px", m: 0.5 }} orientation="vertical" />
             <CodeBlock code={formula1} language={languages.Typescript} showLineNumbers={true} />
+            <Divider sx={{ height: "370px", m: 0.5 }} orientation="vertical" />
+            <CodeBlock code={formula2} language={languages.Typescript} showLineNumbers={true} />
         </MuiStack>
         <CodeBlock code={comments} language={languages.Typescript} />
     </>

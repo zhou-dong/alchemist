@@ -1,6 +1,6 @@
 import React from "react";
 import { State } from "./AlgoState";
-// import { Result, defaultResult } from "./algo";
+import { Result, defaultResult } from "./algo";
 
 export const defaultValue = 123;
 
@@ -13,8 +13,8 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     converted: number,
     setConverted: React.Dispatch<React.SetStateAction<number>>,
-    // result: Result,
-    // setResult: React.Dispatch<React.SetStateAction<Result>>,
+    result: Result,
+    setResult: React.Dispatch<React.SetStateAction<Result>>,
 }>({
     value: defaultValue,
     setValue: () => { },
@@ -24,8 +24,8 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     converted: 0,
     setConverted: () => { },
-    // result: defaultResult,
-    // setResult: () => { },
+    result: defaultResult,
+    setResult: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -34,7 +34,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [index, setIndex] = React.useState(0);
     const [value, setValue] = React.useState(defaultValue);
     const [converted, setConverted] = React.useState(0);
-    // const [result, setResult] = React.useState<Result>(defaultResult);
+    const [result, setResult] = React.useState<Result>(defaultResult);
 
     return (
         <AlgoContext.Provider value={{
@@ -46,8 +46,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setValue,
             converted,
             setConverted,
-            // result,
-            // setResult,
+            result,
+            setResult,
         }}>
             {children}
         </AlgoContext.Provider>

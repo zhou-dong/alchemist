@@ -3,7 +3,7 @@ import info from "./info";
 import { ThemeProvider } from '@mui/material';
 import theme from '../../dp/_commons/theme';
 import { AlgoContextProvider } from "./AlgoContext";
-// import Play from './Play';
+import Play from './Play';
 import Introduction from "./Introduction";
 import Title from "./Title";
 
@@ -13,7 +13,7 @@ const Main = () => (
             <AlgoContextProvider>
                 <Introduction />
                 <Title />
-                {/* <Play /> */}
+                <Play />
             </AlgoContextProvider>
         </ThemeProvider>
     </GameWrapper>
