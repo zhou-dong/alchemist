@@ -91,6 +91,8 @@ import PalindromeNumber from "./games/math/palindrome-number";
 import PalindromeNumberInfo from "./games/math/palindrome-number/info";
 import ReverseInteger from "./games/math/reverse-integer";
 import ReverseIntegerInfo from "./games/math/reverse-integer/info";
+import StringToIntegerAtoi from "./games/math/string-to-integer-atoi";
+import StringToIntegerAtoiInfo from "./games/math/string-to-integer-atoi/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -164,6 +166,7 @@ const App = () => (
                 <Route path={ZigzagConversionInfo.path} element={<ZigzagConversion />} />
                 <Route path={PalindromeNumberInfo.path} element={<PalindromeNumber />} />
                 <Route path={ReverseIntegerInfo.path} element={<ReverseInteger />} />
+                <Route path={StringToIntegerAtoiInfo.path} element={<StringToIntegerAtoi />} />
             </>
         </Routes>
     </>
