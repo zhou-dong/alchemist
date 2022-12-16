@@ -118,7 +118,7 @@ const Main = () => {
 
     const { index, value, setIndex, setState, result, state } = useAlgoContext();
 
-    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([9]);
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([10]);
 
     const [revertedDisabled, setRevertedDisabled] = React.useState(false);
     const [revertedFocused, setRevertedFocused] = React.useState<boolean>(true);
@@ -131,6 +131,7 @@ const Main = () => {
     const [xSuccess, setXSuccess] = React.useState(false);
 
     React.useEffect(() => {
+        setLinesToHighlight([10]);
 
         setRevertedDisabled(false);
         setRevertedFocused(true);
@@ -148,10 +149,9 @@ const Main = () => {
         if (!item) {
             return false;
         }
-        // TODO
-        // if (item.reverted !== value) {
-        // return false;
-        // }
+        if (item.reversed !== value) {
+            return false;
+        }
 
         // disable input-reverted
         setRevertedDisabled(true);
@@ -162,7 +162,7 @@ const Main = () => {
         setXDisabled(false);
         setXFocused(true);
         setXSuccess(false);
-        setLinesToHighlight([10]);
+        setLinesToHighlight([11]);
         return true;
     }
 
@@ -184,12 +184,11 @@ const Main = () => {
             setRevertedDisabled(false);
             setRevertedFocused(true);
             setRevertedSuccess(false);
-            setLinesToHighlight([9]);
+            setLinesToHighlight([10]);
 
-            // TODO
             // update help expression
-            // setRevertedTip(`${item.reverted} * 10 + ${item.x} % 10`);
-            setXTip(`Math.floor(${item.x} / 10)`);
+            setRevertedTip(`${item.reversed} * 10 + ${item.x} % 10`);
+            setXTip(`~~(${item.x} / 10)`);
             setIndex(i => i + 1);
         }
 
