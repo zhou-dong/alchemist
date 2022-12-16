@@ -127,7 +127,7 @@ const Main = () => {
 
     const [xDisabled, setXDisabled] = React.useState(true);
     const [xFocused, setXFocused] = React.useState<boolean>(false);
-    const [xTip, setXTip] = React.useState(`Math.floor(${value} / 10)`);
+    const [xTip, setXTip] = React.useState(`~~(${value} / 10)`);
     const [xSuccess, setXSuccess] = React.useState(false);
 
     React.useEffect(() => {
@@ -139,7 +139,7 @@ const Main = () => {
 
         setXDisabled(true);
         setXFocused(false);
-        setXTip(`Math.floor(${value} / 10)`);
+        setXTip(`~~(${value} / 10)`);
         setXSuccess(false);
     }, [value]);
 
