@@ -4,17 +4,17 @@ import InputIcon from '@mui/icons-material/Input';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
-import { formula } from "./contents";
+import { formula3 } from "./contents";
 import { State } from "./AlgoState";
 
-const IsPalindromeDisplay: React.FC<{ isPalindrome: boolean }> = ({ isPalindrome }) => (
+const ReversedDisplay: React.FC<{ reversed: number }> = ({ reversed }) => (
     <Paper variant="outlined" sx={{ padding: "10px 20px" }}>
-        <Stack direction="row">
+        <Stack direction="row" sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Typography>
-                Is Palindrome:&nbsp;
+                Reversed:&nbsp;
             </Typography>
-            <Typography color={isPalindrome ? "primary" : "error"}>
-                {isPalindrome ? "True" : "False"}
+            <Typography color="primary" variant="h5">
+                {reversed}
             </Typography>
         </Stack>
     </Paper>
@@ -51,7 +51,7 @@ const InputDisplay: React.FC<{ index: number, value: number }> = ({ index, value
 const CodeDisplay: React.FC<{ linesToHighlight: number[] }> = ({ linesToHighlight }) => (
     <Paper>
         <CodeBlock
-            code={formula}
+            code={formula3}
             language={languages.Typescript}
             showLineNumbers={true}
             linesToHighlight={linesToHighlight}
@@ -118,7 +118,7 @@ const Main = () => {
 
     const { index, value, setIndex, setState, result, state } = useAlgoContext();
 
-    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([9]);
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([10]);
 
     const [revertedDisabled, setRevertedDisabled] = React.useState(false);
     const [revertedFocused, setRevertedFocused] = React.useState<boolean>(true);
@@ -127,11 +127,11 @@ const Main = () => {
 
     const [xDisabled, setXDisabled] = React.useState(true);
     const [xFocused, setXFocused] = React.useState<boolean>(false);
-    const [xTip, setXTip] = React.useState(`Math.floor(${value} / 10)`);
+    const [xTip, setXTip] = React.useState(`~~(${value} / 10)`);
     const [xSuccess, setXSuccess] = React.useState(false);
 
     React.useEffect(() => {
-        setLinesToHighlight([9]);
+        setLinesToHighlight([10]);
 
         setRevertedDisabled(false);
         setRevertedFocused(true);
@@ -140,7 +140,7 @@ const Main = () => {
 
         setXDisabled(true);
         setXFocused(false);
-        setXTip(`Math.floor(${value} / 10)`);
+        setXTip(`~~(${value} / 10)`);
         setXSuccess(false);
     }, [value]);
 
@@ -149,7 +149,7 @@ const Main = () => {
         if (!item) {
             return false;
         }
-        if (item.reverted !== value) {
+        if (item.reversed !== value) {
             return false;
         }
 
@@ -162,7 +162,7 @@ const Main = () => {
         setXDisabled(false);
         setXFocused(true);
         setXSuccess(false);
-        setLinesToHighlight([10]);
+        setLinesToHighlight([11]);
         return true;
     }
 
@@ -184,11 +184,11 @@ const Main = () => {
             setRevertedDisabled(false);
             setRevertedFocused(true);
             setRevertedSuccess(false);
-            setLinesToHighlight([9]);
+            setLinesToHighlight([10]);
 
             // update help expression
-            setRevertedTip(`${item.reverted} * 10 + ${item.x} % 10`);
-            setXTip(`Math.floor(${item.x} / 10)`);
+            setRevertedTip(`${item.reversed} * 10 + ${item.x} % 10`);
+            setXTip(`~~(${item.x} / 10)`);
             setIndex(i => i + 1);
         }
 
@@ -219,7 +219,7 @@ const Main = () => {
                 tip={xTip}
                 success={xSuccess}
             />
-            {state === State.Finished && <IsPalindromeDisplay isPalindrome={result.isPalindrome} />}
+            {state === State.Finished && <ReversedDisplay reversed={result.reversed} />}
         </Stack>
     )
 }
