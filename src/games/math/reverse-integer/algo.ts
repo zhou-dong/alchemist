@@ -18,7 +18,7 @@ export function reverse(x: number): Result {
     const min = Math.pow(-2, 31);
 
     let reversed = 0;
-    while (x != 0) {
+    while (x !== 0) {
         if (reversed > ~~(max / 10) || reversed < ~~(min / 10)) {
             return { items, reversed };
         }
