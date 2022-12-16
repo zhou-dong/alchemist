@@ -5,12 +5,12 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/algorithms/palindrome-number",
+    path: "/algorithms/string-to-integer-atoi",
     categories: [Category.Math],
     companies: [],
-    difficulty: Difficulty.Easy,
-    img: "/img/palindrome-number.png",
-    leetcodeId: 9
+    difficulty: Difficulty.Medium,
+    img: "/img/string-to-integer-atoi.png",
+    leetcodeId: 8
 }
 
 export default info;
