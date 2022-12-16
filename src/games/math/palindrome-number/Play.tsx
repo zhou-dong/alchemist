@@ -131,6 +131,7 @@ const Main = () => {
     const [xSuccess, setXSuccess] = React.useState(false);
 
     React.useEffect(() => {
+        setLinesToHighlight([9]);
 
         setRevertedDisabled(false);
         setRevertedFocused(true);
