@@ -7,14 +7,14 @@ import { useAlgoContext } from "./AlgoContext";
 import { formula3 } from "./contents";
 import { State } from "./AlgoState";
 
-const IsPalindromeDisplay: React.FC<{ isPalindrome: boolean }> = ({ isPalindrome }) => (
+const ReversedDisplay: React.FC<{ reversed: number }> = ({ reversed }) => (
     <Paper variant="outlined" sx={{ padding: "10px 20px" }}>
-        <Stack direction="row">
+        <Stack direction="row" sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Typography>
-                Is Palindrome:&nbsp;
+                Reversed:&nbsp;
             </Typography>
-            <Typography color={isPalindrome ? "primary" : "error"}>
-                {isPalindrome ? "True" : "False"}
+            <Typography color="primary" variant="h5">
+                {reversed}
             </Typography>
         </Stack>
     </Paper>
@@ -220,8 +220,7 @@ const Main = () => {
                 tip={xTip}
                 success={xSuccess}
             />
-                 // TODO
-            {/* {state === State.Finished && <IsPalindromeDisplay isPalindrome={result.isPalindrome} />} */}
+            {state === State.Finished && <ReversedDisplay reversed={result.reversed} />}
         </Stack>
     )
 }
