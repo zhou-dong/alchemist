@@ -6,7 +6,7 @@ function reverse(x: number): number {
     const min = Math.pow(-2, 31);    // -2147483648
 
     let reversed = 0;
-    while (x != 0) {
+    while (x !== 0) {
         const digit = x % 10;
         if (reversed > ~~(max / 10) || (reversed === ~~(max / 10) && digit > max % 10)) {
             return 0;
@@ -26,7 +26,7 @@ function reverse(x: number): number {
     const min = Math.pow(-2, 31);    // -2147483648
 
     let reversed = 0;
-    while (x != 0) {
+    while (x !== 0) {
         if (reversed > ~~(max / 10)) {
             return 0;
         }
@@ -45,7 +45,7 @@ export const formula3 = `function reverse(x: number): number {
     const min = Math.pow(-2, 31);
 
     let reversed = 0;
-    while (x != 0) {
+    while (x !== 0) {
         if (reversed > ~~(max / 10) || reversed < ~~(min / 10)) {
             return 0;
         }
