@@ -171,7 +171,7 @@ const Main = () => {
     }, [leftStatus, maxStatus, mapStatus, setIndex]);
 
     React.useEffect(() => {
-        if (index === input.length) {
+        if (index !== 0 && index === input.length) {
             setSuccess(true);
         }
     }, [index, input, setSuccess]);
