@@ -44,6 +44,7 @@ import LongestSubstringWithoutRepeatingCharacters from "./sliding-window/longest
 import ZigzagConversion from "./flip-direction/zigzag-conversion/info";
 import PalindromeNumber from "./math/palindrome-number/info";
 import ReverseInteger from "./math/reverse-integer/info";
+import StringToIntegerAtoi from "./math/string-to-integer-atoi/info";
 
 export const games: Game[] = [
     editDistance,
@@ -89,5 +90,6 @@ export const games: Game[] = [
     LongestSubstringWithoutRepeatingCharacters,
     ZigzagConversion,
     PalindromeNumber,
-    ReverseInteger
+    ReverseInteger,
+    StringToIntegerAtoi
 ];
