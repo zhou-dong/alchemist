@@ -9,18 +9,16 @@ const Main = () => {
     const { state } = useAlgoContext();
 
     return (
-        <div style={{ marginTop: "40px", marginBottom: "10px" }} >
-            <Typography
-                variant='body1'
-                display="flex"
-                sx={{
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}
-            >
-                {title} {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
-            </Typography>
-        </div>
+        <Typography
+            variant='h5'
+            display="flex"
+            sx={{
+                justifyContent: "center",
+                alignItems: "center"
+            }}
+        >
+            {title} {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
+        </Typography>
     );
 }
 

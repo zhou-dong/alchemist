@@ -1,43 +1,31 @@
 import React from "react";
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import InputIcon from '@mui/icons-material/Input';
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import { Button, ButtonGroup, Chip, Divider, Grid, Paper, Stack, Table, TableBody, TableCell, TableRow, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
 import { formula } from "./contents";
 import { State } from "./AlgoState";
+import Title from "./Title";
+import { Item, Action } from "./algo";
 
-const IsPalindromeDisplay: React.FC<{ isPalindrome: boolean }> = ({ isPalindrome }) => (
-    <Paper variant="outlined" sx={{ padding: "10px 20px" }}>
-        <Stack direction="row">
-            <Typography>
-                Is Palindrome:&nbsp;
-            </Typography>
-            <Typography color={isPalindrome ? "primary" : "error"}>
-                {isPalindrome ? "True" : "False"}
-            </Typography>
-        </Stack>
-    </Paper>
-);
-
-const InputDisplay: React.FC<{ index: number, value: number }> = ({ index, value }) => (
-    <Stack
-        spacing={2}
-        direction="row"
-        sx={{ alignItems: "center", justifyContent: "center" }}
-    >
-        <Typography>
-            Input Number
-        </Typography>
+const InputDisplay: React.FC<{ index: number, value: string }> = ({ index, value }) => (
+    <Stack direction="column" spacing={1} sx={{ alignItems: "center" }}>
+        <Chip label="Input String" variant="outlined" />
 
         <ToggleButtonGroup>
             {
-                value.toString().split("").map((char, i) => (
+                value.split("").map((char, i) => (
                     <ToggleButton
                         key={i}
                         value={char}
                         sx={{ height: "45px", width: "45px", fontWeight: "500" }}
-                        selected={i === value.toString().length - 1 - index}
+                        selected={i === index}
                         color="primary"
                     >
                         {char}
@@ -60,57 +48,39 @@ const CodeDisplay: React.FC<{ linesToHighlight: number[] }> = ({ linesToHighligh
     </Paper>
 );
 
-const SubmitIcon: React.FC<{ success: boolean }> = ({ success }) => {
-    return success ? <CheckOutlinedIcon fontSize='medium' /> : <InputIcon fontSize='medium' />;
-}
-
-const InputSubmit: React.FC<{
+const ActionButton: React.FC<{
     name: string,
-    tip: string,
-    disabled: boolean,
-    focused: boolean,
-    success: boolean,
-    handleOnClick: (value: number) => boolean
-}> = ({ name, tip, disabled, focused, success, handleOnClick }) => {
+    startIcon: React.ReactNode,
+    onClick: (item: Item) => boolean,
+}> = ({ name, startIcon, onClick }) => {
 
-    const id = "input-" + name;
-    const [error, setError] = React.useState(false);
-    const [value, setValue] = React.useState(-1);
+    type ColorType = "primary" | "error"
 
-    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(Number(event.target.value));
-    };
+    const { index, result } = useAlgoContext();
+    const [color, setColor] = React.useState<ColorType>("primary");
 
-    const onClick = () => {
-        const isSuccess = handleOnClick(value);
-        setError(!isSuccess);
-    };
+    const handleOnClick = () => {
+        const item = result[index];
+        if (!item) {
+            return;
+        }
+        const clickedResult = onClick(item);
+        if (clickedResult) {
+            setColor("primary");
+        } else {
+            setColor("error");
+            setTimeout(() => {
+                setColor("primary");
+            }, 2000);
+        }
+    }
 
     return (
-        <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
-            <Paper variant="outlined">
-                <CodeBlock code={tip} language={languages.Typescript} />
-            </Paper>
-
-            <FormControl variant='outlined' size='medium' sx={{ width: "150px" }} focused={focused}>
-                <InputLabel htmlFor={id}>{name}</InputLabel>
-                <OutlinedInput
-                    label={name}
-                    error={error}
-                    id={id}
-                    type='number'
-                    onChange={handleOnChange}
-                    disabled={disabled}
-                    endAdornment={
-                        <InputAdornment position='end'>
-                            <IconButton color='primary' edge="end" onClick={onClick} disabled={disabled}>
-                                <SubmitIcon success={success} />
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                />
-            </FormControl>
-        </Stack >
+        <Button startIcon={startIcon} onClick={handleOnClick} sx={{ color: "#FFF" }} color={color}>
+            <Typography sx={{ flex: 1 }}>
+                {name}
+            </Typography>
+        </Button>
     );
 }
 
@@ -118,109 +88,159 @@ const Main = () => {
 
     const { index, value, setIndex, setState, result, state } = useAlgoContext();
 
-    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([9]);
-
-    const [revertedDisabled, setRevertedDisabled] = React.useState(false);
-    const [revertedFocused, setRevertedFocused] = React.useState<boolean>(true);
-    const [revertedTip, setRevertedTip] = React.useState(`0 * 10 + ${value} % 10`);
-    const [revertedSuccess, setRevertedSuccess] = React.useState(false);
-
-    const [xDisabled, setXDisabled] = React.useState(true);
-    const [xFocused, setXFocused] = React.useState<boolean>(false);
-    const [xTip, setXTip] = React.useState(`Math.floor(${value} / 10)`);
-    const [xSuccess, setXSuccess] = React.useState(false);
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([]);
 
     React.useEffect(() => {
-        setLinesToHighlight([9]);
+        if (state === State.Typing) {
+            setLinesToHighlight([]);
+            return;
+        }
 
-        setRevertedDisabled(false);
-        setRevertedFocused(true);
-        setRevertedTip(`0 * 10 + ${value} % 10`);
-        setRevertedSuccess(false);
-
-        setXDisabled(true);
-        setXFocused(false);
-        setXTip(`Math.floor(${value} / 10)`);
-        setXSuccess(false);
-    }, [value]);
-
-    const handleInputRevertedClick = (value: number): boolean => {
-        const item = result.items[index];
+        const item = result[index];
         if (!item) {
-            return false;
-        }
-        if (item.reverted !== value) {
-            return false;
+            return;
         }
 
-        // disable input-reverted
-        setRevertedDisabled(true);
-        setRevertedFocused(false);
-        setRevertedSuccess(true);
+        setLinesToHighlight(() => item.data.linesToHighlight);
 
-        // enable input x
-        setXDisabled(false);
-        setXFocused(true);
-        setXSuccess(false);
-        setLinesToHighlight([10]);
-        return true;
-    }
-
-    const handleInputXClick = (value: number): boolean => {
-        const item = result.items[index];
-        if (!item) {
-            return false;
-        }
-        if (item.x !== value) {
-            return false;
-        }
-
-        if (index === result.items.length - 1) {
-            setLinesToHighlight([13]);
-            setState(State.Finished);
-        } else {
-
-            // enable input-reverted
-            setRevertedDisabled(false);
-            setRevertedFocused(true);
-            setRevertedSuccess(false);
-            setLinesToHighlight([9]);
-
-            // update help expression
-            setRevertedTip(`${item.reverted} * 10 + ${item.x} % 10`);
-            setXTip(`Math.floor(${item.x} / 10)`);
-            setIndex(i => i + 1);
-        }
-
-        // disable input x
-        setXDisabled(true);
-        setXFocused(false);
-        setXSuccess(true);
-        return true;
-    }
+    }, [index, result, state]);
 
     return (
-        <Stack sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", direction: "row" }} spacing={2}>
-            <CodeDisplay linesToHighlight={linesToHighlight} />
-            <InputDisplay index={index} value={value} />
-            <InputSubmit
-                name="reverted"
-                disabled={revertedDisabled}
-                handleOnClick={handleInputRevertedClick}
-                focused={revertedFocused}
-                tip={revertedTip}
-                success={revertedSuccess}
-            />
-            <InputSubmit
-                name="x"
-                disabled={xDisabled}
-                handleOnClick={handleInputXClick}
-                focused={xFocused}
-                tip={xTip}
-                success={xSuccess}
-            />
-            {state === State.Finished && <IsPalindromeDisplay isPalindrome={result.isPalindrome} />}
-        </Stack>
+        <Grid container sx={{ width: "80%", margin: "auto", marginTop: "20px" }}>
+            <Grid item md={7} xs={12}>
+                <CodeDisplay linesToHighlight={linesToHighlight} />
+            </Grid>
+
+            <Grid item md={5} xs={12}>
+                <Stack sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", direction: "row" }} spacing={2}>
+                    <div style={{ marginTop: "40px" }} />
+                    <Title />
+                    <Divider sx={{ width: "90%" }} />
+
+                    <InputDisplay index={index} value={value} />
+                    <div style={{ marginBottom: "10px" }} />
+
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell padding="none">Index</TableCell>
+                                <TableCell padding="none">{index}</TableCell>
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell padding="none">Sign</TableCell>
+                                <TableCell padding="none">{result[index - 1] && result[index - 1].data.sign}</TableCell>
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell padding="none">Num</TableCell>
+                                <TableCell padding="none">{result[index - 1] && result[index - 1].data.num}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+
+                    <div style={{ marginBottom: "10px" }} />
+
+                    <ButtonGroup orientation="vertical" size="large" variant="contained" disabled={state !== State.Playing}>
+
+                        <ActionButton
+                            name="Remove Whitespace"
+                            startIcon={<RemoveCircleOutlineOutlinedIcon />}
+                            onClick={(item) => {
+                                if (item.action === Action.RemoveSpace) {
+                                    setIndex(i => i + 1);
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }}
+                        />
+
+                        <ActionButton
+                            name="Assign Sign (1/-1)"
+                            startIcon={<HelpOutlineIcon />}
+                            onClick={(item) => {
+                                if (item.action === Action.AssignSign) {
+                                    setIndex(i => i + 1);
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }}
+                        />
+
+                        <ActionButton
+                            name="Non-digit Character"
+                            startIcon={<ErrorOutlineIcon />}
+                            onClick={(item) => {
+                                if (item.action === Action.NonDigitCharacter) {
+                                    setIndex(i => i + 1);
+                                    setState(State.Finished);
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }}
+                        />
+
+                        <ActionButton
+                            name="greater than max"
+                            startIcon={<KeyboardDoubleArrowUpIcon />}
+                            onClick={(item) => {
+                                if (item.action === Action.BiggerThanMax) {
+                                    setState(State.Finished);
+                                    setIndex(i => i + 1);
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }}
+                        />
+
+                        <ActionButton
+                            name="less than min"
+                            startIcon={<KeyboardDoubleArrowDownIcon />}
+                            onClick={(item) => {
+                                if (item.action === Action.LessThanMin) {
+                                    setIndex(i => i + 1);
+                                    setState(State.Finished);
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }}
+                        />
+
+                        <ActionButton
+                            name="num * 10 + digit"
+                            startIcon={<HighlightOffOutlinedIcon />}
+                            onClick={(item) => {
+                                if (item.action === Action.Accumulate) {
+                                    setIndex(i => i + 1);
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }}
+                        />
+
+                        <ActionButton
+                            name="Num * Sign"
+                            startIcon={<HighlightOffOutlinedIcon />}
+                            onClick={(item) => {
+                                if (item.action === Action.NumMultiplySign) {
+                                    setIndex(i => i + 1);
+                                    setState(State.Finished);
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }}
+                        />
+                    </ButtonGroup>
+                </Stack>
+            </Grid>
+        </Grid>
     )
 }
 

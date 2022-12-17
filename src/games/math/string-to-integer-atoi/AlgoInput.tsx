@@ -6,7 +6,7 @@ import { Divider, InputBase } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { defaultValue, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { calculatePalindrome } from "./algo";
+import { myAtoi } from "./algo";
 
 const Submit: React.FC<{
     input: string,
@@ -17,13 +17,13 @@ const Submit: React.FC<{
     const { setValue, setState, setResult, setIndex } = useAlgoContext();
 
     const handleSubmit = () => {
-        let newValue: number = (!input) ? defaultValue : parseInt(input);
+        let newValue: string = (!input) ? defaultValue : input;
         setIndex(0);
         setValue(newValue);
         setState(State.Playing);
         setInput("");
         setAnchorEl(null);
-        setResult(() => calculatePalindrome(newValue))
+        setResult(() => myAtoi(newValue))
     }
 
     return (
@@ -42,16 +42,7 @@ const Main = ({ setAnchorEl }: Props) => {
     const [input, setInput] = React.useState("");
 
     const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const validCharacters = "0123456789";
-        const text: string = e.currentTarget.value;
-        let value = "";
-        for (let i = 0; i < text.length; i++) {
-            const character = text.charAt(i);
-            if (validCharacters.includes(character)) {
-                value += character;
-            }
-        }
-        setInput(value);
+        setInput(e.currentTarget.value);
     }
 
     return (

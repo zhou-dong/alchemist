@@ -1,31 +1,112 @@
-export interface Result {
-    items: ResultItem[];
-    isPalindrome: boolean;
+export enum Action {
+    RemoveSpace,
+    AssignSign,
+    NonDigitCharacter,
+    BiggerThanMax,
+    LessThanMin,
+    Accumulate,
+    NumMultiplySign
 }
 
-interface ResultItem {
-    reverted: number;
-    x: number;
+interface Data {
+    index: number;
+    sign: number;
+    num: number;
+    linesToHighlight: number[]
 }
 
-export const defaultResult: Result = { items: [], isPalindrome: false };
+export interface Item {
+    action: Action;
+    data: Data;
+}
 
-export function calculatePalindrome(x: number): Result {
+export function myAtoi(s: string): Item[] {
 
-    const items: ResultItem[] = [];
+    const items: Item[] = [];
 
-    if (x < 0 || (x % 10 === 0 && x !== 0)) {
-        return { items, isPalindrome: false }
+    const max = Math.pow(2, 31) - 1;
+    const min = Math.pow(-2, 31);
+
+    function isNumeric(str: string) {
+        const num = parseInt(str);
+        return !isNaN(num);
     }
 
-    let reverted: number = 0;
-    while (x > reverted) {
-        reverted = reverted * 10 + x % 10;
-        x = Math.floor(x / 10);
-        items.push({ reverted, x })
+    let index = 0;
+    let sign = 1;
+    let num = 0;
+
+    while (s.charAt(index) === ' ') {
+        items.push({
+            data: { index, sign, num, linesToHighlight: [10] },
+            action: Action.RemoveSpace
+        });
+        index++;
     }
 
-    const isPalindrome: boolean = x === reverted || x === Math.floor(reverted / 10);
+    if (s.charAt(index) === "+" || s.charAt(index) === "-") {
+        if (s.charAt(index) === "-") {
+            sign = -1;
+        }
+        items.push({
+            data: { index, sign, num, linesToHighlight: [15] },
+            action: Action.AssignSign
+        });
+        index++;
+    }
 
-    return { items, isPalindrome };
+    for (; index < s.length; index++) {
+        if (!isNumeric(s.charAt(index))) {
+            items.push({
+                data: { index, sign, num: num * sign, linesToHighlight: [23] },
+                action: Action.NonDigitCharacter
+            });
+            return items;
+        }
+
+        const digit: number = +s.charAt(index);
+        if (num > ~~(max / 10)) {
+            const value = (sign === 1) ? max : min;
+            const action = (sign === 1) ? Action.BiggerThanMax : Action.LessThanMin;
+            items.push({
+                data: { index, sign, num: value, linesToHighlight: [25] },
+                action
+            });
+            return items;
+        }
+
+        if (num === ~~(max / 10)) {
+            if (sign === 1) {
+                if (digit > (max % 10)) {
+                    items.push({
+                        data: { index, sign, num: max, linesToHighlight: [30] },
+                        action: Action.BiggerThanMax
+                    });
+                    return items;
+                }
+            } else if (sign === -1) {
+                if (digit * -1 < (min % 10)) {
+                    items.push({
+                        data: { index, sign, num: min, linesToHighlight: [32] },
+                        action: Action.LessThanMin
+                    });
+                    return items;
+                }
+            }
+        }
+
+        num = num * 10 + digit;
+
+        items.push({
+            data: { index, sign, num, linesToHighlight: [37] },
+            action: Action.Accumulate
+        });
+    }
+
+    items.push({
+        data: { index, sign, num: num * sign, linesToHighlight: [40] },
+        action: Action.NumMultiplySign
+    });
+
+    return items;
 };
