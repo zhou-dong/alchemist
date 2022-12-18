@@ -1,18 +1,17 @@
 export const title = "Container With Most Water";
 
-export const formula = `function maxArea(height: number[]): number {
-
+export const formula = `function maxArea(heights: number[]): number {
     let left = 0;
-    let right = height.length - 1;
+    let right = heights.length - 1;
     let max = 0;
 
     while (left < right) {
+        const height = Math.min(heights[left], heights[right]);
+        const width = right - left;
 
-        const area = Math.min(height[left], height[right]) * (right - left);
+        max = Math.max(max, height * width);
 
-        max = Math.max(max, area);
-
-        if (height[left] < height[right]) {
+        if (heights[left] < heights[right]) {
             left++;
         } else {
             right--
