@@ -93,6 +93,8 @@ import ReverseInteger from "./games/math/reverse-integer";
 import ReverseIntegerInfo from "./games/math/reverse-integer/info";
 import StringToIntegerAtoi from "./games/math/string-to-integer-atoi";
 import StringToIntegerAtoiInfo from "./games/math/string-to-integer-atoi/info";
+import ContainerWithMostWater from "./games/two-pointer/container-with-most-water";
+import ContainerWithMostWaterInfo from "./games/two-pointer/container-with-most-water/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -167,6 +169,7 @@ const App = () => (
                 <Route path={PalindromeNumberInfo.path} element={<PalindromeNumber />} />
                 <Route path={ReverseIntegerInfo.path} element={<ReverseInteger />} />
                 <Route path={StringToIntegerAtoiInfo.path} element={<StringToIntegerAtoi />} />
+                <Route path={ContainerWithMostWaterInfo.path} element={<ContainerWithMostWater />} />
             </>
         </Routes>
     </>

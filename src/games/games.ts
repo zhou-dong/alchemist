@@ -45,6 +45,7 @@ import ZigzagConversion from "./flip-direction/zigzag-conversion/info";
 import PalindromeNumber from "./math/palindrome-number/info";
 import ReverseInteger from "./math/reverse-integer/info";
 import StringToIntegerAtoi from "./math/string-to-integer-atoi/info";
+import ContainerWithMostWater from "./two-pointer/container-with-most-water/info";
 
 export const games: Game[] = [
     editDistance,
@@ -91,5 +92,6 @@ export const games: Game[] = [
     ZigzagConversion,
     PalindromeNumber,
     ReverseInteger,
-    StringToIntegerAtoi
+    StringToIntegerAtoi,
+    ContainerWithMostWater
 ];
