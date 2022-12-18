@@ -6,9 +6,9 @@ interface Props {
     right: number;
 }
 
-const emptyStyle = { border: "none" };
-const normalStyle = { border: "none", borderRight: "8px solid gray" };
-const enabledStyle = { border: "none", borderRight: "8px solid red" };
+const emptyStyle = { border: "none", borderRight: "none", borderBottom: "none" };
+const normalStyle = { border: "none", borderBottom: "none", borderRight: "8px solid lightblue" };
+const enabledStyle = { border: "none", borderBottom: "none", borderRight: "8px solid gold" };
 const bottomStyle = { borderBottom: "2px solid gray" };
 const areaStyle = { backgroundColor: "lightgreen" };
 
