@@ -27,12 +27,6 @@ const buildHeights = () => Array(6).fill(5).map(random);
 
 type ButtonColor = "error" | "inherit";
 
-
-const heights: number[] = [];
-const left = 0;
-const right = 0;
-let max = 0;
-
 const code = `const height = Math.min(heights[left], heights[right]);
 const width = right - left;
 
