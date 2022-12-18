@@ -8,7 +8,8 @@ enum Category {
     HashTable = "Hash Table",
     Math = "Math",
     SlidingWindow = "Sliding Window",
-    FlipDirection = "Flip Direction"
+    FlipDirection = "Flip Direction",
+    Greedy = "Greedy"
 }
 
 export default Category;
