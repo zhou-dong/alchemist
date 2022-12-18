@@ -113,6 +113,7 @@ const Main = () => {
                         <ToggleButton
                             value="right"
                             onClick={() => {
+                                setSteps(i => i + 1);
                                 setLeftButtonColor("inherit");
                                 setRightButtonColor("inherit");
                                 if (items[index].action === Action.Left) {
@@ -130,6 +131,7 @@ const Main = () => {
                             color="info"
                             value="left"
                             onClick={() => {
+                                setSteps(i => i + 1);
                                 setLeftButtonColor("inherit");
                                 setRightButtonColor("inherit");
                                 if (items[index].action === Action.Right) {
