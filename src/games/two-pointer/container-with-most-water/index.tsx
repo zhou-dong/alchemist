@@ -42,6 +42,9 @@ const Main = () => {
         setErrors(0);
         setSuccess(false);
         setIndex(0);
+        setLeftButtonColor("inherit");
+        setRightButtonColor("inherit");
+
         const heights = buildHeights();
         setHeights(heights);
         setItems(maxArea(heights));
