@@ -2,13 +2,14 @@ import * as React from 'react';
 
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 
 import GameWrapper from "../../commons/GameWrapper";
 import { Centered } from "../../dp/_components/Centered";
 import Description from "../../dp/_components/Description";
 import Formula from "../../dp/_components/Formula";
 import { description, example, title, formula, usecases } from "./contents";
-import { Table, TableBody, TableCell, TableRow, ThemeProvider, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Chip, Table, TableBody, TableCell, TableRow, ThemeProvider, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import Steps from '../../dp/_components/Steps';
 import Errors from '../../dp/_components/Errors';
 import Refresh from "../../dp/_components/Refresh";
@@ -81,7 +82,8 @@ const Main = () => {
                 <Centered>
                     <div style={{ marginTop: "60px" }} />
                     <Title />
-                    <div style={{ marginTop: "25px" }}>
+                    <div style={{ marginTop: "10px", marginBottom: "20px" }}>
+                        <Chip icon={<TipsAndUpdatesOutlinedIcon />} label="Two Pointer" variant='outlined' sx={{ marginRight: "10px" }} />
                         <Steps steps={steps} />
                         <Errors errors={errors} />
                         <Description
@@ -103,7 +105,7 @@ const Main = () => {
 
                     <div><Stats /></div>
 
-                    <div style={{ marginTop: "20px" }} />
+                    <div style={{ marginTop: "40px" }} />
                     <ToggleButtonGroup size="medium" disabled={success}>
                         <ToggleButton
                             value="right"
