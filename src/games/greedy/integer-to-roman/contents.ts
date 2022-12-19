@@ -4,33 +4,37 @@ export const formula = ``;
 
 export const description = `#### Description
 
-Implement the **myAtoi(string s)** function, which converts a string to a 32-bit signed integer (similar to C/C++'s **atoi** function).
+Roman numerals are represented by seven different symbols: **I**, **V**, **X**, **L**, **C**, **D** and **M**.
 
-The algorithm for **myAtoi(string s)** is as follows:
+| Symbol | Value |
+|:------:|------:|
+|    I   |     1 |
+|    V   |     5 |
+|    X   |    10 |
+|    L   |    50 |
+|    C   |   100 |
+|    D   |   500 |
+|    M   |  1000 |
 
-Read in and ignore any leading whitespace.
+For example, **2** is written as **II** in Roman numeral, just two one's added together. 
+**12** is written as **XII**, which is simply **X + II**. 
+The number **27** is written as **XXVII**, which is **XX + V + II**.
 
-Check if the next character (if not already at the end of the string) is **'-'** or **'+'**. 
-Read this character in if it is either. This determines if the final result is negative or positive respectively. 
-Assume the result is positive if neither is present.
+Roman numerals are usually written largest to smallest from left to right. 
+However, the numeral for four is not **IIII**. 
+Instead, the number four is written as **IV**. 
+Because the one is before the five we subtract it making four. 
+The same principle applies to the number nine, which is written as **IX**. 
+There are six instances where subtraction is used:
 
-Convert these digits into an integer (i.e. **"123" -> 123**, **"0032" -> 32**). If no digits were read, then the integer is **0**. 
-Change the sign as necessary (from step 2).
+- **I** can be placed before **V** (5) and **X** (10) to make 4 and 9. 
+- **X** can be placed before **L** (50) and **C** (100) to make 40 and 90. 
+- **C** can be placed before **D** (500) and **M** (1000) to make 400 and 900.
 
-If the integer is out of the 32-bit signed integer range **[-2^31, 2^31 - 1]**, then clamp the integer so that it remains in the range. 
-Specifically, integers less than **-2^31** should be clamped to **-2^31**, and integers greater than **2^31 - 1** should be clamped to **2^31 - 1**.
-
-Return the integer as the final result.
-
-#### Note:
-
-- Only the space character ' ' is considered a whitespace character.
-- Do not ignore any characters other than the leading whitespace or the rest of the string after the digits.
+Given an integer, convert it to a roman numeral.
 `;
 
 export const solution = ``;
-
-export const usecases = '';
 
 export const examples = `
 
@@ -38,16 +42,19 @@ export const examples = `
 
 #### Example 1:
 
-- Input: x = "121"
-- Output: 121
+- Input: num = 3
+- Output: "III"
+- Explanation: 3 is represented as 3 ones.
 
 #### Example 2:
 
-- Input: x = " -121"
-- Output: 121
+- Input: num = 58
+- Output: "LVIII"
+- Explanation: L = 50, V = 5, III = 3.
 
 #### Example 3:
 
-- Input: x = " 123 alchemist"
-- Output: 121
+- Input: num = 1994
+- Output: "MCMXCIV"
+- Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 `;
