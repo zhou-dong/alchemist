@@ -25,6 +25,7 @@ export const formula = `function intToRoman(num: number): string {
             num -= (+value);
         }
     }
+
     return roman;
 };`;
 
@@ -58,6 +59,10 @@ There are six instances where subtraction is used:
 - **C** can be placed before **D** (500) and **M** (1000) to make 400 and 900.
 
 Given an integer, convert it to a roman numeral.
+
+**Constraints:**
+
+- 1 <= num <= 3999
 `;
 
 export const solution = ``;
