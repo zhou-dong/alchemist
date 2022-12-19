@@ -6,10 +6,12 @@ import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import gfm from "remark-gfm";
 import Instruction from '../../../commons/Instruction';
-import { description, examples } from "./contents";
+import { description, examples, formula } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
+import CodeIcon from '@mui/icons-material/Code';
+import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -94,6 +96,19 @@ const Main = () => (
             name="Description"
             icon={<DescriptionOutlinedIcon fontSize="medium" />}
             popover={<StyledReactMarkdown remarkPlugins={[gfm]}>{description + examples}</StyledReactMarkdown>}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+        />
+        <Instruction
+            name="Code"
+            icon={<CodeIcon fontSize="medium" />}
+            popover={<CodeBlock
+                code={formula}
+                language={languages.Typescript}
+                showLineNumbers={true}
+                linesToHighlight={[]}
+                wrapLines={true}
+            />}
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
         />
