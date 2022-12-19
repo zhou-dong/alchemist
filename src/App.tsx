@@ -95,6 +95,8 @@ import StringToIntegerAtoi from "./games/math/string-to-integer-atoi";
 import StringToIntegerAtoiInfo from "./games/math/string-to-integer-atoi/info";
 import ContainerWithMostWater from "./games/two-pointer/container-with-most-water";
 import ContainerWithMostWaterInfo from "./games/two-pointer/container-with-most-water/info";
+import IntegerToRoman from "./games/greedy/integer-to-roman";
+import IntegerToRomanInfo from "./games/greedy/integer-to-roman/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -170,6 +172,7 @@ const App = () => (
                 <Route path={ReverseIntegerInfo.path} element={<ReverseInteger />} />
                 <Route path={StringToIntegerAtoiInfo.path} element={<StringToIntegerAtoi />} />
                 <Route path={ContainerWithMostWaterInfo.path} element={<ContainerWithMostWater />} />
+                <Route path={IntegerToRomanInfo.path} element={<IntegerToRoman />} />
             </>
         </Routes>
     </>
