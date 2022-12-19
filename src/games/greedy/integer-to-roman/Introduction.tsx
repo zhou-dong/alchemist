@@ -4,6 +4,7 @@ import MuiStack from '@mui/material/Stack';
 import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import gfm from "remark-gfm";
 import Instruction from '../../../commons/Instruction';
 import { description, examples } from "./contents";
 import AlgoInput from "./AlgoInput";
@@ -30,6 +31,16 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
     paddingTop: 0,
     paddingLeft: 10,
     paddingRight: 10,
+    "& table": {
+        borderCollapse: "collapse",
+        border: "1px solid black",
+    },
+    "& th": {
+        border: "1px solid black",
+    },
+    "& td": {
+        border: "1px solid black",
+    },
 }));
 
 const Input = () => {
@@ -82,7 +93,7 @@ const Main = () => (
         <Instruction
             name="Description"
             icon={<DescriptionOutlinedIcon fontSize="medium" />}
-            popover={<StyledReactMarkdown>{description + examples}</StyledReactMarkdown>}
+            popover={<StyledReactMarkdown remarkPlugins={[gfm]}>{description + examples}</StyledReactMarkdown>}
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
         />
