@@ -1,6 +1,32 @@
 export const title = "Integer to Roman";
 
-export const formula = ``;
+export const formula = `function intToRoman(num: number): string {
+
+    const valueSymbols = [
+        [1000, "M"],
+        [900, "CM"],
+        [500, "D"],
+        [400, "CD"],
+        [100, "C"],
+        [90, "XC"],
+        [50, "L"],
+        [40, "XL"],
+        [10, "X"],
+        [9, "IX"],
+        [5, "V"],
+        [4, "IV"],
+        [1, "I"]
+    ];
+
+    let roman = "";
+    for (const [value, symbol] of valueSymbols) {
+        while (num >= value) {
+            roman += symbol;
+            num -= (+value);
+        }
+    }
+    return roman;
+};`;
 
 export const description = `#### Description
 
