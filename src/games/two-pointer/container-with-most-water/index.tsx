@@ -3,13 +3,16 @@ import * as React from 'react';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CodeIcon from '@mui/icons-material/Code';
 
+import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import GameWrapper from "../../commons/GameWrapper";
 import { Centered } from "../../dp/_components/Centered";
 import Description from "../../dp/_components/Description";
 import Formula from "../../dp/_components/Formula";
 import { description, example, title, formula, usecases } from "./contents";
-import { Chip, Table, TableBody, TableCell, TableRow, ThemeProvider, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Chip, Paper, Stack, Table, TableBody, TableCell, TableRow, ThemeProvider, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import Steps from '../../dp/_components/Steps';
 import Errors from '../../dp/_components/Errors';
 import Refresh from "../../dp/_components/Refresh";
@@ -23,6 +26,38 @@ const random = (max: number) => Math.floor(Math.random() * max) + 1;
 const buildHeights = () => Array(6).fill(5).map(random);
 
 type ButtonColor = "error" | "inherit";
+
+const code = `const height = Math.min(heights[left], heights[right]);
+const width = right - left;
+
+max = Math.max(max, height * width);`
+
+const CoreCode = () => {
+    const [expanded, setExpanded] = React.useState(false);
+    const handleChange = () => { setExpanded(!expanded) };
+
+    return (
+        <Accordion expanded={expanded} onChange={handleChange}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Stack direction="row" spacing={2} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <CodeIcon />
+                    <Typography>
+                        max = Math.max(max, height * width)
+                    </Typography>
+                </Stack>
+            </AccordionSummary>
+            <AccordionDetails>
+                <Paper variant='outlined'>
+                    <CodeBlock
+                        code={code}
+                        language={languages.Typescript}
+                        wrapLines={true}
+                    />
+                </Paper>
+            </AccordionDetails>
+        </Accordion>
+    );
+}
 
 const Main = () => {
     const [steps, setSteps] = React.useState(0);
@@ -57,26 +92,24 @@ const Main = () => {
     )
 
     const Stats = () => (
-        <Table sx={{ width: "200px" }}>
-            <TableBody>
-                <TableRow>
-                    <TableCell padding="none" style={{ fontWeight: "bold", color: "gray" }}>Max</TableCell>
-                    <TableCell padding="none" style={{}}>{items[index].max}</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell padding="none" style={{ fontWeight: "bold", color: "gray" }}>Left</TableCell>
-                    <TableCell padding="none" style={{}}>{items[index].left}</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell padding="none" style={{ fontWeight: "bold", color: "gray" }}>Right</TableCell>
-                    <TableCell padding="none" style={{}}>{items[index].right}</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell padding="none" style={{ fontWeight: "bold", color: "gray" }}>Current Area</TableCell>
-                    <TableCell padding="none" style={{}}>{items[index].area}</TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
+        <div>
+            <Table sx={{ width: "200px" }}>
+                <TableBody>
+                    <TableRow>
+                        <TableCell padding="none" style={{}}>Left</TableCell>
+                        <TableCell padding="none" style={{}}>{items[index].left}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell padding="none" style={{}}>Right</TableCell>
+                        <TableCell padding="none" style={{}}>{items[index].right}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell padding="none" style={{}}>Max</TableCell>
+                        <TableCell padding="none" style={{}}>{items[index].max}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </div>
     )
 
     return (
@@ -85,7 +118,7 @@ const Main = () => {
                 <Centered>
                     <div style={{ marginTop: "60px" }} />
                     <Title />
-                    <div style={{ marginTop: "10px", marginBottom: "20px" }}>
+                    <div style={{ marginTop: "10px", marginBottom: "10px" }}>
                         <Chip icon={<TipsAndUpdatesOutlinedIcon />} label="Two Pointer" variant='outlined' sx={{ marginRight: "10px" }} />
                         <Steps steps={steps} />
                         <Errors errors={errors} />
@@ -100,13 +133,19 @@ const Main = () => {
                         <Refresh handleRefresh={handleRefresh} />
                     </div>
 
-                    <div style={{ marginLeft: "-100px" }}>
+                    <div style={{ display: "inline-flex" }}>
+                        <CoreCode />
+                    </div>
+
+                    <div style={{ marginTop: "20px", marginLeft: "-100px" }}>
                         <Chart left={items[index].left} right={items[index].right} heights={heights} />
                     </div>
 
                     <div style={{ marginTop: 10 }}></div>
 
-                    <div><Stats /></div>
+                    <Stats />
+
+
 
                     <div style={{ marginTop: "40px" }} />
                     <ToggleButtonGroup size="medium" disabled={success}>
