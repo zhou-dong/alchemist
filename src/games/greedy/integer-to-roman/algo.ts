@@ -1,13 +1,18 @@
 export interface Roman {
-    value: number | string;
-    symbol: number | string;
+    value: number;
+    symbol: string;
+}
+
+export interface Data {
+    num: number;
+    roman: string;
 }
 
 export interface Item {
-    i: number;
+    index: number;
+    current: Data;
     roman: Roman;
-    current: number;
-    next: number;
+    next: Data;
 }
 
 export function intToRoman(num: number): Item[] {
@@ -36,13 +41,14 @@ export function intToRoman(num: number): Item[] {
         const [value, symbol] = valueSymbols[i];
         while (num >= value) {
 
-            const current = num;
-            const next = num - (+value);
+            const current: Data = { num, roman };
 
             roman += symbol;
             num -= (+value);
 
-            items.push({ i, roman: { value, symbol }, current, next });
+            const next: Data = { num, roman };
+
+            items.push({ index: i, current, roman: { value: +value, symbol: symbol + "" }, next });
         }
     }
 

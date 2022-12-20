@@ -10,7 +10,6 @@ const Main = () => {
 
     return (
         <Typography
-            variant='h5'
             display="flex"
             sx={{
                 justifyContent: "center",

@@ -2,11 +2,11 @@ import React from "react";
 import { State } from "./AlgoState";
 import { Item } from "./algo";
 
-export const defaultValue = "12345";
+export const defaultValue: number = 1999;
 
 const AlgoContext = React.createContext<{
-    value: string,
-    setValue: React.Dispatch<React.SetStateAction<string>>,
+    value: number,
+    setValue: React.Dispatch<React.SetStateAction<number>>,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
     index: number,

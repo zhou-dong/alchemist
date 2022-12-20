@@ -22,7 +22,7 @@ export const formula = `function intToRoman(num: number): string {
     for (const [value, symbol] of valueSymbols) {
         while (num >= value) {
             roman += symbol;
-            num -= (+value);
+            num -= value;
         }
     }
 
