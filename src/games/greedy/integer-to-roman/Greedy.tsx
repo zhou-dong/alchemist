@@ -195,7 +195,7 @@ const Main = () => {
                         </TableBody>
                     </Table>
 
-                    <div style={{ marginBottom: "10px" }} />
+                    {/* <div style={{ marginBottom: "10px" }} /> */}
 
                     <Button
                         disabled={state !== State.Playing}
