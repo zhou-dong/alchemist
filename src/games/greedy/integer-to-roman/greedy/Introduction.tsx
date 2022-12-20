@@ -5,13 +5,13 @@ import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import gfm from "remark-gfm";
-import Instruction from '../../../commons/Instruction';
-import { description, examples, GreedySolution } from "./contents";
+import Instruction from '../../../../commons/Instruction';
+import { description, examples } from "../_common/contents";
 import AlgoInput from "./AlgoInput";
-import LightTooltip from '../../../commons/LightTooltip';
+import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
-import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
+import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);

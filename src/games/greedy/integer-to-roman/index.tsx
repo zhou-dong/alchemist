@@ -3,9 +3,8 @@ import GameWrapper from '../../commons/GameWrapper';
 import info from "./info";
 import { ThemeProvider, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import theme from '../../dp/_commons/theme';
-import { AlgoContextProvider } from "./AlgoContext";
-import Hardcode from './Hardcode';
-import Greedy from "./Greedy";
+import Hardcode from './hardcode';
+import Greedy from "./greedy";
 
 const Switcher: React.FC<{
     view: string,
@@ -48,11 +47,9 @@ const Main = () => {
     return (
         <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
-                <AlgoContextProvider>
-                    <Switcher view={view} setView={setView} />
-                    {view === "greedy" && <Greedy />}
-                    {view === "hardcode" && <Hardcode />}
-                </AlgoContextProvider>
+                <Switcher view={view} setView={setView} />
+                {view === "greedy" && <Greedy />}
+                {view === "hardcode" && <Hardcode />}
             </ThemeProvider>
         </GameWrapper>
     );

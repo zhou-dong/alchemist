@@ -1,4 +1,4 @@
-import { title } from "./contents";
+import { title } from "./_common/contents";
 import { Game } from "../../commons/game";
 import Category from "../../commons/segments/category";
 import Difficulty from "../../commons/segments/difficulty";
