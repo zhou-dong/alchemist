@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { CheckCircleOutline } from '@mui/icons-material';
-import { useAlgoContext } from './AlgoContext';
+import { useAlgoContext } from '../greedy/AlgoContext';
 import { State } from './AlgoState';
 import { title } from "./contents";
 

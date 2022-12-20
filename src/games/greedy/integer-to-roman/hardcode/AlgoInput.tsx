@@ -3,26 +3,30 @@ import OutputIcon from '@mui/icons-material/Output';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
-import { defaultValue, useAlgoContext } from "./AlgoContext";
-import { State } from './AlgoState';
-import { intToRoman } from "./algo";
+import { defaultInput, useAlgoContext } from "./AlgoContext";
+import { State } from '../_common/AlgoState';
 
 const Submit: React.FC<{
-    input: number | undefined,
-    setInput: React.Dispatch<React.SetStateAction<number | undefined>>,
+    value: string | undefined,
+    setValue: React.Dispatch<React.SetStateAction<string | undefined>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ input, setInput, setAnchorEl }) => {
+}> = ({ value, setValue, setAnchorEl }) => {
 
-    const { setValue, setState, setResult, setIndex } = useAlgoContext();
+    const { setInput, setState, } = useAlgoContext();
 
     const handleSubmit = () => {
-        const value = (!input) ? defaultValue : input;
-        setIndex(0);
-        setValue(value);
+
+        let input: number = (!value) ? defaultInput : +value;
+        if (input < 1) {
+            input = 1
+        } else if (input > 3999) {
+            input = 3999;
+        }
+
+        setInput(input);
         setState(State.Playing);
-        setInput(undefined);
+        setValue(undefined);
         setAnchorEl(null);
-        setResult(() => intToRoman(value));
     }
 
     return (
@@ -38,18 +42,10 @@ interface Props {
 
 const Main = ({ setAnchorEl }: Props) => {
 
-    const [input, setInput] = React.useState<number>();
+    const [input, setInput] = React.useState<string>();
 
     const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = +(e.currentTarget.value);
-
-        if (value < 1) {
-            value = 1;
-        } else if (value > 3999) {
-            value = 3999;
-        }
-
-        setInput(value);
+        setInput(e.currentTarget.value);
     }
 
     return (
@@ -65,13 +61,13 @@ const Main = ({ setAnchorEl }: Props) => {
         >
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
-                placeholder={defaultValue + ""}
-                value={input}
+                placeholder={defaultInput + ""}
+                value={input || ""}
                 onChange={handleTextFieldChange}
                 type="number"
             />
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <Submit input={input} setInput={setInput} setAnchorEl={setAnchorEl} />
+            <Submit value={input} setValue={setInput} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }

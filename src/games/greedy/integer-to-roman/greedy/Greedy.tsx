@@ -7,9 +7,11 @@ import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 import { useAlgoContext } from "./AlgoContext";
-import { State } from "./AlgoState";
-import Title from "./Title";
-import { Item } from "./algo";
+import { State } from "../_common/AlgoState";
+import Title from "../_common/Title";
+import { Item } from "./greedyAlgo";
+import Introduction from "./Introduction";
+import { GreedySolution } from "../_common/contents";
 
 const valueSymbols = [
     [1000, "M"],
@@ -195,8 +197,6 @@ const Main = () => {
                         </TableBody>
                     </Table>
 
-                    {/* <div style={{ marginBottom: "10px" }} /> */}
-
                     <Button
                         disabled={state !== State.Playing}
                         startIcon={<ArrowCircleRightOutlinedIcon />}
@@ -222,6 +222,7 @@ const Play = () => {
 
     return (
         <>
+            <Introduction code={GreedySolution} />
             {state !== State.Typing && <Main />}
         </>
     );

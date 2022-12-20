@@ -1,6 +1,6 @@
 export const title = "Integer to Roman";
 
-export const formula = `function intToRoman(num: number): string {
+export const GreedySolution = `function intToRoman(num: number): string {
 
     const valueSymbols = [
         [1000, "M"],
@@ -28,6 +28,20 @@ export const formula = `function intToRoman(num: number): string {
 
     return roman;
 };`;
+
+export const HardcodeSolution = `function intToRoman(num: number): string {
+
+    const thousands = ["", "M", "MM", "MMM"];
+    const hundreds = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"];
+    const tens     = ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"];
+    const ones     = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
+
+    const thousand = thousands[~~(num / 1000)];
+    const hundred = hundreds[~~(num % 1000 / 100)];
+    const ten = tens[~~(num % 100 / 10)];
+    const one = ones[num % 10];
+    return thousand + hundred + ten + one;
+};`
 
 export const description = `#### Description
 
