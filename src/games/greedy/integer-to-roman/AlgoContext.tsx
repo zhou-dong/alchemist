@@ -1,6 +1,6 @@
 import React from "react";
 import { State } from "./AlgoState";
-import { Item } from "./algo";
+import { Item } from "./greedyAlgo";
 
 export const defaultValue: number = 1999;
 

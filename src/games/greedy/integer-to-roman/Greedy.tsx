@@ -9,7 +9,9 @@ import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlin
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import Title from "./Title";
-import { Item } from "./algo";
+import { Item } from "./greedyAlgo";
+import Introduction from "./Introduction";
+import { GreedySolution } from "./contents";
 
 const valueSymbols = [
     [1000, "M"],
@@ -222,6 +224,7 @@ const Play = () => {
 
     return (
         <>
+            <Introduction code={GreedySolution} />
             {state !== State.Typing && <Main />}
         </>
     );

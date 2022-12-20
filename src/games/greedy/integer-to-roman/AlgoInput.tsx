@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import { defaultValue, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { intToRoman } from "./algo";
+import { intToRoman } from "./greedyAlgo";
 
 const Submit: React.FC<{
     input: number | undefined,

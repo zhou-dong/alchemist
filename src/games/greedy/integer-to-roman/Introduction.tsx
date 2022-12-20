@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import gfm from "remark-gfm";
 import Instruction from '../../../commons/Instruction';
-import { description, examples, formula } from "./contents";
+import { description, examples, GreedySolution } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
@@ -89,8 +89,12 @@ const Input = () => {
     )
 }
 
-const Main = () => (
-    <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
+interface Props {
+    code: string;
+}
+
+const Main = ({ code }: Props) => (
+    <MuiStack spacing={2} sx={{ position: 'fixed', top: 120, left: 40, zIndex: 1 }}>
         <Input />
         <Instruction
             name="Description"
@@ -103,7 +107,7 @@ const Main = () => (
             name="Code"
             icon={<CodeIcon fontSize="medium" />}
             popover={<CodeBlock
-                code={formula}
+                code={code}
                 language={languages.Typescript}
                 showLineNumbers={true}
                 linesToHighlight={[]}
