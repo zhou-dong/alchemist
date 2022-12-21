@@ -39,8 +39,8 @@ const InputDisplay = () => {
     const last = result[result.length - 1];
 
     const normalStyle = {};
-    const prevStyle = { backgroundColor: "lightgreen" };
-    const currentStyle = { backgroundColor: "green", color: "#FFF" };
+    const prevStyle = { color: "green", fontWeight: "bold" };
+    const currentStyle = { color: "green", fontWeight: "bold" };
 
     const getStyle = (i: number) => {
         switch (i) {
