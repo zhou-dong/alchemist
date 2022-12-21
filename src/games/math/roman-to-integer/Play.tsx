@@ -1,12 +1,12 @@
 import React from "react";
-import { Stack, Table, TableBody, TableCell, TableHead, TableRow, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Stack, Table, TableBody, TableCell, TableHead, TableRow, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import { Item, Action } from "./algo";
@@ -238,7 +238,7 @@ const Steps = () => {
     }
 
     return (
-        <Table>
+        <Table sx={{ width: "100%", minWidth: "700px" }}>
             <TableHead>
                 <TableRow>
                     <TableCell padding="none" sx={{ border: "none" }} />
@@ -261,12 +261,30 @@ const Steps = () => {
 const Main = () => {
     const { index, setIndex, result } = useAlgoContext();
 
+    const [stepsExpanded, setStepsExpanded] = React.useState(false);
+
+    const handleAccordionChange = () => {
+        setStepsExpanded(expended => !expended);
+    }
+
     return (
         <Stack spacing={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <InputDisplay />
             <Explain />
 
-            <Steps />
+            <Accordion expanded={stepsExpanded} onChange={handleAccordionChange}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                >
+                    Steps
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Steps />
+                </AccordionDetails>
+            </Accordion>
+
 
             <ToggleButtonGroup size="large">
                 <ToggleButton
