@@ -14,7 +14,8 @@ const Main = () => {
             sx={{
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: "60px"
+                marginTop: "60px",
+                marginBottom: "20px"
             }}
         >
             {title} {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
