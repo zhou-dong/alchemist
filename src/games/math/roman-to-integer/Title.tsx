@@ -11,6 +11,7 @@ const Main = () => {
     return (
         <Typography
             display="flex"
+            variant='h5'
             sx={{
                 justifyContent: "center",
                 alignItems: "center",
