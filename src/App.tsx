@@ -97,6 +97,8 @@ import ContainerWithMostWater from "./games/two-pointer/container-with-most-wate
 import ContainerWithMostWaterInfo from "./games/two-pointer/container-with-most-water/info";
 import IntegerToRoman from "./games/greedy/integer-to-roman";
 import IntegerToRomanInfo from "./games/greedy/integer-to-roman/info";
+import RomanToInteger from "./games/math/roman-to-integer";
+import RomanToIntegerInfo from "./games/math/roman-to-integer/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -173,6 +175,7 @@ const App = () => (
                 <Route path={StringToIntegerAtoiInfo.path} element={<StringToIntegerAtoi />} />
                 <Route path={ContainerWithMostWaterInfo.path} element={<ContainerWithMostWater />} />
                 <Route path={IntegerToRomanInfo.path} element={<IntegerToRoman />} />
+                <Route path={RomanToIntegerInfo.path} element={<RomanToInteger />} />
             </>
         </Routes>
     </>
