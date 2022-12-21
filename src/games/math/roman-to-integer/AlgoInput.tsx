@@ -22,6 +22,7 @@ const Submit: React.FC<{
         setInput(newValue);
         setResult(() => romanToInt(newValue))
         setState(State.Playing);
+
         setValue("");
         setAnchorEl(null);
     }
