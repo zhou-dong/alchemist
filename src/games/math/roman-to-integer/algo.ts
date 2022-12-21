@@ -1,12 +1,22 @@
+export enum Action {
+    Add, Subtract
+}
+
 interface Roman {
     value: number;
     symbol: string;
 }
 
+interface Sum {
+    previous: number;
+    current: number;
+}
+
 export interface Item {
+    action: Action;
     prev: Roman;
     current?: Roman;
-    sum: number;
+    sum: Sum;
 }
 
 export function romanToInt(s: string): Item[] {
@@ -35,8 +45,12 @@ export function romanToInt(s: string): Item[] {
         const symbol = s.charAt(i);
         const value = getValue(symbol);
 
+        let action = Action.Add;
+        const previousSum = sum;
+
         if (prev < value) {
             sum -= prev;
+            action = Action.Subtract;
         } else {
             sum += prev;
         }
@@ -45,18 +59,21 @@ export function romanToInt(s: string): Item[] {
         items.push({
             prev: prevRoman,
             current: currentRoman,
-            sum
+            sum: { previous: previousSum, current: sum },
+            action
         });
 
         prev = value;
         prevRoman = currentRoman;
     }
 
+    const previousSum = sum;
     sum += prev;
 
     items.push({
         prev: prevRoman,
-        sum
+        sum: { previous: previousSum, current: sum },
+        action: Action.Add
     });
 
     return items;
