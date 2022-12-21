@@ -194,7 +194,7 @@ const Steps = () => {
     const Row: React.FC<{ item: Item, i: number }> = ({ item, i }) => {
 
         const normalStyle = {};
-        const enabledStyle = { backgroundColor: "green", color: "#FFF" };
+        const enabledStyle = { color: "green", fontWeight: "bold" };
 
         const style = (i === index) ? enabledStyle : normalStyle;
         const sign = (item.action === Action.Add) ? "+" : "-";
