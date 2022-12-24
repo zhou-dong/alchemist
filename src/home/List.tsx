@@ -10,7 +10,7 @@ interface AlgorithmProps {
 
 const Algorithm = ({ title, path, img }: AlgorithmProps) => (
     <Grid item xs={6} sm={4} md={3} lg={2}>
-        <Card variant="outlined" sx={{ borderRadius: "20px" }}>
+        <Card variant="outlined" sx={{ borderRadius: "15px" }}>
             <CardActionArea component={RouterLink} to={path}>
                 <CardMedia
                     component="img"
