@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
+import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { useGames } from "../games/commons/GamesContext";
 
 interface AlgorithmProps {
@@ -32,7 +32,7 @@ const Sorting = () => {
     const { games } = useGames();
 
     return (
-        <Container maxWidth="xl">
+        <div style={{ maxWidth: "92%", margin: "auto", textAlign: "center" }}>
             <Grid container spacing={4}>
                 {
                     games.map((game, index) => (
@@ -45,7 +45,7 @@ const Sorting = () => {
                     ))
                 }
             </Grid>
-        </Container>
+        </div>
     )
 };
 
