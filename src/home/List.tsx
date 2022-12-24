@@ -9,8 +9,8 @@ interface AlgorithmProps {
 }
 
 const Algorithm = ({ title, path, img }: AlgorithmProps) => (
-    <Grid item xs={6} sm={4} md={3}>
-        <Card>
+    <Grid item xs={6} sm={4} md={3} lg={2}>
+        <Card variant="outlined" sx={{ borderRadius: "20px" }}>
             <CardActionArea component={RouterLink} to={path}>
                 <CardMedia
                     component="img"
@@ -18,8 +18,8 @@ const Algorithm = ({ title, path, img }: AlgorithmProps) => (
                 >
                 </CardMedia>
             </CardActionArea>
-            <CardContent>
-                <Typography variant="subtitle1">
+            <CardContent sx={{ maxHeight: "64px" }}>
+                <Typography variant="body1">
                     {title}
                 </Typography>
             </CardContent>
