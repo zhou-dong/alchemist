@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { Cube as ICube } from '../cube';
-import { calDistance } from '../utils';
+import { calDistance } from '../../utils';
 
 export class Cube implements ICube {
   protected scene: THREE.Scene;

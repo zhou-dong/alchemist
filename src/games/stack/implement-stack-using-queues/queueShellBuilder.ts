@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Cube } from '../../../data-structures/_commons/three/cube';
+import { Cube } from '../../../data-structures/_commons/cube/three/cube';
 import { node, queue } from "./queueStyles";
 
 class QueueShellBuilder {

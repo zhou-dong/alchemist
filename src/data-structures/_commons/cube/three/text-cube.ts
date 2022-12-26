@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
 import { Cube } from './cube';
 import { TextCube as ITextCube } from '../text-cube';
-import { calDestination } from '../utils';
+import { calDestination } from '../../utils';
 import gsap from 'gsap';
 
 export class TextCube<T> extends Cube implements ITextCube<T> {

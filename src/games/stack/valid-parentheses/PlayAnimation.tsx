@@ -5,7 +5,7 @@ import BackspaceIcon from '@mui/icons-material/Backspace';
 import Queue from '../../../data-structures/queue';
 import Stack from '../../../data-structures/stack';
 import { wait } from '../../../data-structures/_commons/utils';
-import { TextCube } from '../../../data-structures/_commons/three/text-cube';
+import { TextCube } from '../../../data-structures/_commons/cube/three/text-cube';
 import { nodeParams } from './styles';
 
 interface Props {

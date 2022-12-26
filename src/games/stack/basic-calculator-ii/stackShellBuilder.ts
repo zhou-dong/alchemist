@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Cube } from '../../../data-structures/_commons/three/cube';
+import { Cube } from '../../../data-structures/_commons/cube/three/cube';
 import { node, shell } from "./stackStyles";
 
 class StackShellBuilder {

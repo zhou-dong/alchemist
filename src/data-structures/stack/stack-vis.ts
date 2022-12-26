@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { Cube } from '../_commons/three/cube';
-import { TextCube } from '../_commons/three/text-cube';
+import { Cube } from '../_commons/cube/three/cube';
+import { TextCube } from '../_commons/cube/three/text-cube';
 import { wait } from '../_commons/utils';
 import { IStack } from './stack';
 import { StackAlgo } from './stack-algo';

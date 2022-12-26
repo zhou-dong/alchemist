@@ -12,8 +12,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import { useAlgoContext } from "./AlgoContext";
-import { TextCube } from '../../../data-structures/_commons/three/text-cube';
-import { Cube } from '../../../data-structures/_commons/three/cube';
+import { TextCube } from '../../../data-structures/_commons/cube/three/text-cube';
+import { Cube } from '../../../data-structures/_commons/cube/three/cube';
 import { nodeParams, stackShellParams } from './styles';
 import { State } from './AlgoState';
 

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import { TextCube } from '../../../data-structures/_commons/three/text-cube';
+import { TextCube } from '../../../data-structures/_commons/cube/three/text-cube';
 import { node, text } from "./queueStyles";
 
 class QueueItemBuilder<T> {
