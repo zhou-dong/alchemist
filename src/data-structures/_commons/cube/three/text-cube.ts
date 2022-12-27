@@ -1,13 +1,21 @@
 import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
+import Display from '../../display';
+import Move from '../../move';
+import Position from '../../position';
+import DisplayImpl from "../../three/display";
+import MoveImpl from "../../three/move";
+import PositionImpl from "../../three/position"
 import { Cube } from './cube';
 import { TextCube as ITextCube } from '../text-cube';
 import { calDestination } from '../../utils';
-import gsap from 'gsap';
 
 export class TextCube<T> extends Cube implements ITextCube<T> {
-  private _value: T;
-  private textMesh: THREE.Mesh;
+
+  value: T;
+  textPosition: Position;
+  private textDisplay: Display;
+  private textMover: Move;
 
   constructor(
     value: T,
@@ -18,55 +26,29 @@ export class TextCube<T> extends Cube implements ITextCube<T> {
     scene: THREE.Scene
   ) {
     super(cubeGeometry, cubeMaterial, scene);
-    this._value = value;
-
+    this.value = value;
     const textGeometry = new TextGeometry(value + '', textGeometryParameters);
-    this.textMesh = new THREE.Mesh(textGeometry, textMaterial);
+    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+    this.textPosition = new PositionImpl(textMesh);
+    this.textMover = new MoveImpl(textMesh);
+    this.textDisplay = new DisplayImpl(scene, textMesh);
   }
 
-  public get value(): T {
-    return this._value;
-  }
-
-  public get textX(): number {
-    return this.textMesh.position.x;
-  }
-
-  public set textX(v: number) {
-    this.textMesh.position.setX(v);
-  }
-
-  public get textY(): number {
-    return this.textMesh.position.y;
-  }
-
-  public set textY(v: number) {
-    this.textMesh.position.setY(v);
-  }
-
-  public get textZ(): number {
-    return this.textMesh.position.z;
-  }
-
-  public set textZ(v: number) {
-    this.textMesh.position.setZ(v);
-  }
-
-  public move(position: THREE.Vector3, duration: number) {
+  public async move(position: Position, duration: number) {
     const distance = super.distance(position);
-    const textEndPosition = calDestination(this.textMesh.position, distance);
-
-    super.move(position, duration)
-    gsap.to(this.textMesh.position, { ...textEndPosition, duration });
+    const textEndPosition = calDestination(this.textPosition, distance);
+    const cubeMove = super.move(position, duration)
+    const textMove = this.textMover.move(textEndPosition, duration);
+    return Promise.all([cubeMove, textMove]).then(() => { });
   }
 
   public show(): void {
     super.show();
-    this.scene.add(this.textMesh);
+    this.textDisplay.show();
   }
 
   public hide(): void {
     super.hide();
-    this.scene.remove(this.textMesh);
+    this.textDisplay.hide();
   }
 }
