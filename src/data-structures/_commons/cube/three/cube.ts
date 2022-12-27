@@ -1,12 +1,20 @@
 import * as THREE from 'three';
-import gsap from 'gsap';
+
+import Display from '../../display';
+import Move from '../../move';
+import Position from '../../position';
+import DisplayImpl from "../../three/display";
+import MoveImpl from "../../three/move";
+import PositionImpl from "../../three/position"
+
 import { Cube as ICube } from '../cube';
 import { calDistance } from '../../utils';
 
 export class Cube implements ICube {
-  protected scene: THREE.Scene;
-  private geometry: THREE.BoxGeometry;
-  private material: THREE.Material;
+
+  position: Position;
+  private display: Display;
+  private mover: Move;
   private mesh: THREE.Mesh;
 
   constructor(
@@ -14,34 +22,10 @@ export class Cube implements ICube {
     material: THREE.Material,
     scene: THREE.Scene
   ) {
-    this.scene = scene;
-    this.geometry = geometry;
-    this.material = material;
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-  }
-
-  public get x(): number {
-    return this.mesh.position.x;
-  }
-
-  public set x(v: number) {
-    this.mesh.position.setX(v);
-  }
-
-  public get y(): number {
-    return this.mesh.position.y;
-  }
-
-  public set y(v: number) {
-    this.mesh.position.setY(v);
-  }
-
-  public get z(): number {
-    return this.mesh.position.z;
-  }
-
-  public set z(v: number) {
-    this.mesh.position.setZ(v);
+    this.mesh = new THREE.Mesh(geometry, material);
+    this.position = new PositionImpl(this.mesh);
+    this.mover = new MoveImpl(this.mesh);
+    this.display = new DisplayImpl(scene, this.mesh);
   }
 
   public get width(): number {
@@ -68,19 +52,19 @@ export class Cube implements ICube {
     this.mesh.scale.setZ(v);
   }
 
-  protected distance(position: THREE.Vector3): THREE.Vector3 {
-    return calDistance(this.mesh.position, position);
+  protected distance(position: Position): Position {
+    return calDistance(this.position, position);
   }
 
-  public move(position: THREE.Vector3, duration: number) {
-    gsap.to(this.mesh.position, { ...position, duration });
+  public move(position: Position, duration: number) {
+    return this.mover.move(position, duration);
   }
 
   public show(): void {
-    this.scene.add(this.mesh);
+    this.display.show();
   }
 
   public hide(): void {
-    this.scene.remove(this.mesh);
+    this.display.hide();
   }
 }
