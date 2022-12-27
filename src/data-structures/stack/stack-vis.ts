@@ -24,9 +24,9 @@ export class StackVis<T> implements IStack<TextCube<T>> {
 
     increaseShells(shell: Cube) {
         const { x, y, z } = this.position;
-        shell.x = x + this.getShellsWidth();
-        shell.y = y;
-        shell.z = z;
+        shell.position.x = x + this.getShellsWidth();
+        shell.position.y = y;
+        shell.position.z = z;
         this.shells.push(shell);
     }
 
@@ -95,7 +95,7 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         const iterator = this.stack.iterator();
         while (iterator.hasNext()) {
             const current = iterator.next();
-            const position = new THREE.Vector3(current.x + current.width, current.y, current.z);
+            const position = new THREE.Vector3(current.position.x + current.width, current.position.y, current.position.z);
             current.move(position, this.duration);
         }
     }
@@ -104,7 +104,7 @@ export class StackVis<T> implements IStack<TextCube<T>> {
         const iterator = this.stack.iterator();
         while (iterator.hasNext()) {
             const current = iterator.next();
-            const position = new THREE.Vector3(current.x - current.width, current.y, current.z);
+            const position = new THREE.Vector3(current.position.x - current.width, current.position.y, current.position.z);
             current.move(position, this.duration);
         }
         await wait(this.duration);
