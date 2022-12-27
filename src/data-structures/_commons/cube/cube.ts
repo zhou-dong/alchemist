@@ -1,12 +1,13 @@
-export interface Cube {
+import Move from "../move";
+import Display from "../display";
+import Position from "../position";
+
+export interface Cube extends Move, Display {
+
   width: number;
   height: number;
   depth: number;
 
-  x: number;
-  y: number;
-  z: number;
+  position: Position;
 
-  show(): void;
-  hide(): void;
 }
