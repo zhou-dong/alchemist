@@ -34,11 +34,11 @@ export default class TextSphere<T> extends Sphere implements ITextSphere<T> {
     this.textDisplay = new DisplayImpl(scene, textMesh);
   }
 
-  async move(position: Position, duration: number) {
+  async move(position: Position, duration: number, onUpdate?: () => void) {
     const distance = super.distance(position);
     const textEndPosition = calDestination(this.textPosition, distance);
-    const sphereMove = super.move(position, duration);
-    const textMove = this.textMover.move(textEndPosition, duration);
+    const sphereMove = super.move(position, duration, onUpdate);
+    const textMove = this.textMover.move(textEndPosition, duration, onUpdate);
     return Promise.all([sphereMove, textMove]).then(() => { });
   }
 

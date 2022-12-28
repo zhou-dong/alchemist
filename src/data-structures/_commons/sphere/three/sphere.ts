@@ -30,8 +30,8 @@ export default class Sphere implements ISphere {
         this.mover = new MoveImpl(mesh);
     }
 
-    move(position: Position, duration: number) {
-        return this.mover.move(position, duration);
+    move(position: Position, duration: number, onUpdate?: () => void) {
+        return this.mover.move(position, duration, onUpdate);
     }
 
     show() {

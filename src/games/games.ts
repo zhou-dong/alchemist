@@ -47,7 +47,8 @@ import ReverseInteger from "./math/reverse-integer/info";
 import StringToIntegerAtoi from "./math/string-to-integer-atoi/info";
 import ContainerWithMostWater from "./two-pointer/container-with-most-water/info";
 import IntegerToRoman from "./greedy/integer-to-roman/info";
-import RomanToInteger from "./math/roman-to-integer/info";;
+import RomanToInteger from "./math/roman-to-integer/info";
+import MaximumDepthOfBinaryTree from "./tree/maximum-depth-of-binary-tree/info";
 
 export const games: Game[] = [
     editDistance,
@@ -97,5 +98,6 @@ export const games: Game[] = [
     StringToIntegerAtoi,
     ContainerWithMostWater,
     IntegerToRoman,
-    RomanToInteger
+    RomanToInteger,
+    MaximumDepthOfBinaryTree
 ];

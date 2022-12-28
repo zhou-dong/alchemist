@@ -11,8 +11,8 @@ export default class Move implements IMover {
         this.mesh = mesh;
     }
 
-    move(position: Position, duration: number): Promise<void> {
-        gsap.to(this.mesh.position, { ...position, duration });
+    move(position: Position, duration: number, onUpdate?: () => void): Promise<void> {
+        gsap.to(this.mesh.position, { ...position, duration, onUpdate });
         return wait(duration);
     }
 }
