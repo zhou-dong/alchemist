@@ -8,8 +8,8 @@ import { Button } from '@mui/material';
 import React from 'react';
 
 
-const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(2, 32, 16);
-const sphereMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: 0xffff00, opacity: 0.3, transparent: true });
+const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
+const sphereMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: 0xffff00, opacity: 0.5, transparent: true });
 const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "gold" });
 const textGeometryParameters: TextGeometryParameters = { font, size: 1, height: 1 };
 const lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
