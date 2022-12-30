@@ -1,10 +1,7 @@
 import * as THREE from 'three';
-import gsap from 'gsap';
 import Position from '../_commons/position';
 import { TextSphere } from '../_commons/sphere/text-sphere';
 import { wait } from '../_commons/utils';
-
-type Item<T> = TextSphere<T> & THREE.Line;
 
 export default class TreeNode<T> {
 
@@ -19,20 +16,21 @@ export default class TreeNode<T> {
         this._val = val;
     }
 
-    async getLeft(duration: number): Promise<TreeNode<TextSphere<T>> | undefined> {
-        return;
+    async getLeft(duration: number): Promise<TreeNode<T> | undefined> {
+        return this._left;
     }
 
-    async getRight(duration: number): Promise<TreeNode<TextSphere<T>> | undefined> {
-        return;
+    async getRight(duration: number): Promise<TreeNode<T> | undefined> {
+        return this._right;
     }
 
     async setLeft(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
         this._left = node;
-        this._leftLine = this.buildLine(this._val.center, node._val.center, lineMaterial, scene);
+        this._leftLine = this.buildLine(this._val.center, node._val.center, lineMaterial);
+        scene.add(this._leftLine);
         const onUpdate = () => {
             if (this._leftLine) {
-                this.updateLine(node, this._leftLine);
+                this.updateLine(this._leftLine, node);
             }
         }
         await node._val.move(position, duration, onUpdate);
@@ -40,27 +38,32 @@ export default class TreeNode<T> {
 
     async setRight(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
         this._right = node;
-        this._rightLine = this.buildLine(node._val.center, position, lineMaterial, scene);
+        this._rightLine = this.buildLine(node._val.center, position, lineMaterial);
+        scene.add(this._rightLine);
         const onUpdate = () => {
             if (this._rightLine) {
-                this.updateLine(node, this._rightLine);
+                this.updateLine(this._rightLine, node);
             }
         }
         node._val.move(position, duration, onUpdate);
         await wait(duration);
     }
 
-    async deleteLeft(duration: number): Promise<void> {
+    async deleteLeft(duration: number): Promise<TreeNode<T> | undefined> {
 
         await wait(duration);
+
+        return this._left;
     }
 
-    async deleteRight(duration: number): Promise<void> {
+    async deleteRight(duration: number): Promise<TreeNode<T> | undefined> {
 
         await wait(duration);
+
+        return this._right;
     }
 
-    private updateLine(node: TreeNode<T>, line: THREE.Line) {
+    private updateLine(line: THREE.Line, node: TreeNode<T>) {
         line.geometry.attributes.position.needsUpdate = true;
         const positions = line.geometry.attributes.position.array;
         const { x, y, z } = node._val.center;
@@ -69,14 +72,14 @@ export default class TreeNode<T> {
         (positions[5] as any) = z;
     }
 
-    private buildLine(startPosition: Position, endPosition: Position, lineMaterial: THREE.LineBasicMaterial, scene: THREE.Scene): THREE.Line {
-        const start = this.buildThreePosition(startPosition);
-        const end = this.buildThreePosition(endPosition);
-        const geometry = new THREE.BufferGeometry().setFromPoints([start, end]);
-        const line = new THREE.Line(geometry, lineMaterial);
+    private buildLine(startPosition: Position, endPosition: Position, lineMaterial: THREE.LineBasicMaterial): THREE.Line {
 
-        scene.add(line);
-        return line;
+        const geometry = new THREE.BufferGeometry().setFromPoints([
+            this.buildThreePosition(startPosition),
+            this.buildThreePosition(endPosition)
+        ]);
+
+        return new THREE.Line(geometry, lineMaterial);
     }
 
     private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
