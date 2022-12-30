@@ -101,6 +101,8 @@ import RomanToInteger from "./games/math/roman-to-integer";
 import RomanToIntegerInfo from "./games/math/roman-to-integer/info";
 import MaximumDepthOfBinaryTree from "./games/tree/maximum-depth-of-binary-tree";
 import MaximumDepthOfBinaryTreeInfo from "./games/tree/maximum-depth-of-binary-tree/info";
+import ConstructBinaryTreeFromPreorderAndInorderTraversalInfo from "./games/tree/construct-binary-tree-from-preorder-and-inorder-traversal/info";
+import ConstructBinaryTreeFromPreorderAndInorderTraversal from "./games/tree/construct-binary-tree-from-preorder-and-inorder-traversal";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -179,6 +181,7 @@ const App = () => (
                 <Route path={IntegerToRomanInfo.path} element={<IntegerToRoman />} />
                 <Route path={RomanToIntegerInfo.path} element={<RomanToInteger />} />
                 <Route path={MaximumDepthOfBinaryTreeInfo.path} element={<MaximumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>
