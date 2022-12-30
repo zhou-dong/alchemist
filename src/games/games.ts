@@ -49,6 +49,7 @@ import ContainerWithMostWater from "./two-pointer/container-with-most-water/info
 import IntegerToRoman from "./greedy/integer-to-roman/info";
 import RomanToInteger from "./math/roman-to-integer/info";
 import MaximumDepthOfBinaryTree from "./tree/maximum-depth-of-binary-tree/info";
+import ConstructBinaryTreeFromPreorderAndInorderTraversal from "./tree/construct-binary-tree-from-preorder-and-inorder-traversal/info";
 
 export const games: Game[] = [
     editDistance,
@@ -99,5 +100,6 @@ export const games: Game[] = [
     ContainerWithMostWater,
     IntegerToRoman,
     RomanToInteger,
-    MaximumDepthOfBinaryTree
+    MaximumDepthOfBinaryTree,
+    ConstructBinaryTreeFromPreorderAndInorderTraversal
 ];
