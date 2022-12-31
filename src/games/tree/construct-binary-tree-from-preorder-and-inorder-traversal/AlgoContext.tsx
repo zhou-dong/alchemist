@@ -43,7 +43,7 @@ export const AlgoContextProvider: React.FC<{
     scene: THREE.Scene,
 }> = ({ children, renderer, camera, scene }) => {
 
-
+    camera.position.z = 15;
 
     const duration = 0.5;
     const [state, setState] = React.useState(State.Typing);
