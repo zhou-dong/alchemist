@@ -14,6 +14,7 @@ import BackspaceIcon from '@mui/icons-material/Backspace';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { buildTree } from "./algo";
+import { clearScene } from '../../../commons/three';
 
 const inputOne = {
     preorder: [1, 2, 4, 8, 9, 10, 11, 5, 3, 6, 7],
@@ -126,6 +127,8 @@ const Submit: React.FC<{
     const doSubmit = async () => {
 
         const { preorder, inorder } = inputOne;
+
+        clearScene(scene);
 
         setInputOutput(buildTree(preorder, inorder));
         setIndex(0);
