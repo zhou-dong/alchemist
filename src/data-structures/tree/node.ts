@@ -1,7 +1,56 @@
 import * as THREE from 'three';
 import Position from '../_commons/position';
 import { TextSphere } from '../_commons/sphere/text-sphere';
-import { wait } from '../_commons/utils';
+
+class Line {
+
+    private scene: THREE.Scene;
+    private instance: THREE.Line;
+
+    constructor(
+        start: Position,
+        end: Position,
+        material: THREE.LineBasicMaterial,
+        scene: THREE.Scene
+    ) {
+        const geometry = new THREE.BufferGeometry().setFromPoints([
+            this.buildThreePosition(start),
+            this.buildThreePosition(end)
+        ]);
+
+        this.instance = new THREE.Line(geometry, material);
+        this.scene = scene;
+    }
+
+    private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
+        return new THREE.Vector3(x, y, z);
+    }
+
+    updateStart(position: Position) {
+        this.update(position, 0, 1, 2);
+    }
+
+    updateEnd(position: Position) {
+        this.update(position, 3, 4, 5);
+    }
+
+    show() {
+        this.scene.add(this.instance);
+    }
+
+    hide() {
+        this.scene.remove(this.instance);
+    }
+
+    private update(position: Position, xIndex: number, yIndex: number, zIndex: number) {
+        this.instance.geometry.attributes.position.needsUpdate = true;
+        const positions = this.instance.geometry.attributes.position.array;
+        const { x, y, z } = position;
+        (positions[xIndex] as any) = x;
+        (positions[yIndex] as any) = y;
+        (positions[zIndex] as any) = z;
+    }
+}
 
 export default class TreeNode<T> {
 
@@ -9,81 +58,73 @@ export default class TreeNode<T> {
     private _left?: TreeNode<T>;
     private _right?: TreeNode<T>;
 
-    private _leftLine?: THREE.Line;
-    private _rightLine?: THREE.Line;
+    private _leftLine?: Line;
+    private _rightLine?: Line;
 
     constructor(val: TextSphere<T>) {
         this._val = val;
     }
 
-    async getLeft(duration: number): Promise<TreeNode<T> | undefined> {
+    getLeft(): TreeNode<T> | undefined {
         return this._left;
     }
 
-    async getRight(duration: number): Promise<TreeNode<T> | undefined> {
+    getRight(): TreeNode<T> | undefined {
         return this._right;
     }
 
-    async setLeft(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
+    setLeft(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
         this._left = node;
-        this._leftLine = this.buildLine(this._val.center, node._val.center, lineMaterial);
-        scene.add(this._leftLine);
+        this._leftLine = new Line(this._val.center, node._val.center, lineMaterial, scene);
+        this._leftLine.show();
         const onUpdate = () => {
             if (this._leftLine) {
-                this.updateLine(this._leftLine, node);
+                this._leftLine.updateStart(node._val.center)
             }
         }
-        await node._val.move(position, duration, onUpdate);
+        return node._val.move(position, duration, onUpdate);
     }
 
-    async setRight(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
+    setRight(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
         this._right = node;
-        this._rightLine = this.buildLine(node._val.center, position, lineMaterial);
-        scene.add(this._rightLine);
+        this._rightLine = new Line(node._val.center, position, lineMaterial, scene);
+        this._leftLine?.show();
         const onUpdate = () => {
             if (this._rightLine) {
-                this.updateLine(this._rightLine, node);
+                this._rightLine.updateStart(node._val.center)
             }
         }
-        node._val.move(position, duration, onUpdate);
-        await wait(duration);
+        return node._val.move(position, duration, onUpdate);
     }
 
-    async deleteLeft(duration: number): Promise<TreeNode<T> | undefined> {
-
-        await wait(duration);
-
+    deleteLeft(): TreeNode<T> | undefined {
+        if (this._leftLine) {
+            this._leftLine.hide();
+            this._leftLine = undefined;
+        }
         return this._left;
     }
 
-    async deleteRight(duration: number): Promise<TreeNode<T> | undefined> {
-
-        await wait(duration);
-
+    deleteRight(): TreeNode<T> | undefined {
+        if (this._rightLine) {
+            this._rightLine.hide();
+            this._rightLine = undefined;
+        }
         return this._right;
     }
 
-    private updateLine(line: THREE.Line, node: TreeNode<T>) {
-        line.geometry.attributes.position.needsUpdate = true;
-        const positions = line.geometry.attributes.position.array;
-        const { x, y, z } = node._val.center;
-        (positions[3] as any) = x;
-        (positions[4] as any) = y;
-        (positions[5] as any) = z;
+    show() {
+        this._val.show();
     }
 
-    private buildLine(startPosition: Position, endPosition: Position, lineMaterial: THREE.LineBasicMaterial): THREE.Line {
-
-        const geometry = new THREE.BufferGeometry().setFromPoints([
-            this.buildThreePosition(startPosition),
-            this.buildThreePosition(endPosition)
-        ]);
-
-        return new THREE.Line(geometry, lineMaterial);
-    }
-
-    private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
-        return new THREE.Vector3(x, y, z);
+    hide() {
+        this._val.hide();
+        if (this._leftLine) {
+            this._leftLine.hide();
+        }
+        if (this._rightLine) {
+            this._rightLine.hide();
+        }
     }
 }
 
