@@ -7,7 +7,6 @@ import { font } from '../../../commons/three';
 import { Button } from '@mui/material';
 import React from 'react';
 
-
 const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
 const sphereMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: 0xffff00, opacity: 0.5, transparent: true });
 const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "gold" });
