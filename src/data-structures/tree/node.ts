@@ -73,13 +73,17 @@ export default class TreeNode<T> {
         return this._right;
     }
 
+    get val() {
+        return this._val;
+    }
+
     setLeft(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
         this._left = node;
         this._leftLine = new Line(this._val.center, node._val.center, lineMaterial, scene);
         this._leftLine.show();
         const onUpdate = () => {
             if (this._leftLine) {
-                this._leftLine.updateStart(node._val.center)
+                this._leftLine.updateEnd(node._val.center)
             }
         }
         return node._val.move(position, duration, onUpdate);
@@ -87,11 +91,11 @@ export default class TreeNode<T> {
 
     setRight(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
         this._right = node;
-        this._rightLine = new Line(node._val.center, position, lineMaterial, scene);
-        this._leftLine?.show();
+        this._rightLine = new Line(this._val.center, node._val.center, lineMaterial, scene);
+        this._rightLine.show();
         const onUpdate = () => {
             if (this._rightLine) {
-                this._rightLine.updateStart(node._val.center)
+                this._rightLine.updateEnd(node._val.center)
             }
         }
         return node._val.move(position, duration, onUpdate);
