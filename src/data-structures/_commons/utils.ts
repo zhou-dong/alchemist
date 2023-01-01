@@ -1,4 +1,4 @@
-import Position from './position';
+import Position from './params/position';
 
 export const wait = (seconds: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, seconds * 1000));

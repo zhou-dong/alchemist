@@ -1,6 +1,6 @@
-import Move from "../move";
-import Display from "../display";
-import Position from "../position";
+import Move from "../params/move";
+import Display from "../params/display";
+import Position from "../params/position";
 
 export interface Cube extends Move, Display {
 

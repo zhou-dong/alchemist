@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
-import Display from '../../display';
-import Move from '../../move';
-import Position from '../../position';
+import Color from '../../params/color';
+import ColorImpl from '../../three/color';
+import Display from '../../params/display';
 import DisplayImpl from "../../three/display";
+import Move from '../../params/move';
 import MoveImpl from "../../three/move";
+import Position from '../../params/position';
 import PositionImpl from "../../three/position"
 import { TextSphere as ITextSphere } from "../text-sphere";
 import Sphere from './sphere';
@@ -16,6 +18,7 @@ export default class TextSphere<T> extends Sphere implements ITextSphere<T> {
   textPosition: Position;
   private textDisplay: Display;
   private textMover: Move;
+  textColor: Color;
 
   constructor(
     value: T,
@@ -32,6 +35,7 @@ export default class TextSphere<T> extends Sphere implements ITextSphere<T> {
     this.textPosition = new PositionImpl(textMesh);
     this.textMover = new MoveImpl(textMesh);
     this.textDisplay = new DisplayImpl(scene, textMesh);
+    this.textColor = new ColorImpl(textMaterial);
   }
 
   async move(position: Position, duration: number, onUpdate?: () => void) {

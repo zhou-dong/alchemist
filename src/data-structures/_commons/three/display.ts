@@ -1,4 +1,4 @@
-import IDisplay from "../display";
+import IDisplay from "../params/display";
 
 export default class Display implements IDisplay {
 

@@ -1,6 +1,6 @@
 import gsap from 'gsap';
-import IMover from "../move";
-import Position from '../position';
+import IMover from "../params/move";
+import Position from '../params/position';
 import { wait } from "../utils";
 
 export default class Move implements IMover {

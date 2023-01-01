@@ -80,7 +80,7 @@ const Input = () => {
 
 const Instructions = () => {
     return (
-        <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40 }}>
+        <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
             <Input />
             <Instruction
                 name="Description"

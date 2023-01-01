@@ -21,6 +21,11 @@ const inputOne = {
     inorder: [8, 4, 10, 9, 11, 2, 5, 1, 6, 3, 7]
 }
 
+const inputTwo = {
+    preorder: [3, 9, 20, 15, 7],
+    inorder: [9, 3, 15, 20, 7]
+}
+
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
@@ -127,10 +132,11 @@ const Submit: React.FC<{
     const doSubmit = async () => {
 
         const { preorder, inorder } = inputOne;
+        // const { preorder, inorder } = inputTwo;
 
         clearScene(scene);
 
-        setInputOutput(buildTree(preorder, inorder));
+        setInputOutput(buildTree(preorder, inorder, scene));
         setIndex(0);
 
         setState(State.Typing);

@@ -4,7 +4,7 @@ import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { State } from "./AlgoState";
 import { InputOutput } from "./algo";
 
-const defaultInputOutput: InputOutput = { preorder: [], inorder: [], steps: [] };
+const defaultInputOutput: InputOutput = { preorder: [], inorder: [], steps: [], xAxis: [], tree: [] };
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -43,7 +43,7 @@ export const AlgoContextProvider: React.FC<{
     scene: THREE.Scene,
 }> = ({ children, renderer, camera, scene }) => {
 
-    camera.position.z = 15;
+    camera.position.z = 20;
 
     const duration = 0.5;
     const [state, setState] = React.useState(State.Typing);
