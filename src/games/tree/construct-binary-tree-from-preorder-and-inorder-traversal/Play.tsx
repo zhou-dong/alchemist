@@ -148,10 +148,16 @@ const Next = () => {
         }
     }
 
-    return (
-        <Button onClick={handleOnClick} variant="contained" disabled={state !== State.Playing} size="large">
+    const Next = () => (
+        < Button onClick={handleOnClick} variant="contained" disabled={state !== State.Playing} size="large">
             Next
         </Button>
+    )
+
+    return (
+        <>
+            {state !== State.Typing && <Next />}
+        </>
     )
 }
 
