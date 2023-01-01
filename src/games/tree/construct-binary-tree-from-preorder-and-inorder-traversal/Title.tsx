@@ -13,7 +13,6 @@ export default function Title() {
         <Box sx={{
             position: "fixed",
             top: 40,
-            flexGrow: 1,
             width: "100%",
             display: 'flex',
             alignItems: "center",
@@ -22,9 +21,7 @@ export default function Title() {
             <Typography variant='body1'>
                 {title}
             </Typography>
-            <Typography variant='body1'>
-                {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
-            </Typography>
+            {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
         </Box>
     );
 }
