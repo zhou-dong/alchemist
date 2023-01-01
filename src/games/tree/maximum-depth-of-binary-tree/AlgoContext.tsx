@@ -1,8 +1,11 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
+import { State } from "./AlgoState";
 
 const AlgoContext = React.createContext<{
+    state: State,
+    setState: React.Dispatch<React.SetStateAction<State>>,
     scene: THREE.Scene,
     duration: number,
     animate: () => void,
@@ -11,6 +14,8 @@ const AlgoContext = React.createContext<{
     setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
 }>({
     duration: 0,
+    state: State.Typing,
+    setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
@@ -31,6 +36,7 @@ export const AlgoContextProvider: React.FC<{
 
     const duration = 0.5;
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
+    const [state, setState] = React.useState(State.Typing);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -60,6 +66,8 @@ export const AlgoContextProvider: React.FC<{
 
     return (
         <AlgoContext.Provider value={{
+            state,
+            setState,
             scene,
             duration,
             animate,
