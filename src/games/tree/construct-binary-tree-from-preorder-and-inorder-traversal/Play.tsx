@@ -149,7 +149,7 @@ const Next = () => {
     }
 
     const Next = () => (
-        < Button onClick={handleOnClick} variant="contained" disabled={state !== State.Playing} size="large">
+        < Button onClick={handleOnClick} variant="contained" disabled={state !== State.Playing} size="large" sx={{ color: "#FFF" }}>
             Next
         </Button>
     )
@@ -163,10 +163,12 @@ const Next = () => {
 
 const Main = () => {
     return (
-        <Stack direction="column" style={{ display: "flex", position: "fixed", top: "350px", right: "100px" }} spacing={2}>
+        <Stack direction="column" style={{ display: "flex", position: "fixed", top: "350px", right: "100px", justifyContent: "center" }} spacing={2}>
             <PreorderDisplay />
             <InorderDisplay />
-            <Next />
+            <div style={{ marginLeft: "auto", marginRight: "auto" }}>
+                <Next />
+            </div>
         </Stack>
     )
 }
