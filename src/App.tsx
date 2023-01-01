@@ -103,6 +103,8 @@ import MaximumDepthOfBinaryTree from "./games/tree/maximum-depth-of-binary-tree"
 import MaximumDepthOfBinaryTreeInfo from "./games/tree/maximum-depth-of-binary-tree/info";
 import ConstructBinaryTreeFromPreorderAndInorderTraversalInfo from "./games/tree/construct-binary-tree-from-preorder-and-inorder-traversal/info";
 import ConstructBinaryTreeFromPreorderAndInorderTraversal from "./games/tree/construct-binary-tree-from-preorder-and-inorder-traversal";
+import ConstructBinaryTreeFromInorderAndPostorderTraversalInfo from "./games/tree/construct-binary-tree-from-inorder-and-postorder-traversal/info";
+import ConstructBinaryTreeFromInorderAndPostorderTraversal from "./games/tree/construct-binary-tree-from-inorder-and-postorder-traversal";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -182,6 +184,7 @@ const App = () => (
                 <Route path={RomanToIntegerInfo.path} element={<RomanToInteger />} />
                 <Route path={MaximumDepthOfBinaryTreeInfo.path} element={<MaximumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={ConstructBinaryTreeFromInorderAndPostorderTraversalInfo.path} element={<ConstructBinaryTreeFromInorderAndPostorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>
