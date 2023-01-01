@@ -1,18 +1,18 @@
 import * as THREE from 'three';
 import { Button, ButtonGroup, Stack, Typography } from "@mui/material";
-import TreeNode from "../../../data-structures/tree/node";
 import { useAlgoContext } from "./AlgoContext";
 import { Direction, updateTreeColor } from './algo';
 import Position from '../../../data-structures/_commons/params/position';
 import { State } from './AlgoState';
-import { buildTreeNode, lineMaterial, yDistance } from "./styles";
+import { buildTreeNode, lineMaterial, yDistance, xCenter } from "./styles";
+import { wait } from '../../../data-structures/_commons/utils';
 
 const duration = 1;
 
-const rootColor = "success";
-const leftColor = "warning";
-const rightColor = "info";
-const defaultColor = "inherit";
+const defaultStyle = { width: "50px", height: "50px", backgroundColor: "lightgray", color: "black" };
+const rootStyle = { ...defaultStyle, backgroundColor: "lightgreen", color: "black" };
+const leftStyle = { ...defaultStyle, backgroundColor: "yellow", color: "black" };
+const rightStyle = { ...defaultStyle, backgroundColor: "lightblue", color: "black" };
 
 const startPosition: THREE.Vector3 = new THREE.Vector3(10, -10, 0);
 
@@ -25,17 +25,17 @@ const PreorderDisplay = () => {
     const preorderRight = step ? step.preorderRight : -1;
     const leftTreeLength = step ? step.leftTreeLength : 0;
 
-    const getColor = (i: number) => {
+    const getStyle = (i: number) => {
         if (i === preorderLeft) {
-            return rootColor;
+            return rootStyle;
         }
         if (i > preorderLeft && i <= preorderLeft + leftTreeLength) {
-            return leftColor;
+            return leftStyle;
         }
         if (i > preorderLeft + leftTreeLength && i <= preorderRight) {
-            return rightColor;
+            return rightStyle;
         }
-        return defaultColor;
+        return defaultStyle;
     }
 
     return (
@@ -45,8 +45,7 @@ const PreorderDisplay = () => {
                 {
                     preorder.map((value, i) => <Button
                         key={i}
-                        sx={{ width: "50px", height: "50px" }}
-                        color={getColor(i)}
+                        sx={getStyle(i)}
                         variant="contained"
                     >
                         {value}
@@ -66,17 +65,17 @@ const InorderDisplay = () => {
     const inorderRight = step ? step.inorderRight : -1;
     const inorderRootIndex = step ? step.inorderRootIndex : -1;
 
-    const getColor = (i: number) => {
+    const getStyle = (i: number) => {
         if (i === inorderRootIndex) {
-            return rootColor;
+            return rootStyle;
         }
         if (i >= inorderLeft && i < inorderRootIndex) {
-            return leftColor;
+            return leftStyle;
         }
         if (i > inorderRootIndex && i <= inorderRight) {
-            return rightColor;
+            return rightStyle;
         }
-        return defaultColor;
+        return defaultStyle;
     }
 
     return (
@@ -86,8 +85,7 @@ const InorderDisplay = () => {
                 {
                     inorder.map((value, i) => <Button
                         key={i}
-                        sx={{ width: "50px", height: "50px" }}
-                        color={getColor(i)}
+                        sx={getStyle(i)}
                         variant="contained"
                     >
                         {value}
@@ -98,12 +96,10 @@ const InorderDisplay = () => {
     )
 }
 
-const map: Map<number, TreeNode<number>> = new Map();
-
 const Next = () => {
-    const { setIndex, index, inputOutput, scene, animate, cancelAnimate, state, setState } = useAlgoContext();
+    const { setIndex, index, inputOutput, scene, animate, cancelAnimate, state, setState, map } = useAlgoContext();
     const { xAxis, tree } = inputOutput;
-    const alpha = (xAxis.length === 0) ? 0 : 0 - xAxis[0];
+    const alpha = (xAxis.length === 0) ? xCenter : xCenter - xAxis[0];
 
     const handleOnClick = async () => {
         if (state !== State.Playing) {
@@ -115,11 +111,8 @@ const Next = () => {
         }
         setState(State.Computing);
 
-        updateTreeColor(tree, inputOutput.steps[index + 1]);
-
         const { node, parent, direction } = step;
         const treeNode = buildTreeNode(node.val.value, scene, startPosition);
-
         map.set(node.val.value, treeNode);
 
         animate();
@@ -142,6 +135,9 @@ const Next = () => {
             await treeNode.val.move({ x, y: 0, z: 0 }, duration);
         }
 
+        updateTreeColor(tree, inputOutput.steps[index + 1]);
+        await wait(0.1);
+
         cancelAnimate();
 
         if (index >= inputOutput.steps.length - 1) {
@@ -153,7 +149,7 @@ const Next = () => {
     }
 
     return (
-        <Button onClick={handleOnClick} variant="contained" disabled={state !== State.Playing}>
+        <Button onClick={handleOnClick} variant="contained" disabled={state !== State.Playing} size="large">
             Next
         </Button>
     )
@@ -161,7 +157,7 @@ const Next = () => {
 
 const Main = () => {
     return (
-        <Stack direction="column" style={{ display: "flex", alignItems: "flex-end", width: "95%", position: "fixed", top: "100px" }} spacing={2}>
+        <Stack direction="column" style={{ display: "flex", position: "fixed", top: "350px", right: "100px" }} spacing={2}>
             <PreorderDisplay />
             <InorderDisplay />
             <Next />
