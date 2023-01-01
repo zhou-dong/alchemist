@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { buildPerfectBinaryTree } from "../../../data-structures/tree/perfectBinaryTree"
 import TreeNode from "../../../data-structures/tree/node";
-import { buildTreeNode, lineMaterial, yDistance } from "./styles";
+import { buildTreeNode, lineMaterial, yDistance, xCenter } from "./styles";
 import Position from '../../../data-structures/_commons/params/position';
 import { calDepth } from './depth';
 
@@ -32,8 +32,7 @@ export interface InputOutput {
     tree: TreeNode<number>[];
 }
 
-const startX = 0;
-const startPosition: THREE.Vector3 = new THREE.Vector3(startX, 11, 0);
+const startPosition: THREE.Vector3 = new THREE.Vector3(xCenter, 11, 0);
 
 export function buildTree(preorder: number[], inorder: number[], scene: THREE.Scene): InputOutput {
 
@@ -41,7 +40,7 @@ export function buildTree(preorder: number[], inorder: number[], scene: THREE.Sc
     const xAxisAlpha = 2;
     const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha).map(node => node.x);
 
-    const xAlpha = (xAxis.length === 0) ? 0 : startX - xAxis[0];
+    const xAlpha = (xAxis.length === 0) ? 0 : xCenter - xAxis[0];
 
     const steps: Step[] = [];
     const tree: TreeNode<number>[] = new Array(preorder.length);
