@@ -14,6 +14,7 @@ const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 
 export const yDistance = -2.5;
+export const xCenter = -5;
 
 export const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
