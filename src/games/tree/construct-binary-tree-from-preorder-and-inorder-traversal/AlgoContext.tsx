@@ -55,7 +55,6 @@ export const AlgoContextProvider: React.FC<{
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
     const [inputOutput, setInputOutput] = React.useState<InputOutput>(defaultInputOutput);
     const [index, setIndex] = React.useState(0);
-
     const [map, setMap] = React.useState<Map<number, TreeNode<number>>>(new Map());
 
     function animate() {
@@ -73,7 +72,6 @@ export const AlgoContextProvider: React.FC<{
 
         const init = () => {
             clearScene(scene);
-            // TODO
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
