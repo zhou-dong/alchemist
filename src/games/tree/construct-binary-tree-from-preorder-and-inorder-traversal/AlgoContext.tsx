@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { State } from "./AlgoState";
 import { InputOutput } from "./algo";
+import TreeNode from "../../../data-structures/tree/node";
 
 const defaultInputOutput: InputOutput = { preorder: [], inorder: [], steps: [], xAxis: [], tree: [] };
 
@@ -19,6 +20,8 @@ const AlgoContext = React.createContext<{
     setInputOutput: React.Dispatch<React.SetStateAction<InputOutput>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
+    map: Map<number, TreeNode<number>>,
+    setMap: React.Dispatch<React.SetStateAction<Map<number, TreeNode<number>>>>,
 }>({
     duration: 0,
     state: State.Typing,
@@ -32,6 +35,8 @@ const AlgoContext = React.createContext<{
     setInputOutput: () => { },
     index: 0,
     setIndex: () => { },
+    map: new Map(),
+    setMap: () => { }
 });
 
 let animationFrameId = -1;
@@ -50,6 +55,8 @@ export const AlgoContextProvider: React.FC<{
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
     const [inputOutput, setInputOutput] = React.useState<InputOutput>(defaultInputOutput);
     const [index, setIndex] = React.useState(0);
+
+    const [map, setMap] = React.useState<Map<number, TreeNode<number>>>(new Map());
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -91,6 +98,8 @@ export const AlgoContextProvider: React.FC<{
             setActionsDisabled,
             index,
             setIndex,
+            map,
+            setMap
         }}>
             {children}
             <div ref={ref}></div>
