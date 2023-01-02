@@ -101,10 +101,8 @@ function updateTreeNodeColor(node: TreeNode<any>, i: number, step?: Step) {
     if (!step) {
         return;
     }
-    const preorderLeft = step.preorderLeft;
-    const preorderRight = step.preorderRight;
-    const leftTreeLength = step.leftTreeLength;
 
+    const { preorderLeft, preorderRight, leftTreeLength } = step;
     if (i === preorderLeft) {
         node.sphereColor = "lightgreen";
     } else if (i > preorderLeft && i <= preorderLeft + leftTreeLength) {
