@@ -16,10 +16,7 @@ export const formula = `/**
 function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
 
     const inorderIndexMap = new Map<number, number>();
-
-    inorder.map((value, index) => {
-        inorderIndexMap.set(value, index);
-    })
+    inorder.forEach((num, i) => inorderIndexMap.set(num, i));
 
     const buildMyTree = (preorderLeft: number, preorderRight: number, inorderLeft: number, inorderRight: number): TreeNode | null => {
         if (preorderLeft > preorderRight) {
@@ -32,7 +29,6 @@ function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
         const root = new TreeNode(preorder[preorderLeft]);
         root.left = buildMyTree(preorderLeft + 1, preorderLeft + leftTreeLength, inorderLeft, inorderRootIndex - 1);
         root.right = buildMyTree(preorderLeft + leftTreeLength + 1, preorderRight, inorderRootIndex + 1, inorderRight);
-
         return root;
     }
 
