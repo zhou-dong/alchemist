@@ -19,6 +19,7 @@ export const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
 export const buildTreeNode = (value: number, scene: THREE.Scene, center: Position) => {
     return build<number>(
+        0,
         sphereGeometry,
         sphereMaterial(),
         textMaterial,
