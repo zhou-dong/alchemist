@@ -7,8 +7,6 @@ import { State } from './AlgoState';
 import { buildTreeNode, lineMaterial, yDistance, xCenter } from "./styles";
 import { wait } from '../../../data-structures/_commons/utils';
 
-const duration = 1;
-
 const defaultStyle = { width: "50px", height: "50px", backgroundColor: "lightgray", color: "black" };
 const rootStyle = { ...defaultStyle, backgroundColor: "lightgreen", color: "black" };
 const leftStyle = { ...defaultStyle, backgroundColor: "yellow", color: "black" };
@@ -97,7 +95,7 @@ const InorderDisplay = () => {
 }
 
 const Next = () => {
-    const { setIndex, index, inputOutput, scene, animate, cancelAnimate, state, setState, map } = useAlgoContext();
+    const { setIndex, index, inputOutput, scene, animate, cancelAnimate, state, setState, map, duration } = useAlgoContext();
     const { xAxis, tree } = inputOutput;
     const alpha = (xAxis.length === 0) ? xCenter : xCenter - xAxis[0];
 
