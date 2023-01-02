@@ -7,20 +7,18 @@ const AlgoContext = React.createContext<{
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
     scene: THREE.Scene,
-    duration: number,
     animate: () => void,
     cancelAnimate: () => void,
-    actionsDisabled: boolean,
-    setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
+    input: string,
+    setInput: React.Dispatch<React.SetStateAction<string>>,
 }>({
-    duration: 0,
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    actionsDisabled: false,
-    setActionsDisabled: () => { },
+    input: "",
+    setInput: () => { },
 });
 
 let animationFrameId = -1;
@@ -32,10 +30,8 @@ export const AlgoContextProvider: React.FC<{
     scene: THREE.Scene,
 }> = ({ children, renderer, camera, scene }) => {
 
-    camera.position.z = 15;
-
-    const duration = 0.5;
-    const [actionsDisabled, setActionsDisabled] = React.useState(false);
+    camera.position.z = 17;
+    const [input, setInput] = React.useState("");
     const [state, setState] = React.useState(State.Typing);
 
     function animate() {
@@ -50,10 +46,8 @@ export const AlgoContextProvider: React.FC<{
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
-
         const init = () => {
             clearScene(scene);
-
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
@@ -69,11 +63,10 @@ export const AlgoContextProvider: React.FC<{
             state,
             setState,
             scene,
-            duration,
             animate,
             cancelAnimate,
-            actionsDisabled,
-            setActionsDisabled,
+            input,
+            setInput,
         }}>
             {children}
             <div ref={ref}></div>
