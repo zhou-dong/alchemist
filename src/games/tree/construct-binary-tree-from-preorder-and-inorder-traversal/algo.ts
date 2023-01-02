@@ -37,7 +37,7 @@ const startPosition: THREE.Vector3 = new THREE.Vector3(xCenter, 11, 0);
 export function buildTree(preorder: number[], inorder: number[], scene: THREE.Scene): InputOutput {
 
     const depth: number = calDepth(preorder, inorder);
-    const xAxisAlpha = 2;
+    const xAxisAlpha = 2; // expend the tree size in xAxis.
     const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha).map(node => node.x);
 
     const xAlpha = (xAxis.length === 0) ? 0 : xCenter - xAxis[0];
