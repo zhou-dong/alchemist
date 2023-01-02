@@ -36,9 +36,9 @@ function buildTree(inorder: number[], postorder: number[]): TreeNode | null {
 };`;
 
 export const description = `
-Given two integer arrays inorder and postorder where inorder is the inorder traversal of a binary tree 
+Given two integer arrays **inorder** and **postorder** where **inorder** is the inorder traversal of a binary tree 
 
-and postorder is the postorder traversal of the same tree, construct and return the binary tree.
+and **postorder** is the postorder traversal of the same tree, construct and return ***the binary tree***.
 `;
 
 export const usecases = '';
