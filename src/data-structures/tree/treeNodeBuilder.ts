@@ -13,6 +13,7 @@ export const build = <T>(
     scene: THREE.Scene,
     center: Position
 ) => {
+
     const textSphere = new TextSphere<T>(
         value,
         sphereGeometry,
