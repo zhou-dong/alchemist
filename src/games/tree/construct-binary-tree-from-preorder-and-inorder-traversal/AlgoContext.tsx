@@ -14,8 +14,6 @@ const AlgoContext = React.createContext<{
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
-    actionsDisabled: boolean,
-    setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
     inputOutput: InputOutput,
     setInputOutput: React.Dispatch<React.SetStateAction<InputOutput>>,
     index: number,
@@ -29,8 +27,6 @@ const AlgoContext = React.createContext<{
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    actionsDisabled: false,
-    setActionsDisabled: () => { },
     inputOutput: defaultInputOutput,
     setInputOutput: () => { },
     index: 0,
@@ -50,9 +46,9 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
 
-    const duration = 0.5;
+    const duration = 1;
+
     const [state, setState] = React.useState(State.Typing);
-    const [actionsDisabled, setActionsDisabled] = React.useState(false);
     const [inputOutput, setInputOutput] = React.useState<InputOutput>(defaultInputOutput);
     const [index, setIndex] = React.useState(0);
     const [map, setMap] = React.useState<Map<number, TreeNode<number>>>(new Map());
@@ -92,8 +88,6 @@ export const AlgoContextProvider: React.FC<{
             duration,
             animate,
             cancelAnimate,
-            actionsDisabled,
-            setActionsDisabled,
             index,
             setIndex,
             map,
