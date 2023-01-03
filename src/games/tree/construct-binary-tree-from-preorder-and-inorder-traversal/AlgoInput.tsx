@@ -102,7 +102,6 @@ const Submit: React.FC<{
 }> = ({ preorder, inorder, setPreorder, setInorder, setAnchorEl }) => {
     const { scene, animate, cancelAnimate, setState, setInputOutput, setIndex, setMap } = useAlgoContext();
 
-
     const disabled: boolean = preorder.length === 0 || inorder.length === 0 || preorder.length !== inorder.length;
 
     const handleSubmit = async () => {
