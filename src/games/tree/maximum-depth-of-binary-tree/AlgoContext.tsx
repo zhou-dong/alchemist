@@ -1,6 +1,8 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
+import TreeNode from "../../../data-structures/tree/node";
+import { Step } from "./algo";
 import { State } from "./AlgoState";
 
 const AlgoContext = React.createContext<{
@@ -9,16 +11,30 @@ const AlgoContext = React.createContext<{
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
-    input: string,
-    setInput: React.Dispatch<React.SetStateAction<string>>,
+    steps: Step[],
+    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
+    index: number,
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
+    depthTree?: TreeNode<string | number | null>,
+    setDepthTree: React.Dispatch<React.SetStateAction<TreeNode<string | number | null> | undefined>>,
+    root?: TreeNode<string | number | null>,
+    setRoot: React.Dispatch<React.SetStateAction<TreeNode<string | number | null> | undefined>>,
+    depthTreeSteps: Step[],
+    setDepthTreeSteps: React.Dispatch<React.SetStateAction<Step[]>>,
 }>({
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    input: "",
-    setInput: () => { },
+    setRoot: () => { },
+    steps: [],
+    setSteps: () => { },
+    index: 0,
+    setIndex: () => { },
+    setDepthTree: () => { },
+    depthTreeSteps: [],
+    setDepthTreeSteps: () => { }
 });
 
 let animationFrameId = -1;
@@ -30,9 +46,13 @@ export const AlgoContextProvider: React.FC<{
     scene: THREE.Scene,
 }> = ({ children, renderer, camera, scene }) => {
 
-    camera.position.z = 17;
-    const [input, setInput] = React.useState("");
+    camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
+    const [root, setRoot] = React.useState<TreeNode<string | number | null>>();
+    const [steps, setSteps] = React.useState<Step[]>([]);
+    const [index, setIndex] = React.useState(0);
+    const [depthTree, setDepthTree] = React.useState<TreeNode<string | number | null>>();
+    const [depthTreeSteps, setDepthTreeSteps] = React.useState<Step[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -51,7 +71,6 @@ export const AlgoContextProvider: React.FC<{
             registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
-
         if (ref && ref.current) {
             init();
             ref.current.appendChild(renderer.domElement);
@@ -65,8 +84,16 @@ export const AlgoContextProvider: React.FC<{
             scene,
             animate,
             cancelAnimate,
-            input,
-            setInput,
+            root,
+            setRoot,
+            steps,
+            setSteps,
+            index,
+            setIndex,
+            depthTree,
+            setDepthTree,
+            depthTreeSteps,
+            setDepthTreeSteps
         }}>
             {children}
             <div ref={ref}></div>
