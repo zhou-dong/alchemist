@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import { TextCube } from '../../../data-structures/_commons/three/text-cube';
+import { TextCube } from '../../../data-structures/_commons/cube/three/text-cube';
 import { node, text } from "./stackStyles";
 
 class StackItemBuilder<T> {
@@ -66,20 +66,20 @@ class StackItemBuilder<T> {
     }
 
     private setPosition(item: TextCube<T>): void {
-        item.x = this._position.x;
-        item.y = this._position.y;
-        item.z = this._position.z;
+        item.position.x = this._position.x;
+        item.position.y = this._position.y;
+        item.position.z = this._position.z;
 
         const length = String(item.value).length;
         if (length === 1) {
-            item.textX = item.x - 0.2;
+            item.textPosition.x = item.position.x - 0.2;
         } else if (length === 2) {
-            item.textX = item.x - 0.32;
+            item.textPosition.x = item.position.x - 0.32;
         } else if (length === 3) {
-            item.textX = item.x - 0.44;
+            item.textPosition.x = item.position.x - 0.44;
         }
-        item.textY = item.y - 0.2;
-        item.textZ = item.z;
+        item.textPosition.y = item.position.y - 0.2;
+        item.textPosition.z = item.position.z;
     }
 }
 

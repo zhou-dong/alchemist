@@ -1,13 +1,13 @@
-import * as THREE from 'three';
+import Position from './params/position';
 
 export const wait = (seconds: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 };
 
-export const calDistance = (from: THREE.Vector3, to: THREE.Vector3): THREE.Vector3 => {
-  return new THREE.Vector3(to.x - from.x, to.y - from.y, to.z - from.z);
+export const calDistance = (from: Position, to: Position): Position => {
+  return { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
 };
 
-export const calDestination = (from: THREE.Vector3, distance: THREE.Vector3): THREE.Vector3 => {
-  return new THREE.Vector3(from.x + distance.x, from.y + distance.y, from.z + distance.z);
+export const calDestination = (from: Position, distance: Position): Position => {
+  return { x: from.x + distance.x, y: from.y + distance.y, z: from.z + distance.z };
 }

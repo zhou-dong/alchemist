@@ -1,9 +1,7 @@
 import { Cube } from './cube';
+import Position from "../params/position";
 
 export type TextCube<T> = Cube & {
   value: T;
-
-  textX: number;
-  textY: number;
-  textZ: number;
+  textPosition: Position;
 };

@@ -5,7 +5,7 @@ import BackspaceIcon from '@mui/icons-material/Backspace';
 import Queue from '../../../data-structures/queue';
 import Stack from '../../../data-structures/stack';
 import { wait } from '../../../data-structures/_commons/utils';
-import { TextCube } from '../../../data-structures/_commons/three/text-cube';
+import { TextCube } from '../../../data-structures/_commons/cube/three/text-cube';
 import { nodeParams } from './styles';
 
 interface Props {
@@ -27,13 +27,13 @@ const createItem = (value: string, scene: THREE.Scene): TextCube<string> => {
 
     const item = new TextCube<string>(value, textMaterial, textGeometryParameters, cubeMaterial, cubeGeometry, scene);
 
-    item.x = initPosition.x;
-    item.y = initPosition.y;
-    item.z = initPosition.z;
+    item.position.x = initPosition.x;
+    item.position.y = initPosition.y;
+    item.position.z = initPosition.z;
 
-    item.textX = item.x - 0.1;
-    item.textY = item.y - 0.26;
-    item.textZ = initPosition.z;
+    item.textPosition.x = item.position.x - 0.1;
+    item.textPosition.y = item.position.y - 0.26;
+    item.textPosition.z = initPosition.z;
 
     return item;
 }

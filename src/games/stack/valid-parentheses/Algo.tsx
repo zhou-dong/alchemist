@@ -140,9 +140,9 @@ const Actions = () => {
         const stackItem = await stack.pop();
         if (queueItem && stackItem) {
             const position = new THREE.Vector3(
-                (queueItem.x + stackItem.x) / 2,
-                (queueItem.y + stackItem.y) / 2,
-                (queueItem.z + stackItem.z) / 2
+                (queueItem.position.x + stackItem.position.x) / 2,
+                (queueItem.position.y + stackItem.position.y) / 2,
+                (queueItem.position.z + stackItem.position.z) / 2
             );
             queueItem.move(position, duration);
             stackItem.move(position, duration);

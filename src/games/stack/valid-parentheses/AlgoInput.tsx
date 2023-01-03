@@ -12,8 +12,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import { useAlgoContext } from "./AlgoContext";
-import { TextCube } from '../../../data-structures/_commons/three/text-cube';
-import { Cube } from '../../../data-structures/_commons/three/cube';
+import { TextCube } from '../../../data-structures/_commons/cube/three/text-cube';
+import { Cube } from '../../../data-structures/_commons/cube/three/cube';
 import { nodeParams, stackShellParams } from './styles';
 import { State } from './AlgoState';
 
@@ -90,13 +90,13 @@ const createItem = (value: string, scene: THREE.Scene): TextCube<string> => {
 
     const item = new TextCube<string>(value, textMaterial, textGeometryParameters, cubeMaterial, cubeGeometry, scene);
 
-    item.x = initPosition.x;
-    item.y = initPosition.y;
-    item.z = initPosition.z;
+    item.position.x = initPosition.x;
+    item.position.y = initPosition.y;
+    item.position.z = initPosition.z;
 
-    item.textX = item.x - 0.1;
-    item.textY = item.y - 0.26;
-    item.textZ = initPosition.z;
+    item.textPosition.x = item.position.x - 0.1;
+    item.textPosition.y = item.position.y - 0.26;
+    item.textPosition.z = initPosition.z;
 
     return item;
 }

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Cube } from '../../../data-structures/_commons/three/cube';
+import { Cube } from '../../../data-structures/_commons/cube/three/cube';
 import { node, shell } from "./stackStyles";
 
 class StackShellBuilder {
@@ -41,9 +41,9 @@ class StackShellBuilder {
     }
 
     private setPosition(item: Cube): void {
-        item.x = this._position.x;
-        item.y = this._position.y;
-        item.z = this._position.z;
+        item.position.x = this._position.x;
+        item.position.y = this._position.y;
+        item.position.z = this._position.z;
     }
 }
 

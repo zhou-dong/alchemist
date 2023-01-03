@@ -99,6 +99,12 @@ import IntegerToRoman from "./games/greedy/integer-to-roman";
 import IntegerToRomanInfo from "./games/greedy/integer-to-roman/info";
 import RomanToInteger from "./games/math/roman-to-integer";
 import RomanToIntegerInfo from "./games/math/roman-to-integer/info";
+import MaximumDepthOfBinaryTree from "./games/tree/maximum-depth-of-binary-tree";
+import MaximumDepthOfBinaryTreeInfo from "./games/tree/maximum-depth-of-binary-tree/info";
+import ConstructBinaryTreeFromPreorderAndInorderTraversalInfo from "./games/tree/construct-binary-tree-from-preorder-and-inorder-traversal/info";
+import ConstructBinaryTreeFromPreorderAndInorderTraversal from "./games/tree/construct-binary-tree-from-preorder-and-inorder-traversal";
+import ConstructBinaryTreeFromInorderAndPostorderTraversalInfo from "./games/tree/construct-binary-tree-from-inorder-and-postorder-traversal/info";
+import ConstructBinaryTreeFromInorderAndPostorderTraversal from "./games/tree/construct-binary-tree-from-inorder-and-postorder-traversal";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -176,6 +182,9 @@ const App = () => (
                 <Route path={ContainerWithMostWaterInfo.path} element={<ContainerWithMostWater />} />
                 <Route path={IntegerToRomanInfo.path} element={<IntegerToRoman />} />
                 <Route path={RomanToIntegerInfo.path} element={<RomanToInteger />} />
+                <Route path={MaximumDepthOfBinaryTreeInfo.path} element={<MaximumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={ConstructBinaryTreeFromInorderAndPostorderTraversalInfo.path} element={<ConstructBinaryTreeFromInorderAndPostorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { Cube } from '../_commons/three/cube';
-import { TextCube } from '../_commons/three/text-cube';
+import { Cube } from '../_commons/cube/three/cube';
+import { TextCube } from '../_commons/cube/three/text-cube';
 import { wait } from '../_commons/utils';
 import { IQueue } from './queue';
 import QueueAlgo from './queue-algo';
@@ -24,9 +24,9 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
 
   increaseShells(shell: Cube) {
     const { x, y, z } = this.position;
-    shell.x = x + this.getShellsLength();
-    shell.y = y;
-    shell.z = z;
+    shell.position.x = x + this.getShellsLength();
+    shell.position.y = y;
+    shell.position.z = z;
     this.shells.push(shell);
   }
 
@@ -106,7 +106,7 @@ export default class QueueVis<T> implements IQueue<TextCube<T>> {
     const iterator = this.queue.iterator();
     while (iterator.hasNext()) {
       const current = iterator.next();
-      const position = new THREE.Vector3(current.x - current.width, current.y, current.z);
+      const position = new THREE.Vector3(current.position.x - current.width, current.position.y, current.position.z);
       current.move(position, this.duration);
     }
     await wait(this.duration);
