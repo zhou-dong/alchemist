@@ -14,11 +14,15 @@ import { calDestination } from '../../utils';
 
 export default class TextSphere<T> extends Sphere implements ITextSphere<T> {
 
-  value: T;
-  textPosition: Position;
+  private _value: T;
   private textDisplay: Display;
   private textMover: Move;
   textColor: Color;
+  textPosition: Position;
+
+  private textGeometryParameters: TextGeometryParameters;
+  private textMaterial: THREE.Material;
+  private scene: THREE.Scene;
 
   constructor(
     value: T,
@@ -29,13 +33,42 @@ export default class TextSphere<T> extends Sphere implements ITextSphere<T> {
     scene: THREE.Scene
   ) {
     super(sphereGeometry, sphereMaterial, scene);
-    this.value = value;
-    const textGeometry = new TextGeometry(value + '', textGeometryParameters);
-    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+    this._value = value;
+
+    this.textGeometryParameters = textGeometryParameters;
+    this.textMaterial = textMaterial;
+    this.scene = scene;
+
+    const textGeometry = new TextGeometry(value + '', this.textGeometryParameters);
+    const textMesh = new THREE.Mesh(textGeometry, this.textMaterial);
     this.textPosition = new PositionImpl(textMesh);
     this.textMover = new MoveImpl(textMesh);
-    this.textDisplay = new DisplayImpl(scene, textMesh);
-    this.textColor = new ColorImpl(textMaterial);
+    this.textDisplay = new DisplayImpl(this.scene, textMesh);
+    this.textColor = new ColorImpl(this.textMaterial);
+  }
+
+  get value(): T {
+    return this._value;
+  }
+
+  set value(t: T) {
+    const { x, y, z } = this.textPosition;
+    this.textDisplay.hide();
+    this.createTextMesh(t);
+    this.textPosition.x = x;
+    this.textPosition.y = y;
+    this.textPosition.z = z;
+    this._value = t;
+    this.textDisplay.show();
+  }
+
+  private createTextMesh(value: T) {
+    const textGeometry = new TextGeometry(value + '', this.textGeometryParameters);
+    const textMesh = new THREE.Mesh(textGeometry, this.textMaterial);
+    this.textPosition = new PositionImpl(textMesh);
+    this.textMover = new MoveImpl(textMesh);
+    this.textDisplay = new DisplayImpl(this.scene, textMesh);
+    this.textColor = new ColorImpl(this.textMaterial);
   }
 
   async move(position: Position, duration: number, onUpdate?: () => void) {
