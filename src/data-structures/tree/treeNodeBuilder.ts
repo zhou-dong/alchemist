@@ -5,6 +5,7 @@ import TextSphere from '../_commons/sphere/three/text-sphere';
 import Position from '../_commons/params/position';
 
 export const build = <T>(
+    index: number,
     sphereGeometry: THREE.SphereGeometry,
     sphereMaterial: THREE.Material,
     textMaterial: THREE.Material,
@@ -42,5 +43,8 @@ export const build = <T>(
 
     textSphere.textPosition.y = y - 0.4;
     textSphere.textPosition.z = z;
-    return new TreeNode<T>(textSphere);
+
+    const node = new TreeNode<T>(textSphere);
+    node.index = index;
+    return node;
 }
