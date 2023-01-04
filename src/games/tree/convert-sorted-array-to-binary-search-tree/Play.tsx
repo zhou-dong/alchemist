@@ -1,5 +1,5 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Chip, Stack, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import { Avatar, Button, ButtonGroup, Chip, Stack } from '@mui/material';
 import { buildTreeNode, rootCenter, initCenter, yDistance, lineMaterial, duration } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
@@ -10,7 +10,7 @@ const rootColor = { backgroundColor: "lightgreen", color: "black", };
 const leftColor = { backgroundColor: "yellow", color: "black", };
 const rightColor = { backgroundColor: "yellow", color: "black", };
 
-const defaultStyle = { width: "50px", height: "50px", backgroundColor: "lightgray", color: "black" };
+const defaultStyle = { width: "50px", height: "50px", backgroundColor: "#FFF", color: "gray", borderColor: "lightgray" };
 const rootStyle = { ...defaultStyle, ...rootColor };
 const leftStyle = { ...defaultStyle, ...leftColor };
 const rightStyle = { ...defaultStyle, ...rightColor };
@@ -20,17 +20,15 @@ const StatesDisplay = () => {
     const { inputOutput, index } = useAlgoContext();
     const step = inputOutput.steps[index];
 
-    if (!step) {
-        return <></>
-    }
-
-    const { left, mid, right } = step;
+    const left = (step) ? step.left : -1;
+    const mid = (step) ? step.mid : -1;
+    const right = (step) ? step.right : -1;
 
     return (
         <Stack spacing={2} direction="row" sx={{ justifyContent: "center", alignItems: "center" }}>
-            <Chip label={`Left Index: ${left}`} variant="outlined" sx={{ ...leftColor, border: "none" }} />
-            <Chip label={`Mid Index: ${mid}`} variant="outlined" sx={{ ...rootColor, border: "none" }} />
-            <Chip label={`Right Index: ${right}`} variant="outlined" sx={{ ...rightColor, border: "none" }} />
+            <Chip avatar={<Avatar sx={{ ...leftColor }}>L</Avatar>} label={`Left Index: ${left}`} variant="outlined" sx={{}} />
+            <Chip avatar={<Avatar sx={{ ...rootColor }}>M</Avatar>} label={`Mid Index: ${mid}`} variant="outlined" sx={{}} />
+            <Chip avatar={<Avatar sx={{ ...rightColor }}>R</Avatar>} label={`Right Index: ${right}`} variant="outlined" sx={{}} />
         </Stack>
     )
 }
@@ -58,7 +56,7 @@ const InputDisplay = () => {
         <ButtonGroup>
             {
                 input.map((value, i) =>
-                    <Button key={i} variant="contained" style={getStyle(i)}>
+                    <Button key={i} style={getStyle(i)} variant="outlined">
                         {value}
                     </Button>
                 )
