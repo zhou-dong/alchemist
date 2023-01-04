@@ -106,7 +106,13 @@ const Instructions = () => {
             <Instruction
                 name="Solution"
                 icon={<TipsAndUpdatesOutlinedIcon fontSize="medium" />}
-                popover={<StyledReactMarkdown>{solution}</StyledReactMarkdown>}
+                popover={<CodeBlock
+                    code={solution}
+                    language={languages.Typescript}
+                    showLineNumbers={true}
+                    linesToHighlight={[]}
+                    wrapLines={true}
+                />}
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             />
