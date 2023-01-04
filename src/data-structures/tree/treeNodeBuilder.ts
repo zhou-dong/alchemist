@@ -4,6 +4,17 @@ import TreeNode from "./node";
 import TextSphere from '../_commons/sphere/three/text-sphere';
 import Position from '../_commons/params/position';
 
+const calTextX = <T>(value: T, x: number): number => {
+    const length: number = (value as any).toString().length;
+    switch (length) {
+        case 0: return x;
+        case 1: return x - 0.3;
+        case 2: return x - 0.6;
+        case 3: return x - 0.8;
+        default: return x - 1;
+    }
+}
+
 export const build = <T>(
     index: number,
     sphereGeometry: THREE.SphereGeometry,
@@ -29,18 +40,7 @@ export const build = <T>(
     textSphere.center.y = y;
     textSphere.center.z = z;
 
-    switch ((value as any).toString().length) {
-        case 1:
-            textSphere.textPosition.x = x - 0.3;
-            break;
-        case 2:
-            textSphere.textPosition.x = x - 0.6;
-            break;
-        default:
-            textSphere.textPosition.x = x;
-            break;
-    }
-
+    textSphere.textPosition.x = calTextX(value, x);
     textSphere.textPosition.y = y - 0.4;
     textSphere.textPosition.z = z;
 
