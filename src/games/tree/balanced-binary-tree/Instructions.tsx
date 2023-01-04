@@ -6,11 +6,12 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
 import Instruction from '../../../commons/Instruction';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import { description, formula } from "./contents";
+import { description, formula, solution } from "./contents";
 import React from "react";
 import LightTooltip from "../../../commons/LightTooltip";
 import AlgoInput from "./AlgoInput";
 import InputIcon from '@mui/icons-material/Input';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -99,6 +100,13 @@ const Instructions = () => {
                     linesToHighlight={[]}
                     wrapLines={true}
                 />}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
+            />
+            <Instruction
+                name="Solution"
+                icon={<TipsAndUpdatesOutlinedIcon fontSize="medium" />}
+                popover={<StyledReactMarkdown>{solution}</StyledReactMarkdown>}
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             />
