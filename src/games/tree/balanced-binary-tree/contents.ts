@@ -32,7 +32,6 @@ function isBalanced(root: TreeNode | null): boolean {
         }
 
         const different = Math.abs(right - left);
-
         if (different > 1) {
             return -1;
         }
