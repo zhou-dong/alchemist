@@ -46,7 +46,10 @@ export const description = `
 Given a binary tree, determine if it is ***height-balanced***.
 `;
 
-export const solution = ``;
+export const solution = `
+- If a node is balanced, return the height of the node.
+- If a node is **un**balanced, return **-1** as the height of the node.
+`;
 
 export const usecases = '';
 
