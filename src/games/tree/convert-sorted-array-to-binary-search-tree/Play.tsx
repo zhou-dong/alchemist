@@ -1,5 +1,5 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Stack, Table, TableCell, TableHead, TableRow } from '@mui/material';
+import { Button, ButtonGroup, Chip, Stack, Table, TableCell, TableHead, TableRow } from '@mui/material';
 import { buildTreeNode, rootCenter, initCenter, yDistance, lineMaterial, duration } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
@@ -8,7 +8,7 @@ import Title from './Title';
 
 const rootColor = { backgroundColor: "lightgreen", color: "black", };
 const leftColor = { backgroundColor: "yellow", color: "black", };
-const rightColor = { backgroundColor: "lightblue", color: "black", };
+const rightColor = { backgroundColor: "yellow", color: "black", };
 
 const defaultStyle = { width: "50px", height: "50px", backgroundColor: "lightgray", color: "black" };
 const rootStyle = { ...defaultStyle, ...rootColor };
@@ -27,17 +27,12 @@ const StatesDisplay = () => {
     const { left, mid, right } = step;
 
     return (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell padding="none" align="center" sx={{ ...leftColor, height: "50px", width: "50px" }}>Left Index: {left}</TableCell>
-                    <TableCell padding="none" align="center" sx={{ ...rootColor, height: "50px", width: "50px" }}>Mid Index:{mid}</TableCell>
-                    <TableCell padding="none" align="center" sx={{ ...rightColor, height: "50px", width: "50px" }}>Right Index:{right}</TableCell>
-                </TableRow>
-            </TableHead>
-        </Table>
+        <Stack spacing={2} direction="row" sx={{ justifyContent: "center", alignItems: "center" }}>
+            <Chip label={`Left Index: ${left}`} variant="outlined" sx={{ ...leftColor, border: "none" }} />
+            <Chip label={`Mid Index: ${mid}`} variant="outlined" sx={{ ...rootColor, border: "none" }} />
+            <Chip label={`Right Index: ${right}`} variant="outlined" sx={{ ...rightColor, border: "none" }} />
+        </Stack>
     )
-
 }
 
 const InputDisplay = () => {
