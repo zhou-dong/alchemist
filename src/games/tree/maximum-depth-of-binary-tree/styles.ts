@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
 
-export const enabledSphereColor = "lightblue";
-export const normalSphereColor = "green";
+export const enabledSphereColor = "lightgreen";
+export const normalSphereColor = "yellow";
 
 export const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
 export const sphereMaterial = (): THREE.Material => {
