@@ -12,7 +12,7 @@ const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 export const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
-export const rootCenter = { x: 0, y: 11, z: 0 };
+export const rootCenter = { x: 0, y: 6, z: 0 };
 export const initCenter = { x: 0, y: -8, z: 0 };
 export const yDistance = 3;
 export const duration = 1;

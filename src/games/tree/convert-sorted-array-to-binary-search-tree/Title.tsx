@@ -10,15 +10,8 @@ export default function Title() {
     const { state } = useAlgoContext();
 
     return (
-        <Box sx={{
-            position: "fixed",
-            top: 40,
-            width: "100%",
-            display: 'flex',
-            alignItems: "center",
-            justifyContent: "center",
-        }}>
-            <Typography variant='body1'>
+        <Box sx={{ textAlign: "center" }}>
+            <Typography variant='body1' display="inline">
                 {title}
             </Typography>
             {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}

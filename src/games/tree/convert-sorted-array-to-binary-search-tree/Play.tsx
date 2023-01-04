@@ -1,14 +1,44 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Stack } from '@mui/material';
+import { Button, ButtonGroup, Stack, Table, TableCell, TableHead, TableRow } from '@mui/material';
 import { buildTreeNode, rootCenter, initCenter, yDistance, lineMaterial, duration } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import { Direction } from "./algo";
+import Title from './Title';
+
+const rootColor = { backgroundColor: "lightgreen", color: "black", };
+const leftColor = { backgroundColor: "yellow", color: "black", };
+const rightColor = { backgroundColor: "lightblue", color: "black", };
 
 const defaultStyle = { width: "50px", height: "50px", backgroundColor: "lightgray", color: "black" };
-const rootStyle = { ...defaultStyle, backgroundColor: "lightgreen", color: "black" };
-const leftStyle = { ...defaultStyle, backgroundColor: "yellow", color: "black" };
-const rightStyle = { ...defaultStyle, backgroundColor: "lightblue", color: "black" };
+const rootStyle = { ...defaultStyle, ...rootColor };
+const leftStyle = { ...defaultStyle, ...leftColor };
+const rightStyle = { ...defaultStyle, ...rightColor };
+
+const StatesDisplay = () => {
+
+    const { inputOutput, index } = useAlgoContext();
+    const step = inputOutput.steps[index];
+
+    if (!step) {
+        return <></>
+    }
+
+    const { left, mid, right } = step;
+
+    return (
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <TableCell padding="none" align="center" sx={{ ...leftColor, height: "50px", width: "50px" }}>Left Index: {left}</TableCell>
+                    <TableCell padding="none" align="center" sx={{ ...rootColor, height: "50px", width: "50px" }}>Mid Index:{mid}</TableCell>
+                    <TableCell padding="none" align="center" sx={{ ...rightColor, height: "50px", width: "50px" }}>Right Index:{right}</TableCell>
+                </TableRow>
+            </TableHead>
+        </Table>
+    )
+
+}
 
 const InputDisplay = () => {
 
@@ -22,9 +52,9 @@ const InputDisplay = () => {
         }
         const { left, mid, right } = step;
         switch (i) {
+            case mid: return rootStyle;
             case left: return leftStyle;
             case right: return rightStyle;
-            case mid: return rootStyle;
             default: return defaultStyle;
         }
     }
@@ -86,33 +116,43 @@ const Main = () => {
     }
 
     return (
-        <Stack
-            spacing={2}
-            direction="column"
-            style={{
-                display: "flex",
-                position: "fixed",
-                bottom: "150px",
-                justifyContent: "center",
-                width: "100%",
-                alignItems: "center"
-            }}
-        >
-            <InputDisplay />
-            <div>
+        <>
+            <Stack
+                direction="column"
+                spacing={2}
+                sx={{ position: "fixed", left: "50%", transform: "translateX(-50%)", top: "60px" }}
+            >
+                <Title />
+                <StatesDisplay />
+                <InputDisplay />
+            </Stack>
 
-                <Button
-                    variant="contained"
-                    size="large"
-                    onClick={handleOnClick}
-                    sx={{ color: "#FFF", zIndex: 1 }}
-                    disabled={state !== State.Playing}
-                    color="info"
-                >
-                    next
-                </Button>
-            </div>
-        </Stack>
+            <Stack
+                spacing={2}
+                direction="column"
+                style={{
+                    display: "flex",
+                    position: "fixed",
+                    bottom: "150px",
+                    justifyContent: "center",
+                    width: "100%",
+                    alignItems: "center"
+                }}
+            >
+                <div>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        onClick={handleOnClick}
+                        sx={{ color: "#FFF", zIndex: 1 }}
+                        disabled={state !== State.Playing}
+                        color="info"
+                    >
+                        next
+                    </Button>
+                </div>
+            </Stack>
+        </>
     );
 }
 
