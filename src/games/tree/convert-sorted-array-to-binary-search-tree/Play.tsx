@@ -6,9 +6,9 @@ import { State } from "./AlgoState";
 import { Direction } from "./algo";
 import Title from './Title';
 
-const rootColor = { backgroundColor: "lightgreen", color: "black", };
-const leftColor = { backgroundColor: "yellow", color: "black", };
-const rightColor = { backgroundColor: "yellow", color: "black", };
+const rootColor = { backgroundColor: "yellow", color: "black", };
+const leftColor = { backgroundColor: "lightgreen", color: "black", };
+const rightColor = { backgroundColor: "lightgreen", color: "black", };
 
 const defaultStyle = { width: "50px", height: "50px", backgroundColor: "#FFF", color: "gray", borderColor: "lightgray" };
 const rootStyle = { ...defaultStyle, ...rootColor };
