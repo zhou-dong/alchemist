@@ -105,6 +105,8 @@ import MinimumDepthOfBinaryTree from "./games/tree/minimum-depth-of-binary-tree"
 import MinimumDepthOfBinaryTreeInfo from "./games/tree/minimum-depth-of-binary-tree/info";
 import BalancedBinaryTreeInfo from "./games/tree/balanced-binary-tree/info";
 import BalancedBinaryTree from "./games/tree/balanced-binary-tree";
+import ConvertSortedArrayToBinarySearchTree from "./games/tree/convert-sorted-array-to-binary-search-tree";
+import ConvertSortedArrayToBinarySearchTreeInfo from "./games/tree/convert-sorted-array-to-binary-search-tree/info";
 import ConstructBinaryTreeFromPreorderAndInorderTraversalInfo from "./games/tree/construct-binary-tree-from-preorder-and-inorder-traversal/info";
 import ConstructBinaryTreeFromPreorderAndInorderTraversal from "./games/tree/construct-binary-tree-from-preorder-and-inorder-traversal";
 import ConstructBinaryTreeFromInorderAndPostorderTraversalInfo from "./games/tree/construct-binary-tree-from-inorder-and-postorder-traversal/info";
@@ -189,6 +191,7 @@ const App = () => (
                 <Route path={MaximumDepthOfBinaryTreeInfo.path} element={<MaximumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={MinimumDepthOfBinaryTreeInfo.path} element={<MinimumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BalancedBinaryTreeInfo.path} element={<BalancedBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={ConvertSortedArrayToBinarySearchTreeInfo.path} element={<ConvertSortedArrayToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromInorderAndPostorderTraversalInfo.path} element={<ConstructBinaryTreeFromInorderAndPostorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
             </>

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { buildPerfectBinaryTree } from "../../../data-structures/tree/perfectBinaryTree"
+import { buildPerfectBinaryTree } from "../../../data-structures/tree/perfectBinaryTree";
 import TreeNode from "../../../data-structures/tree/node";
 import { buildTreeNode, lineMaterial, yDistance, xCenter } from "./styles";
 import Position from '../../../data-structures/_commons/params/position';
