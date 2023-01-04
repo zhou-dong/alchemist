@@ -16,9 +16,9 @@ import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 
-const inputOne = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-const inputTwo = [3, 9, 20, null, null, 15, 7];
-const inputThree = [3, 9, 2, 5, 6, 7, 1, 4, 8];
+const inputOne = [3, 5, 7, 10, 13, 15, 17, 21];
+const inputTwo = [1, 4, 6, 7, 10, 12, 14, 17, 18];
+const inputThree = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
