@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as THREE from 'three';
 import InputIcon from '@mui/icons-material/Input';
 import OutputIcon from '@mui/icons-material/Output';
 import ListItemText from '@mui/material/ListItemText';
@@ -30,6 +31,7 @@ import {
     depthTreeCenter
 } from "./styles";
 import TreeNode from '../../../data-structures/tree/node';
+import Position from '../../../data-structures/_commons/params/position';
 
 const inputOne = [3, 9, 20, null, null, 15, 7];
 const inputTwo = [1, 2, 3, 4, 5, null, 7];
@@ -90,6 +92,23 @@ const clearTreeValue = (node: TreeNode<any> | undefined) => {
     clearTreeValue(node.right);
 }
 
+const buildTree = (array: (string | null)[], scene: THREE.Scene, startPosition: Position) => {
+    return buildBinaryTree<string | null>(
+        sphereGeometry,
+        sphereMaterial,
+        textMaterial,
+        textGeometryParameters,
+        lineMaterial,
+        scene,
+        duration,
+        startPosition,
+        yDistance,
+        xAxisAplha,
+        array,
+        true
+    );
+}
+
 const Submit: React.FC<{
     value: string,
     setValue: React.Dispatch<React.SetStateAction<string>>,
@@ -111,36 +130,8 @@ const Submit: React.FC<{
         animate();
         clearScene(scene);
 
-        const root = buildBinaryTree<string | null>(
-            sphereGeometry,
-            sphereMaterial,
-            textMaterial,
-            textGeometryParameters,
-            lineMaterial,
-            scene,
-            duration,
-            center,
-            yDistance,
-            xAxisAplha,
-            array,
-            true
-        );
-
-        const depthTree = buildBinaryTree<string | null>(
-            sphereGeometry,
-            sphereMaterial,
-            textMaterial,
-            textGeometryParameters,
-            lineMaterial,
-            scene,
-            duration,
-            depthTreeCenter,
-            yDistance,
-            xAxisAplha,
-            array,
-            true
-        );
-
+        const root = buildTree(array, scene, center);
+        const depthTree = buildTree(array, scene, depthTreeCenter);
         clearTreeValue(depthTree);
 
         if (root && depthTree) {
