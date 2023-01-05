@@ -30,8 +30,8 @@ import Position from '../../../data-structures/_commons/params/position';
 import { buildSteps } from './algo';
 
 const inputOne = [10, 7, 18, 5, 9, 14, 25, 4, 6, null, null, 11, 15];
-const inputTwo = [5, 8, 1, 9, 3, 6, 2, 7];
-const inputThree = [9, 3, 5, 6, 2, 7];
+const inputTwo = [12, 8, 15, 6, 17, 13, 17, 4];
+const inputThree = [5, 1, 4, null, null, 3, 6];
 
 const buildTree = (array: (number | null)[], scene: THREE.Scene, startPosition: Position) => {
     return buildBinaryTree<number>(
