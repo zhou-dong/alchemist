@@ -16,7 +16,7 @@ export const buildBinaryTree = <T>(
     position: Position,
     yDistance: number,
     xAxisAlpha: number, // expend the tree size in xAxis.
-    array: T[],
+    array: (T | null)[],
     show: boolean
 ): TreeNode<T> | undefined => {
 
