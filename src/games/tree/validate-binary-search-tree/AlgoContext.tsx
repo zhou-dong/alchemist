@@ -3,11 +3,11 @@ import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { State } from "./AlgoState";
 import { Step } from "./algo";
+import TreeNode from "../../../data-structures/tree/node";
 
 const AlgoContext = React.createContext<{
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    duration: number,
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
@@ -15,8 +15,9 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
+    errorNodes: TreeNode<number>[],
+    setErrorNodes: React.Dispatch<React.SetStateAction<TreeNode<number>[]>>,
 }>({
-    duration: 0,
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
@@ -26,6 +27,8 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
+    errorNodes: [],
+    setErrorNodes: () => { }
 });
 
 let animationFrameId = -1;
@@ -38,10 +41,10 @@ export const AlgoContextProvider: React.FC<{
 }> = ({ children, renderer, camera, scene }) => {
 
     camera.position.z = 20;
-    const duration = 1;
     const [state, setState] = React.useState(State.Typing);
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
+    const [errorNodes, setErrorNodes] = React.useState<TreeNode<number>[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -73,11 +76,12 @@ export const AlgoContextProvider: React.FC<{
             scene,
             state,
             setState,
-            duration,
             animate,
             cancelAnimate,
             index,
             setIndex,
+            errorNodes,
+            setErrorNodes
         }}>
             {children}
             <div ref={ref}></div>
