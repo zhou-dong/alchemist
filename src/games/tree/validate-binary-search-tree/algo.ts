@@ -5,7 +5,7 @@ export enum Direction {
 }
 
 export interface Step {
-    node: TreeNode<any>;
+    node: TreeNode<number>;
     lower: number;
     upper: number;
     isBalanced?: boolean;
@@ -47,6 +47,6 @@ export function buildSteps(root?: TreeNode<number>): Step[] {
         return true;
     }
 
-    isBST(-Infinity, Infinity, root);
+    isBST(-Infinity, Infinity, root, undefined);
     return steps;
 }
