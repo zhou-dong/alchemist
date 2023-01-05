@@ -51,10 +51,10 @@ import RomanToInteger from "./math/roman-to-integer/info";
 import MaximumDepthOfBinaryTree from "./tree/maximum-depth-of-binary-tree/info";
 import MinimumDepthOfBinaryTree from "./tree/minimum-depth-of-binary-tree/info";
 import BalancedBinaryTree from "./tree/balanced-binary-tree/info";
+import ValidateBinarySearchTree from "./tree/validate-binary-search-tree/info";
 import ConvertSortedArrayToBinarySearchTree from "./tree/convert-sorted-array-to-binary-search-tree/info";
 import ConstructBinaryTreeFromPreorderAndInorderTraversal from "./tree/construct-binary-tree-from-preorder-and-inorder-traversal/info";
 import ConstructBinaryTreeFromInorderAndPostorderTraversal from "./tree/construct-binary-tree-from-inorder-and-postorder-traversal/info";
-import ValidateBinarySearchTree from "./tree/validate-binary-search-tree/info";
 
 export const games: Game[] = [
     editDistance,
@@ -108,8 +108,8 @@ export const games: Game[] = [
     MaximumDepthOfBinaryTree,
     MinimumDepthOfBinaryTree,
     BalancedBinaryTree,
+    ValidateBinarySearchTree,
     ConvertSortedArrayToBinarySearchTree,
     ConstructBinaryTreeFromPreorderAndInorderTraversal,
     ConstructBinaryTreeFromInorderAndPostorderTraversal,
-    ValidateBinarySearchTree
 ];
