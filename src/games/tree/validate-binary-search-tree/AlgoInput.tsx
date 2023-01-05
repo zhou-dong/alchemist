@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as THREE from 'three';
 import InputIcon from '@mui/icons-material/Input';
 import OutputIcon from '@mui/icons-material/Output';
 import ListItemText from '@mui/material/ListItemText';
@@ -13,7 +12,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
@@ -27,22 +25,37 @@ import {
     center,
     xAxisAplha,
     duration,
-    enabledSphereColor,
-    depthTreeCenter
 } from "./styles";
-import TreeNode from '../../../data-structures/tree/node';
 import Position from '../../../data-structures/_commons/params/position';
+import { buildSteps } from './algo';
 
-const inputOne = [3, 9, 20, null, null, 15, 7];
-const inputTwo = [1, 2, 3, 4, 5, null, 7];
-const inputThree = [3, 9, 2, 5, 6, 7, 1, 4, 8];
+const inputOne = [12, 8, 15, 6, 17, 13, 17, 4];
+const inputTwo = [10, 7, 18, 5, 9, 14, 25, 4, 6, null, null, 11, 15];
+const inputThree = [5, 1, 4, null, null, 3, 6];
+
+const buildTree = (array: (number | null)[], scene: THREE.Scene, startPosition: Position) => {
+    return buildBinaryTree<number>(
+        sphereGeometry,
+        sphereMaterial,
+        textMaterial,
+        textGeometryParameters,
+        lineMaterial,
+        scene,
+        duration,
+        startPosition,
+        yDistance,
+        xAxisAplha,
+        array,
+        true
+    );
+}
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
     setValue: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setValue, }) => {
+}> = ({ anchorEl, setAnchorEl, open, setValue }) => {
 
     const buildInInputs = [
         inputOne,
@@ -83,80 +96,49 @@ const DropDown: React.FC<{
     );
 }
 
-const clearTreeValue = (node: TreeNode<any> | undefined) => {
-    if (node === undefined) {
-        return
-    }
-    node.val.value = "";
-    clearTreeValue(node.left);
-    clearTreeValue(node.right);
-}
-
-const buildTree = (array: (string | null)[], scene: THREE.Scene, startPosition: Position) => {
-    return buildBinaryTree<string | null>(
-        sphereGeometry,
-        sphereMaterial,
-        textMaterial,
-        textGeometryParameters,
-        lineMaterial,
-        scene,
-        duration,
-        startPosition,
-        yDistance,
-        xAxisAplha,
-        array,
-        true
-    );
-}
-
 const Submit: React.FC<{
     value: string,
     setValue: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setValue, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setDepthTree, setDepthTreeSteps } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setSteps, setIndex, } = useAlgoContext();
+
+    const disabled: boolean = value.length === 0 || value.trim().length === 0;
 
     const handleSubmit = async () => {
-        setState(State.Typing);
-        const array = value.split(",").map(ch => {
-            switch (ch) {
-                case "": return null;
-                case "null": return null;
-                case "undefined": return null;
-                default: return ch;
-            }
-        });
+        if (value.trim().length === 0) {
+            return;
+        }
 
+        setState(State.Typing);
         animate();
         clearScene(scene);
 
+        const array: (number | null)[] = value.split(",").map(num => {
+            switch (num.trim()) {
+                case "": return null;
+                case undefined: return null;
+                case null: return null;
+                case "undefined": return null;
+                case "null": return null;
+                default: return +(num);
+            }
+        });
+
         const root = buildTree(array, scene, center);
-        const depthTree = buildTree(array, scene, depthTreeCenter);
-        clearTreeValue(depthTree);
-
-        if (root && depthTree) {
-            setRoot(root);
-            const steps = buildSteps(root);
-            root.sphereColor = enabledSphereColor;
-            setSteps(steps);
-
-            setDepthTree(depthTree);
-            const depthTreeSteps = buildSteps(depthTree);
-            depthTree.sphereColor = enabledSphereColor;
-            setDepthTreeSteps(depthTreeSteps);
-
-            setIndex(1);
-        }
-
+        const steps = buildSteps(root);
+        setSteps(steps);
+        setIndex(0);
         setValue("");
         setAnchorEl(null);
+
         await wait(0.2);
         cancelAnimate();
         setState(State.Playing);
     }
 
     return (
-        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={value.length === 0}>
+        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
             <OutputIcon />
         </IconButton>
     );
@@ -168,9 +150,8 @@ interface Props {
 
 export default function AlgoInput({ setAnchorEl }: Props) {
 
-    const [value, setValue] = React.useState("");
-
     const reference = React.useRef(null);
+    const [value, setValue] = React.useState("");
     const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(menuAnchorEl);
 
@@ -183,7 +164,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
     const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const text: string = e.currentTarget.value;
         setValue(text);
-    };
+    }
 
     return (
         <>
@@ -201,10 +182,9 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={handleMenuOpen}>
                     <KeyboardArrowDownIcon />
                 </IconButton>
-
                 <InputBase
                     sx={{ ml: 1, flex: 1 }}
-                    placeholder='Tree nodes, seprate by ","'
+                    placeholder='Tree, seprate by ","'
                     value={value}
                     onChange={handleValueChange}
                 />
@@ -214,7 +194,6 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 }}>
                     <ClearIcon />
                 </IconButton>
-
                 <Submit value={value} setValue={setValue} setAnchorEl={setAnchorEl} />
             </Paper>
 
