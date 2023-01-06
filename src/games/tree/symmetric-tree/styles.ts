@@ -1,20 +1,39 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
+import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
 
+export const falseSphereColor = "red";
 export const enabledSphereColor = "lightgreen";
 export const normalSphereColor = "yellow";
 
-export const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
-export const sphereMaterial = (): THREE.Material => {
+const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
+const sphereMaterial = (): THREE.Material => {
     return new THREE.MeshBasicMaterial({ color: normalSphereColor, opacity: 0.4, transparent: true });
 }
-export const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green" });
-export const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
-export const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
+const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green" });
+const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
+const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
-export const center = { x: 0, y: 11, z: 0 };
-export const depthTreeCenter = { x: 0, y: 0, z: 0 };
-export const yDistance = 3;
-export const duration = 0;
-export const xAxisAplha = 2;
+export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
+    const center = { x: 0, y: 9, z: 0 };
+    const show = true;
+    const duration = 0;
+    const yDistance = 3;
+    const xAxisAlpha = 2; // expend the tree size in xAxis.
+
+    return buildBinaryTree<string>(
+        sphereGeometry,
+        sphereMaterial,
+        textMaterial,
+        textGeometryParameters,
+        lineMaterial,
+        scene,
+        duration,
+        center,
+        yDistance,
+        xAxisAlpha,
+        array,
+        show
+    );
+}

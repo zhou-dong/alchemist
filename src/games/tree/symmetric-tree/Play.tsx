@@ -1,39 +1,58 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button, Stack } from '@mui/material';
-import { normalSphereColor, enabledSphereColor } from "./styles";
+import { Button } from '@mui/material';
+import { normalSphereColor, enabledSphereColor, falseSphereColor } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
+import { Step } from "./algo";
 
-const updateTreeColor = (node?: TreeNode<any>, targetNode?: TreeNode<any>) => {
-    if (node === undefined || targetNode === undefined) {
+const updateTreeColor = (falseNodes: TreeNode<string>[], node?: TreeNode<any>, step?: Step) => {
+    if (node === undefined || step === undefined) {
         return;
     }
 
-    if (node === targetNode) {
-        node.sphereColor = enabledSphereColor;
-    } else {
-        node.sphereColor = normalSphereColor;
+    if (!falseNodes.includes(node)) {
+        const { left, right } = step;
+        if (node === left || node === right) {
+            node.sphereColor = enabledSphereColor;
+        } else {
+            node.sphereColor = normalSphereColor;
+        }
     }
 
-    updateTreeColor(node.left, targetNode);
-    updateTreeColor(node.right, targetNode);
+    updateTreeColor(falseNodes, node.left, step);
+    updateTreeColor(falseNodes, node.right, step);
 }
 
 const Main = () => {
 
-    const { animate, cancelAnimate, index, steps, setIndex, state, depthTreeSteps, setState } = useAlgoContext();
+    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, falseNodes, setFalseNodes } = useAlgoContext();
 
     const handleOnClick = async () => {
         setState(State.Computing);
 
         animate();
-        updateTreeColor(steps[0]?.node, steps[index]?.node);
-        updateTreeColor(depthTreeSteps[0]?.node, depthTreeSteps[index]?.node);
+        const step = steps[index];
+        updateTreeColor(falseNodes, root, step);
 
-        const depthTreeStep = depthTreeSteps[index];
-        if (depthTreeStep) {
-            depthTreeStep.node.val.value = depthTreeStep.depth || "";
+        if (step) {
+            const { left, right, symmetric } = step;
+            if (symmetric === false) {
+                if (left) {
+                    left.sphereColor = falseSphereColor;
+                    setFalseNodes(nodes => {
+                        nodes.push(left);
+                        return nodes;
+                    });
+                }
+                if (right) {
+                    right.sphereColor = falseSphereColor;
+                    setFalseNodes(nodes => {
+                        nodes.push(right);
+                        return nodes;
+                    })
+                }
+            }
         }
 
         await wait(0.2);
@@ -49,31 +68,24 @@ const Main = () => {
     }
 
     return (
-        <Stack
-            spacing={2}
-            direction="column"
-            style={{
-                display: "flex",
-                position: "fixed",
-                bottom: "150px",
-                justifyContent: "center",
-                width: "100%",
-                alignItems: "center"
-            }}
+        <div style={{
+            position: "fixed",
+            bottom: "150px",
+            left: "50%",
+            transform: "translate(-50%)",
+        }}
         >
-            <div>
-                <Button
-                    variant="contained"
-                    size="large"
-                    onClick={handleOnClick}
-                    sx={{ color: "#FFF", zIndex: 1 }}
-                    disabled={state !== State.Playing}
-                    color="info"
-                >
-                    next
-                </Button>
-            </div>
-        </Stack>
+            <Button
+                variant="contained"
+                size="large"
+                onClick={handleOnClick}
+                sx={{ color: "#FFF", zIndex: 1 }}
+                disabled={state !== State.Playing}
+                color="primary"
+            >
+                next
+            </Button>
+        </div>
     );
 }
 

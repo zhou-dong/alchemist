@@ -5,40 +5,52 @@ export enum Direction {
 }
 
 export interface Step {
-    node: TreeNode<any>;
-    depth?: number;
+    left?: TreeNode<string>;
+    right?: TreeNode<string>;
+    symmetric?: boolean;
     direction?: Direction;
 }
 
-export function buildSteps<T>(root?: TreeNode<T>): Step[] {
+export function buildSteps(root?: TreeNode<string>): Step[] {
     const steps: Step[] = [];
 
-    function minDepth<T>(node?: TreeNode<T>, direction?: Direction, depth?: number): number {
-        if (node === undefined) {
-            return 0;
+    function isSymmetric(left?: TreeNode<string>, right?: TreeNode<string>, direction?: Direction): boolean {
+
+        if (left === undefined && right === undefined) {
+            return true;
         }
 
-        steps.push({ node, direction, depth });
-
-        const left = minDepth(node.left, Direction.Left, depth);
-        const right = minDepth(node.right, Direction.Right, depth);
-
-        if (node.left === undefined) {
-            steps.push({ node, direction: Direction.Back, depth: right + 1 });
-            return right + 1;
+        if (left === undefined || right === undefined) {
+            steps.push({ left, right, direction, symmetric: false });
+            return false;
         }
 
-        if (node.right === undefined) {
-            steps.push({ node, direction: Direction.Back, depth: left + 1 });
-            return left + 1;
+        if (left.val.value !== right.val.value) {
+            steps.push({ left, right, direction, symmetric: false });
+            return false;
         }
 
-        const min = Math.min(left, right) + 1;
-        steps.push({ node, direction: Direction.Back, depth: min });
+        steps.push({ left, right, direction, symmetric: true });
 
-        return min;
-    };
+        const isLeftSymmetric = isSymmetric(left.left, right.right, Direction.Left);
+        if (!isLeftSymmetric) {
+            steps.push({ left, right, direction, symmetric: false });
+            return false;
+        }
 
-    minDepth(root);
+        const isRightSymmetric = isSymmetric(left.right, right.left, Direction.Right);
+        if (!isRightSymmetric) {
+            steps.push({ left, right, direction, symmetric: false });
+            return false;
+        }
+
+        steps.push({ left, right, direction, symmetric: true });
+
+        return true;
+    }
+
+    steps.push({ left: root, right: root, symmetric: true });
+    const symmetric = isSymmetric(root?.left, root?.right);
+    steps.push({ left: root, right: root, symmetric });
     return steps;
 }

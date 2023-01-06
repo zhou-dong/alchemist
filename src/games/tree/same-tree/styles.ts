@@ -17,7 +17,7 @@ const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height
 const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
 export const buildPTree = (array: (string | null)[], scene: THREE.Scene) => {
-    const center = { x: -10, y: 8, z: 0 };
+    const center = { x: -10, y: 9, z: 0 };
     return buildTree(array, scene, center);
 }
 
