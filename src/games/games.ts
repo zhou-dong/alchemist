@@ -113,7 +113,7 @@ export const games: Game[] = [
     ValidateBinarySearchTree,
     ConvertSortedArrayToBinarySearchTree,
     SameTree,
-    // SymmetricTree,
+    SymmetricTree,
     ConstructBinaryTreeFromPreorderAndInorderTraversal,
     ConstructBinaryTreeFromInorderAndPostorderTraversal,
 ];
