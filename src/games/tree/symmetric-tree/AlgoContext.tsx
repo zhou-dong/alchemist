@@ -15,12 +15,10 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    depthTree?: TreeNode<string | number | null>,
-    setDepthTree: React.Dispatch<React.SetStateAction<TreeNode<string | number | null> | undefined>>,
-    root?: TreeNode<string | number | null>,
-    setRoot: React.Dispatch<React.SetStateAction<TreeNode<string | number | null> | undefined>>,
-    depthTreeSteps: Step[],
-    setDepthTreeSteps: React.Dispatch<React.SetStateAction<Step[]>>,
+    root?: TreeNode<string>,
+    setRoot: React.Dispatch<React.SetStateAction<TreeNode<string> | undefined>>,
+    falseNodes: TreeNode<string>[],
+    setFalseNodes: React.Dispatch<React.SetStateAction<TreeNode<string>[]>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -32,9 +30,8 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
-    setDepthTree: () => { },
-    depthTreeSteps: [],
-    setDepthTreeSteps: () => { }
+    falseNodes: [],
+    setFalseNodes: () => { }
 });
 
 let animationFrameId = -1;
@@ -48,11 +45,10 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [root, setRoot] = React.useState<TreeNode<string | number | null>>();
+    const [root, setRoot] = React.useState<TreeNode<string>>();
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
-    const [depthTree, setDepthTree] = React.useState<TreeNode<string | number | null>>();
-    const [depthTreeSteps, setDepthTreeSteps] = React.useState<Step[]>([]);
+    const [falseNodes, setFalseNodes] = React.useState<TreeNode<string>[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -90,10 +86,8 @@ export const AlgoContextProvider: React.FC<{
             setSteps,
             index,
             setIndex,
-            depthTree,
-            setDepthTree,
-            depthTreeSteps,
-            setDepthTreeSteps
+            falseNodes,
+            setFalseNodes
         }}>
             {children}
             <div ref={ref}></div>
