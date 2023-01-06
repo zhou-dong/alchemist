@@ -15,21 +15,7 @@ import { State } from './AlgoState';
 import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
-import {
-    sphereGeometry,
-    sphereMaterial,
-    textMaterial,
-    textGeometryParameters,
-    lineMaterial,
-    yDistance,
-    center,
-    xAxisAplha,
-    duration,
-    enabledSphereColor,
-    depthTreeCenter
-} from "./styles";
-import TreeNode from '../../../data-structures/tree/node';
+import { buildTree } from "./styles";
 
 const inputOne = [2, 1, 3, null, 4, 6, 5, null, null, 9, null, null, null, 8];
 const inputTwo = [3, 9, 20, null, null, 15, 7];
@@ -81,13 +67,16 @@ const DropDown: React.FC<{
     );
 }
 
-const clearTreeValue = (node: TreeNode<any> | undefined) => {
-    if (node === undefined) {
-        return
-    }
-    node.val.value = "";
-    clearTreeValue(node.left);
-    clearTreeValue(node.right);
+const parseInput = (input: string): (string | null)[] => {
+    return input.split(",").map(ch => {
+        switch (ch) {
+            case "": return null;
+            case "null": return null;
+            case "undefined": return null;
+            case undefined: return null;
+            default: return ch;
+        }
+    });
 }
 
 const Submit: React.FC<{
@@ -95,77 +84,33 @@ const Submit: React.FC<{
     setValue: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setValue, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setDepthTree, setDepthTreeSteps } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex } = useAlgoContext();
+
+    const disabled = value.trim().length === 0;
 
     const handleSubmit = async () => {
         setState(State.Typing);
-        const array = value.split(",").map(ch => {
-            switch (ch) {
-                case "": return null;
-                case "null": return null;
-                case "undefined": return null;
-                default: return ch;
-            }
-        });
+        const array = parseInput(value);
 
         animate();
+
         clearScene(scene);
-
-        const root = buildBinaryTree<string | null>(
-            sphereGeometry,
-            sphereMaterial,
-            textMaterial,
-            textGeometryParameters,
-            lineMaterial,
-            scene,
-            duration,
-            center,
-            yDistance,
-            xAxisAplha,
-            array,
-            true
-        );
-
-        const depthTree = buildBinaryTree<string | null>(
-            sphereGeometry,
-            sphereMaterial,
-            textMaterial,
-            textGeometryParameters,
-            lineMaterial,
-            scene,
-            duration,
-            depthTreeCenter,
-            yDistance,
-            xAxisAplha,
-            array,
-            true
-        );
-
-        clearTreeValue(depthTree);
-
-        if (root && depthTree) {
-            setRoot(root);
-            const steps = buildSteps(root);
-            root.sphereColor = enabledSphereColor;
-            setSteps(steps);
-
-            setDepthTree(depthTree);
-            const depthTreeSteps = buildSteps(depthTree);
-            depthTree.sphereColor = enabledSphereColor;
-            setDepthTreeSteps(depthTreeSteps);
-
-            setIndex(1);
-        }
+        const root = buildTree(array, scene);
+        const steps = buildSteps(root);
+        setRoot(root);
+        setSteps(steps);
+        setIndex(0);
 
         setValue("");
         setAnchorEl(null);
         await wait(0.2);
+
         cancelAnimate();
         setState(State.Playing);
     }
 
     return (
-        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={value.length === 0}>
+        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
             <OutputIcon />
         </IconButton>
     );
