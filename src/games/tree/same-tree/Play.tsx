@@ -85,7 +85,7 @@ const Main = () => {
                 onClick={handleOnClick}
                 sx={{ color: "#FFF", zIndex: 1 }}
                 disabled={state !== State.Playing}
-                color="info"
+                color="primary"
             >
                 next
             </Button>
