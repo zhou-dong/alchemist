@@ -113,6 +113,10 @@ import ConstructBinaryTreeFromInorderAndPostorderTraversalInfo from "./games/tre
 import ConstructBinaryTreeFromInorderAndPostorderTraversal from "./games/tree/construct-binary-tree-from-inorder-and-postorder-traversal";
 import ValidateBinarySearchTreeInfo from "./games/tree/validate-binary-search-tree/info";
 import ValidateBinarySearchTree from "./games/tree/validate-binary-search-tree";
+import SameTree from "./games/tree/same-tree";
+import SameTreeInfo from "./games/tree/same-tree/info";
+import SymmetricTree from "./games/tree/symmetric-tree";
+import SymmetricTreeInfo from "./games/tree/symmetric-tree/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -194,6 +198,8 @@ const App = () => (
                 <Route path={MinimumDepthOfBinaryTreeInfo.path} element={<MinimumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BalancedBinaryTreeInfo.path} element={<BalancedBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ValidateBinarySearchTreeInfo.path} element={<ValidateBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={SameTreeInfo.path} element={<SameTree renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={SymmetricTreeInfo.path} element={<SymmetricTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConvertSortedArrayToBinarySearchTreeInfo.path} element={<ConvertSortedArrayToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromInorderAndPostorderTraversalInfo.path} element={<ConstructBinaryTreeFromInorderAndPostorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
