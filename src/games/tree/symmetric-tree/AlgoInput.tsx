@@ -17,9 +17,10 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree } from "./styles";
 
-const inputOne = [2, 1, 3, null, 4, 6, 5, null, null, 9, null, null, null, 8];
-const inputTwo = [3, 9, 9, 5, 6, 6, 5, 4, null, 8, null, null, 8, null, 4];
-const inputThree = [3, 9, 9, 5, 6, 6, 5, 4, null, 8, null, null, null, null, 4];
+const input1 = [3, 9, 9, 5, 6, 6, 5, 4, null, 8, null, null, null, null, 4];
+const input2 = [3, 9, 9, 5, 6, 6, 5, 4, null, 8, null, null, 8, null, 4];
+const input3 = [1, 2, 2, null, 3, null, 3];
+const input4 = [1, 2, 2, 3, 4, 4, 3];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -29,9 +30,10 @@ const DropDown: React.FC<{
 }> = ({ anchorEl, setAnchorEl, open, setValue, }) => {
 
     const buildInInputs = [
-        inputOne,
-        inputTwo,
-        inputThree
+        input1,
+        input2,
+        input3,
+        input4,
     ];
 
     const handleMenuClose = () => {
