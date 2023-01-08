@@ -1,54 +1,48 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button } from '@mui/material';
-import { normalSphereColor, enabledSphereColor, falseSphereColor } from "./styles";
+import { Button, } from '@mui/material';
+import { normalSphereColor, enabledSphereColor, commonAncestorColor } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
 import { Step } from "./algo";
 
-const updateTreeColor = (falseNodes: TreeNode<string>[], node?: TreeNode<any>, step?: Step) => {
-    if (node === undefined || step === undefined) {
+const updateTreeColor = (commonAncestors: TreeNode<number>[], current?: TreeNode<any>, step?: Step) => {
+    if (current === undefined || step === undefined) {
         return;
     }
 
-    if (!falseNodes.includes(node)) {
-        const { left, right } = step;
-        if (node === left || node === right) {
-            node.sphereColor = enabledSphereColor;
+    if (!commonAncestors.includes(current)) {
+        const { node } = step;
+        if (current === node) {
+            current.sphereColor = enabledSphereColor;
         } else {
-            node.sphereColor = normalSphereColor;
+            current.sphereColor = normalSphereColor;
         }
     }
 
-    updateTreeColor(falseNodes, node.left, step);
-    updateTreeColor(falseNodes, node.right, step);
+    updateTreeColor(commonAncestors, current.left, step);
+    updateTreeColor(commonAncestors, current.right, step);
 }
 
 const Main = () => {
 
-    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, falseNodes, setFalseNodes } = useAlgoContext();
+    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, commonAncestors, setCommonAncestors } = useAlgoContext();
 
     const handleOnClick = async () => {
         setState(State.Computing);
 
         animate();
         const step = steps[index];
-        updateTreeColor(falseNodes, root, step);
+        updateTreeColor(commonAncestors, root, step);
 
         if (step) {
-            const { left, right, symmetric } = step;
-            if (symmetric === false) {
-                if (left) {
-                    left.sphereColor = falseSphereColor;
-                    setFalseNodes(nodes => {
-                        nodes.push(left);
-                        return nodes;
-                    });
-                }
-                if (right) {
-                    right.sphereColor = falseSphereColor;
-                    setFalseNodes(nodes => {
-                        nodes.push(right);
+            const { node, islowestCommonAncestor, p, q } = step;
+            if (node && islowestCommonAncestor) {
+                const value = node.val.value;
+                if (value !== p && value !== q) {
+                    node.sphereColor = commonAncestorColor;
+                    setCommonAncestors(nodes => {
+                        nodes.push(node);
                         return nodes;
                     })
                 }
@@ -63,7 +57,6 @@ const Main = () => {
         } else {
             setState(State.Playing);
         }
-
         setIndex(i => i + 1);
     }
 
