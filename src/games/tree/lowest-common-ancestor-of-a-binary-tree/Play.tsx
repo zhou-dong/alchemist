@@ -36,16 +36,13 @@ const Main = () => {
         updateTreeColor(commonAncestors, root, step);
 
         if (step) {
-            const { node, islowestCommonAncestor, p, q } = step;
+            const { node, islowestCommonAncestor } = step;
             if (node && islowestCommonAncestor) {
-                const value = node.val.value;
-                if (value !== p && value !== q) {
-                    node.sphereColor = commonAncestorColor;
-                    setCommonAncestors(nodes => {
-                        nodes.push(node);
-                        return nodes;
-                    })
-                }
+                node.sphereColor = commonAncestorColor;
+                setCommonAncestors(nodes => {
+                    nodes.push(node);
+                    return nodes;
+                })
             }
         }
 
