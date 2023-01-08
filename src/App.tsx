@@ -117,6 +117,10 @@ import SameTree from "./games/tree/same-tree";
 import SameTreeInfo from "./games/tree/same-tree/info";
 import SymmetricTree from "./games/tree/symmetric-tree";
 import SymmetricTreeInfo from "./games/tree/symmetric-tree/info";
+import LowestCommonAncestorOfaBinarySearchTree from "./games/tree/lowest-common-ancestor-of-a-binary-search-tree";
+import LowestCommonAncestorOfaBinarySearchTreeInfo from "./games/tree/lowest-common-ancestor-of-a-binary-search-tree/info";
+import LowestCommonAncestorOfaBinaryTree from "./games/tree/lowest-common-ancestor-of-a-binary-tree";
+import LowestCommonAncestorOfaBinaryTreeInfo from "./games/tree/lowest-common-ancestor-of-a-binary-tree/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -203,6 +207,9 @@ const App = () => (
                 <Route path={ConvertSortedArrayToBinarySearchTreeInfo.path} element={<ConvertSortedArrayToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromInorderAndPostorderTraversalInfo.path} element={<ConstructBinaryTreeFromInorderAndPostorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={LowestCommonAncestorOfaBinarySearchTreeInfo.path} element={<LowestCommonAncestorOfaBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={LowestCommonAncestorOfaBinaryTreeInfo.path} element={<LowestCommonAncestorOfaBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+
             </>
         </Routes>
     </>
