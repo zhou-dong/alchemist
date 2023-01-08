@@ -26,8 +26,8 @@ const input1 = {
 
 const input2 = {
     array: [15, 7, 30, 4, 9, 20, 35, 2, null, 8, 12, null, null, 32, 40],
-    p: 8,
-    q: 12
+    p: 9,
+    q: 40
 }
 
 const input3 = {
