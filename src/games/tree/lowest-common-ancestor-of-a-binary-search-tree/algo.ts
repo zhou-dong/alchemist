@@ -5,52 +5,49 @@ export enum Direction {
 }
 
 export interface Step {
-    left?: TreeNode<string>;
-    right?: TreeNode<string>;
-    symmetric?: boolean;
+    node?: TreeNode<number>;
+    p: number;
+    q: number;
     direction?: Direction;
+    islowestCommonAncestor?: boolean;
 }
 
-export function buildSteps(root?: TreeNode<string>): Step[] {
+export function buildSteps(p: number, q: number, root?: TreeNode<number>): Step[] {
     const steps: Step[] = [];
 
-    function isSymmetric(left?: TreeNode<string>, right?: TreeNode<string>, direction?: Direction): boolean {
-
-        if (left === undefined && right === undefined) {
-            return true;
+    function lowestCommonAncestor(p: number, q: number, node?: TreeNode<number>, direction?: Direction): TreeNode<number> | undefined {
+        if (node === undefined) {
+            return undefined;
         }
 
-        if (left === undefined || right === undefined) {
-            steps.push({ left, right, direction, symmetric: false });
-            return false;
+        if (node.val.value === p || node.val.value === q) {
+            steps.push({ node, p, q, direction, islowestCommonAncestor: true });
+            return node;
         }
 
-        if (left.val.value !== right.val.value) {
-            steps.push({ left, right, direction, symmetric: false });
-            return false;
+        if (node.val.value > Math.min(p, q) && node.val.value < Math.max(p, q)) {
+            steps.push({ node, p, q, direction, islowestCommonAncestor: true });
+            return node;
         }
 
-        steps.push({ left, right, direction, symmetric: true });
+        steps.push({ node, p, q, direction });
 
-        const isLeftSymmetric = isSymmetric(left.left, right.right, Direction.Left);
-        if (!isLeftSymmetric) {
-            steps.push({ left, right, direction, symmetric: false });
-            return false;
+        const left = lowestCommonAncestor(p, q, node.left, Direction.Left);
+        if (left) {
+            steps.push({ node, p, q, direction, islowestCommonAncestor: true });
+            return left;
         }
 
-        const isRightSymmetric = isSymmetric(left.right, right.left, Direction.Right);
-        if (!isRightSymmetric) {
-            steps.push({ left, right, direction, symmetric: false });
-            return false;
+        const right = lowestCommonAncestor(p, q, node.right, Direction.Right);
+        if (right) {
+            steps.push({ node, p, q, direction, islowestCommonAncestor: true });
+            return right;
         }
 
-        steps.push({ left, right, direction, symmetric: true });
+        steps.push({ node, p, q, direction, islowestCommonAncestor: false });
+        return undefined;
+    };
 
-        return true;
-    }
-
-    steps.push({ left: root, right: root, symmetric: true });
-    const symmetric = isSymmetric(root?.left, root?.right);
-    steps.push({ left: root, right: root, symmetric });
+    lowestCommonAncestor(p, q, root);
     return steps;
 }
