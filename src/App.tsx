@@ -119,6 +119,8 @@ import SymmetricTree from "./games/tree/symmetric-tree";
 import SymmetricTreeInfo from "./games/tree/symmetric-tree/info";
 import PopulatingNextRightPointersInEachNode from "./games/tree/populating-next-right-pointers-in-each-node";
 import PopulatingNextRightPointersInEachNodeInfo from "./games/tree/populating-next-right-pointers-in-each-node/info";
+import PopulatingNextRightPointersInEachNodeII from "./games/tree/populating-next-right-pointers-in-each-node-ii";
+import PopulatingNextRightPointersInEachNodeIIInfo from "./games/tree/populating-next-right-pointers-in-each-node-ii/info";
 import LowestCommonAncestorOfaBinarySearchTree from "./games/tree/lowest-common-ancestor-of-a-binary-search-tree";
 import LowestCommonAncestorOfaBinarySearchTreeInfo from "./games/tree/lowest-common-ancestor-of-a-binary-search-tree/info";
 import LowestCommonAncestorOfaBinaryTree from "./games/tree/lowest-common-ancestor-of-a-binary-tree";
@@ -207,6 +209,7 @@ const App = () => (
                 <Route path={SameTreeInfo.path} element={<SameTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={SymmetricTreeInfo.path} element={<SymmetricTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={PopulatingNextRightPointersInEachNodeInfo.path} element={<PopulatingNextRightPointersInEachNode renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={PopulatingNextRightPointersInEachNodeIIInfo.path} element={<PopulatingNextRightPointersInEachNodeII renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConvertSortedArrayToBinarySearchTreeInfo.path} element={<ConvertSortedArrayToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConstructBinaryTreeFromInorderAndPostorderTraversalInfo.path} element={<ConstructBinaryTreeFromInorderAndPostorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
