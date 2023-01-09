@@ -79,7 +79,7 @@ const Submit: React.FC<{
         clearScene(scene);
         await wait(0.1);
         cancelAnimate();
-        const input = value.split(",");
+        const input = value.split(",").map(ch => ch.trim());
         setInputOutput(buildSteps(input));
         setMap(new Map());
         setValue("");
