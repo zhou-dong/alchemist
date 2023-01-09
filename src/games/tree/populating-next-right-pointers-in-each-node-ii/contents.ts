@@ -56,11 +56,9 @@ function getNext(node: Node | null): Node | null {
     if (!node) {
         return null;
     }
-
     if (node.left || node.right) {
         return node;
     }
-
     return getNext(node.next);
 }`;
 
