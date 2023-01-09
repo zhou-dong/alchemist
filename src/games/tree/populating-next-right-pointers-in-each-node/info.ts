@@ -8,7 +8,7 @@ const info: Game = {
     path: "/algorithms/populating-next-right-pointers-in-each-node",
     categories: [Category.Tree],
     companies: [],
-    difficulty: Difficulty.Easy,
+    difficulty: Difficulty.Medium,
     img: "/img/populating-next-right-pointers-in-each-node.png",
     leetcodeId: 116
 }
