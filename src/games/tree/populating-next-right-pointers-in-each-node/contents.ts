@@ -1,18 +1,20 @@
 export const title = "Populating Next Right Pointers in Each Node";
 
 export const formula = `/**
- * Definition for a binary tree node.
- * class TreeNode {
- *     val: number
- *     left: TreeNode | null
- *     right: TreeNode | null
- *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.left = (left===undefined ? null : left)
- *         this.right = (right===undefined ? null : right)
- *     }
- * }
- */
+* Definition for Node.
+* class Node {
+*     val: number
+*     left: Node | null
+*     right: Node | null
+*     next: Node | null
+*     constructor(val?: number, left?: Node, right?: Node, next?: Node) {
+*         this.val = (val===undefined ? 0 : val)
+*         this.left = (left===undefined ? null : left)
+*         this.right = (right===undefined ? null : right)
+*         this.next = (next===undefined ? null : next)
+*     }
+* }
+*/
 
 // preorder
 function connect(root: Node | null): Node | null {
