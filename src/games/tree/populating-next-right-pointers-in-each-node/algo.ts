@@ -5,49 +5,22 @@ export enum Direction {
 }
 
 export interface Step {
-    node?: TreeNode<number>;
-    p: number;
-    q: number;
+    node?: TreeNode<string>;
     direction?: Direction;
-    islowestCommonAncestor?: boolean;
 }
 
-export function buildSteps(p: number, q: number, root?: TreeNode<number>): Step[] {
+export function buildSteps(root?: TreeNode<string>): Step[] {
     const steps: Step[] = [];
 
-    function lowestCommonAncestor(p: number, q: number, node?: TreeNode<number>, direction?: Direction): TreeNode<number> | undefined {
+    function connect(node?: TreeNode<string>, direction?: Direction) {
         if (node === undefined) {
-            return undefined;
+            return;
         }
+        steps.push({ node, direction });
+        connect(node.left, Direction.Left);
+        connect(node.right, Direction.Right);
+    }
 
-        if (node.val.value === p || node.val.value === q) {
-            steps.push({ node, p, q, direction, islowestCommonAncestor: true });
-            return node;
-        }
-
-        if (node.val.value > Math.min(p, q) && node.val.value < Math.max(p, q)) {
-            steps.push({ node, p, q, direction, islowestCommonAncestor: true });
-            return node;
-        }
-
-        steps.push({ node, p, q, direction });
-
-        const left = lowestCommonAncestor(p, q, node.left, Direction.Left);
-        if (left) {
-            steps.push({ node, p, q, direction, islowestCommonAncestor: true });
-            return left;
-        }
-
-        const right = lowestCommonAncestor(p, q, node.right, Direction.Right);
-        if (right) {
-            steps.push({ node, p, q, direction, islowestCommonAncestor: true });
-            return right;
-        }
-
-        steps.push({ node, p, q, direction, islowestCommonAncestor: false });
-        return undefined;
-    };
-
-    lowestCommonAncestor(p, q, root);
+    connect(root);
     return steps;
 }
