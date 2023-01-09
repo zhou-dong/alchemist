@@ -1,32 +1,23 @@
 export const title = "Populating Next Right Pointers in Each Node II";
 
 export const formula = `/**
- * Definition for a binary tree node.
- * class TreeNode {
- *     val: number
- *     left: TreeNode | null
- *     right: TreeNode | null
- *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.left = (left===undefined ? null : left)
- *         this.right = (right===undefined ? null : right)
- *     }
- * }
- */
+* Definition for Node.
+* class Node {
+*     val: number
+*     left: Node | null
+*     right: Node | null
+*     next: Node | null
+*     constructor(val?: number, left?: Node, right?: Node, next?: Node) {
+*         this.val = (val===undefined ? 0 : val)
+*         this.left = (left===undefined ? null : left)
+*         this.right = (right===undefined ? null : right)
+*         this.next = (next===undefined ? null : next)
+*     }
+* }
+*/
 
 // preorder
-function getNext(node: Node | null): Node | null {
-    if (!node) {
-        return null;
-    }
-
-    if (node.left || node.right) {
-        return node;
-    }
-
-    return getNext(node.next);
-}
-
+// iterator right subtree first!!
 function connect(root: Node | null): Node | null {
     if (!root) {
         return null;
@@ -56,11 +47,22 @@ function connect(root: Node | null): Node | null {
         }
     }
 
-    connect(root.right); // must go right first!!
+    connect(root.right); // go right first!!
     connect(root.left);
-
     return root;
-};`;
+};
+
+function getNext(node: Node | null): Node | null {
+    if (!node) {
+        return null;
+    }
+
+    if (node.left || node.right) {
+        return node;
+    }
+
+    return getNext(node.next);
+}`;
 
 export const description = `
 You are given a **binary tree**.
