@@ -96,12 +96,13 @@ const DropDown: React.FC<{
 
 const parseInput = (input: string): (string | null)[] => {
     return input.split(",").map(ch => {
-        switch (ch) {
+        const c = ch.trim();
+        switch (c) {
             case undefined: return null;
             case "": return null;
             case "null": return null;
             case "undefined": return null;
-            default: return ch;
+            default: return c;
         }
     })
 }
