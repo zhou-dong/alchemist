@@ -115,13 +115,14 @@ const Submit: React.FC<{
         clearScene(scene);
 
         const array: (number | null)[] = value.split(",").map(num => {
-            switch (num.trim()) {
+            const n = num.trim();
+            switch (n) {
                 case "": return null;
                 case undefined: return null;
                 case null: return null;
                 case "undefined": return null;
                 case "null": return null;
-                default: return +(num);
+                default: return +(n);
             }
         });
 
