@@ -15,10 +15,8 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    root?: TreeNode<number>,
-    setRoot: React.Dispatch<React.SetStateAction<TreeNode<number> | undefined>>,
-    commonAncestors: TreeNode<number>[],
-    setCommonAncestors: React.Dispatch<React.SetStateAction<TreeNode<number>[]>>,
+    root?: TreeNode<string>,
+    setRoot: React.Dispatch<React.SetStateAction<TreeNode<string> | undefined>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -30,8 +28,6 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
-    commonAncestors: [],
-    setCommonAncestors: () => { }
 });
 
 let animationFrameId = -1;
@@ -45,10 +41,9 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [root, setRoot] = React.useState<TreeNode<number>>();
+    const [root, setRoot] = React.useState<TreeNode<string>>();
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
-    const [commonAncestors, setCommonAncestors] = React.useState<TreeNode<number>[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -86,8 +81,6 @@ export const AlgoContextProvider: React.FC<{
             setSteps,
             index,
             setIndex,
-            commonAncestors,
-            setCommonAncestors
         }}>
             {children}
             <div ref={ref}></div>
