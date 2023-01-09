@@ -3,8 +3,10 @@ import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeomet
 import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
 
-export const pqColor = "orange";
-export const commonAncestorColor = "lightgreen";
+const lineColor = "gold";
+export const arrowColor = "green";
+export const arrowHeadLength = 0.5;
+export const arrowHeadWidth = 0.3;
 export const enabledSphereColor = "lightblue";
 export const normalSphereColor = "yellow";
 
@@ -14,16 +16,16 @@ const sphereMaterial = (): THREE.Material => {
 }
 const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green" });
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
-const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
+const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
-export const buildTree = (array: (number | null)[], scene: THREE.Scene) => {
+export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
     const center = { x: 0, y: 9, z: 0 };
     const show = true;
     const duration = 0;
     const yDistance = 3;
     const xAxisAlpha = 2; // expend the tree size in xAxis.
 
-    return buildBinaryTree<number>(
+    return buildBinaryTree<string>(
         sphereGeometry,
         sphereMaterial,
         textMaterial,
