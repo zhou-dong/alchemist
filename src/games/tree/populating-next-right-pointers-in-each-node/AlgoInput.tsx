@@ -84,7 +84,7 @@ const Submit: React.FC<{
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setNextMap } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -99,6 +99,7 @@ const Submit: React.FC<{
         setSteps(steps);
         setIndex(0);
         setNodes("");
+        setNextMap(new Map());
         setAnchorEl(null);
         await wait(0.2);
         cancelAnimate();
