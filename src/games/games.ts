@@ -61,6 +61,7 @@ import PopulatingNextRightPointersInEachNode from "./tree/populating-next-right-
 import PopulatingNextRightPointersInEachNodeII from "./tree/populating-next-right-pointers-in-each-node-ii/info";
 import LowestCommonAncestorOfaBinarySearchTree from "./tree/lowest-common-ancestor-of-a-binary-search-tree/info";
 import LowestCommonAncestorOfaBinaryTree from "./tree/lowest-common-ancestor-of-a-binary-tree/info";
+import KthSmallestElementInBST from "./tree/kth-smallest-element-in-a-bst/info";
 
 export const games: Game[] = [
     editDistance,
@@ -123,5 +124,6 @@ export const games: Game[] = [
     ConstructBinaryTreeFromPreorderAndInorderTraversal,
     ConstructBinaryTreeFromInorderAndPostorderTraversal,
     LowestCommonAncestorOfaBinarySearchTree,
-    LowestCommonAncestorOfaBinaryTree
+    LowestCommonAncestorOfaBinaryTree,
+    KthSmallestElementInBST
 ];
