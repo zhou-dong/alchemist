@@ -14,7 +14,7 @@ export const formula = `/**
  * }
  */
 
-// postorder
+// preorder
 function connect(root: Node | null): Node | null {
     if (root === null) {
         return null;
