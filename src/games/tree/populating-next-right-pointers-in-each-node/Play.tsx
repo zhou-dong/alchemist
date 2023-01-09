@@ -1,53 +1,65 @@
+import * as THREE from 'three';
 import { useAlgoContext } from "./AlgoContext";
 import { Button, } from '@mui/material';
-import { normalSphereColor, enabledSphereColor, commonAncestorColor } from "./styles";
+import { normalSphereColor, enabledSphereColor, arrowColor, arrowHeadLength, arrowHeadWidth } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
-import { Step } from "./algo";
+import Arrow from "../../../data-structures/_commons/three/arrow";
+import Position from '../../../data-structures/_commons/params/position';
+import { Step } from './algo';
 
-const updateTreeColor = (commonAncestors: TreeNode<number>[], current?: TreeNode<any>, step?: Step) => {
-    if (current === undefined || step === undefined) {
+const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {
+    if (root === undefined || current === undefined) {
         return;
     }
 
-    if (!commonAncestors.includes(current)) {
-        const { node } = step;
-        if (current === node) {
-            current.sphereColor = enabledSphereColor;
-        } else {
-            current.sphereColor = normalSphereColor;
-        }
+    if (root === current) {
+        root.sphereColor = enabledSphereColor;
+    } else {
+        root.sphereColor = normalSphereColor;
     }
 
-    updateTreeColor(commonAncestors, current.left, step);
-    updateTreeColor(commonAncestors, current.right, step);
+    updateTreeColor(root.left, current);
+    updateTreeColor(root.right, current);
+}
+
+const buildThreePosition = ({ x, y, z }: Position): THREE.Vector3 => {
+    return new THREE.Vector3(x, y, z);
+}
+
+const connect = async (
+    a: TreeNode<string>,
+    b: TreeNode<string>,
+    scene: THREE.Scene,
+    setNextMap: React.Dispatch<React.SetStateAction<Map<TreeNode<string>, TreeNode<string>>>>
+) => {
+    const origin = buildThreePosition(a.val.center);
+    const dest = buildThreePosition(b.val.center);
+    dest.x = dest.x - 0.3;
+    const arrow = new Arrow(origin, dest, arrowColor, arrowHeadLength, arrowHeadWidth);
+    scene.add(arrow);
+
+    setNextMap(map => {
+        map.set(a, b);
+        return map;
+    });
 }
 
 const Main = () => {
 
-    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, commonAncestors, setCommonAncestors } = useAlgoContext();
+    const { animate, cancelAnimate, index, steps, setIndex, state, setState, scene, nextMap, setNextMap } = useAlgoContext();
 
     const handleOnClick = async () => {
         setState(State.Computing);
-
         animate();
-        const step = steps[index];
-        updateTreeColor(commonAncestors, root, step);
 
-        if (step) {
-            const { node, islowestCommonAncestor } = step;
-            if (node && islowestCommonAncestor) {
-                node.sphereColor = commonAncestorColor;
-                setCommonAncestors(nodes => {
-                    nodes.push(node);
-                    return nodes;
-                })
-            }
+        try {
+            doClick(steps[index]);
+            await wait(0.2);
+        } finally {
+            cancelAnimate();
         }
-
-        await wait(0.2);
-        cancelAnimate();
 
         if (index >= steps.length - 1) {
             setState(State.Finished);
@@ -55,6 +67,29 @@ const Main = () => {
             setState(State.Playing);
         }
         setIndex(i => i + 1);
+    }
+
+    const doClick = (step: Step) => {
+        const node = step.node;
+        if (!node) {
+            return;
+        }
+        updateTreeColor(steps[0]?.node, node);
+        const left = node.left;
+        const right = node.right;
+        const next = nextMap.get(node);
+
+        if (left && right) {
+            connect(left, right, scene, setNextMap);
+        };
+
+        if (right && next) {
+            if (next.left) {
+                connect(right, next.left, scene, setNextMap);
+            } else if (next.right) {
+                connect(right, next.right, scene, setNextMap);
+            }
+        }
     }
 
     return (
