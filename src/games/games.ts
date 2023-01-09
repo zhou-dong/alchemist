@@ -57,6 +57,7 @@ import SymmetricTree from "./tree/symmetric-tree/info";
 import ConvertSortedArrayToBinarySearchTree from "./tree/convert-sorted-array-to-binary-search-tree/info";
 import ConstructBinaryTreeFromPreorderAndInorderTraversal from "./tree/construct-binary-tree-from-preorder-and-inorder-traversal/info";
 import ConstructBinaryTreeFromInorderAndPostorderTraversal from "./tree/construct-binary-tree-from-inorder-and-postorder-traversal/info";
+import PopulatingNextRightPointersInEachNode from "./tree/populating-next-right-pointers-in-each-node/info";
 import LowestCommonAncestorOfaBinarySearchTree from "./tree/lowest-common-ancestor-of-a-binary-search-tree/info";
 import LowestCommonAncestorOfaBinaryTree from "./tree/lowest-common-ancestor-of-a-binary-tree/info";
 
@@ -116,6 +117,7 @@ export const games: Game[] = [
     ConvertSortedArrayToBinarySearchTree,
     SameTree,
     SymmetricTree,
+    PopulatingNextRightPointersInEachNode,
     ConstructBinaryTreeFromPreorderAndInorderTraversal,
     ConstructBinaryTreeFromInorderAndPostorderTraversal,
     LowestCommonAncestorOfaBinarySearchTree,
