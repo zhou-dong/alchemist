@@ -100,11 +100,12 @@ const Submit: React.FC<{
     const handleSubmit = async () => {
         setState(State.Typing);
         const array = value.split(",").map(ch => {
-            switch (ch) {
+            const c = ch.trim();
+            switch (c) {
                 case "": return null;
                 case "null": return null;
                 case "undefined": return null;
-                default: return ch;
+                default: return c;
             }
         });
 
