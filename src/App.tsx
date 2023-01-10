@@ -127,6 +127,8 @@ import LowestCommonAncestorOfaBinaryTree from "./games/tree/lowest-common-ancest
 import LowestCommonAncestorOfaBinaryTreeInfo from "./games/tree/lowest-common-ancestor-of-a-binary-tree/info";
 import KthSmallestElementInBST from "./games/tree/kth-smallest-element-in-a-bst";
 import KthSmallestElementInBSTInfo from "./games/tree/kth-smallest-element-in-a-bst/info";
+import SumOfLeftLeaves from "./games/tree/sum-of-left-leaves";
+import SumOfLeftLeavesInfo from "./games/tree/sum-of-left-leaves/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -218,6 +220,7 @@ const App = () => (
                 <Route path={LowestCommonAncestorOfaBinarySearchTreeInfo.path} element={<LowestCommonAncestorOfaBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={LowestCommonAncestorOfaBinaryTreeInfo.path} element={<LowestCommonAncestorOfaBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={KthSmallestElementInBSTInfo.path} element={<KthSmallestElementInBST renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={SumOfLeftLeavesInfo.path} element={<SumOfLeftLeaves renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>
