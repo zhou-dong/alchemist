@@ -1,13 +1,13 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Avatar, Button, Stack, Typography, } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 import { normalSphereColor, enabledSphereColor, } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
 import { Step } from './algo';
-import { buildThreeText } from "./styles";
+import { leftLeafColor, buildThreeText } from "./styles";
 
-const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {
+const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) => {
     if (root === undefined || current === undefined) {
         return;
     }
@@ -22,27 +22,28 @@ const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) =>
     updateTreeColor(root.right, current);
 }
 
-const DisplayK = () => {
-    const { k, } = useAlgoContext();
+const DisplaySum = () => {
+    const { index, steps } = useAlgoContext();
+    const step = steps[index - 1];
+    const sum = (step && step.sum) || 0;
 
     return (
-        <Stack
-            direction="row"
-            spacing={2}
+        <ButtonGroup
+            size="large"
             sx={{
                 position: "fixed",
                 top: 100,
                 left: "50%",
                 transform: "translate(-50%)",
-                alignItems: "center",
-                border: "1px solid lightgray",
-                padding: "8px 14px",
-                borderRadius: "30px"
             }}>
-            <Avatar sx={{ border: "1px solid lightgray", backgroundColor: "#FFF", color: "gray", }}>K</Avatar>
-            <Typography variant="h5" sx={{ color: "orange" }}>{k}</Typography>
-        </Stack>
-    );
+            <Button sx={{ width: "60px", borderColor: "lightgray", color: "gray" }}>
+                sum
+            </Button>
+            <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold" }}>
+                {sum}
+            </Button>
+        </ButtonGroup>
+    )
 }
 
 const Main = () => {
@@ -69,19 +70,23 @@ const Main = () => {
     }
 
     const doClick = (step: Step) => {
-        const { node, index } = step;
+        const { node, isLeftLeafNode } = step;
         if (!node) {
             return;
         }
         updateTreeColor(root, node);
-        const { x, y, z } = node.val.center;
-        const text = buildThreeText(index, x - 1.2, y + 0.5, z);
-        scene.add(text);
+        const left = node.left;
+        if (isLeftLeafNode && left) {
+            const { x, y, z } = left.val.center;
+            const text = buildThreeText("leaf", x - 1.2, y + 0.9, z);
+            scene.add(text);
+            left.sphereColor = leftLeafColor;
+        }
     }
 
     return (
         <>
-            <DisplayK />
+            <DisplaySum />
             <div style={{
                 position: "fixed",
                 bottom: "150px",
@@ -101,7 +106,6 @@ const Main = () => {
                 </Button>
             </div>
         </>
-
     );
 }
 
