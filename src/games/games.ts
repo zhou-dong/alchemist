@@ -55,6 +55,7 @@ import ValidateBinarySearchTree from "./tree/validate-binary-search-tree/info";
 import SameTree from "./tree/same-tree/info";
 import SymmetricTree from "./tree/symmetric-tree/info";
 import PathSum from "./tree/path-sum/info";
+import BinaryTreeRightSideView from "./tree/binary-tree-right-side-view/info";
 import ConvertSortedArrayToBinarySearchTree from "./tree/convert-sorted-array-to-binary-search-tree/info";
 import ConstructBinaryTreeFromPreorderAndInorderTraversal from "./tree/construct-binary-tree-from-preorder-and-inorder-traversal/info";
 import ConstructBinaryTreeFromInorderAndPostorderTraversal from "./tree/construct-binary-tree-from-inorder-and-postorder-traversal/info";
@@ -122,6 +123,7 @@ export const games: Game[] = [
     SameTree,
     SymmetricTree,
     PathSum,
+    BinaryTreeRightSideView,
     PopulatingNextRightPointersInEachNode,
     PopulatingNextRightPointersInEachNodeII,
     ConstructBinaryTreeFromPreorderAndInorderTraversal,

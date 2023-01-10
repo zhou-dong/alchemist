@@ -119,6 +119,8 @@ import SymmetricTree from "./games/tree/symmetric-tree";
 import SymmetricTreeInfo from "./games/tree/symmetric-tree/info";
 import PathSum from "./games/tree/path-sum";
 import PathSumInfo from "./games/tree/path-sum/info";
+import BinaryTreeRightSideView from "./games/tree/binary-tree-right-side-view";
+import BinaryTreeRightSideViewInfo from "./games/tree/binary-tree-right-side-view/info";
 import PopulatingNextRightPointersInEachNode from "./games/tree/populating-next-right-pointers-in-each-node";
 import PopulatingNextRightPointersInEachNodeInfo from "./games/tree/populating-next-right-pointers-in-each-node/info";
 import PopulatingNextRightPointersInEachNodeII from "./games/tree/populating-next-right-pointers-in-each-node-ii";
@@ -215,6 +217,7 @@ const App = () => (
                 <Route path={SameTreeInfo.path} element={<SameTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={SymmetricTreeInfo.path} element={<SymmetricTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={PathSumInfo.path} element={<PathSum renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={BinaryTreeRightSideViewInfo.path} element={<BinaryTreeRightSideView renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={PopulatingNextRightPointersInEachNodeInfo.path} element={<PopulatingNextRightPointersInEachNode renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={PopulatingNextRightPointersInEachNodeIIInfo.path} element={<PopulatingNextRightPointersInEachNodeII renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ConvertSortedArrayToBinarySearchTreeInfo.path} element={<ConvertSortedArrayToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
