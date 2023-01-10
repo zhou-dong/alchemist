@@ -5,22 +5,30 @@ export enum Direction {
 }
 
 export interface Step {
-    node: TreeNode<string>;
+    index: number;
+    node?: TreeNode<string>;
     direction?: Direction;
 }
 
-export function buildSteps(root?: TreeNode<string>): Step[] {
+export function buildSteps(k: number, root?: TreeNode<string>): Step[] {
     const steps: Step[] = [];
 
-    function connect(node?: TreeNode<string>, direction?: Direction) {
+    let index: number = 0;
+
+    function kthSmallest(node?: TreeNode<string>, direction?: Direction) {
         if (node === undefined) {
             return;
         }
-        connect(node.left, Direction.Left);
-        steps.push({ node, direction });
-        connect(node.right, Direction.Right);
+
+        kthSmallest(node.left, Direction.Left);
+        index = index + 1;
+        if (index > k) {
+            return;
+        }
+        steps.push({ node, direction, index });
+        kthSmallest(node.right, Direction.Right);
     }
 
-    connect(root);
+    kthSmallest(root);
     return steps;
 }
