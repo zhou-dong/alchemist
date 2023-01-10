@@ -4,9 +4,6 @@ import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
 
 const lineColor = "gold";
-export const arrowColor = "green";
-export const arrowHeadLength = 0.5;
-export const arrowHeadWidth = 0.3;
 export const enabledSphereColor = "lightblue";
 export const normalSphereColor = "yellow";
 
