@@ -1,13 +1,11 @@
-import * as THREE from 'three';
 import { useAlgoContext } from "./AlgoContext";
-import { Button, } from '@mui/material';
-import { normalSphereColor, enabledSphereColor, arrowColor, arrowHeadLength, arrowHeadWidth } from "./styles";
+import { Avatar, Button, Stack, Typography, } from '@mui/material';
+import { normalSphereColor, enabledSphereColor, } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
-import Arrow from "../../../data-structures/_commons/three/arrow";
-import Position from '../../../data-structures/_commons/params/position';
 import { Step } from './algo';
+import { buildThreeText } from "./styles";
 
 const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {
     if (root === undefined || current === undefined) {
@@ -24,31 +22,32 @@ const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) =>
     updateTreeColor(root.right, current);
 }
 
-const buildThreePosition = ({ x, y, z }: Position): THREE.Vector3 => {
-    return new THREE.Vector3(x, y, z);
-}
+const DisplayK = () => {
+    const { k, } = useAlgoContext();
 
-const connect = async (
-    a: TreeNode<string>,
-    b: TreeNode<string>,
-    scene: THREE.Scene,
-    setNextMap: React.Dispatch<React.SetStateAction<Map<TreeNode<string>, TreeNode<string>>>>
-) => {
-    const origin = buildThreePosition(a.val.center);
-    const dest = buildThreePosition(b.val.center);
-    dest.x = dest.x - 0.3;
-    const arrow = new Arrow(origin, dest, arrowColor, arrowHeadLength, arrowHeadWidth);
-    scene.add(arrow);
-
-    setNextMap(map => {
-        map.set(a, b);
-        return map;
-    });
+    return (
+        <Stack
+            direction="row"
+            spacing={2}
+            sx={{
+                position: "fixed",
+                top: 100,
+                left: "50%",
+                transform: "translate(-50%)",
+                alignItems: "center",
+                border: "1px solid lightgray",
+                padding: "8px 14px",
+                borderRadius: "30px"
+            }}>
+            <Avatar sx={{ border: "1px solid lightgray", backgroundColor: "#FFF", color: "gray", }}>K</Avatar>
+            <Typography variant="h5" sx={{ color: "orange" }}>{k}</Typography>
+        </Stack>
+    );
 }
 
 const Main = () => {
 
-    const { animate, cancelAnimate, index, steps, setIndex, state, setState, scene, nextMap, setNextMap } = useAlgoContext();
+    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, scene } = useAlgoContext();
 
     const handleOnClick = async () => {
         setState(State.Computing);
@@ -56,7 +55,7 @@ const Main = () => {
 
         try {
             doClick(steps[index]);
-            await wait(0.2);
+            await wait(0.3);
         } finally {
             cancelAnimate();
         }
@@ -70,47 +69,39 @@ const Main = () => {
     }
 
     const doClick = (step: Step) => {
-        const node = step.node;
+        const { node, index } = step;
         if (!node) {
             return;
         }
-        updateTreeColor(steps[0]?.node, node);
-        const left = node.left;
-        const right = node.right;
-        const next = nextMap.get(node);
-
-        if (left && right) {
-            connect(left, right, scene, setNextMap);
-        };
-
-        if (right && next) {
-            if (next.left) {
-                connect(right, next.left, scene, setNextMap);
-            } else if (next.right) {
-                connect(right, next.right, scene, setNextMap);
-            }
-        }
+        updateTreeColor(root, node);
+        const { x, y, z } = node.val.center;
+        const text = buildThreeText(index, x - 1.2, y + 0.5, z);
+        scene.add(text);
     }
 
     return (
-        <div style={{
-            position: "fixed",
-            bottom: "150px",
-            left: "50%",
-            transform: "translate(-50%)",
-        }}
-        >
-            <Button
-                variant="contained"
-                size="large"
-                onClick={handleOnClick}
-                sx={{ color: "#FFF", zIndex: 1 }}
-                disabled={state !== State.Playing}
-                color="primary"
+        <>
+            <DisplayK />
+            <div style={{
+                position: "fixed",
+                bottom: "150px",
+                left: "50%",
+                transform: "translate(-50%)",
+            }}
             >
-                next
-            </Button>
-        </div>
+                <Button
+                    variant="contained"
+                    size="large"
+                    onClick={handleOnClick}
+                    sx={{ color: "#FFF", zIndex: 1 }}
+                    disabled={state !== State.Playing}
+                    color="primary"
+                >
+                    next
+                </Button>
+            </div>
+        </>
+
     );
 }
 
