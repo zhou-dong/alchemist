@@ -17,6 +17,31 @@ export const formula = `/**
 // preorder
 function sumOfLeftLeaves(root: TreeNode | null): number {
 
+    let sum = 0;
+    function dfs(node: TreeNode | null) {
+        if (node === null) {
+            return null;
+        }
+
+        if (node.left && isLeftNode(node.left)) {
+            sum += node.left.val;
+        }
+
+        dfs(node.left);
+        dfs(node.right);
+    }
+
+    function isLeftNode(node: TreeNode) {
+        return !node.left && !node.right;
+    }
+
+    dfs(root);
+    return sum;
+};`;
+
+const formula1 = `// preorder and postorder
+function sumOfLeftLeaves(root: TreeNode | null): number {
+
     function isLeftNode(node: TreeNode) {
         return !node.left && !node.right; 
     }
@@ -38,7 +63,7 @@ function sumOfLeftLeaves(root: TreeNode | null): number {
     }
 
     return dfs(root);
-};`;
+};`
 
 export const description = `
 Given the **root** of a binary tree, return the sum of all left leaves.
