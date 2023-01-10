@@ -78,7 +78,7 @@ const Main = () => {
         const left = node.left;
         if (isLeftLeafNode && left) {
             const { x, y, z } = left.val.center;
-            const text = buildThreeText("leaf", x - 1.2, y + 0.9, z);
+            const text = buildThreeText("left leaf", x - 1.2, y + 0.9, z);
             scene.add(text);
             left.sphereColor = leftLeafColor;
         }
