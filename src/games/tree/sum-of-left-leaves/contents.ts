@@ -23,7 +23,7 @@ function sumOfLeftLeaves(root: TreeNode | null): number {
             return null;
         }
 
-        if (node.left && isLeftNode(node.left)) {
+        if (node.left && isLeafNode(node.left)) {
             sum += node.left.val;
         }
 
@@ -31,7 +31,7 @@ function sumOfLeftLeaves(root: TreeNode | null): number {
         dfs(node.right);
     }
 
-    function isLeftNode(node: TreeNode) {
+    function isLeafNode(node: TreeNode) {
         return !node.left && !node.right;
     }
 
@@ -39,10 +39,10 @@ function sumOfLeftLeaves(root: TreeNode | null): number {
     return sum;
 };`;
 
-const formula1 = `// preorder and postorder
+export const formula1 = `// preorder and postorder
 function sumOfLeftLeaves(root: TreeNode | null): number {
 
-    function isLeftNode(node: TreeNode) {
+    function isLeafNode(node: TreeNode) {
         return !node.left && !node.right; 
     }
 
@@ -53,7 +53,7 @@ function sumOfLeftLeaves(root: TreeNode | null): number {
         
         let sum = 0;
 
-        if (node.left && isLeftNode(node.left)) {
+        if (node.left && isLeafNode(node.left)) {
             sum += node.left.val;
         }
 
