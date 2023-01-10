@@ -5,30 +5,35 @@ export enum Direction {
 }
 
 export interface Step {
-    index: number;
-    node?: TreeNode<string>;
-    direction?: Direction;
+    node?: TreeNode<number>;
+    sum: number;
+    isLeftLeafNode: boolean;
 }
 
-export function buildSteps(k: number, root?: TreeNode<string>): Step[] {
+function isLeafNode(node: TreeNode<number>) {
+    return !node.left && !node.right;
+}
+
+export function buildSteps(root?: TreeNode<number>): Step[] {
     const steps: Step[] = [];
 
-    let index: number = 0;
-
-    function kthSmallest(node?: TreeNode<string>, direction?: Direction) {
-        if (node === undefined) {
+    let sum = 0;
+    function sumOfLeftLeaves(node?: TreeNode<number>) {
+        if (!node) {
             return;
         }
 
-        kthSmallest(node.left, Direction.Left);
-        index = index + 1;
-        if (index > k) {
-            return;
+        if (node.left && isLeafNode(node.left)) {
+            sum += node.left.val.value;
+            steps.push({ node, sum, isLeftLeafNode: true });
+        } else {
+            steps.push({ node, sum, isLeftLeafNode: false });
         }
-        steps.push({ node, direction, index });
-        kthSmallest(node.right, Direction.Right);
+
+        sumOfLeftLeaves(node.left);
+        sumOfLeftLeaves(node.right);
     }
 
-    kthSmallest(root);
+    sumOfLeftLeaves(root);
     return steps;
 }
