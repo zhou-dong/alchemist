@@ -5,7 +5,7 @@ export enum Direction {
 }
 
 export interface Step {
-    node?: TreeNode<string>;
+    node: TreeNode<string>;
     direction?: Direction;
 }
 
@@ -16,8 +16,8 @@ export function buildSteps(root?: TreeNode<string>): Step[] {
         if (node === undefined) {
             return;
         }
-        steps.push({ node, direction });
         connect(node.left, Direction.Left);
+        steps.push({ node, direction });
         connect(node.right, Direction.Right);
     }
 
