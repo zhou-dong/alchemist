@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
+import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
 
@@ -19,7 +19,7 @@ const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height
 const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
 export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
-    const center = { x: 0, y: 9, z: 0 };
+    const center = { x: 0, y: 7, z: 0 };
     const show = true;
     const duration = 0;
     const yDistance = 3;
@@ -39,4 +39,22 @@ export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
         array,
         show
     );
+}
+
+const getText = (value: number): string => {
+    switch (value) {
+        case -Infinity: return "min"
+        case Infinity: return "max";
+        default: return value + "";
+    }
+}
+
+const indexTextMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "orange" });
+const indexUpperTextGeometryParameters: TextGeometryParameters = { font, size: 0.5, height: 0.1 };
+export const buildThreeText = (value: number, x: number, y: number, z: number): THREE.Mesh => {
+    const text = getText(value);
+    const textGeometry = new TextGeometry(text, indexUpperTextGeometryParameters);
+    const mesh = new THREE.Mesh(textGeometry, indexTextMaterial);
+    mesh.position.set(x, y, z);
+    return mesh;
 }
