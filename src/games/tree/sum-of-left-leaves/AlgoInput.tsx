@@ -17,17 +17,16 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = { array: [15, 7, 30, 4, 9, 20, null, 2], k: 4 };
-const input2 = { array: [10, 7, 18, 5, 9, 14, 25, 4, 6, null, null, 11, 15], k: 8 };
-const input3 = { array: [12, 8, 15, 6, 10, 13, 17, 4], k: 6 };
+const input1 = [15, 7, 30, 4, 9, 20, null, 2, null, 5, null, null, 12];
+const input2 = [10, 7, 18, 5, 9, 14, 25, 4, null, null, null, null, 15];
+const input3 = [12, 8, 15, 6, 10, 13, 17, 4, null, 2, null, null, 9, null, null];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
     setNodes: React.Dispatch<React.SetStateAction<string>>,
-    setK: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setNodes, setK }) => {
+}> = ({ anchorEl, setAnchorEl, open, setNodes }) => {
 
     const buildInInputs = [
         input1,
@@ -45,25 +44,13 @@ const DropDown: React.FC<{
             open={open}
             onClose={handleMenuClose}
         >
-            <MenuItem>
-                <ListItemIcon>
-                    {/* <InputIcon fontSize="small" /> */}
-                </ListItemIcon>
-                <ListItemText sx={{ width: "120px" }}>
-                    array
-                </ListItemText>
-                <ListItemText>
-                    k
-                </ListItemText>
-            </MenuItem>
             {
                 buildInInputs.map((item, index) => (
                     <MenuItem
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setNodes(item.array.join(","));
-                            setK(item.k + "");
+                            setNodes(item.join(","));
                         }}
                         sx={{ width: "408px", overflow: "hidden" }}
                     >
@@ -71,10 +58,7 @@ const DropDown: React.FC<{
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText sx={{ width: "120px" }}>
-                            {item.array.join(",")}
-                        </ListItemText>
-                        <ListItemText>
-                            {item.k}
+                            {item.join(",")}
                         </ListItemText>
                     </MenuItem>
                 ))
@@ -83,14 +67,14 @@ const DropDown: React.FC<{
     );
 }
 
-const parseInput = (input: string): (string | null)[] => {
+const parseInput = (input: string): (number | null)[] => {
     return input.split(",").map(ch => {
         switch (ch.trim()) {
             case "": return null;
             case "null": return null;
             case "undefined": return null;
             case undefined: return null;
-            default: return ch.trim();
+            default: return +(ch.trim());
         }
     });
 }
@@ -98,12 +82,11 @@ const parseInput = (input: string): (string | null)[] => {
 const Submit: React.FC<{
     nodes: string,
     setNodes: React.Dispatch<React.SetStateAction<string>>,
-    k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setK } = useAlgoContext();
+}> = ({ nodes, setNodes, setAnchorEl }) => {
+    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex } = useAlgoContext();
 
-    const disabled = nodes.trim().length === 0 || k.trim().length === 0;
+    const disabled = nodes.trim().length === 0;
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -111,8 +94,7 @@ const Submit: React.FC<{
         animate();
         clearScene(scene);
         const root = buildTree(array, scene);
-        const steps = buildSteps(+k, root);
-        setK(+k);
+        const steps = buildSteps(root);
         setRoot(root);
         setSteps(steps);
         setIndex(0);
@@ -137,8 +119,6 @@ interface Props {
 export default function AlgoInput({ setAnchorEl }: Props) {
 
     const [nodes, setNodes] = React.useState("");
-    const [k, setK] = React.useState("");
-
     const handleNodesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNodes(e.currentTarget.value);
     };
@@ -178,23 +158,13 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
-                <InputBase
-                    sx={{ width: 60 }}
-                    placeholder='K'
-                    value={k}
-                    onChange={handleNodesChange}
-                    type="number"
-                />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
                     setNodes("");
-                    setK("");
                 }}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} k={k} />
+                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} />
             </Paper>
 
             <DropDown
@@ -202,7 +172,6 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
                 setNodes={setNodes}
-                setK={setK}
             />
         </>
     );
