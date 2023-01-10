@@ -143,6 +143,10 @@ export default function AlgoInput({ setAnchorEl }: Props) {
         setNodes(e.currentTarget.value);
     };
 
+    const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setK(e.currentTarget.value);
+    };
+
     const reference = React.useRef(null);
     const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(menuAnchorEl);
@@ -182,7 +186,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                     sx={{ width: 60 }}
                     placeholder='K'
                     value={k}
-                    onChange={handleNodesChange}
+                    onChange={handleKChange}
                     type="number"
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
