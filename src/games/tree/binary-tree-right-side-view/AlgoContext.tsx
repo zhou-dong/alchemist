@@ -17,6 +17,8 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     root?: TreeNode<number>,
     setRoot: React.Dispatch<React.SetStateAction<TreeNode<number> | undefined>>,
+    rightSideNodes: TreeNode<number>[],
+    setRightSideNodes: React.Dispatch<React.SetStateAction<TreeNode<number>[]>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -28,6 +30,8 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
+    rightSideNodes: [],
+    setRightSideNodes: () => { }
 });
 
 let animationFrameId = -1;
@@ -44,6 +48,7 @@ export const AlgoContextProvider: React.FC<{
     const [root, setRoot] = React.useState<TreeNode<number>>();
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
+    const [rightSideNodes, setRightSideNodes] = React.useState<TreeNode<number>[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -81,6 +86,8 @@ export const AlgoContextProvider: React.FC<{
             setSteps,
             index,
             setIndex,
+            rightSideNodes,
+            setRightSideNodes
         }}>
             {children}
             <div ref={ref}></div>
