@@ -8,7 +8,7 @@ const info: Game = {
     path: "/algorithms/sum-root-to-leaf-numbers",
     categories: [Category.Tree],
     companies: [],
-    difficulty: Difficulty.Easy,
+    difficulty: Difficulty.Medium,
     img: "/img/sum-root-to-leaf-numbers.png",
     leetcodeId: 129
 }
