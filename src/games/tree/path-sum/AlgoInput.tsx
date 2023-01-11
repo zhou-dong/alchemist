@@ -17,16 +17,17 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = [15, 7, 30, 4, 9, 20, null, 2, null, 5, null, null, 12];
-const input2 = [10, 7, 18, 5, 9, 14, 25, 4, null, null, null, null, 15];
-const input3 = [12, 8, 15, 6, 10, 13, 17, 4, null, 2, null, null, 9, null, null];
+const input3 = { nodes: [15, 7, 10, 4, 14, 11, 12, 2, null, 1], targetSum: 36 };
+const input2 = { nodes: [10, 7, 18, 9, 9, 14, 25, 11, null, null, null, null, 15], targetSum: 26 };
+const input1 = { nodes: [12, 8, 15, 6, 10, 3, 17, 5, null, 2, null, null,], targetSum: 30 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
     setNodes: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setNodes }) => {
+    setTargetSum: React.Dispatch<React.SetStateAction<string>>
+}> = ({ anchorEl, setAnchorEl, open, setNodes, setTargetSum }) => {
 
     const buildInInputs = [
         input1,
@@ -44,21 +45,36 @@ const DropDown: React.FC<{
             open={open}
             onClose={handleMenuClose}
         >
+            <MenuItem>
+                <ListItemIcon>
+                    {/* <InputIcon fontSize="small" /> */}
+                </ListItemIcon>
+                <ListItemText sx={{ width: "200px" }}>
+                    array
+                </ListItemText>
+                <ListItemText>
+                    targetSum
+                </ListItemText>
+            </MenuItem>
             {
                 buildInInputs.map((item, index) => (
                     <MenuItem
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setNodes(item.join(","));
+                            setNodes(item.nodes.join(","));
+                            setTargetSum(item.targetSum + "");
                         }}
-                        sx={{ width: "408px", overflow: "hidden" }}
+                        sx={{ width: "508px", overflow: "hidden" }}
                     >
                         <ListItemIcon>
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText sx={{ width: "120px" }}>
-                            {item.join(",")}
+                        <ListItemText sx={{ width: "180px" }}>
+                            {item.nodes.join(",")}
+                        </ListItemText>
+                        <ListItemText>
+                            {item.targetSum}
                         </ListItemText>
                     </MenuItem>
                 ))
@@ -82,9 +98,10 @@ const parseInput = (input: string): (number | null)[] => {
 const Submit: React.FC<{
     nodes: string,
     setNodes: React.Dispatch<React.SetStateAction<string>>,
+    targetSum: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex } = useAlgoContext();
+}> = ({ nodes, setNodes, setAnchorEl, targetSum }) => {
+    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setTargetSum } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -94,10 +111,11 @@ const Submit: React.FC<{
         animate();
         clearScene(scene);
         const root = buildTree(array, scene);
-        const steps = buildSteps(root);
+        const steps = buildSteps(+targetSum, root);
         setRoot(root);
         setSteps(steps);
         setIndex(0);
+        setTargetSum(+targetSum);
         setNodes("");
         setAnchorEl(null);
         await wait(0.2);
@@ -119,8 +137,14 @@ interface Props {
 export default function AlgoInput({ setAnchorEl }: Props) {
 
     const [nodes, setNodes] = React.useState("");
+    const [targetSum, setTargetSum] = React.useState("");
+
     const handleNodesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNodes(e.currentTarget.value);
+    };
+
+    const handleTargetSumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTargetSum(e.currentTarget.value);
     };
 
     const reference = React.useRef(null);
@@ -142,7 +166,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 sx={{
                     p: '2px 4px',
                     display: 'flex',
-                    width: 400,
+                    width: 500,
                     alignItems: "center"
                 }}
             >
@@ -158,13 +182,24 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
+                <InputBase
+                    sx={{ width: 100 }}
+                    placeholder='targetSum'
+                    value={targetSum}
+                    onChange={handleTargetSumChange}
+                    type="number"
+                />
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+
+
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
                     setNodes("");
+                    setTargetSum("");
                 }}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} />
+                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} targetSum={targetSum} />
             </Paper>
 
             <DropDown
@@ -172,6 +207,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
                 setNodes={setNodes}
+                setTargetSum={setTargetSum}
             />
         </>
     );
