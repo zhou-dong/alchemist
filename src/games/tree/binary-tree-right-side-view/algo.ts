@@ -5,35 +5,37 @@ export enum Direction {
 }
 
 export interface Step {
-    node?: TreeNode<number>;
-    sum: number;
-    isLeftLeafNode: boolean;
-}
-
-function isLeafNode(node: TreeNode<number>) {
-    return !node.left && !node.right;
+    node: TreeNode<number>;
+    isRightSide: boolean;
+    result: number[];
 }
 
 export function buildSteps(root?: TreeNode<number>): Step[] {
     const steps: Step[] = [];
 
-    let sum = 0;
-    function sumOfLeftLeaves(node?: TreeNode<number>) {
-        if (!node) {
-            return;
+    function rightSideView(root?: TreeNode<number>): number[] {
+        const result: number[] = [];
+
+        function dfs(node: TreeNode<number> | undefined, depth: number) {
+            if (!node) {
+                return;
+            }
+
+            let isRightSide = false;
+            if (result.length === depth) {
+                result.push(node.val.value);
+                isRightSide = true;
+            }
+
+            steps.push({ node, isRightSide, result: [...result] });
+            dfs(node.right, depth + 1);
+            dfs(node.left, depth + 1);
         }
 
-        if (node.left && isLeafNode(node.left)) {
-            sum += node.left.val.value;
-            steps.push({ node, sum, isLeftLeafNode: true });
-        } else {
-            steps.push({ node, sum, isLeftLeafNode: false });
-        }
+        dfs(root, 0);
+        return result;
+    };
 
-        sumOfLeftLeaves(node.left);
-        sumOfLeftLeaves(node.right);
-    }
-
-    sumOfLeftLeaves(root);
+    rightSideView(root);
     return steps;
 }
