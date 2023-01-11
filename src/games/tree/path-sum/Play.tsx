@@ -5,7 +5,7 @@ import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
 import { Step } from './algo';
-import { leftLeafColor, buildThreeText } from "./styles";
+import { buildThreeText } from "./styles";
 
 const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) => {
     if (root === undefined || current === undefined) {
@@ -23,9 +23,9 @@ const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) =>
 }
 
 const DisplaySum = () => {
-    const { index, steps } = useAlgoContext();
-    const step = steps[index - 1];
-    const sum = (step && step.sum) || 0;
+    const { targetSum, steps, index } = useAlgoContext();
+    const hasPathSum = steps[index - 1]?.hasPathSum;
+    const sumColor = hasPathSum ? "green" : "gray";
 
     return (
         <ButtonGroup
@@ -36,11 +36,11 @@ const DisplaySum = () => {
                 left: "50%",
                 transform: "translate(-50%)",
             }}>
-            <Button sx={{ width: "60px", borderColor: "lightgray", color: "gray" }}>
-                sum
+            <Button sx={{ width: "160px", borderColor: "lightgray", color: "gray" }}>
+                target sum
             </Button>
-            <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold" }}>
-                {sum}
+            <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold", color: sumColor }}>
+                {targetSum || ""}
             </Button>
         </ButtonGroup>
     )
@@ -70,18 +70,14 @@ const Main = () => {
     }
 
     const doClick = (step: Step) => {
-        const { node, isLeftLeafNode } = step;
+        const { node, sum } = step;
         if (!node) {
             return;
         }
         updateTreeColor(root, node);
-        const left = node.left;
-        if (isLeftLeafNode && left) {
-            const { x, y, z } = left.val.center;
-            const text = buildThreeText("left leaf", x - 1.2, y + 0.9, z);
-            scene.add(text);
-            left.sphereColor = leftLeafColor;
-        }
+        const { x, y, z } = node.val.center;
+        const text = buildThreeText(sum, x - 1.2, y + 0.9, z);
+        scene.add(text);
     }
 
     return (
