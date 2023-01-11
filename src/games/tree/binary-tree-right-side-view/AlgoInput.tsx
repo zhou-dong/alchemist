@@ -17,9 +17,9 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = [15, 7, 30, 4, 9, 20, null, 2, null, 5, null, null, 12];
+const input1 = [15, 7, 30, 4, 9, 20, null, 2, null, 5, null, null];
 const input2 = [10, 7, 18, 5, 9, 14, 25, 4, null, null, null, null, 15];
-const input3 = [12, 8, 15, 6, 10, 13, 17, 4, null, 2, null, null, 9, null, null];
+const input3 = [12, 8, 15, 6, 10, 13, 17, 4];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -84,7 +84,7 @@ const Submit: React.FC<{
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setRightSideNodes } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -99,6 +99,7 @@ const Submit: React.FC<{
         setSteps(steps);
         setIndex(0);
         setNodes("");
+        setRightSideNodes([]);
         setAnchorEl(null);
         await wait(0.2);
         cancelAnimate();
