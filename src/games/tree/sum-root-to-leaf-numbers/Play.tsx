@@ -25,7 +25,7 @@ const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) =>
 const DisplaySum = () => {
     const { steps, index } = useAlgoContext();
     const step = steps[index - 1];
-    const sum = step ? step.total : "";
+    const sum = step ? step.total : "sum";
     const leaves = step ? step.leaves : [];
 
     return (
