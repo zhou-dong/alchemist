@@ -1,32 +1,31 @@
 import { useAlgoContext } from "./AlgoContext";
 import { Button, ButtonGroup, Stack } from '@mui/material';
-import { normalSphereColor, enabledSphereColor, } from "./styles";
+import { normalSphereColor, enabledSphereColor, targetSumColor, } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
 import { Step } from './algo';
 import { buildThreeText } from "./styles";
 
-const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) => {
+const updateTreeColor = (leaves: TreeNode<number>[], root?: TreeNode<number>, current?: TreeNode<number>) => {
     if (root === undefined || current === undefined) {
         return;
     }
 
-    if (root === current) {
-        root.sphereColor = enabledSphereColor;
-    } else {
-        root.sphereColor = normalSphereColor;
+    if (!leaves.includes(root)) {
+        if (root === current) {
+            root.sphereColor = enabledSphereColor;
+        } else {
+            root.sphereColor = normalSphereColor;
+        }
     }
-
-    updateTreeColor(root.left, current);
-    updateTreeColor(root.right, current);
+    updateTreeColor(leaves, root.left, current);
+    updateTreeColor(leaves, root.right, current);
 }
 
 const DisplaySum = () => {
     const { targetSum, steps, index } = useAlgoContext();
     const step = steps[index - 1];
-    const hasPathSum = step?.hasPathSum;
-    const sumColor = hasPathSum ? "green" : "gray";
     const paths = step ? step.paths : [];
 
     return (
@@ -38,12 +37,11 @@ const DisplaySum = () => {
                 left: "50%",
                 transform: "translate(-50%)",
             }}>
-
-            <ButtonGroup size="large">
+            <ButtonGroup>
                 <Button sx={{ width: "160px", borderColor: "lightgray", color: "gray" }}>
                     target sum
                 </Button>
-                <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold", color: sumColor }}>
+                <Button sx={{ width: "60px", borderColor: "lightgray", color: "gray" }}>
                     {targetSum || ""}
                 </Button>
 
@@ -55,7 +53,7 @@ const DisplaySum = () => {
                 {
                     paths.map((path, i) =>
                         <Button key={i} sx={{ borderColor: "lightgray", color: "gray" }}>
-                            {path.join(" ,")}
+                            [{path.join(" ,")}]
                         </Button>
                     )
                 }
@@ -66,7 +64,7 @@ const DisplaySum = () => {
 
 const Main = () => {
 
-    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, scene } = useAlgoContext();
+    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, scene, leaves, setLeaves } = useAlgoContext();
 
     const handleOnClick = async () => {
         setState(State.Computing);
@@ -88,14 +86,18 @@ const Main = () => {
     }
 
     const doClick = (step: Step) => {
-        const { node, sum } = step;
-        if (!node) {
-            return;
-        }
-        updateTreeColor(root, node);
+        const { node, sum, hasPathSum } = step;
+        updateTreeColor(leaves, root, node);
         const { x, y, z } = node.val.center;
         const text = buildThreeText(sum, x - 1.2, y + 0.9, z);
         scene.add(text);
+        if (hasPathSum) {
+            node.sphereColor = targetSumColor;
+            setLeaves(leaves => {
+                leaves.push(node);
+                return leaves;
+            })
+        }
     }
 
     return (
