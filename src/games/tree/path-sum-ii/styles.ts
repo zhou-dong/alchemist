@@ -3,6 +3,7 @@ import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometr
 import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
 
+export const targetSumColor = "orange";
 export const enabledSphereColor = "lightblue";
 export const normalSphereColor = "yellow";
 
@@ -15,7 +16,7 @@ const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height
 const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
 export const buildTree = (array: (number | null)[], scene: THREE.Scene) => {
-    const center = { x: 0, y: 8, z: 0 };
+    const center = { x: 0, y: 6, z: 0 };
     const show = true;
     const duration = 0;
     const yDistance = 3;

@@ -5,39 +5,49 @@ export enum Direction {
 }
 
 export interface Step {
-    node?: TreeNode<number>;
+    node: TreeNode<number>;
     sum: number;
     hasPathSum: boolean;
+    paths: number[][];
 }
 
 function isLeaf(node: TreeNode<number>) {
     return !node.left && !node.right;
 }
 
+function clone(paths: number[][]): number[][] {
+    return paths.map(path => [...path]);
+}
+
 export function buildSteps(targetSum: number, root?: TreeNode<number>): Step[] {
     const steps: Step[] = [];
 
 
-    function hasPathSum(root: TreeNode<number> | undefined, targetSum: number): boolean {
+    function hasPathSum(root: TreeNode<number> | undefined, targetSum: number) {
 
-        function dfs(node: TreeNode<number> | undefined, num: number): boolean {
+        const paths: number[][] = [];
+
+        function dfs(node: TreeNode<number> | undefined, nums: number[]) {
             if (node === undefined) {
                 return false;
             }
 
-            const sum = node.val.value + num;
+            const path: number[] = [...nums, node.val.value];
+            const sum = path.reduce((a, b) => a + b, 0);
 
             if (isLeaf(node) && sum === targetSum) {
-                steps.push({ node, sum, hasPathSum: true });
+                paths.push(path);
+                steps.push({ node, sum, hasPathSum: true, paths: clone(paths) });
                 return true;
             }
 
-            steps.push({ node, sum, hasPathSum: false });
+            steps.push({ node, sum, hasPathSum: false, paths: clone(paths) });
 
-            return dfs(node.left, sum) || dfs(node.right, sum);
+            dfs(node.left, path);
+            dfs(node.right, path);
         }
 
-        return dfs(root, 0);
+        dfs(root, []);
     };
 
     hasPathSum(root, targetSum);

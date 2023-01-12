@@ -19,7 +19,7 @@ import { buildTree, } from "./styles";
 
 const input3 = { nodes: [15, 7, 10, 4, 14, 11, 12, 2, null, 1], targetSum: 36 };
 const input2 = { nodes: [10, 7, 18, 9, 9, 14, 25, 11, null, null, null, null, 15], targetSum: 26 };
-const input1 = { nodes: [12, 8, 15, 6, 10, 3, 17, 5, null, 2, null, null,], targetSum: 30 };
+const input1 = { nodes: [12, 8, 15, 6, 10, 3, 17, 4, null, 2, null, null,], targetSum: 30 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,

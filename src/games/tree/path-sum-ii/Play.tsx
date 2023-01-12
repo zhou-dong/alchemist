@@ -1,5 +1,5 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup } from '@mui/material';
+import { Button, ButtonGroup, Stack } from '@mui/material';
 import { normalSphereColor, enabledSphereColor, } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
@@ -24,25 +24,43 @@ const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) =>
 
 const DisplaySum = () => {
     const { targetSum, steps, index } = useAlgoContext();
-    const hasPathSum = steps[index - 1]?.hasPathSum;
+    const step = steps[index - 1];
+    const hasPathSum = step?.hasPathSum;
     const sumColor = hasPathSum ? "green" : "gray";
+    const paths = step ? step.paths : [];
 
     return (
-        <ButtonGroup
-            size="large"
+        <Stack
+            spacing={1}
             sx={{
                 position: "fixed",
                 top: 100,
                 left: "50%",
                 transform: "translate(-50%)",
             }}>
-            <Button sx={{ width: "160px", borderColor: "lightgray", color: "gray" }}>
-                target sum
-            </Button>
-            <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold", color: sumColor }}>
-                {targetSum || ""}
-            </Button>
-        </ButtonGroup>
+
+            <ButtonGroup size="large">
+                <Button sx={{ width: "160px", borderColor: "lightgray", color: "gray" }}>
+                    target sum
+                </Button>
+                <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold", color: sumColor }}>
+                    {targetSum || ""}
+                </Button>
+
+            </ButtonGroup>
+            <ButtonGroup>
+                <Button sx={{ borderColor: "lightgray", color: "gray" }}>
+                    Paths
+                </Button>
+                {
+                    paths.map((path, i) =>
+                        <Button key={i} sx={{ borderColor: "lightgray", color: "gray" }}>
+                            {path.join(" ,")}
+                        </Button>
+                    )
+                }
+            </ButtonGroup>
+        </Stack>
     )
 }
 
