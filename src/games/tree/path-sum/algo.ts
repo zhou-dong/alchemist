@@ -17,7 +17,6 @@ function isLeaf(node: TreeNode<number>) {
 export function buildSteps(targetSum: number, root?: TreeNode<number>): Step[] {
     const steps: Step[] = [];
 
-
     function hasPathSum(root: TreeNode<number> | undefined, targetSum: number): boolean {
 
         function dfs(node: TreeNode<number> | undefined, num: number): boolean {
