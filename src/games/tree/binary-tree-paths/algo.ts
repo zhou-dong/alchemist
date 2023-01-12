@@ -5,9 +5,8 @@ export enum Direction {
 }
 
 export interface Step {
-    node?: TreeNode<number>;
-    sum: number;
-    isLeftLeafNode: boolean;
+    node: TreeNode<number>;
+    paths: string[];
 }
 
 function isLeafNode(node: TreeNode<number>) {
@@ -17,23 +16,25 @@ function isLeafNode(node: TreeNode<number>) {
 export function buildSteps(root?: TreeNode<number>): Step[] {
     const steps: Step[] = [];
 
-    let sum = 0;
-    function sumOfLeftLeaves(node?: TreeNode<number>) {
+    let paths: string[] = [];
+
+    function binaryTreePaths(node: TreeNode<number> | undefined, parents: number[]) {
         if (!node) {
             return;
         }
 
-        if (node.left && isLeafNode(node.left)) {
-            sum += node.left.val.value;
-            steps.push({ node, sum, isLeftLeafNode: true });
-        } else {
-            steps.push({ node, sum, isLeftLeafNode: false });
+        const path = [...parents, node.val.value];
+        if (isLeafNode(node)) {
+            paths.push(path.join("->"));
+            steps.push({ node, paths: [...paths] });
+            return;
         }
 
-        sumOfLeftLeaves(node.left);
-        sumOfLeftLeaves(node.right);
+        steps.push({ node, paths: [...paths] });
+        binaryTreePaths(node.left, path);
+        binaryTreePaths(node.right, path);
     }
 
-    sumOfLeftLeaves(root);
+    binaryTreePaths(root, []);
     return steps;
 }
