@@ -137,6 +137,8 @@ import KthSmallestElementInBST from "./games/tree/kth-smallest-element-in-a-bst"
 import KthSmallestElementInBSTInfo from "./games/tree/kth-smallest-element-in-a-bst/info";
 import SumOfLeftLeaves from "./games/tree/sum-of-left-leaves";
 import SumOfLeftLeavesInfo from "./games/tree/sum-of-left-leaves/info";
+import CountCompleteTreeNodes from "./games/tree/count-complete-tree-nodes";
+import CountCompleteTreeNodesInfo from "./games/tree/count-complete-tree-nodes/info";
 import BinaryTreePaths from "./games/tree/binary-tree-paths";
 import BinaryTreePathsInfo from "./games/tree/binary-tree-paths/info";
 
@@ -235,6 +237,7 @@ const App = () => (
                 <Route path={LowestCommonAncestorOfaBinaryTreeInfo.path} element={<LowestCommonAncestorOfaBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={KthSmallestElementInBSTInfo.path} element={<KthSmallestElementInBST renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={SumOfLeftLeavesInfo.path} element={<SumOfLeftLeaves renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={CountCompleteTreeNodesInfo.path} element={<CountCompleteTreeNodes renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BinaryTreePathsInfo.path} element={<BinaryTreePaths renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>

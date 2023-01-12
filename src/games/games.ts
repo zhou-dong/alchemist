@@ -67,6 +67,7 @@ import LowestCommonAncestorOfaBinarySearchTree from "./tree/lowest-common-ancest
 import LowestCommonAncestorOfaBinaryTree from "./tree/lowest-common-ancestor-of-a-binary-tree/info";
 import KthSmallestElementInBST from "./tree/kth-smallest-element-in-a-bst/info";
 import SumOfLeftLeaves from "./tree/sum-of-left-leaves/info";
+import CountCompleteTreeNodes from "./tree/count-complete-tree-nodes/info";
 import BinaryTreePaths from "./tree/binary-tree-paths/info";
 
 export const games: Game[] = [
@@ -137,5 +138,6 @@ export const games: Game[] = [
     LowestCommonAncestorOfaBinaryTree,
     KthSmallestElementInBST,
     SumOfLeftLeaves,
+    CountCompleteTreeNodes,
     BinaryTreePaths
 ];
