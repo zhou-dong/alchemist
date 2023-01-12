@@ -5,41 +5,42 @@ export enum Direction {
 }
 
 export interface Step {
-    node?: TreeNode<number>;
+    node: TreeNode<number>;
     sum: number;
-    hasPathSum: boolean;
+    isLeaf: boolean;
+    total: number;
+    leaves: number[];
 }
 
 function isLeaf(node: TreeNode<number>) {
     return !node.left && !node.right;
 }
 
-export function buildSteps(targetSum: number, root?: TreeNode<number>): Step[] {
+export function buildSteps(root?: TreeNode<number>): Step[] {
+
     const steps: Step[] = [];
 
-
-    function hasPathSum(root: TreeNode<number> | undefined, targetSum: number): boolean {
-
-        function dfs(node: TreeNode<number> | undefined, num: number): boolean {
-            if (node === undefined) {
-                return false;
-            }
-
-            const sum = node.val.value + num;
-
-            if (isLeaf(node) && sum === targetSum) {
-                steps.push({ node, sum, hasPathSum: true });
-                return true;
-            }
-
-            steps.push({ node, sum, hasPathSum: false });
-
-            return dfs(node.left, sum) || dfs(node.right, sum);
+    let total = 0;
+    const leaves: number[] = [];
+    function sumNumbers(node: TreeNode<number> | undefined, num: number) {
+        if (!node) {
+            return;
         }
 
-        return dfs(root, 0);
-    };
+        const sum = num * 10 + node.val.value;
+        if (isLeaf(node)) {
+            total += sum;
+            leaves.push(sum);
+            steps.push({ node, sum, total, isLeaf: true, leaves: [...leaves] });
+            return;
+        }
 
-    hasPathSum(root, targetSum);
+        steps.push({ node, sum, total, isLeaf: false, leaves: [...leaves] });
+
+        sumNumbers(node.left, sum)
+        sumNumbers(node.right, sum);
+    }
+
+    sumNumbers(root, 0);
     return steps;
 }

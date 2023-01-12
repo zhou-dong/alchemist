@@ -23,9 +23,10 @@ const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) =>
 }
 
 const DisplaySum = () => {
-    const { targetSum, steps, index } = useAlgoContext();
-    const hasPathSum = steps[index - 1]?.hasPathSum;
-    const sumColor = hasPathSum ? "green" : "gray";
+    const { steps, index } = useAlgoContext();
+    const step = steps[index - 1];
+    const sum = step ? step.total : "";
+    const leaves = step ? step.leaves : [];
 
     return (
         <ButtonGroup
@@ -36,11 +37,14 @@ const DisplaySum = () => {
                 left: "50%",
                 transform: "translate(-50%)",
             }}>
-            <Button sx={{ width: "160px", borderColor: "lightgray", color: "gray" }}>
-                target sum
+            <Button sx={{ minWidth: "60px", borderColor: "lightgray", color: "gray" }}>
+                {
+                    leaves.join(" + ")
+                }
+
             </Button>
-            <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold", color: sumColor }}>
-                {targetSum || ""}
+            <Button sx={{ minWidth: "60px", minHeight: "40px", borderColor: "lightgray", fontWeight: "bold", color: "green" }}>
+                {sum}
             </Button>
         </ButtonGroup>
     )

@@ -17,8 +17,6 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     root?: TreeNode<number>,
     setRoot: React.Dispatch<React.SetStateAction<TreeNode<number> | undefined>>,
-    targetSum?: number,
-    setTargetSum: React.Dispatch<React.SetStateAction<number | undefined>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -30,7 +28,6 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
-    setTargetSum: () => { }
 });
 
 let animationFrameId = -1;
@@ -47,7 +44,6 @@ export const AlgoContextProvider: React.FC<{
     const [root, setRoot] = React.useState<TreeNode<number>>();
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
-    const [targetSum, setTargetSum] = React.useState<number>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -85,8 +81,6 @@ export const AlgoContextProvider: React.FC<{
             setSteps,
             index,
             setIndex,
-            targetSum,
-            setTargetSum
         }}>
             {children}
             <div ref={ref}></div>
