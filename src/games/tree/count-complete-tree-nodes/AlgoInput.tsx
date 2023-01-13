@@ -17,9 +17,9 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = [15, 7, 30, 4, 9, 20, null, 2, null, 5, null, null, 12];
-const input2 = [10, 7, 18, 5, 9, 14, 25, 4, null, null, null, null, 15];
-const input3 = [12, 8, 15, 6, 10, 13, 17, 4, null, 2, null, null, 9, null, null];
+const input1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const input2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const input3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
