@@ -15,8 +15,8 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    root?: TreeNode<number>,
-    setRoot: React.Dispatch<React.SetStateAction<TreeNode<number> | undefined>>,
+    root?: TreeNode<string>,
+    setRoot: React.Dispatch<React.SetStateAction<TreeNode<string> | undefined>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -41,7 +41,7 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [root, setRoot] = React.useState<TreeNode<number>>();
+    const [root, setRoot] = React.useState<TreeNode<string>>();
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
 

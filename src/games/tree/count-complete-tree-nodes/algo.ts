@@ -1,39 +1,52 @@
 import TreeNode from "../../../data-structures/tree/node";
 
 export enum Direction {
-    Left, Right, Back
+    Left, Right
+}
+
+export enum ActionType {
+    CountLevel, DFS
 }
 
 export interface Step {
-    node?: TreeNode<number>;
-    sum: number;
-    isLeftLeafNode: boolean;
+    node: TreeNode<string>;
+    actionType: ActionType;
+    count: number;
+    direction?: Direction;
 }
 
-function isLeafNode(node: TreeNode<number>) {
-    return !node.left && !node.right;
-}
-
-export function buildSteps(root?: TreeNode<number>): Step[] {
+export function buildSteps(root?: TreeNode<string>): Step[] {
     const steps: Step[] = [];
 
-    let sum = 0;
-    function sumOfLeftLeaves(node?: TreeNode<number>) {
+    let count: number = 0;
+
+    function countLevel(node: TreeNode<string> | undefined, level: number): number {
         if (!node) {
-            return;
+            return level;
         }
-
-        if (node.left && isLeafNode(node.left)) {
-            sum += node.left.val.value;
-            steps.push({ node, sum, isLeftLeafNode: true });
-        } else {
-            steps.push({ node, sum, isLeftLeafNode: false });
-        }
-
-        sumOfLeftLeaves(node.left);
-        sumOfLeftLeaves(node.right);
+        steps.push({ node, actionType: ActionType.CountLevel, count });
+        return countLevel(node.left, level + 1);
     }
 
-    sumOfLeftLeaves(root);
+    function dfs(node?: TreeNode<string>): number {
+        if (!node) {
+            return 0;
+        }
+
+        const leftLevels = countLevel(node.left, 0);
+        const rightLevels = countLevel(node.right, 0);
+
+        if (leftLevels === rightLevels) {
+            count += Math.pow(2, leftLevels);
+            steps.push({ node, actionType: ActionType.DFS, direction: Direction.Right, count });
+            return dfs(node.right) + Math.pow(2, leftLevels);
+        } else {
+            count += Math.pow(2, rightLevels);
+            steps.push({ node, actionType: ActionType.DFS, direction: Direction.Left, count });
+            return dfs(node.left) + Math.pow(2, rightLevels);
+        }
+    }
+
+    dfs(root);
     return steps;
 }

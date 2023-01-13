@@ -17,9 +17,9 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const input3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const input2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const input3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+const input1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -67,14 +67,14 @@ const DropDown: React.FC<{
     );
 }
 
-const parseInput = (input: string): (number | null)[] => {
+const parseInput = (input: string): (string | null)[] => {
     return input.split(",").map(ch => {
         switch (ch.trim()) {
             case "": return null;
             case "null": return null;
             case "undefined": return null;
             case undefined: return null;
-            default: return +(ch.trim());
+            default: return ch.trim();
         }
     });
 }

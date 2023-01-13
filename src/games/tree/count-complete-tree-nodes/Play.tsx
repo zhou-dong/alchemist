@@ -4,43 +4,36 @@ import { normalSphereColor, enabledSphereColor, } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
-import { Step } from './algo';
-import { leftLeafColor, buildThreeText } from "./styles";
+import { ActionType, Direction, Step } from './algo';
+import { finishedColor } from "./styles";
 
-const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) => {
-    if (root === undefined || current === undefined) {
+const changeColor = (node: TreeNode<string> | undefined, color: string) => {
+    if (!node) {
         return;
     }
-
-    if (root === current) {
-        root.sphereColor = enabledSphereColor;
-    } else {
-        root.sphereColor = normalSphereColor;
-    }
-
-    updateTreeColor(root.left, current);
-    updateTreeColor(root.right, current);
+    node.sphereColor = color;
+    changeColor(node.left, color);
+    changeColor(node.right, color);
 }
 
 const DisplaySum = () => {
     const { index, steps } = useAlgoContext();
     const step = steps[index - 1];
-    const sum = (step && step.sum) || 0;
+    const count = step ? step.count : 0;
 
     return (
         <ButtonGroup
-            size="large"
             sx={{
                 position: "fixed",
                 top: 100,
                 left: "50%",
                 transform: "translate(-50%)",
             }}>
-            <Button sx={{ width: "60px", borderColor: "lightgray", color: "gray" }}>
-                sum
+            <Button sx={{ borderColor: "lightgray", color: "gray" }}>
+                count
             </Button>
             <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold" }}>
-                {sum}
+                {count}
             </Button>
         </ButtonGroup>
     )
@@ -48,7 +41,7 @@ const DisplaySum = () => {
 
 const Main = () => {
 
-    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, scene } = useAlgoContext();
+    const { animate, cancelAnimate, index, steps, setIndex, state, setState, } = useAlgoContext();
 
     const handleOnClick = async () => {
         setState(State.Computing);
@@ -70,17 +63,18 @@ const Main = () => {
     }
 
     const doClick = (step: Step) => {
-        const { node, isLeftLeafNode } = step;
-        if (!node) {
-            return;
-        }
-        updateTreeColor(root, node);
-        const left = node.left;
-        if (isLeftLeafNode && left) {
-            const { x, y, z } = left.val.center;
-            const text = buildThreeText("left leaf", x - 1.2, y + 0.9, z);
-            scene.add(text);
-            left.sphereColor = leftLeafColor;
+        const { node, actionType, direction } = step;
+        node.sphereColor = enabledSphereColor;
+        if (direction !== undefined && actionType === ActionType.DFS) {
+            node.sphereColor = finishedColor;
+            if (direction as Direction === Direction.Left) {
+                changeColor(node.right, finishedColor);
+                changeColor(node.left, normalSphereColor);
+            }
+            if (direction as Direction === Direction.Right) {
+                changeColor(node.left, finishedColor);
+                changeColor(node.right, normalSphereColor);
+            }
         }
     }
 
