@@ -6,7 +6,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
 import Instruction from '../../../commons/Instruction';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import { description, formula } from "./contents";
+import { description, NodeDefinition, formula1 } from "./contents";
 import React from "react";
 import LightTooltip from "../../../commons/LightTooltip";
 import AlgoInput from "./AlgoInput";
@@ -94,7 +94,7 @@ const Instructions = () => {
                 name="Code"
                 icon={<CodeIcon fontSize="medium" />}
                 popover={<CodeBlock
-                    code={formula}
+                    code={NodeDefinition + formula1}
                     language={languages.Typescript}
                     showLineNumbers={true}
                     linesToHighlight={[]}
