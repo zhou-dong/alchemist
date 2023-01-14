@@ -17,8 +17,8 @@ const AlgoContext = React.createContext<{
     setInputOutput: React.Dispatch<React.SetStateAction<InputOutput>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    map: Map<number, TreeNode<string>>,
-    setMap: React.Dispatch<React.SetStateAction<Map<number, TreeNode<string>>>>,
+    map: Map<number, TreeNode<number>>,
+    setMap: React.Dispatch<React.SetStateAction<Map<number, TreeNode<number>>>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -46,7 +46,7 @@ export const AlgoContextProvider: React.FC<{
     const [state, setState] = React.useState(State.Typing);
     const [inputOutput, setInputOutput] = React.useState<InputOutput>(defaultInputOutput);
     const [index, setIndex] = React.useState(0);
-    const [map, setMap] = React.useState<Map<number, TreeNode<string>>>(new Map());
+    const [map, setMap] = React.useState<Map<number, TreeNode<number>>>(new Map());
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);

@@ -14,7 +14,32 @@ export const formula = `/**
  * }
  */
 
-`;
+function sortedListToBST(head: ListNode | null): TreeNode | null {
+
+    function preorder(left: ListNode | null, right: ListNode | null): TreeNode | null {
+        if (left === right) {
+            return null;
+        }
+        const mid = findMedian(left, right);
+        const node = new TreeNode(mid.val);
+        node.left = preorder(left, mid);
+        node.right = preorder(mid.next, right);
+        return node;
+    }
+
+    function findMedian(left: ListNode | null, right: ListNode | null): ListNode | null {
+        let slow = left;
+        let fast = left;
+        while (fast !== right && fast.next !== right) {
+            fast = fast.next;
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    return preorder(head, null);
+};`;
 
 export const description = `
 Given the **head** of a singly linked list where elements are sorted in **ascending order**, convert it to a 

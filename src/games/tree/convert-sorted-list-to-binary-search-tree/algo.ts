@@ -7,22 +7,22 @@ export enum Direction {
 
 interface Node {
     index: number;
-    value: string;
+    value: number;
     left?: Node;
     right?: Node;
 }
 
 export interface InputOutput {
-    input: string[];
+    input: number[];
     steps: Step[];
     xAxis: number[];
 }
 
 export interface Step {
-    node: Node;
-    left: number;
-    mid: number;
-    right: number;
+    node?: Node;
+    mid?: number;
+    slow?: number;
+    fast?: number;
     direction?: Direction;
 }
 
@@ -33,25 +33,42 @@ const calDepth = (root?: Node): number => {
     return Math.max(right, left) + 1;
 }
 
-export function buildSteps(input: string[]): InputOutput {
+export function buildSteps(input: number[]): InputOutput {
     const steps: Step[] = [];
 
-    function buildTree(values: string[], left: number, right: number, index: number, direction?: Direction): Node | undefined {
-        if (left > right) {
-            return undefined;
+    function sortedListToBST(): Node | undefined {
+
+        function preorder(left: number, right: number, index: number, direction?: Direction): Node | undefined {
+            if (left === right) {
+                return undefined;
+            }
+            const mid = findMedian(left, right);
+            const node: Node = { index, value: input[mid] };
+
+            steps.push({ node, mid, direction });
+
+            node.left = preorder(left, mid, 2 * index + 1, Direction.Left);
+            node.right = preorder(mid + 1, right, 2 * index + 2, Direction.Right);
+            return node;
         }
 
-        const mid = ~~((left + right) / 2);
-        const node: Node = { index, value: values[mid] };
+        function findMedian(left: number, right: number): number {
+            let slow = left;
+            let fast = left;
+            steps.push({ slow, fast, });
+            while (fast !== right && (fast + 1) !== right) {
+                fast = fast + 1;
+                fast = fast + 1;
+                slow = slow + 1;
+                steps.push({ slow, fast, });
+            }
+            return slow;
+        }
 
-        steps.push({ node, left, mid, right, direction });
-
-        node.left = buildTree(values, left, mid - 1, 2 * index + 1, Direction.Left);
-        node.right = buildTree(values, mid + 1, right, 2 * index + 2, Direction.Right);
-        return node;
+        return preorder(0, input.length, 0);
     };
 
-    const root = buildTree(input, 0, input.length - 1, 0);
+    const root = sortedListToBST();
     const depth: number = calDepth(root);
     const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha).map(node => node.x);
 

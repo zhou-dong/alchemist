@@ -9,7 +9,7 @@ const info: Game = {
     categories: [Category.Tree],
     companies: [],
     difficulty: Difficulty.Medium,
-    img: "/img/cconvert-sorted-list-to-binary-search-tree.png",
+    img: "/img/convert-sorted-list-to-binary-search-tree.png",
     leetcodeId: 109
 }
 

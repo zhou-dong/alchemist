@@ -6,20 +6,20 @@ import Position from '../../../data-structures/_commons/params/position';
 
 const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
 const sphereMaterial = (): THREE.Material => {
-    return new THREE.MeshBasicMaterial({ color: "yellow", opacity: 0.4, transparent: true });
+    return new THREE.MeshBasicMaterial({ color: "green", opacity: 0.5, transparent: true });
 }
-const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green" });
+const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "black" });
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 export const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
-export const rootCenter = { x: 0, y: 6, z: 0 };
+export const rootCenter = { x: 0, y: 7, z: 0 };
 export const initCenter = { x: 0, y: -8, z: 0 };
 export const yDistance = 3;
 export const duration = 1;
 export const xAxisAlpha = 2; // expend the tree size in xAxis.
 
-export const buildTreeNode = (value: string, index: number, scene: THREE.Scene, center: Position, show: boolean) => {
-    const node = build<string>(
+export const buildTreeNode = (value: number, index: number, scene: THREE.Scene, center: Position, show: boolean) => {
+    const node = build<number>(
         index,
         sphereGeometry,
         sphereMaterial(),

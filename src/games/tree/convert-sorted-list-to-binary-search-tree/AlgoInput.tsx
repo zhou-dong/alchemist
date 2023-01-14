@@ -66,6 +66,14 @@ const DropDown: React.FC<{
     );
 }
 
+const parseInput = (input: string): (number)[] => {
+    return input
+        .split(",")
+        .map(ch => ch.trim())
+        .map(ch => +ch)
+        .filter(num => !Number.isNaN(num));
+}
+
 const Submit: React.FC<{
     value: string,
     setValue: React.Dispatch<React.SetStateAction<string>>,
@@ -79,7 +87,7 @@ const Submit: React.FC<{
         clearScene(scene);
         await wait(0.1);
         cancelAnimate();
-        const input = value.split(",").map(ch => ch.trim());
+        const input = parseInput(value);
         setInputOutput(buildSteps(input));
         setMap(new Map());
         setValue("");
