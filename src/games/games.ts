@@ -70,6 +70,7 @@ import KthSmallestElementInBST from "./tree/kth-smallest-element-in-a-bst/info";
 import SumOfLeftLeaves from "./tree/sum-of-left-leaves/info";
 import CountCompleteTreeNodes from "./tree/count-complete-tree-nodes/info";
 import BinaryTreePaths from "./tree/binary-tree-paths/info";
+import BinaryTreeLevelOrderTraversal from "./tree/binary-tree-level-order-traversal/info";
 
 export const games: Game[] = [
     editDistance,
@@ -141,5 +142,6 @@ export const games: Game[] = [
     KthSmallestElementInBST,
     SumOfLeftLeaves,
     CountCompleteTreeNodes,
-    BinaryTreePaths
+    BinaryTreePaths,
+    BinaryTreeLevelOrderTraversal
 ];
