@@ -6,8 +6,9 @@ import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
 import { Step } from './algo';
 import { leftLeafColor, buildThreeText } from "./styles";
+import Stack from "../../../data-structures/stack";
 
-const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) => {
+const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {
     if (root === undefined || current === undefined) {
         return;
     }
@@ -25,7 +26,7 @@ const updateTreeColor = (root?: TreeNode<number>, current?: TreeNode<number>) =>
 const DisplaySum = () => {
     const { index, steps } = useAlgoContext();
     const step = steps[index - 1];
-    const sum = (step && step.sum) || 0;
+    const sum = 0;
 
     return (
         <ButtonGroup
@@ -70,18 +71,18 @@ const Main = () => {
     }
 
     const doClick = (step: Step) => {
-        const { node, isLeftLeafNode } = step;
+        const { node } = step;
         if (!node) {
             return;
         }
         updateTreeColor(root, node);
-        const left = node.left;
-        if (isLeftLeafNode && left) {
-            const { x, y, z } = left.val.center;
-            const text = buildThreeText("left leaf", x - 1.2, y + 0.9, z);
-            scene.add(text);
-            left.sphereColor = leftLeafColor;
-        }
+        // const left = node.left;
+        // if (isLeftLeafNode && left) {
+        //     const { x, y, z } = left.val.center;
+        //     const text = buildThreeText("left leaf", x - 1.2, y + 0.9, z);
+        //     scene.add(text);
+        //     left.sphereColor = leftLeafColor;
+        // }
     }
 
     return (

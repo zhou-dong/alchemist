@@ -4,36 +4,59 @@ export enum Direction {
     Left, Right, Back
 }
 
+export enum Action {
+    Push, Pop
+}
+
 export interface Step {
-    node?: TreeNode<number>;
-    sum: number;
-    isLeftLeafNode: boolean;
+    node: TreeNode<string>;
+    stack: TreeNode<string>[];
+    level: number;
+    action: Action;
 }
 
-function isLeafNode(node: TreeNode<number>) {
-    return !node.left && !node.right;
-}
-
-export function buildSteps(root?: TreeNode<number>): Step[] {
+export function buildSteps(root?: TreeNode<string>): Step[] {
     const steps: Step[] = [];
 
-    let sum = 0;
-    function sumOfLeftLeaves(node?: TreeNode<number>) {
-        if (!node) {
-            return;
+    let level = 0;
+    function levelOrder(root?: TreeNode<string>): string[][] {
+        const result: string[][] = [];
+        if (!root) {
+            return result;
         }
 
-        if (node.left && isLeafNode(node.left)) {
-            sum += node.left.val.value;
-            steps.push({ node, sum, isLeftLeafNode: true });
-        } else {
-            steps.push({ node, sum, isLeftLeafNode: false });
+        const stack: TreeNode<string>[] = [];
+        stack.push(root);
+
+        steps.push({ node: root, stack: [...stack], action: Action.Push, level });
+
+        while (stack.length !== 0) {
+            const values: string[] = [];
+            const length = stack.length;
+            level += 1;
+            for (let i = 0; i < length; i++) {
+                const node = stack.shift()!;
+
+                steps.push({ node, stack: [...stack], action: Action.Pop, level });
+
+                values.push(node.val.value);
+                if (node.left) {
+                    stack.push(node.left);
+
+                    steps.push({ node: node.left, stack: [...stack], action: Action.Push, level });
+                }
+                if (node.right) {
+                    stack.push(node.right);
+
+                    steps.push({ node: node.right, stack: [...stack], action: Action.Push, level });
+                }
+            }
+            result.push(values);
         }
 
-        sumOfLeftLeaves(node.left);
-        sumOfLeftLeaves(node.right);
-    }
+        return result;
+    };
 
-    sumOfLeftLeaves(root);
+    levelOrder(root);
     return steps;
 }

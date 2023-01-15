@@ -67,16 +67,19 @@ const DropDown: React.FC<{
     );
 }
 
-const parseInput = (input: string): (number | null)[] => {
-    return input.split(",").map(ch => {
-        switch (ch.trim()) {
-            case "": return null;
-            case "null": return null;
-            case "undefined": return null;
-            case undefined: return null;
-            default: return +(ch.trim());
-        }
-    });
+const parseInput = (input: string): (string | null)[] => {
+    return input
+        .split(",")
+        .map(ch => ch.trim())
+        .map(ch => {
+            switch (ch) {
+                case "": return null;
+                case "null": return null;
+                case "undefined": return null;
+                case undefined: return null;
+                default: return ch;
+            }
+        });
 }
 
 const Submit: React.FC<{

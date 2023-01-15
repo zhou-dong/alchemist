@@ -15,14 +15,18 @@ const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
-export const buildTree = (array: (number | null)[], scene: THREE.Scene) => {
-    const center = { x: 0, y: 8, z: 0 };
+export const duration = 0.5;
+export const stackPosition = new THREE.Vector3(0, 0, 0);
+export const stackShellMinSize = 5;
+
+export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
+    const center = { x: 0, y: 6, z: 0 };
     const show = true;
     const duration = 0;
     const yDistance = 3;
     const xAxisAlpha = 2; // expend the tree size in xAxis.
 
-    return buildBinaryTree<number>(
+    return buildBinaryTree<string>(
         sphereGeometry,
         sphereMaterial,
         textMaterial,
@@ -46,3 +50,29 @@ export const buildThreeText = (text: string, x: number, y: number, z: number): T
     mesh.position.set(x, y, z);
     return mesh;
 }
+
+// stack
+export const text = { color: "green", size: 0.6, height: 0.1 };
+
+export const node = {
+    size: { width: 1, height: 1, depth: 1 },
+}
+
+export const shell = {
+    material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.5, transparent: true }),
+};
+
+export const stackInPosition = {
+    name: new THREE.Vector3(-3.6, 3.8, -4),
+    stack: new THREE.Vector3(-3, 3, -4),
+}
+export const stackOutPosition = {
+    name: new THREE.Vector3(-3.6, 0.7, -4),
+    stack: new THREE.Vector3(-3, 0, -4)
+}
+
+export const StackNameStyles = {
+    color: "orange",
+    size: 0.4,
+    height: 0.1
+};
