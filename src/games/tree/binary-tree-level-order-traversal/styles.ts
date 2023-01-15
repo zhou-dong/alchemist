@@ -48,7 +48,6 @@ export const buildThreeText = (text: string, x: number, y: number, z: number): T
     return mesh;
 }
 
-export const stackPosition = new THREE.Vector3(-2, 5, 10);
 export const minShellSize = 5;
 
 export const text = { size: 0.5, height: 0.1 };
@@ -57,17 +56,11 @@ export const nodeSize = { width: 1, height: 1, depth: 1 };
 
 export const shellMterial = new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.3, transparent: true });
 
-export const stackInPosition = {
-    name: new THREE.Vector3(-3.6, 3.8, -4),
-    stack: new THREE.Vector3(-3, 3, -4),
-}
-export const stackOutPosition = {
-    name: new THREE.Vector3(-3.6, 0.7, -4),
-    stack: new THREE.Vector3(-3, 0, -4)
-}
+export const queueNamePosition = new THREE.Vector3(-2.5, 5, 10);
+export const queuePosition = new THREE.Vector3(-2, 4, 10);
 
-export const StackNameStyles = {
-    color: "orange",
+export const queueNameStyles = {
+    color: "lightgreen",
     size: 0.4,
     height: 0.1
 };

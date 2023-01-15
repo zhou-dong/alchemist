@@ -5,6 +5,7 @@ import Queue from "../../../data-structures/queue";
 import TreeNode from "../../../data-structures/tree/node";
 import { Step } from "./algo";
 import { State } from "./AlgoState";
+import QueueName from "./queueName";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -20,6 +21,8 @@ const AlgoContext = React.createContext<{
     setRoot: React.Dispatch<React.SetStateAction<TreeNode<string> | undefined>>,
     queue?: Queue<string>,
     setQueue: React.Dispatch<React.SetStateAction<Queue<string> | undefined>>,
+    queueName?: QueueName,
+    setQueueName: React.Dispatch<React.SetStateAction<QueueName | undefined>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -32,6 +35,7 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     setQueue: () => { },
+    setQueueName: () => { },
 });
 
 let animationFrameId = -1;
@@ -49,6 +53,7 @@ export const AlgoContextProvider: React.FC<{
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [queue, setQueue] = React.useState<Queue<string>>();
+    const [queueName, setQueueName] = React.useState<QueueName>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -87,7 +92,9 @@ export const AlgoContextProvider: React.FC<{
             index,
             setIndex,
             queue,
-            setQueue
+            setQueue,
+            queueName,
+            setQueueName
         }}>
             {children}
             <div ref={ref}></div>

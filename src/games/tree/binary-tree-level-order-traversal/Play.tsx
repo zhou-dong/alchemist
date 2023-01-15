@@ -58,7 +58,7 @@ const Main = () => {
 
         try {
             await doClick(steps[index]);
-            await wait(0.3);
+            await wait(0.1);
         } finally {
             cancelAnimate();
         }

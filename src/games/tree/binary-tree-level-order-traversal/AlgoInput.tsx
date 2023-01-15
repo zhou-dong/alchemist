@@ -15,10 +15,11 @@ import { State } from './AlgoState';
 import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildTree, } from "./styles";
+import { buildTree, queueNamePosition, } from "./styles";
 import QueueShellBuilder from "./queueShellBuilder";
-import { duration, stackPosition, minShellSize } from "./styles";
+import { duration, queuePosition, minShellSize } from "./styles";
 import Queue from '../../../data-structures/queue';
+import QueueName from './queueName';
 
 const input1 = [15, 7, 30, 4, 9, 20, 11, 1, 2, null, 5, 8, null, 12, 6,];
 const input2 = [10, 7, 18, 5, 9, 14, 25, 4, null, null, null, null, 15];
@@ -90,7 +91,7 @@ const Submit: React.FC<{
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setQueue } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setQueue, setQueueName } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -106,18 +107,23 @@ const Submit: React.FC<{
         setIndex(0);
         setNodes("");
         setAnchorEl(null);
-        await createStack();
+        createQueueName();
+        await createQueue();
         await wait(0.2);
         cancelAnimate();
         setState(State.Playing);
     }
 
-    const createStack = async () => {
-        const queue = new Queue<string>(stackPosition, duration);
+    const createQueue = async () => {
+        const queue = new Queue<string>(queuePosition, duration);
         for (let i = 0; i < minShellSize; i++) {
             queue.increaseShells(new QueueShellBuilder(scene, true).build());
         }
         setQueue(queue);
+    }
+
+    const createQueueName = () => {
+        setQueueName(new QueueName("Queue", queueNamePosition, scene));
     }
 
     return (
