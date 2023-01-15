@@ -1,14 +1,38 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup } from '@mui/material';
-import { normalSphereColor, enabledSphereColor, } from "./styles";
+import { Button } from '@mui/material';
+import { enabledSphereColor, normalSphereColor, getNodeColor, minShellSize } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
-import { Step } from './algo';
-import { leftLeafColor, buildThreeText } from "./styles";
-import Stack from "../../../data-structures/stack";
+import { Action, Step } from './algo';
+import QueueItemBuilder from "./queueItemBuilder";
+import Queue from "../../../data-structures/queue";
+import QueueShellBuilder from "./queueShellBuilder";
 
-const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {
+const increaseShells = (queue: Queue<string>, scene: THREE.Scene, size: number) => {
+    const increaseSize = size - queue.shellsLength;
+    for (let i = 0; i < increaseSize; i++) {
+        const shell = new QueueShellBuilder(scene, true).build();
+        queue.increaseShells(shell);
+    }
+    if (size === queue.shellsLength) {
+        const shell = new QueueShellBuilder(scene, true).build();
+        queue.increaseShells(shell);
+    }
+}
+
+const decreaseShells = (queue: Queue<string>, minShellSize: number, size: number) => {
+    let isDifferent = queue.shellsLength > size;
+    while (queue.shellsLength > minShellSize && isDifferent) {
+        const shell = queue.decreaseShells();
+        if (shell) {
+            shell.hide();
+        }
+        isDifferent = queue.shellsLength > size;
+    }
+}
+
+const updateTreeColor = (level: number, root?: TreeNode<string>, current?: TreeNode<string>) => {
     if (root === undefined || current === undefined) {
         return;
     }
@@ -19,44 +43,21 @@ const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) =>
         root.sphereColor = normalSphereColor;
     }
 
-    updateTreeColor(root.left, current);
-    updateTreeColor(root.right, current);
+    updateTreeColor(level + 1, root.left, current);
+    updateTreeColor(level + 1, root.right, current);
 }
 
-const DisplaySum = () => {
-    const { index, steps } = useAlgoContext();
-    const step = steps[index - 1];
-    const sum = 0;
-
-    return (
-        <ButtonGroup
-            size="large"
-            sx={{
-                position: "fixed",
-                top: 100,
-                left: "50%",
-                transform: "translate(-50%)",
-            }}>
-            <Button sx={{ width: "60px", borderColor: "lightgray", color: "gray" }}>
-                sum
-            </Button>
-            <Button sx={{ width: "60px", borderColor: "lightgray", fontWeight: "bold" }}>
-                {sum}
-            </Button>
-        </ButtonGroup>
-    )
-}
 
 const Main = () => {
 
-    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, scene } = useAlgoContext();
+    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, scene, queue } = useAlgoContext();
 
     const handleOnClick = async () => {
         setState(State.Computing);
         animate();
 
         try {
-            doClick(steps[index]);
+            await doClick(steps[index]);
             await wait(0.3);
         } finally {
             cancelAnimate();
@@ -70,43 +71,47 @@ const Main = () => {
         setIndex(i => i + 1);
     }
 
-    const doClick = (step: Step) => {
-        const { node } = step;
-        if (!node) {
+    const doClick = async (step: Step) => {
+        if (!queue) {
             return;
         }
-        updateTreeColor(root, node);
-        // const left = node.left;
-        // if (isLeftLeafNode && left) {
-        //     const { x, y, z } = left.val.center;
-        //     const text = buildThreeText("left leaf", x - 1.2, y + 0.9, z);
-        //     scene.add(text);
-        //     left.sphereColor = leftLeafColor;
-        // }
+        const { node, action, level } = step;
+        updateTreeColor(0, root, node);
+
+        const size = await queue.size();
+        if (action === Action.Push) {
+            increaseShells(queue, scene, size);
+            const color = getNodeColor(level);
+            const item = new QueueItemBuilder<string>(node.val.value, scene, true, color).build();
+            await queue.enqueue(item);
+        } else if (action === Action.Pop) {
+            decreaseShells(queue, minShellSize, size);
+            const item = await queue.dequeue();
+            if (item) {
+                item.hide();
+            }
+        }
     }
 
     return (
-        <>
-            <DisplaySum />
-            <div style={{
-                position: "fixed",
-                bottom: "150px",
-                left: "50%",
-                transform: "translate(-50%)",
-            }}
+        <div style={{
+            position: "fixed",
+            bottom: "150px",
+            left: "50%",
+            transform: "translate(-50%)",
+        }}
+        >
+            <Button
+                variant="contained"
+                size="large"
+                onClick={handleOnClick}
+                sx={{ color: "#FFF", zIndex: 1 }}
+                disabled={state !== State.Playing}
+                color="primary"
             >
-                <Button
-                    variant="contained"
-                    size="large"
-                    onClick={handleOnClick}
-                    sx={{ color: "#FFF", zIndex: 1 }}
-                    disabled={state !== State.Playing}
-                    color="primary"
-                >
-                    next
-                </Button>
-            </div>
-        </>
+                next
+            </Button>
+        </div>
     );
 }
 

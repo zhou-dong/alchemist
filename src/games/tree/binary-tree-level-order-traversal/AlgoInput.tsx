@@ -16,10 +16,13 @@ import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
+import QueueShellBuilder from "./queueShellBuilder";
+import { duration, stackPosition, minShellSize } from "./styles";
+import Queue from '../../../data-structures/queue';
 
-const input1 = [15, 7, 30, 4, 9, 20, null, 2, null, 5, null, null, 12];
+const input1 = [15, 7, 30, 4, 9, 20, 11, 1, 2, null, 5, 8, null, 12, 6,];
 const input2 = [10, 7, 18, 5, 9, 14, 25, 4, null, null, null, null, 15];
-const input3 = [12, 8, 15, 6, 10, 13, 17, 4, null, 2, null, null, 9, null, null];
+const input3 = [12, 8, 5, 6, 1, 3, 7, 4, null, 2, 11, null, 9, 5];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -87,7 +90,7 @@ const Submit: React.FC<{
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setQueue } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -103,9 +106,18 @@ const Submit: React.FC<{
         setIndex(0);
         setNodes("");
         setAnchorEl(null);
+        await createStack();
         await wait(0.2);
         cancelAnimate();
         setState(State.Playing);
+    }
+
+    const createStack = async () => {
+        const queue = new Queue<string>(stackPosition, duration);
+        for (let i = 0; i < minShellSize; i++) {
+            queue.increaseShells(new QueueShellBuilder(scene, true).build());
+        }
+        setQueue(queue);
     }
 
     return (

@@ -20,20 +20,20 @@ function levelOrder(root: TreeNode | null): number[][] {
         return result;
     }
 
-    const stack: TreeNode[] = [];
-    stack.push(root);
+    const queue: TreeNode[] = [];
+    queue.push(root);
 
-    while (stack.length !== 0) {
+    while (queue.length !== 0) {
         const level: number[] = [];
-        const length = stack.length;
+        const length = queue.length;
         for (let i = 0; i < length; i++) {
-            const node = stack.shift();
+            const node = queue.shift();
             level.push(node.val);
             if (node.left) {
-                stack.push(node.left);
+                queue.push(node.left);
             }
             if (node.right) {
-                stack.push(node.right);
+                queue.push(node.right);
             }
         }
         result.push(level);

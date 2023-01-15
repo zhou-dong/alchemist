@@ -1,13 +1,13 @@
 import * as THREE from 'three';
 import { Cube } from '../../../data-structures/_commons/cube/three/cube';
-import { node, shell } from "./styles";
+import { nodeSize, shellMterial } from "./styles";
 
-class StackShellBuilder {
+class QueueShellBuilder {
 
     private _scene: THREE.Scene;
 
-    private _material: THREE.Material = shell.material;
-    private _geometry: THREE.BoxGeometry = new THREE.BoxGeometry(node.size.width, node.size.height, node.size.depth);
+    private _material: THREE.Material = shellMterial;
+    private _geometry: THREE.BoxGeometry = new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth);
     private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
     private _show: boolean = true;
 
@@ -16,23 +16,26 @@ class StackShellBuilder {
         this._scene = scene;
     }
 
-    position(x: number, y: number, z: number): StackShellBuilder {
+    position(x: number, y: number, z: number): QueueShellBuilder {
         this._position = new THREE.Vector3(x, y, z);
         return this;
     }
 
-    material(material: THREE.Material): StackShellBuilder {
+    material(material: THREE.Material): QueueShellBuilder {
         this._material = material;
         return this;
     }
 
-    geometry(width: number, height: number, depth: number): StackShellBuilder {
+    geometry(width: number, height: number, depth: number): QueueShellBuilder {
         this._geometry = new THREE.BoxGeometry(width, height, depth);
         return this;
     }
 
     build(): Cube {
         const item = new Cube(this._geometry, this._material, this._scene);
+        item.width = nodeSize.width;
+        item.height = nodeSize.height;
+        item.depth = nodeSize.depth;
         this.setPosition(item);
         if (this._show) {
             item.show();
@@ -47,4 +50,4 @@ class StackShellBuilder {
     }
 }
 
-export default StackShellBuilder;
+export default QueueShellBuilder;

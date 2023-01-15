@@ -3,8 +3,7 @@ import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometr
 import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
 
-export const leftLeafColor = "orange";
-export const enabledSphereColor = "lightblue";
+export const enabledSphereColor = "lightgreen";
 export const normalSphereColor = "yellow";
 
 const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
@@ -16,11 +15,9 @@ const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height
 const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
 export const duration = 0.5;
-export const stackPosition = new THREE.Vector3(0, 0, 0);
-export const stackShellMinSize = 5;
 
 export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
-    const center = { x: 0, y: 6, z: 0 };
+    const center = { x: 0, y: 5, z: 0 };
     const show = true;
     const duration = 0;
     const yDistance = 3;
@@ -51,16 +48,14 @@ export const buildThreeText = (text: string, x: number, y: number, z: number): T
     return mesh;
 }
 
-// stack
-export const text = { color: "green", size: 0.6, height: 0.1 };
+export const stackPosition = new THREE.Vector3(-2, 5, 10);
+export const minShellSize = 5;
 
-export const node = {
-    size: { width: 1, height: 1, depth: 1 },
-}
+export const text = { size: 0.5, height: 0.1 };
 
-export const shell = {
-    material: new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.5, transparent: true }),
-};
+export const nodeSize = { width: 1, height: 1, depth: 1 };
+
+export const shellMterial = new THREE.MeshBasicMaterial({ color: "lightgrey", opacity: 0.3, transparent: true });
 
 export const stackInPosition = {
     name: new THREE.Vector3(-3.6, 3.8, -4),
@@ -76,3 +71,9 @@ export const StackNameStyles = {
     size: 0.4,
     height: 0.1
 };
+
+const colors = ["gold", "orange", "pink", "purple", "red"];
+export const getNodeColor = (level: number) => {
+    const colorIndex = level % colors.length;
+    return colors[colorIndex];
+}

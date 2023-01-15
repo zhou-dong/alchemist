@@ -2,24 +2,25 @@ import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
 import { TextCube } from '../../../data-structures/_commons/cube/three/text-cube';
-import { node, text } from "./styles";
+import { nodeSize, text } from "./styles";
 
 class StackItemBuilder<T> {
 
     private _value: T;
     private _scene: THREE.Scene;
 
-    private _textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: text.color });
+    private _textMaterial: THREE.Material = new THREE.MeshBasicMaterial({});
     private _textGeometryParameters: TextGeometryParameters = { font, size: text.size, height: text.height };
     private _cubeMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "white", opacity: 0, transparent: true });
-    private _cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(node.size.width, node.size.height, node.size.depth);
+    private _cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(nodeSize.width, nodeSize.height, nodeSize.depth);
     private _position: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
     private _show: boolean;
 
-    constructor(value: T, scene: THREE.Scene, show: boolean) {
+    constructor(value: T, scene: THREE.Scene, show: boolean, color: string) {
         this._value = value;
         this._scene = scene;
         this._show = show;
+        this._textMaterial = new THREE.MeshBasicMaterial({ color });
     }
 
     position(x: number, y: number, z: number): StackItemBuilder<T> {
@@ -70,7 +71,13 @@ class StackItemBuilder<T> {
         item.position.y = this._position.y;
         item.position.z = this._position.z;
 
-        item.textPosition.x = item.position.x - 0.25;
+        if ((item.value as any).length === 1) {
+            item.textPosition.x = item.position.x - 0.2;
+        }
+        if ((item.value as any).length === 2) {
+            item.textPosition.x = item.position.x - 0.4;
+        }
+
         item.textPosition.y = item.position.y - 0.26;
         item.textPosition.z = item.position.z;
     }

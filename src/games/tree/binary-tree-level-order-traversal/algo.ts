@@ -10,7 +10,6 @@ export enum Action {
 
 export interface Step {
     node: TreeNode<string>;
-    stack: TreeNode<string>[];
     level: number;
     action: Action;
 }
@@ -25,32 +24,27 @@ export function buildSteps(root?: TreeNode<string>): Step[] {
             return result;
         }
 
-        const stack: TreeNode<string>[] = [];
-        stack.push(root);
+        const queue: TreeNode<string>[] = [];
+        queue.push(root);
+        steps.push({ node: root, action: Action.Push, level });
 
-        steps.push({ node: root, stack: [...stack], action: Action.Push, level });
-
-        while (stack.length !== 0) {
+        while (queue.length !== 0) {
             const values: string[] = [];
-            const length = stack.length;
-            level += 1;
+            const length = queue.length;
             for (let i = 0; i < length; i++) {
-                const node = stack.shift()!;
-
-                steps.push({ node, stack: [...stack], action: Action.Pop, level });
-
+                const node = queue.shift()!;
+                steps.push({ node, action: Action.Pop, level });
                 values.push(node.val.value);
                 if (node.left) {
-                    stack.push(node.left);
-
-                    steps.push({ node: node.left, stack: [...stack], action: Action.Push, level });
+                    queue.push(node.left);
+                    steps.push({ node: node.left, action: Action.Push, level });
                 }
                 if (node.right) {
-                    stack.push(node.right);
-
-                    steps.push({ node: node.right, stack: [...stack], action: Action.Push, level });
+                    queue.push(node.right);
+                    steps.push({ node: node.right, action: Action.Push, level });
                 }
             }
+            level += 1;
             result.push(values);
         }
 

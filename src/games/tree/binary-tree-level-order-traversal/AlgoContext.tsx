@@ -1,11 +1,10 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import Stack from "../../../data-structures/stack";
+import Queue from "../../../data-structures/queue";
 import TreeNode from "../../../data-structures/tree/node";
 import { Step } from "./algo";
 import { State } from "./AlgoState";
-import { duration, stackPosition, stackShellMinSize } from "./styles";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -19,6 +18,8 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     root?: TreeNode<string>,
     setRoot: React.Dispatch<React.SetStateAction<TreeNode<string> | undefined>>,
+    queue?: Queue<string>,
+    setQueue: React.Dispatch<React.SetStateAction<Queue<string> | undefined>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -30,6 +31,7 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
+    setQueue: () => { },
 });
 
 let animationFrameId = -1;
@@ -46,7 +48,7 @@ export const AlgoContextProvider: React.FC<{
     const [root, setRoot] = React.useState<TreeNode<string>>();
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
-    const [stack, setStack] = React.useState<Stack<string>>(new Stack<string>(stackPosition, duration));
+    const [queue, setQueue] = React.useState<Queue<string>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -84,6 +86,8 @@ export const AlgoContextProvider: React.FC<{
             setSteps,
             index,
             setIndex,
+            queue,
+            setQueue
         }}>
             {children}
             <div ref={ref}></div>
