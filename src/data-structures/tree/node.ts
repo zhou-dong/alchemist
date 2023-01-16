@@ -7,12 +7,18 @@ class Line {
     private scene: THREE.Scene;
     private instance: THREE.Line;
 
+    private _start: Position;
+    private _end: Position;
+
     constructor(
         start: Position,
         end: Position,
         material: THREE.LineBasicMaterial,
         scene: THREE.Scene
     ) {
+        this._start = start;
+        this._end = end;
+
         const geometry = new THREE.BufferGeometry().setFromPoints([
             this.buildThreePosition(start),
             this.buildThreePosition(end)
@@ -22,16 +28,26 @@ class Line {
         this.scene = scene;
     }
 
-    private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
-        return new THREE.Vector3(x, y, z);
+    get start(): Position {
+        return this._start;
     }
 
-    updateStart(position: Position) {
+    get end(): Position {
+        return this._end;
+    }
+
+    set start(position: Position) {
+        this._start = position;
         this.update(position, 0, 1, 2);
     }
 
-    updateEnd(position: Position) {
+    set end(position: Position) {
+        this._end = position;
         this.update(position, 3, 4, 5);
+    }
+
+    private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
+        return new THREE.Vector3(x, y, z);
     }
 
     show() {
@@ -116,7 +132,7 @@ export default class TreeNode<T> {
         this._leftLine.show();
         const onUpdate = () => {
             if (this._leftLine) {
-                this._leftLine.updateEnd(node._val.center)
+                this._leftLine.end = node.val.center;
             }
         }
         return node._val.move(position, duration, onUpdate);
@@ -129,7 +145,7 @@ export default class TreeNode<T> {
         this._rightLine.show();
         const onUpdate = () => {
             if (this._rightLine) {
-                this._rightLine.updateEnd(node._val.center)
+                this._rightLine.end = node._val.center;
             }
         }
         return node._val.move(position, duration, onUpdate);
