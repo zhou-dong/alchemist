@@ -35,7 +35,7 @@ export function buildSteps(root?: TreeNode<string>): Step[] {
 
         while (queue.length !== 0) {
             const values: string[] = [];
-            result.push(values);
+            result.unshift(values);
             const length = queue.length;
             for (let i = 0; i < length; i++) {
                 const node = queue.shift()!;
