@@ -145,6 +145,8 @@ import BinaryTreePaths from "./games/tree/binary-tree-paths";
 import BinaryTreePathsInfo from "./games/tree/binary-tree-paths/info";
 import BinaryTreeLevelOrderTraversal from "./games/tree/binary-tree-level-order-traversal";
 import BinaryTreeLevelOrderTraversalInfo from "./games/tree/binary-tree-level-order-traversal/info";
+import BinaryTreeLevelOrderTraversalII from "./games/tree/binary-tree-level-order-traversal-ii";
+import BinaryTreeLevelOrderTraversalIIInfo from "./games/tree/binary-tree-level-order-traversal-ii/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -245,6 +247,7 @@ const App = () => (
                 <Route path={CountCompleteTreeNodesInfo.path} element={<CountCompleteTreeNodes renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BinaryTreePathsInfo.path} element={<BinaryTreePaths renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BinaryTreeLevelOrderTraversalInfo.path} element={<BinaryTreeLevelOrderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={BinaryTreeLevelOrderTraversalIIInfo.path} element={<BinaryTreeLevelOrderTraversalII renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>
