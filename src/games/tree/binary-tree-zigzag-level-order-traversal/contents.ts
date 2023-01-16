@@ -1,4 +1,4 @@
-export const title = "Binary Tree Level Order Traversal II";
+export const title = "Binary Tree Zigzag Level Order Traversal";
 
 export const formula = `/**
  * Definition for a binary tree node.
@@ -14,7 +14,7 @@ export const formula = `/**
  * }
  */
 
-function levelOrderBottom(root: TreeNode | null): number[][] {
+function zigzagLevelOrder(root: TreeNode | null): number[][] {
     const result: number[][] = [];
     if (!root) {
         return result;
@@ -23,12 +23,18 @@ function levelOrderBottom(root: TreeNode | null): number[][] {
     const queue: TreeNode[] = [];
     queue.push(root);
 
+    let reverse = false;
     while (queue.length !== 0) {
-        const level: number[] = [];
         const length = queue.length;
+        const level: number[] = [];
         for (let i = 0; i < length; i++) {
             const node = queue.shift();
-            level.push(node.val);
+            if (reverse) {
+                level.unshift(node.val);
+            } else {
+                level.push(node.val);
+            }
+
             if (node.left) {
                 queue.push(node.left);
             }
@@ -36,14 +42,16 @@ function levelOrderBottom(root: TreeNode | null): number[][] {
                 queue.push(node.right);
             }
         }
-        result.unshift(level);
+        reverse = !reverse
+        result.push(level);
     }
 
     return result;
 };`;
 
 export const description = `
-Given the **root** of a binary tree, return the ***bottom-up level order traversal of its nodes' values***. (i.e., from left to right, level by level from leaf to root).
+Given the **root** of a binary tree, return the ***zigzag level order traversal of its nodes' values***. 
+(i.e., from left to right, then right to left for the next level and alternate between).
 `;
 
 export const solution = ``;

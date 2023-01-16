@@ -71,6 +71,7 @@ import SumOfLeftLeaves from "./tree/sum-of-left-leaves/info";
 import CountCompleteTreeNodes from "./tree/count-complete-tree-nodes/info";
 import BinaryTreePaths from "./tree/binary-tree-paths/info";
 import BinaryTreeLevelOrderTraversal from "./tree/binary-tree-level-order-traversal/info";
+import BinaryTreeZigzagLevelOrderTraversal from "./tree/binary-tree-zigzag-level-order-traversal/info";
 import BinaryTreeLevelOrderTraversalII from "./tree/binary-tree-level-order-traversal-ii/info";
 
 export const games: Game[] = [
@@ -145,5 +146,6 @@ export const games: Game[] = [
     CountCompleteTreeNodes,
     BinaryTreePaths,
     BinaryTreeLevelOrderTraversal,
+    BinaryTreeZigzagLevelOrderTraversal,
     BinaryTreeLevelOrderTraversalII
 ];
