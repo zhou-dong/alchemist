@@ -6,7 +6,6 @@ class Line {
 
     private scene: THREE.Scene;
     private instance: THREE.Line;
-
     private _start: Position;
     private _end: Position;
 
@@ -16,16 +15,14 @@ class Line {
         material: THREE.LineBasicMaterial,
         scene: THREE.Scene
     ) {
-        this._start = start;
-        this._end = end;
-
         const geometry = new THREE.BufferGeometry().setFromPoints([
             this.buildThreePosition(start),
             this.buildThreePosition(end)
         ]);
-
         this.instance = new THREE.Line(geometry, material);
         this.scene = scene;
+        this._start = start;
+        this._end = end;
     }
 
     get start(): Position {
@@ -46,10 +43,6 @@ class Line {
         this.update(position, 3, 4, 5);
     }
 
-    private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
-        return new THREE.Vector3(x, y, z);
-    }
-
     show() {
         this.scene.add(this.instance);
     }
@@ -65,6 +58,10 @@ class Line {
         (positions[xIndex] as any) = x;
         (positions[yIndex] as any) = y;
         (positions[zIndex] as any) = z;
+    }
+
+    private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
+        return new THREE.Vector3(x, y, z);
     }
 }
 
@@ -90,6 +87,14 @@ export default class TreeNode<T> {
     constructor(val: TextSphere<T>) {
         this._val = val;
         this._index = 0;
+    }
+
+    get leftLine(): Line | undefined {
+        return this._leftLine;
+    }
+
+    get rightLine(): Line | undefined {
+        return this._rightLine;
     }
 
     set index(index: number) {
