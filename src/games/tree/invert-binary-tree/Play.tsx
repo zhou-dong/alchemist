@@ -114,11 +114,11 @@ const Main = () => {
 
         const left = treeNode.left;
         const right = treeNode.right;
-        const leftPosition = getLeftPosition(treeNode);
-        const rightPosition = getRightPosition(treeNode);
         if (!left && !right) {
             return;
         }
+        const leftPosition = getLeftPosition(treeNode);
+        const rightPosition = getRightPosition(treeNode);
 
         if (right && leftPosition) {
             const rightLine = treeNode.rightLine;
