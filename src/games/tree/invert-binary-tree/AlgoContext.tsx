@@ -15,8 +15,10 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    root?: TreeNode<number>,
-    setRoot: React.Dispatch<React.SetStateAction<TreeNode<number> | undefined>>,
+    root?: TreeNode<string>,
+    setRoot: React.Dispatch<React.SetStateAction<TreeNode<string> | undefined>>,
+    treeNodeMap: Map<number, TreeNode<string>>,
+    setTreeNodeMap: React.Dispatch<React.SetStateAction<Map<number, TreeNode<string>>>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -28,6 +30,8 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
+    treeNodeMap: new Map(),
+    setTreeNodeMap: () => { }
 });
 
 let animationFrameId = -1;
@@ -41,9 +45,10 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [root, setRoot] = React.useState<TreeNode<number>>();
+    const [root, setRoot] = React.useState<TreeNode<string>>();
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
+    const [treeNodeMap, setTreeNodeMap] = React.useState<Map<number, TreeNode<string>>>(new Map());
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -81,6 +86,8 @@ export const AlgoContextProvider: React.FC<{
             setSteps,
             index,
             setIndex,
+            treeNodeMap,
+            setTreeNodeMap
         }}>
             {children}
             <div ref={ref}></div>
