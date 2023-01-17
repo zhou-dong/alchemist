@@ -12,14 +12,14 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { buildSteps } from "./algo";
+import { buildSteps, buildTreeNodeMap } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input3 = [5, 7, 1, 4, 6, 4, 2, 8, null, 9];
-const input2 = [6, 7, 8, 9, 9, 4, 2, 5, null, null, null, null, 3];
-const input1 = [2, 8, 5, 6, 1, 3, 7, 5, null, 2, null, null,];
+const input3 = [5, 7, 1, 4, 6, 4, 2, 8, null, 9, 3, null, 11];
+const input2 = [6, 7, 8, 1, 9, 4, 2, 5, null, null, null, null, 3];
+const input1 = [2, 8, 5, 6, 1, 3, 7, 5, null, 2, null, 9, null, null, 4];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -67,14 +67,14 @@ const DropDown: React.FC<{
     );
 }
 
-const parseInput = (input: string): (number | null)[] => {
+const parseInput = (input: string): (string | null)[] => {
     return input.split(",").map(ch => {
         switch (ch.trim()) {
             case "": return null;
             case "null": return null;
             case "undefined": return null;
             case undefined: return null;
-            default: return +(ch.trim());
+            default: return ch.trim();
         }
     });
 }
@@ -84,7 +84,7 @@ const Submit: React.FC<{
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setTreeNodeMap } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -95,8 +95,10 @@ const Submit: React.FC<{
         clearScene(scene);
         const root = buildTree(array, scene);
         const steps = buildSteps(root);
+        const nodeMap = buildTreeNodeMap(root);
         setRoot(root);
         setSteps(steps);
+        setTreeNodeMap(nodeMap);
         setIndex(0);
         setNodes("");
         setAnchorEl(null);
