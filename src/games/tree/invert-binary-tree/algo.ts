@@ -1,46 +1,66 @@
 import TreeNode from "../../../data-structures/tree/node";
 
+interface Node {
+    index: number;
+    left?: Node;
+    right?: Node;
+}
+
 export enum Direction {
     Left, Right, Back
 }
 
 export interface Step {
-    node: TreeNode<number>;
-    sum: number;
-    isLeaf: boolean;
-    total: number;
-    leaves: number[];
+    node: Node;
 }
 
-function isLeaf(node: TreeNode<number>) {
-    return !node.left && !node.right;
+const buildTree = (node?: TreeNode<string>): Node | undefined => {
+    if (!node) {
+        return undefined;
+    }
+    const root: Node = { index: node.index };
+    const left = buildTree(node.left);
+    const right = buildTree(node.right);
+    root.left = left;
+    root.right = right;
+    return root;
 }
 
-export function buildSteps(root?: TreeNode<number>): Step[] {
+export function buildTreeNodeMap(root?: TreeNode<string>): Map<number, TreeNode<string>> {
+    const map: Map<number, TreeNode<string>> = new Map();
+
+    function dfs(node?: TreeNode<string>) {
+        if (!node) {
+            return;
+        }
+        map.set(node.index, node);
+        dfs(node.left);
+        dfs(node.right);
+    }
+
+    dfs(root);
+    return map;
+}
+
+export function buildSteps(root?: TreeNode<string>): Step[] {
 
     const steps: Step[] = [];
 
-    let total = 0;
-    const leaves: number[] = [];
-    function sumNumbers(node: TreeNode<number> | undefined, num: number) {
+    function invertTree(node?: Node) {
         if (!node) {
             return;
         }
 
-        const sum = num * 10 + node.val.value;
-        if (isLeaf(node)) {
-            total += sum;
-            leaves.push(sum);
-            steps.push({ node, sum, total, isLeaf: true, leaves: [...leaves] });
-            return;
-        }
+        steps.push({ node });
+        const temp = node.left;
+        node.left = node.right;
+        node.right = temp;
 
-        steps.push({ node, sum, total, isLeaf: false, leaves: [...leaves] });
+        invertTree(node.left);
+        invertTree(node.right);
+    };
 
-        sumNumbers(node.left, sum)
-        sumNumbers(node.right, sum);
-    }
-
-    sumNumbers(root, 0);
+    const node = buildTree(root);
+    invertTree(node);
     return steps;
 }
