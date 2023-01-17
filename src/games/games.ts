@@ -73,6 +73,7 @@ import BinaryTreePaths from "./tree/binary-tree-paths/info";
 import BinaryTreeLevelOrderTraversal from "./tree/binary-tree-level-order-traversal/info";
 import BinaryTreeZigzagLevelOrderTraversal from "./tree/binary-tree-zigzag-level-order-traversal/info";
 import BinaryTreeLevelOrderTraversalII from "./tree/binary-tree-level-order-traversal-ii/info";
+import InvertBinaryTree from "./tree/invert-binary-tree/info";
 
 export const games: Game[] = [
     editDistance,
@@ -147,5 +148,6 @@ export const games: Game[] = [
     BinaryTreePaths,
     BinaryTreeLevelOrderTraversal,
     BinaryTreeZigzagLevelOrderTraversal,
-    BinaryTreeLevelOrderTraversalII
+    BinaryTreeLevelOrderTraversalII,
+    InvertBinaryTree
 ];

@@ -6,6 +6,8 @@ class Line {
 
     private scene: THREE.Scene;
     private instance: THREE.Line;
+    private _start: Position;
+    private _end: Position;
 
     constructor(
         start: Position,
@@ -17,20 +19,27 @@ class Line {
             this.buildThreePosition(start),
             this.buildThreePosition(end)
         ]);
-
         this.instance = new THREE.Line(geometry, material);
         this.scene = scene;
+        this._start = start;
+        this._end = end;
     }
 
-    private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
-        return new THREE.Vector3(x, y, z);
+    get start(): Position {
+        return this._start;
     }
 
-    updateStart(position: Position) {
+    get end(): Position {
+        return this._end;
+    }
+
+    set start(position: Position) {
+        this._start = position;
         this.update(position, 0, 1, 2);
     }
 
-    updateEnd(position: Position) {
+    set end(position: Position) {
+        this._end = position;
         this.update(position, 3, 4, 5);
     }
 
@@ -49,6 +58,10 @@ class Line {
         (positions[xIndex] as any) = x;
         (positions[yIndex] as any) = y;
         (positions[zIndex] as any) = z;
+    }
+
+    private buildThreePosition({ x, y, z }: Position): THREE.Vector3 {
+        return new THREE.Vector3(x, y, z);
     }
 }
 
@@ -74,6 +87,14 @@ export default class TreeNode<T> {
     constructor(val: TextSphere<T>) {
         this._val = val;
         this._index = 0;
+    }
+
+    get leftLine(): Line | undefined {
+        return this._leftLine;
+    }
+
+    get rightLine(): Line | undefined {
+        return this._rightLine;
     }
 
     set index(index: number) {
@@ -109,6 +130,32 @@ export default class TreeNode<T> {
         this.val.textColor.setColor(color);
     }
 
+    move(distance: Position, duration: number): Promise<void> {
+        const x = this.val.center.x + distance.x;
+        const y = this.val.center.y + distance.y;
+        const z = this.val.center.z + distance.z;
+        return this.moveTo({ x, y, z }, duration);
+    }
+
+    moveTo(dest: Position, duration: number): Promise<void> {
+        const onUpdate = () => {
+            if (this._leftLine) {
+                this._leftLine.start = this.val.center
+                if (this._left) {
+                    this._leftLine.end = this._left.val.center;
+                }
+            }
+            if (this._rightLine) {
+                this._rightLine.start = this.val.center
+                if (this._right) {
+                    this._rightLine.end = this._right.val.center;
+                }
+            }
+        }
+
+        return this.val.move(dest, duration, onUpdate);
+    }
+
     setLeft(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
         this._left = node;
         this._left.index = this.leftChildIndex;
@@ -116,7 +163,7 @@ export default class TreeNode<T> {
         this._leftLine.show();
         const onUpdate = () => {
             if (this._leftLine) {
-                this._leftLine.updateEnd(node._val.center)
+                this._leftLine.end = node.val.center;
             }
         }
         return node._val.move(position, duration, onUpdate);
@@ -129,7 +176,7 @@ export default class TreeNode<T> {
         this._rightLine.show();
         const onUpdate = () => {
             if (this._rightLine) {
-                this._rightLine.updateEnd(node._val.center)
+                this._rightLine.end = node._val.center;
             }
         }
         return node._val.move(position, duration, onUpdate);

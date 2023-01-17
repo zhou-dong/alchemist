@@ -149,6 +149,8 @@ import BinaryTreeZigzagLevelOrderTraversal from "./games/tree/binary-tree-zigzag
 import BinaryTreeZigzagLevelOrderTraversalInfo from "./games/tree/binary-tree-zigzag-level-order-traversal/info";
 import BinaryTreeLevelOrderTraversalII from "./games/tree/binary-tree-level-order-traversal-ii";
 import BinaryTreeLevelOrderTraversalIIInfo from "./games/tree/binary-tree-level-order-traversal-ii/info";
+import InvertBinaryTree from "./games/tree/invert-binary-tree";
+import InvertBinaryTreeInfo from "./games/tree/invert-binary-tree/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -251,6 +253,7 @@ const App = () => (
                 <Route path={BinaryTreeLevelOrderTraversalInfo.path} element={<BinaryTreeLevelOrderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BinaryTreeZigzagLevelOrderTraversalInfo.path} element={<BinaryTreeZigzagLevelOrderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BinaryTreeLevelOrderTraversalIIInfo.path} element={<BinaryTreeLevelOrderTraversalII renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={InvertBinaryTreeInfo.path} element={<InvertBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>
