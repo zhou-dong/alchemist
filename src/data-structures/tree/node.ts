@@ -130,6 +130,32 @@ export default class TreeNode<T> {
         this.val.textColor.setColor(color);
     }
 
+    move(distance: Position, duration: number): Promise<void> {
+        const x = this.val.center.x + distance.x;
+        const y = this.val.center.y + distance.y;
+        const z = this.val.center.z + distance.z;
+        return this.moveTo({ x, y, z }, duration);
+    }
+
+    moveTo(dest: Position, duration: number): Promise<void> {
+        const onUpdate = () => {
+            if (this._leftLine) {
+                this._leftLine.start = this.val.center
+                if (this._left) {
+                    this._leftLine.end = this._left.val.center;
+                }
+            }
+            if (this._rightLine) {
+                this._rightLine.start = this.val.center
+                if (this._right) {
+                    this._rightLine.end = this._right.val.center;
+                }
+            }
+        }
+
+        return this.val.move(dest, duration, onUpdate);
+    }
+
     setLeft(node: TreeNode<T>, position: Position, lineMaterial: THREE.LineBasicMaterial, duration: number, scene: THREE.Scene): Promise<void> {
         this._left = node;
         this._left.index = this.leftChildIndex;
