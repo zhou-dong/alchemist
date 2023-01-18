@@ -81,38 +81,36 @@ const Main = () => {
             return;
         }
 
-        const right = treeNode.right;
         // next.right = node.right;
+        const right = treeNode.right;
         if (right) {
             const start = clonePosition(nextTreeNode);
-            const end = clonePosition(nextTreeNode);
             const dest = clonePosition(right);
-            if (start && end && dest) {
+            if (start && dest) {
                 nextTreeNode.setRight(right, right.val.center, lineMaterial, 0, scene);
                 if (nextTreeNode.rightLine) {
-                    nextTreeNode.rightLine.end = end;
+                    nextTreeNode.rightLine.end = start;
                     const onUpdate = () => {
-                        nextTreeNode.rightLine!.end = end;
+                        nextTreeNode.rightLine!.end = start;
                     }
-                    gsap.to(end, { ...dest, duration, onUpdate });
+                    gsap.to(start, { ...dest, duration, onUpdate });
                     await wait(duration);
                 }
             }
         }
 
+        // node.left = null;
         if (treeNode.leftLine) {
             treeNode.leftLine.hide();
         }
 
         // node.right = node.left
-        const start = clonePosition(treeNode.right);
-        if (treeNode.rightLine && start) {
+        if (treeNode.rightLine) {
+            const start = clonePosition(treeNode.right);
             const dest = clonePosition(left);
-            if (dest) {
+            if (start && dest) {
                 const onUpdate = () => {
-                    if (treeNode.rightLine) {
-                        treeNode.rightLine.end = start;
-                    }
+                    treeNode.rightLine!.end = start;
                 }
                 gsap.to(start, { ...dest, duration, onUpdate });
                 await wait(duration);
