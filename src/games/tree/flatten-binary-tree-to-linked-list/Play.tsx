@@ -1,28 +1,30 @@
 import gsap from 'gsap';
 import { useAlgoContext } from "./AlgoContext";
 import { Button } from '@mui/material';
-import { normalSphereColor, enabledSphereColor } from "./styles";
+import { normalSphereColor, enabledSphereColor, nextSphereColor, lineMaterial } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
-import { Step } from './algo';
+import { Action, Step } from './algo';
 import Position from "../../../data-structures/_commons/params/position";
 
 const duration = 0.8;
 
-const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {
+const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>, next?: TreeNode<string>) => {
     if (root === undefined || current === undefined) {
         return;
     }
 
     if (root === current) {
         root.sphereColor = enabledSphereColor;
+    } else if (root === next) {
+        root.sphereColor = nextSphereColor;
     } else {
         root.sphereColor = normalSphereColor;
     }
 
-    updateTreeColor(root.left, current);
-    updateTreeColor(root.right, current);
+    updateTreeColor(root.left, current, next);
+    updateTreeColor(root.right, current, next);
 }
 
 const clonePosition = (treeNode?: TreeNode<string>): Position | undefined => {
@@ -36,54 +38,9 @@ const clonePosition = (treeNode?: TreeNode<string>): Position | undefined => {
     return { x, y, z };
 }
 
-const move = (root: TreeNode<string> | undefined, distance: Position, duration: number) => {
-    if (!root) {
-        return;
-    }
-    root.move(distance, duration);
-    move(root.left, distance, duration);
-    move(root.right, distance, duration);
-}
-
-const getLeftPosition = (node?: TreeNode<string>): Position | undefined => {
-    if (!node) {
-        return undefined;
-    }
-    if (node.left) {
-        return clonePosition(node.left);
-    }
-    if (node.right) {
-        const rightPosition = clonePosition(node.right);
-        if (rightPosition) {
-            const distance = rightPosition.x - node.val.center.x;
-            const x = rightPosition.x - distance - distance;
-            return { ...rightPosition, x };
-        }
-    }
-    return undefined;
-}
-
-const getRightPosition = (node?: TreeNode<string>): Position | undefined => {
-    if (!node) {
-        return undefined;
-    }
-    if (node.right) {
-        return clonePosition(node.right);
-    }
-    if (node.left) {
-        const leftPosition = clonePosition(node.left);
-        if (leftPosition) {
-            const distance = node.val.center.x - leftPosition.x;
-            const x = leftPosition.x + distance + distance;
-            return { ...leftPosition, x };
-        }
-    }
-    return undefined;
-}
-
 const Main = () => {
 
-    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, treeNodeMap } = useAlgoContext();
+    const { animate, cancelAnimate, index, steps, setIndex, state, setState, root, treeNodeMap, scene } = useAlgoContext();
 
     const handleOnClick = async () => {
         setState(State.Computing);
@@ -105,52 +62,62 @@ const Main = () => {
     }
 
     const doClick = async (step: Step) => {
-        const { node } = step;
+        const { node, action, next } = step;
         const treeNode = treeNodeMap.get(node.index);
+        const nextTreeNode = next ? treeNodeMap.get(next.index) : undefined;
+
+        updateTreeColor(root, treeNode, nextTreeNode);
+
+        if (action !== Action.Flatten) {
+            return;
+        }
+
         if (!treeNode) {
             return;
         }
-        updateTreeColor(root, treeNode);
 
         const left = treeNode.left;
-        const right = treeNode.right;
-        if (!left && !right) {
+        if (!treeNode || !left || !nextTreeNode) {
             return;
         }
-        const leftPosition = getLeftPosition(treeNode);
-        const rightPosition = getRightPosition(treeNode);
 
-        if (right && leftPosition) {
-            const rightLine = treeNode.rightLine;
-            if (rightLine) {
-                const position = rightLine.end;
-                const onUpdate = () => {
-                    rightLine.end = position;
+        const right = treeNode.right;
+        // next.right = node.right;
+        if (right) {
+            const start = clonePosition(nextTreeNode);
+            const end = clonePosition(nextTreeNode);
+            const dest = clonePosition(right);
+            if (start && end && dest) {
+                nextTreeNode.setRight(right, right.val.center, lineMaterial, 0, scene);
+                if (nextTreeNode.rightLine) {
+                    nextTreeNode.rightLine.end = end;
+                    const onUpdate = () => {
+                        nextTreeNode.rightLine!.end = end;
+                    }
+                    gsap.to(end, { ...dest, duration, onUpdate });
+                    await wait(duration);
                 }
-                gsap.to(position, { ...leftPosition, duration, onUpdate });
             }
-            const x = leftPosition.x - right.val.center.x;
-            const y = leftPosition.y - right.val.center.y;
-            const z = leftPosition.z - right.val.center.z;
-            move(right, { x, y, z }, duration);
         }
 
-        if (left && rightPosition) {
-            const leftLine = treeNode.leftLine;
-            if (leftLine) {
-                const position = leftLine.end;
-                const onUpdate = () => {
-                    leftLine.end = position;
-                }
-                gsap.to(position, { ...rightPosition, duration, onUpdate });
-            }
-            const x = rightPosition.x - left.val.center.x;
-            const y = rightPosition.y - left.val.center.y;
-            const z = rightPosition.z - left.val.center.z;
-            move(left, { x, y, z }, duration);
+        if (treeNode.leftLine) {
+            treeNode.leftLine.hide();
         }
 
-        await wait(duration + 0.1);
+        // node.right = node.left
+        const start = clonePosition(treeNode.right);
+        if (treeNode.rightLine && start) {
+            const dest = clonePosition(left);
+            if (dest) {
+                const onUpdate = () => {
+                    if (treeNode.rightLine) {
+                        treeNode.rightLine.end = start;
+                    }
+                }
+                gsap.to(start, { ...dest, duration, onUpdate });
+                await wait(duration);
+            }
+        }
     }
 
     return (
