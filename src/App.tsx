@@ -153,6 +153,8 @@ import InvertBinaryTree from "./games/tree/invert-binary-tree";
 import InvertBinaryTreeInfo from "./games/tree/invert-binary-tree/info";
 import FlattenBinaryTreeToLinkedList from "./games/tree/flatten-binary-tree-to-linked-list";
 import FlattenBinaryTreeToLinkedListInfo from "./games/tree/flatten-binary-tree-to-linked-list/info";
+import BinarySearchTreeIterator from "./games/tree/binary-search-tree-iterator";
+import BinarySearchTreeIteratorInfo from "./games/tree/binary-search-tree-iterator/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -257,6 +259,7 @@ const App = () => (
                 <Route path={BinaryTreeLevelOrderTraversalIIInfo.path} element={<BinaryTreeLevelOrderTraversalII renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={InvertBinaryTreeInfo.path} element={<InvertBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={FlattenBinaryTreeToLinkedListInfo.path} element={<FlattenBinaryTreeToLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={BinarySearchTreeIteratorInfo.path} element={<BinarySearchTreeIterator renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>
