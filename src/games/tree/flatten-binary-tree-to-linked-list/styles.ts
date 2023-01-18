@@ -3,6 +3,7 @@ import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeomet
 import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
 
+export const nextSphereColor = "orange";
 export const enabledSphereColor = "lightblue";
 export const normalSphereColor = "yellow";
 
@@ -12,7 +13,7 @@ const sphereMaterial = (): THREE.Material => {
 }
 const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green" });
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
-const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
+export const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
 export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
     const center = { x: 0, y: 8, z: 0 };
