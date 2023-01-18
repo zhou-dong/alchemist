@@ -15,6 +15,7 @@ export const formula = `/**
  */
 
 class BSTIterator {
+
     private stack: TreeNode[];
 
     constructor(root: TreeNode | null) {
