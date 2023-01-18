@@ -6,12 +6,18 @@ interface Node {
     right?: Node;
 }
 
+export enum Action {
+    FindRight, Flatten, Display
+}
+
 export enum Direction {
     Left, Right, Back
 }
 
 export interface Step {
     node: Node;
+    next?: Node;
+    action: Action;
 }
 
 const buildTree = (node?: TreeNode<string>): Node | undefined => {
@@ -19,10 +25,8 @@ const buildTree = (node?: TreeNode<string>): Node | undefined => {
         return undefined;
     }
     const root: Node = { index: node.index };
-    const left = buildTree(node.left);
-    const right = buildTree(node.right);
-    root.left = left;
-    root.right = right;
+    root.left = buildTree(node.left);
+    root.right = buildTree(node.right);
     return root;
 }
 
@@ -46,21 +50,34 @@ export function buildSteps(root?: TreeNode<string>): Step[] {
 
     const steps: Step[] = [];
 
-    function invertTree(node?: Node) {
+    function flatten(node?: Node): void {
         if (!node) {
             return;
         }
 
-        steps.push({ node });
-        const temp = node.left;
-        node.left = node.right;
-        node.right = temp;
+        steps.push({ node, action: Action.Display });
 
-        invertTree(node.left);
-        invertTree(node.right);
+        if (node.left) {
+            const next = findRight(node, node.left);
+
+            steps.push({ node, next, action: Action.Flatten });
+
+            next.right = node.right;
+            node.right = node.left;
+            node.left = undefined;
+        }
+        flatten(node.right);
+    };
+
+    function findRight(root: Node, node: Node): Node {
+        steps.push({ node: root, next: node, action: Action.FindRight });
+        if (!node.right) {
+            return node;
+        }
+        return findRight(root, node.right);
     };
 
     const node = buildTree(root);
-    invertTree(node);
+    flatten(node);
     return steps;
 }
