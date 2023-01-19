@@ -12,14 +12,18 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { buildSteps, buildTreeNodeMap } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
+import { duration, minShellSize, stackPosition } from "./stackStyles";
+import StackShellBuilder from "./stackShellBuilder";
+import Stack from '../../../data-structures/stack';
+import StackName from './stackName';
+import TreeNode from '../../../data-structures/tree/node';
+import StackItemBuilder from './stackItemBuilder';
 
-const input3 = [5, 7, 1, 4, 6, 4, 2, 8, null, 9, 3, null, 11];
-const input2 = [6, 7, 8, 1, 9, 4, 2, 5, null, null, null, null, 3];
-const input1 = [2, 8, 5, 6, 1, 3, 7, 5, null, 2, null, null, 9, null, 4];
+const input2 = [8, 5, 11, 4, 7, 10, 13, null, null, 6, null, 9, null, 12];
+const input1 = [8, 5, 11, 4, 7, 10, 13, 3, null, 6, null, 9, null, 12];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -31,7 +35,6 @@ const DropDown: React.FC<{
     const buildInInputs = [
         input1,
         input2,
-        input3,
     ];
 
     const handleMenuClose = () => {
@@ -84,7 +87,7 @@ const Submit: React.FC<{
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setTreeNodeMap } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setRoot, setStackName, setTreeNodeStack, setStack } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -94,18 +97,38 @@ const Submit: React.FC<{
         animate();
         clearScene(scene);
         const root = buildTree(array, scene);
-        const steps = buildSteps(root);
-        const nodeMap = buildTreeNodeMap(root);
+        const stack = new Stack<string>(stackPosition.stack, duration);
+        const treeNodeStack: TreeNode<string>[] = [];
+        initStackShell(stack);
+        setStack(stack);
+        setTreeNodeStack(treeNodeStack);
+        setStackName(new StackName("Stack", stackPosition.name, scene));
         setRoot(root);
-        setSteps(steps);
-        setTreeNodeMap(nodeMap);
-        setIndex(0);
+        if (root) {
+            await pushToStack(stack, treeNodeStack, root, scene);
+        }
         setNodes("");
         setAnchorEl(null);
         await wait(0.2);
         cancelAnimate();
         setState(State.Playing);
     }
+
+    const initStackShell = (stack: Stack<string>) => {
+        for (let i = 0; i < minShellSize; i++) {
+            stack.increaseShells(new StackShellBuilder(scene, true).build());
+        }
+    }
+
+    const pushToStack = async (stack: Stack<string>, treeNodeStack: TreeNode<string>[], node: TreeNode<string>, scene: THREE.Scene) => {
+        treeNodeStack.push(node);
+        const stackItem = new StackItemBuilder(node.val.value, scene, true).build();
+        await stack.push(stackItem);
+        if (node.left) {
+            await pushToStack(stack, treeNodeStack, node.left, scene);
+        }
+    }
+
 
     return (
         <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
