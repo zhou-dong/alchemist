@@ -3,7 +3,7 @@ import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeomet
 import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
 
-export const nextSphereColor = "orange";
+export const stackItemSphereColor = "orange";
 export const enabledSphereColor = "lightblue";
 export const normalSphereColor = "yellow";
 
