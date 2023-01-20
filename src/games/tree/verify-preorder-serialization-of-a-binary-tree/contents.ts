@@ -1,21 +1,30 @@
 export const title = "Verify Preorder Serialization of a Binary Tree";
 
-export const formula = `/**
- * Definition for a binary tree node.
- * class TreeNode {
- *     val: number
- *     left: TreeNode | null
- *     right: TreeNode | null
- *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.left = (left===undefined ? null : left)
- *         this.right = (right===undefined ? null : right)
- *     }
- * }
- */
+export const formula = `function isValidSerialization(preorder: string): boolean {
 
+    const stack: string[] = [];
 
-`;
+    function eliminate() {
+        while (
+            stack.length >= 3 &&
+            stack[stack.length - 1] === "#" &&
+            stack[stack.length - 2] === "#" &&
+            stack[stack.length - 3] !== "#"
+        ) {
+            stack.pop();
+            stack.pop();
+            stack.pop();
+            stack.push("#");
+        }
+    }
+
+    preorder.split(",").forEach(node => {
+        stack.push(node);
+        eliminate();
+    })
+
+    return stack.length === 1 && stack.pop() === "#";
+};`
 
 export const description = `
 One way to serialize a binary tree is to use **preorder traversal**. 
