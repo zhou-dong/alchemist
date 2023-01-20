@@ -19,11 +19,9 @@ import { duration, minShellSize, stackPosition } from "./stackStyles";
 import StackShellBuilder from "./stackShellBuilder";
 import Stack from '../../../data-structures/stack';
 import StackName from './stackName';
-import TreeNode from '../../../data-structures/tree/node';
-import StackItemBuilder from './stackItemBuilder';
+import { buildSteps } from './algo';
 
-const input2 = [8, 5, 11, 4, 7, 10, 13, null, null, 6, null, 9, null, 12];
-const input1 = [8, 5, 11, 4, 7, 10, 13, 3, null, 6, null, 9, null, 12];
+const input1 = [8, 5, 11, 4, "#", 10, "#", "#", "#", null, null, "#", "#"];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -34,7 +32,6 @@ const DropDown: React.FC<{
 
     const buildInInputs = [
         input1,
-        input2,
     ];
 
     const handleMenuClose = () => {
@@ -87,7 +84,7 @@ const Submit: React.FC<{
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setStackName, setTreeNodeStack, setStack } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setRoot, setStackName, setStack, setSteps, setIndex, setTreeNodeStack } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -96,17 +93,25 @@ const Submit: React.FC<{
         const array = parseInput(nodes);
         animate();
         clearScene(scene);
-        const root = buildTree(array, scene);
+
+        // init stack
         const stack = new Stack<string>(stackPosition.stack, duration);
-        const treeNodeStack: TreeNode<string>[] = [];
         initStackShell(stack);
         setStack(stack);
-        setTreeNodeStack(treeNodeStack);
+        setTreeNodeStack([]);
+
+        // init stack name
         setStackName(new StackName("Stack", stackPosition.name, scene));
+
+        // init root
+        const root = buildTree(array, scene);
         setRoot(root);
-        if (root) {
-            await pushToStack(stack, treeNodeStack, root, scene);
-        }
+
+        // init steps
+        const steps = buildSteps(root);
+        setSteps(steps);
+        setIndex(0);
+
         setNodes("");
         setAnchorEl(null);
         await wait(0.2);
@@ -119,16 +124,6 @@ const Submit: React.FC<{
             stack.increaseShells(new StackShellBuilder(scene, true).build());
         }
     }
-
-    const pushToStack = async (stack: Stack<string>, treeNodeStack: TreeNode<string>[], node: TreeNode<string>, scene: THREE.Scene) => {
-        treeNodeStack.push(node);
-        const stackItem = new StackItemBuilder(node.val.value, scene, true).build();
-        await stack.push(stackItem);
-        if (node.left) {
-            await pushToStack(stack, treeNodeStack, node.left, scene);
-        }
-    }
-
 
     return (
         <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
