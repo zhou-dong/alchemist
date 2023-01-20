@@ -1,6 +1,39 @@
 export const title = "Serialize and Deserialize Binary Tree";
 
-export const formula = ``;
+export const formula = `function serialize(root: TreeNode | null): string {
+
+    const result: string[] = [];
+    function preorder (node: TreeNode | null) {
+        if(!node) {
+            result.push("#");
+            return;
+        }
+        result.push(node.val + "");
+        preorder(node.left);
+        preorder(node.right);
+    }
+    
+    preorder(root);
+    return result.join(",");
+};
+
+function deserialize(data: string): TreeNode | null {
+    
+    let index = 0;
+    function preorder(array: string[]) : TreeNode | null {
+        const value = array[index];
+        index += 1;
+        if (!value || value === "#") {
+            return null;
+        }
+        const node = new TreeNode(+value);
+        node.left = preorder(array);
+        node.right = preorder(array);
+        return node;
+    }
+
+    return preorder(data.split(","));
+};`;
 
 export const description = `
 Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, 
