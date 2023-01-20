@@ -157,6 +157,9 @@ import BinarySearchTreeIterator from "./games/tree/binary-search-tree-iterator";
 import BinarySearchTreeIteratorInfo from "./games/tree/binary-search-tree-iterator/info";
 import VerifyPreorderSerializationOfABinaryTree from "./games/tree/verify-preorder-serialization-of-a-binary-tree";
 import VerifyPreorderSerializationOfABinaryTreeInfo from "./games/tree/verify-preorder-serialization-of-a-binary-tree/info";
+import SerializeAndDeserializeBinaryTree from "./games/tree/serialize-and-deserialize-binary-tree";
+import SerializeAndDeserializeBinaryTreeInfo from "./games/tree/serialize-and-deserialize-binary-tree/info";
+
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -263,6 +266,7 @@ const App = () => (
                 <Route path={FlattenBinaryTreeToLinkedListInfo.path} element={<FlattenBinaryTreeToLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BinarySearchTreeIteratorInfo.path} element={<BinarySearchTreeIterator renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={VerifyPreorderSerializationOfABinaryTreeInfo.path} element={<VerifyPreorderSerializationOfABinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={SerializeAndDeserializeBinaryTreeInfo.path} element={<SerializeAndDeserializeBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>
