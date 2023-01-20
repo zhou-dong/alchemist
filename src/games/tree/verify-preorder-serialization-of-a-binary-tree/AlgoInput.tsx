@@ -22,6 +22,7 @@ import StackName from './stackName';
 import { buildSteps } from './algo';
 
 const input1 = [8, 5, 11, 4, "#", 10, "#", "#", "#", null, null, "#", "#"];
+const input2 = [9, 5, 11, "#", "#", 10, "#", null, null, null, null, "#", "#"];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -31,7 +32,7 @@ const DropDown: React.FC<{
 }> = ({ anchorEl, setAnchorEl, open, setNodes }) => {
 
     const buildInInputs = [
-        input1,
+        input1, input2
     ];
 
     const handleMenuClose = () => {
