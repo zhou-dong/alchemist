@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import Stack from "../../../data-structures/stack";
 import TreeNode from "../../../data-structures/tree/node";
+import { Step } from "./algo";
 import { State } from "./AlgoState";
 import StackName from "./stackName";
 
@@ -18,6 +19,10 @@ const AlgoContext = React.createContext<{
     setStack: React.Dispatch<React.SetStateAction<Stack<string> | undefined>>
     stackName?: StackName,
     setStackName: React.Dispatch<React.SetStateAction<StackName | undefined>>,
+    steps: Step[],
+    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
+    index: number,
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
     treeNodeStack: TreeNode<string>[],
     setTreeNodeStack: React.Dispatch<React.SetStateAction<TreeNode<string>[]>>
 }>({
@@ -29,6 +34,10 @@ const AlgoContext = React.createContext<{
     setRoot: () => { },
     setStack: () => { },
     setStackName: () => { },
+    steps: [],
+    setSteps: () => { },
+    index: 0,
+    setIndex: () => { },
     treeNodeStack: [],
     setTreeNodeStack: () => { }
 });
@@ -47,6 +56,8 @@ export const AlgoContextProvider: React.FC<{
     const [root, setRoot] = React.useState<TreeNode<string>>();
     const [stack, setStack] = React.useState<Stack<string>>();
     const [stackName, setStackName] = React.useState<StackName>();
+    const [index, setIndex] = React.useState<number>(0);
+    const [steps, setSteps] = React.useState<Step[]>([]);
     const [treeNodeStack, setTreeNodeStack] = React.useState<TreeNode<string>[]>([]);
 
     function animate() {
@@ -85,6 +96,10 @@ export const AlgoContextProvider: React.FC<{
             setStack,
             stackName,
             setStackName,
+            steps,
+            setSteps,
+            index,
+            setIndex,
             treeNodeStack,
             setTreeNodeStack
         }}>
