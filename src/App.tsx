@@ -155,6 +155,8 @@ import FlattenBinaryTreeToLinkedList from "./games/tree/flatten-binary-tree-to-l
 import FlattenBinaryTreeToLinkedListInfo from "./games/tree/flatten-binary-tree-to-linked-list/info";
 import BinarySearchTreeIterator from "./games/tree/binary-search-tree-iterator";
 import BinarySearchTreeIteratorInfo from "./games/tree/binary-search-tree-iterator/info";
+import VerifyPreorderSerializationOfABinaryTree from "./games/tree/verify-preorder-serialization-of-a-binary-tree";
+import VerifyPreorderSerializationOfABinaryTreeInfo from "./games/tree/verify-preorder-serialization-of-a-binary-tree/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import Logo from './commons/Logo';
@@ -260,6 +262,7 @@ const App = () => (
                 <Route path={InvertBinaryTreeInfo.path} element={<InvertBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={FlattenBinaryTreeToLinkedListInfo.path} element={<FlattenBinaryTreeToLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BinarySearchTreeIteratorInfo.path} element={<BinarySearchTreeIterator renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={VerifyPreorderSerializationOfABinaryTreeInfo.path} element={<VerifyPreorderSerializationOfABinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
             </>
         </Routes>
     </>

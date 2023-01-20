@@ -76,6 +76,7 @@ import BinaryTreeLevelOrderTraversalII from "./tree/binary-tree-level-order-trav
 import InvertBinaryTree from "./tree/invert-binary-tree/info";
 import FlattenBinaryTreeToLinkedList from "./tree/flatten-binary-tree-to-linked-list/info";
 import BinarySearchTreeIterator from "./tree/binary-search-tree-iterator/info";
+import VerifyPreorderSerializationOfABinaryTree from "./tree/verify-preorder-serialization-of-a-binary-tree/info";
 
 export const games: Game[] = [
     editDistance,
@@ -153,5 +154,6 @@ export const games: Game[] = [
     BinaryTreeLevelOrderTraversalII,
     InvertBinaryTree,
     FlattenBinaryTreeToLinkedList,
-    BinarySearchTreeIterator
+    BinarySearchTreeIterator,
+    VerifyPreorderSerializationOfABinaryTree
 ];
