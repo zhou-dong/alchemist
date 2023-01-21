@@ -2,9 +2,6 @@ import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
-import TreeNode from '../../../data-structures/tree/node';
-import { build } from '../../../data-structures/tree/treeNodeBuilder';
-import Position from '../../../data-structures/_commons/params/position';
 
 export const stackItemSphereColor = "orange";
 export const enabledSphereColor = "lightblue";
@@ -19,7 +16,7 @@ const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height
 const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
 export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
-    const center = { x: 0, y: 6, z: 0 };
+    const center = { x: 0, y: 7.5, z: 0 };
     const show = true;
     const duration = 0;
     const yDistance = 3;
@@ -38,18 +35,5 @@ export const buildTree = (array: (string | null)[], scene: THREE.Scene) => {
         xAxisAlpha,
         array,
         show
-    );
-}
-
-export const buildTreeNode = (value: string, scene: THREE.Scene, center: Position): TreeNode<string> => {
-    return build<string>(
-        0,
-        sphereGeometry,
-        sphereMaterial(),
-        textMaterial,
-        textGeometryParameters,
-        value,
-        scene,
-        center
     );
 }

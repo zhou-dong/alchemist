@@ -1,20 +1,13 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button } from '@mui/material';
-import { normalSphereColor, enabledSphereColor, buildTreeNode } from "./styles";
+import { Button, ButtonGroup, Typography } from '@mui/material';
+import { normalSphereColor, enabledSphereColor } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import TreeNode from "../../../data-structures/tree/node";
-import StackItemBuilder from './stackItemBuilder';
-import Stack from '../../../data-structures/stack';
-
-const resetColor = (stack: TreeNode<string>[]) => {
-    stack.forEach(node => {
-        node.sphereColor = normalSphereColor;
-    })
-}
+import { Direction, Place, Stage, Step } from "./algo";
 
 const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {
-    if (root === undefined || current === undefined) {
+    if (root === undefined) {
         return;
     }
 
@@ -28,28 +21,53 @@ const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) =>
     updateTreeColor(root.right, current);
 }
 
-const pushToStack = async (
-    stack: Stack<string>,
-    treeNodeStack: TreeNode<string>[],
-    treeNode: TreeNode<string>,
-    scene: THREE.Scene
-): Promise<number> => {
-    treeNodeStack.push(treeNode);
-    return stack.push(new StackItemBuilder(treeNode.val.value, scene, true).build());
+const DisplaySerialized = () => {
+    const { index, steps } = useAlgoContext();
+    const step = steps[index - 1];
+    const values: string[] = step ? step.values : [];
+    const i: number = (step && step.i !== undefined) ? step.i : -1;
+
+    const getStyles = (a: number) => {
+        if (a === i) {
+            return { "color": "#FFF", "backgroundColor": "green" };
+        } else {
+            return { "color": "green" };
+        }
+    }
+
+    return (
+        <div style={{
+            position: "fixed",
+            top: "100px",
+            left: "50%",
+            transform: "translate(-50%)",
+        }}>
+            <ButtonGroup>
+                {
+                    values.map((value, i) => <Button key={i} sx={{ width: "55px", height: "55px", borderColor: "lightgray", ...getStyles(i) }}>
+                        <Typography variant="h5">
+                            {value}
+                        </Typography>
+                    </Button>
+                    )
+                }
+            </ButtonGroup>
+        </div>
+    )
 }
 
 const Main = () => {
 
-    const { animate, cancelAnimate, state, setState, stack, scene, root, index, steps, setIndex, treeNodeStack } = useAlgoContext();
+    const { animate, cancelAnimate, setState, root, index, steps, setIndex, nodes } = useAlgoContext();
+    const s = steps[index];
 
     const handleNextClick = async () => {
         setState(State.Computing);
         animate();
 
         try {
-            const step = steps[index];
-            if (step) {
-                await doClick(step.node);
+            if (s) {
+                doClick(s);
                 await wait(0.1);
             }
         } finally {
@@ -65,64 +83,64 @@ const Main = () => {
         setIndex(i => i + 1);
     }
 
-    const doClick = async (node: TreeNode<string>) => {
-        if (!stack) {
-            return;
-        }
-        resetColor(treeNodeStack);
-        updateTreeColor(root, node);
+    const doClick = (step: Step) => {
+        const { node, stage, place, direction } = step;
 
-        await pushToStack(stack, treeNodeStack, node, scene);
+        // Serialize
+        if (node && stage === Stage.Serialize) {
+            const parent = nodes.get(node.parentIndex);
 
-        while (
-            treeNodeStack.length >= 3 &&
-            treeNodeStack[treeNodeStack.length - 1].val.value === "#" &&
-            treeNodeStack[treeNodeStack.length - 2].val.value === "#" &&
-            treeNodeStack[treeNodeStack.length - 3].val.value !== "#"
-        ) {
-            const item1 = await stack.pop();
-            item1?.hide();
-            const node1 = treeNodeStack.pop();
-            node1?.hide();
-
-            const item2 = await stack.pop();
-            item2?.hide();
-            const node2 = treeNodeStack.pop();
-            node2?.hide();
-
-            const item3 = await stack.pop();
-            item3?.hide();
-            const node3 = treeNodeStack.pop();
-            if (node3) {
-                const { x, y, z } = node3.val.center
-                const newNode = buildTreeNode("#", scene, { x, y, z });
-                newNode.sphereColor = enabledSphereColor;
-                newNode.show();
-                node3.hide();
-                await pushToStack(stack, treeNodeStack, newNode, scene);
+            if (place === Place.Post) {
+                node.hide();
+                if (parent && direction !== undefined) {
+                    if (direction as Direction === Direction.Left) {
+                        parent.leftLine?.hide();
+                    }
+                    if (direction as Direction === Direction.Right) {
+                        parent.rightLine?.hide();
+                    }
+                }
             }
         }
+
+        // Deserialize
+        if (node && stage === Stage.Deserialize) {
+            node.show();
+
+            const parent = nodes.get(node.parentIndex);
+            if (parent && direction !== undefined) {
+                if (direction as Direction === Direction.Left) {
+                    parent.leftLine?.show();
+                }
+                if (direction as Direction === Direction.Right) {
+                    parent.rightLine?.show();
+                }
+            }
+        }
+
+        updateTreeColor(root, node);
     }
 
     return (
-        <div style={{
-            position: "fixed",
-            bottom: "150px",
-            left: "50%",
-            transform: "translate(-50%)",
-        }}
-        >
-            <Button
-                variant="contained"
-                size="large"
-                onClick={handleNextClick}
-                sx={{ color: "#FFF", zIndex: 1 }}
-                disabled={state !== State.Playing}
-                color="info"
+        <>
+            <DisplaySerialized />
+            <div style={{
+                position: "fixed",
+                bottom: "150px",
+                left: "50%",
+                transform: "translate(-50%)",
+            }}
             >
-                next
-            </Button>
-        </div>
+                <ButtonGroup variant="contained" size="large">
+                    <Button onClick={handleNextClick} disabled={!s || s.stage === Stage.Deserialize}>
+                        serialize
+                    </Button>
+                    <Button onClick={handleNextClick} disabled={!s || s.stage === Stage.Serialize}>
+                        deserialize
+                    </Button>
+                </ButtonGroup>
+            </div>
+        </>
     );
 }
 

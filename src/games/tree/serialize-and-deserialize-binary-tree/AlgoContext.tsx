@@ -1,11 +1,9 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import Stack from "../../../data-structures/stack";
 import TreeNode from "../../../data-structures/tree/node";
 import { Step } from "./algo";
 import { State } from "./AlgoState";
-import StackName from "./stackName";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -15,16 +13,12 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     root?: TreeNode<string>,
     setRoot: React.Dispatch<React.SetStateAction<TreeNode<string> | undefined>>,
-    stack?: Stack<string>,
-    setStack: React.Dispatch<React.SetStateAction<Stack<string> | undefined>>
-    stackName?: StackName,
-    setStackName: React.Dispatch<React.SetStateAction<StackName | undefined>>,
     steps: Step[],
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    treeNodeStack: TreeNode<string>[],
-    setTreeNodeStack: React.Dispatch<React.SetStateAction<TreeNode<string>[]>>
+    nodes: Map<number, TreeNode<string>>,
+    setNodes: React.Dispatch<React.SetStateAction<Map<number, TreeNode<string>>>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -32,14 +26,12 @@ const AlgoContext = React.createContext<{
     animate: () => { },
     cancelAnimate: () => { },
     setRoot: () => { },
-    setStack: () => { },
-    setStackName: () => { },
     steps: [],
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
-    treeNodeStack: [],
-    setTreeNodeStack: () => { }
+    nodes: new Map(),
+    setNodes: () => { }
 });
 
 let animationFrameId = -1;
@@ -54,11 +46,9 @@ export const AlgoContextProvider: React.FC<{
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
     const [root, setRoot] = React.useState<TreeNode<string>>();
-    const [stack, setStack] = React.useState<Stack<string>>();
-    const [stackName, setStackName] = React.useState<StackName>();
     const [index, setIndex] = React.useState<number>(0);
     const [steps, setSteps] = React.useState<Step[]>([]);
-    const [treeNodeStack, setTreeNodeStack] = React.useState<TreeNode<string>[]>([]);
+    const [nodes, setNodes] = React.useState<Map<number, TreeNode<string>>>(new Map());
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -92,16 +82,12 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             root,
             setRoot,
-            stack,
-            setStack,
-            stackName,
-            setStackName,
             steps,
             setSteps,
             index,
             setIndex,
-            treeNodeStack,
-            setTreeNodeStack
+            nodes,
+            setNodes
         }}>
             {children}
             <div ref={ref}></div>
