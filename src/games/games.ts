@@ -77,6 +77,7 @@ import InvertBinaryTree from "./tree/invert-binary-tree/info";
 import FlattenBinaryTreeToLinkedList from "./tree/flatten-binary-tree-to-linked-list/info";
 import BinarySearchTreeIterator from "./tree/binary-search-tree-iterator/info";
 import VerifyPreorderSerializationOfABinaryTree from "./tree/verify-preorder-serialization-of-a-binary-tree/info";
+import SerializeAndDeserializeBinaryTree from "./tree/serialize-and-deserialize-binary-tree/info";
 
 export const games: Game[] = [
     editDistance,
@@ -105,10 +106,6 @@ export const games: Game[] = [
     trappingRainWater,
     trappingRainWaterII,
     twoSum,
-    binaryTreeInorderTraversal,
-    binaryTreePostorderTraversal,
-    binaryTreePreorderTraversal,
-    twoThreeTreeRedBlackTree,
     bubbleSort,
     selectionSort,
     insertionSort,
@@ -127,6 +124,10 @@ export const games: Game[] = [
     ContainerWithMostWater,
     IntegerToRoman,
     RomanToInteger,
+    binaryTreeInorderTraversal,
+    binaryTreePostorderTraversal,
+    binaryTreePreorderTraversal,
+    twoThreeTreeRedBlackTree,
     MaximumDepthOfBinaryTree,
     MinimumDepthOfBinaryTree,
     BalancedBinaryTree,
@@ -155,5 +156,6 @@ export const games: Game[] = [
     InvertBinaryTree,
     FlattenBinaryTreeToLinkedList,
     BinarySearchTreeIterator,
-    VerifyPreorderSerializationOfABinaryTree
+    VerifyPreorderSerializationOfABinaryTree,
+    SerializeAndDeserializeBinaryTree
 ];
