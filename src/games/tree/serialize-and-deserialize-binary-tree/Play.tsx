@@ -88,10 +88,9 @@ const Main = () => {
 
         // Serialize
         if (node && stage === Stage.Serialize) {
-            const parent = nodes.get(node.parentIndex);
-
             if (place === Place.Post) {
                 node.hide();
+                const parent = nodes.get(node.parentIndex);
                 if (parent && direction !== undefined) {
                     if (direction as Direction === Direction.Left) {
                         parent.leftLine?.hide();
@@ -106,7 +105,6 @@ const Main = () => {
         // Deserialize
         if (node && stage === Stage.Deserialize) {
             node.show();
-
             const parent = nodes.get(node.parentIndex);
             if (parent && direction !== undefined) {
                 if (direction as Direction === Direction.Left) {
