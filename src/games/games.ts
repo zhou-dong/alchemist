@@ -50,6 +50,7 @@ import IntegerToRoman from "./greedy/integer-to-roman/info";
 import RomanToInteger from "./math/roman-to-integer/info";
 import MaximumDepthOfBinaryTree from "./tree/maximum-depth-of-binary-tree/info";
 import MinimumDepthOfBinaryTree from "./tree/minimum-depth-of-binary-tree/info";
+import RecoverBinarySearchTree from "./tree/recover-binary-search-tree/info";
 import BalancedBinaryTree from "./tree/balanced-binary-tree/info";
 import ValidateBinarySearchTree from "./tree/validate-binary-search-tree/info";
 import SameTree from "./tree/same-tree/info";
@@ -130,6 +131,7 @@ export const games: Game[] = [
     twoThreeTreeRedBlackTree,
     MaximumDepthOfBinaryTree,
     MinimumDepthOfBinaryTree,
+    RecoverBinarySearchTree,
     BalancedBinaryTree,
     ValidateBinarySearchTree,
     ConvertSortedArrayToBinarySearchTree,

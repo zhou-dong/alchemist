@@ -103,6 +103,8 @@ import MaximumDepthOfBinaryTree from "./games/tree/maximum-depth-of-binary-tree"
 import MaximumDepthOfBinaryTreeInfo from "./games/tree/maximum-depth-of-binary-tree/info";
 import MinimumDepthOfBinaryTree from "./games/tree/minimum-depth-of-binary-tree";
 import MinimumDepthOfBinaryTreeInfo from "./games/tree/minimum-depth-of-binary-tree/info";
+import RecoverBinarySearchTree from "./games/tree/recover-binary-search-tree";
+import RecoverBinarySearchTreeInfo from "./games/tree/recover-binary-search-tree/info";
 import BalancedBinaryTreeInfo from "./games/tree/balanced-binary-tree/info";
 import BalancedBinaryTree from "./games/tree/balanced-binary-tree";
 import ConvertSortedArrayToBinarySearchTree from "./games/tree/convert-sorted-array-to-binary-search-tree";
@@ -239,6 +241,7 @@ const App = () => (
                 <Route path={RomanToIntegerInfo.path} element={<RomanToInteger />} />
                 <Route path={MaximumDepthOfBinaryTreeInfo.path} element={<MaximumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={MinimumDepthOfBinaryTreeInfo.path} element={<MinimumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+                <Route path={RecoverBinarySearchTreeInfo.path} element={<RecoverBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={BalancedBinaryTreeInfo.path} element={<BalancedBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={ValidateBinarySearchTreeInfo.path} element={<ValidateBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
                 <Route path={SameTreeInfo.path} element={<SameTree renderer={renderer} camera={camera} scene={createScene()} />} />
