@@ -13,7 +13,7 @@ const updateTreeColor = (
     errorOne?: TreeNode<number>,
     errorTwo?: TreeNode<number>
 ) => {
-    if (root === undefined || current === undefined) {
+    if (root === undefined) {
         return;
     }
 
@@ -41,7 +41,7 @@ const Main = () => {
 
         try {
             handleClick(steps[index]);
-            await wait(0.3);
+            await wait(0.2);
         } finally {
             cancelAnimate();
         }
@@ -65,6 +65,7 @@ const Main = () => {
     const swap = () => {
         const last = steps[steps.length - 1];
         if (last && last.errorOne && last.errorTwo) {
+            updateTreeColor(root, undefined, undefined, last.errorOne, last.errorTwo);
             const temp = last.errorOne.val.value;
             last.errorOne.val.value = last.errorTwo.val.value;
             last.errorTwo.val.value = temp;
