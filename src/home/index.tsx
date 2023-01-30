@@ -1,23 +1,22 @@
 
 import * as React from 'react';
 import Filters from "./Filters";
-import MenuButton from './Menu';
 import List from './List';
 import Footer from '../commons/Footer';
-import { ThemeProvider } from '@mui/material';
+import { Container, ThemeProvider } from '@mui/material';
 import theme from '../commons/theme';
-
+import Header from "./Header";
 const Home = () => {
     const [open, setOpen] = React.useState<boolean>(false);
 
     return (
         <ThemeProvider theme={theme}>
-            <div style={{ width: "100%", height: "80px", minHeight: "80px" }} >
-                <MenuButton open={open} setOpen={setOpen} />
-            </div>
-            <Filters open={open} setOpen={setOpen} />
-            <List />
-            <Footer />
+            <Container maxWidth="xl">
+                <Header open={open} setOpen={setOpen} />
+                <Filters open={open} setOpen={setOpen} />
+                <List />
+                <Footer />
+            </Container>
         </ThemeProvider>
     )
 };
