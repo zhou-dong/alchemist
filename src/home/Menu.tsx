@@ -12,11 +12,11 @@ const MenuButton = ({ open, setOpen }: Props) => (
         size="large"
         sx={{
             ...(open && { display: 'none' }),
-            border: "1px solid grey"
+            backgroundColor: "green",
         }}
         onClick={() => setOpen(true)}
     >
-        <MenuRoundedIcon />
+        <MenuRoundedIcon sx={{ color: "#FFF" }} />
     </IconButton>
 );
 
