@@ -1,8 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
 
 import Home from './home';
-
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import BubbleSortAnimationInfo from "./games/sorting/bubble-sort/info";
 import SelectionSortAnimation from "./games/sorting/selection-sort/Animation";
@@ -162,117 +160,102 @@ import VerifyPreorderSerializationOfABinaryTreeInfo from "./games/tree/verify-pr
 import SerializeAndDeserializeBinaryTree from "./games/tree/serialize-and-deserialize-binary-tree";
 import SerializeAndDeserializeBinaryTreeInfo from "./games/tree/serialize-and-deserialize-binary-tree/info";
 
-
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
-import Logo from './commons/Logo';
 
 const renderer = createRenderer();
 const camera = createCamera();
 
 window.addEventListener('resize', () => onWindowResize(renderer, camera), false);
 
-const LogoContainer = styled("div")({
-    position: "fixed",
-    top: 0
-});
-
 const App = () => (
-    <>
-        <LogoContainer>
-            <Logo />
-        </LogoContainer>
-        <Routes>
-            <Route index element={<Home />} />
-
-            <>
-                <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
-                <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
-                <Route path={InsertionSortAnimationInfo.path} element={<InsertionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
-                <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
-                <Route path="sorting/quick-sort" element={<div>Quick Sort</div>} />
-                <Route path="sorting/heap-sort" element={<div>Heap Sort</div>} />
-                <Route path="sorting/counting-sort" element={<div>Counting Sort</div>} />
-                <Route path="sorting/bucket-sort" element={<div>Bucket Sort</div>} />
-                <Route path="sorting/radix-sort" element={<div>Redix Sort</div>} />
-                <Route path={EditDistanceInfo.path} element={<EditDistance />} />
-                <Route path={WordBreakInfo.path} element={<WordBreak />} />
-                <Route path={CoinChangeFewestNumberInfo.path} element={<CoinChangeFewestNumber />} />
-                <Route path={CoinChangeHowManyWaysInfo.path} element={<CoinChangeHowManyWays />} />
-                <Route path={LongestCommonSubsequenceInfo.path} element={<LongestCommonSubsequence />} />
-                <Route path={LongestCommonSubstringInfo.path} element={<LongestCommonSubstring />} />
-                <Route path={IsSubsequenceInfo.path} element={<IsSubsequence />} />
-                <Route path={IsSubstringInfo.path} element={<IsSubstring />} />
-                <Route path={MinimumPathSumInfo.path} element={<MinimumPathSum />} />
-                <Route path={KnapsackProblemInfo.path} element={<KnapsackProblem />} />
-                <Route path={RodCuttingProblemInfo.path} element={<RodCuttingProblem />} />
-                <Route path={WildcardMatchingInfo.path} element={<WildcardMatching />} />
-                <Route path={RegularExpressionInfo.path} element={<RegularExpression />} />
-                <Route path={SubsetSumProblemInfo.path} element={<SubsetSumProblem />} />
-                <Route path={MinimumNumberOfJumpsToReachEndInfo.path} element={<MinimumNumberOfJumpsToReachEnd />} />
-                <Route path={MinimumNumberOfJumpsToReachEndIIInfo.path} element={<MinimumNumberOfJumpsToReachEndII />} />
-                <Route path={LongestIncreasingSubsequenceInfo.path} element={<LongestIncreasingSubsequence />} />
-                <Route path={MaximumSubarrayProblemInfo.path} element={<MaximumSubarrayProblem />} />
-                <Route path={LongestPalindromicSubsequenceInfo.path} element={<LongestPalindromicSubsequence />} />
-                <Route path={LongestPalindromicSubstringInfo.path} element={<LongestPalindromicSubstring />} />
-                <Route path={PalindromePartitioningInfo.path} element={<PalindromePartitioning />} />
-                <Route path={HouseRobberInfo.path} element={<HouseRobber />} />
-                <Route path={EggDroppingProblemInfo.path} element={<EggDroppingProblem />} />
-                <Route path={TrappingRainWaterInfo.path} element={<TrappingRainWater />} />
-                <Route path={TrappingRainWaterIIInfo.path} element={<TrappingRainWaterII />} />
-                <Route path={TwoSumInfo.path} element={<TwoSum />} />
-                <Route path={BinaryTreeInorderTraversalInfo.path} element={<BinaryTreeInorderTraversal />} />
-                <Route path={BinaryTreePostorderTraversalInfo.path} element={<BinaryTreePostorderTraversal />} />
-                <Route path={BinaryTreePreorderTraversalInfo.path} element={<BinaryTreePreorderTraversal />} />
-                <Route path={TwoThreeTreeRedBlackTreeInfo.path} element={<TwoThreeTreeRedBlackTree input={buildTreeData()} />} />
-                <Route path={ValidParenthesesInfo.path} element={<ValidParentheses renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={LRUInfo.path} element={<LRU />} />
-                <Route path={ImplementQueueUsingStacksInfo.path} element={<ImplementQueueUsingStacks renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={ImplementStackUsingQueuesInfo.path} element={<ImplementStackUsingQueues renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={ImplementStackUsingQueueInfo.path} element={<ImplementStackUsingQueue renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BasicCalculatorInfo.path} element={<BasicCalculator renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BasicCalculatorIIInfo.path} element={<BasicCalculatorII renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={LongestSubstringWithoutRepeatingCharactersInfo.path} element={<LongestSubstringWithoutRepeatingCharacters />} />
-                <Route path={ZigzagConversionInfo.path} element={<ZigzagConversion />} />
-                <Route path={PalindromeNumberInfo.path} element={<PalindromeNumber />} />
-                <Route path={ReverseIntegerInfo.path} element={<ReverseInteger />} />
-                <Route path={StringToIntegerAtoiInfo.path} element={<StringToIntegerAtoi />} />
-                <Route path={ContainerWithMostWaterInfo.path} element={<ContainerWithMostWater />} />
-                <Route path={IntegerToRomanInfo.path} element={<IntegerToRoman />} />
-                <Route path={RomanToIntegerInfo.path} element={<RomanToInteger />} />
-                <Route path={MaximumDepthOfBinaryTreeInfo.path} element={<MaximumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={MinimumDepthOfBinaryTreeInfo.path} element={<MinimumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={RecoverBinarySearchTreeInfo.path} element={<RecoverBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BalancedBinaryTreeInfo.path} element={<BalancedBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={ValidateBinarySearchTreeInfo.path} element={<ValidateBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={SameTreeInfo.path} element={<SameTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={SymmetricTreeInfo.path} element={<SymmetricTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={PathSumInfo.path} element={<PathSum renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={PathSumIIInfo.path} element={<PathSumII renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BinaryTreeRightSideViewInfo.path} element={<BinaryTreeRightSideView renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={SumRootToLeafNumbersInfo.path} element={<SumRootToLeafNumbers renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={PopulatingNextRightPointersInEachNodeInfo.path} element={<PopulatingNextRightPointersInEachNode renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={PopulatingNextRightPointersInEachNodeIIInfo.path} element={<PopulatingNextRightPointersInEachNodeII renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={ConvertSortedArrayToBinarySearchTreeInfo.path} element={<ConvertSortedArrayToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={ConvertSortedListToBinarySearchTreeInfo.path} element={<ConvertSortedListToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={ConstructBinaryTreeFromInorderAndPostorderTraversalInfo.path} element={<ConstructBinaryTreeFromInorderAndPostorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={LowestCommonAncestorOfaBinarySearchTreeInfo.path} element={<LowestCommonAncestorOfaBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={LowestCommonAncestorOfaBinaryTreeInfo.path} element={<LowestCommonAncestorOfaBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={KthSmallestElementInBSTInfo.path} element={<KthSmallestElementInBST renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={SumOfLeftLeavesInfo.path} element={<SumOfLeftLeaves renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={CountCompleteTreeNodesInfo.path} element={<CountCompleteTreeNodes renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BinaryTreePathsInfo.path} element={<BinaryTreePaths renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BinaryTreeLevelOrderTraversalInfo.path} element={<BinaryTreeLevelOrderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BinaryTreeZigzagLevelOrderTraversalInfo.path} element={<BinaryTreeZigzagLevelOrderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BinaryTreeLevelOrderTraversalIIInfo.path} element={<BinaryTreeLevelOrderTraversalII renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={InvertBinaryTreeInfo.path} element={<InvertBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={FlattenBinaryTreeToLinkedListInfo.path} element={<FlattenBinaryTreeToLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={BinarySearchTreeIteratorInfo.path} element={<BinarySearchTreeIterator renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={VerifyPreorderSerializationOfABinaryTreeInfo.path} element={<VerifyPreorderSerializationOfABinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
-                <Route path={SerializeAndDeserializeBinaryTreeInfo.path} element={<SerializeAndDeserializeBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
-            </>
-        </Routes>
-    </>
+    <Routes>
+        <Route index element={<Home />} />
+        <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
+        <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
+        <Route path={InsertionSortAnimationInfo.path} element={<InsertionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
+        <Route path="sorting/merge-sort" element={<div>Merge Sort</div>} />
+        <Route path="sorting/quick-sort" element={<div>Quick Sort</div>} />
+        <Route path="sorting/heap-sort" element={<div>Heap Sort</div>} />
+        <Route path="sorting/counting-sort" element={<div>Counting Sort</div>} />
+        <Route path="sorting/bucket-sort" element={<div>Bucket Sort</div>} />
+        <Route path="sorting/radix-sort" element={<div>Redix Sort</div>} />
+        <Route path={EditDistanceInfo.path} element={<EditDistance />} />
+        <Route path={WordBreakInfo.path} element={<WordBreak />} />
+        <Route path={CoinChangeFewestNumberInfo.path} element={<CoinChangeFewestNumber />} />
+        <Route path={CoinChangeHowManyWaysInfo.path} element={<CoinChangeHowManyWays />} />
+        <Route path={LongestCommonSubsequenceInfo.path} element={<LongestCommonSubsequence />} />
+        <Route path={LongestCommonSubstringInfo.path} element={<LongestCommonSubstring />} />
+        <Route path={IsSubsequenceInfo.path} element={<IsSubsequence />} />
+        <Route path={IsSubstringInfo.path} element={<IsSubstring />} />
+        <Route path={MinimumPathSumInfo.path} element={<MinimumPathSum />} />
+        <Route path={KnapsackProblemInfo.path} element={<KnapsackProblem />} />
+        <Route path={RodCuttingProblemInfo.path} element={<RodCuttingProblem />} />
+        <Route path={WildcardMatchingInfo.path} element={<WildcardMatching />} />
+        <Route path={RegularExpressionInfo.path} element={<RegularExpression />} />
+        <Route path={SubsetSumProblemInfo.path} element={<SubsetSumProblem />} />
+        <Route path={MinimumNumberOfJumpsToReachEndInfo.path} element={<MinimumNumberOfJumpsToReachEnd />} />
+        <Route path={MinimumNumberOfJumpsToReachEndIIInfo.path} element={<MinimumNumberOfJumpsToReachEndII />} />
+        <Route path={LongestIncreasingSubsequenceInfo.path} element={<LongestIncreasingSubsequence />} />
+        <Route path={MaximumSubarrayProblemInfo.path} element={<MaximumSubarrayProblem />} />
+        <Route path={LongestPalindromicSubsequenceInfo.path} element={<LongestPalindromicSubsequence />} />
+        <Route path={LongestPalindromicSubstringInfo.path} element={<LongestPalindromicSubstring />} />
+        <Route path={PalindromePartitioningInfo.path} element={<PalindromePartitioning />} />
+        <Route path={HouseRobberInfo.path} element={<HouseRobber />} />
+        <Route path={EggDroppingProblemInfo.path} element={<EggDroppingProblem />} />
+        <Route path={TrappingRainWaterInfo.path} element={<TrappingRainWater />} />
+        <Route path={TrappingRainWaterIIInfo.path} element={<TrappingRainWaterII />} />
+        <Route path={TwoSumInfo.path} element={<TwoSum />} />
+        <Route path={BinaryTreeInorderTraversalInfo.path} element={<BinaryTreeInorderTraversal />} />
+        <Route path={BinaryTreePostorderTraversalInfo.path} element={<BinaryTreePostorderTraversal />} />
+        <Route path={BinaryTreePreorderTraversalInfo.path} element={<BinaryTreePreorderTraversal />} />
+        <Route path={TwoThreeTreeRedBlackTreeInfo.path} element={<TwoThreeTreeRedBlackTree input={buildTreeData()} />} />
+        <Route path={ValidParenthesesInfo.path} element={<ValidParentheses renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={LRUInfo.path} element={<LRU />} />
+        <Route path={ImplementQueueUsingStacksInfo.path} element={<ImplementQueueUsingStacks renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={ImplementStackUsingQueuesInfo.path} element={<ImplementStackUsingQueues renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={ImplementStackUsingQueueInfo.path} element={<ImplementStackUsingQueue renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BasicCalculatorInfo.path} element={<BasicCalculator renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BasicCalculatorIIInfo.path} element={<BasicCalculatorII renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={LongestSubstringWithoutRepeatingCharactersInfo.path} element={<LongestSubstringWithoutRepeatingCharacters />} />
+        <Route path={ZigzagConversionInfo.path} element={<ZigzagConversion />} />
+        <Route path={PalindromeNumberInfo.path} element={<PalindromeNumber />} />
+        <Route path={ReverseIntegerInfo.path} element={<ReverseInteger />} />
+        <Route path={StringToIntegerAtoiInfo.path} element={<StringToIntegerAtoi />} />
+        <Route path={ContainerWithMostWaterInfo.path} element={<ContainerWithMostWater />} />
+        <Route path={IntegerToRomanInfo.path} element={<IntegerToRoman />} />
+        <Route path={RomanToIntegerInfo.path} element={<RomanToInteger />} />
+        <Route path={MaximumDepthOfBinaryTreeInfo.path} element={<MaximumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={MinimumDepthOfBinaryTreeInfo.path} element={<MinimumDepthOfBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={RecoverBinarySearchTreeInfo.path} element={<RecoverBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BalancedBinaryTreeInfo.path} element={<BalancedBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={ValidateBinarySearchTreeInfo.path} element={<ValidateBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SameTreeInfo.path} element={<SameTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SymmetricTreeInfo.path} element={<SymmetricTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={PathSumInfo.path} element={<PathSum renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={PathSumIIInfo.path} element={<PathSumII renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BinaryTreeRightSideViewInfo.path} element={<BinaryTreeRightSideView renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SumRootToLeafNumbersInfo.path} element={<SumRootToLeafNumbers renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={PopulatingNextRightPointersInEachNodeInfo.path} element={<PopulatingNextRightPointersInEachNode renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={PopulatingNextRightPointersInEachNodeIIInfo.path} element={<PopulatingNextRightPointersInEachNodeII renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={ConvertSortedArrayToBinarySearchTreeInfo.path} element={<ConvertSortedArrayToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={ConvertSortedListToBinarySearchTreeInfo.path} element={<ConvertSortedListToBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={ConstructBinaryTreeFromPreorderAndInorderTraversalInfo.path} element={<ConstructBinaryTreeFromPreorderAndInorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={ConstructBinaryTreeFromInorderAndPostorderTraversalInfo.path} element={<ConstructBinaryTreeFromInorderAndPostorderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={LowestCommonAncestorOfaBinarySearchTreeInfo.path} element={<LowestCommonAncestorOfaBinarySearchTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={LowestCommonAncestorOfaBinaryTreeInfo.path} element={<LowestCommonAncestorOfaBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={KthSmallestElementInBSTInfo.path} element={<KthSmallestElementInBST renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SumOfLeftLeavesInfo.path} element={<SumOfLeftLeaves renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={CountCompleteTreeNodesInfo.path} element={<CountCompleteTreeNodes renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BinaryTreePathsInfo.path} element={<BinaryTreePaths renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BinaryTreeLevelOrderTraversalInfo.path} element={<BinaryTreeLevelOrderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BinaryTreeZigzagLevelOrderTraversalInfo.path} element={<BinaryTreeZigzagLevelOrderTraversal renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BinaryTreeLevelOrderTraversalIIInfo.path} element={<BinaryTreeLevelOrderTraversalII renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={InvertBinaryTreeInfo.path} element={<InvertBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={FlattenBinaryTreeToLinkedListInfo.path} element={<FlattenBinaryTreeToLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={BinarySearchTreeIteratorInfo.path} element={<BinarySearchTreeIterator renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={VerifyPreorderSerializationOfABinaryTreeInfo.path} element={<VerifyPreorderSerializationOfABinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SerializeAndDeserializeBinaryTreeInfo.path} element={<SerializeAndDeserializeBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+    </Routes>
 );
 
 export default App;
