@@ -8,7 +8,7 @@ import theme from './theme';
 
 const Logo = () => (
     <ThemeProvider theme={theme}>
-        <Toolbar sx={{ position: "fixed" }}>
+        <Toolbar sx={{ '&.MuiToolbar-root': { paddingLeft: 0, paddingRight: 0 } }}>
             <Typography variant="h6">
                 <MaterialLink
                     component={RouterLink}
