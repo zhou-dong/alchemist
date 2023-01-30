@@ -32,20 +32,18 @@ const Sorting = () => {
     const { games } = useGames();
 
     return (
-        <div style={{ maxWidth: "92%", margin: "auto", textAlign: "center" }}>
-            <Grid container spacing={4}>
-                {
-                    games.map((game, index) => (
-                        <Algorithm
-                            key={index}
-                            title={game.name}
-                            path={game.path}
-                            img={game.img}
-                        />
-                    ))
-                }
-            </Grid>
-        </div>
+        <Grid container spacing={3}>
+            {
+                games.map((game, index) => (
+                    <Algorithm
+                        key={index}
+                        title={game.name}
+                        path={game.path}
+                        img={game.img}
+                    />
+                ))
+            }
+        </Grid>
     )
 };
 
