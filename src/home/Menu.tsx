@@ -1,6 +1,7 @@
 import React from "react";
 import { IconButton } from "@mui/material";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import { green } from '@mui/material/colors';
 
 interface Props {
     open: boolean;
@@ -9,10 +10,13 @@ interface Props {
 
 const MenuButton = ({ open, setOpen }: Props) => (
     <IconButton
-        size="large"
+        size="medium"
         sx={{
             ...(open && { display: 'none' }),
-            backgroundColor: "green",
+            backgroundColor: green[600],
+            "&:hover": {
+                backgroundColor: green[800],
+            }
         }}
         onClick={() => setOpen(true)}
     >
