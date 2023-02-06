@@ -13,8 +13,8 @@ export const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color:
 export const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 export const lineMaterial = new THREE.LineBasicMaterial({ color: "gold" });
 
-export const center = { x: 0, y: 11, z: 0 };
-export const depthTreeCenter = { x: 0, y: 0, z: 0 };
+export const center = { x: -9, y: 7, z: 0 };
+export const depthTreeCenter = { x: 9, y: 7, z: 0 };
 export const yDistance = 3;
 export const duration = 0;
 export const xAxisAplha = 2;
