@@ -33,9 +33,9 @@ import {
 import TreeNode from '../../../data-structures/tree/node';
 import Position from '../../../data-structures/_commons/params/position';
 
-const inputOne = [3, 9, 20, null, null, 15, 7];
+const inputOne = [3, 9, 2, 5, 6, 7, 1, 4, null, null, 8];
 const inputTwo = [1, 2, 3, 4, 5, null, 7];
-const inputThree = [3, 9, 2, 5, 6, 7, 1, 4, 8];
+const inputThree = [3, 9, 20, null, null, 15, 7];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
