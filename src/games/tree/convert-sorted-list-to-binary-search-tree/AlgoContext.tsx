@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { InputOutput } from "./algo";
 import { State } from "./AlgoState";
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 
 const defaultInputOutput: InputOutput = { input: [], steps: [], xAxis: [] };
 

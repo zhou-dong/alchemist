@@ -19,7 +19,7 @@ import { duration, minShellSize, stackPosition } from "./stackStyles";
 import StackShellBuilder from "./stackShellBuilder";
 import Stack from '../../../data-structures/stack';
 import StackName from './stackName';
-import TreeNode from '../../../data-structures/tree/node';
+import TreeNode from '../../../data-structures/tree/nodes/v1/node';
 import StackItemBuilder from './stackItemBuilder';
 
 const input2 = [8, 5, 11, 4, 7, 10, 13, null, null, 6, null, 9, null, 12];

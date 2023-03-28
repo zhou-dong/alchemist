@@ -1,7 +1,7 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../../commons/three';
-import TreeNode from "../../../../data-structures/tree/node";
+import TreeNode from "../../../../data-structures/tree/nodes/v1/node";
 import { Step } from "./algo";
 import { State } from "../AlgoState";
 

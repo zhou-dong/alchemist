@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { buildPerfectBinaryTree } from "../../../data-structures/tree/perfectBinaryTree"
-import TreeNode from "../../../data-structures/tree/node";
+import { buildPerfectBinaryTree } from "../../../data-structures/tree/nodes/utils/perfect-binary-tree"
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 import { buildTreeNode, lineMaterial, yDistance, xCenter } from "./styles";
 import Position from '../../../data-structures/_commons/params/position';
 import { calDepth } from './depth';
@@ -38,7 +38,7 @@ export function buildTree(inorder: number[], postorder: number[], scene: THREE.S
 
     const depth: number = calDepth(inorder, postorder);
     const xAxisAlpha = 2; // expend the tree size in xAxis.
-    const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha).map(node => node.x);
+    const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha, 2).map(node => node.x);
     const xAlpha = (xAxis.length === 0) ? 0 : xCenter - xAxis[0];
     const steps: Step[] = [];
     const tree: TreeNode<number>[] = new Array(postorder.length);

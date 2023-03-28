@@ -2,7 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import Stack from "../../../data-structures/stack";
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 import { State } from "./AlgoState";
 import StackName from "./stackName";
 

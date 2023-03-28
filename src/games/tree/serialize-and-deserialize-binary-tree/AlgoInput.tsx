@@ -16,7 +16,7 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 import { buildSteps } from './algo';
-import TreeNode from '../../../data-structures/tree/node';
+import TreeNode from '../../../data-structures/tree/nodes/v1/node';
 
 const input3 = [8, 5, 11, 4, 6, 10, null, 3, null, 2, 7, null, 9];
 const input2 = [9, 5, 11, 8, 12, 10, 7, null, null, null, null, 4, 3];

@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import TreeNode from "./node";
-import Position from '../_commons/params/position';
-import { build } from "./treeNodeBuilder";
-import { buildPerfectBinaryTree } from './perfectBinaryTree';
+import Position from '../../../_commons/params/position';
+import { build } from "./tree-node-builder";
+import { buildPerfectBinaryTree } from '../utils/perfect-binary-tree';
 
 export const buildBinaryTree = <T>(
     sphereGeometry: THREE.SphereGeometry,
@@ -21,7 +21,7 @@ export const buildBinaryTree = <T>(
 ): TreeNode<T> | undefined => {
 
     const depth = Math.floor(Math.log2(array.length)) + 1;
-    const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha).map(node => node.x);
+    const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha, 2).map(node => node.x);
     const xAlpha = (xAxis.length === 0) ? 0 : position.x - xAxis[0];
 
     const buildTree = (index: number, center: Position): TreeNode<T> | undefined => {

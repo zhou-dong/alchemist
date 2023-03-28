@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import { normalSphereColor, enabledSphereColor, stackItemSphereColor } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 import StackItemBuilder from './stackItemBuilder';
 import Stack from '../../../data-structures/stack';
 

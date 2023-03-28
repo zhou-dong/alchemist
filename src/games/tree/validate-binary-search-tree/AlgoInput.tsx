@@ -14,7 +14,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
+import { buildBinaryTree } from "../../../data-structures/tree/nodes/v1/binary-tree-builder";
 import {
     sphereGeometry,
     sphereMaterial,

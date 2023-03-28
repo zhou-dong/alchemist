@@ -1,4 +1,4 @@
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 
 interface Node {
     index: number;

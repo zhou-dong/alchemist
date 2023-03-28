@@ -15,7 +15,7 @@ import { State } from './AlgoState';
 import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
+import { buildBinaryTree } from "../../../data-structures/tree/nodes/v1/binary-tree-builder";
 import {
     sphereGeometry,
     sphereMaterial,
@@ -29,7 +29,7 @@ import {
     enabledSphereColor,
     depthTreeCenter
 } from "./styles";
-import TreeNode from '../../../data-structures/tree/node';
+import TreeNode from '../../../data-structures/tree/nodes/v1/node';
 
 const inputOne = [2, 1, 3, null, 4, 6, 5, null, null, 9, null, null, null, 8];
 const inputTwo = [3, 9, 20, null, null, 15, 7];
