@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { TreeNodeProps } from '../nodes/v2/builder';
 import Heap from "./heap.class";
 
-class MaxHeap<T> extends Heap<T>{
+class MinHeap<T> extends Heap<T>{
 
     constructor(
         treeNodeProps: TreeNodeProps,
@@ -13,12 +13,12 @@ class MaxHeap<T> extends Heap<T>{
     }
 
     protected shouldBubbleUp(current: T, parent: T): boolean {
-        return current > parent;
+        return current < parent;
     }
 
     protected shouldBubbleDown(current: T, child: T): boolean {
-        return current < child;
+        return current > child;
     }
 }
 
-export default MaxHeap;
+export default MinHeap;
