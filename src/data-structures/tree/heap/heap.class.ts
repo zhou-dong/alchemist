@@ -7,7 +7,7 @@ import Heap from "./heap.interface";
 import { buildPerfectBinaryTree, TreeNode as TreePosition } from '../nodes/utils/perfect-binary-tree';
 import Position from '../../_commons/params/position';
 
-class MinHeap<T> implements Heap<T>{
+abstract class MaxHeap<T> implements Heap<T>{
 
     private depth: number = 4;
     private treeNodeInitPosition = { x: 0, y: 0, z: 0 };
@@ -74,12 +74,14 @@ class MinHeap<T> implements Heap<T>{
     private async bubbleUp(index: number, duration: number): Promise<void> {
         if (index < 1) return Promise.resolve();
         const parentIndex = getParentIndex(index);
-        if (this.getValue(index) < this.getValue(parentIndex)) {
+        if (this.shouldBubbleUp(this.getValue(index), this.getValue(parentIndex))) {
             await this.swap(index, parentIndex, duration);
             return this.bubbleUp(parentIndex, duration);
         }
         return Promise.resolve();
     }
+
+    protected abstract shouldBubbleUp(current: T, parent: T): boolean;
 
     async delete(duration?: number): Promise<T | undefined> {
         const last = this.treeNodes.pop();
@@ -103,12 +105,16 @@ class MinHeap<T> implements Heap<T>{
         let smallest = index;
 
         const leftIndex = getLeftChildIndex(index);
-        if (leftIndex < this.treeNodes.length && this.getValue(leftIndex) < this.getValue(smallest)) {
+        if (leftIndex < this.treeNodes.length && this.shouldBubbleDown(
+            this.getValue(smallest), this.getValue(leftIndex)
+        )) {
             smallest = leftIndex;
         }
 
         const rightIndex = getRightChildIndex(index);
-        if (rightIndex < this.treeNodes.length && this.getValue(rightIndex) < this.getValue(smallest)) {
+        if (rightIndex < this.treeNodes.length && this.shouldBubbleDown(
+            this.getValue(smallest), this.getValue(rightIndex)
+        )) {
             smallest = rightIndex;
         }
 
@@ -119,6 +125,8 @@ class MinHeap<T> implements Heap<T>{
         await this.swap(smallest, index, duration);
         return this.bubbleDown(smallest, duration);
     }
+
+    protected abstract shouldBubbleDown(current: T, child: T): boolean;
 
     private async swap(i: number, j: number, duration: number): Promise<void> {
         const x = this.treeNodes[i];
@@ -133,23 +141,23 @@ class MinHeap<T> implements Heap<T>{
         await y.moveTo(a, duration);
     }
 
-    peek(): Promise<T | undefined> {
+    peek(duration?: number): Promise<T | undefined> {
         return Promise.resolve(this.treeNodes[0]?.value.value);
     }
 
-    size(): Promise<number> {
+    size(duration?: number): Promise<number> {
         return Promise.resolve(this.treeNodes.length);
     }
 
-    isEmpty(): Promise<boolean> {
+    isEmpty(duration?: number): Promise<boolean> {
         return Promise.resolve(this.treeNodes.length === 0);
     }
 
-    buildHeap(items: T[]): Promise<void> {
+    buildHeap(items: T[], duration?: number): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
-    clear(): Promise<void> {
+    clear(duration?: number): Promise<void> {
         this.treeNodes.forEach(node => node.hide());
         this.treeLines.forEach(line => line.hide());
         this.treeNodes = [];
@@ -162,4 +170,4 @@ class MinHeap<T> implements Heap<T>{
     }
 }
 
-export default MinHeap;
+export default MaxHeap;

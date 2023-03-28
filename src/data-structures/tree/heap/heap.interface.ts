@@ -18,30 +18,30 @@ interface Heap<T> {
      * This method is used to return the root element of the heap without removing it. 
      * It is often used to check the highest-priority element in the heap.
      */
-    peek(): Promise<T | undefined>;
+    peek(duration?: number): Promise<T | undefined>;
 
     /**
      * This method is used to return the number of elements in the heap.
      */
-    size(): Promise<number>;
+    size(duration?: number): Promise<number>;
 
     /**
      * This method is used to check if the heap is empty or not.
      */
-    isEmpty(): Promise<boolean>;
+    isEmpty(duration?: number): Promise<boolean>;
 
     /**
      * This method is used to create a heap from a given list of elements. 
      * It takes O(n) time, where n is the number of elements in the list.
      */
-    buildHeap(items: T[]): Promise<void>;
+    buildHeap(items: T[], duration?: number): Promise<void>;
 
     /**
      * This method is used to remove all items from the heap, effectively emptying the heap.
      * It sets the internal array of items to an empty array, thus removing all references to the items that were previously stored in the heap. 
      * This can be useful when you want to reuse a heap for a different set of items or when you want to release memory used by the heap.
      */
-    clear(): Promise<void>;
+    clear(duration?: number): Promise<void>;
 }
 
 export default Heap;
