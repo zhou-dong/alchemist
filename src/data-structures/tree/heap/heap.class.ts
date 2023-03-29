@@ -34,41 +34,51 @@ abstract class MaxHeap<T> implements Heap<T>{
 
     async insert(item: T, duration?: number): Promise<void> {
         const index = this.treeNodes.length;
-        await this.insertTreeNode(item, index, duration || 0);
+        await this.insertTreeNode(item, index, duration || 0, this.treeNodeInitPosition);
         return this.bubbleUp(index, duration || 0);
     }
 
-    private insertTreeNode(item: T, index: number, duration: number): Promise<void> {
-        const node = this.buildTreeNode(item, index).show();
-        const line = this.buildTreeLine(index).show();
-        this.treeLines.set(index, line);
+    private insertTreeNode(item: T, index: number, duration: number, position: Position): Promise<void> {
+        const node = this.buildTreeNode(item, position).show();
         this.treeNodes.push(node);
+
+        const line = this.buildTreeLine(index);
+        if (line) {
+            this.treeLines.set(index, line.show());
+        }
+
         return this.moveNode(node, line, index, duration);
     }
 
-    private moveNode(node: TreeNode<T>, line: Line, index: number, duration: number): Promise<void> {
+    private moveNode(node: TreeNode<T>, line: Line | undefined, index: number, duration: number): Promise<void> {
         const { x, y } = this.treeNodesPositions[index];
         const dest: Position = { x, y, z: 0 };
         const onUpdate = () => {
-            line.end = node.value.center;
+            if (line) {
+                line.end = node.value.center;
+            }
         };
         return node.moveTo(dest, duration, onUpdate);
     }
 
-    private buildTreeNode(item: T, index: number) {
-        return buildNode<T>(index, this.treeNodeProps, item, this.scene, this.treeNodeInitPosition);
+    private buildTreeNode(item: T, position: Position) {
+        return buildNode<T>(this.treeNodeProps, item, this.scene, position);
     }
 
-    private buildTreeLine(index: number): Line {
+    private buildTreeLine(index: number): Line | undefined {
         const nodePosition = this.treeNodeInitPosition;
         const parentPosition = this.treeNodesPositions[getParentIndex(index)];
 
-        return new Line(
-            { x: parentPosition.x, y: parentPosition.y, z: 0 },
-            { x: nodePosition.x, y: nodePosition.y, z: 0 },
-            this.treeLineProps,
-            this.scene
-        );
+        if (parentPosition) {
+            return new Line(
+                { x: parentPosition.x, y: parentPosition.y, z: 0 },
+                { x: nodePosition.x, y: nodePosition.y, z: 0 },
+                this.treeLineProps,
+                this.scene
+            );
+        } else {
+            return;
+        }
     }
 
     private async bubbleUp(index: number, duration: number): Promise<void> {
@@ -102,28 +112,28 @@ abstract class MaxHeap<T> implements Heap<T>{
     }
 
     private async bubbleDown(index: number, duration: number): Promise<void> {
-        let smallest = index;
+        let target = index;
 
         const leftIndex = getLeftChildIndex(index);
         if (leftIndex < this.treeNodes.length && this.shouldBubbleDown(
-            this.getValue(smallest), this.getValue(leftIndex)
+            this.getValue(target), this.getValue(leftIndex)
         )) {
-            smallest = leftIndex;
+            target = leftIndex;
         }
 
         const rightIndex = getRightChildIndex(index);
         if (rightIndex < this.treeNodes.length && this.shouldBubbleDown(
-            this.getValue(smallest), this.getValue(rightIndex)
+            this.getValue(target), this.getValue(rightIndex)
         )) {
-            smallest = rightIndex;
+            target = rightIndex;
         }
 
-        if (smallest === index) {
+        if (target === index) {
             return Promise.resolve();
         }
 
-        await this.swap(smallest, index, duration);
-        return this.bubbleDown(smallest, duration);
+        await this.swap(target, index, duration);
+        return this.bubbleDown(target, duration);
     }
 
     protected abstract shouldBubbleDown(current: T, child: T): boolean;
@@ -153,8 +163,18 @@ abstract class MaxHeap<T> implements Heap<T>{
         return Promise.resolve(this.treeNodes.length === 0);
     }
 
-    buildHeap(items: T[], duration?: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    async buildHeap(items: T[], duration?: number): Promise<void> {
+
+        items.forEach((item, i) => {
+            const { x, y } = this.treeNodesPositions[i];
+            this.insertTreeNode(item, i, 0, { x, y, z: 0 });
+        });
+
+        for (let i = Math.floor(this.treeNodes.length / 2) - 1; i >= 0; i--) {
+            await this.bubbleDown(i, duration || 0);
+        }
+
+        return Promise.resolve();
     }
 
     clear(duration?: number): Promise<void> {
