@@ -9,7 +9,8 @@ enum Category {
     Math = "Math",
     SlidingWindow = "Sliding Window",
     FlipDirection = "Flip Direction",
-    Greedy = "Greedy"
+    Greedy = "Greedy",
+    Heap = "heap"
 }
 
 export default Category;
