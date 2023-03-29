@@ -23,11 +23,11 @@ const calTextX = <T>(value: T, x: number): number => {
 }
 
 export const buildNode = <T>(
-    index: number,
     treeNodeProps: TreeNodeProps,
     value: T,
     scene: THREE.Scene,
-    center: Position
+    center: Position,
+    index?: number
 ) => {
     const { sphereGeometry, sphereMaterial, textMaterial, textGeometryParameters } = treeNodeProps;
 
