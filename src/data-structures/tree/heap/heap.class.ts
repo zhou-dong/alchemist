@@ -3,11 +3,11 @@ import Line from '../nodes/line';
 import { buildNode, TreeNodeProps } from '../nodes/v2/builder';
 import TreeNode from "../nodes/v2/node";
 import { getLeftChildIndex, getParentIndex, getRightChildIndex } from '../nodes/utils/tree-node-utils';
-import Heap from "./heap.interface";
+import IHeap from "./heap.interface";
 import { buildPerfectBinaryTree, TreeNode as TreePosition } from '../nodes/utils/perfect-binary-tree';
 import Position from '../../_commons/params/position';
 
-abstract class MaxHeap<T> implements Heap<T>{
+abstract class Heap<T> implements IHeap<T>{
 
     private depth: number = 4;
     private treeNodeInitPosition = { x: 0, y: 0, z: 0 };
@@ -190,4 +190,4 @@ abstract class MaxHeap<T> implements Heap<T>{
     }
 }
 
-export default MaxHeap;
+export default Heap;
