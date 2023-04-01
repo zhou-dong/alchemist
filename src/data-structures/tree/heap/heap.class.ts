@@ -164,17 +164,16 @@ abstract class Heap<T> implements IHeap<T>{
     }
 
     async buildHeap(items: T[], duration?: number): Promise<void> {
-
-        items.forEach((item, i) => {
+        for (let i = 0; i < items.length; i++) {
             const { x, y } = this.treeNodesPositions[i];
-            this.insertTreeNode(item, i, 0, { x, y, z: 0 });
-        });
+            await this.insertTreeNode(items[i], i, duration || 0, { x, y, z: 0 });
+        }
+    }
 
+    async heapify(duration?: number): Promise<void> {
         for (let i = Math.floor(this.treeNodes.length / 2) - 1; i >= 0; i--) {
             await this.bubbleDown(i, duration || 0);
         }
-
-        return Promise.resolve();
     }
 
     clear(duration?: number): Promise<void> {
