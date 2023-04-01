@@ -13,14 +13,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = { array: [15, 7, 30, 4, 9, 20, null, 2], k: 4 };
-const input2 = { array: [10, 7, 18, 5, 9, 14, 25, 4, 6, null, null, 11, 15], k: 8 };
-const input3 = { array: [12, 8, 15, 6, 10, 13, 17, 4], k: 6 };
+const input1 = { array: [15, 7, 30, 4, 9, 20, 2], k: 4 };
+const input2 = { array: [10, 7, 18, 5, 9, 14, 25, 4, 6, 11, 15], k: 3 };
+const input3 = { array: [12, 8, 15, 6, 10, 13, 17, 4], k: 5 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -51,7 +50,7 @@ const DropDown: React.FC<{
                     <DoNotDisturbIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText sx={{ width: "120px" }}>
-                    array
+                    nums
                 </ListItemText>
                 <ListItemText>
                     k
@@ -84,16 +83,8 @@ const DropDown: React.FC<{
     );
 }
 
-const parseInput = (input: string): (string | null)[] => {
-    return input.split(",").map(ch => {
-        switch (ch.trim()) {
-            case "": return null;
-            case "null": return null;
-            case "undefined": return null;
-            case undefined: return null;
-            default: return ch.trim();
-        }
-    });
+const parseInput = (input: string): (number)[] => {
+    return input.split(",").map(ch => +ch);
 }
 
 const Submit: React.FC<{
@@ -102,7 +93,7 @@ const Submit: React.FC<{
     k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setK } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setHeap, setK } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0 || k.trim().length === 0;
 
@@ -111,12 +102,9 @@ const Submit: React.FC<{
         const array = parseInput(nodes);
         animate();
         clearScene(scene);
-        const root = buildTree(array, scene);
-        const steps = buildSteps(+k, root);
         setK(+k);
-        setRoot(root);
-        setSteps(steps);
-        setIndex(0);
+        const heap = await buildTree(array, scene);
+        setHeap(heap);
         setNodes("");
         setAnchorEl(null);
         await wait(0.2);
@@ -194,7 +182,6 @@ export default function AlgoInput({ setAnchorEl }: Props) {
 
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
                     setNodes("");
-                    setK("");
                 }}>
                     <ClearIcon />
                 </IconButton>

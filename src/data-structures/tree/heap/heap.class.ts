@@ -16,20 +16,39 @@ abstract class Heap<T> implements IHeap<T>{
     private treeNodes: TreeNode<T>[];
     private treeNodeProps: TreeNodeProps;
     private treeLineProps: THREE.LineBasicMaterial;
+
+    private enabledTreeNodeColor: string;
     private treeLines: Map<number, Line>;
     private scene: THREE.Scene;
 
     constructor(
         treeNodeProps: TreeNodeProps,
         treeLineProps: THREE.LineBasicMaterial,
+        enabledTreeNodeColor: string,
+        depth: number,
+        position: Position,
+        xDistance: number,
+        yDistance: number,
         scene: THREE.Scene
     ) {
         this.treeNodeProps = treeNodeProps;
         this.treeLineProps = treeLineProps;
+        this.enabledTreeNodeColor = enabledTreeNodeColor;
         this.scene = scene;
         this.treeNodes = [];
         this.treeLines = new Map();
-        this.treeNodesPositions = buildPerfectBinaryTree(this.depth, 2, 2);
+        this.treeNodesPositions = this.buildTreeNodesPositions(depth, position, xDistance, yDistance);
+    }
+
+    private buildTreeNodesPositions(depth: number, { x, y }: Position, xDistance: number, yDistance: number) {
+        const positions = buildPerfectBinaryTree(depth, xDistance, yDistance);
+        const xAlpha = (positions.length === 0) ? 0 : x - positions[0].x;
+
+        positions.forEach(position => {
+            position.x += xAlpha;
+            position.y += y;
+        })
+        return positions;
     }
 
     async insert(item: T, duration?: number): Promise<void> {
@@ -94,12 +113,23 @@ abstract class Heap<T> implements IHeap<T>{
     protected abstract shouldBubbleUp(current: T, parent: T): boolean;
 
     async delete(duration?: number): Promise<T | undefined> {
+
+        const line = this.treeLines.get(this.treeNodes.length - 1);
+        line?.hide();
+
+        this.treeLines.delete(this.treeNodes.length - 1);
+
         const last = this.treeNodes.pop();
         if (this.treeNodes.length === 0 || !last) {
+            if (last) {
+                last.hide();
+            }
             return Promise.resolve(last?.value.value);
         }
+
         const root = this.treeNodes[0];
         root.hide();
+
         this.treeNodes[0] = last;
         const { x, y } = this.treeNodesPositions[0];
         await last.moveTo({ x, y, z: 0 }, duration || 0);
@@ -142,6 +172,11 @@ abstract class Heap<T> implements IHeap<T>{
         const x = this.treeNodes[i];
         const y = this.treeNodes[j];
 
+        const back = x.value.sphereColor.color;
+
+        x.value.sphereColor.setColor(this.enabledTreeNodeColor);
+        y.value.sphereColor.setColor(this.enabledTreeNodeColor);
+
         const a = this.clonePosition(x.value.center);
         const b = this.clonePosition(y.value.center);
 
@@ -149,6 +184,10 @@ abstract class Heap<T> implements IHeap<T>{
 
         x.moveTo(b, duration);
         await y.moveTo(a, duration);
+
+        x.value.sphereColor.setColor("#" + back);
+        y.value.sphereColor.setColor("#" + back);
+        return;
     }
 
     peek(duration?: number): Promise<T | undefined> {
