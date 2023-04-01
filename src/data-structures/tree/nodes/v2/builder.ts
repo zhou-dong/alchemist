@@ -6,7 +6,7 @@ import Position from '../../../_commons/params/position';
 
 export type TreeNodeProps = {
     sphereGeometry: THREE.SphereGeometry;
-    sphereMaterial: THREE.Material;
+    sphereMaterial: () => THREE.Material;
     textMaterial: THREE.Material;
     textGeometryParameters: TextGeometryParameters;
 }
@@ -34,7 +34,7 @@ export const buildNode = <T>(
     const textSphere = new TextSphere<T>(
         value,
         sphereGeometry,
-        sphereMaterial,
+        sphereMaterial(),
         textMaterial,
         textGeometryParameters,
         scene
