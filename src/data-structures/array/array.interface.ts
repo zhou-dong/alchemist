@@ -4,9 +4,7 @@ interface Array<T> {
      * Represents the number of elements in that array. 
      * The value is an unsigned, 32-bit integer that is always numerically greater than the highest index in the array.
      */
-    readonly length: Promise<number>;
-
-    readonly [index: number]: Promise<T>;
+    readonly length: number;
 
     /**
      * Adds one or more elements to the end of an array and returns the new length of the array.
@@ -24,9 +22,12 @@ interface Array<T> {
     shift(): Promise<T | undefined>;
 
     /**
-     * Removes the first element from an array and returns that element.
+     * Adds one or more elements to the beginning of an array and returns the new length of the array.
      */
     unshift(...items: T[]): Promise<number>;
+
+
+    update(index: number, item: T): Promise<T>;
 }
 
 export default Array
