@@ -63,12 +63,11 @@ class Array<T> implements IArray<TextCube<T>>{
         return { x: this.length * x * -1, y, z };
     }
 
-    async update(index: number, item: TextCube<T>): Promise<TextCube<T>> {
+    async update(index: number, item: TextCube<T>): Promise<void> {
         const position = this.items[index].position;
         this.items[index].hide();
         await item.move(position, this.duration || 0);
         this.items[index] = item;
-        return Promise.resolve(item);
     }
 }
 
