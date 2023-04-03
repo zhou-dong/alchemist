@@ -182,7 +182,7 @@ abstract class Heap<T> implements IHeap<T>{
             return Promise.resolve();
         }
 
-        Promise.all([
+        await Promise.all([
             this.swap(target, index),
             this.array.swap(target, index)
         ]);
@@ -205,8 +205,10 @@ abstract class Heap<T> implements IHeap<T>{
 
         [this.treeNodes[i], this.treeNodes[j]] = [this.treeNodes[j], this.treeNodes[i]];
 
-        x.moveTo(b, this.props.duration || 0);
-        await y.moveTo(a, this.props.duration || 0);
+        await Promise.all([
+            x.moveTo(b, this.props.duration || 0),
+            y.moveTo(a, this.props.duration || 0)
+        ]);
 
         x.value.sphereColor.setColor("#" + back);
         y.value.sphereColor.setColor("#" + back);
