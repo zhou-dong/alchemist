@@ -26,8 +26,9 @@ interface Array<T> {
      */
     unshift(...items: T[]): Promise<number>;
 
-
     update(index: number, item: T): Promise<void>;
+
+    swap(i: number, j: number): Promise<void>;
 }
 
 export default Array

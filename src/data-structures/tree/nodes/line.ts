@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import Position from '../../_commons/params/position';
+import Position from '../../_commons/params/position.interface';
 
 class Line {
 

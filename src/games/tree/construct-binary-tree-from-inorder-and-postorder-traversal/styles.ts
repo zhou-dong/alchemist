@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import Position from '../../../data-structures/_commons/params/position';
+import Position from '../../../data-structures/_commons/params/position.interface';
 import { build } from '../../../data-structures/tree/nodes/v1/tree-node-builder';
 
 const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);

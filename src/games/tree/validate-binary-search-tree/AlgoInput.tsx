@@ -26,7 +26,7 @@ import {
     xAxisAplha,
     duration,
 } from "./styles";
-import Position from '../../../data-structures/_commons/params/position';
+import Position from '../../../data-structures/_commons/params/position.interface';
 import { buildSteps } from './algo';
 
 const inputOne = [12, 8, 15, 6, 17, 13, 17, 4];

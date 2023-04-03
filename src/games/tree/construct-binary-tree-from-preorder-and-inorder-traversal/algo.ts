@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { buildPerfectBinaryTree } from "../../../data-structures/tree/nodes/utils/perfect-binary-tree";
 import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 import { buildTreeNode, lineMaterial, yDistance, xCenter } from "./styles";
-import Position from '../../../data-structures/_commons/params/position';
+import Position from '../../../data-structures/_commons/params/position.interface';
 import { calDepth } from './depth';
 
 export enum Direction {

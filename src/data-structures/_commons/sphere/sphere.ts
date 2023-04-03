@@ -1,7 +1,7 @@
-import Move from "../params/move";
-import Display from "../params/display";
-import Position from "../params/position";
-import Color from "../params/color";
+import Move from "../params/move.interface";
+import Display from "../params/display.interface";
+import Position from "../params/position.interface";
+import Color from "../params/color.interface";
 
 export interface Sphere extends Move, Display {
     radius: number;

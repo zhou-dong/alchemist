@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import TreeNode from "./node";
 import TextSphere from '../../../_commons/sphere/three/text-sphere';
-import Position from '../../../_commons/params/position';
+import Position from '../../../_commons/params/position.interface';
 
 const calTextX = <T>(value: T, x: number): number => {
     const length: number = (value as any).toString().length;

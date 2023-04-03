@@ -4,7 +4,7 @@ import { font } from '../../../commons/three';
 import { buildBinaryTree } from "../../../data-structures/tree/nodes/v1/binary-tree-builder";
 import TreeNode from '../../../data-structures/tree/nodes/v1/node';
 import { build } from '../../../data-structures/tree/nodes/v1/tree-node-builder';
-import Position from '../../../data-structures/_commons/params/position';
+import Position from '../../../data-structures/_commons/params/position.interface';
 
 export const stackItemSphereColor = "orange";
 export const enabledSphereColor = "lightblue";

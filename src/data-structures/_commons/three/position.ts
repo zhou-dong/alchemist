@@ -1,4 +1,4 @@
-import IPosition from "../params/position"
+import IPosition from "../params/position.interface"
 
 export default class Position implements IPosition {
 

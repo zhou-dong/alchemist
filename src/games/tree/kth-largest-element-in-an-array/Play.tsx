@@ -9,8 +9,6 @@ const Main = () => {
 
     const { animate, cancelAnimate, state, setState, heap } = useAlgoContext();
 
-    const duration = 1;
-
     const handleHeapify = async () => {
         if (!heap) return;
 
@@ -18,7 +16,7 @@ const Main = () => {
         animate();
 
         try {
-            await heap.heapify(duration);
+            await heap.heapify();
         } catch (error) {
             console.error(error);
         }
@@ -34,7 +32,7 @@ const Main = () => {
         animate();
 
         try {
-            await heap.delete(duration);
+            await heap.delete();
             await wait(0.5);
         } catch (error) {
             console.error(error);

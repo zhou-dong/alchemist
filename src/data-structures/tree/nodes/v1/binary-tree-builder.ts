@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import TreeNode from "./node";
-import Position from '../../../_commons/params/position';
+import Position from '../../../_commons/params/position.interface';
 import { build } from "./tree-node-builder";
 import { buildPerfectBinaryTree } from '../utils/perfect-binary-tree';
 

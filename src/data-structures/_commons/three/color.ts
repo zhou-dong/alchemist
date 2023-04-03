@@ -1,4 +1,4 @@
-import IColor from "../params/color";
+import IColor from "../params/color.interface";
 
 export default class Color implements IColor {
 

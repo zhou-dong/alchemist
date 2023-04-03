@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import Position from '../../../_commons/params/position';
+import Position from '../../../_commons/params/position.interface';
 import { TextSphere } from '../../../_commons/sphere/text-sphere';
 import Line from "../line";
 

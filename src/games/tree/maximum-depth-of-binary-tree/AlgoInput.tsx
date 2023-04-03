@@ -31,7 +31,7 @@ import {
     depthTreeCenter
 } from "./styles";
 import TreeNode from '../../../data-structures/tree/nodes/v1/node';
-import Position from '../../../data-structures/_commons/params/position';
+import Position from '../../../data-structures/_commons/params/position.interface';
 
 const inputOne = [3, 9, 2, 5, 6, 7, 1, 4, null, null, 8];
 const inputTwo = [1, 2, 3, 4, 5, null, 7];

@@ -1,15 +1,8 @@
 import * as THREE from 'three';
-import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import TreeNode from "./node";
 import TextSphere from '../../../_commons/sphere/three/text-sphere';
-import Position from '../../../_commons/params/position';
-
-export type TreeNodeProps = {
-    sphereGeometry: THREE.SphereGeometry;
-    sphereMaterial: () => THREE.Material;
-    textMaterial: THREE.Material;
-    textGeometryParameters: TextGeometryParameters;
-}
+import Position from '../../../_commons/params/position.interface';
+import { TreeNodeProps } from '../../heap/props';
 
 const calTextX = <T>(value: T, x: number): number => {
     const length: number = (value as any).toString().length;

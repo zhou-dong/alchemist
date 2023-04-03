@@ -1,5 +1,5 @@
 import { TextCube } from "../_commons/cube/text-cube";
-import Position from "../_commons/params/position";
+import Position from "../_commons/params/position.interface";
 import IArray from "./array.interface";
 
 class Array<T> implements IArray<TextCube<T>>{
@@ -8,15 +8,33 @@ class Array<T> implements IArray<TextCube<T>>{
 
     readonly length: number = this.items.length;
 
-    private position: THREE.Vector3;
+    private position: Position;
     public duration?: number;
 
     constructor(
-        position: THREE.Vector3,
+        position: Position,
         duration?: number
     ) {
         this.position = position;
         this.duration = duration;
+    }
+
+    async swap(i: number, j: number): Promise<void> {
+        const duration = this.duration || 0
+        const a = this.clonePosition(this.items[i].position);
+        const b = this.clonePosition(this.items[j].position);
+
+        await Promise.all([
+            this.items[i].move(b, duration),
+            this.items[j].move(a, duration)
+        ]);
+
+        [this.items[i], this.items[j]] = [this.items[j], this.items[i]];
+        return;
+    }
+
+    private clonePosition({ x, y, z }: Position): Position {
+        return { x, y, z };
     }
 
     /**
@@ -33,8 +51,13 @@ class Array<T> implements IArray<TextCube<T>>{
     }
 
     private calculateLastPosition(): Position {
-        const { x, y, z } = this.position;
-        return { x: this.length * x, y, z };
+        if (this.items.length === 0) {
+            return this.position;
+        } else {
+            const last = this.items[this.items.length - 1];
+            const { x, y, z } = last.position
+            return { x: x + last.width, y, z };
+        }
     }
 
     pop(): Promise<TextCube<T> | undefined> {
