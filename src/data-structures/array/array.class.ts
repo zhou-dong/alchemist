@@ -20,6 +20,10 @@ class Array<T> implements IArray<TextCube<T>>{
     }
 
     async swap(i: number, j: number): Promise<void> {
+        if (this.items[i] === undefined || this.items[j] === undefined) {
+            return;
+        }
+
         const duration = this.duration || 0
         const a = this.clonePosition(this.items[i].position);
         const b = this.clonePosition(this.items[j].position);
@@ -56,7 +60,7 @@ class Array<T> implements IArray<TextCube<T>>{
         } else {
             const last = this.items[this.items.length - 1];
             const { x, y, z } = last.position
-            return { x: x + last.width, y, z };
+            return { x: x - 2 * last.width, y, z };
         }
     }
 
@@ -83,10 +87,14 @@ class Array<T> implements IArray<TextCube<T>>{
 
     private calculateHeadPosition(): Position {
         const { x, y, z } = this.position;
-        return { x: this.length * x * -1, y, z };
+        return { x: this.length * 2 * x, y, z };
     }
 
     async update(index: number, item: TextCube<T>): Promise<void> {
+        if (this.items[index] === undefined) {
+            return;
+        }
+
         const position = this.items[index].position;
         this.items[index].hide();
         await item.move(position, this.duration || 0);
