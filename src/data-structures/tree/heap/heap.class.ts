@@ -23,7 +23,7 @@ abstract class Heap<T> implements IHeap<T>{
         this.treeNodes = [];
         this.treeLines = new Map();
         this.treeNodesPositions = this.buildTreeNodesPositions(treeInitDepth, treePosition, treeNodeDistance.x, treeNodeDistance.y);
-        this.array = new Array(arrayPosition, duration);
+        this.array = new Array<T>(arrayPosition, duration);
     }
 
     private buildTreeNodesPositions(depth: number, { x, y }: Position, xDistance: number, yDistance: number) {
