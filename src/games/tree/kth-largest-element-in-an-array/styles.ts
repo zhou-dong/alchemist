@@ -54,10 +54,11 @@ export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<
         treeNodeDistance: { x: 3, y: 3 },
         treeInitDepth: 4,
         scene,
-        duration: 1
+        duration: 0
     }
-    const maxHeap: MaxHeap<number> = new MaxHeap(props);
 
+    const maxHeap: MaxHeap<number> = new MaxHeap(props);
     await maxHeap.buildHeap(array);
+    maxHeap.props.duration = 1;
     return Promise.resolve(maxHeap);
 }
