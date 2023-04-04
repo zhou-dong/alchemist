@@ -99,6 +99,7 @@ const Submit: React.FC<{
 
     const handleSubmit = async () => {
         setState(State.Typing);
+        setAnchorEl(null);
         const array = parseInput(nodes);
         animate();
         clearScene(scene);
@@ -106,7 +107,6 @@ const Submit: React.FC<{
         const heap = await buildTree(array, scene);
         setHeap(heap);
         setNodes("");
-        setAnchorEl(null);
         await wait(0.2);
         cancelAnimate();
         setState(State.Playing);
