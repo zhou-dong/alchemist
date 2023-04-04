@@ -8,6 +8,7 @@ import Position from '../../_commons/params/position.interface';
 import Array from '../../array/array.class';
 import { Props } from './props';
 import { TextCube } from '../../_commons/cube/three/text-cube';
+import { wait } from '../../_commons/utils';
 
 abstract class Heap<T> implements IHeap<T>{
 
@@ -255,6 +256,7 @@ abstract class Heap<T> implements IHeap<T>{
         for (let i = Math.floor(this.treeNodes.length / 2) - 1; i >= 0; i--) {
             await this.bubbleDown(i);
         }
+        await wait(0.1);
     }
 
     clear(): Promise<void> {
