@@ -6,6 +6,8 @@ import { Props, TreeNodeProps } from '../../../data-structures/tree/heap/props';
 
 const lineColor = "gold";
 const normalSphereColor = "yellow";
+const cubeColor = "yellow";
+const enabledColor = "orange";
 
 const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
 const sphereMaterial = (): THREE.Material => {
@@ -17,10 +19,11 @@ const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
 export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<MaxHeap<number>> => {
 
-    const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: "yellow", opacity: 0.5, transparent: true });
-    const cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(2, 2, 2);
+    const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: cubeColor, opacity: 0.5, transparent: true });
+    const cubeWidth = 2;
+    const cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(cubeWidth, 2, 2);
+    const arrayX = 0 + (array.length / 2) * cubeWidth;
 
-    const arrayPosition = { x: 0, y: 9, z: 0 };
     const arrayNodeProps = {
         textMaterial,
         textGeometryParameters,
@@ -34,7 +37,7 @@ export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<
         sphereMaterial,
         textMaterial,
         textGeometryParameters,
-        enabledTreeNodeColor: "orange",
+        enabledTreeNodeColor: enabledColor,
         initPosition: { x: 0, y: 0, z: 0 },
     }
 
@@ -43,9 +46,9 @@ export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<
     }
 
     const props: Props = {
-        arrayPosition,
+        arrayPosition: { x: arrayX, y: 9, z: 0 },
         arrayNodeProps,
-        treePosition: { x: 0, y: -6, z: 0 },
+        treePosition: { x: 0, y: -7, z: 0 },
         treeNodeProps,
         treeLineProps,
         treeNodeDistance: { x: 3, y: 3 },
