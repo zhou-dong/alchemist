@@ -160,11 +160,14 @@ abstract class Heap<T> implements IHeap<T>{
         const arrayHead = await this.array.shift();
         arrayHead?.hide();
 
-        this.array.update(0, arrayLast!);
-
         this.treeNodes[0] = last;
         const { x, y } = this.treeNodesPositions[0];
-        await last.moveTo({ x, y, z: 0 }, this.props.duration || 0);
+
+        await Promise.all([
+            this.array.unshift(arrayLast!),
+            last.moveTo({ x, y, z: 0 }, this.props.duration || 0)
+        ]);
+
         await this.bubbleDown(0);
         return Promise.resolve(root.value.value);
     }
@@ -198,6 +201,7 @@ abstract class Heap<T> implements IHeap<T>{
             this.swap(target, index),
             this.array.swap(target, index)
         ]);
+
         return this.bubbleDown(target);
     }
 
