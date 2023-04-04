@@ -44,8 +44,20 @@ abstract class Heap<T> implements IHeap<T>{
         return this.bubbleUp(index);
     }
 
+    private calTextX<T>(value: T, x: number): number {
+        const length: number = (value as any).toString().length;
+        switch (length) {
+            case 0: return x;
+            case 1: return x - 0.3;
+            case 2: return x - 0.6;
+            case 3: return x - 0.8;
+            default: return x - 1;
+        }
+    }
+
     private buildArrayNode(item: T): TextCube<T> {
         const { textMaterial, textGeometryParameters, cubeMaterial, cubeGeometry, initPosition } = this.props.arrayNodeProps;
+        const { x, y, z } = initPosition;
         const cube = new TextCube<T>(
             item,
             textMaterial,
@@ -55,13 +67,13 @@ abstract class Heap<T> implements IHeap<T>{
             this.props.scene
         );
 
-        cube.position.x = initPosition.x;
-        cube.position.y = initPosition.y;
-        cube.position.z = initPosition.z;
+        cube.position.x = x;
+        cube.position.y = y;
+        cube.position.z = z;
 
-        cube.textPosition.x = cube.position.x - 0.25;
-        cube.textPosition.y = cube.position.y - 0.26;
-        cube.textPosition.z = cube.position.z;
+        cube.textPosition.x = this.calTextX(item, x);
+        cube.textPosition.y = y - 0.26;
+        cube.textPosition.z = z;
 
         cube.show();
         return cube;
