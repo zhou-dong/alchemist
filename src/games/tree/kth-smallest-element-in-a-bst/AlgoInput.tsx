@@ -4,6 +4,7 @@ import OutputIcon from '@mui/icons-material/Output';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
@@ -47,7 +48,7 @@ const DropDown: React.FC<{
         >
             <MenuItem>
                 <ListItemIcon>
-                    {/* <InputIcon fontSize="small" /> */}
+                    <DoNotDisturbIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText sx={{ width: "120px" }}>
                     array

@@ -159,6 +159,8 @@ import VerifyPreorderSerializationOfABinaryTree from "./games/tree/verify-preord
 import VerifyPreorderSerializationOfABinaryTreeInfo from "./games/tree/verify-preorder-serialization-of-a-binary-tree/info";
 import SerializeAndDeserializeBinaryTree from "./games/tree/serialize-and-deserialize-binary-tree";
 import SerializeAndDeserializeBinaryTreeInfo from "./games/tree/serialize-and-deserialize-binary-tree/info";
+import KthLargestElementInAnArrayInfo from "./games/tree/kth-largest-element-in-an-array/info";
+import KthLargestElementInAnArray from "./games/tree/kth-largest-element-in-an-array";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -255,6 +257,7 @@ const App = () => (
         <Route path={BinarySearchTreeIteratorInfo.path} element={<BinarySearchTreeIterator renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={VerifyPreorderSerializationOfABinaryTreeInfo.path} element={<VerifyPreorderSerializationOfABinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={SerializeAndDeserializeBinaryTreeInfo.path} element={<SerializeAndDeserializeBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={KthLargestElementInAnArrayInfo.path} element={<KthLargestElementInAnArray renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 

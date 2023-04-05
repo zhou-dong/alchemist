@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Typography } from '@mui/material';
 import { normalSphereColor, enabledSphereColor } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 import { Direction, Place, Stage, Step } from "./algo";
 
 const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {

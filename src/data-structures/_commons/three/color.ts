@@ -1,4 +1,4 @@
-import IColor from "../params/color";
+import IColor from "../params/color.interface";
 
 export default class Color implements IColor {
 
@@ -10,6 +10,10 @@ export default class Color implements IColor {
 
     setColor(color: string): Promise<void> {
         return (this.material as any).color.set(color);
+    }
+
+    get color(): string {
+        return (this.material as any).color.getHexString();
     }
 
 }

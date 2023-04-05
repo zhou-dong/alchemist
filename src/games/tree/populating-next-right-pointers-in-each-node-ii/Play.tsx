@@ -4,9 +4,9 @@ import { Button, } from '@mui/material';
 import { normalSphereColor, enabledSphereColor, arrowColor, arrowHeadLength, arrowHeadWidth } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 import Arrow from "../../../data-structures/_commons/three/arrow";
-import Position from '../../../data-structures/_commons/params/position';
+import Position from '../../../data-structures/_commons/params/position.interface';
 import { Step } from './algo';
 
 const updateTreeColor = (root?: TreeNode<string>, current?: TreeNode<string>) => {

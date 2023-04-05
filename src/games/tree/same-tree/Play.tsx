@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import { normalSphereColor, enabledSphereColor, falseSphereColor } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 
 const updateTreeColor = (falseNodes: TreeNode<any>[], root?: TreeNode<any>, targetNode?: TreeNode<any>) => {
     if (root === undefined || targetNode === undefined) {

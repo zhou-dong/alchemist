@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import Position from '../../../data-structures/_commons/params/position';
-import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
+import Position from '../../../data-structures/_commons/params/position.interface';
+import { buildBinaryTree } from "../../../data-structures/tree/nodes/v1/binary-tree-builder";
 
 export const falseSphereColor = "red";
 export const enabledSphereColor = "lightgreen";

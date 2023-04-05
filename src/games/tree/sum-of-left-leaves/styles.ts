@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import { buildBinaryTree } from "../../../data-structures/tree/binaryTreeBuilder";
+import { buildBinaryTree } from "../../../data-structures/tree/nodes/v1/binary-tree-builder";
 
 export const leftLeafColor = "orange";
 export const enabledSphereColor = "lightblue";

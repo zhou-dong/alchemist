@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { wait } from '../../../data-structures/_commons/utils';
-import TreeNode from '../../../data-structures/tree/node';
+import TreeNode from '../../../data-structures/tree/nodes/v1/node';
 import { enabledSphereColor, normalSphereColor, buildThreeText, errorSphereColor } from "./styles";
 
 const updateTreeColor = (errorNodes: TreeNode<number>[], node?: TreeNode<any>, targetNode?: TreeNode<any>, isBalanced?: boolean) => {

@@ -4,9 +4,9 @@ import { Button } from '@mui/material';
 import { normalSphereColor, enabledSphereColor } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 import { Step } from './algo';
-import Position from "../../../data-structures/_commons/params/position";
+import Position from "../../../data-structures/_commons/params/position.interface";
 
 const duration = 0.8;
 

@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { State } from "./AlgoState";
 import { Step } from "./algo";
-import TreeNode from "../../../data-structures/tree/node";
+import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 
 const AlgoContext = React.createContext<{
     state: State,

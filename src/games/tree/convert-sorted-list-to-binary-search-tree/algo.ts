@@ -1,4 +1,4 @@
-import { buildPerfectBinaryTree } from "../../../data-structures/tree/perfectBinaryTree";
+import { buildPerfectBinaryTree } from "../../../data-structures/tree/nodes/utils/perfect-binary-tree";
 import { xAxisAlpha } from "./styles";
 
 export enum Direction {
@@ -70,7 +70,7 @@ export function buildSteps(input: number[]): InputOutput {
 
     const root = sortedListToBST();
     const depth: number = calDepth(root);
-    const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha).map(node => node.x);
+    const xAxis: number[] = buildPerfectBinaryTree(depth, xAxisAlpha, 2).map(node => node.x);
 
     return { input, steps, xAxis };
 }

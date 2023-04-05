@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import TreeNode from "./node";
-import TextSphere from '../_commons/sphere/three/text-sphere';
-import Position from '../_commons/params/position';
+import TextSphere from '../../../_commons/sphere/three/text-sphere';
+import Position from '../../../_commons/params/position.interface';
+import { TreeNodeProps } from '../../heap/props';
 
 const calTextX = <T>(value: T, x: number): number => {
     const length: number = (value as any).toString().length;
@@ -15,21 +15,19 @@ const calTextX = <T>(value: T, x: number): number => {
     }
 }
 
-export const build = <T>(
-    index: number,
-    sphereGeometry: THREE.SphereGeometry,
-    sphereMaterial: THREE.Material,
-    textMaterial: THREE.Material,
-    textGeometryParameters: TextGeometryParameters,
+export const buildNode = <T>(
+    treeNodeProps: TreeNodeProps,
     value: T,
     scene: THREE.Scene,
-    center: Position
+    center: Position,
+    index?: number
 ) => {
+    const { sphereGeometry, sphereMaterial, textMaterial, textGeometryParameters } = treeNodeProps;
 
     const textSphere = new TextSphere<T>(
         value,
         sphereGeometry,
-        sphereMaterial,
+        sphereMaterial(),
         textMaterial,
         textGeometryParameters,
         scene
@@ -44,7 +42,6 @@ export const build = <T>(
     textSphere.textPosition.y = y - 0.4;
     textSphere.textPosition.z = z;
 
-    const node = new TreeNode<T>(textSphere);
-    node.index = index;
+    const node = new TreeNode<T>(textSphere, index);
     return node;
 }

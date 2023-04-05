@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { Button, ButtonGroup, Stack, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { Direction, updateTreeColor } from './algo';
-import Position from '../../../data-structures/_commons/params/position';
+import Position from '../../../data-structures/_commons/params/position.interface';
 import { State } from './AlgoState';
 import { buildTreeNode, lineMaterial, yDistance, xCenter } from "./styles";
 import { wait } from '../../../data-structures/_commons/utils';

@@ -16,7 +16,7 @@ import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, pqColor } from "./styles";
-import TreeNode from '../../../data-structures/tree/node';
+import TreeNode from '../../../data-structures/tree/nodes/v1/node';
 
 const input1 = {
     array: [15, 7, 30, 4, 9, 20, 35, 2, null, 8, 12, null, null, 32, 40],

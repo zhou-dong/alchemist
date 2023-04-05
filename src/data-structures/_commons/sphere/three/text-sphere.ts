@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
-import Color from '../../params/color';
+import Color from '../../params/color.interface';
 import ColorImpl from '../../three/color';
-import Display from '../../params/display';
+import Display from '../../params/display.interface';
 import DisplayImpl from "../../three/display";
-import Move from '../../params/move';
+import Move from '../../params/move.interface';
 import MoveImpl from "../../three/move";
-import Position from '../../params/position';
+import Position from '../../params/position.interface';
 import PositionImpl from "../../three/position"
 import { TextSphere as ITextSphere } from "../text-sphere";
 import Sphere from './sphere';

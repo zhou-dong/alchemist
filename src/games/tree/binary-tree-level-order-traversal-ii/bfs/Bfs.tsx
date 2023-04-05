@@ -3,7 +3,7 @@ import { Button, ButtonGroup } from '@mui/material';
 import { enabledSphereColor, normalSphereColor, getNodeColor, minShellSize } from "../styles";
 import { wait } from "../../../../data-structures/_commons/utils";
 import { State } from "../AlgoState";
-import TreeNode from "../../../../data-structures/tree/node";
+import TreeNode from "../../../../data-structures/tree/nodes/v1/node";
 import { Action, Step } from './algo';
 import QueueItemBuilder from "./queueItemBuilder";
 import Queue from "../../../../data-structures/queue";
