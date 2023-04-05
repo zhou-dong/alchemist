@@ -124,6 +124,11 @@ const Categories = () => {
                     initSelected={calculateSelected(categories, Category.HashTable)}
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.HashTable, selected))}
                 />
+                <TextItem
+                    name="Heap"
+                    initSelected={calculateSelected(categories, Category.Heap)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Heap, selected))}
+                />
             </Grid>
         </>
     )
