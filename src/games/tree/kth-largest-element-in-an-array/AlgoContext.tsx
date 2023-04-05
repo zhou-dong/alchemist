@@ -13,7 +13,9 @@ const AlgoContext = React.createContext<{
     k: number,
     setK: React.Dispatch<React.SetStateAction<number>>,
     heap?: MaxHeap<number>,
-    setHeap: React.Dispatch<React.SetStateAction<MaxHeap<number> | undefined>>
+    setHeap: React.Dispatch<React.SetStateAction<MaxHeap<number> | undefined>>,
+    result?: number,
+    setResult: React.Dispatch<React.SetStateAction<number | undefined>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -22,7 +24,8 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => { },
     k: 0,
     setK: () => { },
-    setHeap: () => { }
+    setHeap: () => { },
+    setResult: () => { }
 });
 
 let animationFrameId = -1;
@@ -38,6 +41,7 @@ export const AlgoContextProvider: React.FC<{
     const [state, setState] = React.useState(State.Typing);
     const [k, setK] = React.useState(0);
     const [heap, setHeap] = React.useState<MaxHeap<number>>();
+    const [result, setResult] = React.useState<number>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -72,7 +76,9 @@ export const AlgoContextProvider: React.FC<{
             k,
             setK,
             heap,
-            setHeap
+            setHeap,
+            result,
+            setResult
         }}>
             {children}
             <div ref={ref}></div>
