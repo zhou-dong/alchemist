@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import MaxHeap from '../../../data-structures/tree/heap/max-heap';
+import MinHeap from '../../../data-structures/tree/heap/min-heap';
 import { Props, TreeNodeProps } from '../../../data-structures/tree/heap/props';
 
 const lineColor = "gold";
@@ -17,7 +17,7 @@ const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
-export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<MaxHeap<number>> => {
+export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<MinHeap<number>> => {
 
     const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: cubeColor, opacity: 0.5, transparent: true });
     const cubeWidth = 2;
@@ -57,7 +57,7 @@ export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<
         duration: 0
     }
 
-    const maxHeap: MaxHeap<number> = new MaxHeap(props);
+    const maxHeap: MinHeap<number> = new MinHeap(props);
     await maxHeap.buildHeap(array);
     maxHeap.props.duration = 1;
     return Promise.resolve(maxHeap);
