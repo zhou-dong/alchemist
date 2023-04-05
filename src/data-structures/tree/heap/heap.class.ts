@@ -40,8 +40,10 @@ abstract class Heap<T> implements IHeap<T>{
 
     async insert(item: T): Promise<void> {
         const index = this.treeNodes.length;
-        this.array.push(this.buildArrayNode(item));
-        await this.insertTreeNode(item, index, this.props.treeNodeProps.initPosition);
+        await Promise.all([
+            this.array.push(this.buildArrayNode(item)),
+            this.insertTreeNode(item, index, this.props.treeNodeProps.initPosition)
+        ])
         return this.bubbleUp(index);
     }
 
