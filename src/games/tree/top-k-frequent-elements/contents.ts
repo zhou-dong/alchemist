@@ -40,13 +40,19 @@ export const formula = `function topKFrequent(nums: number[], k: number): number
         private bubbleDown(index: number) {
             let target = index;
 
-            const leftIndex = this.getLeftChildIndex(index);
-            if (this.items[target] !== undefined && this.items[leftIndex] !== undefined && this.items[target].count > this.items[leftIndex].count) {
+            const leftIndex = 2 * index + 1;
+            if (this.items[target] !== undefined &&
+                this.items[leftIndex] !== undefined &&
+                this.items[target].count > this.items[leftIndex].count
+            ) {
                 target = leftIndex;
             }
 
-            const rightIndex = this.getRightChildIndex(index);
-            if (this.items[target] !== undefined && this.items[rightIndex] !== undefined && this.items[target].count > this.items[rightIndex].count) {
+            const rightIndex = 2 * index + 2;
+            if (this.items[target] !== undefined &&
+                this.items[rightIndex] !== undefined &&
+                this.items[target].count > this.items[rightIndex].count
+            ) {
                 target = rightIndex;
             }
 
@@ -62,7 +68,7 @@ export const formula = `function topKFrequent(nums: number[], k: number): number
             if (index < 1) {
                 return;
             }
-            const parentIndex = this.getParentIndex(index);
+            const parentIndex = Math.floor((index - 1) / 2);
             if (this.items[index].count < this.items[parentIndex].count) {
                 this.swap(parentIndex, index);
             }
@@ -72,24 +78,12 @@ export const formula = `function topKFrequent(nums: number[], k: number): number
         private swap(i: number, j: number) {
             [this.items[i], this.items[j]] = [this.items[j], this.items[i]];
         }
-
-        private getParentIndex(index: number): number {
-            return Math.floor((index - 1) / 2);
-        }
-
-        private getLeftChildIndex(index: number): number {
-            return 2 * index + 1;
-        }
-
-        private getRightChildIndex(index: number): number {
-            return 2 * index + 2;
-        }
     }
 
     const map: Map<number, number> = new Map();
     nums.forEach(num => {
-        const current = map.get(num) || 0;
-        map.set(num, current + 1);
+        const count = map.get(num) || 0;
+        map.set(num, count + 1);
     })
 
     const heap = new MinHeap();
