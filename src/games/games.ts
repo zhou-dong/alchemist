@@ -80,6 +80,7 @@ import BinarySearchTreeIterator from "./tree/binary-search-tree-iterator/info";
 import VerifyPreorderSerializationOfABinaryTree from "./tree/verify-preorder-serialization-of-a-binary-tree/info";
 import SerializeAndDeserializeBinaryTree from "./tree/serialize-and-deserialize-binary-tree/info";
 import KthLargestElementInAnArray from "./tree/kth-largest-element-in-an-array/info";
+import TopKFrequentElements from "./tree/top-k-frequent-elements/info";
 
 export const games: Game[] = [
     editDistance,
@@ -161,5 +162,6 @@ export const games: Game[] = [
     BinarySearchTreeIterator,
     VerifyPreorderSerializationOfABinaryTree,
     SerializeAndDeserializeBinaryTree,
-    KthLargestElementInAnArray
+    KthLargestElementInAnArray,
+    TopKFrequentElements
 ];
