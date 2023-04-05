@@ -77,6 +77,7 @@ const Main = () => {
             >
                 <ButtonGroup size='large' variant='contained'>
                     <Button
+                        color="success"
                         startIcon={<SortIcon />}
                         onClick={handleHeapify}
                         disabled={state !== State.Computing}
@@ -84,6 +85,7 @@ const Main = () => {
                         heapify
                     </Button>
                     <Button
+                        color="success"
                         startIcon={<RemoveCircleOutlineIcon />}
                         onClick={handleDelete}
                         disabled={state !== State.Playing || k <= 0}
