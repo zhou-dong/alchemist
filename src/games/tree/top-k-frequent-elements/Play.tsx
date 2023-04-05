@@ -1,17 +1,15 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableHead, TableRow, ToggleButton, Typography } from '@mui/material';
+import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import SortIcon from '@mui/icons-material/Sort';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import MouseIcon from '@mui/icons-material/Mouse';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const Main = () => {
 
-    const { animate, cancelAnimate, state, setState, heap, k, setK, setTopElements, topElements, map, setMap, nums, index, setIndex } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, heap, map, nums, index, setIndex, setMapIndex, setFrequents, frequents, mapIndex, k, result, setResult } = useAlgoContext();
 
-    const handleCount = async () => {
+    const handleCount = () => {
         const num = nums[index + 1];
         if (num === undefined || !map) {
             return;
@@ -20,25 +18,52 @@ const Main = () => {
         const count = map.get(num) || 0;
         map.set(num, count + 1);
 
+        if (index + 2 === nums.length) {
+            setState(State.AddToHeap);
+            setMapIndex(0);
+            setFrequents(Array.from(map).map(([key, value]) => (`${value},${key}`)));
+        }
+
         setIndex(index + 1);
     }
 
-    const handleDelete = async () => {
-        if (!heap) return;
-
+    const handleAddToHeap = async () => {
         setState(State.Computing);
+
+        if (!heap) {
+            return;
+        }
+
+        const item = frequents[mapIndex];
+        if (!item) {
+            return;
+        }
+
+        const [count] = item.split(",");
+
         animate();
 
         try {
-            const root = await heap.delete();
-            // setResult(root);
-            setK(k => k - 1);
+            if (await heap.size() === k) {
+                const top = await heap.peek();
+                if (top) {
+                    const [topCount] = top.split(",");
+                    if (topCount < count) {
+                        await heap.delete();
+                        await heap.insert(item);
+                    }
+                }
+            } else {
+                await heap.insert(item);
+            }
+
+            setMapIndex(i => i + 1);
             await wait(0.5);
         } catch (error) {
             console.error(error);
         }
 
-        setState(State.Playing);
+        setState(State.AddToHeap);
         cancelAnimate();
     }
 
@@ -62,24 +87,16 @@ const Main = () => {
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell>
-                        Num
-                    </TableCell>
-                    <TableCell>
-                        Count
-                    </TableCell>
+                    <TableCell>Num</TableCell>
+                    <TableCell>Count</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
                 {
                     map && Array.from(map).map(([key, value]) => (
                         <TableRow key={key}>
-                            <TableCell>
-                                {key}
-                            </TableCell>
-                            <TableCell>
-                                {value}
-                            </TableCell>
+                            <TableCell>{key}</TableCell>
+                            <TableCell>{value}</TableCell>
                         </TableRow>
                     ))
                 }
@@ -87,10 +104,19 @@ const Main = () => {
         </Table>
     );
 
+    const DisplayResult = () => (
+        <ButtonGroup>
+            {
+                result.map((value, i) => <Button key={i}>{value}</Button>)
+            }
+        </ButtonGroup>
+    );
+
     const Dashboard = () => (
         <Stack spacing={2} direction="column">
             <DisplayInput />
             <DisplayMap />
+            <DisplayResult />
         </Stack>
     );
 
@@ -111,22 +137,22 @@ const Main = () => {
                 transform: "translate(-50%)",
             }}
             >
-                <ButtonGroup size='large' variant='contained'>
+                <ButtonGroup size='large' variant='outlined'>
                     <Button
                         color="success"
                         startIcon={<MouseIcon />}
                         onClick={handleCount}
-                        disabled={state !== State.Computing || index + 1 === nums.length}
+                        disabled={state !== State.Count || index + 1 === nums.length}
                     >
                         count
                     </Button>
                     <Button
                         color="success"
                         startIcon={<AddCircleOutlineIcon />}
-                        onClick={handleDelete}
-                        disabled={state !== State.Playing || k <= 0}
+                        onClick={handleAddToHeap}
+                        disabled={state !== State.AddToHeap || mapIndex === frequents.length}
                     >
-                        delete
+                        Add to Heap
                     </Button>
                 </ButtonGroup>
             </div>

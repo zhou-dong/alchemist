@@ -12,16 +12,20 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     k: number,
     setK: React.Dispatch<React.SetStateAction<number>>,
-    heap?: MinHeap<number>,
-    setHeap: React.Dispatch<React.SetStateAction<MinHeap<number> | undefined>>,
-    topElements: number[],
-    setTopElements: React.Dispatch<React.SetStateAction<number[]>>,
+    heap?: MinHeap<string>,
+    setHeap: React.Dispatch<React.SetStateAction<MinHeap<string> | undefined>>,
     map?: Map<number, number>,
     setMap: React.Dispatch<React.SetStateAction<Map<number, number> | undefined>>,
     nums: number[],
     setNums: React.Dispatch<React.SetStateAction<number[]>>,
     index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
+    mapIndex: number,
+    setMapIndex: React.Dispatch<React.SetStateAction<number>>,
+    frequents: string[],
+    setFrequents: React.Dispatch<React.SetStateAction<string[]>>,
+    result: number[],
+    setResult: React.Dispatch<React.SetStateAction<number[]>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -31,13 +35,17 @@ const AlgoContext = React.createContext<{
     k: 0,
     setK: () => { },
     setHeap: () => { },
-    topElements: [],
-    setTopElements: () => { },
     setMap: () => { },
     nums: [],
     setNums: () => { },
     index: -1,
-    setIndex: () => { }
+    setIndex: () => { },
+    mapIndex: -1,
+    setMapIndex: () => { },
+    frequents: [],
+    setFrequents: () => { },
+    result: [],
+    setResult: () => { }
 });
 
 let animationFrameId = -1;
@@ -52,11 +60,13 @@ export const AlgoContextProvider: React.FC<{
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
     const [k, setK] = React.useState(0);
-    const [heap, setHeap] = React.useState<MinHeap<number>>();
-    const [topElements, setTopElements] = React.useState<number[]>([]);
+    const [heap, setHeap] = React.useState<MinHeap<string>>();
     const [map, setMap] = React.useState<Map<number, number>>();
     const [nums, setNums] = React.useState<number[]>([]);
     const [index, setIndex] = React.useState(-1);
+    const [mapIndex, setMapIndex] = React.useState(-1);
+    const [frequents, setFrequents] = React.useState<string[]>([]);
+    const [result, setResult] = React.useState<number[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -92,14 +102,18 @@ export const AlgoContextProvider: React.FC<{
             setK,
             heap,
             setHeap,
-            topElements,
-            setTopElements,
             map,
             setMap,
             nums,
             setNums,
             index,
-            setIndex
+            setIndex,
+            mapIndex,
+            setMapIndex,
+            frequents,
+            setFrequents,
+            result,
+            setResult
         }}>
             {children}
             <div ref={ref}></div>

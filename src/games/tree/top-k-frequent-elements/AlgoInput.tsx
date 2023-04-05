@@ -17,9 +17,9 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = { array: [15, 7, 30, 4, 9, 20, 2], k: 4 };
-const input2 = { array: [10, 7, 18, 5, 9, 14, 25, 4, 6, 11, 15], k: 3 };
-const input3 = { array: [12, 8, 15, 6, 10, 13, 17, 4], k: 5 };
+const input1 = { array: [3, 3, 3, 1, 1, 2, 2, 2, 3], k: 2 };
+const input2 = { array: [3, 3, 3, 6, 1, 6, 1, 2, 6, 2, 2, 3, 6], k: 3 };
+const input3 = { array: [2, 8, 5, 6, 1, 3, 1, 2, 2], k: 4 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -93,7 +93,7 @@ const Submit: React.FC<{
     k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setHeap, setK, setTopElements, setMap, setNums, setIndex } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setHeap, setK, setMap, setNums, setIndex, setMapIndex, setResult } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0 || k.trim().length === 0;
 
@@ -106,15 +106,14 @@ const Submit: React.FC<{
         setK(+k);
         setNums(array);
         setIndex(-1);
-        const heap = await buildTree(array, scene);
-        setHeap(heap);
+        setMapIndex(-1);
+        setResult([]);
+        setHeap(buildTree(array, scene, +k));
         setNodes("");
-        const map = new Map<number, number>();
-        setMap(map);
-        setTopElements([]);
+        setMap(new Map<number, number>());
         await wait(0.2);
         cancelAnimate();
-        setState(State.Computing);
+        setState(State.Count);
     }
 
     return (
