@@ -142,19 +142,19 @@ abstract class Heap<T> implements IHeap<T>{
 
     async delete(): Promise<T | undefined> {
 
+        // delete last line
         const line = this.treeLines.get(this.treeNodes.length - 1);
         line?.hide();
-
         this.treeLines.delete(this.treeNodes.length - 1);
 
-        const last = this.treeNodes.pop();
+        const lastNode = this.treeNodes.pop();
         const arrayLast = await this.array.pop();
-        if (this.treeNodes.length === 0 || !last) {
-            if (last) {
-                last.hide();
+        if (this.treeNodes.length === 0 || !lastNode) {
+            if (lastNode) {
+                lastNode.hide();
                 arrayLast?.hide();
             }
-            return Promise.resolve(last?.value.value);
+            return Promise.resolve(lastNode?.value.value);
         }
 
         const root = this.treeNodes[0];
@@ -163,12 +163,12 @@ abstract class Heap<T> implements IHeap<T>{
         const arrayHead = await this.array.shift();
         arrayHead?.hide();
 
-        this.treeNodes[0] = last;
+        this.treeNodes[0] = lastNode;
         const { x, y } = this.treeNodesPositions[0];
 
         await Promise.all([
             this.array.unshift(arrayLast!),
-            last.moveTo({ x, y, z: 0 }, this.props.duration || 0)
+            lastNode.moveTo({ x, y, z: 0 }, this.props.duration || 0)
         ]);
 
         await this.bubbleDown(0);
