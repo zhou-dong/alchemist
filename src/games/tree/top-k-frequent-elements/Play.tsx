@@ -1,27 +1,26 @@
 import { useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Stack, ToggleButton, Typography } from '@mui/material';
+import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableHead, TableRow, ToggleButton, Typography } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import SortIcon from '@mui/icons-material/Sort';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import MouseIcon from '@mui/icons-material/Mouse';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const Main = () => {
 
-    const { animate, cancelAnimate, state, setState, heap, k, setK, setResult, result } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, heap, k, setK, setTopElements, topElements, map, setMap, nums, index, setIndex } = useAlgoContext();
 
-    const handleHeapify = async () => {
-        if (!heap) return;
-        setState(State.Typing);
-        animate();
-
-        try {
-            await heap.heapify();
-        } catch (error) {
-            console.error(error);
+    const handleCount = async () => {
+        const num = nums[index + 1];
+        if (num === undefined || !map) {
+            return;
         }
 
-        setState(State.Playing);
-        cancelAnimate();
+        const count = map.get(num) || 0;
+        map.set(num, count + 1);
+
+        setIndex(index + 1);
     }
 
     const handleDelete = async () => {
@@ -32,7 +31,7 @@ const Main = () => {
 
         try {
             const root = await heap.delete();
-            setResult(root);
+            // setResult(root);
             setK(k => k - 1);
             await wait(0.5);
         } catch (error) {
@@ -43,18 +42,55 @@ const Main = () => {
         cancelAnimate();
     }
 
+    const DisplayInput = () => (
+        <ButtonGroup>
+            {nums.map((num, i) =>
+                <Button
+                    key={i}
+                    color="success"
+                    sx={{ borderColor: "lightgray" }}
+                    size="large"
+                    variant={(i === index) ? "contained" : "outlined"}
+                >
+                    {num}
+                </Button>
+            )}
+        </ButtonGroup>
+    );
+
+    const DisplayMap = () => (
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <TableCell>
+                        Num
+                    </TableCell>
+                    <TableCell>
+                        Count
+                    </TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {
+                    map && Array.from(map).map(([key, value]) => (
+                        <TableRow key={key}>
+                            <TableCell>
+                                {key}
+                            </TableCell>
+                            <TableCell>
+                                {value}
+                            </TableCell>
+                        </TableRow>
+                    ))
+                }
+            </TableBody>
+        </Table>
+    );
+
     const Dashboard = () => (
-        <Stack spacing={2} direction="row">
-            <ToggleButton value="k" sx={{ borderRadius: "50%", height: 75, width: 75, }} >
-                <Typography variant="h4" color="darkgray">
-                    {k}
-                </Typography>
-            </ToggleButton>
-            <ToggleButton value="r" sx={{ borderRadius: "50%", height: 75, width: 75, }}>
-                <Typography variant="h4" color="green">
-                    {result}
-                </Typography>
-            </ToggleButton>
+        <Stack spacing={2} direction="column">
+            <DisplayInput />
+            <DisplayMap />
         </Stack>
     );
 
@@ -63,7 +99,7 @@ const Main = () => {
             <div style={{
                 position: "fixed",
                 top: "150px",
-                left: "20%"
+                left: "10%"
             }}>
                 {state !== State.Typing && <Dashboard />}
             </div>
@@ -77,14 +113,16 @@ const Main = () => {
             >
                 <ButtonGroup size='large' variant='contained'>
                     <Button
-                        startIcon={<SortIcon />}
-                        onClick={handleHeapify}
-                        disabled={state !== State.Computing}
+                        color="success"
+                        startIcon={<MouseIcon />}
+                        onClick={handleCount}
+                        disabled={state !== State.Computing || index + 1 === nums.length}
                     >
-                        heapify
+                        count
                     </Button>
                     <Button
-                        startIcon={<RemoveCircleOutlineIcon />}
+                        color="success"
+                        startIcon={<AddCircleOutlineIcon />}
                         onClick={handleDelete}
                         disabled={state !== State.Playing || k <= 0}
                     >
