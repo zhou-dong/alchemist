@@ -93,7 +93,7 @@ const Submit: React.FC<{
     k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setHeap, setK, setResult } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setHeap, setK, setTopElements, setMap, setNums, setIndex } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0 || k.trim().length === 0;
 
@@ -104,10 +104,14 @@ const Submit: React.FC<{
         animate();
         clearScene(scene);
         setK(+k);
+        setNums(array);
+        setIndex(-1);
         const heap = await buildTree(array, scene);
         setHeap(heap);
         setNodes("");
-        setResult(undefined);
+        const map = new Map<number, number>();
+        setMap(map);
+        setTopElements([]);
         await wait(0.2);
         cancelAnimate();
         setState(State.Computing);
