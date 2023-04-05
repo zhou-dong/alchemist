@@ -43,6 +43,21 @@ const Main = () => {
         cancelAnimate();
     }
 
+    const Dashboard = () => (
+        <Stack spacing={2} direction="row">
+            <ToggleButton value="k" sx={{ borderRadius: "50%", height: 75, width: 75, }} >
+                <Typography variant="h4" color="darkgray">
+                    {k}
+                </Typography>
+            </ToggleButton>
+            <ToggleButton value="r" sx={{ borderRadius: "50%", height: 75, width: 75, }}>
+                <Typography variant="h4" color="green">
+                    {result}
+                </Typography>
+            </ToggleButton>
+        </Stack>
+    );
+
     return (
         <>
             <div style={{
@@ -50,18 +65,7 @@ const Main = () => {
                 top: "150px",
                 left: "20%"
             }}>
-                <Stack spacing={2} direction="row">
-                    <ToggleButton value="k" sx={{ borderRadius: "50%", height: 75, width: 75, }} >
-                        <Typography variant="h4" color="darkgray">
-                            {k}
-                        </Typography>
-                    </ToggleButton>
-                    <ToggleButton value="r" sx={{ borderRadius: "50%", height: 75, width: 75, }}>
-                        <Typography variant="h4" color="green">
-                            {result}
-                        </Typography>
-                    </ToggleButton>
-                </Stack>
+                {state !== State.Typing && <Dashboard />}
             </div>
 
             <div style={{
@@ -71,7 +75,7 @@ const Main = () => {
                 transform: "translate(-50%)",
             }}
             >
-                <ButtonGroup size='medium' variant='contained'>
+                <ButtonGroup size='large' variant='contained'>
                     <Button
                         startIcon={<SortIcon />}
                         onClick={handleHeapify}
