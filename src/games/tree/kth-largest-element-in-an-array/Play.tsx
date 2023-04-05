@@ -71,7 +71,7 @@ const Main = () => {
                 transform: "translate(-50%)",
             }}
             >
-                <ButtonGroup size='medium' variant='contained'>
+                <ButtonGroup size='large' variant='contained'>
                     <Button
                         startIcon={<SortIcon />}
                         onClick={handleHeapify}
