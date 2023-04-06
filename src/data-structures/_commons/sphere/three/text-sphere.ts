@@ -8,7 +8,7 @@ import Move from '../../params/move.interface';
 import MoveImpl from "../../three/move";
 import Position from '../../params/position.interface';
 import PositionImpl from "../../three/position"
-import { TextSphere as ITextSphere } from "../text-sphere";
+import { TextSphere as ITextSphere } from "../text-sphere.interface";
 import Sphere from './sphere';
 import { calDestination } from '../../utils';
 

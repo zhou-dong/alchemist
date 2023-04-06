@@ -9,7 +9,7 @@ import MoveImpl from "../../three/move";
 import Position from '../../params/position.interface';
 import PositionImpl from "../../three/position"
 
-import { Sphere as ISphere } from "../sphere";
+import { Sphere as ISphere } from "../sphere.interface";
 import { calDistance } from '../../utils';
 
 export default class Sphere implements ISphere {

@@ -1,5 +1,5 @@
 import Position from '../../../_commons/params/position.interface';
-import { TextSphere } from '../../../_commons/sphere/text-sphere';
+import { TextSphere } from '../../../_commons/sphere/text-sphere.interface';
 
 export default class TreeNode<T> {
 

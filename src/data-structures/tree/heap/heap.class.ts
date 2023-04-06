@@ -2,7 +2,7 @@ import Line from '../nodes/line';
 import { buildNode } from '../nodes/v2/builder';
 import TreeNode from "../nodes/v2/node";
 import { getLeftChildIndex, getParentIndex, getRightChildIndex } from '../nodes/utils/tree-node-utils';
-import IHeap from "./heap.interface";
+import IHeap, { Comparable } from "./heap.interface";
 import { buildPerfectBinaryTree, TreeNode as TreePosition } from '../nodes/utils/perfect-binary-tree';
 import Position from '../../_commons/params/position.interface';
 import Array from '../../array/array.class';
@@ -10,7 +10,7 @@ import { Props } from './props';
 import { TextCube } from '../../_commons/cube/three/text-cube';
 import { wait } from '../../_commons/utils';
 
-abstract class Heap<T> implements IHeap<T>{
+abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
 
     public props: Props;
     private array: Array<T>;
@@ -142,19 +142,19 @@ abstract class Heap<T> implements IHeap<T>{
 
     async delete(): Promise<T | undefined> {
 
+        // delete last line
         const line = this.treeLines.get(this.treeNodes.length - 1);
         line?.hide();
-
         this.treeLines.delete(this.treeNodes.length - 1);
 
-        const last = this.treeNodes.pop();
+        const lastNode = this.treeNodes.pop();
         const arrayLast = await this.array.pop();
-        if (this.treeNodes.length === 0 || !last) {
-            if (last) {
-                last.hide();
+        if (this.treeNodes.length === 0 || !lastNode) {
+            if (lastNode) {
+                lastNode.hide();
                 arrayLast?.hide();
             }
-            return Promise.resolve(last?.value.value);
+            return Promise.resolve(lastNode?.value.value);
         }
 
         const root = this.treeNodes[0];
@@ -163,12 +163,12 @@ abstract class Heap<T> implements IHeap<T>{
         const arrayHead = await this.array.shift();
         arrayHead?.hide();
 
-        this.treeNodes[0] = last;
+        this.treeNodes[0] = lastNode;
         const { x, y } = this.treeNodesPositions[0];
 
         await Promise.all([
             this.array.unshift(arrayLast!),
-            last.moveTo({ x, y, z: 0 }, this.props.duration || 0)
+            lastNode.moveTo({ x, y, z: 0 }, this.props.duration || 0)
         ]);
 
         await this.bubbleDown(0);
@@ -271,6 +271,14 @@ abstract class Heap<T> implements IHeap<T>{
 
     private clonePosition({ x, y, z }: Position): Position {
         return { x, y, z };
+    }
+
+    protected isPrimaryType(value: T): boolean {
+        return typeof value === 'string' || typeof value === 'number';
+    }
+
+    items(): T[] {
+        return this.treeNodes.map(node => node.value.value);
     }
 }
 

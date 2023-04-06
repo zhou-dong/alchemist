@@ -1,4 +1,4 @@
-import { Sphere } from './sphere';
+import { Sphere } from './sphere.interface';
 import Position from "../params/position.interface";
 import Color from "../params/color.interface";
 

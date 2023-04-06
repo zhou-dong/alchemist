@@ -1,4 +1,8 @@
-interface Heap<T> {
+export interface Comparable {
+    compareTo(other: Comparable): number;
+}
+
+interface Heap<T extends Comparable | string | number> {
 
     /**
      * This method is used to insert a new element into the heap. 
@@ -42,6 +46,8 @@ interface Heap<T> {
      * This can be useful when you want to reuse a heap for a different set of items or when you want to release memory used by the heap.
      */
     clear(): Promise<void>;
+
+    items(): T[];
 }
 
 export default Heap;
