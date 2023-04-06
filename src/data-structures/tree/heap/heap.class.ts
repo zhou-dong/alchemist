@@ -2,7 +2,7 @@ import Line from '../nodes/line';
 import { buildNode } from '../nodes/v2/builder';
 import TreeNode from "../nodes/v2/node";
 import { getLeftChildIndex, getParentIndex, getRightChildIndex } from '../nodes/utils/tree-node-utils';
-import IHeap from "./heap.interface";
+import IHeap, { Comparable } from "./heap.interface";
 import { buildPerfectBinaryTree, TreeNode as TreePosition } from '../nodes/utils/perfect-binary-tree';
 import Position from '../../_commons/params/position.interface';
 import Array from '../../array/array.class';
@@ -10,7 +10,7 @@ import { Props } from './props';
 import { TextCube } from '../../_commons/cube/three/text-cube';
 import { wait } from '../../_commons/utils';
 
-abstract class Heap<T> implements IHeap<T>{
+abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
 
     public props: Props;
     private array: Array<T>;
@@ -271,6 +271,14 @@ abstract class Heap<T> implements IHeap<T>{
 
     private clonePosition({ x, y, z }: Position): Position {
         return { x, y, z };
+    }
+
+    protected isPrimaryType(value: T): boolean {
+        return typeof value === 'string' || typeof value === 'number';
+    }
+
+    items(): T[] {
+        return this.treeNodes.map(node => node.value.value);
     }
 }
 

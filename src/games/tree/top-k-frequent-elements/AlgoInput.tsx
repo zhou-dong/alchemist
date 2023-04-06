@@ -19,7 +19,7 @@ import { buildTree, } from "./styles";
 
 const input1 = { array: [3, 3, 3, 1, 1, 2, 2, 2, 3], k: 2 };
 const input2 = { array: [3, 3, 3, 6, 1, 6, 1, 2, 6, 2, 2, 3, 6], k: 3 };
-const input3 = { array: [2, 8, 5, 6, 1, 3, 1, 2, 2], k: 4 };
+const input3 = { array: [2, 8, 5, 6, 1, 3, 1, 2, 2, 3, 5], k: 4 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,

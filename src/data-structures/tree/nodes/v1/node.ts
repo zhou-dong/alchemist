@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import Position from '../../../_commons/params/position.interface';
-import { TextSphere } from '../../../_commons/sphere/text-sphere';
+import { TextSphere } from '../../../_commons/sphere/text-sphere.interface';
 import Line from "../line";
 
 const getDepth = <T>(node?: TreeNode<T>): number => {

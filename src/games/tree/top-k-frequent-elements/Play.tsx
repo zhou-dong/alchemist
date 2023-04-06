@@ -1,4 +1,4 @@
-import { useAlgoContext } from "./AlgoContext";
+import { HeapItem, useAlgoContext } from "./AlgoContext";
 import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
@@ -21,7 +21,7 @@ const Main = () => {
         if (index + 2 === nums.length) {
             setState(State.AddToHeap);
             setMapIndex(0);
-            setFrequents(Array.from(map).map(([key, value]) => (`${value},${key}`)));
+            setFrequents(Array.from(map).map(([key, value]) => (new HeapItem(key, value))));
         }
 
         setIndex(index + 1);
@@ -39,16 +39,13 @@ const Main = () => {
             return;
         }
 
-        const [count] = item.split(",");
-
         animate();
 
         try {
             if (await heap.size() === k) {
                 const top = await heap.peek();
                 if (top) {
-                    const [topCount] = top.split(",");
-                    if (topCount < count) {
+                    if (top.count < item.count) {
                         await heap.delete();
                         await heap.insert(item);
                     }
@@ -57,6 +54,9 @@ const Main = () => {
                 await heap.insert(item);
             }
 
+            if (mapIndex + 1 === frequents.length) {
+                setResult(() => heap.items().map(item => item.num));
+            }
             setMapIndex(i => i + 1);
             await wait(0.5);
         } catch (error) {
@@ -83,6 +83,14 @@ const Main = () => {
         </ButtonGroup>
     );
 
+    const getMapStyle = (num: number) => {
+        if (num === frequents[mapIndex]?.num) {
+            return { backgroundColor: "green", color: "#FFF" };
+        } else {
+            return {};
+        }
+    }
+
     const DisplayMap = () => (
         <Table>
             <TableHead>
@@ -95,8 +103,8 @@ const Main = () => {
                 {
                     map && Array.from(map).map(([key, value]) => (
                         <TableRow key={key}>
-                            <TableCell>{key}</TableCell>
-                            <TableCell>{value}</TableCell>
+                            <TableCell sx={getMapStyle(key)}>{key}</TableCell>
+                            <TableCell sx={getMapStyle(key)}>{value}</TableCell>
                         </TableRow>
                     ))
                 }
@@ -105,7 +113,8 @@ const Main = () => {
     );
 
     const DisplayResult = () => (
-        <ButtonGroup>
+        <ButtonGroup size="large" color="success">
+            {result.length > 0 && <Button variant="contained">Top K Elements</Button>}
             {
                 result.map((value, i) => <Button key={i}>{value}</Button>)
             }
@@ -113,11 +122,11 @@ const Main = () => {
     );
 
     const Dashboard = () => (
-        <Stack spacing={2} direction="column">
+        <Stack spacing={2} direction="column" alignItems="flex-start">
             <DisplayInput />
             <DisplayMap />
             <DisplayResult />
-        </Stack>
+        </Stack >
     );
 
     return (

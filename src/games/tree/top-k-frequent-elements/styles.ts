@@ -3,6 +3,7 @@ import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeomet
 import { font } from '../../../commons/three';
 import MinHeap from '../../../data-structures/tree/heap/min-heap';
 import { Props, TreeNodeProps } from '../../../data-structures/tree/heap/props';
+import { HeapItem } from './AlgoContext';
 
 const lineColor = "gold";
 const normalSphereColor = "yellow";
@@ -17,7 +18,7 @@ const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
-export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): MinHeap<string> => {
+export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): MinHeap<HeapItem> => {
 
     const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: cubeColor, opacity: 0.5, transparent: true });
     const cubeWidth = 2;
@@ -30,7 +31,7 @@ export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): Min
         textGeometryParameters,
         cubeMaterial,
         cubeGeometry,
-        initPosition: { x: 0, y: 0, z: 0 },
+        initPosition: { x: 15, y: 11, z: 0 },
     };
 
     const treeNodeProps: TreeNodeProps = {
@@ -39,7 +40,7 @@ export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): Min
         textMaterial,
         textGeometryParameters,
         enabledTreeNodeColor: enabledColor,
-        initPosition: { x: 0, y: 0, z: 0 },
+        initPosition: { x: 15, y: 11, z: 0 },
     }
 
     const treeLineProps = {
@@ -52,7 +53,7 @@ export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): Min
         treePosition: { x: 0 + 5, y: -Math.log2(k), z: 0 },
         treeNodeProps,
         treeLineProps,
-        treeNodeDistance: { x: 2, y: 2.5 },
+        treeNodeDistance: { x: 2.5, y: 2.5 },
         treeInitDepth,
         scene,
         duration: 1
