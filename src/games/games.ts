@@ -81,6 +81,7 @@ import VerifyPreorderSerializationOfABinaryTree from "./tree/verify-preorder-ser
 import SerializeAndDeserializeBinaryTree from "./tree/serialize-and-deserialize-binary-tree/info";
 import KthLargestElementInAnArray from "./tree/kth-largest-element-in-an-array/info";
 import TopKFrequentElements from "./tree/top-k-frequent-elements/info";
+import SlidingWindowMaximum from "./queue/sliding-window-maximum/info";
 
 export const games: Game[] = [
     editDistance,
@@ -163,5 +164,6 @@ export const games: Game[] = [
     VerifyPreorderSerializationOfABinaryTree,
     SerializeAndDeserializeBinaryTree,
     KthLargestElementInAnArray,
-    TopKFrequentElements
+    TopKFrequentElements,
+    SlidingWindowMaximum
 ];
