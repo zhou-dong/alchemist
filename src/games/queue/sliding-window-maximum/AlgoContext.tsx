@@ -7,6 +7,11 @@ import { stackInPosition, stackOutPosition } from "./styles";
 import StackName from "./stackName";
 import { State } from "./AlgoState";
 
+export interface Item {
+    value: number;
+    index: number;
+}
+
 const AlgoContext = React.createContext<{
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
@@ -19,6 +24,13 @@ const AlgoContext = React.createContext<{
     actionsDisabled: boolean,
     setActionsDisabled: React.Dispatch<React.SetStateAction<boolean>>,
     minShellSize: number,
+
+    input: number[],
+    setInput: React.Dispatch<React.SetStateAction<number[]>>,
+    deque: Item[],
+    setDeque: React.Dispatch<React.SetStateAction<Item[]>>,
+    index: number,
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -28,7 +40,13 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => { },
     actionsDisabled: false,
     setActionsDisabled: () => { },
-    minShellSize: 0
+    minShellSize: 0,
+    input: [],
+    setInput: () => { },
+    index: 0,
+    setIndex: () => { },
+    deque: [],
+    setDeque: () => { },
 });
 
 let animationFrameId = -1;
@@ -47,6 +65,11 @@ export const AlgoContextProvider: React.FC<{
     const [stackIn, setStackIn] = React.useState<Stack<string>>();
     const [stackOut, setStackOut] = React.useState<Stack<string>>();
     const [actionsDisabled, setActionsDisabled] = React.useState(false);
+
+    const [input, setInput] = React.useState<number[]>([]);
+    const [index, setIndex] = React.useState<number>(0);
+    //  double-ended queue
+    const [deque, setDeque] = React.useState<Item[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -99,7 +122,13 @@ export const AlgoContextProvider: React.FC<{
             setActionsDisabled,
             minShellSize,
             state,
-            setState
+            setState,
+            input,
+            setInput,
+            deque,
+            setDeque,
+            index,
+            setIndex
         }}>
             {children}
             <div ref={ref}></div>
