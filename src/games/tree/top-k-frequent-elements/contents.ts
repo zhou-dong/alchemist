@@ -71,8 +71,8 @@ export const formula = `function topKFrequent(nums: number[], k: number): number
             const parentIndex = Math.floor((index - 1) / 2);
             if (this.items[index].count < this.items[parentIndex].count) {
                 this.swap(parentIndex, index);
+                this.bubbleUp(parentIndex);
             }
-            this.bubbleUp(parentIndex);
         }
 
         private swap(i: number, j: number) {
