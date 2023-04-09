@@ -163,6 +163,8 @@ import KthLargestElementInAnArrayInfo from "./games/tree/kth-largest-element-in-
 import KthLargestElementInAnArray from "./games/tree/kth-largest-element-in-an-array";
 import TopKFrequentElementsInfo from "./games/tree/top-k-frequent-elements/info";
 import TopKFrequentElements from "./games/tree/top-k-frequent-elements";
+import SlidingWindowMaximumInfo from "./games/queue/sliding-window-maximum/info";
+import SlidingWindowMaximum from "./games/queue/sliding-window-maximum";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -261,6 +263,7 @@ const App = () => (
         <Route path={SerializeAndDeserializeBinaryTreeInfo.path} element={<SerializeAndDeserializeBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={KthLargestElementInAnArrayInfo.path} element={<KthLargestElementInAnArray renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={TopKFrequentElementsInfo.path} element={<TopKFrequentElements renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SlidingWindowMaximumInfo.path} element={<SlidingWindowMaximum />} />
     </Routes>
 );
 

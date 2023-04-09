@@ -10,7 +10,8 @@ enum Category {
     SlidingWindow = "Sliding Window",
     FlipDirection = "Flip Direction",
     Greedy = "Greedy",
-    Heap = "heap"
+    Heap = "heap",
+    Deque = "Qeque"
 }
 
 export default Category;
