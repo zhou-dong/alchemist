@@ -4,69 +4,193 @@ import { styled } from '@mui/material/styles';
 import { useAlgoContext } from "./AlgoContext";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import { State } from './AlgoState';
+import { Action, Target } from './algo';
 
 const Actions = styled(Stack)(() => ({
     position: "fixed",
-    top: "30%",
+    top: "20%",
     left: "50%",
     transform: "translate(-50%)",
     alignItems: "center"
 }));
 
 const DisplayInput = () => {
-    const { index, input } = useAlgoContext();
+    const { index, input, steps, k } = useAlgoContext();
+    const current = steps[index] ? steps[index].index : 0;
+
     return (
-        <ButtonGroup size='large' color='success'>
-            {
-                input.map((num, i) =>
-                    <Button
-                        key={i}
-                        variant={(index === i) ? "contained" : "outlined"}
-                    >
-                        {num}
-                    </Button>
-                )
-            }
-        </ButtonGroup>
+        <Stack direction="column">
+            <Typography>Nums</Typography>
+            <ButtonGroup color="success">
+                {
+                    input.map((num, i) =>
+                        <Button
+                            value={i}
+                            key={i}
+                            sx={{ height: 45, width: 45, borderColor: "gray" }}
+                            variant={(i === current) ? "contained" : "outlined"}
+                        >
+                            {num}
+                        </Button>
+                    )
+                }
+            </ButtonGroup>
+            <ButtonGroup>
+                {
+                    input.map((_, i) =>
+                        <Button
+                            value={i}
+                            key={i}
+                            sx={{ height: 25, width: 45, border: "none" }}
+                            variant={(i + k > current && i <= current) ? "contained" : "outlined"}
+                        >
+                            {i}
+                        </Button>
+                    )
+                }
+            </ButtonGroup>
+        </Stack>
     );
 };
 
 const DisplayDeque = () => {
-    const { deque } = useAlgoContext();
+    const { state, index, steps } = useAlgoContext();
+    const deque = (steps[index]) ? steps[index].deque : [];
     return (
-        <ButtonGroup size='large' color='success'>
-            {
-                deque.map((item, i) =>
-                    <Button
-                        key={i}
-                        variant={(i === 0 || i === deque.length - 1) ? "contained" : "outlined"}
-                        sx={{ display: "inline-block" }}
-                    >
-                        <Typography sx={{ textTransform: 'lowercase' }}>
-                            index: {item.index}
-                        </Typography>
-                        <Divider />
-                        <Typography sx={{ textTransform: 'lowercase' }}>
-                            value: {item.value}
-                        </Typography>
-                    </Button>
-                )
-            }
-        </ButtonGroup>
+        <Stack>
+            <Typography>Deque</Typography>
+            <ButtonGroup size='large' disabled={state !== State.Playing}>
+                {
+                    deque.map((item, i) =>
+                        <Button
+                            key={i}
+                            sx={{ display: "inline-block", borderColor: "lightgray" }}
+                        >
+                            <Stack direction="row">
+                                <Typography sx={{ textTransform: 'lowercase', color: "gray" }}>
+                                    index:&nbsp;
+                                </Typography>
+                                <Typography sx={{ textTransform: 'lowercase', }}>
+                                    {item.index}
+                                </Typography>
+                            </Stack>
+                            <Divider />
+                            <Stack direction="row">
+                                <Typography sx={{ textTransform: 'lowercase', color: "gray" }}>
+                                    value:&nbsp;
+                                </Typography>
+                                <Typography sx={{ textTransform: 'lowercase', }}>
+                                    {item.value}
+                                </Typography>
+                            </Stack>
+                        </Button>
+                    )
+                }
+            </ButtonGroup>
+        </Stack>
     );
 };
 
-const Main = () => {
-    const { actionsDisabled } = useAlgoContext();
+const DisplayResult = () => {
+    const { index, steps } = useAlgoContext();
+    const i = (index >= steps.length) ? steps.length - 1 : index;
+    const result = steps[i]?.result || [];
     return (
-        <Actions direction="column" spacing={2}>
+        <Stack>
+            <Typography>Result</Typography>
+            <ButtonGroup size='large' color='success' variant='contained'>
+                {
+                    result.map((item, i) =>
+                        <Button key={i}>
+                            <Typography>
+                                {item}
+                            </Typography>
+                        </Button>
+                    )
+                }
+            </ButtonGroup>
+        </Stack>
+    );
+}
+
+const PopFromDeque = () => {
+    const { setIndex, steps, index } = useAlgoContext();
+    const step = steps[index];
+    const disabled: boolean = step?.action !== Action.POP;
+
+    const handleClick = () => {
+        setIndex(i => i + 1);
+    }
+
+    return (
+        <Button startIcon={<RemoveCircleOutlineOutlinedIcon />} onClick={handleClick} disabled={disabled}>pop from deque</Button>
+    );
+}
+
+const PushToDeque = () => {
+
+    const { setIndex, steps, index } = useAlgoContext();
+    const step = steps[index];
+    const enabled: boolean = step?.action === Action.PUSH && step?.target === Target.DEQUE;
+
+    const handleClick = () => {
+        setIndex(i => i + 1);
+    }
+
+    return (
+        <Button startIcon={<AddCircleOutlineOutlinedIcon />} onClick={handleClick} disabled={!enabled}>push to deque</Button>
+    );
+}
+
+const PushToResult = () => {
+
+    const { setIndex, steps, index } = useAlgoContext();
+    const step = steps[index];
+    const enabled: boolean = step?.action === Action.PUSH && step?.target === Target.RESULT;
+
+    const handleClick = () => {
+        setIndex(i => i + 1);
+    }
+
+    return (
+        <Button startIcon={<AddCircleOutlineOutlinedIcon />} onClick={handleClick} disabled={!enabled}>push to result</Button>
+    );
+}
+
+const ShiftFromDeque = () => {
+
+    const { setIndex, steps, index } = useAlgoContext();
+    const step = steps[index];
+    const enabled: boolean = step?.action === Action.SHIFT;
+
+    const handleClick = () => {
+        setIndex(i => i + 1);
+    }
+
+    return (
+        <Button endIcon={<RemoveCircleOutlineOutlinedIcon />} onClick={handleClick} disabled={!enabled}>shift from deque</Button>
+    );
+}
+
+const Main = () => {
+    const { state } = useAlgoContext();
+    return (
+        <Actions direction="column" spacing={5}>
             <DisplayInput />
             <DisplayDeque />
+            <DisplayResult />
 
-            <ButtonGroup variant="contained" size="large">
-                <Button startIcon={<RemoveCircleOutlineOutlinedIcon />}>pop</Button>
-                <Button startIcon={<AddCircleOutlineOutlinedIcon />}>push</Button>
-                <Button endIcon={<RemoveCircleOutlineOutlinedIcon />}>shift</Button>
+            <ButtonGroup
+                orientation="vertical"
+                variant="contained"
+                size="large"
+                disabled={state !== State.Playing}
+            >
+                <PopFromDeque />
+                <PushToDeque />
+                <PushToResult />
+                <ShiftFromDeque />
             </ButtonGroup>
         </Actions>
     );

@@ -10,29 +10,27 @@ import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
+import { maxSlidingWindow } from "./algo";
 
-import { clearScene } from '../../../commons/three';
-import { wait } from '../../../data-structures/_commons/utils';
-
-import TreeNode from '../../../data-structures/tree/nodes/v1/node';
-
-const inputOne = [2, 1, 3, 4, 6, 5, 9, 8];
-const inputTwo = [3, 9, 20, 15, 7];
-const inputThree = [3, 9, 2, 5, 6, 7, 1, 4, 8];
+const input1 = { array: [15, 7, 30, 4, 9, 20, 2], k: 4 };
+const input2 = { array: [10, 7, 18, 5, 9, 14, 25, 4, 6, 11, 15], k: 3 };
+const input3 = { array: [12, 8, 15, 6, 10, 13, 17, 4], k: 3 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
     setValue: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setValue, }) => {
+    setK: React.Dispatch<React.SetStateAction<string>>,
+}> = ({ anchorEl, setAnchorEl, open, setValue, setK }) => {
 
     const buildInInputs = [
-        inputOne,
-        inputTwo,
-        inputThree
+        input1,
+        input2,
+        input3,
     ];
 
     const handleMenuClose = () => {
@@ -45,36 +43,42 @@ const DropDown: React.FC<{
             open={open}
             onClose={handleMenuClose}
         >
+            <MenuItem>
+                <ListItemIcon>
+                    <DoNotDisturbIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText sx={{ width: "120px" }}>
+                    nums
+                </ListItemText>
+                <ListItemText>
+                    k
+                </ListItemText>
+            </MenuItem>
             {
                 buildInInputs.map((item, index) => (
                     <MenuItem
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setValue(item.join(","));
+                            setValue(item.array.join(","));
+                            setK(item.k + "");
                         }}
                         sx={{ width: "408px", overflow: "hidden" }}
                     >
                         <ListItemIcon>
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
+                        <ListItemText sx={{ width: "120px" }}>
+                            {item.array.join(",")}
+                        </ListItemText>
                         <ListItemText>
-                            {item.join(",")}
+                            {item.k}
                         </ListItemText>
                     </MenuItem>
                 ))
             }
         </Menu >
     );
-}
-
-const clearTreeValue = (node: TreeNode<any> | undefined) => {
-    if (node === undefined) {
-        return
-    }
-    node.val.value = "";
-    clearTreeValue(node.left);
-    clearTreeValue(node.right);
 }
 
 const parseInput = (input: string): number[] => {
@@ -86,29 +90,28 @@ const parseInput = (input: string): number[] => {
 const Submit: React.FC<{
     value: string,
     setValue: React.Dispatch<React.SetStateAction<string>>,
+    k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ value, setValue, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setInput, setDeque, setIndex } = useAlgoContext();
+}> = ({ value, setValue, setAnchorEl, k }) => {
+    const { setState, setInput, setIndex, setSteps, setK } = useAlgoContext();
+
+    const disabled = value.trim().length === 0 || k.trim().length === 0 || +k === 0;
+
 
     const handleSubmit = async () => {
+        const input = parseInput(value);
         setState(State.Typing);
-
-        animate();
-        clearScene(scene);
-
-        setInput(parseInput(value));
-        setDeque([{ value: 5, index: 1 }, { value: 4, index: 2 }, { value: 6, index: 3 }]);
+        setK(+k);
+        setInput(input);
         setIndex(0);
-
+        setSteps(maxSlidingWindow(input, +k));
         setValue("");
         setAnchorEl(null);
-        await wait(0.2);
-        cancelAnimate();
         setState(State.Playing);
     }
 
     return (
-        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={value.length === 0}>
+        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
             <OutputIcon />
         </IconButton>
     );
@@ -121,6 +124,7 @@ interface Props {
 export default function AlgoInput({ setAnchorEl }: Props) {
 
     const [value, setValue] = React.useState("");
+    const [k, setK] = React.useState("");
 
     const reference = React.useRef(null);
     const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -135,6 +139,10 @@ export default function AlgoInput({ setAnchorEl }: Props) {
     const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const text: string = e.currentTarget.value;
         setValue(text);
+    };
+
+    const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setK(e.currentTarget.value);
     };
 
     return (
@@ -161,13 +169,23 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                     onChange={handleValueChange}
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+
+                <InputBase
+                    sx={{ width: 60 }}
+                    placeholder='K'
+                    value={k}
+                    onChange={handleKChange}
+                    type="number"
+                />
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
                     setValue("");
                 }}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit value={value} setValue={setValue} setAnchorEl={setAnchorEl} />
+                <Submit value={value} setValue={setValue} setAnchorEl={setAnchorEl} k={k} />
             </Paper>
 
             <DropDown
@@ -175,6 +193,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
                 setValue={setValue}
+                setK={setK}
             />
         </>
     );

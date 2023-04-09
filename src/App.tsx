@@ -263,7 +263,7 @@ const App = () => (
         <Route path={SerializeAndDeserializeBinaryTreeInfo.path} element={<SerializeAndDeserializeBinaryTree renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={KthLargestElementInAnArrayInfo.path} element={<KthLargestElementInAnArray renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={TopKFrequentElementsInfo.path} element={<TopKFrequentElements renderer={renderer} camera={camera} scene={createScene()} />} />
-        <Route path={SlidingWindowMaximumInfo.path} element={<SlidingWindowMaximum renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SlidingWindowMaximumInfo.path} element={<SlidingWindowMaximum />} />
     </Routes>
 );
 
