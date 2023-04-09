@@ -15,8 +15,8 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { maxSlidingWindow } from "./algo";
 
-const input1 = { array: [15, 7, 30, 4, 9, 20, 2], k: 4 };
-const input2 = { array: [10, 7, 18, 5, 9, 14, 25, 4, 6, 11, 15], k: 3 };
+const input1 = { array: [15, 7, 30, 4, 9, 10, 2, 11, 8], k: 3 };
+const input2 = { array: [10, 7, 18, 5, 9, 14, 16, 4, 6, 17, 15], k: 4 };
 const input3 = { array: [12, 8, 15, 6, 10, 13, 17, 4], k: 3 };
 
 const DropDown: React.FC<{

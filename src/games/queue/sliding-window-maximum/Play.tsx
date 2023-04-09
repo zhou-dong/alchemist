@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Button, ButtonGroup, Divider, Stack, Typography } from "@mui/material";
+import { Button, ButtonGroup, Chip, Stack, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { useAlgoContext } from "./AlgoContext";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
@@ -9,7 +8,7 @@ import { Action, Target } from './algo';
 
 const Actions = styled(Stack)(() => ({
     position: "fixed",
-    top: "20%",
+    top: "15%",
     left: "50%",
     transform: "translate(-50%)",
     alignItems: "center"
@@ -55,35 +54,32 @@ const DisplayInput = () => {
 };
 
 const DisplayDeque = () => {
-    const { state, index, steps } = useAlgoContext();
+    const { index, steps } = useAlgoContext();
     const deque = (steps[index]) ? steps[index].deque : [];
     return (
         <Stack>
             <Typography>Deque</Typography>
-            <ButtonGroup size='large' disabled={state !== State.Playing}>
+            <ButtonGroup size='large'>
+                <Button sx={{ textTransform: 'lowercase', height: 45, width: 55, color: "#000", borderColor: "lightgray" }}>value</Button>
+                {
+                    deque.map((item, i) =>
+                        <Button key={i} sx={{ height: 45, width: 45, borderColor: "lightgray" }}>
+                            {item.value}
+                        </Button>
+                    )
+                }
+            </ButtonGroup>
+            <ButtonGroup size='large'>
+                <Button sx={{ textTransform: 'lowercase', border: "none", height: 25, width: 55, color: "#000" }}>
+                    index
+                </Button>
                 {
                     deque.map((item, i) =>
                         <Button
                             key={i}
-                            sx={{ display: "inline-block", borderColor: "lightgray" }}
+                            sx={{ border: "none", height: 25, width: 45, color: "#000" }}
                         >
-                            <Stack direction="row">
-                                <Typography sx={{ textTransform: 'lowercase', color: "gray" }}>
-                                    index:&nbsp;
-                                </Typography>
-                                <Typography sx={{ textTransform: 'lowercase', }}>
-                                    {item.index}
-                                </Typography>
-                            </Stack>
-                            <Divider />
-                            <Stack direction="row">
-                                <Typography sx={{ textTransform: 'lowercase', color: "gray" }}>
-                                    value:&nbsp;
-                                </Typography>
-                                <Typography sx={{ textTransform: 'lowercase', }}>
-                                    {item.value}
-                                </Typography>
-                            </Stack>
+                            {item.index}
                         </Button>
                     )
                 }
@@ -145,11 +141,14 @@ const PushToDeque = () => {
 
 const PushToResult = () => {
 
-    const { setIndex, steps, index } = useAlgoContext();
+    const { setIndex, steps, index, setState } = useAlgoContext();
     const step = steps[index];
     const enabled: boolean = step?.action === Action.PUSH && step?.target === Target.RESULT;
 
     const handleClick = () => {
+        if (index + 2 === steps.length) {
+            setState(State.Finished);
+        }
         setIndex(i => i + 1);
     }
 
@@ -174,9 +173,10 @@ const ShiftFromDeque = () => {
 }
 
 const Main = () => {
-    const { state } = useAlgoContext();
+    const { state, k } = useAlgoContext();
     return (
         <Actions direction="column" spacing={5}>
+            <Chip label={`K: ${k}`} variant="outlined" />
             <DisplayInput />
             <DisplayDeque />
             <DisplayResult />
