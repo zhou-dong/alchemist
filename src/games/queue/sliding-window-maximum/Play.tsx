@@ -8,7 +8,7 @@ import { Action, Target } from './algo';
 
 const Actions = styled(Stack)(() => ({
     position: "fixed",
-    top: "15%",
+    top: "12%",
     left: "50%",
     transform: "translate(-50%)",
     alignItems: "center"
