@@ -5,7 +5,6 @@ import { Step } from "./algo";
 const AlgoContext = React.createContext<{
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-
     input: number[],
     setInput: React.Dispatch<React.SetStateAction<number[]>>,
     index: number,
