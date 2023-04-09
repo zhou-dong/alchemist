@@ -9,7 +9,8 @@ const info: Game = {
     categories: [Category.Queue, Category.Deque],
     companies: [],
     difficulty: Difficulty.Hard,
-    img: "/img/sliding-window-maximum.png"
+    img: "/img/sliding-window-maximum.png",
+    leetcodeId: 239
 }
 
 export default info;
