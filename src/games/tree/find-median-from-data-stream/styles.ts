@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
+import MaxHeap from '../../../data-structures/tree/heap/max-heap';
+import MinHeap from '../../../data-structures/tree/heap/min-heap';
 import { Props, TreeNodeProps } from '../../../data-structures/tree/heap/props';
 import Position from '../../../data-structures/_commons/params/position.interface';
 
@@ -22,7 +24,7 @@ interface HeapPosition {
     treePosition: Position;
 }
 
-export const buildHeapProps = (initPosition: HeapPosition, heapPosition: HeapPosition, scene: THREE.Scene): Props => {
+const buildHeapProps = (initPosition: HeapPosition, heapPosition: HeapPosition, scene: THREE.Scene): Props => {
 
     const treeInitDepth = 4;
     const treeNodeDistance = { x: 2.5, y: 2.5 };
@@ -61,4 +63,20 @@ export const buildHeapProps = (initPosition: HeapPosition, heapPosition: HeapPos
     }
 
     return props;
+}
+
+export const buildSmaller = (scene: THREE.Scene): MaxHeap<number> => {
+    return new MaxHeap(buildHeapProps(
+        { arrayPosition: { x: -5, y: 5, z: 0 }, treePosition: { x: -5, y: 0, z: 0 } },
+        { arrayPosition: { x: -5, y: 10, z: 0 }, treePosition: { x: -10, y: -5, z: 0 } },
+        scene
+    ));
+}
+
+export const buildGreater = (scene: THREE.Scene): MinHeap<number> => {
+    return new MinHeap(buildHeapProps(
+        { arrayPosition: { x: 5, y: 5, z: 0 }, treePosition: { x: 5, y: 0, z: 0 } },
+        { arrayPosition: { x: 15, y: 10, z: 0 }, treePosition: { x: 10, y: -5, z: 0 } },
+        scene
+    ));
 }

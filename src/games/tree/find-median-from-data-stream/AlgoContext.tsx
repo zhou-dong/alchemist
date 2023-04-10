@@ -4,7 +4,7 @@ import { clearScene, registerOrbitControls } from '../../../commons/three';
 import MaxHeap from "../../../data-structures/tree/heap/max-heap";
 import MinHeap from "../../../data-structures/tree/heap/min-heap";
 import { State } from "./AlgoState";
-import { buildHeapProps, } from "./styles";
+import { buildSmaller, buildGreater } from "./styles";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -17,7 +17,7 @@ const AlgoContext = React.createContext<{
     greater?: MinHeap<number>,
     setGreater: React.Dispatch<React.SetStateAction<MinHeap<number> | undefined>>
 }>({
-    state: State.Typing,
+    state: State.Ready,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
@@ -37,20 +37,6 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Ready);
-
-
-    const smallerHeapProps = buildHeapProps(
-        { arrayPosition: { x: -5, y: 5, z: 0 }, treePosition: { x: -5, y: 0, z: 0 } },
-        { arrayPosition: { x: -5, y: 10, z: 0 }, treePosition: { x: -10, y: -5, z: 0 } },
-        scene
-    );
-
-    const greaterHeapProps = buildHeapProps(
-        { arrayPosition: { x: 5, y: 5, z: 0 }, treePosition: { x: 5, y: 0, z: 0 } },
-        { arrayPosition: { x: 15, y: 10, z: 0 }, treePosition: { x: 10, y: -5, z: 0 } },
-        scene
-    );
-
     const [smaller, setSmaller] = React.useState<MaxHeap<number>>();
     const [greater, setGreater] = React.useState<MinHeap<number>>();
 
@@ -70,8 +56,8 @@ export const AlgoContextProvider: React.FC<{
             clearScene(scene);
             registerOrbitControls(camera, renderer, scene);
 
-            setSmaller(new MaxHeap(smallerHeapProps));
-            setGreater(new MinHeap(greaterHeapProps));
+            setSmaller(buildSmaller(scene));
+            setGreater(buildGreater(scene));
 
             renderer.render(scene, camera);
         }

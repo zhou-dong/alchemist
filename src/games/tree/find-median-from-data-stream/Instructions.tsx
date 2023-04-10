@@ -6,7 +6,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
 import Instruction from '../../../commons/Instruction';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import { description, example, formula } from "./contents";
+import { description, example, heap, medianFinder } from "./contents";
 
 const anchorOrigin: PopoverOrigin = {
     vertical: 'center',
@@ -38,10 +38,23 @@ const Instructions = () => {
                 transformOrigin={transformOrigin}
             />
             <Instruction
-                name="Code"
+                name="Heap"
                 icon={<CodeIcon fontSize="medium" />}
                 popover={<CodeBlock
-                    code={formula}
+                    code={heap}
+                    language={languages.Typescript}
+                    showLineNumbers={true}
+                    linesToHighlight={[]}
+                    wrapLines={true}
+                />}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
+            />
+            <Instruction
+                name="MedianFinder"
+                icon={<CodeIcon fontSize="medium" />}
+                popover={<CodeBlock
+                    code={medianFinder}
                     language={languages.Typescript}
                     showLineNumbers={true}
                     linesToHighlight={[]}
