@@ -28,6 +28,7 @@ const Main = () => {
             console.error(error);
         }
         cancelAnimate();
+        setMedian(undefined);
         setState(State.Ready);
     }
 
