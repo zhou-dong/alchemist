@@ -67,7 +67,7 @@ const buildHeapProps = (initPosition: HeapPosition, heapPosition: HeapPosition, 
 
 export const buildSmaller = (scene: THREE.Scene): MaxHeap<number> => {
     return new MaxHeap(buildHeapProps(
-        { arrayPosition: { x: -5, y: 5, z: 0 }, treePosition: { x: -5, y: 0, z: 0 } },
+        { arrayPosition: { x: 0, y: 0, z: 0 }, treePosition: { x: 0, y: 0, z: 0 } },
         { arrayPosition: { x: -5, y: 10, z: 0 }, treePosition: { x: -10, y: -5, z: 0 } },
         scene
     ));
@@ -75,7 +75,7 @@ export const buildSmaller = (scene: THREE.Scene): MaxHeap<number> => {
 
 export const buildGreater = (scene: THREE.Scene): MinHeap<number> => {
     return new MinHeap(buildHeapProps(
-        { arrayPosition: { x: 5, y: 5, z: 0 }, treePosition: { x: 5, y: 0, z: 0 } },
+        { arrayPosition: { x: 0, y: 0, z: 0 }, treePosition: { x: 0, y: 0, z: 0 } },
         { arrayPosition: { x: 15, y: 10, z: 0 }, treePosition: { x: 10, y: -5, z: 0 } },
         scene
     ));
