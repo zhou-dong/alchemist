@@ -7,7 +7,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import React from "react";
 import { clearScene } from '../../../commons/three';
-import { buildGreater, buildSmaller } from "./styles";
+import { buildGreater, buildSmaller, smallerHeapColor, greaterHeapColor } from "./styles";
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 
 const Main = () => {
 
@@ -93,8 +94,50 @@ const Main = () => {
         </Button>
     )
 
+    const DisplayTips = () => (
+        <Stack spacing={1}>
+            <Paper
+                variant="elevation"
+                elevation={8}
+                sx={{
+                    backgroundColor: smallerHeapColor,
+                    padding: 2
+                }}
+            >
+                <Stack direction="row" spacing={1}>
+                    <TipsAndUpdatesOutlinedIcon sx={{ color: "#fff" }} />
+                    <Typography>
+                        {"MaxHeap with (nums <= median)"}
+                    </Typography>
+                </Stack>
+            </Paper>
+            <Paper
+                variant="elevation"
+                elevation={8}
+                sx={{
+                    backgroundColor: greaterHeapColor,
+                    padding: 2
+                }}
+            >
+                <Stack direction="row" spacing={1}>
+                    <TipsAndUpdatesOutlinedIcon sx={{ color: "#fff" }} />
+                    <Typography sx={{ color: "#fff" }}>
+                        {"MinHeap with (nums > median)"}
+                    </Typography>
+                </Stack>
+            </Paper>
+        </Stack>
+    );
+
     return (
         <>
+            <div style={{
+                position: "fixed",
+                top: "15%",
+                right: "5%",
+            }}>
+                <DisplayTips />
+            </div>
             <div style={{
                 position: "fixed",
                 bottom: "220px",
@@ -102,7 +145,6 @@ const Main = () => {
                 transform: "translate(-50%)",
             }}>
                 {median && <DisplayMedian />}
-
             </div>
 
             <div style={{
