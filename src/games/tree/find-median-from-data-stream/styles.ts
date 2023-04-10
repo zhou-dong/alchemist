@@ -1,9 +1,8 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import MinHeap from '../../../data-structures/tree/heap/min-heap';
 import { Props, TreeNodeProps } from '../../../data-structures/tree/heap/props';
-import { HeapItem } from './AlgoContext';
+import Position from '../../../data-structures/_commons/params/position.interface';
 
 const lineColor = "gold";
 const normalSphereColor = "yellow";
@@ -11,27 +10,29 @@ const cubeColor = "yellow";
 const enabledColor = "orange";
 
 const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
-const sphereMaterial = (): THREE.Material => {
-    return new THREE.MeshBasicMaterial({ color: normalSphereColor, opacity: 0.4, transparent: true });
-}
+const sphereMaterial = () => new THREE.MeshBasicMaterial({ color: normalSphereColor, opacity: 0.4, transparent: true });
 const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green" });
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
+const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: cubeColor, opacity: 0.5, transparent: true });
+const cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(2, 2, 2);
 
-export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): MinHeap<HeapItem> => {
+interface HeapPosition {
+    arrayPosition: Position;
+    treePosition: Position;
+}
 
-    const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: cubeColor, opacity: 0.5, transparent: true });
-    const cubeWidth = 2;
-    const cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(cubeWidth, 2, 2);
-    const arrayX = 0 + (k / 2) * cubeWidth;
-    const treeInitDepth = Math.floor(Math.log2(k)) + 1;
+export const buildHeapProps = (initPosition: HeapPosition, heapPosition: HeapPosition, scene: THREE.Scene): Props => {
+
+    const treeInitDepth = 4;
+    const treeNodeDistance = { x: 2.5, y: 2.5 };
 
     const arrayNodeProps = {
         textMaterial,
         textGeometryParameters,
         cubeMaterial,
         cubeGeometry,
-        initPosition: { x: 15, y: 11, z: 0 },
+        initPosition: initPosition.arrayPosition,
     };
 
     const treeNodeProps: TreeNodeProps = {
@@ -40,7 +41,7 @@ export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): Min
         textMaterial,
         textGeometryParameters,
         enabledTreeNodeColor: enabledColor,
-        initPosition: { x: 15, y: 11, z: 0 },
+        initPosition: initPosition.treePosition,
     }
 
     const treeLineProps = {
@@ -48,16 +49,16 @@ export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): Min
     }
 
     const props: Props = {
-        arrayPosition: { x: arrayX + 5, y: 9, z: 0 },
+        arrayPosition: heapPosition.arrayPosition,
         arrayNodeProps,
-        treePosition: { x: 0 + 5, y: -Math.log2(k), z: 0 },
+        treePosition: heapPosition.treePosition,
         treeNodeProps,
         treeLineProps,
-        treeNodeDistance: { x: 2.5, y: 2.5 },
+        treeNodeDistance,
         treeInitDepth,
         scene,
         duration: 1
     }
 
-    return new MinHeap(props);
+    return props;
 }

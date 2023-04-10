@@ -1,28 +1,10 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import { Comparable } from "../../../data-structures/tree/heap/heap.interface";
+import MaxHeap from "../../../data-structures/tree/heap/max-heap";
 import MinHeap from "../../../data-structures/tree/heap/min-heap";
 import { State } from "./AlgoState";
-
-export class HeapItem implements Comparable {
-
-    num: number;
-    count: number;
-
-    constructor(num: number, count: number) {
-        this.num = num;
-        this.count = count;
-    }
-
-    compareTo(other: HeapItem): number {
-        return this.count - other.count;
-    }
-
-    toString(): string {
-        return this.num + ":" + this.count;
-    }
-}
+import { buildHeapProps, } from "./styles";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -30,42 +12,18 @@ const AlgoContext = React.createContext<{
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
-    k: number,
-    setK: React.Dispatch<React.SetStateAction<number>>,
-    heap?: MinHeap<HeapItem>,
-    setHeap: React.Dispatch<React.SetStateAction<MinHeap<HeapItem> | undefined>>,
-    map?: Map<number, number>,
-    setMap: React.Dispatch<React.SetStateAction<Map<number, number> | undefined>>,
-    nums: number[],
-    setNums: React.Dispatch<React.SetStateAction<number[]>>,
-    index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>,
-    mapIndex: number,
-    setMapIndex: React.Dispatch<React.SetStateAction<number>>,
-    frequents: HeapItem[],
-    setFrequents: React.Dispatch<React.SetStateAction<HeapItem[]>>,
-    result: number[],
-    setResult: React.Dispatch<React.SetStateAction<number[]>>
+    smaller?: MaxHeap<number>,
+    setSmaller: React.Dispatch<React.SetStateAction<MaxHeap<number> | undefined>>
+    greater?: MinHeap<number>,
+    setGreater: React.Dispatch<React.SetStateAction<MinHeap<number> | undefined>>
 }>({
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    k: 0,
-    setK: () => { },
-    setHeap: () => { },
-    setMap: () => { },
-    nums: [],
-    setNums: () => { },
-    index: -1,
-    setIndex: () => { },
-    mapIndex: -1,
-    setMapIndex: () => { },
-    frequents: [],
-    setFrequents: () => { },
-    result: [],
-    setResult: () => { }
+    setSmaller: () => { },
+    setGreater: () => { }
 });
 
 let animationFrameId = -1;
@@ -78,15 +36,23 @@ export const AlgoContextProvider: React.FC<{
 }> = ({ children, renderer, camera, scene }) => {
 
     camera.position.z = 20;
-    const [state, setState] = React.useState(State.Typing);
-    const [k, setK] = React.useState(0);
-    const [heap, setHeap] = React.useState<MinHeap<HeapItem>>();
-    const [map, setMap] = React.useState<Map<number, number>>();
-    const [nums, setNums] = React.useState<number[]>([]);
-    const [index, setIndex] = React.useState(-1);
-    const [mapIndex, setMapIndex] = React.useState(-1);
-    const [frequents, setFrequents] = React.useState<HeapItem[]>([]);
-    const [result, setResult] = React.useState<number[]>([]);
+    const [state, setState] = React.useState(State.Ready);
+
+
+    const smallerHeapProps = buildHeapProps(
+        { arrayPosition: { x: -5, y: 5, z: 0 }, treePosition: { x: -5, y: 0, z: 0 } },
+        { arrayPosition: { x: -5, y: 10, z: 0 }, treePosition: { x: -10, y: -5, z: 0 } },
+        scene
+    );
+
+    const greaterHeapProps = buildHeapProps(
+        { arrayPosition: { x: 5, y: 5, z: 0 }, treePosition: { x: 5, y: 0, z: 0 } },
+        { arrayPosition: { x: 15, y: 10, z: 0 }, treePosition: { x: 10, y: -5, z: 0 } },
+        scene
+    );
+
+    const [smaller, setSmaller] = React.useState<MaxHeap<number>>();
+    const [greater, setGreater] = React.useState<MinHeap<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -103,6 +69,10 @@ export const AlgoContextProvider: React.FC<{
         const init = () => {
             clearScene(scene);
             registerOrbitControls(camera, renderer, scene);
+
+            setSmaller(new MaxHeap(smallerHeapProps));
+            setGreater(new MinHeap(greaterHeapProps));
+
             renderer.render(scene, camera);
         }
         if (ref && ref.current) {
@@ -118,22 +88,10 @@ export const AlgoContextProvider: React.FC<{
             scene,
             animate,
             cancelAnimate,
-            k,
-            setK,
-            heap,
-            setHeap,
-            map,
-            setMap,
-            nums,
-            setNums,
-            index,
-            setIndex,
-            mapIndex,
-            setMapIndex,
-            frequents,
-            setFrequents,
-            result,
-            setResult
+            smaller,
+            setSmaller,
+            greater,
+            setGreater
         }}>
             {children}
             <div ref={ref}></div>

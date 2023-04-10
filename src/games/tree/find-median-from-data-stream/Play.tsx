@@ -1,133 +1,45 @@
-import { HeapItem, useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { useAlgoContext } from "./AlgoContext";
+import { Button, InputAdornment, Stack, TextField } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import MouseIcon from '@mui/icons-material/Mouse';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import SearchIcon from '@mui/icons-material/Search';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const Main = () => {
 
-    const { animate, cancelAnimate, state, setState, heap, map, nums, index, setIndex, setMapIndex, setFrequents, frequents, mapIndex, k, result, setResult } = useAlgoContext();
+    const { smaller, greater, animate, cancelAnimate, state, setState } = useAlgoContext();
 
-    const handleCount = () => {
-        const num = nums[index + 1];
-        if (num === undefined || !map) {
+    const handleAddNum = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!smaller || !greater) {
             return;
         }
-
-        const count = map.get(num) || 0;
-        map.set(num, count + 1);
-
-        if (index + 2 === nums.length) {
-            setState(State.AddToHeap);
-            setMapIndex(0);
-            setFrequents(Array.from(map).map(([key, value]) => (new HeapItem(key, value))));
-        }
-
-        setIndex(index + 1);
-    }
-
-    const handleAddToHeap = async () => {
-        setState(State.Computing);
-
-        if (!heap) {
-            return;
-        }
-
-        const item = frequents[mapIndex];
-        if (!item) {
-            return;
-        }
+        setState(State.Inserting);
+        const num = +(e.currentTarget.value);
 
         animate();
 
         try {
-            if (await heap.size() === k) {
-                const top = await heap.peek();
-                if (top) {
-                    if (top.count < item.count) {
-                        await heap.delete();
-                        await heap.insert(item);
-                    }
+            const smallerTop = await smaller.peek();
+            if (smallerTop === undefined || num < smallerTop) {
+                await smaller.insert(num);
+                if ((await smaller.size()) > (await greater.size() + 1)) {
+                    await greater.insert((await smaller.delete())!);
                 }
             } else {
-                await heap.insert(item);
+                await greater.insert(num);
+                if ((await greater.size()) > (await smaller.size())) {
+                    await smaller.insert((await greater.delete())!);
+                }
             }
-
-            if (mapIndex + 1 === frequents.length) {
-                setResult(() => heap.items().map(item => item.num));
-            }
-            setMapIndex(i => i + 1);
-            await wait(0.5);
         } catch (error) {
             console.error(error);
         }
 
-        setState(State.AddToHeap);
+        await wait(0.1);
         cancelAnimate();
+        setState(State.Ready);
     }
-
-    const DisplayInput = () => (
-        <ButtonGroup>
-            {nums.map((num, i) =>
-                <Button
-                    key={i}
-                    color="success"
-                    sx={{ borderColor: "lightgray" }}
-                    size="large"
-                    variant={(i === index) ? "contained" : "outlined"}
-                >
-                    {num}
-                </Button>
-            )}
-        </ButtonGroup>
-    );
-
-    const getMapStyle = (num: number) => {
-        if (num === frequents[mapIndex]?.num) {
-            return { backgroundColor: "green", color: "#FFF" };
-        } else {
-            return {};
-        }
-    }
-
-    const DisplayMap = () => (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell>Num</TableCell>
-                    <TableCell>Count</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {
-                    map && Array.from(map).map(([key, value]) => (
-                        <TableRow key={key}>
-                            <TableCell sx={getMapStyle(key)}>{key}</TableCell>
-                            <TableCell sx={getMapStyle(key)}>{value}</TableCell>
-                        </TableRow>
-                    ))
-                }
-            </TableBody>
-        </Table>
-    );
-
-    const DisplayResult = () => (
-        <ButtonGroup size="large" color="success">
-            {result.length > 0 && <Button variant="contained">Top K Elements</Button>}
-            {
-                result.map((value, i) => <Button key={i}>{value}</Button>)
-            }
-        </ButtonGroup>
-    );
-
-    const Dashboard = () => (
-        <Stack spacing={2} direction="column" alignItems="flex-start">
-            <DisplayInput />
-            <DisplayMap />
-            <DisplayResult />
-        </Stack >
-    );
 
     return (
         <>
@@ -136,7 +48,7 @@ const Main = () => {
                 top: "150px",
                 left: "10%"
             }}>
-                {state !== State.Typing && <Dashboard />}
+
             </div>
 
             <div style={{
@@ -146,24 +58,43 @@ const Main = () => {
                 transform: "translate(-50%)",
             }}
             >
-                <ButtonGroup size='large' variant='outlined'>
+                <Stack direction="row" spacing={2}>
+                    <TextField
+                        color="success"
+                        label="ADD NUM"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AddCircleOutlineIcon color="success" />
+                                </InputAdornment>
+                            ),
+                        }}
+                        variant="standard"
+                        type="number"
+                        sx={{ width: "100px" }}
+                        focused
+                        onChange={handleAddNum}
+                        disabled={state !== State.Ready}
+                    />
                     <Button
                         color="success"
-                        startIcon={<MouseIcon />}
-                        onClick={handleCount}
-                        disabled={state !== State.Count || index + 1 === nums.length}
+                        startIcon={<SearchIcon />}
+                        // onClick={}
+                        variant='outlined'
+                        disabled={state !== State.Ready}
                     >
-                        count
+                        Find Median
                     </Button>
                     <Button
                         color="success"
-                        startIcon={<AddCircleOutlineIcon />}
-                        onClick={handleAddToHeap}
-                        disabled={state !== State.AddToHeap || mapIndex === frequents.length}
+                        startIcon={<RefreshIcon />}
+                        // onClick={}
+                        variant='outlined'
+                        disabled={state !== State.Ready}
                     >
-                        Add to Heap
+                        Clear
                     </Button>
-                </ButtonGroup>
+                </Stack>
             </div>
         </>
     );
