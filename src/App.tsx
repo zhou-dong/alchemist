@@ -165,6 +165,8 @@ import TopKFrequentElementsInfo from "./games/tree/top-k-frequent-elements/info"
 import TopKFrequentElements from "./games/tree/top-k-frequent-elements";
 import SlidingWindowMaximumInfo from "./games/queue/sliding-window-maximum/info";
 import SlidingWindowMaximum from "./games/queue/sliding-window-maximum";
+import FindMedianFromDataStreamInfo from "./games/tree/find-median-from-data-stream/info";
+import FindMedianFromDataStream from "./games/tree/find-median-from-data-stream";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -264,6 +266,7 @@ const App = () => (
         <Route path={KthLargestElementInAnArrayInfo.path} element={<KthLargestElementInAnArray renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={TopKFrequentElementsInfo.path} element={<TopKFrequentElements renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={SlidingWindowMaximumInfo.path} element={<SlidingWindowMaximum />} />
+        <Route path={FindMedianFromDataStreamInfo.path} element={<FindMedianFromDataStream renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 

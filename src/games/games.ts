@@ -82,6 +82,7 @@ import SerializeAndDeserializeBinaryTree from "./tree/serialize-and-deserialize-
 import KthLargestElementInAnArray from "./tree/kth-largest-element-in-an-array/info";
 import TopKFrequentElements from "./tree/top-k-frequent-elements/info";
 import SlidingWindowMaximum from "./queue/sliding-window-maximum/info";
+import FindMedianFromDataStream from "./tree/find-median-from-data-stream/info";
 
 export const games: Game[] = [
     editDistance,
@@ -128,6 +129,7 @@ export const games: Game[] = [
     ContainerWithMostWater,
     IntegerToRoman,
     RomanToInteger,
+    SlidingWindowMaximum,
     binaryTreeInorderTraversal,
     binaryTreePostorderTraversal,
     binaryTreePreorderTraversal,
@@ -165,5 +167,5 @@ export const games: Game[] = [
     SerializeAndDeserializeBinaryTree,
     KthLargestElementInAnArray,
     TopKFrequentElements,
-    SlidingWindowMaximum
+    FindMedianFromDataStream
 ];
