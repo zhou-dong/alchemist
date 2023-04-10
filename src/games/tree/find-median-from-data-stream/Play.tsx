@@ -40,6 +40,7 @@ const Main = () => {
     }
 
     const handleAddNum = async () => {
+        setMedian(undefined);
         if (num === undefined || !smaller || !greater) {
             return;
         }
