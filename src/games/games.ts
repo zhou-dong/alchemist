@@ -129,6 +129,7 @@ export const games: Game[] = [
     ContainerWithMostWater,
     IntegerToRoman,
     RomanToInteger,
+    SlidingWindowMaximum,
     binaryTreeInorderTraversal,
     binaryTreePostorderTraversal,
     binaryTreePreorderTraversal,
@@ -166,6 +167,5 @@ export const games: Game[] = [
     SerializeAndDeserializeBinaryTree,
     KthLargestElementInAnArray,
     TopKFrequentElements,
-    SlidingWindowMaximum,
     FindMedianFromDataStream
 ];
