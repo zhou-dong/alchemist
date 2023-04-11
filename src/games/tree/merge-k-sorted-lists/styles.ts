@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import MaxHeap from '../../../data-structures/tree/heap/max-heap';
+import MinHeap from '../../../data-structures/tree/heap/min-heap';
 import { Props, TreeNodeProps } from '../../../data-structures/tree/heap/props';
+import { ListNode } from './AlgoContext';
 
 const lineColor = "gold";
 const normalSphereColor = "yellow";
 const cubeColor = "yellow";
-const enabledColor = "orange";
+const enabledColor = "gold";
 
 const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(1, 32, 16);
 const sphereMaterial = (): THREE.Material => {
@@ -17,12 +18,12 @@ const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
-export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<MaxHeap<number>> => {
+export const buildMinHeap = (len: number, scene: THREE.Scene): MinHeap<ListNode> => {
 
     const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: cubeColor, opacity: 0.5, transparent: true });
     const cubeWidth = 2;
-    const cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(cubeWidth, 2, 2);
-    const arrayX = 0 + (array.length / 2) * cubeWidth;
+    const cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(cubeWidth, 1.5, 1);
+    const arrayX = len * cubeWidth / 2 - cubeWidth / 2;
 
     const arrayNodeProps = {
         textMaterial,
@@ -48,17 +49,14 @@ export const buildTree = async (array: (number)[], scene: THREE.Scene): Promise<
     const props: Props = {
         arrayPosition: { x: arrayX, y: 9, z: 0 },
         arrayNodeProps,
-        treePosition: { x: 0, y: -7, z: 0 },
+        treePosition: { x: 0, y: -3, z: 0 },
         treeNodeProps,
         treeLineProps,
-        treeNodeDistance: { x: 3, y: 3 },
+        treeNodeDistance: { x: 2, y: 2 },
         treeInitDepth: 4,
         scene,
-        duration: 0
+        duration: 1
     }
 
-    const maxHeap: MaxHeap<number> = new MaxHeap(props);
-    await maxHeap.buildHeap(array);
-    maxHeap.props.duration = 1;
-    return Promise.resolve(maxHeap);
-}
+    return new MinHeap<ListNode>(props);
+};

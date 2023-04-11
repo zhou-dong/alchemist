@@ -1,8 +1,28 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import MaxHeap from "../../../data-structures/tree/heap/max-heap";
+import { Comparable } from "../../../data-structures/tree/heap/heap.interface";
+import MinHeap from "../../../data-structures/tree/heap/min-heap";
 import { State } from "./AlgoState";
+
+export class ListNode implements Comparable {
+    key: number; // use for react display
+    val: number;
+    next?: ListNode;
+
+    constructor(key: number, val: number) {
+        this.key = key;
+        this.val = val;
+    }
+
+    compareTo(other: ListNode): number {
+        return this.val - other.val;
+    }
+
+    toString(): string {
+        return this.val + "";
+    }
+}
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -10,22 +30,27 @@ const AlgoContext = React.createContext<{
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
-    k: number,
-    setK: React.Dispatch<React.SetStateAction<number>>,
-    heap?: MaxHeap<number>,
-    setHeap: React.Dispatch<React.SetStateAction<MaxHeap<number> | undefined>>,
-    result?: number,
-    setResult: React.Dispatch<React.SetStateAction<number | undefined>>
+    key: number,
+    setKey: React.Dispatch<React.SetStateAction<number>>,
+    lists: ListNode[],
+    setLists: React.Dispatch<React.SetStateAction<ListNode[]>>,
+    minHeap?: MinHeap<ListNode>,
+    setMinHeap: React.Dispatch<React.SetStateAction<MinHeap<ListNode> | undefined>>,
+    results: number[],
+    setResults: React.Dispatch<React.SetStateAction<number[]>>,
 }>({
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    k: 0,
-    setK: () => { },
-    setHeap: () => { },
-    setResult: () => { }
+    key: -1,
+    setKey: () => { },
+    lists: [],
+    setLists: () => { },
+    setMinHeap: () => { },
+    results: [],
+    setResults: () => { }
 });
 
 let animationFrameId = -1;
@@ -39,9 +64,10 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [k, setK] = React.useState(0);
-    const [heap, setHeap] = React.useState<MaxHeap<number>>();
-    const [result, setResult] = React.useState<number>();
+    const [minHeap, setMinHeap] = React.useState<MinHeap<ListNode>>();
+    const [results, setResults] = React.useState<number[]>([]);
+    const [lists, setLists] = React.useState<ListNode[]>([]);
+    const [key, setKey] = React.useState(-1);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -73,12 +99,14 @@ export const AlgoContextProvider: React.FC<{
             scene,
             animate,
             cancelAnimate,
-            k,
-            setK,
-            heap,
-            setHeap,
-            result,
-            setResult
+            lists,
+            setLists,
+            minHeap,
+            setMinHeap,
+            results,
+            setResults,
+            key,
+            setKey
         }}>
             {children}
             <div ref={ref}></div>
