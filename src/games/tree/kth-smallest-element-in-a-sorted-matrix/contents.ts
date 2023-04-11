@@ -60,6 +60,7 @@ class MinHeap {
         if (index < 1) {
             return;
         }
+
         const parentIndex = Math.floor((index - 1) / 2);
         if (this.items[index].val < this.items[parentIndex].val) {
             this.swap(index, parentIndex);
