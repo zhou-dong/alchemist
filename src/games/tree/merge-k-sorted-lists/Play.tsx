@@ -6,7 +6,7 @@ import SortIcon from '@mui/icons-material/Sort';
 import PlayCircleFilledWhiteOutlinedIcon from '@mui/icons-material/PlayCircleFilledWhiteOutlined';
 
 const DisplayLists = () => {
-    const { lists, key } = useAlgoContext();
+    const { lists, key, finishedKeys } = useAlgoContext();
 
     const getList = (node: ListNode): ListNode[] => {
         const result: ListNode[] = [];
@@ -37,6 +37,7 @@ const DisplayLists = () => {
                                         key={j}
                                         variant={(node.key === key) ? "contained" : "outlined"}
                                         sx={{ borderColor: "lightgray", width: "65px" }}
+                                        disabled={finishedKeys.includes(node.key)}
                                     >
                                         <Typography variant="h5">
                                             {node.val}
@@ -76,7 +77,7 @@ const DisplayResults = () => {
 
 const Main = () => {
 
-    const { animate, cancelAnimate, state, setState, minHeap, lists, results, setKey } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, minHeap, lists, results, setKey, finishedKeys } = useAlgoContext();
 
     const handleBuildHeap = async () => {
         if (!minHeap) return;
@@ -106,6 +107,7 @@ const Main = () => {
             const root = await minHeap.delete();
             if (root) {
                 results.push(root.val);
+                finishedKeys.push(root.key);
             }
             if (root && root.next) {
                 await minHeap.insert(root.next);

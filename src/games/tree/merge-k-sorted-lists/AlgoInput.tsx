@@ -93,7 +93,7 @@ const Submit: React.FC<{
     lists: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ lists, setAnchorEl }) => {
-    const { setLists, scene, animate, cancelAnimate, setState, setMinHeap, setResults, setKey } = useAlgoContext();
+    const { setLists, scene, animate, cancelAnimate, setState, setMinHeap, setResults, setKey, setFinishedKeys } = useAlgoContext();
 
     const disabled = lists.trim().length === 0;
 
@@ -104,6 +104,7 @@ const Submit: React.FC<{
         setLists(list);
         setKey(-1);
         setResults([]);
+        setFinishedKeys([]);
         animate();
         clearScene(scene);
         const minHeap = buildMinHeap(list.length, scene);

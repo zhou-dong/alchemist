@@ -38,6 +38,8 @@ const AlgoContext = React.createContext<{
     setMinHeap: React.Dispatch<React.SetStateAction<MinHeap<ListNode> | undefined>>,
     results: number[],
     setResults: React.Dispatch<React.SetStateAction<number[]>>,
+    finishedKeys: number[],
+    setFinishedKeys: React.Dispatch<React.SetStateAction<number[]>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -50,7 +52,9 @@ const AlgoContext = React.createContext<{
     setLists: () => { },
     setMinHeap: () => { },
     results: [],
-    setResults: () => { }
+    setResults: () => { },
+    finishedKeys: [],
+    setFinishedKeys: () => { }
 });
 
 let animationFrameId = -1;
@@ -68,6 +72,7 @@ export const AlgoContextProvider: React.FC<{
     const [results, setResults] = React.useState<number[]>([]);
     const [lists, setLists] = React.useState<ListNode[]>([]);
     const [key, setKey] = React.useState(-1);
+    const [finishedKeys, setFinishedKeys] = React.useState<number[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -106,7 +111,9 @@ export const AlgoContextProvider: React.FC<{
             results,
             setResults,
             key,
-            setKey
+            setKey,
+            finishedKeys,
+            setFinishedKeys
         }}>
             {children}
             <div ref={ref}></div>
