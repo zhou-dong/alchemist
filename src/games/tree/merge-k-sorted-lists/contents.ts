@@ -27,8 +27,8 @@ class MinHeap {
         const last = this.items.pop();
         if (last) {
             this.items.unshift(last);
+            this.bubbleDown(0);
         }
-        this.bubbleDown(0);
         return root;
     }
 
