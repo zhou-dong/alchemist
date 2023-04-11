@@ -26,7 +26,7 @@ const DisplayLists = () => {
         }}>
             <Stack spacing={1}>
                 <div style={{ textAlign: "center", color: "gray" }}>
-                    <Typography variant="h6">input</Typography>
+                    {lists.length > 0 && <Typography variant="h6">input</Typography>}
                 </div>
                 {
                     lists.map((head, i) =>
