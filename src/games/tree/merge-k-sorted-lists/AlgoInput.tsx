@@ -4,30 +4,51 @@ import OutputIcon from '@mui/icons-material/Output';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
-import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useAlgoContext } from "./AlgoContext";
+import { ListNode, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildTree, } from "./styles";
+import { buildMinHeap } from './styles';
 
-const input1 = { array: [15, 7, 30, 4, 9, 20, 2], k: 4 };
-const input2 = { array: [10, 7, 18, 5, 9, 14, 25, 4, 6, 11, 15], k: 3 };
-const input3 = { array: [12, 8, 15, 6, 10, 13, 17, 4], k: 5 };
+const input1 = [[1, 4, 7], [2, 5, 8], [3, 6, 9]];
+const input2 = [[1, 5, 8], [2, 3, 9], [4, 6, 7]];
+const input3 = [[2, 5], [1, 6], [3, 5, 8], [2, 4, 9], [3, 4, 7]];
+
+const arrayToString = (input: number[][]): string => {
+    return "[" + input.map(a => "[" + a.join(",") + "]").join(",") + "]";
+};
+
+const buildLists = (input: string): ListNode[] => {
+    const lists: ListNode[] = [];
+    const nums: number[][] = JSON.parse(input);
+    let i = 0;
+    nums.forEach(array => {
+        const head = new ListNode(-1, -1);
+        let tail = head;
+        array.forEach(num => {
+            tail.next = new ListNode(i, num);
+            tail = tail.next;
+            i++
+        });
+        if (head.next) {
+            lists.push(head.next);
+        }
+    })
+    return lists;
+};
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
-    setNodes: React.Dispatch<React.SetStateAction<string>>,
-    setK: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setNodes, setK }) => {
+    setLists: React.Dispatch<React.SetStateAction<string>>,
+}> = ({ anchorEl, setAnchorEl, open, setLists }) => {
 
     const buildInInputs = [
         input1,
@@ -45,36 +66,21 @@ const DropDown: React.FC<{
             open={open}
             onClose={handleMenuClose}
         >
-            <MenuItem>
-                <ListItemIcon>
-                    <DoNotDisturbIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText sx={{ width: "120px" }}>
-                    nums
-                </ListItemText>
-                <ListItemText>
-                    k
-                </ListItemText>
-            </MenuItem>
             {
                 buildInInputs.map((item, index) => (
                     <MenuItem
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setNodes(item.array.join(","));
-                            setK(item.k + "");
+                            setLists(arrayToString(item));
                         }}
-                        sx={{ width: "408px", overflow: "hidden" }}
+                        sx={{ width: "488px", overflow: "hidden" }}
                     >
                         <ListItemIcon>
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText sx={{ width: "120px" }}>
-                            {item.array.join(",")}
-                        </ListItemText>
-                        <ListItemText>
-                            {item.k}
+                            {arrayToString(item)}
                         </ListItemText>
                     </MenuItem>
                 ))
@@ -83,34 +89,28 @@ const DropDown: React.FC<{
     );
 }
 
-const parseInput = (input: string): (number)[] => {
-    return input.split(",").map(ch => +ch);
-}
-
 const Submit: React.FC<{
-    nodes: string,
-    setNodes: React.Dispatch<React.SetStateAction<string>>,
-    k: string,
+    lists: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setHeap, setK, setResult } = useAlgoContext();
+}> = ({ lists, setAnchorEl }) => {
+    const { setLists, scene, animate, cancelAnimate, setState, setMinHeap, setResults, setKey } = useAlgoContext();
 
-    const disabled = nodes.trim().length === 0 || k.trim().length === 0;
+    const disabled = lists.trim().length === 0;
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
-        const array = parseInput(nodes);
+        const list = buildLists(lists)
+        setLists(list);
+        setKey(-1);
+        setResults([]);
         animate();
         clearScene(scene);
-        setK(+k);
-        const heap = await buildTree(array, scene);
-        setHeap(heap);
-        setNodes("");
-        setResult(undefined);
+        const minHeap = buildMinHeap(list.length, scene);
+        setMinHeap(minHeap);
         await wait(0.2);
         cancelAnimate();
-        setState(State.Computing);
+        setState(State.BuildingHeap);
     }
 
     return (
@@ -126,15 +126,10 @@ interface Props {
 
 export default function AlgoInput({ setAnchorEl }: Props) {
 
-    const [nodes, setNodes] = React.useState("");
-    const [k, setK] = React.useState("");
+    const [lists, setLists] = React.useState("");
 
     const handleNodesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNodes(e.currentTarget.value);
-    };
-
-    const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setK(e.currentTarget.value);
+        setLists(e.currentTarget.value);
     };
 
     const reference = React.useRef(null);
@@ -156,7 +151,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 sx={{
                     p: '2px 4px',
                     display: 'flex',
-                    width: 400,
+                    width: 480,
                     alignItems: "center"
                 }}
             >
@@ -166,36 +161,26 @@ export default function AlgoInput({ setAnchorEl }: Props) {
 
                 <InputBase
                     sx={{ ml: 1, flex: 1, }}
-                    placeholder='Tree nodes, seprate by ","'
-                    value={nodes}
+                    placeholder={`lists, for example: ${arrayToString(input1)}`}
+                    value={lists}
                     onChange={handleNodesChange}
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
-                <InputBase
-                    sx={{ width: 60 }}
-                    placeholder='K'
-                    value={k}
-                    onChange={handleKChange}
-                    type="number"
-                />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
-                    setNodes("");
+                    setLists("");
                 }}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} k={k} />
+                <Submit lists={lists} setAnchorEl={setAnchorEl} />
             </Paper>
 
             <DropDown
                 anchorEl={menuAnchorEl}
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
-                setNodes={setNodes}
-                setK={setK}
+                setLists={setLists}
             />
         </>
     );
