@@ -83,6 +83,7 @@ import KthLargestElementInAnArray from "./tree/kth-largest-element-in-an-array/i
 import TopKFrequentElements from "./tree/top-k-frequent-elements/info";
 import SlidingWindowMaximum from "./queue/sliding-window-maximum/info";
 import FindMedianFromDataStream from "./tree/find-median-from-data-stream/info";
+import MergeKSortedLists from "./tree/merge-k-sorted-lists/info";
 
 export const games: Game[] = [
     editDistance,
@@ -167,5 +168,6 @@ export const games: Game[] = [
     SerializeAndDeserializeBinaryTree,
     KthLargestElementInAnArray,
     TopKFrequentElements,
-    FindMedianFromDataStream
+    FindMedianFromDataStream,
+    MergeKSortedLists
 ];
