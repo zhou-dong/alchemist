@@ -19,7 +19,7 @@ import { buildMinHeap } from './styles';
 
 const input1 = { matrix: [[1, 4, 7], [2, 5, 8], [3, 6, 9]], k: 4 };
 const input2 = { matrix: [[1, 5, 8], [2, 6, 9], [4, 6, 9]], k: 6 };
-const input3 = { matrix: [[1, 3, 8, 9], [2, 6, 9, 12], [4, 6, 10, 15], [7, 7, 11, 19]], k: 7 };
+const input3 = { matrix: [[1, 3, 5, 9], [2, 6, 9, 12], [4, 6, 10, 15], [7, 7, 11, 19]], k: 7 };
 
 const arrayToString = (input: number[][]): string => {
     return "[" + input.map(a => "[" + a.join(",") + "]").join(",") + "]";
