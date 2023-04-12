@@ -49,7 +49,7 @@ const Main = () => {
         animate();
         try {
             const smallerTop = await smaller.peek();
-            if (smallerTop === undefined || num < smallerTop) {
+            if (smallerTop === undefined || num <= smallerTop) {
                 await smaller.insert(num);
                 if ((await smaller.size()) > (await greater.size() + 1)) {
                     await greater.insert((await smaller.delete())!);
