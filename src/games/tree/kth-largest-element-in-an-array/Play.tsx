@@ -45,13 +45,13 @@ const Main = () => {
 
     const Dashboard = () => (
         <Stack spacing={2} direction="row">
-            <ToggleButton value="k" sx={{ borderRadius: "50%", height: 75, width: 75, }} >
-                <Typography variant="h4" color="darkgray">
+            <ToggleButton value="k" sx={{ borderRadius: "50%", height: 45, width: 45, }} >
+                <Typography variant="h6" color="darkgray">
                     {k}
                 </Typography>
             </ToggleButton>
-            <ToggleButton value="r" sx={{ borderRadius: "50%", height: 75, width: 75, }}>
-                <Typography variant="h4" color="green">
+            <ToggleButton value="r" sx={{ borderRadius: "50%", height: 45, width: 45, }}>
+                <Typography variant="h6" color="green">
                     {result}
                 </Typography>
             </ToggleButton>
