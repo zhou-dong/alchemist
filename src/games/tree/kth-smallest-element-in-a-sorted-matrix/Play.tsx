@@ -35,7 +35,7 @@ const DisplayInput = () => {
         if (row === current.row && col === current.col) {
             return "#fff";
         }
-        return "gray";
+        return "#000";
     }
 
     return (
@@ -62,15 +62,13 @@ const DisplayInput = () => {
                 <Typography
                     variant="h6"
                     sx={{
+                        border: "1px solid #bdbdbd",
                         borderRadius: "50%",
-                        border: "1px solid green",
                         height: 45,
                         width: 45,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        backgroundColor: "green",
-                        color: "#fff"
                     }}
                 >
                     {k}
@@ -78,7 +76,7 @@ const DisplayInput = () => {
             </Stack>
 
             <div style={{ textAlign: "center", marginTop: "30px" }}>
-                {matrix.length > 0 && <Typography variant="h6">Matrix</Typography>}
+                <Typography variant="h6">Matrix</Typography>
             </div>
 
             <Table>
@@ -100,7 +98,7 @@ const DisplayInput = () => {
                                                 backgroundColor: getBackgroundColor(i, j)
                                             }}
                                         >
-                                            <Typography variant="h5">
+                                            <Typography variant="h6">
                                                 {col}
                                             </Typography>
                                         </TableCell>)
@@ -198,7 +196,8 @@ const Main = () => {
 
     return (
         <>
-            <DisplayInput />
+            {matrix.length && <DisplayInput />}
+
             <DisplayResult />
             <div style={{
                 position: "fixed",
