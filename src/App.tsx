@@ -169,6 +169,8 @@ import FindMedianFromDataStreamInfo from "./games/tree/find-median-from-data-str
 import FindMedianFromDataStream from "./games/tree/find-median-from-data-stream";
 import MergeKSortedListsInfo from "./games/tree/merge-k-sorted-lists/info";
 import MergeKSortedLists from "./games/tree/merge-k-sorted-lists";
+import KthSmallestElementInASortedMatrixInfo from "./games/tree/kth-smallest-element-in-a-sorted-matrix/info";
+import KthSmallestElementInASortedMatrix from "./games/tree/kth-smallest-element-in-a-sorted-matrix";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -270,6 +272,7 @@ const App = () => (
         <Route path={SlidingWindowMaximumInfo.path} element={<SlidingWindowMaximum />} />
         <Route path={FindMedianFromDataStreamInfo.path} element={<FindMedianFromDataStream renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={MergeKSortedListsInfo.path} element={<MergeKSortedLists renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={KthSmallestElementInASortedMatrixInfo.path} element={<KthSmallestElementInASortedMatrix renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 

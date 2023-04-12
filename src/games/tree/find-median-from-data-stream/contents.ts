@@ -16,10 +16,10 @@ export const heap = `abstract class Heap {
     pop() {
         const head = this.items.shift();
         const last = this.items.pop();
-        if(last !== undefined) {
+        if (last !== undefined) {
             this.items.unshift(last);
+            this.bubbleDown(0);
         }
-        this.bubbleDown(0);
         return head;
     }
 

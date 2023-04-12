@@ -30,13 +30,12 @@ export const formula = `function findKthLargest(nums: number[], k: number): numb
     }
 
     const pop = () => {
-        const last = nums.pop();
-        if (nums.length === 0) {
-            return last;
+        const root = this.items.shift();
+        const last = this.items.pop();
+        if (last) {
+            this.items.unshift(last);
+            this.bubbleDown(0);
         }
-        const root = nums[0];
-        nums[0] = last;
-        bubbleDown(0);
         return root;
     }
 

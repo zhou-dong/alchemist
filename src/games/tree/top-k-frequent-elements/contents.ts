@@ -23,8 +23,8 @@ export const formula = `function topKFrequent(nums: number[], k: number): number
             const last = this.items.pop();
             if (last !== undefined) {
                 this.items.unshift(last);
+                this.bubbleDown(0);
             }
-            this.bubbleDown(0);
             return root;
         }
 
