@@ -85,6 +85,7 @@ const Main = () => {
         animate();
         try {
             for (let i = 0; i < lists.length; i++) {
+                setKey(lists[i].key);
                 await minHeap.insert(lists[i]);
             }
             const peek = await minHeap.peek()
@@ -110,6 +111,7 @@ const Main = () => {
                 finishedKeys.push(root.key);
             }
             if (root && root.next) {
+                setKey(root.next.key);
                 await minHeap.insert(root.next);
             }
             const peek = await minHeap.peek()
