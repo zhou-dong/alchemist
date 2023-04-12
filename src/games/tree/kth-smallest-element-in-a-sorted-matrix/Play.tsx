@@ -181,7 +181,9 @@ const Main = () => {
                         const { row, col } = peek;
                         setCurrent({ row, col });
                     }
+                    setState(State.Playing);
                 } else {
+                    setState(State.Finished);
                     setCurrent({ row, col });
                 }
             }
@@ -191,7 +193,6 @@ const Main = () => {
         }
         cancelAnimate();
         setK(k => k - 1);
-        setState(State.Playing);
     }
 
     return (
