@@ -196,7 +196,7 @@ const Main = () => {
 
     return (
         <>
-            {matrix.length && <DisplayInput />}
+            {(matrix.length || "") && <DisplayInput />}
 
             <DisplayResult />
             <div style={{
