@@ -5,17 +5,23 @@ import { Comparable } from "../../../data-structures/tree/heap/heap.interface";
 import MinHeap from "../../../data-structures/tree/heap/min-heap";
 import { State } from "./AlgoState";
 
-export class ListNode implements Comparable {
-    key: number; // use for react display
-    val: number;
-    next?: ListNode;
+export interface Position {
+    row: number;
+    col: number
+}
 
-    constructor(key: number, val: number) {
-        this.key = key;
+export class HeapItem implements Comparable {
+    val: number;
+    row: number;
+    col: number;
+
+    constructor(val: number, row: number, col: number) {
         this.val = val;
+        this.row = row;
+        this.col = col;
     }
 
-    compareTo(other: ListNode): number {
+    compareTo(other: HeapItem): number {
         return this.val - other.val;
     }
 
@@ -30,31 +36,34 @@ const AlgoContext = React.createContext<{
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
-    key: number,
-    setKey: React.Dispatch<React.SetStateAction<number>>,
-    lists: ListNode[],
-    setLists: React.Dispatch<React.SetStateAction<ListNode[]>>,
-    minHeap?: MinHeap<ListNode>,
-    setMinHeap: React.Dispatch<React.SetStateAction<MinHeap<ListNode> | undefined>>,
-    results: number[],
-    setResults: React.Dispatch<React.SetStateAction<number[]>>,
-    finishedKeys: number[],
-    setFinishedKeys: React.Dispatch<React.SetStateAction<number[]>>
+    minHeap?: MinHeap<HeapItem>,
+    setMinHeap: React.Dispatch<React.SetStateAction<MinHeap<HeapItem> | undefined>>,
+    k: number,
+    setK: React.Dispatch<React.SetStateAction<number>>,
+    matrix: number[][],
+    setMatrix: React.Dispatch<React.SetStateAction<number[][]>>,
+    current: Position,
+    setCurrent: React.Dispatch<React.SetStateAction<Position>>,
+    result?: number,
+    setResult: React.Dispatch<React.SetStateAction<number | undefined>>,
+    completed: Position[],
+    setCompleted: React.Dispatch<React.SetStateAction<Position[]>>
 }>({
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    key: -1,
-    setKey: () => { },
-    lists: [],
-    setLists: () => { },
     setMinHeap: () => { },
-    results: [],
-    setResults: () => { },
-    finishedKeys: [],
-    setFinishedKeys: () => { }
+    k: 0,
+    setK: () => { },
+    matrix: [],
+    setMatrix: () => { },
+    current: { row: 0, col: 0 },
+    setCurrent: () => { },
+    setResult: () => { },
+    completed: [],
+    setCompleted: () => { }
 });
 
 let animationFrameId = -1;
@@ -68,11 +77,12 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [minHeap, setMinHeap] = React.useState<MinHeap<ListNode>>();
-    const [results, setResults] = React.useState<number[]>([]);
-    const [lists, setLists] = React.useState<ListNode[]>([]);
-    const [key, setKey] = React.useState(-1);
-    const [finishedKeys, setFinishedKeys] = React.useState<number[]>([]);
+    const [minHeap, setMinHeap] = React.useState<MinHeap<HeapItem>>();
+    const [result, setResult] = React.useState<number>();
+    const [k, setK] = React.useState(0);
+    const [matrix, setMatrix] = React.useState<number[][]>([]);
+    const [current, setCurrent] = React.useState<Position>({ row: 0, col: 0 });
+    const [completed, setCompleted] = React.useState<Position[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -104,16 +114,18 @@ export const AlgoContextProvider: React.FC<{
             scene,
             animate,
             cancelAnimate,
-            lists,
-            setLists,
             minHeap,
             setMinHeap,
-            results,
-            setResults,
-            key,
-            setKey,
-            finishedKeys,
-            setFinishedKeys
+            k,
+            setK,
+            matrix,
+            setMatrix,
+            current,
+            setCurrent,
+            result,
+            setResult,
+            completed,
+            setCompleted
         }}>
             {children}
             <div ref={ref}></div>

@@ -1,59 +1,130 @@
-import { ListNode, useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Stack, Typography } from '@mui/material';
+import { HeapItem, useAlgoContext } from "./AlgoContext";
+import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import SortIcon from '@mui/icons-material/Sort';
 import PlayCircleFilledWhiteOutlinedIcon from '@mui/icons-material/PlayCircleFilledWhiteOutlined';
 
-const DisplayLists = () => {
-    const { lists, key, finishedKeys } = useAlgoContext();
+const DisplayInput = () => {
+    const { current, matrix, k, completed } = useAlgoContext();
 
-    const getList = (node: ListNode): ListNode[] => {
-        const result: ListNode[] = [];
-        let current: ListNode | undefined = node;
-        while (current) {
-            result.push(current);
-            current = current.next
+    const inComplete = (row: number, col: number): boolean => {
+        for (let i = 0; i < completed.length; i++) {
+            const position = completed[i];
+            if (position.row === row && position.col === col) {
+                return true;
+            }
         }
-        return result;
-    };
+        return false;
+    }
+
+    const getBackgroundColor = (row: number, col: number) => {
+        if (inComplete(row, col)) {
+            return "#bdbdbd";
+        }
+        if (row === current.row && col === current.col) {
+            return "green";
+        }
+        return "#fff";
+    }
+
+    const getColor = (row: number, col: number) => {
+        if (inComplete(row, col)) {
+            return "#fff";
+        }
+        if (row === current.row && col === current.col) {
+            return "#fff";
+        }
+        return "gray";
+    }
 
     return (
         <div style={{
             position: "fixed",
-            top: "30%",
+            top: "25%",
             left: "16%",
         }}>
-            <Stack spacing={1}>
-                <div style={{ textAlign: "center", color: "gray" }}>
-                    {lists.length > 0 && <Typography variant="h6">input</Typography>}
-                </div>
-                {
-                    lists.map((head, i) =>
-                        <ButtonGroup key={i} size="large" color="success">
-                            {
-                                getList(head).map((node, j) =>
-                                    <Button
-                                        key={j}
-                                        variant={(node.key === key) ? "contained" : "outlined"}
-                                        sx={{ borderColor: "lightgray", width: "65px" }}
-                                        disabled={finishedKeys.includes(node.key)}
-                                    >
-                                        <Typography variant="h5">
-                                            {node.val}
-                                        </Typography>
-                                    </Button>)
-                            }
-                        </ButtonGroup>
-                    )
-                }
+            <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        border: "1px solid #bdbdbd",
+                        borderRadius: "50%",
+                        height: 45,
+                        width: 45,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    K
+                </Typography>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        borderRadius: "50%",
+                        border: "1px solid green",
+                        height: 45,
+                        width: 45,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "green",
+                        color: "#fff"
+                    }}
+                >
+                    {k}
+                </Typography>
             </Stack>
+
+            <div style={{ textAlign: "center", marginTop: "30px" }}>
+                {matrix.length > 0 && <Typography variant="h6">Matrix</Typography>}
+            </div>
+
+            <Table>
+                <TableBody>
+                    {
+                        matrix.map((row, i) =>
+                            <TableRow key={i}>
+                                {
+                                    row.map((col, j) =>
+                                        <TableCell
+                                            key={j}
+                                            padding="none"
+                                            sx={{
+                                                color: getColor(i, j),
+                                                width: "65px",
+                                                textAlign: "center",
+                                                paddingTop: 0.4,
+                                                paddingBottom: 0.4,
+                                                backgroundColor: getBackgroundColor(i, j)
+                                            }}
+                                        >
+                                            <Typography variant="h5">
+                                                {col}
+                                            </Typography>
+                                        </TableCell>)
+                                }
+                            </TableRow>
+                        )
+                    }
+                </TableBody>
+            </Table>
         </div>
     );
 }
 
-const DisplayResults = () => {
-    const { results } = useAlgoContext();
+const DisplayResult = () => {
+    const { result } = useAlgoContext();
+
+    const Content = () => (
+        <Button size="large" variant="contained" color="success">
+            <Typography variant="h5">
+                {result}
+            </Typography>
+        </Button>
+    );
+
     return (
         <div style={{
             position: "fixed",
@@ -61,36 +132,27 @@ const DisplayResults = () => {
             left: "50%",
             transform: "translate(-50%)",
         }}>
-            <ButtonGroup size="large" variant="contained" color="success">
-                {
-                    results.map((item, i) =>
-                        <Button key={i}>
-                            <Typography variant="h5">
-                                {item}
-                            </Typography>
-                        </Button>)
-                }
-            </ButtonGroup>
+            {result && <Content />}
         </div>
     );
 }
 
 const Main = () => {
 
-    const { animate, cancelAnimate, state, setState, minHeap, lists, results, setKey, finishedKeys } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, minHeap, matrix, setCurrent, completed, setResult, setK, k } = useAlgoContext();
 
     const handleBuildHeap = async () => {
         if (!minHeap) return;
         setState(State.Computing);
         animate();
         try {
-            for (let i = 0; i < lists.length; i++) {
-                await minHeap.insert(lists[i]);
+            for (let row = 0; row < matrix.length; row++) {
+                const col = 0;
+                const item = new HeapItem(matrix[row][col], row, col);
+                setCurrent({ row, col });
+                await minHeap.insert(item);
             }
-            const peek = await minHeap.peek()
-            if (peek) {
-                setKey(peek.key); // setKey, which will be used for display input
-            }
+            setCurrent({ row: 0, col: 0 });
             await wait(0.1);
         } catch (error) {
             console.error(error);
@@ -106,33 +168,38 @@ const Main = () => {
         try {
             const root = await minHeap.delete();
             if (root) {
-                results.push(root.val);
-                finishedKeys.push(root.key);
-            }
-            if (root && root.next) {
-                await minHeap.insert(root.next);
-            }
-            const peek = await minHeap.peek()
-            if (peek) {
-                setKey(peek.key); // setKey, which will be used for display input
-            }
-            if (await minHeap.isEmpty()) {
-                setState(State.Finished);
-                setKey(-1);
-            } else {
-                setState(State.Playing);
+                const { val, row, col } = root;
+                if (col + 1 < matrix[row].length) {
+                    const item = new HeapItem(matrix[row][col + 1], row, col + 1);
+                    setCurrent({ row: item.row, col: item.col });
+                    await minHeap.insert(item);
+                }
+                completed.push({ row, col });
+                setResult(val);
+
+                if (k !== 1) {
+                    const peek = await minHeap.peek();
+                    if (peek) {
+                        const { row, col } = peek;
+                        setCurrent({ row, col });
+                    }
+                } else {
+                    setCurrent({ row, col });
+                }
             }
             await wait(0.1);
         } catch (error) {
             console.error(error);
         }
         cancelAnimate();
+        setK(k => k - 1);
+        setState(State.Playing);
     }
 
     return (
         <>
-            <DisplayLists />
-            <DisplayResults />
+            <DisplayInput />
+            <DisplayResult />
             <div style={{
                 position: "fixed",
                 bottom: "150px",
@@ -153,7 +220,7 @@ const Main = () => {
                         color="success"
                         startIcon={<PlayCircleFilledWhiteOutlinedIcon />}
                         onClick={handleRun}
-                        disabled={state !== State.Playing}
+                        disabled={state !== State.Playing || k === 0}
                     >
                         run
                     </Button>

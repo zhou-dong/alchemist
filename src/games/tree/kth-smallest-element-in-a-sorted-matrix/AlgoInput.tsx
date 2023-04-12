@@ -10,50 +10,33 @@ import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
-import { ListNode, useAlgoContext } from "./AlgoContext";
+import MenuIcon from '@mui/icons-material/Menu';
 import { State } from './AlgoState';
+import { useAlgoContext } from "./AlgoContext";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildMinHeap } from './styles';
 
-const input1 = [[1, 4, 7], [2, 5, 8], [3, 6, 9]];
-const input2 = [[1, 5, 8], [2, 3, 9], [4, 6, 7]];
-const input3 = [[2, 5], [1, 6], [3, 5, 8], [2, 4, 9], [3, 4, 7]];
+const input1 = { matrix: [[1, 4, 7], [2, 5, 8], [3, 6, 9]], k: 4 };
+const input2 = { matrix: [[1, 5, 8], [2, 6, 9], [4, 6, 9]], k: 6 };
+const input3 = { matrix: [[1, 5, 8, 9], [2, 6, 9, 12], [4, 6, 10, 15], [7, 7, 11, 19]], k: 7 };
 
 const arrayToString = (input: number[][]): string => {
     return "[" + input.map(a => "[" + a.join(",") + "]").join(",") + "]";
-};
-
-const buildLists = (input: string): ListNode[] => {
-    const lists: ListNode[] = [];
-    const nums: number[][] = JSON.parse(input);
-    let i = 0;
-    nums.forEach(array => {
-        const head = new ListNode(-1, -1);
-        let tail = head;
-        array.forEach(num => {
-            tail.next = new ListNode(i, num);
-            tail = tail.next;
-            i++
-        });
-        if (head.next) {
-            lists.push(head.next);
-        }
-    })
-    return lists;
 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
-    setLists: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setLists }) => {
+    setMatrix: React.Dispatch<React.SetStateAction<string>>,
+    setK: React.Dispatch<React.SetStateAction<string>>,
+}> = ({ anchorEl, setAnchorEl, open, setMatrix, setK }) => {
 
     const buildInInputs = [
         input1,
         input2,
-        input3,
+        input3
     ];
 
     const handleMenuClose = () => {
@@ -66,13 +49,25 @@ const DropDown: React.FC<{
             open={open}
             onClose={handleMenuClose}
         >
+            <MenuItem disabled>
+                <ListItemIcon>
+                    <MenuIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText sx={{ width: "120px" }}>
+                    Sorted Matrix
+                </ListItemText>
+                <ListItemText>
+                    K
+                </ListItemText>
+            </MenuItem>
             {
                 buildInInputs.map((item, index) => (
                     <MenuItem
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setLists(arrayToString(item));
+                            setMatrix(arrayToString(item.matrix));
+                            setK(item.k + "");
                         }}
                         sx={{ width: "488px", overflow: "hidden" }}
                     >
@@ -80,7 +75,10 @@ const DropDown: React.FC<{
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText sx={{ width: "120px" }}>
-                            {arrayToString(item)}
+                            {arrayToString(item.matrix)}
+                        </ListItemText>
+                        <ListItemText>
+                            {item.k}
                         </ListItemText>
                     </MenuItem>
                 ))
@@ -90,25 +88,27 @@ const DropDown: React.FC<{
 }
 
 const Submit: React.FC<{
-    lists: string,
+    matrix: string,
+    k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ lists, setAnchorEl }) => {
-    const { setLists, scene, animate, cancelAnimate, setState, setMinHeap, setResults, setKey, setFinishedKeys } = useAlgoContext();
+}> = ({ matrix: inputString, k, setAnchorEl }) => {
+    const { scene, animate, cancelAnimate, setState, setMinHeap, setK, setMatrix, setCurrent, setCompleted, setResult } = useAlgoContext();
 
-    const disabled = lists.trim().length === 0;
+    const disabled = inputString.trim().length === 0 || k.trim().length === 0;
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
-        const list = buildLists(lists)
-        setLists(list);
-        setKey(-1);
-        setResults([]);
-        setFinishedKeys([]);
         animate();
         clearScene(scene);
-        const minHeap = buildMinHeap(list.length, scene);
+        const matrix: number[][] = JSON.parse(inputString);
+        const minHeap = buildMinHeap(matrix.length, scene);
         setMinHeap(minHeap);
+        setMatrix(matrix);
+        setK(+k);
+        setResult(undefined);
+        setCurrent({ row: 0, col: 0 });
+        setCompleted([]);
         await wait(0.2);
         cancelAnimate();
         setState(State.BuildingHeap);
@@ -127,10 +127,15 @@ interface Props {
 
 export default function AlgoInput({ setAnchorEl }: Props) {
 
-    const [lists, setLists] = React.useState("");
+    const [matrix, setMatrix] = React.useState("");
+    const [k, setK] = React.useState("");
 
-    const handleNodesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLists(e.currentTarget.value);
+    const handleMatrixChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMatrix(e.currentTarget.value);
+    };
+
+    const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setK(e.currentTarget.value);
     };
 
     const reference = React.useRef(null);
@@ -162,26 +167,37 @@ export default function AlgoInput({ setAnchorEl }: Props) {
 
                 <InputBase
                     sx={{ ml: 1, flex: 1, }}
-                    placeholder={`lists, for example: ${arrayToString(input1)}`}
-                    value={lists}
-                    onChange={handleNodesChange}
+                    placeholder={`Matrix, for example: ${arrayToString(input1.matrix)}`}
+                    value={matrix}
+                    onChange={handleMatrixChange}
+                />
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+
+                <InputBase
+                    sx={{ width: 60 }}
+                    placeholder='K'
+                    value={k}
+                    onChange={handleKChange}
+                    type="number"
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
-                    setLists("");
+                    setMatrix("");
+                    setK("");
                 }}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit lists={lists} setAnchorEl={setAnchorEl} />
+                <Submit matrix={matrix} k={k} setAnchorEl={setAnchorEl} />
             </Paper>
 
             <DropDown
                 anchorEl={menuAnchorEl}
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
-                setLists={setLists}
+                setMatrix={setMatrix}
+                setK={setK}
             />
         </>
     );
