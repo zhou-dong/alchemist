@@ -6,27 +6,29 @@ import MinHeap from "../../../data-structures/tree/heap/min-heap";
 import { State } from "./AlgoState";
 
 export interface Position {
-    row: number;
-    col: number
+    x: number;
+    y: number;
 }
 
 export class HeapItem implements Comparable {
-    val: number;
-    row: number;
-    col: number;
+    x: number; // index in nums1
+    y: number; // index in nums2
+    a: number; // value in nums1
+    b: number; // value in nums2
 
-    constructor(val: number, row: number, col: number) {
-        this.val = val;
-        this.row = row;
-        this.col = col;
+    constructor(x: number, y: number, a: number, b: number) {
+        this.x = x;
+        this.y = y;
+        this.a = a;
+        this.b = b;
     }
 
     compareTo(other: HeapItem): number {
-        return this.val - other.val;
+        return (this.a + this.b) - (other.a + other.b);
     }
 
     toString(): string {
-        return this.val + "";
+        return `[${this.a},${this.b}]`;
     }
 }
 
@@ -40,14 +42,16 @@ const AlgoContext = React.createContext<{
     setMinHeap: React.Dispatch<React.SetStateAction<MinHeap<HeapItem> | undefined>>,
     k: number,
     setK: React.Dispatch<React.SetStateAction<number>>,
-    matrix: number[][],
-    setMatrix: React.Dispatch<React.SetStateAction<number[][]>>,
     current: Position,
     setCurrent: React.Dispatch<React.SetStateAction<Position>>,
-    result?: number,
-    setResult: React.Dispatch<React.SetStateAction<number | undefined>>,
-    completed: Position[],
-    setCompleted: React.Dispatch<React.SetStateAction<Position[]>>
+    nums1: number[],
+    setNums1: React.Dispatch<React.SetStateAction<number[]>>,
+    nums2: number[],
+    setNums2: React.Dispatch<React.SetStateAction<number[]>>,
+    results: number[][],
+    setResults: React.Dispatch<React.SetStateAction<number[][]>>,
+    seen?: Set<string>,
+    setSeen: React.Dispatch<React.SetStateAction<Set<string> | undefined>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -57,13 +61,15 @@ const AlgoContext = React.createContext<{
     setMinHeap: () => { },
     k: 0,
     setK: () => { },
-    matrix: [],
-    setMatrix: () => { },
-    current: { row: 0, col: 0 },
+    current: { x: 0, y: 0 },
     setCurrent: () => { },
-    setResult: () => { },
-    completed: [],
-    setCompleted: () => { }
+    nums1: [],
+    setNums1: () => { },
+    nums2: [],
+    setNums2: () => { },
+    results: [],
+    setResults: () => { },
+    setSeen: () => { }
 });
 
 let animationFrameId = -1;
@@ -78,11 +84,12 @@ export const AlgoContextProvider: React.FC<{
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
     const [minHeap, setMinHeap] = React.useState<MinHeap<HeapItem>>();
-    const [result, setResult] = React.useState<number>();
+    const [results, setResults] = React.useState<number[][]>([]);
     const [k, setK] = React.useState(0);
-    const [matrix, setMatrix] = React.useState<number[][]>([]);
-    const [current, setCurrent] = React.useState<Position>({ row: 0, col: 0 });
-    const [completed, setCompleted] = React.useState<Position[]>([]);
+    const [current, setCurrent] = React.useState<Position>({ x: 0, y: 0 });
+    const [nums1, setNums1] = React.useState<number[]>([]);
+    const [nums2, setNums2] = React.useState<number[]>([]);
+    const [seen, setSeen] = React.useState<Set<string>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -118,14 +125,16 @@ export const AlgoContextProvider: React.FC<{
             setMinHeap,
             k,
             setK,
-            matrix,
-            setMatrix,
             current,
             setCurrent,
-            result,
-            setResult,
-            completed,
-            setCompleted
+            results,
+            setResults,
+            nums1,
+            setNums1,
+            nums2,
+            setNums2,
+            seen,
+            setSeen
         }}>
             {children}
             <div ref={ref}></div>

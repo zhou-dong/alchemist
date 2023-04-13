@@ -1,126 +1,96 @@
 import { HeapItem, useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
+import { Button, ButtonGroup, Stack, Typography } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import SortIcon from '@mui/icons-material/Sort';
 import PlayCircleFilledWhiteOutlinedIcon from '@mui/icons-material/PlayCircleFilledWhiteOutlined';
 
-const DisplayInput = () => {
-    const { current, matrix, k, completed } = useAlgoContext();
-
-    const inComplete = (row: number, col: number): boolean => {
-        for (let i = 0; i < completed.length; i++) {
-            const position = completed[i];
-            if (position.row === row && position.col === col) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    const getBackgroundColor = (row: number, col: number) => {
-        if (inComplete(row, col)) {
-            return "#bdbdbd";
-        }
-        if (row === current.row && col === current.col) {
-            return "green";
-        }
-        return "#fff";
-    }
-
-    const getColor = (row: number, col: number) => {
-        if (inComplete(row, col)) {
-            return "#fff";
-        }
-        if (row === current.row && col === current.col) {
-            return "#fff";
-        }
-        return "#000";
-    }
-
+const DisplayK = () => {
+    const { k } = useAlgoContext();
     return (
-        <div style={{
-            position: "fixed",
-            top: "25%",
-            left: "16%",
-        }}>
-            <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Typography
-                    variant="h6"
-                    sx={{
-                        border: "1px solid #bdbdbd",
-                        borderRadius: "50%",
-                        height: 45,
-                        width: 45,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    K
-                </Typography>
-                <Typography
-                    variant="h6"
-                    sx={{
-                        border: "1px solid #bdbdbd",
-                        borderRadius: "50%",
-                        height: 45,
-                        width: 45,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    {k}
-                </Typography>
-            </Stack>
-
-            <div style={{ textAlign: "center", marginTop: "30px" }}>
-                <Typography variant="h6">Matrix</Typography>
-            </div>
-
-            <Table>
-                <TableBody>
-                    {
-                        matrix.map((row, i) =>
-                            <TableRow key={i}>
-                                {
-                                    row.map((col, j) =>
-                                        <TableCell
-                                            key={j}
-                                            padding="none"
-                                            sx={{
-                                                color: getColor(i, j),
-                                                width: "65px",
-                                                textAlign: "center",
-                                                paddingTop: 0.4,
-                                                paddingBottom: 0.4,
-                                                backgroundColor: getBackgroundColor(i, j)
-                                            }}
-                                        >
-                                            <Typography variant="h6">
-                                                {col}
-                                            </Typography>
-                                        </TableCell>)
-                                }
-                            </TableRow>
-                        )
-                    }
-                </TableBody>
-            </Table>
-        </div>
+        <Stack direction="row" spacing={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Typography
+                variant="h6"
+                sx={{
+                    border: "1px solid #bdbdbd",
+                    borderRadius: "50%",
+                    height: 45,
+                    width: 45,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                K
+            </Typography>
+            <Typography
+                variant="h6"
+                sx={{
+                    border: "1px solid #bdbdbd",
+                    borderRadius: "50%",
+                    height: 45,
+                    width: 45,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                {k}
+            </Typography>
+        </Stack>
     );
-}
+};
+
+const DisplayNums = () => {
+    const { current, nums1, nums2 } = useAlgoContext();
+    const { x, y } = current;
+    return (
+        <>
+            <ButtonGroup size="large" color="success">
+                {
+                    nums1.map((num, i) => <Button key={i} variant={(i === x) ? "contained" : "outlined"}>{num}</Button>)
+                }
+            </ButtonGroup>
+            <ButtonGroup size="large" color="success">
+                {
+                    nums2.map((num, i) => <Button key={i} variant={(i === y) ? "contained" : "outlined"}>{num}</Button>)
+                }
+            </ButtonGroup>
+        </>
+    );
+};
+
+const DisplayInput = () => (
+    <div style={{
+        position: "fixed",
+        top: "25%",
+        left: "16%",
+    }}>
+        <Stack direction="column" spacing={2}>
+            <DisplayK />
+            <DisplayNums />
+        </Stack>
+    </div>
+);
 
 const DisplayResult = () => {
-    const { result } = useAlgoContext();
+    const { results } = useAlgoContext();
 
     const Content = () => (
-        <Button size="large" variant="contained" color="success">
-            <Typography variant="h5">
-                {result}
-            </Typography>
-        </Button>
+        <ButtonGroup>
+            {
+                results.map((item, i) =>
+                    <Button
+                        size="large"
+                        variant="contained"
+                        color="success"
+                        key={i}
+                    >
+                        {`[${item.join(",")}]`}
+                    </Button>
+                )
+            }
+        </ButtonGroup>
     );
 
     return (
@@ -130,27 +100,35 @@ const DisplayResult = () => {
             left: "50%",
             transform: "translate(-50%)",
         }}>
-            {result && <Content />}
+            {(results.length || "") && <Content />}
         </div>
     );
-}
+};
+
+const buildSetKey = (x: number, y: number): string => {
+    return x + "," + y;
+};
 
 const Main = () => {
 
-    const { animate, cancelAnimate, state, setState, minHeap, matrix, setCurrent, completed, setResult, setK, k } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, minHeap, setCurrent, results, setK, k, nums1, nums2, seen } = useAlgoContext();
 
     const handleBuildHeap = async () => {
-        if (!minHeap) return;
+        if (!minHeap) {
+            return;
+        }
+        const a = nums1[0];
+        const b = nums2[0];
+        if (a === undefined || b === undefined) {
+            return;
+        }
         setState(State.Computing);
         animate();
         try {
-            for (let row = 0; row < matrix.length; row++) {
-                const col = 0;
-                const item = new HeapItem(matrix[row][col], row, col);
-                setCurrent({ row, col });
-                await minHeap.insert(item);
-            }
-            setCurrent({ row: 0, col: 0 });
+            const item = new HeapItem(0, 0, a, b);
+            await minHeap.insert(item);
+            setCurrent({ x: 0, y: 0 });
+            seen?.add(buildSetKey(0, 0));
             await wait(0.1);
         } catch (error) {
             console.error(error);
@@ -161,31 +139,38 @@ const Main = () => {
 
     const handleRun = async () => {
         if (!minHeap) return;
+        if (!seen) return;
+
         setState(State.Computing);
         animate();
         try {
             const root = await minHeap.delete();
             if (root) {
-                const { val, row, col } = root;
-                if (col + 1 < matrix[row].length) {
-                    const item = new HeapItem(matrix[row][col + 1], row, col + 1);
-                    setCurrent({ row: item.row, col: item.col });
-                    await minHeap.insert(item);
-                }
-                completed.push({ row, col });
-                setResult(val);
-
-                if (k !== 1) {
-                    const peek = await minHeap.peek();
-                    if (peek) {
-                        const { row, col } = peek;
-                        setCurrent({ row, col });
+                const { x, y, a, b } = root;
+                results.push([a, b]);
+                if (x + 1 < nums1.length) {
+                    const key = buildSetKey(x + 1, y);
+                    if (!seen.has(key)) {
+                        setCurrent({ x: x + 1, y });
+                        const item = new HeapItem(x + 1, y, nums1[x + 1], b);
+                        await minHeap.insert(item);
+                        seen.add(key);
                     }
-                    setState(State.Playing);
-                } else {
-                    setState(State.Finished);
-                    setCurrent({ row, col });
                 }
+                if (y + 1 < nums2.length) {
+                    const key = buildSetKey(x, y + 1);
+                    if (!seen.has(key)) {
+                        setCurrent({ x, y: y + 1 });
+                        const item = new HeapItem(x, y + 1, a, nums2[y + 1]);
+                        await minHeap.insert(item);
+                        seen.add(key);
+                    }
+                }
+            }
+            const peek = await minHeap.peek();
+            if (peek) {
+                const { x, y } = peek;
+                setCurrent({ x, y });
             }
             await wait(0.1);
         } catch (error) {
@@ -193,11 +178,12 @@ const Main = () => {
         }
         cancelAnimate();
         setK(k => k - 1);
+        setState(State.Playing);
     }
 
     return (
         <>
-            {(matrix.length || "") && <DisplayInput />}
+            {(nums1.length || nums2.length || "") && <DisplayInput />}
 
             <DisplayResult />
             <div style={{

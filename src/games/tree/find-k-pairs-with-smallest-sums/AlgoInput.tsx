@@ -17,21 +17,18 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildMinHeap } from './styles';
 
-const input1 = { matrix: [[1, 4, 7], [2, 5, 8], [3, 6, 9]], k: 4 };
-const input2 = { matrix: [[1, 5, 8], [2, 6, 9], [4, 6, 9]], k: 6 };
-const input3 = { matrix: [[1, 3, 5, 9], [2, 6, 9, 12], [4, 6, 10, 15], [7, 7, 11, 19]], k: 7 };
-
-const arrayToString = (input: number[][]): string => {
-    return "[" + input.map(a => "[" + a.join(",") + "]").join(",") + "]";
-};
+const input1 = { nums1: [1, 2, 5, 7], nums2: [2, 4, 6, 8], k: 4 };
+const input2 = { nums1: [1, 5, 8], nums2: [2, 6, 9], k: 6 };
+const input3 = { nums1: [1, 3, 5, 6, 9], nums2: [2, 3, 4, 8, 9], k: 7 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
-    setMatrix: React.Dispatch<React.SetStateAction<string>>,
+    setNums1: React.Dispatch<React.SetStateAction<string>>,
+    setNums2: React.Dispatch<React.SetStateAction<string>>,
     setK: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setMatrix, setK }) => {
+}> = ({ anchorEl, setAnchorEl, open, setNums1, setNums2, setK }) => {
 
     const buildInInputs = [
         input1,
@@ -53,10 +50,13 @@ const DropDown: React.FC<{
                 <ListItemIcon>
                     <MenuIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText sx={{ width: "260px" }}>
-                    Sorted Matrix
+                <ListItemText sx={{ width: "100px" }}>
+                    nums1
                 </ListItemText>
-                <ListItemText>
+                <ListItemText sx={{ width: "100px" }}>
+                    nums2
+                </ListItemText>
+                <ListItemText sx={{ width: 60 }}>
                     K
                 </ListItemText>
             </MenuItem>
@@ -66,7 +66,8 @@ const DropDown: React.FC<{
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setMatrix(arrayToString(item.matrix));
+                            setNums1(item.nums1.join(","));
+                            setNums2(item.nums2.join(","));
                             setK(item.k + "");
                         }}
                         sx={{ width: "488px", overflow: "hidden" }}
@@ -74,10 +75,13 @@ const DropDown: React.FC<{
                         <ListItemIcon>
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText sx={{ width: "260px" }}>
-                            {arrayToString(item.matrix)}
+                        <ListItemText sx={{ width: "100px" }}>
+                            {item.nums1.join(",")}
                         </ListItemText>
-                        <ListItemText>
+                        <ListItemText sx={{ width: "100px" }}>
+                            {item.nums2.join(",")}
+                        </ListItemText>
+                        <ListItemText sx={{ width: 60 }}>
                             {item.k}
                         </ListItemText>
                     </MenuItem>
@@ -87,28 +91,38 @@ const DropDown: React.FC<{
     );
 }
 
+const parseNums = (nums: string): number[] => {
+    try {
+        return nums.split(",").map(ch => ch.trim()).map(num => +num)
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
 const Submit: React.FC<{
-    matrix: string,
+    nums1: string,
+    nums2: string,
     k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ matrix: inputString, k, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setMinHeap, setK, setMatrix, setCurrent, setCompleted, setResult } = useAlgoContext();
+}> = ({ nums1, nums2, k, setAnchorEl }) => {
+    const { scene, animate, cancelAnimate, setState, setMinHeap, setK, setCurrent, setResults, setNums1, setNums2, setSeen } = useAlgoContext();
 
-    const disabled = inputString.trim().length === 0 || k.trim().length === 0;
+    const disabled = nums1.trim().length === 0 || nums2.trim().length === 0 || k.trim().length === 0;
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         animate();
         clearScene(scene);
-        const matrix: number[][] = JSON.parse(inputString);
-        const minHeap = buildMinHeap(matrix.length, scene);
-        setMinHeap(minHeap);
-        setMatrix(matrix);
+        setSeen(new Set());
+        setNums1(parseNums(nums1));
+        setNums2(parseNums(nums2));
         setK(+k);
-        setResult(undefined);
-        setCurrent({ row: 0, col: 0 });
-        setCompleted([]);
+        const minHeap = buildMinHeap(5, scene);
+        setMinHeap(minHeap);
+        setResults([]);
+        setCurrent({ x: 0, y: 0 });
         await wait(0.2);
         cancelAnimate();
         setState(State.BuildingHeap);
@@ -127,11 +141,16 @@ interface Props {
 
 export default function AlgoInput({ setAnchorEl }: Props) {
 
-    const [matrix, setMatrix] = React.useState("");
+    const [nums1, setNums1] = React.useState("");
+    const [nums2, setNums2] = React.useState("");
     const [k, setK] = React.useState("");
 
-    const handleMatrixChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMatrix(e.currentTarget.value);
+    const handleNums1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNums1(e.currentTarget.value);
+    };
+
+    const handleNums2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNums2(e.currentTarget.value);
     };
 
     const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -167,10 +186,19 @@ export default function AlgoInput({ setAnchorEl }: Props) {
 
                 <InputBase
                     sx={{ ml: 1, flex: 1, }}
-                    placeholder={`Matrix, for example: ${arrayToString(input1.matrix)}`}
-                    value={matrix}
-                    onChange={handleMatrixChange}
+                    placeholder="nums1"
+                    value={nums1}
+                    onChange={handleNums1Change}
                 />
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+
+                <InputBase
+                    sx={{ ml: 1, flex: 1, }}
+                    placeholder="nums2"
+                    value={nums2}
+                    onChange={handleNums2Change}
+                />
+
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
                 <InputBase
@@ -183,20 +211,22 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
-                    setMatrix("");
+                    setNums1("");
+                    setNums2("");
                     setK("");
                 }}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit matrix={matrix} k={k} setAnchorEl={setAnchorEl} />
+                <Submit nums1={nums1} nums2={nums2} k={k} setAnchorEl={setAnchorEl} />
             </Paper>
 
             <DropDown
                 anchorEl={menuAnchorEl}
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
-                setMatrix={setMatrix}
+                setNums1={setNums1}
+                setNums2={setNums2}
                 setK={setK}
             />
         </>

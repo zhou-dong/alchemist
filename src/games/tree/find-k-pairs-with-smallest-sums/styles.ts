@@ -15,7 +15,7 @@ const sphereMaterial = (): THREE.Material => {
     return new THREE.MeshBasicMaterial({ color: normalSphereColor, opacity: 0.4, transparent: true });
 }
 const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green" });
-const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
+const textGeometryParameters: TextGeometryParameters = { font, size: 0.7, height: 0.1 };
 const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
 export const buildMinHeap = (len: number, scene: THREE.Scene): MinHeap<HeapItem> => {
