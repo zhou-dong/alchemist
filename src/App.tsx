@@ -173,6 +173,8 @@ import KthSmallestElementInASortedMatrixInfo from "./games/tree/kth-smallest-ele
 import KthSmallestElementInASortedMatrix from "./games/tree/kth-smallest-element-in-a-sorted-matrix";
 import FindKPairsWithSmallestSumsInfo from "./games/tree/find-k-pairs-with-smallest-sums/info";
 import FindKPairsWithSmallestSums from "./games/tree/find-k-pairs-with-smallest-sums";
+import UglyNumberIIInfo from "./games/tree/ugly-number-ii/info";
+import UglyNumberII from "./games/tree/ugly-number-ii";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -276,6 +278,7 @@ const App = () => (
         <Route path={MergeKSortedListsInfo.path} element={<MergeKSortedLists renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={KthSmallestElementInASortedMatrixInfo.path} element={<KthSmallestElementInASortedMatrix renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={FindKPairsWithSmallestSumsInfo.path} element={<FindKPairsWithSmallestSums renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={UglyNumberIIInfo.path} element={<UglyNumberII renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
