@@ -85,6 +85,8 @@ import SlidingWindowMaximum from "./queue/sliding-window-maximum/info";
 import FindMedianFromDataStream from "./tree/find-median-from-data-stream/info";
 import MergeKSortedLists from "./tree/merge-k-sorted-lists/info";
 import KthSmallestElementInASortedMatrix from "./tree/kth-smallest-element-in-a-sorted-matrix/info";
+import FindKPairsWithSmallestSums from "./tree/find-k-pairs-with-smallest-sums/info";
+import UglyNumberII from "./tree/ugly-number-ii/info";
 
 export const games: Game[] = [
     editDistance,
@@ -171,5 +173,7 @@ export const games: Game[] = [
     TopKFrequentElements,
     FindMedianFromDataStream,
     MergeKSortedLists,
-    KthSmallestElementInASortedMatrix
+    KthSmallestElementInASortedMatrix,
+    FindKPairsWithSmallestSums,
+    UglyNumberII
 ];
