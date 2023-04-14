@@ -175,6 +175,8 @@ import FindKPairsWithSmallestSumsInfo from "./games/tree/find-k-pairs-with-small
 import FindKPairsWithSmallestSums from "./games/tree/find-k-pairs-with-smallest-sums";
 import UglyNumberIIInfo from "./games/tree/ugly-number-ii/info";
 import UglyNumberII from "./games/tree/ugly-number-ii";
+import TopKFrequentWordsInfo from "./games/tree/top-k-frequent-words/info";
+import TopKFrequentWords from "./games/tree/top-k-frequent-words";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -279,6 +281,7 @@ const App = () => (
         <Route path={KthSmallestElementInASortedMatrixInfo.path} element={<KthSmallestElementInASortedMatrix renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={FindKPairsWithSmallestSumsInfo.path} element={<FindKPairsWithSmallestSums renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={UglyNumberIIInfo.path} element={<UglyNumberII renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={TopKFrequentWordsInfo.path} element={<TopKFrequentWords renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
