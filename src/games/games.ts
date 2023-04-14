@@ -88,6 +88,7 @@ import KthSmallestElementInASortedMatrix from "./tree/kth-smallest-element-in-a-
 import FindKPairsWithSmallestSums from "./tree/find-k-pairs-with-smallest-sums/info";
 import UglyNumberII from "./tree/ugly-number-ii/info";
 import TopKFrequentWords from "./tree/top-k-frequent-words/info";
+import KthLargestElementInAStream from "./tree/kth-largest-element-in-a-stream/info";
 
 export const games: Game[] = [
     editDistance,
@@ -177,5 +178,6 @@ export const games: Game[] = [
     KthSmallestElementInASortedMatrix,
     FindKPairsWithSmallestSums,
     UglyNumberII,
-    TopKFrequentWords
+    TopKFrequentWords,
+    KthLargestElementInAStream
 ];
