@@ -90,6 +90,7 @@ import UglyNumberII from "./tree/ugly-number-ii/info";
 import TopKFrequentWords from "./tree/top-k-frequent-words/info";
 import KthLargestElementInAStream from "./tree/kth-largest-element-in-a-stream/info";
 import SlidingWindowMedian from "./tree/sliding-window-median/info";
+import TheSkylineProblem from "./tree/the-skyline-problem/info";
 
 export const games: Game[] = [
     editDistance,
@@ -181,5 +182,6 @@ export const games: Game[] = [
     UglyNumberII,
     TopKFrequentWords,
     KthLargestElementInAStream,
-    SlidingWindowMedian
+    SlidingWindowMedian,
+    TheSkylineProblem
 ];

@@ -181,6 +181,8 @@ import KthLargestElementInAStreamInfo from "./games/tree/kth-largest-element-in-
 import KthLargestElementInAStream from "./games/tree/kth-largest-element-in-a-stream";
 import SlidingWindowMedianInfo from "./games/tree/sliding-window-median/info";
 import SlidingWindowMedian from "./games/tree/sliding-window-median";
+import TheSkylineProblemInfo from "./games/tree/the-skyline-problem/info";
+import TheSkylineProblem from "./games/tree/the-skyline-problem";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -288,6 +290,7 @@ const App = () => (
         <Route path={TopKFrequentWordsInfo.path} element={<TopKFrequentWords renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={KthLargestElementInAStreamInfo.path} element={<KthLargestElementInAStream renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={SlidingWindowMedianInfo.path} element={<SlidingWindowMedian renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={TheSkylineProblemInfo.path} element={<TheSkylineProblem renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
