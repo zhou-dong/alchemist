@@ -1,16 +1,6 @@
 export const title = "The Skyline Problem";
 
-export const MaxHeap = `enum Edge {
-    Start, End
-}
-
-type Item = {
-    x: number;
-    height: number;
-    edge: Edge;
-}
-
-class MaxHeap {
+export const MaxHeap = `class MaxHeap {
     private heights: number[];
     private map: Map<number, number[]>;
 
@@ -135,7 +125,17 @@ class MaxHeap {
     }
 }`;
 
-export const getSkyline = `function getSkyline(buildings: number[][]): number[][] {
+export const getSkyline = `enum Edge {
+    Start, End
+}
+
+type Item = {
+    x: number;
+    height: number;
+    edge: Edge;
+}
+
+function getSkyline(buildings: number[][]): number[][] {
     const items: Item[] = [];
 
     buildings.forEach(building => {
