@@ -6,21 +6,23 @@ import MinHeap from "../../../data-structures/tree/heap/min-heap";
 import { State } from "./AlgoState";
 
 export class HeapItem implements Comparable {
-
-    num: number;
+    word: string;
     count: number;
 
-    constructor(num: number, count: number) {
-        this.num = num;
+    constructor(word: string, count: number) {
+        this.word = word;
         this.count = count;
     }
 
     compareTo(other: HeapItem): number {
-        return this.count - other.count;
+        if (this.count !== other.count) {
+            return this.count - other.count;
+        }
+        return (other.word > this.word) ? 1 : -1;
     }
 
     toString(): string {
-        return this.num + ":" + this.count;
+        return this.word + ":" + this.count;
     }
 }
 
@@ -34,18 +36,18 @@ const AlgoContext = React.createContext<{
     setK: React.Dispatch<React.SetStateAction<number>>,
     heap?: MinHeap<HeapItem>,
     setHeap: React.Dispatch<React.SetStateAction<MinHeap<HeapItem> | undefined>>,
-    map?: Map<number, number>,
-    setMap: React.Dispatch<React.SetStateAction<Map<number, number> | undefined>>,
-    nums: number[],
-    setNums: React.Dispatch<React.SetStateAction<number[]>>,
-    index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>,
-    mapIndex: number,
-    setMapIndex: React.Dispatch<React.SetStateAction<number>>,
-    frequents: HeapItem[],
-    setFrequents: React.Dispatch<React.SetStateAction<HeapItem[]>>,
-    result: number[],
-    setResult: React.Dispatch<React.SetStateAction<number[]>>
+    map?: Map<string, number>,
+    setMap: React.Dispatch<React.SetStateAction<Map<string, number> | undefined>>,
+    words: string[],
+    setWords: React.Dispatch<React.SetStateAction<string[]>>,
+    wordsIndex: number,
+    setWordsIndex: React.Dispatch<React.SetStateAction<number>>,
+    heapItems: HeapItem[],
+    setHeapItems: React.Dispatch<React.SetStateAction<HeapItem[]>>,
+    heapItemsIndex: number,
+    setHeapItemsIndex: React.Dispatch<React.SetStateAction<number>>,
+    result: string[],
+    setResult: React.Dispatch<React.SetStateAction<string[]>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -56,16 +58,16 @@ const AlgoContext = React.createContext<{
     setK: () => { },
     setHeap: () => { },
     setMap: () => { },
-    nums: [],
-    setNums: () => { },
-    index: -1,
-    setIndex: () => { },
-    mapIndex: -1,
-    setMapIndex: () => { },
-    frequents: [],
-    setFrequents: () => { },
+    words: [],
+    setWords: () => { },
+    wordsIndex: 0,
+    setWordsIndex: () => { },
+    heapItems: [],
+    setHeapItems: () => { },
+    heapItemsIndex: -1,
+    setHeapItemsIndex: () => { },
     result: [],
-    setResult: () => { }
+    setResult: () => { },
 });
 
 let animationFrameId = -1;
@@ -81,12 +83,12 @@ export const AlgoContextProvider: React.FC<{
     const [state, setState] = React.useState(State.Typing);
     const [k, setK] = React.useState(0);
     const [heap, setHeap] = React.useState<MinHeap<HeapItem>>();
-    const [map, setMap] = React.useState<Map<number, number>>();
-    const [nums, setNums] = React.useState<number[]>([]);
-    const [index, setIndex] = React.useState(-1);
-    const [mapIndex, setMapIndex] = React.useState(-1);
-    const [frequents, setFrequents] = React.useState<HeapItem[]>([]);
-    const [result, setResult] = React.useState<number[]>([]);
+    const [map, setMap] = React.useState<Map<string, number>>();
+    const [words, setWords] = React.useState<string[]>([]);
+    const [wordsIndex, setWordsIndex] = React.useState(0);
+    const [heapItems, setHeapItems] = React.useState<HeapItem[]>([]);
+    const [heapItemsIndex, setHeapItemsIndex] = React.useState(-1);
+    const [result, setResult] = React.useState<string[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -124,16 +126,16 @@ export const AlgoContextProvider: React.FC<{
             setHeap,
             map,
             setMap,
-            nums,
-            setNums,
-            index,
-            setIndex,
-            mapIndex,
-            setMapIndex,
-            frequents,
-            setFrequents,
             result,
-            setResult
+            setResult,
+            words,
+            setWords,
+            wordsIndex,
+            setWordsIndex,
+            heapItems,
+            setHeapItems,
+            heapItemsIndex,
+            setHeapItemsIndex
         }}>
             {children}
             <div ref={ref}></div>

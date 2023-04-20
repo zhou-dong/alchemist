@@ -1,5 +1,4 @@
 import * as React from 'react';
-import InputIcon from '@mui/icons-material/Input';
 import OutputIcon from '@mui/icons-material/Output';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -11,33 +10,53 @@ import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
+import InputIcon from '@mui/icons-material/Input';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = { array: [3, 3, 3, 1, 1, 2, 2, 2, 3], k: 2 };
-const input2 = { array: [3, 3, 3, 6, 1, 6, 1, 2, 6, 2, 2, 3, 6], k: 3 };
-const input3 = { array: [2, 8, 5, 6, 1, 3, 1, 2, 2, 3, 5], k: 4 };
+const sentences: string[] = [
+    "apple orange banana apple grapefruit orange orange banana apple banana apple",
+    "the cat in the hat sat on the mat with the cat and the hat and the mat",
+    "how much wood would a wood chuck chuck if a wood chuck could chuck wood a wood chuck would chuck all the wood he could if a woodchuck could chuck wood"
+].map(sentence => sentence.replaceAll(",", ""));
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
-    setNodes: React.Dispatch<React.SetStateAction<string>>,
-    setK: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setNodes, setK }) => {
-
-    const buildInInputs = [
-        input1,
-        input2,
-        input3,
-    ];
+    setWords: React.Dispatch<React.SetStateAction<string>>,
+}> = ({ anchorEl, setAnchorEl, open, setWords }) => {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+
+    const MenuItems = () => (
+        <>
+            {
+                sentences.map((sentence, index) => (
+                    <MenuItem
+                        key={index}
+                        onClick={() => {
+                            handleMenuClose();
+                            setWords(sentence)
+                        }}
+                        sx={{ width: "608px", overflow: "hidden" }}
+                    >
+                        <ListItemIcon>
+                            <InputIcon fontSize="medium" />
+                        </ListItemIcon>
+                        <ListItemText sx={{ width: "120px" }}>
+                            {sentence}
+                        </ListItemText>
+                    </MenuItem>
+                ))
+            }
+        </>
+    );
 
     return (
         <Menu
@@ -47,70 +66,39 @@ const DropDown: React.FC<{
         >
             <MenuItem disabled>
                 <ListItemIcon>
-                    <MenuIcon fontSize="small" />
+                    <MenuIcon fontSize="medium" />
                 </ListItemIcon>
                 <ListItemText sx={{ width: "120px" }}>
-                    nums
-                </ListItemText>
-                <ListItemText>
-                    k
+                    sentence
                 </ListItemText>
             </MenuItem>
-            {
-                buildInInputs.map((item, index) => (
-                    <MenuItem
-                        key={index}
-                        onClick={() => {
-                            handleMenuClose();
-                            setNodes(item.array.join(","));
-                            setK(item.k + "");
-                        }}
-                        sx={{ width: "408px", overflow: "hidden" }}
-                    >
-                        <ListItemIcon>
-                            <InputIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText sx={{ width: "120px" }}>
-                            {item.array.join(",")}
-                        </ListItemText>
-                        <ListItemText>
-                            {item.k}
-                        </ListItemText>
-                    </MenuItem>
-                ))
-            }
-        </Menu >
+            <MenuItems />
+        </Menu>
     );
-}
-
-const parseInput = (input: string): (number)[] => {
-    return input.split(",").map(ch => +ch);
-}
+};
 
 const Submit: React.FC<{
-    nodes: string,
-    setNodes: React.Dispatch<React.SetStateAction<string>>,
-    k: string,
+    words: string,
+    k: number,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setHeap, setK, setMap, setNums, setIndex, setMapIndex, setResult } = useAlgoContext();
+}> = ({ words, setAnchorEl, k }) => {
+    const { scene, animate, cancelAnimate, setState, setHeap, setK, setMap, setHeapItemsIndex, setResult, setWords, setWordsIndex } = useAlgoContext();
 
-    const disabled = nodes.trim().length === 0 || k.trim().length === 0;
+    const disabled = words.trim().length === 0 || k <= 0;
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
-        const array = parseInput(nodes);
+        const array: string[] = words.trim().split(" ");
+        setWords(array);
+        setWordsIndex(0);
+        setK(k);
+        setMap(new Map<string, number>());
+        setHeapItemsIndex(-1);
+        setResult([]);
         animate();
         clearScene(scene);
-        setK(+k);
-        setNums(array);
-        setIndex(-1);
-        setMapIndex(-1);
-        setResult([]);
-        setHeap(buildTree(array, scene, +k));
-        setNodes("");
-        setMap(new Map<number, number>());
+        setHeap(buildTree(scene, k + 1));
         await wait(0.2);
         cancelAnimate();
         setState(State.Count);
@@ -129,15 +117,18 @@ interface Props {
 
 export default function AlgoInput({ setAnchorEl }: Props) {
 
-    const [nodes, setNodes] = React.useState("");
-    const [k, setK] = React.useState("");
+    const [words, setWords] = React.useState("");
+    const [k, setK] = React.useState(3);
 
     const handleNodesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNodes(e.currentTarget.value);
+        setWords(e.currentTarget.value);
     };
 
     const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setK(e.currentTarget.value);
+        const value = +e.currentTarget.value;
+        if (value > 0) {
+            setK(value);
+        }
     };
 
     const reference = React.useRef(null);
@@ -150,6 +141,10 @@ export default function AlgoInput({ setAnchorEl }: Props) {
         }
     };
 
+    const handleClear = () => {
+        setWords("");
+    };
+
     return (
         <>
             <Paper
@@ -159,7 +154,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 sx={{
                     p: '2px 4px',
                     display: 'flex',
-                    width: 400,
+                    width: 600,
                     alignItems: "center"
                 }}
             >
@@ -169,14 +164,14 @@ export default function AlgoInput({ setAnchorEl }: Props) {
 
                 <InputBase
                     sx={{ ml: 1, flex: 1, }}
-                    placeholder='Tree nodes, seprate by ","'
-                    value={nodes}
+                    placeholder='words'
+                    value={words}
                     onChange={handleNodesChange}
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
                 <InputBase
-                    sx={{ width: 60 }}
+                    sx={{ width: 35 }}
                     placeholder='K'
                     value={k}
                     onChange={handleKChange}
@@ -184,21 +179,18 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
-                <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
-                    setNodes("");
-                }}>
+                <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={handleClear}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} k={k} />
-            </Paper>
+                <Submit words={words} setAnchorEl={setAnchorEl} k={k} />
+            </Paper >
 
             <DropDown
                 anchorEl={menuAnchorEl}
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
-                setNodes={setNodes}
-                setK={setK}
+                setWords={setWords}
             />
         </>
     );
