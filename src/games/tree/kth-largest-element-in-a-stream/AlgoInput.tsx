@@ -17,17 +17,17 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
 
-const input1 = { array: [3, 3, 3, 1, 1, 2, 2, 2, 3], k: 2 };
-const input2 = { array: [3, 3, 3, 6, 1, 6, 1, 2, 6, 2, 2, 3, 6], k: 3 };
-const input3 = { array: [2, 8, 5, 6, 1, 3, 1, 2, 2, 3, 5], k: 4 };
+const input1 = { nums: [4, 6, 8, 2], k: 4 };
+const input2 = { nums: [3, 5, 7, 9, 1], k: 4 };
+const input3 = { nums: [8, 7, 5, 6, 4, 3, 2, 9], k: 5 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
-    setNodes: React.Dispatch<React.SetStateAction<string>>,
+    setNums: React.Dispatch<React.SetStateAction<string>>,
     setK: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setNodes, setK }) => {
+}> = ({ anchorEl, setAnchorEl, open, setNums, setK }) => {
 
     const buildInInputs = [
         input1,
@@ -49,7 +49,7 @@ const DropDown: React.FC<{
                 <ListItemIcon>
                     <MenuIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText sx={{ width: "120px" }}>
+                <ListItemText sx={{ width: "70px" }}>
                     nums
                 </ListItemText>
                 <ListItemText>
@@ -62,7 +62,7 @@ const DropDown: React.FC<{
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setNodes(item.array.join(","));
+                            setNums(item.nums.join(","));
                             setK(item.k + "");
                         }}
                         sx={{ width: "408px", overflow: "hidden" }}
@@ -70,8 +70,8 @@ const DropDown: React.FC<{
                         <ListItemIcon>
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText sx={{ width: "120px" }}>
-                            {item.array.join(",")}
+                        <ListItemText sx={{ width: "70px" }}>
+                            {item.nums.join(",")}
                         </ListItemText>
                         <ListItemText>
                             {item.k}
@@ -88,32 +88,43 @@ const parseInput = (input: string): (number)[] => {
 }
 
 const Submit: React.FC<{
-    nodes: string,
-    setNodes: React.Dispatch<React.SetStateAction<string>>,
+    nums: string,
     k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setHeap, setK, setMap, setNums, setIndex, setMapIndex, setResult } = useAlgoContext();
+}> = ({ nums, setAnchorEl, k }) => {
+    const { scene, animate, cancelAnimate, setState, setHeap, setK, setKthLargestValue } = useAlgoContext();
 
-    const disabled = nodes.trim().length === 0 || k.trim().length === 0;
+    const disabled = nums.trim().length === 0 || k.trim().length === 0 || +k === 0;
 
     const handleSubmit = async () => {
-        setState(State.Typing);
         setAnchorEl(null);
-        const array = parseInput(nodes);
-        animate();
+        setKthLargestValue(undefined);
+        setState(State.Typing);
+        const inputNums: number[] = parseInput(nums);
+        const inputK: number = +k;
+        setK(inputK);
         clearScene(scene);
-        setK(+k);
-        setNums(array);
-        setIndex(-1);
-        setMapIndex(-1);
-        setResult([]);
-        setHeap(buildTree(array, scene, +k));
-        setNodes("");
-        setMap(new Map<number, number>());
-        await wait(0.2);
+        animate();
+        try {
+            await doSubmit(inputNums, inputK);
+            await wait(0.2);
+        } catch (error) {
+            console.error(error);
+        }
         cancelAnimate();
-        setState(State.Count);
+        setState(State.Play);
+    }
+
+    const doSubmit = async (inputNums: number[], inputK: number) => {
+        const heap = buildTree(scene, inputK);
+        for (let i = 0; i < inputNums.length; i++) {
+            await heap.insert(inputNums[i]);
+            const size = await heap.size();
+            if (size > inputK) {
+                await heap.delete();
+            }
+        }
+        setHeap(heap);
     }
 
     return (
@@ -129,11 +140,11 @@ interface Props {
 
 export default function AlgoInput({ setAnchorEl }: Props) {
 
-    const [nodes, setNodes] = React.useState("");
+    const [nums, setNums] = React.useState("");
     const [k, setK] = React.useState("");
 
-    const handleNodesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNodes(e.currentTarget.value);
+    const handleNumsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNums(e.currentTarget.value);
     };
 
     const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,9 +180,9 @@ export default function AlgoInput({ setAnchorEl }: Props) {
 
                 <InputBase
                     sx={{ ml: 1, flex: 1, }}
-                    placeholder='Tree nodes, seprate by ","'
-                    value={nodes}
-                    onChange={handleNodesChange}
+                    placeholder='nums, seprate by ","'
+                    value={nums}
+                    onChange={handleNumsChange}
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
@@ -185,19 +196,19 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
-                    setNodes("");
+                    setNums("");
                 }}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} k={k} />
+                <Submit nums={nums} setAnchorEl={setAnchorEl} k={k} />
             </Paper>
 
             <DropDown
                 anchorEl={menuAnchorEl}
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
-                setNodes={setNodes}
+                setNums={setNums}
                 setK={setK}
             />
         </>
