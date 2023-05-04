@@ -6,11 +6,13 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
 import Instruction from '../../../commons/Instruction';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import { description, example, heap, medianSlidingWindow } from "./contents";
+import { description, example } from "./contents";
 import React from "react";
 import LightTooltip from "../../../commons/LightTooltip";
 import AlgoInput from "./AlgoInput";
 import InputIcon from '@mui/icons-material/Input';
+import { lazyDeleteSolution } from "./solution1";
+import { indexDeletedSolution } from "./solution2"
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -94,7 +96,7 @@ const Instructions = () => {
                 name="Code"
                 icon={<CodeIcon fontSize="medium" />}
                 popover={<CodeBlock
-                    code={heap}
+                    code={lazyDeleteSolution}
                     language={languages.Typescript}
                     showLineNumbers={true}
                     linesToHighlight={[]}
@@ -107,7 +109,7 @@ const Instructions = () => {
                 name="Code"
                 icon={<CodeIcon fontSize="medium" />}
                 popover={<CodeBlock
-                    code={medianSlidingWindow}
+                    code={indexDeletedSolution}
                     language={languages.Typescript}
                     showLineNumbers={true}
                     linesToHighlight={[]}
