@@ -71,7 +71,7 @@ const Main = () => {
         await heap.insert(num);
         const size = await heap.size();
         if (size > k) {
-            await heap.delete();
+            await heap.pop();
         }
 
         const root = await heap.peek();

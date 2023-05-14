@@ -125,7 +125,7 @@ const Main = () => {
         setState(State.Computing);
         animate();
         try {
-            const root = await minHeap.delete();
+            const root = await minHeap.pop();
             if (root) {
                 setResult(root);
                 for (let i = 0; i < factors.length; i++) {

@@ -122,7 +122,7 @@ const Main = () => {
         try {
             await heap.insert(item);
             if (await heap.size() === k + 1) {
-                await heap.delete();
+                await heap.pop();
             }
         } catch (error) {
             console.error(error);
@@ -146,7 +146,7 @@ const Main = () => {
         animate();
 
         try {
-            const root = await heap.delete();
+            const root = await heap.pop();
             if (root) {
                 result.unshift(root.word);
             }

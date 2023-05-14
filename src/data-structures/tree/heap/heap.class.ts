@@ -140,7 +140,7 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
 
     protected abstract shouldBubbleUp(current: T, parent: T): boolean;
 
-    async delete(): Promise<T | undefined> {
+    async pop(): Promise<T | undefined> {
 
         // delete last line
         const line = this.treeLines.get(this.treeNodes.length - 1);

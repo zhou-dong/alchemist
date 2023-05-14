@@ -164,7 +164,7 @@ const Main = () => {
         setState(State.Computing);
         animate();
         try {
-            const root = await minHeap.delete();
+            const root = await minHeap.pop();
             if (root) {
                 const { val, row, col } = root;
                 if (col + 1 < matrix[row].length) {

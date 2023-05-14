@@ -105,7 +105,7 @@ const Main = () => {
         setState(State.Computing);
         animate();
         try {
-            const root = await minHeap.delete();
+            const root = await minHeap.pop();
             if (root) {
                 results.push(root.val);
                 finishedKeys.push(root.key);

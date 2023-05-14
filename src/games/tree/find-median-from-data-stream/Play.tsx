@@ -52,12 +52,12 @@ const Main = () => {
             if (smallerTop === undefined || num <= smallerTop) {
                 await smaller.insert(num);
                 if ((await smaller.size()) > (await greater.size() + 1)) {
-                    await greater.insert((await smaller.delete())!);
+                    await greater.insert((await smaller.pop())!);
                 }
             } else {
                 await greater.insert(num);
                 if ((await greater.size()) > (await smaller.size())) {
-                    await smaller.insert((await greater.delete())!);
+                    await smaller.insert((await greater.pop())!);
                 }
             }
         } catch (error) {

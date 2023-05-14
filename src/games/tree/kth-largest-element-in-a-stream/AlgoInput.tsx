@@ -121,7 +121,7 @@ const Submit: React.FC<{
             await heap.insert(inputNums[i]);
             const size = await heap.size();
             if (size > inputK) {
-                await heap.delete();
+                await heap.pop();
             }
         }
         setHeap(heap);

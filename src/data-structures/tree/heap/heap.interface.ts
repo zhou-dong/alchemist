@@ -16,7 +16,7 @@ interface Heap<T extends Comparable | string | number> {
      * After the root is removed, the last element in the heap is moved to the root position, 
      * and it is then moved downwards to its appropriate position to maintain the heap property.
      */
-    delete(): Promise<T | undefined>;
+    pop(): Promise<T | undefined>;
 
     /**
      * This method is used to return the root element of the heap without removing it. 

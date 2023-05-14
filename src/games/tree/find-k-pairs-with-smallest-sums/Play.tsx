@@ -144,7 +144,7 @@ const Main = () => {
         setState(State.Computing);
         animate();
         try {
-            const root = await minHeap.delete();
+            const root = await minHeap.pop();
             if (root) {
                 const { x, y, a, b } = root;
                 results.push([a, b]);

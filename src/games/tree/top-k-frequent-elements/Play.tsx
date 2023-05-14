@@ -46,7 +46,7 @@ const Main = () => {
                 const top = await heap.peek();
                 if (top) {
                     if (top.count < item.count) {
-                        await heap.delete();
+                        await heap.pop();
                         await heap.insert(item);
                     }
                 }

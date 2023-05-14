@@ -31,7 +31,7 @@ const Main = () => {
         animate();
 
         try {
-            const root = await heap.delete();
+            const root = await heap.pop();
             setResult(root);
             setK(k => k - 1);
             await wait(0.5);
