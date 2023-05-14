@@ -148,7 +148,7 @@ const Main = () => {
                 const col = 0;
                 const item = new HeapItem(matrix[row][col], row, col);
                 setCurrent({ row, col });
-                await minHeap.insert(item);
+                await minHeap.push(item);
             }
             setCurrent({ row: 0, col: 0 });
             await wait(0.1);
@@ -170,7 +170,7 @@ const Main = () => {
                 if (col + 1 < matrix[row].length) {
                     const item = new HeapItem(matrix[row][col + 1], row, col + 1);
                     setCurrent({ row: item.row, col: item.col });
-                    await minHeap.insert(item);
+                    await minHeap.push(item);
                 }
                 completed.push({ row, col });
                 setResult(val);

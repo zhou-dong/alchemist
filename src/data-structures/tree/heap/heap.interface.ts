@@ -9,7 +9,7 @@ interface Heap<T extends Comparable | string | number> {
      * The new element is inserted at the bottom of the heap and 
      * is then moved upwards to its appropriate position to maintain the heap property.
      */
-    insert(item: T): Promise<void>;
+    push(item: T): Promise<void>;
 
     /**
      * This method is used to remove the root element from the heap. 

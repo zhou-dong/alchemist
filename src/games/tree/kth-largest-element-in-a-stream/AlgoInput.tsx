@@ -118,7 +118,7 @@ const Submit: React.FC<{
     const doSubmit = async (inputNums: number[], inputK: number) => {
         const heap = buildTree(scene, inputK);
         for (let i = 0; i < inputNums.length; i++) {
-            await heap.insert(inputNums[i]);
+            await heap.push(inputNums[i]);
             const size = await heap.size();
             if (size > inputK) {
                 await heap.pop();

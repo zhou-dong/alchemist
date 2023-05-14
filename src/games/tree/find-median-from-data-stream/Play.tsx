@@ -50,14 +50,14 @@ const Main = () => {
         try {
             const smallerTop = await smaller.peek();
             if (smallerTop === undefined || num <= smallerTop) {
-                await smaller.insert(num);
+                await smaller.push(num);
                 if ((await smaller.size()) > (await greater.size() + 1)) {
-                    await greater.insert((await smaller.pop())!);
+                    await greater.push((await smaller.pop())!);
                 }
             } else {
-                await greater.insert(num);
+                await greater.push(num);
                 if ((await greater.size()) > (await smaller.size())) {
-                    await smaller.insert((await greater.pop())!);
+                    await smaller.push((await greater.pop())!);
                 }
             }
         } catch (error) {

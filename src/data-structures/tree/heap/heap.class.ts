@@ -38,7 +38,7 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
         return positions;
     }
 
-    async insert(item: T): Promise<void> {
+    async push(item: T): Promise<void> {
         const index = this.treeNodes.length;
         await Promise.all([
             this.array.push(this.buildArrayNode(item)),

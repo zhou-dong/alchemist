@@ -120,7 +120,7 @@ const Main = () => {
         animate();
 
         try {
-            await heap.insert(item);
+            await heap.push(item);
             if (await heap.size() === k + 1) {
                 await heap.pop();
             }

@@ -47,11 +47,11 @@ const Main = () => {
                 if (top) {
                     if (top.count < item.count) {
                         await heap.pop();
-                        await heap.insert(item);
+                        await heap.push(item);
                     }
                 }
             } else {
-                await heap.insert(item);
+                await heap.push(item);
             }
 
             if (mapIndex + 1 === frequents.length) {

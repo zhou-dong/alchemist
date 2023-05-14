@@ -68,7 +68,7 @@ const Main = () => {
             return;
         }
 
-        await heap.insert(num);
+        await heap.push(num);
         const size = await heap.size();
         if (size > k) {
             await heap.pop();
