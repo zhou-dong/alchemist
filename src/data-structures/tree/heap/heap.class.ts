@@ -140,39 +140,73 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
 
     protected abstract shouldBubbleUp(current: T, parent: T): boolean;
 
-    async pop(): Promise<T | undefined> {
-
-        // delete last line
-        const line = this.treeLines.get(this.treeNodes.length - 1);
-        line?.hide();
-        this.treeLines.delete(this.treeNodes.length - 1);
-
-        const lastNode = this.treeNodes.pop();
-        const arrayLast = await this.array.pop();
-        if (this.treeNodes.length === 0 || !lastNode) {
-            if (lastNode) {
-                lastNode.hide();
-                arrayLast?.hide();
-            }
-            return Promise.resolve(lastNode?.value.value);
+    private deleteLastLine() {
+        const key = this.treeNodes.length - 1;
+        const last = this.treeLines.get(key);
+        if (last) {
+            last.hide();
+            this.treeLines.delete(key);
         }
+    }
 
-        const root = this.treeNodes[0];
-        root.hide();
+    private async deleteTop(): Promise<T | undefined> {
+        this.deleteLastLine();
 
+        // remove root
+        const treeRoot = this.treeNodes.shift();
+        treeRoot?.hide();
         const arrayHead = await this.array.shift();
         arrayHead?.hide();
 
-        this.treeNodes[0] = lastNode;
-        const { x, y } = this.treeNodesPositions[0];
+        // move last to root
+        const treeLast = this.treeNodes.pop();
+        const arrayLast = await this.array.pop();
+        if (treeLast && arrayLast) {
+            this.treeNodes.unshift(treeLast);
+            const { x, y } = this.treeNodesPositions[0];
+            await Promise.all([
+                this.array.unshift(arrayLast!),
+                treeLast.moveTo({ x, y, z: 0 }, this.props.duration || 0)
+            ]);
+            await this.bubbleDown(0);
+        }
 
-        await Promise.all([
-            this.array.unshift(arrayLast!),
-            lastNode.moveTo({ x, y, z: 0 }, this.props.duration || 0)
-        ]);
+        const result: T | undefined = treeRoot?.value.value;
+        return Promise.resolve(result);
+    }
 
-        await this.bubbleDown(0);
-        return Promise.resolve(root.value.value);
+    async pop(): Promise<T | undefined> {
+
+        return this.deleteTop();
+
+        // this.deleteLastLine();
+
+        // const lastNode = this.treeNodes.pop();
+        // const arrayLast = await this.array.pop();
+        // if (this.treeNodes.length === 0 || !lastNode) {
+        //     if (lastNode) {
+        //         lastNode.hide();
+        //         arrayLast?.hide();
+        //     }
+        //     return Promise.resolve(lastNode?.value.value);
+        // }
+
+        // const root = this.treeNodes[0];
+        // root.hide();
+
+        // const arrayHead = await this.array.shift();
+        // arrayHead?.hide();
+
+        // this.treeNodes[0] = lastNode;
+        // const { x, y } = this.treeNodesPositions[0];
+
+        // await Promise.all([
+        //     this.array.unshift(arrayLast!),
+        //     lastNode.moveTo({ x, y, z: 0 }, this.props.duration || 0)
+        // ]);
+
+        // await this.bubbleDown(0);
+        // return Promise.resolve(root.value.value);
     }
 
     private getValue(index: number): T {
