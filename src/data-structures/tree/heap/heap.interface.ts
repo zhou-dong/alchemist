@@ -47,6 +47,8 @@ interface Heap<T extends Comparable | string | number> {
      */
     clear(): Promise<void>;
 
+    delete(item: T): Promise<T | undefined>;
+
     items(): T[];
 }
 
