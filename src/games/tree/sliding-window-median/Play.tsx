@@ -1,7 +1,7 @@
 import React from "react";
 import { useAlgoContext } from "./AlgoContext";
 import { styled } from '@mui/system';
-import { Button, ButtonGroup, Paper, Stack, Typography } from '@mui/material';
+import { Avatar, Button, ButtonGroup, Chip, Paper, Stack, Typography } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -10,36 +10,58 @@ import { smallerHeapColor, greaterHeapColor } from "./styles";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Action, Target } from "./algo";
 
-const DisplayTip: React.FC<{ tip: string, backgroundColor: string, fontColor: string }> = ({ tip, backgroundColor, fontColor }) => (
-    <Paper
-        variant="elevation"
-        elevation={8}
-        sx={{
-            backgroundColor,
-            padding: 2
-        }}
-    >
-        <Stack direction="row" spacing={1}>
-            <TipsAndUpdatesOutlinedIcon sx={{ color: "#fff" }} />
-            <Typography sx={{ color: fontColor }}>
-                {tip}
-            </Typography>
-        </Stack>
-    </Paper>
-);
+const HeapStats: React.FC<{
+    title: string,
+    formula: string,
+    backgroundColor: string,
+    lazyDeleteItems: Map<number, number>
+}> = ({ title, backgroundColor, formula, lazyDeleteItems }) => {
 
-const DisplayTips = () => (
-    <div style={{
-        position: "fixed",
-        top: "15%",
-        right: "5%",
-    }}>
-        <Stack spacing={1}>
-            <DisplayTip tip="MaxHeap: (nums <= median)" backgroundColor={smallerHeapColor} fontColor="#000" />
-            <DisplayTip tip="MinHeap: (nums > median)" backgroundColor={greaterHeapColor} fontColor="#fff" />
+    return (
+        <Stack
+            spacing={2}
+            sx={{ display: "flex", alignItems: "center" }}
+        >
+            <Chip
+                label={title + " (" + formula + ")"}
+                sx={{ backgroundColor }}
+                icon={<TipsAndUpdatesOutlinedIcon sx={{ "&&": { color: "#fff" } }} />}
+            />
+
+            <Paper
+                elevation={8}
+                sx={{
+                    padding: 1,
+                    textAlign: "center",
+                    backgroundColor
+                }}
+            >
+                <Typography>
+                    Items delete later
+                </Typography>
+
+                <Stack spacing={1} direction="row" sx={{ marginTop: "6px" }}>
+                    {
+                        Array.from(lazyDeleteItems.entries()).map((value, i) =>
+                            <Chip
+                                key={i}
+                                avatar={
+                                    <Avatar sx={{ backgroundColor: "red", color: "#000" }}>
+                                        <Typography sx={{ color: "#fff" }}>
+                                            {value[0]}
+                                        </Typography>
+                                    </Avatar>
+                                }
+                                label={value[1]}
+                            // variant="outlined"
+                            />
+                        )
+                    }
+                </Stack>
+            </Paper>
         </Stack>
-    </div>
-);
+    )
+}
 
 const DisplayNums = () => {
     const { nums, k, steps, stepIndex } = useAlgoContext();
@@ -152,7 +174,32 @@ const Main = () => {
     return (
         <>
             <DisplayNums />
-            <DisplayTips />
+
+            <div style={{
+                position: "fixed",
+                top: "38%",
+                left: "15%",
+            }}>
+                <HeapStats
+                    title="MaxHeap"
+                    formula="nums <= median"
+                    backgroundColor={smallerHeapColor}
+                    lazyDeleteItems={dualHeap?.smaller.deleted || new Map()}
+                />
+            </div>
+
+            <div style={{
+                position: "fixed",
+                top: "38%",
+                right: "15%",
+            }}>
+                <HeapStats
+                    title="MinHeap"
+                    formula="nums > median"
+                    backgroundColor={greaterHeapColor}
+                    lazyDeleteItems={dualHeap?.greater.deleted || new Map()}
+                />
+            </div>
 
             <Actions>
                 <Stack spacing={3} sx={{ "display": "flex", alignItems: "center" }}>
