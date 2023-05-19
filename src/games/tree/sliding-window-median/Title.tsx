@@ -1,27 +1,29 @@
-import Box from '@mui/material/Box';
 import { CheckCircleOutline } from '@mui/icons-material';
 import { Typography } from '@mui/material';
+import { styled } from '@mui/system';
 import { title } from "./contents";
 import { useAlgoContext } from './AlgoContext';
-import { State } from './AlgoState';
+
+const TitlePosition = styled('div')({
+    position: "fixed",
+    top: 40,
+    width: "100%",
+    display: 'flex',
+    alignItems: "center",
+    justifyContent: "center",
+});
 
 export default function Title() {
 
-    const { state } = useAlgoContext();
+    const { steps, stepIndex } = useAlgoContext();
+    const isSuccess: boolean = stepIndex > 0 && steps[stepIndex] === undefined;
 
     return (
-        <Box sx={{
-            position: "fixed",
-            top: 40,
-            width: "100%",
-            display: 'flex',
-            alignItems: "center",
-            justifyContent: "center",
-        }}>
+        <TitlePosition>
             <Typography variant='body1'>
                 {title}
             </Typography>
-            {state === State.Finished && <CheckCircleOutline sx={{ color: 'green' }} />}
-        </Box>
+            {isSuccess && <CheckCircleOutline sx={{ color: 'green' }} />}
+        </TitlePosition>
     );
 }

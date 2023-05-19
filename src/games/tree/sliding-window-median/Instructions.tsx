@@ -12,7 +12,6 @@ import LightTooltip from "../../../commons/LightTooltip";
 import AlgoInput from "./AlgoInput";
 import InputIcon from '@mui/icons-material/Input';
 import { lazyDeleteSolution } from "./solution1";
-import { indexDeletedSolution } from "./solution2"
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -97,19 +96,6 @@ const Instructions = () => {
                 icon={<CodeIcon fontSize="medium" />}
                 popover={<CodeBlock
                     code={lazyDeleteSolution}
-                    language={languages.Typescript}
-                    showLineNumbers={true}
-                    linesToHighlight={[]}
-                    wrapLines={true}
-                />}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            />
-            <Instruction
-                name="Code"
-                icon={<CodeIcon fontSize="medium" />}
-                popover={<CodeBlock
-                    code={indexDeletedSolution}
                     language={languages.Typescript}
                     showLineNumbers={true}
                     linesToHighlight={[]}

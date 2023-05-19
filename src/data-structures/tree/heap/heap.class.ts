@@ -198,21 +198,25 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
     }
 
     async pop(): Promise<T | undefined> {
-        const top = this.deleteTop();
-        this.prune();
+        const top = await this.deleteTop();
+        await this.prune();
         return top;
     }
 
     async delete(item: T): Promise<T | undefined> {
         const top: T | undefined = await this.peek();
+
         if (top !== undefined && top === item) {
             return this.pop();
+        }
+
+        if (this.treeNodes.map(node => node.value.value).indexOf(item) < 0) {
+            return undefined;
         }
 
         const count: number = this.deleted.get(item) || 0;
         this.deleted.set(item, count + 1);
         this.deletedCount += 1;
-
         return item;
     }
 

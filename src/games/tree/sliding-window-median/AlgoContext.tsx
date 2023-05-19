@@ -1,28 +1,9 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import { Comparable } from "../../../data-structures/tree/heap/heap.interface";
-import MinHeap from "../../../data-structures/tree/heap/min-heap";
 import { State } from "./AlgoState";
-
-export class HeapItem implements Comparable {
-
-    num: number;
-    count: number;
-
-    constructor(num: number, count: number) {
-        this.num = num;
-        this.count = count;
-    }
-
-    compareTo(other: HeapItem): number {
-        return this.count - other.count;
-    }
-
-    toString(): string {
-        return this.num + ":" + this.count;
-    }
-}
+import DualHeap from "./DualHeap";
+import { Step } from "./algo";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -32,20 +13,16 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     k: number,
     setK: React.Dispatch<React.SetStateAction<number>>,
-    heap?: MinHeap<HeapItem>,
-    setHeap: React.Dispatch<React.SetStateAction<MinHeap<HeapItem> | undefined>>,
-    map?: Map<number, number>,
-    setMap: React.Dispatch<React.SetStateAction<Map<number, number> | undefined>>,
     nums: number[],
     setNums: React.Dispatch<React.SetStateAction<number[]>>,
-    index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>,
-    mapIndex: number,
-    setMapIndex: React.Dispatch<React.SetStateAction<number>>,
-    frequents: HeapItem[],
-    setFrequents: React.Dispatch<React.SetStateAction<HeapItem[]>>,
     result: number[],
-    setResult: React.Dispatch<React.SetStateAction<number[]>>
+    setResult: React.Dispatch<React.SetStateAction<number[]>>,
+    dualHeap?: DualHeap,
+    setDualHeap: React.Dispatch<React.SetStateAction<DualHeap | undefined>>,
+    steps: Step[],
+    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
+    stepIndex: number,
+    setStepIndex: React.Dispatch<React.SetStateAction<number>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -54,18 +31,15 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => { },
     k: 0,
     setK: () => { },
-    setHeap: () => { },
-    setMap: () => { },
     nums: [],
     setNums: () => { },
-    index: -1,
-    setIndex: () => { },
-    mapIndex: -1,
-    setMapIndex: () => { },
-    frequents: [],
-    setFrequents: () => { },
     result: [],
-    setResult: () => { }
+    setResult: () => { },
+    setDualHeap: () => { },
+    steps: [],
+    setSteps: () => { },
+    stepIndex: 0,
+    setStepIndex: () => { }
 });
 
 let animationFrameId = -1;
@@ -78,15 +52,14 @@ export const AlgoContextProvider: React.FC<{
 }> = ({ children, renderer, camera, scene }) => {
 
     camera.position.z = 20;
+
     const [state, setState] = React.useState(State.Typing);
-    const [k, setK] = React.useState(0);
-    const [heap, setHeap] = React.useState<MinHeap<HeapItem>>();
-    const [map, setMap] = React.useState<Map<number, number>>();
     const [nums, setNums] = React.useState<number[]>([]);
-    const [index, setIndex] = React.useState(-1);
-    const [mapIndex, setMapIndex] = React.useState(-1);
-    const [frequents, setFrequents] = React.useState<HeapItem[]>([]);
+    const [k, setK] = React.useState(0);
+    const [dualHeap, setDualHeap] = React.useState<DualHeap>();
     const [result, setResult] = React.useState<number[]>([]);
+    const [steps, setSteps] = React.useState<Step[]>([]);
+    const [stepIndex, setStepIndex] = React.useState(0);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -120,20 +93,16 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             k,
             setK,
-            heap,
-            setHeap,
-            map,
-            setMap,
             nums,
             setNums,
-            index,
-            setIndex,
-            mapIndex,
-            setMapIndex,
-            frequents,
-            setFrequents,
             result,
-            setResult
+            setResult,
+            dualHeap,
+            setDualHeap,
+            steps,
+            setSteps,
+            stepIndex,
+            setStepIndex
         }}>
             {children}
             <div ref={ref}></div>

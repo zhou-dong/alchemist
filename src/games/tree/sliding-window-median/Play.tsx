@@ -1,170 +1,190 @@
-import { HeapItem, useAlgoContext } from "./AlgoContext";
-import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import React from "react";
+import { useAlgoContext } from "./AlgoContext";
+import { styled } from '@mui/system';
+import { Button, ButtonGroup, Paper, Stack, Typography } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import MouseIcon from '@mui/icons-material/Mouse';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
+import { smallerHeapColor, greaterHeapColor } from "./styles";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { Action, Target } from "./algo";
+
+const DisplayTip: React.FC<{ tip: string, backgroundColor: string, fontColor: string }> = ({ tip, backgroundColor, fontColor }) => (
+    <Paper
+        variant="elevation"
+        elevation={8}
+        sx={{
+            backgroundColor,
+            padding: 2
+        }}
+    >
+        <Stack direction="row" spacing={1}>
+            <TipsAndUpdatesOutlinedIcon sx={{ color: "#fff" }} />
+            <Typography sx={{ color: fontColor }}>
+                {tip}
+            </Typography>
+        </Stack>
+    </Paper>
+);
+
+const DisplayTips = () => (
+    <div style={{
+        position: "fixed",
+        top: "15%",
+        right: "5%",
+    }}>
+        <Stack spacing={1}>
+            <DisplayTip tip="MaxHeap: (nums <= median)" backgroundColor={smallerHeapColor} fontColor="#000" />
+            <DisplayTip tip="MinHeap: (nums > median)" backgroundColor={greaterHeapColor} fontColor="#fff" />
+        </Stack>
+    </div>
+);
+
+const DisplayNums = () => {
+    const { nums, k, steps, stepIndex } = useAlgoContext();
+
+    const index = steps[stepIndex]?.index || -1;
+    const lower = index + 1 - k;
+    const upper = index;
+
+    return (
+        <div style={{
+            position: "fixed",
+            top: "150px",
+            left: "50%",
+            transform: "translate(-50%)",
+        }}>
+            <ButtonGroup>
+                {nums.map((num, i) =>
+                    <Button
+                        key={i}
+                        color="success"
+                        sx={{ borderColor: "lightgray" }}
+                        size="large"
+                        variant={(i >= lower && i <= upper) ? "contained" : "outlined"}
+                    >
+                        {num}
+                    </Button>
+                )}
+            </ButtonGroup>
+        </div>
+    );
+};
+
+const DisplayResult = () => {
+    const { result } = useAlgoContext();
+
+    return (
+        <ButtonGroup size="large" color="success">
+            {result.length > 0 && <Button variant="contained" sx={{ color: "#fff" }}>medians</Button>}
+            {
+                result.map((value, i) => <Button key={i} sx={{ color: "#000" }}>{value}</Button>)
+            }
+        </ButtonGroup>
+    );
+};
+
+const Actions = styled('div')({
+    position: "fixed",
+    bottom: "150px",
+    left: "50%",
+    transform: "translate(-50%)",
+});
 
 const Main = () => {
 
-    const { animate, cancelAnimate, state, setState, heap, map, nums, index, setIndex, setMapIndex, setFrequents, frequents, mapIndex, k, result, setResult } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, result, dualHeap, stepIndex, steps, setStepIndex } = useAlgoContext();
 
-    const handleCount = () => {
-        const num = nums[index + 1];
-        if (num === undefined || !map) {
+    const step = steps[stepIndex];
+
+    const handlePushToHeap = async () => {
+        if (step === undefined || step.action !== Action.Push || step.target !== Target.Heap) {
             return;
         }
 
-        const count = map.get(num) || 0;
-        map.set(num, count + 1);
-
-        if (index + 2 === nums.length) {
-            setState(State.AddToHeap);
-            setMapIndex(0);
-            setFrequents(Array.from(map).map(([key, value]) => (new HeapItem(key, value))));
-        }
-
-        setIndex(index + 1);
-    }
-
-    const handleAddToHeap = async () => {
-        setState(State.Computing);
-
-        if (!heap) {
-            return;
-        }
-
-        const item = frequents[mapIndex];
-        if (!item) {
-            return;
-        }
-
+        setState(State.Running);
         animate();
 
         try {
-            if (await heap.size() === k) {
-                const top = await heap.peek();
-                if (top) {
-                    if (top.count < item.count) {
-                        await heap.pop();
-                        await heap.push(item);
-                    }
-                }
-            } else {
-                await heap.push(item);
-            }
-
-            if (mapIndex + 1 === frequents.length) {
-                setResult(() => heap.items().map(item => item.num));
-            }
-            setMapIndex(i => i + 1);
-            await wait(0.5);
+            await dualHeap?.push(step.value);
+            await wait(0.1);
         } catch (error) {
             console.error(error);
         }
 
-        setState(State.AddToHeap);
         cancelAnimate();
+        setStepIndex(i => i + 1);
+        setState(State.Ready);
     }
 
-    const DisplayInput = () => (
-        <ButtonGroup>
-            {nums.map((num, i) =>
-                <Button
-                    key={i}
-                    color="success"
-                    sx={{ borderColor: "lightgray" }}
-                    size="large"
-                    variant={(i === index) ? "contained" : "outlined"}
-                >
-                    {num}
-                </Button>
-            )}
-        </ButtonGroup>
-    );
-
-    const getMapStyle = (num: number) => {
-        if (num === frequents[mapIndex]?.num) {
-            return { backgroundColor: "green", color: "#FFF" };
-        } else {
-            return {};
+    const handleAddtoResult = async () => {
+        if (step === undefined || step.action !== Action.Push || step.target !== Target.Result) {
+            return;
         }
+
+        setState(State.Running);
+        result.push(step.value);
+        setStepIndex(i => i + 1);
+        setState(State.Ready);
     }
 
-    const DisplayMap = () => (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell>Num</TableCell>
-                    <TableCell>Count</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {
-                    map && Array.from(map).map(([key, value]) => (
-                        <TableRow key={key}>
-                            <TableCell sx={getMapStyle(key)}>{key}</TableCell>
-                            <TableCell sx={getMapStyle(key)}>{value}</TableCell>
-                        </TableRow>
-                    ))
-                }
-            </TableBody>
-        </Table>
-    );
+    const handleDeleteFromHeap = async () => {
+        if (step === undefined || step.action !== Action.Delete || step.target !== Target.Heap) {
+            return;
+        }
 
-    const DisplayResult = () => (
-        <ButtonGroup size="large" color="success">
-            {result.length > 0 && <Button variant="contained">Top K Elements</Button>}
-            {
-                result.map((value, i) => <Button key={i}>{value}</Button>)
-            }
-        </ButtonGroup>
-    );
+        setState(State.Running);
+        animate();
 
-    const Dashboard = () => (
-        <Stack spacing={2} direction="column" alignItems="flex-start">
-            <DisplayInput />
-            <DisplayMap />
-            <DisplayResult />
-        </Stack >
-    );
+        try {
+            await dualHeap?.delete(step.value);
+            await wait(0.1);
+        } catch (error) {
+            console.error(error);
+        }
+
+        cancelAnimate();
+        setStepIndex(i => i + 1);
+        setState(State.Ready);
+    }
 
     return (
         <>
-            <div style={{
-                position: "fixed",
-                top: "150px",
-                left: "10%"
-            }}>
-                {state !== State.Typing && <Dashboard />}
-            </div>
+            <DisplayNums />
+            <DisplayTips />
 
-            <div style={{
-                position: "fixed",
-                bottom: "150px",
-                left: "50%",
-                transform: "translate(-50%)",
-            }}
-            >
-                <ButtonGroup size='large' variant='outlined'>
-                    <Button
-                        color="success"
-                        startIcon={<MouseIcon />}
-                        onClick={handleCount}
-                        disabled={state !== State.Count || index + 1 === nums.length}
-                    >
-                        count
-                    </Button>
-                    <Button
-                        color="success"
-                        startIcon={<AddCircleOutlineIcon />}
-                        onClick={handleAddToHeap}
-                        disabled={state !== State.AddToHeap || mapIndex === frequents.length}
-                    >
-                        Add to Heap
-                    </Button>
-                </ButtonGroup>
-            </div>
+            <Actions>
+                <Stack spacing={3} sx={{ "display": "flex", alignItems: "center" }}>
+                    <DisplayResult />
+                    <ButtonGroup size='large' variant='outlined'>
+                        <Button
+                            color={"success"}
+                            startIcon={<AddCircleOutlineIcon />}
+                            onClick={handlePushToHeap}
+                            disabled={state !== State.Ready || step === undefined || step.action !== Action.Push || step.target !== Target.Heap}
+                        >
+                            Push to Heap
+                        </Button>
+                        <Button
+                            color={"success"}
+                            startIcon={<AddCircleOutlineIcon />}
+                            onClick={handleAddtoResult}
+                            disabled={state !== State.Ready || step === undefined || step.action !== Action.Push || step.target !== Target.Result}
+                        >
+                            Add to Result
+                        </Button>
+                        <Button
+                            color={"success"}
+                            startIcon={<RemoveCircleOutlineIcon />}
+                            onClick={handleDeleteFromHeap}
+                            disabled={state !== State.Ready || step === undefined || step.action !== Action.Delete || step.target !== Target.Heap}
+                        >
+                            delete from Heap
+                        </Button>
+                    </ButtonGroup>
+                </Stack>
+            </Actions>
         </>
     );
 }

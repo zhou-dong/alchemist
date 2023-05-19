@@ -15,9 +15,11 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildTree, } from "./styles";
+import { buildSmaller, buildGreater } from "./styles";
+import DualHeap from './DualHeap';
+import { medianSlidingWindow } from './algo';
 
-const input1 = { array: [3, 3, 3, 1, 1, 2, 2, 2, 3], k: 2 };
+const input1 = { array: [1, 8, 4, 9, 7, 5, 8, 6, 2, 3], k: 3 };
 const input2 = { array: [3, 3, 3, 6, 1, 6, 1, 2, 6, 2, 2, 3, 6], k: 3 };
 const input3 = { array: [2, 8, 5, 6, 1, 3, 1, 2, 2, 3, 5], k: 4 };
 
@@ -84,7 +86,7 @@ const DropDown: React.FC<{
 }
 
 const parseInput = (input: string): (number)[] => {
-    return input.split(",").map(ch => +ch);
+    return input.split(",").map(ch => ch.trim()).map(ch => +ch);
 }
 
 const Submit: React.FC<{
@@ -93,27 +95,40 @@ const Submit: React.FC<{
     k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setHeap, setK, setMap, setNums, setIndex, setMapIndex, setResult } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setK, setNums, setResult, setDualHeap, setSteps, setStepIndex } = useAlgoContext();
 
-    const disabled = nodes.trim().length === 0 || k.trim().length === 0;
+    const disabled = nodes.trim().length === 0 || k.trim().length === 0 || +k <= 0;
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
-        const array = parseInput(nodes);
-        animate();
-        clearScene(scene);
+
+        const nums = parseInput(nodes);
+
+        setStepIndex(0);
         setK(+k);
-        setNums(array);
-        setIndex(-1);
-        setMapIndex(-1);
+        setNums(nums);
         setResult([]);
-        setHeap(buildTree(array, scene, +k));
         setNodes("");
-        setMap(new Map<number, number>());
-        await wait(0.2);
+
+        const steps = medianSlidingWindow(nums, +k);
+        setSteps(steps);
+
+        animate();
+
+        try {
+            clearScene(scene);
+            const smaller = buildSmaller(scene);
+            const greater = buildGreater(scene);
+            setDualHeap(new DualHeap(smaller, greater));
+            await wait(0.2);
+        } catch (error) {
+            console.error(error);
+        }
+
         cancelAnimate();
-        setState(State.Count);
+
+        setState(State.Ready);
     }
 
     return (
