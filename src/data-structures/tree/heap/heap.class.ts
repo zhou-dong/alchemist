@@ -18,7 +18,7 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
     private treeNodes: TreeNode<T>[];
     private treeLines: Map<number, Line>;
 
-    private deleted: Map<T, number>;
+    readonly deleted: Map<T, number>;
     private deletedCount: number;
 
     constructor(props: Props) {
