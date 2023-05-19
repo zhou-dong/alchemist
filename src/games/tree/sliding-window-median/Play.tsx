@@ -5,7 +5,7 @@ import { Avatar, Button, ButtonGroup, Chip, Paper, Stack, Typography } from '@mu
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import { smallerHeapColor, greaterHeapColor } from "./styles";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { Action, Target } from "./algo";
@@ -15,53 +15,51 @@ const HeapStats: React.FC<{
     formula: string,
     backgroundColor: string,
     lazyDeleteItems: Map<number, number>
-}> = ({ title, backgroundColor, formula, lazyDeleteItems }) => {
-
-    return (
-        <Stack
-            spacing={2}
-            sx={{ display: "flex", alignItems: "center" }}
+}> = ({
+    title,
+    backgroundColor,
+    formula,
+    lazyDeleteItems
+}) => (
+        <Paper
+            elevation={2}
+            sx={{
+                padding: 2,
+                textAlign: "center",
+                backgroundColor: "#f5f5f5"
+            }}
         >
-            <Chip
-                label={title + " (" + formula + ")"}
-                sx={{ backgroundColor }}
-                icon={<TipsAndUpdatesOutlinedIcon sx={{ "&&": { color: "#fff" } }} />}
-                color="secondary"
-            />
+            <Stack direction="row" spacing={1}>
+                <TipsAndUpdatesIcon sx={{ color: backgroundColor }} />
 
-            <Paper
-                elevation={8}
-                sx={{
-                    padding: 1,
-                    textAlign: "center",
-                    backgroundColor
-                }}
-            >
-                <Typography sx={{ color: "#fff" }}>
-                    Items delete later
+                <Typography variant="body1">
+                    {title + " (" + formula + ")"}
                 </Typography>
+            </Stack>
 
-                <Stack spacing={1} direction="row" sx={{ marginTop: "6px" }}>
-                    {
-                        Array.from(lazyDeleteItems.entries()).map((value, i) =>
-                            <Chip
-                                key={i}
-                                avatar={
-                                    <Avatar sx={{ backgroundColor: "red", color: "#000" }}>
-                                        <Typography sx={{ color: "#fff" }}>
-                                            {value[0]}
-                                        </Typography>
-                                    </Avatar>
-                                }
-                                label={value[1]}
-                            />
-                        )
-                    }
-                </Stack>
-            </Paper>
-        </Stack>
-    )
-}
+            <Typography variant="body1" sx={{ marginTop: 2, color: "grayText" }}>
+                Items delete later
+            </Typography>
+
+            <Stack spacing={1} direction="row" sx={{ marginTop: "6px" }}>
+                {
+                    Array.from(lazyDeleteItems.entries()).map((value, i) =>
+                        <Chip
+                            key={i}
+                            avatar={
+                                <Avatar sx={{ backgroundColor }}>
+                                    <Typography sx={{ color: "#fff" }}>
+                                        {value[0]}
+                                    </Typography>
+                                </Avatar>
+                            }
+                            label={value[1]}
+                        />
+                    )
+                }
+            </Stack>
+        </Paper>
+    );
 
 const DisplayNums = () => {
     const { nums, k, steps, stepIndex } = useAlgoContext();
@@ -178,7 +176,7 @@ const Main = () => {
             <div style={{
                 position: "fixed",
                 top: "38%",
-                left: "15%",
+                left: "12%",
             }}>
                 <HeapStats
                     title="MaxHeap"
@@ -191,7 +189,7 @@ const Main = () => {
             <div style={{
                 position: "fixed",
                 top: "38%",
-                right: "15%",
+                right: "12%",
             }}>
                 <HeapStats
                     title="MinHeap"
