@@ -26,6 +26,7 @@ const HeapStats: React.FC<{
                 label={title + " (" + formula + ")"}
                 sx={{ backgroundColor }}
                 icon={<TipsAndUpdatesOutlinedIcon sx={{ "&&": { color: "#fff" } }} />}
+                color="secondary"
             />
 
             <Paper
@@ -36,7 +37,7 @@ const HeapStats: React.FC<{
                     backgroundColor
                 }}
             >
-                <Typography>
+                <Typography sx={{ color: "#fff" }}>
                     Items delete later
                 </Typography>
 
@@ -53,7 +54,6 @@ const HeapStats: React.FC<{
                                     </Avatar>
                                 }
                                 label={value[1]}
-                            // variant="outlined"
                             />
                         )
                     }
