@@ -11,23 +11,27 @@ import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useAlgoContext } from "./AlgoContext";
+import { Building, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildTree, } from "./styles";
+import { buildLines, compareFn } from './algo';
 
-const input1 = { array: [3, 3, 3, 1, 1, 2, 2, 2, 3], k: 2 };
-const input2 = { array: [3, 3, 3, 6, 1, 6, 1, 2, 6, 2, 2, 3, 6], k: 3 };
-const input3 = { array: [2, 8, 5, 6, 1, 3, 1, 2, 2, 3, 5], k: 4 };
+const input1 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
+const input2 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
+const input3 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
+
+const arrayToString = (buildings: number[][]): string => {
+    return "[" + buildings.map(building => "[" + building.join(",") + "]").join(",") + "]";
+}
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
     setNodes: React.Dispatch<React.SetStateAction<string>>,
-    setK: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setNodes, setK }) => {
+}> = ({ anchorEl, setAnchorEl, open, setNodes }) => {
 
     const buildInInputs = [
         input1,
@@ -50,10 +54,7 @@ const DropDown: React.FC<{
                     <MenuIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText sx={{ width: "120px" }}>
-                    nums
-                </ListItemText>
-                <ListItemText>
-                    k
+                    buildings
                 </ListItemText>
             </MenuItem>
             {
@@ -62,19 +63,15 @@ const DropDown: React.FC<{
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setNodes(item.array.join(","));
-                            setK(item.k + "");
+                            setNodes(arrayToString(item));
                         }}
-                        sx={{ width: "408px", overflow: "hidden" }}
+                        sx={{ width: "458px", overflow: "hidden" }}
                     >
                         <ListItemIcon>
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText sx={{ width: "120px" }}>
-                            {item.array.join(",")}
-                        </ListItemText>
-                        <ListItemText>
-                            {item.k}
+                            {arrayToString(item)}
                         </ListItemText>
                     </MenuItem>
                 ))
@@ -90,30 +87,42 @@ const parseInput = (input: string): (number)[] => {
 const Submit: React.FC<{
     nodes: string,
     setNodes: React.Dispatch<React.SetStateAction<string>>,
-    k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nodes, setNodes, setAnchorEl, k }) => {
-    const { scene, animate, cancelAnimate, setState, setHeap, setK, setMap, setNums, setIndex, setMapIndex, setResult } = useAlgoContext();
+}> = ({ nodes, setNodes, setAnchorEl }) => {
+    const { scene, animate, cancelAnimate, setState, setBuildings, setLines } = useAlgoContext();
 
-    const disabled = nodes.trim().length === 0 || k.trim().length === 0;
+    const disabled = nodes.trim().length === 0;
 
     const handleSubmit = async () => {
-        setState(State.Typing);
         setAnchorEl(null);
-        const array = parseInput(nodes);
-        animate();
-        clearScene(scene);
-        setK(+k);
-        setNums(array);
-        setIndex(-1);
-        setMapIndex(-1);
-        setResult([]);
-        setHeap(buildTree(array, scene, +k));
+
+        setState(State.Typing);
+        try {
+            const array: number[][] = JSON.parse(nodes);
+
+            const buildings: Building[] = array.map(building => {
+                const [left, right, height] = building;
+                return { left, right, height }
+            });
+            setBuildings(buildings);
+
+            const lines = buildLines(buildings);
+            lines.sort(compareFn);
+            setLines(lines);
+        } catch (error) {
+            console.error(error);
+        }
+
         setNodes("");
-        setMap(new Map<number, number>());
-        await wait(0.2);
+        clearScene(scene);
+        animate();
+        try {
+            await wait(0.2);
+        } catch (error) {
+            console.error(error);
+        }
         cancelAnimate();
-        setState(State.Count);
+        setState(State.Ready);
     }
 
     return (
@@ -130,14 +139,9 @@ interface Props {
 export default function AlgoInput({ setAnchorEl }: Props) {
 
     const [nodes, setNodes] = React.useState("");
-    const [k, setK] = React.useState("");
 
     const handleNodesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNodes(e.currentTarget.value);
-    };
-
-    const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setK(e.currentTarget.value);
     };
 
     const reference = React.useRef(null);
@@ -159,7 +163,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 sx={{
                     p: '2px 4px',
                     display: 'flex',
-                    width: 400,
+                    width: 450,
                     alignItems: "center"
                 }}
             >
@@ -169,18 +173,9 @@ export default function AlgoInput({ setAnchorEl }: Props) {
 
                 <InputBase
                     sx={{ ml: 1, flex: 1, }}
-                    placeholder='Tree nodes, seprate by ","'
+                    placeholder='buildings format: [left, right, height]'
                     value={nodes}
                     onChange={handleNodesChange}
-                />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
-                <InputBase
-                    sx={{ width: 60 }}
-                    placeholder='K'
-                    value={k}
-                    onChange={handleKChange}
-                    type="number"
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
@@ -190,7 +185,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                     <ClearIcon />
                 </IconButton>
 
-                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} k={k} />
+                <Submit nodes={nodes} setNodes={setNodes} setAnchorEl={setAnchorEl} />
             </Paper>
 
             <DropDown
@@ -198,7 +193,6 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
                 setNodes={setNodes}
-                setK={setK}
             />
         </>
     );

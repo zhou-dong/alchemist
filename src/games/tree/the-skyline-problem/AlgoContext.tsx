@@ -1,27 +1,39 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import { Comparable } from "../../../data-structures/tree/heap/heap.interface";
-import MinHeap from "../../../data-structures/tree/heap/min-heap";
 import { State } from "./AlgoState";
+import MaxHeap from "../../../data-structures/tree/heap/max-heap";
 
-export class HeapItem implements Comparable {
+export enum Action {
+    PushToHeap, DeleteFromHeap, PushToSkyline
+}
 
-    num: number;
-    count: number;
+export interface Step {
+    prevHeight: number;
+    action: Action;
+    height: number;
+    x?: number;
+}
 
-    constructor(num: number, count: number) {
-        this.num = num;
-        this.count = count;
-    }
+export enum Edge {
+    Start, End
+}
 
-    compareTo(other: HeapItem): number {
-        return this.count - other.count;
-    }
+export type Line = {
+    x: number;
+    height: number;
+    edge: Edge;
+}
 
-    toString(): string {
-        return this.num + ":" + this.count;
-    }
+export interface Building {
+    left: number;
+    right: number;
+    height: number;
+}
+
+export interface Point {
+    x: number;
+    height: number;
 }
 
 const AlgoContext = React.createContext<{
@@ -30,42 +42,27 @@ const AlgoContext = React.createContext<{
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
-    k: number,
-    setK: React.Dispatch<React.SetStateAction<number>>,
-    heap?: MinHeap<HeapItem>,
-    setHeap: React.Dispatch<React.SetStateAction<MinHeap<HeapItem> | undefined>>,
-    map?: Map<number, number>,
-    setMap: React.Dispatch<React.SetStateAction<Map<number, number> | undefined>>,
-    nums: number[],
-    setNums: React.Dispatch<React.SetStateAction<number[]>>,
-    index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>,
-    mapIndex: number,
-    setMapIndex: React.Dispatch<React.SetStateAction<number>>,
-    frequents: HeapItem[],
-    setFrequents: React.Dispatch<React.SetStateAction<HeapItem[]>>,
-    result: number[],
-    setResult: React.Dispatch<React.SetStateAction<number[]>>
+    maxHeap?: MaxHeap<number>,
+    setMaxHeap: React.Dispatch<React.SetStateAction<MaxHeap<number> | undefined>>,
+    buildings: Building[],
+    setBuildings: React.Dispatch<React.SetStateAction<Building[]>>,
+    skyline: Point[],
+    setSkyline: React.Dispatch<React.SetStateAction<Point[]>>,
+    lines: Line[],
+    setLines: React.Dispatch<React.SetStateAction<Line[]>>
 }>({
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    k: 0,
-    setK: () => { },
-    setHeap: () => { },
-    setMap: () => { },
-    nums: [],
-    setNums: () => { },
-    index: -1,
-    setIndex: () => { },
-    mapIndex: -1,
-    setMapIndex: () => { },
-    frequents: [],
-    setFrequents: () => { },
-    result: [],
-    setResult: () => { }
+    setMaxHeap: () => { },
+    buildings: [],
+    setBuildings: () => { },
+    skyline: [],
+    setSkyline: () => { },
+    lines: [],
+    setLines: () => { }
 });
 
 let animationFrameId = -1;
@@ -79,14 +76,10 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [k, setK] = React.useState(0);
-    const [heap, setHeap] = React.useState<MinHeap<HeapItem>>();
-    const [map, setMap] = React.useState<Map<number, number>>();
-    const [nums, setNums] = React.useState<number[]>([]);
-    const [index, setIndex] = React.useState(-1);
-    const [mapIndex, setMapIndex] = React.useState(-1);
-    const [frequents, setFrequents] = React.useState<HeapItem[]>([]);
-    const [result, setResult] = React.useState<number[]>([]);
+    const [buildings, setBuildings] = React.useState<Building[]>([]);
+    const [skyline, setSkyline] = React.useState<Point[]>([]);
+    const [maxHeap, setMaxHeap] = React.useState<MaxHeap<number>>();
+    const [lines, setLines] = React.useState<Line[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -118,22 +111,14 @@ export const AlgoContextProvider: React.FC<{
             scene,
             animate,
             cancelAnimate,
-            k,
-            setK,
-            heap,
-            setHeap,
-            map,
-            setMap,
-            nums,
-            setNums,
-            index,
-            setIndex,
-            mapIndex,
-            setMapIndex,
-            frequents,
-            setFrequents,
-            result,
-            setResult
+            maxHeap,
+            setMaxHeap,
+            buildings,
+            setBuildings,
+            skyline,
+            setSkyline,
+            lines,
+            setLines
         }}>
             {children}
             <div ref={ref}></div>
