@@ -105,13 +105,6 @@ const DisplayResult = () => {
     );
 };
 
-const Actions = styled('div')({
-    position: "fixed",
-    bottom: "150px",
-    left: "50%",
-    transform: "translate(-50%)",
-});
-
 const DisplayHeapsStats = () => {
 
     const { dualHeap } = useAlgoContext();
@@ -146,6 +139,13 @@ const DisplayHeapsStats = () => {
         </>
     );
 }
+
+const Actions = styled('div')({
+    position: "fixed",
+    bottom: "150px",
+    left: "50%",
+    transform: "translate(-50%)",
+});
 
 const PlayActions = () => {
     const { animate, cancelAnimate, state, setState, result, dualHeap, stepIndex, steps, setStepIndex } = useAlgoContext();
