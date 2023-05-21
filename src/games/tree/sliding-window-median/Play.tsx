@@ -112,8 +112,42 @@ const Actions = styled('div')({
     transform: "translate(-50%)",
 });
 
-const Main = () => {
+const DisplayHeapsStats = () => {
 
+    const { dualHeap } = useAlgoContext();
+
+    return (
+        <>
+            <div style={{
+                position: "fixed",
+                top: "38%",
+                left: "12%",
+            }}>
+                <HeapStats
+                    title="MaxHeap"
+                    formula="nums <= median"
+                    backgroundColor={smallerHeapColor}
+                    lazyDeleteItems={dualHeap?.smaller.deleted || new Map()}
+                />
+            </div>
+
+            <div style={{
+                position: "fixed",
+                top: "38%",
+                right: "12%",
+            }}>
+                <HeapStats
+                    title="MinHeap"
+                    formula="nums > median"
+                    backgroundColor={greaterHeapColor}
+                    lazyDeleteItems={dualHeap?.greater.deleted || new Map()}
+                />
+            </div>
+        </>
+    );
+}
+
+const PlayActions = () => {
     const { animate, cancelAnimate, state, setState, result, dualHeap, stepIndex, steps, setStepIndex } = useAlgoContext();
 
     const step = steps[stepIndex];
@@ -170,66 +204,47 @@ const Main = () => {
     }
 
     return (
+        <Actions>
+            <Stack spacing={3} sx={{ "display": "flex", alignItems: "center" }}>
+                <DisplayResult />
+                <ButtonGroup size='large' variant='outlined'>
+                    <Button
+                        color={"success"}
+                        startIcon={<AddCircleOutlineIcon />}
+                        onClick={handlePushToHeap}
+                        disabled={state !== State.Ready || step === undefined || step.action !== Action.Push || step.target !== Target.Heap}
+                    >
+                        Push to Heap
+                    </Button>
+                    <Button
+                        color={"success"}
+                        startIcon={<AddCircleOutlineIcon />}
+                        onClick={handleAddtoResult}
+                        disabled={state !== State.Ready || step === undefined || step.action !== Action.Push || step.target !== Target.Result}
+                    >
+                        Add to Result
+                    </Button>
+                    <Button
+                        color={"success"}
+                        startIcon={<RemoveCircleOutlineIcon />}
+                        onClick={handleDeleteFromHeap}
+                        disabled={state !== State.Ready || step === undefined || step.action !== Action.Delete || step.target !== Target.Heap}
+                    >
+                        delete from Heap
+                    </Button>
+                </ButtonGroup>
+            </Stack>
+        </Actions>
+    );
+}
+
+const Main = () => {
+    const { state } = useAlgoContext();
+    return (
         <>
             <DisplayNums />
-
-            <div style={{
-                position: "fixed",
-                top: "38%",
-                left: "12%",
-            }}>
-                <HeapStats
-                    title="MaxHeap"
-                    formula="nums <= median"
-                    backgroundColor={smallerHeapColor}
-                    lazyDeleteItems={dualHeap?.smaller.deleted || new Map()}
-                />
-            </div>
-
-            <div style={{
-                position: "fixed",
-                top: "38%",
-                right: "12%",
-            }}>
-                <HeapStats
-                    title="MinHeap"
-                    formula="nums > median"
-                    backgroundColor={greaterHeapColor}
-                    lazyDeleteItems={dualHeap?.greater.deleted || new Map()}
-                />
-            </div>
-
-            <Actions>
-                <Stack spacing={3} sx={{ "display": "flex", alignItems: "center" }}>
-                    <DisplayResult />
-                    <ButtonGroup size='large' variant='outlined'>
-                        <Button
-                            color={"success"}
-                            startIcon={<AddCircleOutlineIcon />}
-                            onClick={handlePushToHeap}
-                            disabled={state !== State.Ready || step === undefined || step.action !== Action.Push || step.target !== Target.Heap}
-                        >
-                            Push to Heap
-                        </Button>
-                        <Button
-                            color={"success"}
-                            startIcon={<AddCircleOutlineIcon />}
-                            onClick={handleAddtoResult}
-                            disabled={state !== State.Ready || step === undefined || step.action !== Action.Push || step.target !== Target.Result}
-                        >
-                            Add to Result
-                        </Button>
-                        <Button
-                            color={"success"}
-                            startIcon={<RemoveCircleOutlineIcon />}
-                            onClick={handleDeleteFromHeap}
-                            disabled={state !== State.Ready || step === undefined || step.action !== Action.Delete || step.target !== Target.Heap}
-                        >
-                            delete from Heap
-                        </Button>
-                    </ButtonGroup>
-                </Stack>
-            </Actions>
+            {state !== State.Typing && <DisplayHeapsStats />}
+            {state !== State.Typing && <PlayActions />}
         </>
     );
 }
