@@ -1,53 +1,50 @@
-import { Action, Building, useAlgoContext } from "./AlgoContext";
+import React from "react";
+import { Action, useAlgoContext } from "./AlgoContext";
 import { styled } from '@mui/system';
-import { Button, ButtonGroup, Stack, Table, TableBody, TableCell, TableRow } from '@mui/material';
+import { Button, ButtonGroup, Paper, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { SxProps } from '@mui/system';
+import { buildDefaultStyles, dummyBuilding } from "./AlgoInput";
 
-const dummyBuilding: Building = { left: 0, right: 0, height: 0, color: "" };
 
-const buildDefaultStyles = (rows: number, cols: number): SxProps[][] => {
-    const defaultStyle: SxProps = {
-        border: "none",
-        minWidth: "10px",
-        minHeight: "10px",
-        width: "15px",
-        height: "15px"
-    }
+const DisplayTops = () => {
+    const { prevHeight, heapRoot } = useAlgoContext();
 
-    const styles: SxProps[][] = [];
-    for (let i = 0; i < rows; i++) {
-        const row: SxProps[] = [];
-        for (let j = 0; j < cols; j++) {
-            row.push(defaultStyle);
-        }
-        styles.push(row);
-    }
+    const Item: React.FC<{ value: number }> = ({ value }) => (
+        <Paper
+            variant="outlined"
+            sx={{
+                height: "50px",
+                width: "50px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            <Typography variant="h5">
+                {value}
+            </Typography>
+        </Paper>
+    )
 
-    return styles;
-}
+    return (
+        <Stack direction="row" spacing={3} sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Item value={prevHeight} />
+            <Item value={heapRoot} />
+        </Stack>
+    );
+};
 
 const DisplayBuildings = () => {
-    const { buildings } = useAlgoContext();
+    const { buildings, buildingsStyles, steps, index } = useAlgoContext();
 
     const rows = buildings.reduce((a, b) => (a.height > b.height) ? a : b, dummyBuilding).height;
     const cols = buildings.reduce((a, b) => (a.right > b.right) ? a : b, dummyBuilding).right + 1;
-
-    const styles: SxProps[][] = buildDefaultStyles(rows, cols);
-
-    buildings.forEach(building => {
-        const { left, right, height, color } = building;
-        for (let i = 0; i < height; i++) {
-            const row = rows - 1 - i;
-            for (let col = left; col < right; col++) {
-                const style: SxProps = styles[row][col];
-                styles[row][col] = { ...style, backgroundColor: color };
-            }
-        }
-    });
+    const step = steps[index];
 
     return (
         <Table>
@@ -56,9 +53,22 @@ const DisplayBuildings = () => {
                     Array.from(Array(rows)).map((_, i) =>
                         <TableRow key={i}>
                             {
-                                Array.from(Array(cols)).map((_, j) =>
-                                    <TableCell key={j} padding="none" sx={styles[i][j]} />
-                                )
+                                Array.from(Array(cols)).map((_, j) => {
+                                    let style: SxProps = buildingsStyles[i][j];
+                                    if (step) {
+                                        const { height, x, action } = step;
+                                        if (x === j && rows - height <= i) {
+                                            if (action === Action.PushToHeap) {
+                                                style = { ...style, borderLeft: "10px solid green" };
+                                            } else if (action === Action.DeleteFromHeap) {
+                                                style = { ...style, borderLeft: "10px solid red" };
+                                            } else {
+                                                style = { ...style, borderLeft: "10px solid gold" };
+                                            }
+                                        }
+                                    }
+                                    return <TableCell key={j} padding="none" sx={style} />
+                                })
                             }
                         </TableRow>
                     )
@@ -78,7 +88,7 @@ const DisplaySkyline = () => {
     const styles: SxProps[][] = buildDefaultStyles(rows, cols);
 
     buildings.forEach(building => {
-        const { left, right, height, color } = building;
+        const { left, right, height, } = building;
         for (let i = 0; i < height; i++) {
             const row = rows - 1 - i;
             for (let col = left; col < right; col++) {
@@ -119,7 +129,7 @@ const DisplaySkyline = () => {
 
 const PlayActions = () => {
 
-    const { animate, cancelAnimate, state, setState, index, steps, setIndex, maxHeap, skyline } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, steps, setIndex, maxHeap, skyline, setPrevHeight, setHeapRoot } = useAlgoContext();
 
     const updateState = () => {
         if (index === steps.length - 1) {
@@ -149,33 +159,48 @@ const PlayActions = () => {
         if (step === undefined || maxHeap === undefined) {
             return;
         }
-        const { action, height } = step;
+        const { action, height, prevHeight } = step;
         if (action !== Action.PushToHeap) {
             return;
         }
-        await run(() => maxHeap.push(height));
+        setPrevHeight(prevHeight);
+        const func = async () => {
+            await maxHeap.push(height);
+            const root = await maxHeap.peek();
+            if (root) {
+                setHeapRoot(root);
+            }
+        }
+        await run(func);
     }
 
     const handleDeleteFromHeap = async () => {
         if (step === undefined || maxHeap === undefined) {
             return;
         }
-        const { action, height } = step;
+        const { action, height, prevHeight } = step;
         if (action !== Action.DeleteFromHeap) {
             return;
         }
-        await run(() => maxHeap.pop());
+        setPrevHeight(prevHeight);
+        const func = async () => {
+            await maxHeap.delete(height);
+            const root = await maxHeap.peek() || 0;
+            setHeapRoot(root);
+        }
+        await run(func);
     }
 
     const handlePushToSkyline = async () => {
         if (step === undefined) {
             return;
         }
-        const { action, x, height } = step;
+        const { action, x, height, prevHeight } = step;
         if (action !== Action.PushToSkyline) {
             return;
         }
         skyline.push({ x: x || 0, height });
+        setPrevHeight(prevHeight);
         updateState();
     }
 
@@ -215,19 +240,20 @@ const PlayActions = () => {
     );
 }
 
-const BuildingsPosition = styled('div')({
-    position: "fixed",
-    top: "18%",
-    left: "20%",
-});
-
 const Main = () => {
     const { state } = useAlgoContext();
+
+    const BuildingsPosition = styled('div')({
+        position: "fixed",
+        top: "18%",
+        left: "20%",
+    });
 
     return (
         <>
             <BuildingsPosition>
                 <Stack spacing={4}>
+                    <DisplayTops />
                     <DisplayBuildings />
                     <DisplaySkyline />
                 </Stack>
