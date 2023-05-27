@@ -17,6 +17,7 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { buildHeap, } from "./styles";
 import { buildLines, compareFn, buildSteps } from './algo';
+import { SxProps } from '@mui/system';
 
 const input1 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
 const input2 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
@@ -35,6 +36,29 @@ const getRandomColor = (excludes: string[]): string => {
 const arrayToString = (buildings: number[][]): string => {
     return "[" + buildings.map(building => "[" + building.join(",") + "]").join(",") + "]";
 }
+
+export const buildDefaultStyles = (rows: number, cols: number): SxProps[][] => {
+    const defaultStyle: SxProps = {
+        border: "none",
+        minWidth: "10px",
+        minHeight: "10px",
+        width: "15px",
+        height: "15px"
+    }
+
+    const styles: SxProps[][] = [];
+    for (let i = 0; i < rows; i++) {
+        const row: SxProps[] = [];
+        for (let j = 0; j < cols; j++) {
+            row.push(defaultStyle);
+        }
+        styles.push(row);
+    }
+
+    return styles;
+}
+
+export const dummyBuilding: Building = { left: 0, right: 0, height: 0, };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -90,12 +114,60 @@ const DropDown: React.FC<{
     );
 }
 
+const buildStyles = (buildings: Building[]): SxProps[][] => {
+    const rows = buildings.reduce((a, b) => (a.height > b.height) ? a : b, dummyBuilding).height;
+    const cols = buildings.reduce((a, b) => (a.right > b.right) ? a : b, dummyBuilding).right + 1;
+
+    const styles: SxProps[][] = buildDefaultStyles(rows, cols);
+    const colors: string[] = [];
+
+    buildings.forEach(building => {
+        const { left, right, height } = building;
+        const color = getRandomColor(colors);
+        colors.push(color);
+        for (let i = 0; i < height; i++) {
+            const row = rows - 1 - i;
+            for (let col = left; col < right; col++) {
+                let style: SxProps = styles[row][col];
+                style = { ...style, backgroundColor: "#" + color };
+                const border = "1px solid #" + color;
+                if (col === left) {
+                    style = { ...style, borderLeft: border };
+                }
+                if (col === right - 1) {
+                    style = { ...style, borderRight: border };
+                }
+                if (i === height - 1) {
+                    style = { ...style, borderTop: border }
+                }
+                styles[row][col] = style;
+            }
+        }
+    });
+
+    return styles;
+}
+
 const Submit: React.FC<{
     nodes: string,
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setBuildings, setLines, setSteps, setIndex, setMaxHeap, setSkyline } = useAlgoContext();
+    const {
+        scene,
+        animate,
+        cancelAnimate,
+        setState,
+        setBuildings,
+        setLines,
+        setSteps,
+        setIndex,
+        setMaxHeap,
+        setSkyline,
+        setBuildingsStyles,
+        setHeapRoot,
+        setPrevHeight
+    } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -105,19 +177,20 @@ const Submit: React.FC<{
         setState(State.Typing);
         setIndex(0);
         setSkyline([]);
-
-        const colors: string[] = [];
+        setPrevHeight(0);
+        setHeapRoot(0);
 
         try {
             const array: number[][] = JSON.parse(nodes);
 
             const buildings: Building[] = array.map(building => {
                 const [left, right, height] = building;
-                const color = getRandomColor(colors);
-                colors.push(color);
-                return { left, right, height, color: "#" + color }
+                return { left, right, height, }
             });
             setBuildings(buildings);
+
+            const buildingsStyles = buildStyles(buildings);
+            setBuildingsStyles(buildingsStyles);
 
             const lines = buildLines(buildings);
             lines.sort(compareFn);
