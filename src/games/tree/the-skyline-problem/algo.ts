@@ -137,17 +137,17 @@ export const buildSteps = (lines: Line[]): Step[] => {
 
         if (edge === Edge.Start) {
             heap.push(height);
-            steps.push({ prevHeight, action: Action.PushToHeap, height });
+            steps.push({ prevHeight, action: Action.PushToHeap, height, x });
         } else {
             heap.delete(height);
-            steps.push({ prevHeight, action: Action.DeleteFromHeap, height });
+            steps.push({ prevHeight, action: Action.DeleteFromHeap, height, x });
         }
 
         const peek = heap.peek() || 0;
         if (prevHeight !== peek) {
             result.push([x, peek]);
-            steps.push({ prevHeight, action: Action.PushToSkyline, x, height });
             prevHeight = peek;
+            steps.push({ prevHeight, action: Action.PushToSkyline, x, height });
         }
     });
 
