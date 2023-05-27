@@ -13,7 +13,7 @@ export interface Step {
     prevHeight: number;
     action: Action;
     height: number;
-    x?: number;
+    x: number;
 }
 
 export enum Edge {
@@ -30,7 +30,6 @@ export interface Building {
     left: number;
     right: number;
     height: number;
-    color: string;
 }
 
 export interface Point {
@@ -57,7 +56,11 @@ const AlgoContext = React.createContext<{
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     buildingsStyles: SxProps[][],
-    setBuildingsStyles: React.Dispatch<React.SetStateAction<SxProps[][]>>
+    setBuildingsStyles: React.Dispatch<React.SetStateAction<SxProps[][]>>,
+    prevHeight: number,
+    setPrevHeight: React.Dispatch<React.SetStateAction<number>>,
+    heapRoot: number,
+    setHeapRoot: React.Dispatch<React.SetStateAction<number>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -76,7 +79,11 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     buildingsStyles: [],
-    setBuildingsStyles: () => { }
+    setBuildingsStyles: () => { },
+    prevHeight: 0,
+    setPrevHeight: () => { },
+    heapRoot: 0,
+    setHeapRoot: () => { }
 });
 
 let animationFrameId = -1;
@@ -97,6 +104,8 @@ export const AlgoContextProvider: React.FC<{
     const [lines, setLines] = React.useState<Line[]>([]);
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
+    const [prevHeight, setPrevHeight] = React.useState(0);
+    const [heapRoot, setHeapRoot] = React.useState(0);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -141,7 +150,11 @@ export const AlgoContextProvider: React.FC<{
             index,
             setIndex,
             buildingsStyles,
-            setBuildingsStyles
+            setBuildingsStyles,
+            prevHeight,
+            setPrevHeight,
+            heapRoot,
+            setHeapRoot
         }}>
             {children}
             <div ref={ref}></div>
