@@ -1,7 +1,6 @@
 export enum State {
     Typing,
     Ready,
-    AddToHeap,
-    Computing,
+    running,
     Finished
 }

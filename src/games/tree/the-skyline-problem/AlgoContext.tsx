@@ -29,6 +29,7 @@ export interface Building {
     left: number;
     right: number;
     height: number;
+    color: string;
 }
 
 export interface Point {
@@ -49,7 +50,11 @@ const AlgoContext = React.createContext<{
     skyline: Point[],
     setSkyline: React.Dispatch<React.SetStateAction<Point[]>>,
     lines: Line[],
-    setLines: React.Dispatch<React.SetStateAction<Line[]>>
+    setLines: React.Dispatch<React.SetStateAction<Line[]>>,
+    steps: Step[],
+    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
+    index: number,
+    setIndex: React.Dispatch<React.SetStateAction<number>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -62,7 +67,11 @@ const AlgoContext = React.createContext<{
     skyline: [],
     setSkyline: () => { },
     lines: [],
-    setLines: () => { }
+    setLines: () => { },
+    steps: [],
+    setSteps: () => { },
+    index: 0,
+    setIndex: () => { }
 });
 
 let animationFrameId = -1;
@@ -80,6 +89,8 @@ export const AlgoContextProvider: React.FC<{
     const [skyline, setSkyline] = React.useState<Point[]>([]);
     const [maxHeap, setMaxHeap] = React.useState<MaxHeap<number>>();
     const [lines, setLines] = React.useState<Line[]>([]);
+    const [steps, setSteps] = React.useState<Step[]>([]);
+    const [index, setIndex] = React.useState(0);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -118,7 +129,11 @@ export const AlgoContextProvider: React.FC<{
             skyline,
             setSkyline,
             lines,
-            setLines
+            setLines,
+            steps,
+            setSteps,
+            index,
+            setIndex
         }}>
             {children}
             <div ref={ref}></div>

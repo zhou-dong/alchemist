@@ -15,12 +15,22 @@ import { Building, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildTree, } from "./styles";
-import { buildLines, compareFn } from './algo';
+import { buildHeap, } from "./styles";
+import { buildLines, compareFn, buildSteps } from './algo';
 
 const input1 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
 const input2 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
 const input3 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
+
+const randomColor = (): string => Math.floor(Math.random() * 16777215 + 1).toString(16);
+
+const getRandomColor = (excludes: string[]): string => {
+    let color = randomColor();
+    while (color.length < 6 || excludes.indexOf(color) > -1) {
+        color = randomColor();
+    }
+    return color;
+}
 
 const arrayToString = (buildings: number[][]): string => {
     return "[" + buildings.map(building => "[" + building.join(",") + "]").join(",") + "]";
@@ -80,16 +90,12 @@ const DropDown: React.FC<{
     );
 }
 
-const parseInput = (input: string): (number)[] => {
-    return input.split(",").map(ch => +ch);
-}
-
 const Submit: React.FC<{
     nodes: string,
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setBuildings, setLines } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setBuildings, setLines, setSteps, setIndex, setMaxHeap, setSkyline } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
@@ -97,24 +103,38 @@ const Submit: React.FC<{
         setAnchorEl(null);
 
         setState(State.Typing);
+        setIndex(0);
+        setSkyline([]);
+
+        const colors: string[] = [];
+
         try {
             const array: number[][] = JSON.parse(nodes);
 
             const buildings: Building[] = array.map(building => {
                 const [left, right, height] = building;
-                return { left, right, height }
+                const color = getRandomColor(colors);
+                colors.push(color);
+                return { left, right, height, color: "#" + color }
             });
             setBuildings(buildings);
 
             const lines = buildLines(buildings);
             lines.sort(compareFn);
             setLines(lines);
+
+            const steps = buildSteps(lines);
+            setSteps(steps);
         } catch (error) {
             console.error(error);
         }
 
         setNodes("");
         clearScene(scene);
+
+        const maxHeap = buildHeap(scene, 4);
+        setMaxHeap(maxHeap);
+
         animate();
         try {
             await wait(0.2);

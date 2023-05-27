@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { font } from '../../../commons/three';
-import MinHeap from '../../../data-structures/tree/heap/min-heap';
 import { Props, TreeNodeProps } from '../../../data-structures/tree/heap/props';
+import MaxHeap from '../../../data-structures/tree/heap/max-heap';
 
 const lineColor = "gold";
 const normalSphereColor = "yellow";
@@ -17,7 +17,7 @@ const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: "green
 const textGeometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
 const lineMaterial = new THREE.LineBasicMaterial({ color: lineColor });
 
-export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): MinHeap<number> => {
+export const buildHeap = (scene: THREE.Scene, k: number): MaxHeap<number> => {
 
     const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: cubeColor, opacity: 0.5, transparent: true });
     const cubeWidth = 2;
@@ -58,5 +58,5 @@ export const buildTree = (array: (number)[], scene: THREE.Scene, k: number): Min
         duration: 1
     }
 
-    return new MinHeap(props);
+    return new MaxHeap(props);
 }
