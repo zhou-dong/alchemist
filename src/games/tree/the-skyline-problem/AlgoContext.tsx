@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { State } from "./AlgoState";
 import MaxHeap from "../../../data-structures/tree/heap/max-heap";
+import { SxProps } from '@mui/system';
 
 export enum Action {
     PushToHeap, DeleteFromHeap, PushToSkyline
@@ -54,7 +55,9 @@ const AlgoContext = React.createContext<{
     steps: Step[],
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
+    buildingsStyles: SxProps[][],
+    setBuildingsStyles: React.Dispatch<React.SetStateAction<SxProps[][]>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -71,7 +74,9 @@ const AlgoContext = React.createContext<{
     steps: [],
     setSteps: () => { },
     index: 0,
-    setIndex: () => { }
+    setIndex: () => { },
+    buildingsStyles: [],
+    setBuildingsStyles: () => { }
 });
 
 let animationFrameId = -1;
@@ -86,6 +91,7 @@ export const AlgoContextProvider: React.FC<{
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
     const [buildings, setBuildings] = React.useState<Building[]>([]);
+    const [buildingsStyles, setBuildingsStyles] = React.useState<SxProps[][]>([]);
     const [skyline, setSkyline] = React.useState<Point[]>([]);
     const [maxHeap, setMaxHeap] = React.useState<MaxHeap<number>>();
     const [lines, setLines] = React.useState<Line[]>([]);
@@ -133,7 +139,9 @@ export const AlgoContextProvider: React.FC<{
             steps,
             setSteps,
             index,
-            setIndex
+            setIndex,
+            buildingsStyles,
+            setBuildingsStyles
         }}>
             {children}
             <div ref={ref}></div>
