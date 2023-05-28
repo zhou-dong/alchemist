@@ -59,11 +59,11 @@ const DisplayBuildings = () => {
                                         const { height, x, action } = step;
                                         if (x === j && rows - height <= i) {
                                             if (action === Action.PushToHeap) {
-                                                style = { ...style, borderLeft: "10px solid green" };
+                                                style = { ...style, borderLeft: "6px solid green" };
                                             } else if (action === Action.DeleteFromHeap) {
-                                                style = { ...style, borderLeft: "10px solid red" };
+                                                style = { ...style, borderLeft: "6px solid red" };
                                             } else {
-                                                style = { ...style, borderLeft: "10px solid gold" };
+                                                style = { ...style, borderLeft: "6px solid gold" };
                                             }
                                         }
                                     }
@@ -245,11 +245,11 @@ const Main = () => {
 
     const BuildingsPosition = styled('div')({
         position: "fixed",
-        top: "18%",
+        top: "16%",
         left: "20%",
     });
 
-    return (
+    const Components = () => (
         <>
             <BuildingsPosition>
                 <Stack spacing={4}>
@@ -258,7 +258,13 @@ const Main = () => {
                     <DisplaySkyline />
                 </Stack>
             </BuildingsPosition>
-            {state !== State.Typing && <PlayActions />}
+            <PlayActions />
+        </>
+    );
+
+    return (
+        <>
+            {state !== State.Typing && <Components />}
         </>
     );
 }

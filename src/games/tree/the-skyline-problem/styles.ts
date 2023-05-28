@@ -22,7 +22,7 @@ export const buildHeap = (scene: THREE.Scene, k: number): MaxHeap<number> => {
     const cubeMaterial = () => new THREE.MeshBasicMaterial({ color: cubeColor, opacity: 0.5, transparent: true });
     const cubeWidth = 2;
     const cubeGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(cubeWidth, 2, 2);
-    const arrayX = 0 + (k / 2) * cubeWidth;
+    const arrayX = (3 / 2) * cubeWidth - cubeWidth / 2;
     const treeInitDepth = Math.floor(Math.log2(k)) + 1;
 
     const arrayNodeProps = {

@@ -20,8 +20,8 @@ import { buildLines, compareFn, buildSteps } from './algo';
 import { SxProps } from '@mui/system';
 
 const input1 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
-const input2 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
-const input3 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [15, 20, 10], [19, 24, 8]]
+const input2 = [[2, 6, 8], [4, 10, 13], [8, 15, 15], [14, 17, 10], [18, 24, 8]]
+const input3 = [[2, 9, 10], [3, 7, 15], [5, 12, 12], [10, 16, 11], [15, 20, 13], [19, 24, 8]]
 
 const randomColor = (): string => Math.floor(Math.random() * 16777215 + 1).toString(16);
 
