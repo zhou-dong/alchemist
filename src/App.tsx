@@ -175,6 +175,14 @@ import FindKPairsWithSmallestSumsInfo from "./games/tree/find-k-pairs-with-small
 import FindKPairsWithSmallestSums from "./games/tree/find-k-pairs-with-smallest-sums";
 import UglyNumberIIInfo from "./games/tree/ugly-number-ii/info";
 import UglyNumberII from "./games/tree/ugly-number-ii";
+import TopKFrequentWordsInfo from "./games/tree/top-k-frequent-words/info";
+import TopKFrequentWords from "./games/tree/top-k-frequent-words";
+import KthLargestElementInAStreamInfo from "./games/tree/kth-largest-element-in-a-stream/info";
+import KthLargestElementInAStream from "./games/tree/kth-largest-element-in-a-stream";
+import SlidingWindowMedianInfo from "./games/tree/sliding-window-median/info";
+import SlidingWindowMedian from "./games/tree/sliding-window-median";
+import TheSkylineProblemInfo from "./games/tree/the-skyline-problem/info";
+import TheSkylineProblem from "./games/tree/the-skyline-problem";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -279,6 +287,10 @@ const App = () => (
         <Route path={KthSmallestElementInASortedMatrixInfo.path} element={<KthSmallestElementInASortedMatrix renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={FindKPairsWithSmallestSumsInfo.path} element={<FindKPairsWithSmallestSums renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={UglyNumberIIInfo.path} element={<UglyNumberII renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={TopKFrequentWordsInfo.path} element={<TopKFrequentWords renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={KthLargestElementInAStreamInfo.path} element={<KthLargestElementInAStream renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SlidingWindowMedianInfo.path} element={<SlidingWindowMedian renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={TheSkylineProblemInfo.path} element={<TheSkylineProblem renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 

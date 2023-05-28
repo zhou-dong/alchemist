@@ -9,14 +9,14 @@ interface Heap<T extends Comparable | string | number> {
      * The new element is inserted at the bottom of the heap and 
      * is then moved upwards to its appropriate position to maintain the heap property.
      */
-    insert(item: T): Promise<void>;
+    push(item: T): Promise<void>;
 
     /**
      * This method is used to remove the root element from the heap. 
      * After the root is removed, the last element in the heap is moved to the root position, 
      * and it is then moved downwards to its appropriate position to maintain the heap property.
      */
-    delete(): Promise<T | undefined>;
+    pop(): Promise<T | undefined>;
 
     /**
      * This method is used to return the root element of the heap without removing it. 
@@ -46,6 +46,11 @@ interface Heap<T extends Comparable | string | number> {
      * This can be useful when you want to reuse a heap for a different set of items or when you want to release memory used by the heap.
      */
     clear(): Promise<void>;
+
+    /**
+     * Lazy deleted items
+     */
+    deleted: Map<T, number>;
 
     items(): T[];
 }

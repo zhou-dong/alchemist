@@ -18,6 +18,9 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
     private treeNodes: TreeNode<T>[];
     private treeLines: Map<number, Line>;
 
+    readonly deleted: Map<T, number>;
+    private deletedCount: number;
+
     constructor(props: Props) {
         this.props = props;
         const { arrayPosition, treeInitDepth, treePosition, treeNodeDistance, duration } = props;
@@ -25,6 +28,8 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
         this.treeLines = new Map();
         this.treeNodesPositions = this.buildTreeNodesPositions(treeInitDepth, treePosition, treeNodeDistance.x, treeNodeDistance.y);
         this.array = new Array<T>(arrayPosition, duration);
+        this.deleted = new Map();
+        this.deletedCount = 0;
     }
 
     private buildTreeNodesPositions(depth: number, { x, y }: Position, xDistance: number, yDistance: number) {
@@ -38,7 +43,7 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
         return positions;
     }
 
-    async insert(item: T): Promise<void> {
+    async push(item: T): Promise<void> {
         const index = this.treeNodes.length;
         await Promise.all([
             this.array.push(this.buildArrayNode(item)),
@@ -140,39 +145,79 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
 
     protected abstract shouldBubbleUp(current: T, parent: T): boolean;
 
-    async delete(): Promise<T | undefined> {
-
-        // delete last line
-        const line = this.treeLines.get(this.treeNodes.length - 1);
-        line?.hide();
-        this.treeLines.delete(this.treeNodes.length - 1);
-
-        const lastNode = this.treeNodes.pop();
-        const arrayLast = await this.array.pop();
-        if (this.treeNodes.length === 0 || !lastNode) {
-            if (lastNode) {
-                lastNode.hide();
-                arrayLast?.hide();
-            }
-            return Promise.resolve(lastNode?.value.value);
+    private deleteLastLine() {
+        const key = this.treeNodes.length - 1;
+        const last = this.treeLines.get(key);
+        if (last) {
+            last.hide();
+            this.treeLines.delete(key);
         }
+    }
 
-        const root = this.treeNodes[0];
-        root.hide();
+    private async deleteTop(): Promise<T | undefined> {
+        this.deleteLastLine();
 
+        // remove root
+        const treeRoot = this.treeNodes.shift();
+        treeRoot?.hide();
         const arrayHead = await this.array.shift();
         arrayHead?.hide();
 
-        this.treeNodes[0] = lastNode;
-        const { x, y } = this.treeNodesPositions[0];
+        // move last to root
+        const treeLast = this.treeNodes.pop();
+        const arrayLast = await this.array.pop();
+        if (treeLast && arrayLast) {
+            this.treeNodes.unshift(treeLast);
+            const { x, y } = this.treeNodesPositions[0];
+            await Promise.all([
+                this.array.unshift(arrayLast!),
+                treeLast.moveTo({ x, y, z: 0 }, this.props.duration || 0)
+            ]);
+            await this.bubbleDown(0);
+        }
 
-        await Promise.all([
-            this.array.unshift(arrayLast!),
-            lastNode.moveTo({ x, y, z: 0 }, this.props.duration || 0)
-        ]);
+        const result: T | undefined = treeRoot?.value.value;
+        return Promise.resolve(result);
+    }
 
-        await this.bubbleDown(0);
-        return Promise.resolve(root.value.value);
+    private async prune() {
+        let top: T | undefined = await this.peek();
+        while (top !== undefined && this.deleted.has(top)) {
+            await this.deleteTop();
+            const count = this.deleted.get(top);
+            if (count !== undefined) {
+                if (count === 1) {
+                    this.deleted.delete(top);
+                } else {
+                    this.deleted.set(top, count - 1);
+                }
+            }
+            this.deletedCount -= 1;
+            top = await this.peek();
+        }
+    }
+
+    async pop(): Promise<T | undefined> {
+        const top = await this.deleteTop();
+        await this.prune();
+        return top;
+    }
+
+    async delete(item: T): Promise<T | undefined> {
+        const top: T | undefined = await this.peek();
+
+        if (top !== undefined && top === item) {
+            return this.pop();
+        }
+
+        if (this.treeNodes.map(node => node.value.value).indexOf(item) < 0) {
+            return undefined;
+        }
+
+        const count: number = this.deleted.get(item) || 0;
+        this.deleted.set(item, count + 1);
+        this.deletedCount += 1;
+        return item;
     }
 
     private getValue(index: number): T {
@@ -239,7 +284,7 @@ abstract class Heap<T extends Comparable | string | number> implements IHeap<T>{
     }
 
     size(): Promise<number> {
-        return Promise.resolve(this.treeNodes.length);
+        return Promise.resolve(this.treeNodes.length - this.deletedCount);
     }
 
     isEmpty(): Promise<boolean> {

@@ -126,7 +126,7 @@ const Main = () => {
         animate();
         try {
             const item = new HeapItem(0, 0, a, b);
-            await minHeap.insert(item);
+            await minHeap.push(item);
             setCurrent({ x: 0, y: 0 });
             seen?.add(buildSetKey(0, 0));
             await wait(0.1);
@@ -144,7 +144,7 @@ const Main = () => {
         setState(State.Computing);
         animate();
         try {
-            const root = await minHeap.delete();
+            const root = await minHeap.pop();
             if (root) {
                 const { x, y, a, b } = root;
                 results.push([a, b]);
@@ -153,7 +153,7 @@ const Main = () => {
                     if (!seen.has(key)) {
                         setCurrent({ x: x + 1, y });
                         const item = new HeapItem(x + 1, y, nums1[x + 1], b);
-                        await minHeap.insert(item);
+                        await minHeap.push(item);
                         seen.add(key);
                     }
                 }
@@ -162,7 +162,7 @@ const Main = () => {
                     if (!seen.has(key)) {
                         setCurrent({ x, y: y + 1 });
                         const item = new HeapItem(x, y + 1, a, nums2[y + 1]);
-                        await minHeap.insert(item);
+                        await minHeap.push(item);
                         seen.add(key);
                     }
                 }

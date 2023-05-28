@@ -87,6 +87,10 @@ import MergeKSortedLists from "./tree/merge-k-sorted-lists/info";
 import KthSmallestElementInASortedMatrix from "./tree/kth-smallest-element-in-a-sorted-matrix/info";
 import FindKPairsWithSmallestSums from "./tree/find-k-pairs-with-smallest-sums/info";
 import UglyNumberII from "./tree/ugly-number-ii/info";
+import TopKFrequentWords from "./tree/top-k-frequent-words/info";
+import KthLargestElementInAStream from "./tree/kth-largest-element-in-a-stream/info";
+import SlidingWindowMedian from "./tree/sliding-window-median/info";
+import TheSkylineProblem from "./tree/the-skyline-problem/info";
 
 export const games: Game[] = [
     editDistance,
@@ -175,5 +179,9 @@ export const games: Game[] = [
     MergeKSortedLists,
     KthSmallestElementInASortedMatrix,
     FindKPairsWithSmallestSums,
-    UglyNumberII
+    UglyNumberII,
+    TopKFrequentWords,
+    KthLargestElementInAStream,
+    SlidingWindowMedian,
+    TheSkylineProblem
 ];

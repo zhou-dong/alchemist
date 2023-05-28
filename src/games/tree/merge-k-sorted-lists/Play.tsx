@@ -86,7 +86,7 @@ const Main = () => {
         try {
             for (let i = 0; i < lists.length; i++) {
                 setKey(lists[i].key);
-                await minHeap.insert(lists[i]);
+                await minHeap.push(lists[i]);
             }
             const peek = await minHeap.peek()
             if (peek) {
@@ -105,14 +105,14 @@ const Main = () => {
         setState(State.Computing);
         animate();
         try {
-            const root = await minHeap.delete();
+            const root = await minHeap.pop();
             if (root) {
                 results.push(root.val);
                 finishedKeys.push(root.key);
             }
             if (root && root.next) {
                 setKey(root.next.key);
-                await minHeap.insert(root.next);
+                await minHeap.push(root.next);
             }
             const peek = await minHeap.peek()
             if (peek) {

@@ -110,7 +110,7 @@ const Main = () => {
         setState(State.Computing);
         animate();
         try {
-            await minHeap.insert(1);
+            await minHeap.push(1);
             await wait(0.1);
         } catch (error) {
             console.error(error);
@@ -125,7 +125,7 @@ const Main = () => {
         setState(State.Computing);
         animate();
         try {
-            const root = await minHeap.delete();
+            const root = await minHeap.pop();
             if (root) {
                 setResult(root);
                 for (let i = 0; i < factors.length; i++) {
@@ -134,7 +134,7 @@ const Main = () => {
                     setFactorIndex(i);
                     setTip(`${root} * ${factor} = ${next}`);
                     if (!seen.has(next)) {
-                        await minHeap.insert(next);
+                        await minHeap.push(next);
                         seen.add(next);
                     }
                 }
