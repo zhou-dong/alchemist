@@ -11,7 +11,8 @@ enum Category {
     FlipDirection = "Flip Direction",
     Greedy = "Greedy",
     Heap = "heap",
-    Deque = "Qeque"
+    Deque = "Qeque",
+    SegmentTree = "Segment Tree",
 }
 
 export default Category;
