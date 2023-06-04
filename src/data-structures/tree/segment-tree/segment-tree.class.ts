@@ -73,6 +73,7 @@ export default class SegmentTree implements ISegmentTree {
         if (node === undefined) {
             return;
         }
+
         node.value.sphereColor.setColor(this.enabledSphereColor);
         await wait(duration);
 
