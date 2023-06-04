@@ -2,18 +2,20 @@ import { TextSphere } from "../../_commons/sphere/text-sphere.interface";
 import TreeNode from "../nodes/v2/node";
 
 export default class SegmentTreeNode extends TreeNode<number> {
-    lower: number;
-    upper: number;
+    start: number;
+    end: number;
+    left?: SegmentTreeNode;
+    right?: SegmentTreeNode;
 
     constructor(
         value: TextSphere<number>,
-        lower: number,
-        upper: number,
+        start: number,
+        end: number,
         index?: number
     ) {
         super(value, index);
-        this.lower = lower;
-        this.upper = upper;
+        this.start = start;
+        this.end = end;
     }
 
 }
