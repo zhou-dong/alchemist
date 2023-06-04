@@ -1,5 +1,5 @@
 export default interface SegmentTree {
-    build(array: number[]): Promise<void>;
-    update(index: number, value: number): Promise<void>;
-    query(left: number, right: number): Promise<number>;
+    build(array: number[], duration: number): Promise<void>;
+    update(index: number, value: number, duration: number): Promise<void>;
+    query(left: number, right: number, duration: number): Promise<number | undefined>;
 }
