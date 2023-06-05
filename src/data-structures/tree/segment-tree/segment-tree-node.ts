@@ -17,5 +17,4 @@ export default class SegmentTreeNode extends TreeNode<number> {
         this.start = start;
         this.end = end;
     }
-
 }
