@@ -1,37 +1,139 @@
 import SegmentTreeNode from "./segment-tree-node";
 import ISegmentTree from "./segment-tree.interface";
 import { wait } from "../../_commons/utils";
+import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
+import Position from "../../_commons/params/position.interface"
+import { buildPerfectBinaryTree, TreeNode as TreePosition } from '../nodes/utils/perfect-binary-tree';
+import { getLeftChildIndex } from "../nodes/utils/tree-node-utils";
+import { getRightChildIndex } from "../nodes/utils/tree-node-utils";
+import { getParentIndex } from "../nodes/utils/tree-node-utils";
+import TextSphere from "../../_commons/sphere/three/text-sphere";
+import Line from "../nodes/line";
 
 export default class SegmentTree implements ISegmentTree {
 
     private root?: SegmentTreeNode;
 
-    private normalSphereColor;
-    private enabledSphereColor;
+    private scene: THREE.Scene;
+    private normalSphereColor: string;
+    private enabledSphereColor: string;
+    private sphereGeometry: THREE.SphereGeometry;
+    private sphereMaterial: () => THREE.Material;
+    private textMaterial: THREE.Material;
+    private textGeometryParameters: TextGeometryParameters;
+    private lineMaterial: THREE.LineBasicMaterial;
+    private initPosition: Position;
+    private positions: TreePosition[];
 
     constructor(
+        scene: THREE.Scene,
         normalSphereColor: string,
         enabledSphereColor: string,
+        sphereGeometry: THREE.SphereGeometry,
+        sphereMaterial: () => THREE.Material,
+        textMaterial: THREE.Material,
+        textGeometryParameters: TextGeometryParameters,
+        lineMaterial: THREE.LineBasicMaterial,
+        position: Position,
+        depth: number,
+        nodeDistance: Position,
+        initPosition: Position
     ) {
+        this.scene = scene;
         this.normalSphereColor = normalSphereColor;
         this.enabledSphereColor = enabledSphereColor;
+        this.sphereGeometry = sphereGeometry;
+        this.sphereMaterial = sphereMaterial;
+        this.textMaterial = textMaterial;
+        this.textGeometryParameters = textGeometryParameters;
+        this.lineMaterial = lineMaterial;
+        this.initPosition = initPosition;
+        this.positions = this.buildTreeNodesPositions(depth, position, nodeDistance);
+    }
+
+    private buildTreeNodesPositions(depth: number, { x, y }: Position, nodeDistance: Position) {
+        const positions = buildPerfectBinaryTree(depth, nodeDistance.x, nodeDistance.y);
+        const xAlpha = (positions.length === 0) ? 0 : x - positions[0].x;
+        positions.forEach(position => {
+            position.x += xAlpha;
+            position.y += y;
+        });
+        return positions;
+    }
+
+    private async buildNode(value: number, start: number, end: number, index: number, duration: number): Promise<SegmentTreeNode> {
+
+        const textSphere = new TextSphere<number>(
+            value,
+            this.sphereGeometry,
+            this.sphereMaterial(),
+            this.textMaterial,
+            this.textGeometryParameters,
+            this.scene
+        );
+
+        const { x, y, z } = this.initPosition;
+        textSphere.center.x = x;
+        textSphere.center.y = y;
+        textSphere.center.z = z;
+
+        textSphere.textPosition.x = this.calTextX(value, x);
+        textSphere.textPosition.y = y - 0.4;
+        textSphere.textPosition.z = z;
+
+        const node = new SegmentTreeNode(textSphere, start, end, index).show();
+        node.value.sphereColor.setColor(this.enabledSphereColor);
+
+        await node.moveTo({ x: this.positions[index].x, y: this.positions[index].y, z: 0 }, duration);
+        node.value.sphereColor.setColor(this.normalSphereColor);
+
+        return node;
+    }
+
+    private calTextX(value: number, x: number): number {
+        const length: number = ("" + value).length;
+        switch (length) {
+            case 0: return x;
+            case 1: return x - 0.3;
+            case 2: return x - 0.6;
+            case 3: return x - 0.8;
+            default: return x - 1;
+        }
     }
 
     async build(nums: number[], duration: number): Promise<void> {
-        this.root = await this.buildTree(nums, 0, nums.length - 1);
+        this.root = await this.buildTree(nums, 0, nums.length - 1, 0, duration);
     }
 
-    // TODO
-    private async buildTree(nums: number[], start: number, end: number): Promise<SegmentTreeNode> {
+    private async buildTree(nums: number[], start: number, end: number, index: number, duration: number): Promise<SegmentTreeNode> {
         if (start === end) {
-
+            return this.buildNode(nums[start], start, end, index, duration);
         }
 
         const mid = Math.floor((start + end) / 2);
-        const left = await this.buildTree(nums, start, mid);
-        const right = await this.buildTree(nums, mid + 1, end);
 
-        return Promise.resolve({} as any);
+        const left = await this.buildTree(nums, start, mid, getLeftChildIndex(index), duration);
+        const right = await this.buildTree(nums, mid + 1, end, getRightChildIndex(index), duration);
+
+        const value = left.value.value + right.value.value;
+        const node = await this.buildNode(value, start, end, index, duration);
+        node.left = left;
+        node.right = right;
+        this.buildTreeLine(getLeftChildIndex(index));
+        this.buildTreeLine(getRightChildIndex(index));
+
+        return node;
+    }
+
+    private buildTreeLine(index: number): Line {
+        const nodePosition = this.positions[index];
+        const parentPosition = this.positions[getParentIndex(index)];
+        return new Line(
+            { x: parentPosition.x, y: parentPosition.y, z: 0 },
+            { x: nodePosition.x, y: nodePosition.y, z: 0 },
+            this.lineMaterial,
+            this.scene
+        );
     }
 
     update(index: number, value: number, duration: number): Promise<void> {
@@ -99,4 +201,5 @@ export default class SegmentTree implements ISegmentTree {
         await wait(duration);
         return value;
     }
+
 }
