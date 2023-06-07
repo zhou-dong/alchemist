@@ -61,7 +61,14 @@ export default class SegmentTree implements ISegmentTree {
         return positions;
     }
 
-    private async buildNode(value: number, start: number, end: number, index: number, duration: number): Promise<SegmentTreeNode> {
+    private async buildNode(
+        value: number,
+        start: number,
+        end: number,
+        index: number,
+        position: Position,
+        duration: number
+    ): Promise<SegmentTreeNode> {
 
         const textSphere = new TextSphere<number>(
             value,
@@ -84,7 +91,7 @@ export default class SegmentTree implements ISegmentTree {
         const node = new SegmentTreeNode(textSphere, start, end, index).show();
         node.value.sphereColor.setColor(this.enabledSphereColor);
 
-        await node.moveTo({ x: this.positions[index].x, y: this.positions[index].y, z: 0 }, duration);
+        await node.moveTo(position, duration);
         node.value.sphereColor.setColor(this.normalSphereColor);
 
         return node;
@@ -102,21 +109,28 @@ export default class SegmentTree implements ISegmentTree {
     }
 
     async build(nums: number[], duration: number): Promise<void> {
-        this.root = await this.buildTree(nums, 0, nums.length - 1, 0, duration);
+        this.root = await this.buildTree(nums, 0, nums.length - 1, 0, this.positions[0], duration);
     }
 
-    private async buildTree(nums: number[], start: number, end: number, index: number, duration: number): Promise<SegmentTreeNode> {
+    private async buildTree(
+        nums: number[],
+        start: number,
+        end: number,
+        index: number,
+        position: TreePosition,
+        duration: number
+    ): Promise<SegmentTreeNode> {
         if (start === end) {
-            return this.buildNode(nums[start], start, end, index, duration);
+            return this.buildNode(nums[start], start, end, index, { x: position.x, y: position.y, z: 0 }, duration);
         }
 
         const mid = Math.floor((start + end) / 2);
 
-        const left = await this.buildTree(nums, start, mid, getLeftChildIndex(index), duration);
-        const right = await this.buildTree(nums, mid + 1, end, getRightChildIndex(index), duration);
+        const left = await this.buildTree(nums, start, mid, getLeftChildIndex(index), position.left!, duration);
+        const right = await this.buildTree(nums, mid + 1, end, getRightChildIndex(index), position.right!, duration);
 
         const value = left.value.value + right.value.value;
-        const node = await this.buildNode(value, start, end, index, duration);
+        const node = await this.buildNode(value, start, end, index, { x: position.x, y: position.y, z: 0 }, duration);
         node.left = left;
         node.right = right;
         this.buildTreeLine(getLeftChildIndex(index));
@@ -133,7 +147,7 @@ export default class SegmentTree implements ISegmentTree {
             { x: nodePosition.x, y: nodePosition.y, z: 0 },
             this.lineMaterial,
             this.scene
-        );
+        ).show();
     }
 
     update(index: number, value: number, duration: number): Promise<void> {
