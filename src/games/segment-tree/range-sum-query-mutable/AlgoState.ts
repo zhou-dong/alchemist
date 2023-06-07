@@ -1,6 +1,7 @@
 export enum State {
     Typing,
+    Standby,
+    Ready,
     Playing,
-    Computing,
     Finished
 }

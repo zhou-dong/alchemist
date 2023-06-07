@@ -1,8 +1,6 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene, registerOrbitControls } from '../../../commons/three';
-import Stack from "../../../data-structures/stack";
-import TreeNode from "../../../data-structures/tree/nodes/v1/node";
 import { State } from "./AlgoState";
 
 const AlgoContext = React.createContext<{
@@ -11,22 +9,17 @@ const AlgoContext = React.createContext<{
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
-    root?: TreeNode<string>,
-    setRoot: React.Dispatch<React.SetStateAction<TreeNode<string> | undefined>>,
-    stack?: Stack<string>,
-    setStack: React.Dispatch<React.SetStateAction<Stack<string> | undefined>>
-    treeNodeStack: TreeNode<string>[],
-    setTreeNodeStack: React.Dispatch<React.SetStateAction<TreeNode<string>[]>>
+    nums: number[],
+    setNums: React.Dispatch<React.SetStateAction<number[]>>,
+
 }>({
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    setRoot: () => { },
-    setStack: () => { },
-    treeNodeStack: [],
-    setTreeNodeStack: () => { }
+    nums: [],
+    setNums: () => { },
 });
 
 let animationFrameId = -1;
@@ -40,9 +33,7 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [root, setRoot] = React.useState<TreeNode<string>>();
-    const [stack, setStack] = React.useState<Stack<string>>();
-    const [treeNodeStack, setTreeNodeStack] = React.useState<TreeNode<string>[]>([]);
+    const [nums, setNums] = React.useState<number[]>([])
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -74,12 +65,8 @@ export const AlgoContextProvider: React.FC<{
             scene,
             animate,
             cancelAnimate,
-            root,
-            setRoot,
-            stack,
-            setStack,
-            treeNodeStack,
-            setTreeNodeStack
+            nums,
+            setNums
         }}>
             {children}
             <div ref={ref}></div>

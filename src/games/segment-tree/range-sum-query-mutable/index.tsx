@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material';
 import theme from "../../../commons/theme";
 import Instructions from "./Instructions";
 import { AlgoContextProvider } from "./AlgoContext";
+import Play from './Play';
 
 interface Props {
     renderer: THREE.Renderer;
@@ -20,6 +21,7 @@ const Main = ({ renderer, camera, scene }: Props) => {
                 <AlgoContextProvider renderer={renderer} camera={camera} scene={scene}>
                     <Title />
                     <Instructions />
+                    <Play />
                 </AlgoContextProvider>
             </ThemeProvider>
         </GameWrapper>

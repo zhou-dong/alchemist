@@ -14,12 +14,9 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import Stack from '../../../data-structures/stack';
-import TreeNode from '../../../data-structures/tree/nodes/v1/node';
 
-
-const input2 = [8, 5, 11, 4, 7, 10, 13, null, null, 6, null, 9, null, 12];
-const input1 = [8, 5, 11, 4, 7, 10, 13, 3, null, 6, null, 9, null, 12];
+const input1 = [8, 5, 11, 4, 7, 10, 13, 3, 6, 9, 12];
+const input2 = [8, 5, 11, 4, 7, 10, 13, 6, 9, 12];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -66,16 +63,11 @@ const DropDown: React.FC<{
     );
 }
 
-const parseInput = (input: string): (string | null)[] => {
-    return input.split(",").map(ch => {
-        switch (ch.trim()) {
-            case "": return null;
-            case "null": return null;
-            case "undefined": return null;
-            case undefined: return null;
-            default: return ch.trim();
-        }
-    });
+const parseInput = (input: string): number[] => {
+    return input
+        .split(",")
+        .map(ch => ch.trim())
+        .map(ch => +ch);
 }
 
 const Submit: React.FC<{
@@ -83,22 +75,28 @@ const Submit: React.FC<{
     setNodes: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nodes, setNodes, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setTreeNodeStack, setStack } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setNums } = useAlgoContext();
 
     const disabled = nodes.trim().length === 0;
 
     const handleSubmit = async () => {
         setState(State.Typing);
-        const array = parseInput(nodes);
-        animate();
-        clearScene(scene);
-
+        const nums = parseInput(nodes);
+        setNums(nums);
 
         setNodes("");
         setAnchorEl(null);
-        await wait(0.2);
+
+        animate();
+        try {
+            clearScene(scene);
+            await wait(0.2);
+        } catch (error) {
+            console.error(error);
+        }
         cancelAnimate();
-        setState(State.Playing);
+
+        setState(State.Standby);
     }
 
     return (
