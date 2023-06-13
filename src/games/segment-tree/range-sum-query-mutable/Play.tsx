@@ -4,7 +4,7 @@ import ISegmentTree from "../../../data-structures/tree/segment-tree/segment-tre
 import SegmentTree from "../../../data-structures/tree/segment-tree/segment-tree.class";
 import { Button } from "@mui/material";
 import { State } from "./AlgoState";
-import { enabledSphereColor, lineMaterial, normalSphereColor, sphereGeometry, sphereMaterial, textGeometryParameters, textMaterial } from "./styles";
+import { enabledSphereColor, lineMaterial, normalSphereColor, rangeGeometryParameters, rangeMaterial, sphereGeometry, sphereMaterial, textGeometryParameters, textMaterial } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
 
 const duration = 1;
@@ -38,6 +38,8 @@ const BuildSegmentTree: React.FC<{ setSegmentTree: React.Dispatch<React.SetState
             textMaterial,
             textGeometryParameters,
             lineMaterial,
+            rangeMaterial,
+            rangeGeometryParameters,
             position,
             depth,
             nodeDistance,

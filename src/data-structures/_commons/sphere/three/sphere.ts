@@ -4,7 +4,7 @@ import Color from '../../params/color.interface';
 import ColorImpl from '../../three/color';
 import Display from '../../params/display.interface';
 import DisplayImpl from "../../three/display";
-import Move from '../../params/move.interface';
+import Mover from '../../params/move.interface';
 import MoveImpl from "../../three/move";
 import Position from '../../params/position.interface';
 import PositionImpl from "../../three/position"
@@ -16,7 +16,7 @@ export default class Sphere implements ISphere {
 
     center: Position;
     private display: Display;
-    private mover: Move;
+    private mover: Mover;
     private geometry: THREE.SphereGeometry;
     sphereColor: Color;
 

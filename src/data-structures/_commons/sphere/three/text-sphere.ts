@@ -4,7 +4,7 @@ import Color from '../../params/color.interface';
 import ColorImpl from '../../three/color';
 import Display from '../../params/display.interface';
 import DisplayImpl from "../../three/display";
-import Move from '../../params/move.interface';
+import Mover from '../../params/move.interface';
 import MoveImpl from "../../three/move";
 import Position from '../../params/position.interface';
 import PositionImpl from "../../three/position"
@@ -16,7 +16,7 @@ export default class TextSphere<T> extends Sphere implements ITextSphere<T> {
 
   private _value: T;
   private textDisplay: Display;
-  private textMover: Move;
+  private textMover: Mover;
   textColor: Color;
   textPosition: Position;
 

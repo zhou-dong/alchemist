@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
 import Display from '../../params/display.interface';
-import Move from '../../params/move.interface';
+import Mover from '../../params/move.interface';
 import Position from '../../params/position.interface';
 import DisplayImpl from "../../three/display";
 import MoveImpl from "../../three/move";
@@ -15,7 +15,7 @@ export class TextCube<T> extends Cube implements ITextCube<T> {
   value: T;
   textPosition: Position;
   private textDisplay: Display;
-  private textMover: Move;
+  private textMover: Mover;
 
   constructor(
     value: T,

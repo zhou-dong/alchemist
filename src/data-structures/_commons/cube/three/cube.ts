@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import Display from '../../params/display.interface';
-import Move from '../../params/move.interface';
+import Mover from '../../params/move.interface';
 import Position from '../../params/position.interface';
 import DisplayImpl from "../../three/display";
 import MoveImpl from "../../three/move";
@@ -14,7 +14,7 @@ export class Cube implements ICube {
 
   position: Position;
   private display: Display;
-  private mover: Move;
+  private mover: Mover;
   private mesh: THREE.Mesh;
 
   constructor(
