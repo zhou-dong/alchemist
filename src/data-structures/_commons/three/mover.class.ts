@@ -3,7 +3,7 @@ import IMover from "../params/mover.interface";
 import Position from '../params/position.interface';
 import { wait } from "../utils";
 
-export default class Move implements IMover {
+export default class Mover implements IMover {
 
     private mesh: THREE.Mesh;
 
