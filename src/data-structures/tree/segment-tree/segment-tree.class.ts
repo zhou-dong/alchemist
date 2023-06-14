@@ -97,6 +97,14 @@ export default class SegmentTree implements ISegmentTree {
         const node = new SegmentTreeNode(textSphere, start, end, this.rangeMaterial, this.rangeGeometryParameters, this.scene, index).show();
         node.value.sphereColor.setColor(this.enabledSphereColor);
 
+        node.start.x = this.calStartX(node.start.value, x);
+        node.start.y = y - 1.2;
+        node.start.z = z;
+
+        node.end.x = x + 0.5;
+        node.end.y = y - 1.2;
+        node.end.z = z;
+
         await node.moveTo(position, duration);
         node.value.sphereColor.setColor(this.normalSphereColor);
 
@@ -111,6 +119,17 @@ export default class SegmentTree implements ISegmentTree {
             case 2: return x - 0.6;
             case 3: return x - 0.8;
             default: return x - 1;
+        }
+    }
+
+    private calStartX(value: number, x: number): number {
+        const length: number = ("" + value).length;
+        switch (length) {
+            case 0: return x;
+            case 1: return x - 0.8;
+            case 2: return x - 1.2;
+            case 3: return x - 1.4;
+            default: return x - 1.6;
         }
     }
 
