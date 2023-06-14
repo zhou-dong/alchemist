@@ -70,9 +70,27 @@ const BuildSegmentTree: React.FC<{ setSegmentTree: React.Dispatch<React.SetState
     );
 }
 
-const Main = () => {
-    const { nums } = useAlgoContext();
+const Update: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTree }) => {
 
+    // TODO
+    return (
+        <>
+            update
+        </>
+    );
+}
+
+const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTree }) => {
+
+    // TODO
+    return (
+        <>
+            query
+        </>
+    );
+}
+
+const Main = () => {
     const [segmentTree, setSegmentTree] = React.useState<ISegmentTree>();
 
     return (
@@ -84,6 +102,8 @@ const Main = () => {
         }}
         >
             <BuildSegmentTree setSegmentTree={setSegmentTree} />
+            <Update segmentTree={segmentTree} />
+            <Query segmentTree={segmentTree} />
         </div>
     );
 };
