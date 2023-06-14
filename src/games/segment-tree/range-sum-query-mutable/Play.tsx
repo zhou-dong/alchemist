@@ -67,6 +67,7 @@ const BuildSegmentTree: React.FC<{ setSegmentTree: React.Dispatch<React.SetState
             disabled={disabled}
             onClick={handleOnClick}
             endIcon={<ConstructionIcon />}
+            color="success"
         >
             Build Segment-Tree
         </Button>
@@ -163,7 +164,7 @@ const Update: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTr
         >
             <IndexSelector label="index" labelId="index-selector" setValue={setIndex} segmentTree={segmentTree} />
             <TextField label="value" type="number" disabled={state !== State.Ready} onChange={handleValueChanged} sx={{ width: 80 }} />
-            <Button onClick={handleUpdate} disabled={disabled} variant="contained" endIcon={<SendIcon />}>
+            <Button onClick={handleUpdate} disabled={disabled} variant="contained" endIcon={<SendIcon />} color="success">
                 update
             </Button>
         </Stack>
@@ -185,7 +186,7 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
         animate();
         try {
             const value = await segmentTree.query(left, right, duration);
-            console.log(value); // todo
+            console.log(value); // todo 
             await wait(0.1);
         } catch (error) {
             console.log(error);
@@ -205,7 +206,7 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
         >
             <IndexSelector label="left" labelId="left-range" setValue={setLeft} segmentTree={segmentTree} />
             <IndexSelector label="right" labelId="right-range" setValue={setRight} segmentTree={segmentTree} />
-            <Button onClick={handleQuery} disabled={disabled} variant="contained" endIcon={<SendIcon />}>
+            <Button onClick={handleQuery} disabled={disabled} variant="contained" endIcon={<SendIcon />} color="success">
                 sum_Range
             </Button>
         </Stack>
@@ -218,7 +219,7 @@ const Main = () => {
     return (
         <div style={{
             position: "fixed",
-            bottom: "150px",
+            bottom: "20%",
             left: "50%",
             transform: "translate(-50%)",
         }}
