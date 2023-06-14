@@ -4,7 +4,7 @@ import Display from '../../params/display.interface';
 import Mover from '../../params/move.interface';
 import Position from '../../params/position.interface';
 import DisplayImpl from "../../three/display";
-import MoveImpl from "../../three/move";
+import MoveImpl from "../../three/mover";
 import PositionImpl from "../../three/position"
 import { Cube } from './cube';
 import { TextCube as ITextCube } from '../text-cube';
