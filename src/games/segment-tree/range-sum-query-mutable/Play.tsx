@@ -176,7 +176,7 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
     const { state, animate, cancelAnimate, setState } = useAlgoContext();
     const [left, setLeft] = React.useState<number>();
     const [right, setRight] = React.useState<number>();
-    const disabled = state !== State.Ready || left === undefined || right === undefined || segmentTree === undefined;
+    const disabled = state !== State.Ready || left === undefined || right === undefined || segmentTree === undefined || left > right;
 
     const handleQuery = async () => {
         if (disabled) {
@@ -186,7 +186,7 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
         animate();
         try {
             const value = await segmentTree.query(left, right, duration);
-            console.log(value); // todo 
+            console.log(value); // todo display result
             await wait(0.1);
         } catch (error) {
             console.log(error);
