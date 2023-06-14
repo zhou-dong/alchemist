@@ -22,6 +22,8 @@ export default class SegmentTree implements ISegmentTree {
     private textMaterial: THREE.Material;
     private textGeometryParameters: TextGeometryParameters;
     private lineMaterial: THREE.LineBasicMaterial;
+    private rangeMaterial: THREE.Material;
+    private rangeGeometryParameters: TextGeometryParameters;
     private initPosition: Position;
     private positions: TreePosition[];
 
@@ -34,6 +36,8 @@ export default class SegmentTree implements ISegmentTree {
         textMaterial: THREE.Material,
         textGeometryParameters: TextGeometryParameters,
         lineMaterial: THREE.LineBasicMaterial,
+        rangeMaterial: THREE.Material,
+        rangeGeometryParameters: TextGeometryParameters,
         position: Position,
         depth: number,
         nodeDistance: Position,
@@ -47,6 +51,8 @@ export default class SegmentTree implements ISegmentTree {
         this.textMaterial = textMaterial;
         this.textGeometryParameters = textGeometryParameters;
         this.lineMaterial = lineMaterial;
+        this.rangeMaterial = rangeMaterial;
+        this.rangeGeometryParameters = rangeGeometryParameters;
         this.initPosition = initPosition;
         this.positions = this.buildTreeNodesPositions(depth, position, nodeDistance);
     }
@@ -88,7 +94,7 @@ export default class SegmentTree implements ISegmentTree {
         textSphere.textPosition.y = y - 0.4;
         textSphere.textPosition.z = z;
 
-        const node = new SegmentTreeNode(textSphere, start, end, index).show();
+        const node = new SegmentTreeNode(textSphere, start, end, this.rangeMaterial, this.rangeGeometryParameters, this.scene, index).show();
         node.value.sphereColor.setColor(this.enabledSphereColor);
 
         await node.moveTo(position, duration);
@@ -162,13 +168,13 @@ export default class SegmentTree implements ISegmentTree {
         node.value.sphereColor.setColor(this.enabledSphereColor);
         await wait(duration);
 
-        if (node.start === index && node.end === index) {
+        if (node.start.value === index && node.end.value === index) {
             node.value.value = value;
             node.value.sphereColor.setColor(this.normalSphereColor);
             return;
         }
 
-        const mid = Math.floor((node.start + node.end) / 2);
+        const mid = Math.floor((node.start.value + node.end.value) / 2);
         if (index <= mid) {
             await this.updateTree(node.left, index, value, duration);
         } else {
@@ -193,12 +199,12 @@ export default class SegmentTree implements ISegmentTree {
         node.value.sphereColor.setColor(this.enabledSphereColor);
         await wait(duration);
 
-        if (node.start === left && node.end === right) {
+        if (node.start.value === left && node.end.value === right) {
             node.value.sphereColor.setColor(this.normalSphereColor);
             return node.value.value;
         }
 
-        const mid = Math.floor((node.start + node.end) / 2);
+        const mid = Math.floor((node.start.value + node.end.value) / 2);
         let value: number | undefined = undefined;
 
         if (right <= mid) {
