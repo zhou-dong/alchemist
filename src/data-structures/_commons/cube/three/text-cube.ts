@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
-import Display from '../../params/display.interface';
+import Display from '../../params/displayer.interface';
 import Mover from '../../params/mover.interface';
 import Position from '../../params/position.interface';
 import DisplayImpl from "../../three/display";

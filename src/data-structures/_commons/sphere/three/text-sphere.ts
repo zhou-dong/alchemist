@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometries/TextGeometry';
 import Color from '../../params/color.interface';
 import ColorImpl from '../../three/color';
-import Display from '../../params/display.interface';
+import Display from '../../params/displayer.interface';
 import DisplayImpl from "../../three/display";
 import Mover from '../../params/mover.interface';
 import MoveImpl from "../../three/mover.class";

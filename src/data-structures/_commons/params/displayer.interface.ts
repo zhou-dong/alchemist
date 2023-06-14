@@ -1,4 +1,4 @@
-export default interface Display {
+export default interface Displayer {
     show: () => void;
     hide: () => void;
 }
