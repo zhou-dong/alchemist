@@ -1,9 +1,10 @@
 import React from "react";
 import SendIcon from '@mui/icons-material/Send';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import { useAlgoContext } from "./AlgoContext";
 import ISegmentTree from "../../../data-structures/tree/segment-tree/segment-tree.interface";
 import SegmentTree from "../../../data-structures/tree/segment-tree/segment-tree.class";
-import { Button, FormControl, IconButton, InputLabel, MenuItem, OutlinedInput, Paper, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
 import { State } from "./AlgoState";
 import { enabledSphereColor, lineMaterial, normalSphereColor, rangeGeometryParameters, rangeMaterial, sphereGeometry, sphereMaterial, textGeometryParameters, textMaterial } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
@@ -61,8 +62,11 @@ const BuildSegmentTree: React.FC<{ setSegmentTree: React.Dispatch<React.SetState
 
     return (
         <Button
+            variant="contained"
+            size="large"
             disabled={disabled}
             onClick={handleOnClick}
+            endIcon={<ConstructionIcon />}
         >
             Build Segment-Tree
         </Button>
@@ -72,11 +76,13 @@ const BuildSegmentTree: React.FC<{ setSegmentTree: React.Dispatch<React.SetState
 const IndexSelector: React.FC<{
     label: string,
     labelId: string,
-    setValue: React.Dispatch<React.SetStateAction<number | undefined>>
-}> = ({ label, labelId, setValue }) => {
+    setValue: React.Dispatch<React.SetStateAction<number | undefined>>,
+    segmentTree: ISegmentTree | undefined
+}> = ({ label, labelId, setValue, segmentTree }) => {
     const { nums } = useAlgoContext();
     const indices = Array.from(Array(nums.length).keys());
     type SelectType = number | undefined;
+    const disabled = nums.length === 0 || segmentTree === undefined;
 
     const handleChange = (event: SelectChangeEvent<SelectType>) => {
         const { target: { value } } = event;
@@ -86,11 +92,14 @@ const IndexSelector: React.FC<{
     };
 
     return (
-        <FormControl sx={{
-            width: 85
-        }}>
+        <FormControl
+            sx={{
+                width: 80
+            }}
+        >
             <InputLabel id={labelId}>{label}</InputLabel>
             <Select
+                disabled={disabled}
                 labelId={labelId}
                 onChange={handleChange}
                 input={<OutlinedInput label={label} />}
@@ -140,19 +149,24 @@ const Update: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTr
             console.log(error);
         }
         cancelAnimate();
-        setIndex(undefined);
-        setValue(undefined);
         setState(State.Ready);
     };
 
     return (
-        <>
-            <IndexSelector label="index" labelId="index-selector" setValue={setIndex} />
-            <TextField label="value" variant="standard" type="number" disabled={state !== State.Ready} onChange={handleValueChanged} />
-            <IconButton onClick={handleUpdate} disabled={disabled} sx={{ width: "55px", height: "55px" }}>
-                <SendIcon />
-            </IconButton>
-        </>
+        <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+                display: "flex",
+                justifyContent: "center"
+            }}
+        >
+            <IndexSelector label="index" labelId="index-selector" setValue={setIndex} segmentTree={segmentTree} />
+            <TextField label="value" type="number" disabled={state !== State.Ready} onChange={handleValueChanged} sx={{ width: 80 }} />
+            <Button onClick={handleUpdate} disabled={disabled} variant="contained" endIcon={<SendIcon />}>
+                update
+            </Button>
+        </Stack>
     );
 }
 
@@ -177,21 +191,24 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
             console.log(error);
         }
         cancelAnimate();
-        setLeft(undefined);
-        setRight(undefined);
         setState(State.Ready);
     };
 
     return (
-        <Paper>
-            <Stack direction="row" spacing={2}>
-                <IndexSelector label="left" labelId="left-range" setValue={setLeft} />
-                <IndexSelector label="right" labelId="right-range" setValue={setRight} />
-                <IconButton onClick={handleQuery} disabled={disabled} sx={{ width: "55px", height: "55px" }}>
-                    <SendIcon />
-                </IconButton>
-            </Stack>
-        </Paper>
+        <Stack
+            direction="row"
+            spacing={1}
+            sx={{
+                display: "flex",
+                justifyContent: "center"
+            }}
+        >
+            <IndexSelector label="left" labelId="left-range" setValue={setLeft} segmentTree={segmentTree} />
+            <IndexSelector label="right" labelId="right-range" setValue={setRight} segmentTree={segmentTree} />
+            <Button onClick={handleQuery} disabled={disabled} variant="contained" endIcon={<SendIcon />}>
+                sum_Range
+            </Button>
+        </Stack>
     );
 }
 
@@ -206,9 +223,11 @@ const Main = () => {
             transform: "translate(-50%)",
         }}
         >
-            <BuildSegmentTree setSegmentTree={setSegmentTree} />
-            <Update segmentTree={segmentTree} />
-            <Query segmentTree={segmentTree} />
+            <Stack direction="column" spacing={2}>
+                <BuildSegmentTree setSegmentTree={setSegmentTree} />
+                <Update segmentTree={segmentTree} />
+                <Query segmentTree={segmentTree} />
+            </Stack>
         </div>
     );
 };
