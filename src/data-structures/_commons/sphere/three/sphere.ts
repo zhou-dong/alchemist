@@ -7,7 +7,7 @@ import DisplayImpl from "../../three/display";
 import Mover from '../../params/mover.interface';
 import MoveImpl from "../../three/mover.class";
 import Position from '../../params/position.interface';
-import PositionImpl from "../../three/position"
+import PositionImpl from "../../three/position.class"
 
 import { Sphere as ISphere } from "../sphere.interface";
 import { calDistance } from '../../utils';

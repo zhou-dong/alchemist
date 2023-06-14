@@ -5,7 +5,7 @@ import Mover from '../../params/mover.interface';
 import Position from '../../params/position.interface';
 import DisplayImpl from "../../three/display";
 import MoveImpl from "../../three/mover.class";
-import PositionImpl from "../../three/position"
+import PositionImpl from "../../three/position.class"
 
 import { Cube as ICube } from '../cube';
 import { calDistance } from '../../utils';

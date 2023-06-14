@@ -7,7 +7,7 @@ import DisplayImpl from "../../three/display";
 import Mover from '../../params/mover.interface';
 import MoveImpl from "../../three/mover.class";
 import Position from '../../params/position.interface';
-import PositionImpl from "../../three/position"
+import PositionImpl from "../../three/position.class"
 import { TextSphere as ITextSphere } from "../text-sphere.interface";
 import Sphere from './sphere';
 import { calDestination } from '../../utils';
