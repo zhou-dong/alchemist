@@ -190,6 +190,7 @@ export default class SegmentTree implements ISegmentTree {
         if (node.start.value === index && node.end.value === index) {
             node.value.value = value;
             node.value.sphereColor.setColor(this.normalSphereColor);
+            await wait(duration);
             return;
         }
 
@@ -220,6 +221,7 @@ export default class SegmentTree implements ISegmentTree {
 
         if (node.start.value === left && node.end.value === right) {
             node.value.sphereColor.setColor(this.normalSphereColor);
+            await wait(duration);
             return node.value.value;
         }
 
