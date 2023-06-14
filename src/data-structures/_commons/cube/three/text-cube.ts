@@ -3,7 +3,7 @@ import { TextGeometry, TextGeometryParameters } from 'three/examples/jsm/geometr
 import Display from '../../params/displayer.interface';
 import Mover from '../../params/mover.interface';
 import Position from '../../params/position.interface';
-import DisplayImpl from "../../three/display";
+import DisplayImpl from "../../three/displayer.class";
 import MoveImpl from "../../three/mover.class";
 import PositionImpl from "../../three/position.class"
 import { Cube } from './cube';
