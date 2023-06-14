@@ -155,7 +155,7 @@ const Update: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTr
     return (
         <Stack
             direction="row"
-            spacing={1}
+            spacing={0.5}
             sx={{
                 display: "flex",
                 justifyContent: "center"
@@ -197,7 +197,7 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
     return (
         <Stack
             direction="row"
-            spacing={1}
+            spacing={0.5}
             sx={{
                 display: "flex",
                 justifyContent: "center"
@@ -223,7 +223,7 @@ const Main = () => {
             transform: "translate(-50%)",
         }}
         >
-            <Stack direction="column" spacing={2}>
+            <Stack direction="row" spacing={2}>
                 <BuildSegmentTree setSegmentTree={setSegmentTree} />
                 <Update segmentTree={segmentTree} />
                 <Query segmentTree={segmentTree} />
