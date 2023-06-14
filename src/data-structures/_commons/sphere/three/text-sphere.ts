@@ -4,7 +4,7 @@ import Color from '../../params/color.interface';
 import ColorImpl from '../../three/color';
 import Display from '../../params/display.interface';
 import DisplayImpl from "../../three/display";
-import Mover from '../../params/move.interface';
+import Mover from '../../params/mover.interface';
 import MoveImpl from "../../three/mover.class";
 import Position from '../../params/position.interface';
 import PositionImpl from "../../three/position"

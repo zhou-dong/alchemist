@@ -1,4 +1,4 @@
-import Mover from "../params/move.interface";
+import Mover from "../params/mover.interface";
 import Display from "../params/display.interface";
 import Position from "../params/position.interface";
 

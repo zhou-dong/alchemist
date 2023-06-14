@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import IMover from "../params/move.interface";
+import IMover from "../params/mover.interface";
 import Position from '../params/position.interface';
 import { wait } from "../utils";
 

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import Display from '../../params/display.interface';
-import Mover from '../../params/move.interface';
+import Mover from '../../params/mover.interface';
 import Position from '../../params/position.interface';
 import DisplayImpl from "../../three/display";
 import MoveImpl from "../../three/mover.class";
