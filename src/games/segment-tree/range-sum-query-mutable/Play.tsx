@@ -4,7 +4,7 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import { useAlgoContext } from "./AlgoContext";
 import ISegmentTree from "../../../data-structures/tree/segment-tree/segment-tree.interface";
 import SegmentTree from "../../../data-structures/tree/segment-tree/segment-tree.class";
-import { Button, FormControl, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, OutlinedInput, Popover, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
 import { State } from "./AlgoState";
 import { enabledSphereColor, lineMaterial, normalSphereColor, rangeGeometryParameters, rangeMaterial, sphereGeometry, sphereMaterial, textGeometryParameters, textMaterial } from "./styles";
 import { wait } from "../../../data-structures/_commons/utils";
@@ -19,7 +19,7 @@ const BuildSegmentTree: React.FC<{ setSegmentTree: React.Dispatch<React.SetState
 
     const position = { x: 0, y: -5, z: 0 };
     const initPosition = { x: 0, y: 0, z: 0 };
-    const nodeDistance = { x: 2, y: 3, z: 0 };
+    const nodeDistance = { x: 3, y: 3, z: 0 };
 
     const handleOnClick = async () => {
         if (nums.length === 0) {
@@ -82,13 +82,15 @@ const IndexSelector: React.FC<{
 }> = ({ label, labelId, setValue, segmentTree }) => {
     const { nums } = useAlgoContext();
     const indices = Array.from(Array(nums.length).keys());
-    type SelectType = number | undefined;
+    type SelectType = string | number | undefined;
     const disabled = nums.length === 0 || segmentTree === undefined;
+    const [v, setV] = React.useState<SelectType>("");
 
     const handleChange = (event: SelectChangeEvent<SelectType>) => {
         const { target: { value } } = event;
         if (value !== undefined && typeof value === "number") {
             setValue(value);
+            setV(value);
         }
     };
 
@@ -104,6 +106,7 @@ const IndexSelector: React.FC<{
                 labelId={labelId}
                 onChange={handleChange}
                 input={<OutlinedInput label={label} />}
+                value={v}
             >
                 {
                     indices.map(index =>
@@ -178,7 +181,46 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
     const [right, setRight] = React.useState<number>();
     const disabled = state !== State.Ready || left === undefined || right === undefined || segmentTree === undefined || left > right;
 
-    const handleQuery = async () => {
+    const [result, setResult] = React.useState<number>();
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const DisplayResult = () => (
+        <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+            }}
+            transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+            }}
+        >
+            <Typography
+                color="green"
+                variant="h5"
+                sx={{
+                    height: "50px",
+                    width: "50px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}
+            >
+                {result}
+            </Typography>
+        </Popover>
+    );
+
+    const handleQuery = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        const target = event.currentTarget;
         if (disabled) {
             return;
         }
@@ -186,7 +228,10 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
         animate();
         try {
             const value = await segmentTree.query(left, right, duration);
-            console.log(value); // todo display result
+            setResult(value);
+            if (value !== undefined && target) {
+                setAnchorEl(target);
+            }
             await wait(0.1);
         } catch (error) {
             console.log(error);
@@ -209,6 +254,7 @@ const Query: React.FC<{ segmentTree: ISegmentTree | undefined }> = ({ segmentTre
             <Button onClick={handleQuery} disabled={disabled} variant="contained" endIcon={<SendIcon />} color="success">
                 sum_Range
             </Button>
+            <DisplayResult />
         </Stack>
     );
 }
