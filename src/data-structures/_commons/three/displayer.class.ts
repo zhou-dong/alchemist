@@ -1,6 +1,6 @@
-import IDisplay from "../params/display.interface";
+import IDisplayer from "../params/displayer.interface";
 
-export default class Display implements IDisplay {
+export default class Displayer implements IDisplayer {
 
     private scene: THREE.Scene;
     private mesh: THREE.Mesh;

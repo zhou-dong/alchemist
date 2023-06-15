@@ -1,11 +1,11 @@
 import * as THREE from 'three';
 
-import Display from '../../params/display.interface';
-import Move from '../../params/move.interface';
+import Display from '../../params/displayer.interface';
+import Mover from '../../params/mover.interface';
 import Position from '../../params/position.interface';
-import DisplayImpl from "../../three/display";
-import MoveImpl from "../../three/move";
-import PositionImpl from "../../three/position"
+import DisplayImpl from "../../three/displayer.class";
+import MoveImpl from "../../three/mover.class";
+import PositionImpl from "../../three/position.class"
 
 import { Cube as ICube } from '../cube';
 import { calDistance } from '../../utils';
@@ -14,7 +14,7 @@ export class Cube implements ICube {
 
   position: Position;
   private display: Display;
-  private mover: Move;
+  private mover: Mover;
   private mesh: THREE.Mesh;
 
   constructor(

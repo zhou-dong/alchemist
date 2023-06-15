@@ -1,13 +1,13 @@
 import * as THREE from 'three';
 
 import Color from '../../params/color.interface';
-import ColorImpl from '../../three/color';
-import Display from '../../params/display.interface';
-import DisplayImpl from "../../three/display";
-import Move from '../../params/move.interface';
-import MoveImpl from "../../three/move";
+import ColorImpl from '../../three/color.class';
+import Display from '../../params/displayer.interface';
+import DisplayImpl from "../../three/displayer.class";
+import Mover from '../../params/mover.interface';
+import MoveImpl from "../../three/mover.class";
 import Position from '../../params/position.interface';
-import PositionImpl from "../../three/position"
+import PositionImpl from "../../three/position.class"
 
 import { Sphere as ISphere } from "../sphere.interface";
 import { calDistance } from '../../utils';
@@ -16,7 +16,7 @@ export default class Sphere implements ISphere {
 
     center: Position;
     private display: Display;
-    private mover: Move;
+    private mover: Mover;
     private geometry: THREE.SphereGeometry;
     sphereColor: Color;
 
