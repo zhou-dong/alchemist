@@ -15,8 +15,9 @@ import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 
-const input1 = [8, 5, 11, 4, 7, 10, 13, 3, 6, 9, 12];
-const input2 = [8, 5, 11, 4, 7, 10, 13, 6, 9, 12];
+const input1 = [-2, 7, -3, 0, 5];
+const input2 = [8, 5, 4, 7, 1, 6, 9, 2];
+const input3 = [5, 1, 3, 7, 2, 6, 4];
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -28,6 +29,7 @@ const DropDown: React.FC<{
     const buildInInputs = [
         input1,
         input2,
+        input3,
     ];
 
     const handleMenuClose = () => {
