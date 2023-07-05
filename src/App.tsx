@@ -185,6 +185,8 @@ import TheSkylineProblemInfo from "./games/tree/the-skyline-problem/info";
 import TheSkylineProblem from "./games/tree/the-skyline-problem";
 import RangeSumQueryMutableInfo from "./games/segment-tree/range-sum-query-mutable/info";
 import RangeSumQueryMutable from "./games/segment-tree/range-sum-query-mutable";
+import CourseScheduleInfo from "./games/graph/course-schedule/info"
+import CourseSchedule from "./games/graph/course-schedule"
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -294,6 +296,7 @@ const App = () => (
         <Route path={SlidingWindowMedianInfo.path} element={<SlidingWindowMedian renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={TheSkylineProblemInfo.path} element={<TheSkylineProblem renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={RangeSumQueryMutableInfo.path} element={<RangeSumQueryMutable renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={CourseScheduleInfo.path} element={<CourseSchedule renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 

@@ -13,6 +13,7 @@ enum Category {
     Heap = "heap",
     Deque = "Qeque",
     SegmentTree = "Segment Tree",
+    Graph = "graph"
 }
 
 export default Category;
