@@ -5,8 +5,8 @@ import { GraphEdge } from "./edge.interface";
 
 export class Graph<T> {
 
-    nodes: GraphNode<T>[];
-    edges: GraphEdge<T>[];
+    readonly nodes: GraphNode<T>[];
+    readonly edges: GraphEdge<T>[];
 
     constructor(nodes: GraphNode<T>[], edges: GraphEdge<T>[]) {
         this.nodes = nodes;
