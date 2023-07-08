@@ -3,7 +3,6 @@ import Mover from "../_commons/params/mover.interface";
 import { GraphNode } from "./node.interface";
 
 export interface GraphEdge<T> extends Displayer {
-    id: number;
     source: GraphNode<T>;
     target: GraphNode<T>;
     refresh(): void;
