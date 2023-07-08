@@ -12,20 +12,16 @@ const threePosition = <T>(node: GraphNode<T>) => {
 
 abstract class Base<T> implements GraphEdge<T>{
 
-    readonly id: number;
     readonly source: GraphNode<T>;
     readonly target: GraphNode<T>;
-
     private displayer: Displayer;
 
     constructor(
-        id: number,
         source: GraphNode<T>,
         target: GraphNode<T>,
         scene: THREE.Scene,
         object3D: THREE.Object3D,
     ) {
-        this.id = id;
         this.source = source;
         this.target = target;
         this.displayer = new DisplayerImpl(scene, object3D);
@@ -49,7 +45,6 @@ export class DirectedGraphEdge<T> extends Base<T> implements IDirectedGraphEdge<
     private readonly headWidth: number;
 
     constructor(
-        id: number,
         source: GraphNode<T>,
         target: GraphNode<T>,
         scene: THREE.Scene,
@@ -70,7 +65,7 @@ export class DirectedGraphEdge<T> extends Base<T> implements IDirectedGraphEdge<
             headWidth
         );
 
-        super(id, source, target, scene, arrow)
+        super(source, target, scene, arrow)
         this.arrow = arrow;
         this.headLength = headLength;
         this.headWidth = headWidth;
@@ -93,7 +88,6 @@ export class UndirectedGraphEdge<T> extends Base<T> implements IUndirectedGraphE
     private line: THREE.Line;
 
     constructor(
-        id: number,
         source: GraphNode<T>,
         target: GraphNode<T>,
         scene: THREE.Scene,
@@ -101,7 +95,7 @@ export class UndirectedGraphEdge<T> extends Base<T> implements IUndirectedGraphE
     ) {
         const geometry = new THREE.BufferGeometry().setFromPoints([threePosition(source), threePosition(target)]);
         const line = new THREE.Line(geometry, material);
-        super(id, source, target, scene, line)
+        super(source, target, scene, line)
         this.line = line;
     }
 
