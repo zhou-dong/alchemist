@@ -17,7 +17,7 @@ export interface GraphText extends Mover, Displayer, Base {
     text: string;
 }
 
-export default class GraphNode<T> implements Mover, Displayer {
+export class GraphNode<T> implements Mover, Displayer {
 
     value: T;
     readonly id: string;
