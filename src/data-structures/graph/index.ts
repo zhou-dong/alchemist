@@ -11,10 +11,10 @@ export class Graph<T> {
     constructor(nodes: GraphNode<T>[], edges: GraphEdge<T>[]) {
         this.nodes = nodes;
         this.edges = edges;
-        this.setPositions();
+        this.resetPositions();
     }
 
-    private setPositions() {
+    resetPositions() {
         const positions = this.computePositions();
 
         this.nodes.forEach(node => {
