@@ -1,82 +1,20 @@
 export const title = "Course Schedule";
 
-export const formula = `/**
- * Definition for a binary tree node.
- * class TreeNode {
- *     val: number
- *     left: TreeNode | null
- *     right: TreeNode | null
- *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.left = (left===undefined ? null : left)
- *         this.right = (right===undefined ? null : right)
- *     }
- * }
- */
-
-function isBalanced(root: TreeNode | null): boolean {
-
-    function height(node: TreeNode | null): number {
-        if (node === null) {
-            return 0;
-        }
-
-        const left = height(node.left);
-        if (left === -1) {
-            return -1;
-        }
-
-        const right = height(node.right);
-        if (right === -1) {
-            return -1;
-        }
-
-        const different = Math.abs(right - left);
-        if (different > 1) {
-            return -1;
-        }
-
-        return Math.max(left, right) + 1;
-    }
-
-    return height(root) !== -1;
-};`;
+export const formula = ``;
 
 export const description = `
-Given a binary tree, determine if it is ***height-balanced***.
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. 
+
+You are given an array prerequisites where prerequisites[i] = [a_i, b_i] indicates that 
+
+you must take course b_i first if you want to take course a_i.
+
+> For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+
+Return **true** if you can finish all courses. Otherwise, return **false**.
 `;
 
-export const solution = `/**
-* If a node is balanced, return the height of the node.
-* If a node is unbalanced, return -1 as the height of the node.
-*/
-function isBalanced(root: TreeNode | null): boolean {
-
-    function height(node: TreeNode | null): number {
-        if (node === null) {
-            return 0;
-        }
-
-        const left = height(node.left);
-        if (left === -1) {
-            return -1;
-        }
-
-        const right = height(node.right);
-        if (right === -1) {
-            return -1;
-        }
-
-        const different = Math.abs(right - left);
-        if (different > 1) {
-            return -1;
-        }
-
-        return Math.max(left, right) + 1;
-    }
-
-    return height(root) !== -1;
-};`;
+export const solution = ``;
 
 export const usecases = '';
 
