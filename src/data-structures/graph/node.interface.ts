@@ -4,7 +4,7 @@ import Mover from "../_commons/params/mover.interface";
 import Position from "../_commons/params/position.interface";
 import { calDistance, calDestination } from "../_commons/utils";
 
-interface Base {
+export interface Base {
     position: Position;
     color: Color;
 }
