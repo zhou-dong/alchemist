@@ -9,6 +9,7 @@ import MoverImpl from '../_commons/three/mover.class';
 import Color from '../_commons/params/color.interface';
 import ColorImpl from '../_commons/three/color.class';
 import { Base as IBase, GraphSkin as ISkin, GraphText as IText } from "./node.interface";
+import { font } from '../../commons/three';
 
 class Base implements Mover, Displayer, IBase {
 
@@ -67,6 +68,26 @@ export class GraphText extends Base implements IText {
         const geometry = new TextGeometry(text, geometryParameters);
         super(scene, geometry, material);
         this.text = text;
+    }
+
+}
+
+export class SimpleGraphSkin extends GraphSkin {
+
+    constructor(scene: THREE.Scene, color: string) {
+        const geometry = new THREE.SphereGeometry(1, 32, 16);
+        const material = new THREE.MeshBasicMaterial({ color, opacity: 0.4, transparent: true });
+        super(scene, geometry, material);
+    }
+
+}
+
+export class SimpleGraphText extends GraphText {
+
+    constructor(text: string, scene: THREE.Scene, color: string) {
+        const material = new THREE.MeshBasicMaterial({ color });
+        const geometryParameters: TextGeometryParameters = { font, size: 0.8, height: 0.1 };
+        super(text, scene, geometryParameters, material);
     }
 
 }
