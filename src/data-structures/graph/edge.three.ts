@@ -12,14 +12,14 @@ const threePosition = <T>(node: GraphNode<T>) => {
 
 abstract class Base<T> implements GraphEdge<T>{
 
-    readonly id: string;
+    readonly id: number;
     readonly source: GraphNode<T>;
     readonly target: GraphNode<T>;
 
     private displayer: Displayer;
 
     constructor(
-        id: string,
+        id: number,
         source: GraphNode<T>,
         target: GraphNode<T>,
         scene: THREE.Scene,
@@ -49,7 +49,7 @@ export class DirectedGraphEdge<T> extends Base<T> implements IDirectedGraphEdge<
     private readonly headWidth: number;
 
     constructor(
-        id: string,
+        id: number,
         source: GraphNode<T>,
         target: GraphNode<T>,
         scene: THREE.Scene,
@@ -93,7 +93,7 @@ export class UndirectedGraphEdge<T> extends Base<T> implements IUndirectedGraphE
     private line: THREE.Line;
 
     constructor(
-        id: string,
+        id: number,
         source: GraphNode<T>,
         target: GraphNode<T>,
         scene: THREE.Scene,
