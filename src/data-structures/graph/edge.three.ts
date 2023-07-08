@@ -122,3 +122,32 @@ export class UndirectedGraphEdge<T> extends Base<T> implements IUndirectedGraphE
     }
 
 }
+
+export class SimpleDirectedGraphEdge<T> extends DirectedGraphEdge<T> {
+
+    constructor(
+        source: GraphNode<T>,
+        target: GraphNode<T>,
+        scene: THREE.Scene,
+        color: THREE.Color | string | number
+    ) {
+        const headLength = 3;
+        const headWidth = 1.5;
+        super(source, target, scene, color, headLength, headWidth);
+    }
+
+}
+
+export class SimpleUndirectedGraphEdge<T> extends UndirectedGraphEdge<T> {
+
+    constructor(
+        source: GraphNode<T>,
+        target: GraphNode<T>,
+        scene: THREE.Scene,
+        color: THREE.Color | string | number
+    ) {
+        const material = new THREE.LineBasicMaterial({ color });
+        super(source, target, scene, material);
+    }
+
+}
