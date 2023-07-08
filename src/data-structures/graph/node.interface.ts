@@ -20,7 +20,7 @@ export interface GraphText extends Mover, Displayer, Base {
 export class GraphNode<T> implements Mover, Displayer {
 
     value: T;
-    readonly id: string;
+    readonly id: number;
     readonly position: Position;
     readonly skinColor: Color;
     readonly textColor: Color;
@@ -29,7 +29,7 @@ export class GraphNode<T> implements Mover, Displayer {
     private readonly text: GraphText;
 
     constructor(
-        id: string,
+        id: number,
         value: T,
         skin: GraphSkin,
         text: GraphText,
