@@ -131,8 +131,8 @@ export class SimpleDirectedGraphEdge<T> extends DirectedGraphEdge<T> {
         scene: THREE.Scene,
         color: THREE.Color | string | number
     ) {
-        const headLength = 3;
-        const headWidth = 1.5;
+        const headLength = 1.2;
+        const headWidth = 0.5;
         super(source, target, scene, color, headLength, headWidth);
     }
 
