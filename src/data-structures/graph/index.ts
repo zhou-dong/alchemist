@@ -35,8 +35,8 @@ export class Graph<T> {
         const graph = new Graphology();
 
         this.nodes.forEach(node => {
-            const x = Math.random() * 100; // Set initial x position
-            const y = Math.random() * 100; // Set initial y position
+            const x = Math.random() * 1; // Set initial x position
+            const y = Math.random() * 1; // Set initial y position
             graph.addNode(node.id, { x, y });
         });
 
