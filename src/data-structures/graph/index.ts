@@ -104,6 +104,7 @@ export class SimpleDirectedGraph<T> extends Graph<T> {
         });
         super(Array.from(nodeMap.values()), edges);
     }
+
 }
 
 export class SimpleUndirectedGraph<T> extends Graph<T> {
