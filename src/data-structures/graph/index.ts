@@ -42,7 +42,7 @@ export class Graph<T> {
 
         this.edges.forEach(edge => {
             graph.addEdge(edge.source.id, edge.target.id);
-        })
+        });
 
         const positions = forceAtlas2(graph, {
             iterations: 50,
