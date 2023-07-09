@@ -21,12 +21,8 @@ export class GraphNode<T> implements Mover, Displayer {
 
     value: T;
     readonly id: number;
-    readonly position: Position;
-    readonly skinColor: Color;
-    readonly textColor: Color;
-
-    private readonly skin: GraphSkin;
-    private readonly text: GraphText;
+    readonly skin: GraphSkin;
+    readonly text: GraphText;
 
     constructor(
         id: number,
@@ -38,9 +34,6 @@ export class GraphNode<T> implements Mover, Displayer {
         this.value = value;
         this.skin = skin;
         this.text = text;
-        this.position = this.skin.position;
-        this.skinColor = this.skin.color;
-        this.textColor = this.text.color;
     }
 
     show() {
@@ -60,7 +53,7 @@ export class GraphNode<T> implements Mover, Displayer {
     }
 
     private calTextDestination(destination: Position): Position {
-        const distance = calDistance(this.position, destination);
+        const distance = calDistance(this.skin.position, destination);
         return calDestination(this.text.position, distance);
     }
 }
