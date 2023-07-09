@@ -6,11 +6,11 @@ import Displayer from "../_commons/params/displayer.interface";
 import DisplayerImpl from "../_commons/three/displayer.class";
 
 const threePosition = <T>(node: GraphNode<T>) => {
-    const { x, y, z } = node.position;
+    const { x, y, z } = node.skin.position;
     return new THREE.Vector3(x, y, z);
 }
 
-abstract class Base<T> implements GraphEdge<T>{
+abstract class Base<T> implements GraphEdge<T> {
 
     readonly source: GraphNode<T>;
     readonly target: GraphNode<T>;
@@ -105,11 +105,11 @@ export class UndirectedGraphEdge<T> extends Base<T> implements IUndirectedGraphE
     }
 
     private refreshSource(): void {
-        this.update(this.source.position, 0, 1, 2);
+        this.update(this.source.skin.position, 0, 1, 2);
     }
 
     private refreshTarget(): void {
-        this.update(this.target.position, 3, 4, 5);
+        this.update(this.target.skin.position, 3, 4, 5);
     }
 
     private update(position: Position, xIndex: number, yIndex: number, zIndex: number) {
