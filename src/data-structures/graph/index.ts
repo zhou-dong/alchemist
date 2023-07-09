@@ -19,8 +19,10 @@ export class Graph<T> {
 
         this.nodes.forEach(node => {
             const { x, y } = positions[node.id];
-            node.position.x = x;
-            node.position.y = y;
+            node.skin.position.x = x;
+            node.skin.position.y = y;
+            node.text.position.x = x - 0.3;
+            node.text.position.y = y - 0.3;
         });
 
         this.edges.forEach(edge => {
