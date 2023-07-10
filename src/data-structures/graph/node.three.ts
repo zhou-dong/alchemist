@@ -43,17 +43,7 @@ class Base implements Mover, Displayer, IBase {
     }
 }
 
-export class GraphSkin extends Base implements ISkin {
-
-    constructor(
-        scene: THREE.Scene,
-        geometry: THREE.SphereGeometry,
-        material: THREE.Material,
-    ) {
-        super(scene, geometry, material);
-    }
-
-}
+export class GraphSkin extends Base implements ISkin { }
 
 export class GraphText extends Base implements IText {
 
