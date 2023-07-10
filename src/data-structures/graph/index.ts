@@ -4,8 +4,9 @@ import { GraphNode } from "./node.interface";
 import { GraphEdge } from "./edge.interface";
 import { SimpleGraphSkin, SimpleGraphText } from "./node.three";
 import { SimpleDirectedGraphEdge, SimpleUndirectedGraphEdge } from "./edge.three";
+import Displayer from "../_commons/params/displayer.interface";
 
-export class Graph<T> {
+export class Graph<T> implements Displayer {
 
     readonly nodes: GraphNode<T>[];
     readonly edges: GraphEdge<T>[];
@@ -15,6 +16,24 @@ export class Graph<T> {
         this.edges = edges;
         this.resetPositions();
     }
+
+    show() {
+        this.nodes.forEach(node => {
+            node.show();
+        });
+        this.edges.forEach(edge => {
+            edge.show();
+        });
+    };
+
+    hide() {
+        this.nodes.forEach(node => {
+            node.hide();
+        });
+        this.edges.forEach(edge => {
+            edge.hide();
+        });
+    };
 
     resetPositions() {
         const positions = this.computePositions();
