@@ -6,7 +6,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
 import Instruction from '../../../commons/Instruction';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import { description, formula, solution } from "./contents";
+import { description, formula, tips } from "./contents";
 import React from "react";
 import LightTooltip from "../../../commons/LightTooltip";
 import AlgoInput from "./AlgoInput";
@@ -104,15 +104,9 @@ const Instructions = () => {
                 transformOrigin={transformOrigin}
             />
             <Instruction
-                name="Solution"
+                name="Tips"
                 icon={<TipsAndUpdatesOutlinedIcon fontSize="medium" />}
-                popover={<CodeBlock
-                    code={solution}
-                    language={languages.Typescript}
-                    showLineNumbers={true}
-                    linesToHighlight={[]}
-                    wrapLines={true}
-                />}
+                popover={<StyledReactMarkdown>{tips}</StyledReactMarkdown>}
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             />
