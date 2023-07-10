@@ -1,6 +1,45 @@
 export const title = "Course Schedule";
 
-export const formula = ``;
+export const formula = `function canFinish(numCourses: number, prerequisites: number[][]): boolean {
+
+    const adjacency: Map<number, number[]> = new Map();
+    for (let i = 0; i < numCourses; i++) {
+        adjacency.set(i, []);
+    }
+
+    prerequisites.forEach(prerequisite => {
+        const [a, b] = prerequisite;
+        adjacency.get(b).push(a);
+    });
+
+    const visited: Set<number> = new Set();
+
+    const dfs = (current: number): boolean => {
+        if (visited.has(current)) {
+            return false;
+        }
+        if (adjacency.get(current).length === 0) {
+            return true;
+        }
+        visited.add(current);
+        const children = adjacency.get(current);
+        for (let i = 0; i < children.length; i++) {
+            const child = children[i];
+            if (!dfs(child)) {
+                return false;
+            }
+        }
+        visited.delete(current);
+        adjacency.set(current, []);
+        return true;
+    }
+
+    for (let i = 0; i < numCourses; i++) {
+        if (!dfs(i)) return false;
+    }
+
+    return true;
+};`;
 
 export const description = `
 There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. 
@@ -14,7 +53,9 @@ you must take course b_i first if you want to take course a_i.
 Return **true** if you can finish all courses. Otherwise, return **false**.
 `;
 
-export const solution = ``;
+export const tips = `This is a **Detect Cycle in a Directed Graph** problem.
+
+We could use **hashSet** to find whehter there is a cycle in a graph.`;
 
 export const usecases = '';
 
