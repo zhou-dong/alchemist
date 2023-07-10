@@ -10,10 +10,12 @@ export class Graph<T> implements Displayer {
 
     readonly nodes: GraphNode<T>[];
     readonly edges: GraphEdge<T>[];
+    private graph: Graphology;
 
     constructor(nodes: GraphNode<T>[], edges: GraphEdge<T>[]) {
         this.nodes = nodes;
         this.edges = edges;
+        this.graph = this.buildGraphology();
         this.resetPositions();
     }
 
@@ -51,28 +53,31 @@ export class Graph<T> implements Displayer {
         });
     }
 
-    private computePositions() {
-
+    private buildGraphology(): Graphology {
         const graph = new Graphology();
 
         this.nodes.forEach(node => {
-            const x = Math.random() * 1; // Set initial x position
-            const y = Math.random() * 1; // Set initial y position
-            graph.addNode(node.id, { x, y });
+            graph.addNode(node.id);
         });
 
         this.edges.forEach(edge => {
             graph.addEdge(edge.source.id, edge.target.id);
         });
 
-        const positions = forceAtlas2(graph, {
-            iterations: 50,
-            settings: {
-                gravity: 10
-            }
+        return graph;
+    }
+
+    private computePositions() {
+        this.graph.forEachNode((_, attributes) => {
+            attributes.x = Math.random() * 10; // Set initial x position
+            attributes.y = Math.random() * 10; // Set initial y position
         });
 
-        return positions;
+        const sensibleSettings = forceAtlas2.inferSettings(this.graph);
+        return forceAtlas2(this.graph, {
+            iterations: 50,
+            settings: sensibleSettings
+        });
     }
 
 }
