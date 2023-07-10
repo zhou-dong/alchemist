@@ -99,10 +99,10 @@ const Submit: React.FC<{
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
-        animate();
-        clearScene(scene);
         const matrix: number[][] = JSON.parse(inputString);
         const minHeap = buildMinHeap(matrix.length, scene);
+        animate();
+        clearScene(scene);
         setMinHeap(minHeap);
         setMatrix(matrix);
         setK(+k);
