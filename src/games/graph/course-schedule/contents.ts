@@ -6,7 +6,6 @@ export const formula = `function canFinish(numCourses: number, prerequisites: nu
     for (let i = 0; i < numCourses; i++) {
         adjacency.set(i, []);
     }
-
     prerequisites.forEach(prerequisite => {
         const [a, b] = prerequisite;
         adjacency.get(b).push(a);
