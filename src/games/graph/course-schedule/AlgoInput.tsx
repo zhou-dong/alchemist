@@ -80,6 +80,7 @@ const Submit: React.FC<{
     try {
         if (value.length > 0) {
             matrix = JSON.parse(value);
+            matrix = matrix.map(array => array.reverse());
         }
     } catch (error) {
         disabled = true;
