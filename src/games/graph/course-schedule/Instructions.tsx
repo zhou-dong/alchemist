@@ -114,7 +114,7 @@ const Refresh = () => {
             disabled={disabled}
             onClick={handleRefresh}
         >
-            <RefreshIcon fontSize="medium" />
+            <RefreshIcon fontSize="medium" color="primary" />
         </ToggleButton>
     )
 }
