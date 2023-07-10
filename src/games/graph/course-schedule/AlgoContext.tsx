@@ -1,9 +1,9 @@
 import React from "react";
 import * as THREE from 'three';
-import { clearScene, registerOrbitControls } from '../../../commons/three';
-import TreeNode from "../../../data-structures/tree/nodes/v1/node";
+import { clearScene } from '../../../commons/three';
 import { Step } from "./algo";
 import { State } from "./AlgoState";
+import { Graph } from "../../../data-structures/graph";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -15,26 +15,22 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    depthTree?: TreeNode<string | number | null>,
-    setDepthTree: React.Dispatch<React.SetStateAction<TreeNode<string | number | null> | undefined>>,
-    root?: TreeNode<string | number | null>,
-    setRoot: React.Dispatch<React.SetStateAction<TreeNode<string | number | null> | undefined>>,
-    depthTreeSteps: Step[],
-    setDepthTreeSteps: React.Dispatch<React.SetStateAction<Step[]>>,
+    graph?: Graph<number>,
+    setGraph: React.Dispatch<React.SetStateAction<Graph<number> | undefined>>,
+    visitedSet?: Set<number>,
+    setVisitedSet: React.Dispatch<React.SetStateAction<Set<number> | undefined>>
 }>({
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    setRoot: () => { },
     steps: [],
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
-    setDepthTree: () => { },
-    depthTreeSteps: [],
-    setDepthTreeSteps: () => { }
+    setGraph: () => { },
+    setVisitedSet: () => { },
 });
 
 let animationFrameId = -1;
@@ -48,11 +44,10 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [root, setRoot] = React.useState<TreeNode<string | number | null>>();
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
-    const [depthTree, setDepthTree] = React.useState<TreeNode<string | number | null>>();
-    const [depthTreeSteps, setDepthTreeSteps] = React.useState<Step[]>([]);
+    const [graph, setGraph] = React.useState<Graph<number>>();
+    const [visitedSet, setVisitedSet] = React.useState<Set<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -68,7 +63,6 @@ export const AlgoContextProvider: React.FC<{
     React.useEffect(() => {
         const init = () => {
             clearScene(scene);
-            registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
         if (ref && ref.current) {
@@ -84,16 +78,14 @@ export const AlgoContextProvider: React.FC<{
             scene,
             animate,
             cancelAnimate,
-            root,
-            setRoot,
             steps,
             setSteps,
             index,
             setIndex,
-            depthTree,
-            setDepthTree,
-            depthTreeSteps,
-            setDepthTreeSteps
+            graph,
+            setGraph,
+            visitedSet,
+            setVisitedSet
         }}>
             {children}
             <div ref={ref}></div>
