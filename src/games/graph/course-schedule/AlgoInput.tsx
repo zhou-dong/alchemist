@@ -12,28 +12,19 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { buildSteps } from "./algo";
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildBinaryTree } from "../../../data-structures/tree/nodes/v1/binary-tree-builder";
-import {
-    sphereGeometry,
-    sphereMaterial,
-    textMaterial,
-    textGeometryParameters,
-    lineMaterial,
-    yDistance,
-    center,
-    xAxisAplha,
-    duration,
-    enabledSphereColor,
-    depthTreeCenter
-} from "./styles";
-import TreeNode from '../../../data-structures/tree/nodes/v1/node';
+import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
+import { edgeColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
 
-const inputOne = [2, 1, 3, null, 4, 6, 5, null, null, 9, null, null, null, 8];
-const inputTwo = [3, 9, 20, null, null, 15, 7];
-const inputThree = [3, 9, 2, 5, 6, 7, 1, 4, 8];
+const input1 = [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]];
+const input2 = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 0]];
+const input3 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 0]];
+const input4 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 2]];
+
+const displayMatrix = (matrix: number[][]): string => {
+    return "[" + matrix.map(array => "[" + array.join(",") + "]").join(",") + "]";
+};
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
@@ -42,11 +33,7 @@ const DropDown: React.FC<{
     setValue: React.Dispatch<React.SetStateAction<string>>,
 }> = ({ anchorEl, setAnchorEl, open, setValue, }) => {
 
-    const buildInInputs = [
-        inputOne,
-        inputTwo,
-        inputThree
-    ];
+    const buildInInputs = [input1, input2, input3, input4];
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -64,7 +51,7 @@ const DropDown: React.FC<{
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setValue(item.join(","));
+                            setValue(displayMatrix(item));
                         }}
                         sx={{ width: "408px", overflow: "hidden" }}
                     >
@@ -72,7 +59,7 @@ const DropDown: React.FC<{
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>
-                            {item.join(",")}
+                            {displayMatrix(item)}
                         </ListItemText>
                     </MenuItem>
                 ))
@@ -81,93 +68,52 @@ const DropDown: React.FC<{
     );
 }
 
-const clearTreeValue = (node: TreeNode<any> | undefined) => {
-    if (node === undefined) {
-        return
-    }
-    node.val.value = "";
-    clearTreeValue(node.left);
-    clearTreeValue(node.right);
-}
-
 const Submit: React.FC<{
     value: string,
     setValue: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setValue, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setRoot, setSteps, setIndex, setDepthTree, setDepthTreeSteps } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setVisitedSet, setGraph } = useAlgoContext();
+
+    let disabled: boolean = value.length === 0;
+    let matrix: number[][] = [];
+    try {
+        if (value.length > 0) {
+            matrix = JSON.parse(value);
+        }
+    } catch (error) {
+        disabled = true;
+    }
 
     const handleSubmit = async () => {
         setState(State.Typing);
-        const array = value.split(",").map(ch => {
-            const c = ch.trim();
-            switch (c) {
-                case "": return null;
-                case "null": return null;
-                case "undefined": return null;
-                case undefined: return null;
-                default: return c;
-            }
-        });
-
-        animate();
-        clearScene(scene);
-
-        const root = buildBinaryTree<string | null>(
-            sphereGeometry,
-            sphereMaterial,
-            textMaterial,
-            textGeometryParameters,
-            lineMaterial,
-            scene,
-            duration,
-            center,
-            yDistance,
-            xAxisAplha,
-            array,
-            true
-        );
-
-        const depthTree = buildBinaryTree<string | null>(
-            sphereGeometry,
-            sphereMaterial,
-            textMaterial,
-            textGeometryParameters,
-            lineMaterial,
-            scene,
-            duration,
-            depthTreeCenter,
-            yDistance,
-            xAxisAplha,
-            array,
-            true
-        );
-
-        clearTreeValue(depthTree);
-
-        if (root && depthTree) {
-            setRoot(root);
-            const steps = buildSteps(root);
-            root.sphereColor = enabledSphereColor;
-            setSteps(steps);
-
-            setDepthTree(depthTree);
-            const depthTreeSteps = buildSteps(depthTree);
-            depthTree.sphereColor = enabledSphereColor;
-            setDepthTreeSteps(depthTreeSteps);
-
-            setIndex(1);
-        }
-
         setValue("");
         setAnchorEl(null);
-        await wait(0.2);
+        setVisitedSet(new Set());
+        clearScene(scene);
+
+        const grpah: Graph<number> = new SimpleDirectedGraph<number>(
+            nodeOriginalSkinColor,
+            nodeOriginalTextColor,
+            edgeColor,
+            matrix,
+            scene,
+        );
+
+        setGraph(grpah);
+        animate();
+        try {
+            grpah.show();
+            await wait(0.2);
+        } catch (error) {
+            console.log(error);
+        }
         cancelAnimate();
         setState(State.Playing);
-    }
+    };
 
     return (
-        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={value.length === 0}>
+        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
             <OutputIcon />
         </IconButton>
     );
