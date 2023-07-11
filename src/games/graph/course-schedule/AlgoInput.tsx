@@ -16,6 +16,7 @@ import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
 import { edgeColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
+import { canFinish } from './algo';
 
 const input1 = [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]];
 const input2 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 0]];
@@ -72,7 +73,7 @@ const Submit: React.FC<{
     setValue: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setValue, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setVisitedSet, setGraph } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setGraph, setIndex, setSteps } = useAlgoContext();
 
     let disabled: boolean = value.length === 0;
     let matrix: number[][] = [];
@@ -89,7 +90,8 @@ const Submit: React.FC<{
         setState(State.Typing);
         setValue("");
         setAnchorEl(null);
-        setVisitedSet(new Set());
+        setIndex(0);
+        setSteps(canFinish(matrix));
         clearScene(scene);
 
         const grpah: Graph<number> = new SimpleDirectedGraph<number>(
