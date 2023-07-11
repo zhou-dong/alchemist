@@ -18,9 +18,8 @@ import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
 import { edgeColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
 
 const input1 = [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]];
-const input2 = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 0]];
-const input3 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 0]];
-const input4 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 2]];
+const input2 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 0]];
+const input3 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 2]];
 
 const displayMatrix = (matrix: number[][]): string => {
     return "[" + matrix.map(array => "[" + array.join(",") + "]").join(",") + "]";
@@ -33,7 +32,7 @@ const DropDown: React.FC<{
     setValue: React.Dispatch<React.SetStateAction<string>>,
 }> = ({ anchorEl, setAnchorEl, open, setValue, }) => {
 
-    const buildInInputs = [input1, input2, input3, input4];
+    const buildInInputs = [input1, input2, input3];
 
     const handleMenuClose = () => {
         setAnchorEl(null);
