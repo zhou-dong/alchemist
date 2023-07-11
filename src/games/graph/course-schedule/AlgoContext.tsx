@@ -16,9 +16,7 @@ const AlgoContext = React.createContext<{
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     graph?: Graph<number>,
-    setGraph: React.Dispatch<React.SetStateAction<Graph<number> | undefined>>,
-    visitedSet?: Set<number>,
-    setVisitedSet: React.Dispatch<React.SetStateAction<Set<number> | undefined>>
+    setGraph: React.Dispatch<React.SetStateAction<Graph<number> | undefined>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -29,8 +27,7 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
-    setGraph: () => { },
-    setVisitedSet: () => { },
+    setGraph: () => { }
 });
 
 let animationFrameId = -1;
@@ -47,7 +44,6 @@ export const AlgoContextProvider: React.FC<{
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [graph, setGraph] = React.useState<Graph<number>>();
-    const [visitedSet, setVisitedSet] = React.useState<Set<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -83,9 +79,7 @@ export const AlgoContextProvider: React.FC<{
             index,
             setIndex,
             graph,
-            setGraph,
-            visitedSet,
-            setVisitedSet
+            setGraph
         }}>
             {children}
             <div ref={ref}></div>
