@@ -68,6 +68,10 @@ const DropDown: React.FC<{
     );
 }
 
+const reverse = (matrix: number[][]): number[][] => {
+    return matrix.map(array => [...array].reverse());
+}
+
 const Submit: React.FC<{
     value: string,
     setValue: React.Dispatch<React.SetStateAction<string>>,
@@ -80,7 +84,6 @@ const Submit: React.FC<{
     try {
         if (value.length > 0) {
             matrix = JSON.parse(value);
-            matrix = matrix.map(array => array.reverse());
         }
     } catch (error) {
         disabled = true;
@@ -98,7 +101,7 @@ const Submit: React.FC<{
             nodeOriginalSkinColor,
             nodeOriginalTextColor,
             edgeColor,
-            matrix,
+            reverse(matrix),
             scene,
         );
 
