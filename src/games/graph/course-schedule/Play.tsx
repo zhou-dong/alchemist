@@ -19,7 +19,6 @@ const DisplayCanFinish = () => {
 
     const Displayer = () => {
         const canFinish: boolean | undefined = steps[steps.length - 1]?.canFinish;
-
         const severity = canFinish ? "success" : "error";
         const title = canFinish ? "Can Finish" : "Can Not Finish";
         const content = canFinish ? "No cycle in the graph" : "Detected cycle in the graph";
