@@ -85,6 +85,7 @@ const Submit: React.FC<{
         if (value.length > 0) {
             matrix = JSON.parse(value);
         }
+        disabled = matrix.length === 0;
     } catch (error) {
         disabled = true;
     }
