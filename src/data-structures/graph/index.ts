@@ -42,10 +42,10 @@ export class Graph<T> implements Displayer {
 
         this.nodes.forEach(node => {
             const { x, y } = positions[node.id];
-            node.skin.position.x = x;
-            node.skin.position.y = y;
-            node.text.position.x = x - 0.3;
-            node.text.position.y = y - 0.3;
+            node.skin.x = x;
+            node.skin.y = y;
+            node.text.x = x - 0.3;
+            node.text.y = y - 0.3;
         });
 
         this.edges.forEach(edge => {
@@ -79,7 +79,6 @@ export class Graph<T> implements Displayer {
             settings: sensibleSettings
         });
     }
-
 }
 
 const buildGraphNodes = <T>(
