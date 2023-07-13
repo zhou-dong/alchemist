@@ -4,16 +4,11 @@ import Mover from "../_commons/params/mover.interface";
 import Position from "../_commons/params/position.interface";
 import { calDistance, calDestination } from "../_commons/utils";
 
-export interface Base {
-    position: Position;
-    color: Color;
-}
+export interface Base extends Mover, Displayer, Color, Position { }
 
-export interface GraphSkin extends Mover, Displayer, Base {
+export interface GraphSkin extends Base { }
 
-}
-
-export interface GraphText extends Mover, Displayer, Base {
+export interface GraphText extends Base {
     text: string;
 }
 
@@ -53,7 +48,7 @@ export class GraphNode<T> implements Mover, Displayer {
     }
 
     private calTextDestination(destination: Position): Position {
-        const distance = calDistance(this.skin.position, destination);
-        return calDestination(this.text.position, distance);
+        const distance = calDistance(this.skin, destination);
+        return calDestination(this.text, distance);
     }
 }
