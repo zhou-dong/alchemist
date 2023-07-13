@@ -58,10 +58,6 @@ If there are many valid answers, return any of them.
 If it is impossible to finish all courses, return an empty array.
 `;
 
-export const tips = `**Detect Cycle in a Directed Graph** first,
-
-then use Topological Sort to find solution.`;
-
 export const usecases = '';
 
 export const example = ``;
