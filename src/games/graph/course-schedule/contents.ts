@@ -3,24 +3,18 @@ export const title = "Course Schedule";
 export const formula = `function canFinish(numCourses: number, prerequisites: number[][]): boolean {
 
     const adjacency: Map<number, number[]> = new Map();
-
     for (let i = 0; i < numCourses; i++) {
         adjacency.set(i, []);
     }
-
     prerequisites.forEach(prerequisite => {
         const [a, b] = prerequisite;
         adjacency.get(b).push(a);
     });
 
     const visited: Set<number> = new Set();
-
     const dfs = (current: number): boolean => {
         if (visited.has(current)) {
             return false;
-        }
-        if (adjacency.get(current).length === 0) {
-            return true;
         }
         visited.add(current);
         const children = adjacency.get(current);
