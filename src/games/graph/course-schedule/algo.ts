@@ -1,4 +1,5 @@
 export interface Step {
+    adjacency: Map<number, number[]>;
     visited: number[];
     current?: number;
     canFinish?: boolean;
@@ -11,6 +12,15 @@ const calculateNumCourses = (prerequisites: number[][]): number => {
 
     numCourses += 1;
     return numCourses;
+}
+
+const copyMap = (map: Map<number, number[]>): Map<number, number[]> => {
+    const result: Map<number, number[]> = new Map();
+    Array.from(map.entries()).forEach(entry => {
+        const [key, values] = entry;
+        result.set(key, values);
+    });
+    return result;
 }
 
 export function canFinish(prerequisites: number[][]): Step[] {
@@ -36,7 +46,7 @@ export function canFinish(prerequisites: number[][]): Step[] {
 
         const returnEarly: boolean = visited.has(current) || adjacency.get(current)!.length === 0;
         if (returnEarly) { // only add new step if return-early to avoid add same node multple times.
-            steps.push({ visited: Array.from(visited), current });
+            steps.push({ visited: Array.from(visited), current, adjacency: copyMap(adjacency) });
         }
 
         if (visited.has(current)) {
@@ -48,7 +58,7 @@ export function canFinish(prerequisites: number[][]): Step[] {
         }
 
         visited.add(current);
-        steps.push({ visited: Array.from(visited), current });
+        steps.push({ visited: Array.from(visited), current, adjacency: copyMap(adjacency) });
 
         const children = adjacency.get(current)!;
         for (let i = 0; i < children.length; i++) {
@@ -60,18 +70,18 @@ export function canFinish(prerequisites: number[][]): Step[] {
 
         visited.delete(current);
         adjacency.set(current, []);
-        steps.push({ visited: Array.from(visited), current });
+        steps.push({ visited: Array.from(visited), current, adjacency: copyMap(adjacency) });
         return true;
     }
 
     for (let i = 0; i < numCourses; i++) {
         if (!dfs(i)) {
-            steps.push({ visited: Array.from(visited), current: i, canFinish: false });
+            steps.push({ visited: Array.from(visited), current: i, canFinish: false, adjacency: copyMap(adjacency) });
             return steps;
         }
     }
 
-    steps.push({ visited: Array.from(visited), canFinish: true });
+    steps.push({ visited: Array.from(visited), canFinish: true, adjacency: copyMap(adjacency) });
 
     return steps;
 };
