@@ -1,45 +1,48 @@
 export const title = "Course Schedule II";
 
-export const formula = `function canFinish(numCourses: number, prerequisites: number[][]): boolean {
+export const formula = `function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
     const adjacency: Map<number, number[]> = new Map();
-
     for (let i = 0; i < numCourses; i++) {
         adjacency.set(i, []);
     }
-
     prerequisites.forEach(prerequisite => {
         const [a, b] = prerequisite;
         adjacency.get(b).push(a);
     });
 
-    const visited: Set<number> = new Set();
+    const stack: number[] = [];
 
-    const dfs = (current: number): boolean => {
+    let hasCycle = false;
+    const visited: Set<number> = new Set();
+    const dfs = (current: number) => {
         if (visited.has(current)) {
-            return false;
+            hasCycle = true;
+            return;
         }
-        if (adjacency.get(current).length === 0) {
-            return true;
+        if (stack.indexOf(current) >= 0) {
+            return;
         }
         visited.add(current);
         const children = adjacency.get(current);
         for (let i = 0; i < children.length; i++) {
-            const child = children[i];
-            if (!dfs(child)) {
-                return false;
+            dfs(children[i]);
+            if (hasCycle) {
+                return;
             }
         }
         visited.delete(current);
-        adjacency.set(current, []);
-        return true;
+        stack.push(current);
     }
 
     for (let i = 0; i < numCourses; i++) {
-        if (!dfs(i)) return false;
+        dfs(i);
+        if (hasCycle) {
+            return [];
+        }
     }
 
-    return true;
+    return stack.reverse();
 };`;
 
 export const description = `
