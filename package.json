@@ -1,61 +1,64 @@
 {
-    "name": "alchemist",
-    "version": "0.1.7",
-    "private": true,
-    "homepage": "https://alchemist-al.com",
-    "dependencies": {
-        "@emotion/react": "^11.9.0",
-        "@emotion/styled": "^11.8.1",
-        "@mui/icons-material": "^5.8.0",
-        "@mui/material": "^5.8.0",
-        "@testing-library/jest-dom": "^5.16.4",
-        "@testing-library/react": "^13.2.0",
-        "@testing-library/user-event": "^13.5.0",
-        "@types/jest": "^27.5.1",
-        "@types/node": "^16.11.36",
-        "@types/react": "^18.0.9",
-        "@types/react-dom": "^18.0.4",
-        "gsap": "^3.10.4",
-        "react": "^18.1.0",
-        "react-dom": "^18.1.0",
-        "react-markdown": "^8.0.3",
-        "react-router-dom": "^6.3.0",
-        "react-scripts": "5.0.1",
-        "react-syntax-highlighter": "^15.5.0",
-        "remark-gfm": "^3.0.1",
-        "three": "^0.142.0",
-        "typescript": "^4.6.4",
-        "web-vitals": "^2.1.4"
-    },
-    "scripts": {
-        "predeploy": "npm run build",
-        "deploy": "gh-pages -d build",
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "devDependencies": {
-        "@types/react-syntax-highlighter": "^15.5.2",
-        "@types/three": "^0.140.0",
-        "gh-pages": "^4.0.0"
-    }
+  "name": "alchemist",
+  "version": "0.1.8",
+  "private": true,
+  "homepage": "https://alchemist-al.com",
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.8.0",
+    "@mui/material": "^5.8.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^16.11.36",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "graphology": "^0.25.1",
+    "graphology-layout-forceatlas2": "^0.10.1",
+    "graphology-types": "^0.24.7",
+    "gsap": "^3.10.4",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-markdown": "^8.0.3",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "remark-gfm": "^3.0.1",
+    "three": "^0.142.0",
+    "typescript": "^4.6.4",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-syntax-highlighter": "^15.5.2",
+    "@types/three": "^0.140.0",
+    "gh-pages": "^4.0.0"
+  }
 }

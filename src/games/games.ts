@@ -92,6 +92,7 @@ import KthLargestElementInAStream from "./tree/kth-largest-element-in-a-stream/i
 import SlidingWindowMedian from "./tree/sliding-window-median/info";
 import TheSkylineProblem from "./tree/the-skyline-problem/info";
 import RangeSumQueryMutable from "./segment-tree/range-sum-query-mutable/info";
+import CourseSchedule from "./graph/course-schedule/info"
 
 export const games: Game[] = [
     editDistance,
@@ -185,5 +186,6 @@ export const games: Game[] = [
     KthLargestElementInAStream,
     SlidingWindowMedian,
     TheSkylineProblem,
-    RangeSumQueryMutable
+    RangeSumQueryMutable,
+    CourseSchedule
 ];

@@ -10,34 +10,30 @@ import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
-import MenuIcon from '@mui/icons-material/Menu';
-import { State } from './AlgoState';
 import { useAlgoContext } from "./AlgoContext";
+import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { buildMinHeap } from './styles';
+import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
+import { edgeOriginalColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
+import { canFinish } from './algo';
 
-const input1 = { matrix: [[1, 4, 7], [2, 5, 8], [3, 6, 9]], k: 4 };
-const input2 = { matrix: [[1, 5, 8], [2, 6, 9], [4, 6, 9]], k: 6 };
-const input3 = { matrix: [[1, 3, 5, 9], [2, 6, 9, 12], [4, 6, 10, 15], [7, 7, 11, 19]], k: 7 };
+const input1 = [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]];
+const input2 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 0]];
+const input3 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 2]];
 
-const arrayToString = (input: number[][]): string => {
-    return "[" + input.map(a => "[" + a.join(",") + "]").join(",") + "]";
+const displayMatrix = (matrix: number[][]): string => {
+    return "[" + matrix.map(array => "[" + array.join(",") + "]").join(",") + "]";
 };
 
 const DropDown: React.FC<{
     anchorEl: HTMLElement | null,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>,
     open: boolean,
-    setMatrix: React.Dispatch<React.SetStateAction<string>>,
-    setK: React.Dispatch<React.SetStateAction<string>>,
-}> = ({ anchorEl, setAnchorEl, open, setMatrix, setK }) => {
+    setValue: React.Dispatch<React.SetStateAction<string>>,
+}> = ({ anchorEl, setAnchorEl, open, setValue, }) => {
 
-    const buildInInputs = [
-        input1,
-        input2,
-        input3
-    ];
+    const buildInInputs = [input1, input2, input3];
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -49,36 +45,21 @@ const DropDown: React.FC<{
             open={open}
             onClose={handleMenuClose}
         >
-            <MenuItem disabled>
-                <ListItemIcon>
-                    <MenuIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText sx={{ width: "260px" }}>
-                    Sorted Matrix
-                </ListItemText>
-                <ListItemText>
-                    K
-                </ListItemText>
-            </MenuItem>
             {
                 buildInInputs.map((item, index) => (
                     <MenuItem
                         key={index}
                         onClick={() => {
                             handleMenuClose();
-                            setMatrix(arrayToString(item.matrix));
-                            setK(item.k + "");
+                            setValue(displayMatrix(item));
                         }}
-                        sx={{ width: "488px", overflow: "hidden" }}
+                        sx={{ width: "408px", overflow: "hidden" }}
                     >
                         <ListItemIcon>
                             <InputIcon fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText sx={{ width: "260px" }}>
-                            {arrayToString(item.matrix)}
-                        </ListItemText>
                         <ListItemText>
-                            {item.k}
+                            {displayMatrix(item)}
                         </ListItemText>
                     </MenuItem>
                 ))
@@ -87,32 +68,55 @@ const DropDown: React.FC<{
     );
 }
 
-const Submit: React.FC<{
-    matrix: string,
-    k: string,
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ matrix: inputString, k, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setMinHeap, setK, setMatrix, setCurrent, setCompleted, setResult } = useAlgoContext();
+const reverse = (matrix: number[][]): number[][] => {
+    return matrix.map(array => [...array].reverse());
+}
 
-    const disabled = inputString.trim().length === 0 || k.trim().length === 0;
+const Submit: React.FC<{
+    value: string,
+    setValue: React.Dispatch<React.SetStateAction<string>>,
+    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+}> = ({ value, setValue, setAnchorEl }) => {
+    const { scene, animate, cancelAnimate, setState, setGraph, setIndex, setSteps } = useAlgoContext();
+
+    let disabled: boolean = value.length === 0;
+    let matrix: number[][] = [];
+    try {
+        if (value.length > 0) {
+            matrix = JSON.parse(value);
+        }
+        disabled = matrix.length === 0;
+    } catch (error) {
+        disabled = true;
+    }
 
     const handleSubmit = async () => {
         setState(State.Typing);
+        setValue("");
         setAnchorEl(null);
-        const matrix: number[][] = JSON.parse(inputString);
-        const minHeap = buildMinHeap(matrix.length, scene);
-        animate();
+        setIndex(0);
+        setSteps(canFinish(matrix));
         clearScene(scene);
-        setMinHeap(minHeap);
-        setMatrix(matrix);
-        setK(+k);
-        setResult(undefined);
-        setCurrent({ row: 0, col: 0 });
-        setCompleted([]);
-        await wait(0.2);
+
+        const grpah: Graph<number> = new SimpleDirectedGraph<number>(
+            nodeOriginalSkinColor,
+            nodeOriginalTextColor,
+            edgeOriginalColor,
+            reverse(matrix),
+            scene,
+        );
+
+        setGraph(grpah);
+        animate();
+        try {
+            grpah.show();
+            await wait(0.2);
+        } catch (error) {
+            console.log(error);
+        }
         cancelAnimate();
-        setState(State.BuildingHeap);
-    }
+        setState(State.Playing);
+    };
 
     return (
         <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
@@ -127,16 +131,7 @@ interface Props {
 
 export default function AlgoInput({ setAnchorEl }: Props) {
 
-    const [matrix, setMatrix] = React.useState("");
-    const [k, setK] = React.useState("");
-
-    const handleMatrixChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMatrix(e.currentTarget.value);
-    };
-
-    const handleKChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setK(e.currentTarget.value);
-    };
+    const [value, setValue] = React.useState("");
 
     const reference = React.useRef(null);
     const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -148,6 +143,11 @@ export default function AlgoInput({ setAnchorEl }: Props) {
         }
     };
 
+    const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const text: string = e.currentTarget.value;
+        setValue(text);
+    };
+
     return (
         <>
             <Paper
@@ -157,7 +157,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 sx={{
                     p: '2px 4px',
                     display: 'flex',
-                    width: 480,
+                    width: 400,
                     alignItems: "center"
                 }}
             >
@@ -166,38 +166,26 @@ export default function AlgoInput({ setAnchorEl }: Props) {
                 </IconButton>
 
                 <InputBase
-                    sx={{ ml: 1, flex: 1, }}
-                    placeholder={`Matrix, for example: ${arrayToString(input1.matrix)}`}
-                    value={matrix}
-                    onChange={handleMatrixChange}
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder='Tree nodes, seprate by ","'
+                    value={value}
+                    onChange={handleValueChange}
                 />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
-                <InputBase
-                    sx={{ width: 60 }}
-                    placeholder='K'
-                    value={k}
-                    onChange={handleKChange}
-                    type="number"
-                />
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
-                    setMatrix("");
-                    setK("");
+                    setValue("");
                 }}>
                     <ClearIcon />
                 </IconButton>
 
-                <Submit matrix={matrix} k={k} setAnchorEl={setAnchorEl} />
+                <Submit value={value} setValue={setValue} setAnchorEl={setAnchorEl} />
             </Paper>
 
             <DropDown
                 anchorEl={menuAnchorEl}
                 setAnchorEl={setMenuAnchorEl}
                 open={open}
-                setMatrix={setMatrix}
-                setK={setK}
+                setValue={setValue}
             />
         </>
     );
