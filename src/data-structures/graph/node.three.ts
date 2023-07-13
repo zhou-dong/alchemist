@@ -11,12 +11,11 @@ import ColorImpl from '../_commons/three/color.class';
 import { Base as IBase, GraphSkin as ISkin, GraphText as IText } from "./node.interface";
 import { font } from '../../commons/three';
 
-class Base implements Mover, Displayer, IBase {
+class Base extends PositionImpl implements IBase {
 
-    public readonly color: Color;
-    public readonly position: Position;
     private displayer: Displayer;
     private mover: Mover;
+    private readonly colorProxy: Color;
 
     constructor(
         scene: THREE.Scene,
@@ -24,10 +23,18 @@ class Base implements Mover, Displayer, IBase {
         material: THREE.Material
     ) {
         const mesh = new THREE.Mesh(geometry, material);
-        this.position = new PositionImpl(mesh);
-        this.color = new ColorImpl(material);
+        super(mesh);
+        this.colorProxy = new ColorImpl(material);
         this.displayer = new DisplayerImpl(scene, mesh);
         this.mover = new MoverImpl(mesh);
+    }
+
+    setColor(color: string): Promise<void> {
+        return this.colorProxy.setColor(color);
+    }
+
+    get color(): string {
+        return this.colorProxy.color;
     }
 
     show() {
@@ -59,7 +66,6 @@ export class GraphText extends Base implements IText {
         super(scene, geometry, material);
         this.text = text;
     }
-
 }
 
 export class SimpleGraphSkin extends GraphSkin {
