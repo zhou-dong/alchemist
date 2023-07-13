@@ -7,12 +7,11 @@ import CodeIcon from '@mui/icons-material/Code';
 import Instruction from '../../../commons/Instruction';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import { description, formula, tips } from "./contents";
+import { description, formula } from "./contents";
 import React from "react";
 import LightTooltip from "../../../commons/LightTooltip";
 import AlgoInput from "./AlgoInput";
 import InputIcon from '@mui/icons-material/Input';
-import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 import { wait } from "../../../data-structures/_commons/utils";
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
@@ -141,13 +140,6 @@ const Instructions = () => {
                     linesToHighlight={[]}
                     wrapLines={true}
                 />}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            />
-            <Instruction
-                name="Tips"
-                icon={<TipsAndUpdatesOutlinedIcon fontSize="medium" />}
-                popover={<StyledReactMarkdown>{tips}</StyledReactMarkdown>}
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             />
