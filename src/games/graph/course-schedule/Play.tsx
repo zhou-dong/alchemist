@@ -1,17 +1,20 @@
 import { styled } from '@mui/system';
 import { useAlgoContext } from "./AlgoContext";
-import { Alert, IconButton } from '@mui/material';
+import { Alert, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import { nodeEnabledSkinColor, nodeEnabledTextColor, nodeOriginalSkinColor, nodeOriginalTextColor } from "./styles";
+import { edgeDisabledColor, edgeOriginalColor, nodeEnabledSkinColor, nodeEnabledTextColor, nodeOriginalSkinColor, nodeOriginalTextColor } from "./styles";
 
 const DisplayCanFinishPosition = styled('div')({
     position: "fixed",
     top: "20%",
-    left: "10%"
+    left: "10%",
+    display: "flex",
+    flexDirection: "column",
+    minWidth: "289px",
 });
 
 const DisplayCanFinish = () => {
@@ -43,6 +46,52 @@ const DisplayCanFinish = () => {
     );
 }
 
+const Dashboard = () => {
+    const { steps, index } = useAlgoContext();
+
+    const step = steps[index];
+
+    const Displayer = () => {
+
+        const { adjacency } = step;
+
+        return (
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell colSpan={2} align='center'>
+                            Adjacency List
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {
+                        Array.from(adjacency.entries()).map((entry, i) => {
+                            const [key, values] = entry;
+                            return (
+                                <TableRow key={i}>
+                                    <TableCell>
+                                        {key}
+                                    </TableCell>
+                                    <TableCell sx={{ borderLeft: "1px solid lightgray" }}>
+                                        {"[" + values.join(", ") + "]"}
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        })
+                    }
+                </TableBody>
+            </Table>
+        );
+    }
+
+    return (
+        <>
+            {step && <Displayer />}
+        </>
+    );
+}
+
 const ActionPanelPosition = styled('div')({
     display: "flex",
     position: "fixed",
@@ -69,20 +118,29 @@ const ActionPanel = () => {
 
         setState(State.Computing);
 
-        const { visited, current } = step;
+        const { visited, current, adjacency } = step;
         for (let i = 0; i < graph.nodes.length; i++) {
             const node = graph.nodes[i];
             if (visited.indexOf(node.value) > -1) {
-                await node.skin.color.setColor(nodeEnabledSkinColor);
-                await node.text.color.setColor(nodeEnabledTextColor);
+                await node.skin.setColor(nodeEnabledSkinColor);
+                await node.text.setColor(nodeEnabledTextColor);
             } else {
-                await node.skin.color.setColor(nodeOriginalSkinColor);
-                await node.text.color.setColor(nodeOriginalTextColor);
+                await node.skin.setColor(nodeOriginalSkinColor);
+                await node.text.setColor(nodeOriginalTextColor);
             }
-
             if (node.value === current) {
-                await node.skin.color.setColor(nodeEnabledSkinColor);
-                await node.text.color.setColor(nodeEnabledTextColor);
+                await node.skin.setColor(nodeEnabledSkinColor);
+                await node.text.setColor(nodeEnabledTextColor);
+            }
+        }
+
+        for (let i = 0; i < graph.edges.length; i++) {
+            const edge = graph.edges[i];
+            const targets: number[] = adjacency.get(edge.source.value) || [];
+            if (targets.length === 0) {
+                await edge.setColor(edgeDisabledColor);
+            } else {
+                await edge.setColor(edgeOriginalColor);
             }
         }
 
@@ -121,6 +179,7 @@ const Main = () => (
     <>
         <DisplayCanFinishPosition>
             <DisplayCanFinish />
+            <Dashboard />
         </DisplayCanFinishPosition>
         <ActionPanelPosition>
             <ActionPanel />
