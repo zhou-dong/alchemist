@@ -134,6 +134,11 @@ const Categories = () => {
                     initSelected={calculateSelected(categories, Category.SegmentTree)}
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.SegmentTree, selected))}
                 />
+                <TextItem
+                    name="Topological Sort"
+                    initSelected={calculateSelected(categories, Category.TopologicalSort)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.TopologicalSort, selected))}
+                />
             </Grid>
         </>
     )
