@@ -62,14 +62,14 @@ const ActionPanel = () => {
         if (!graph) {
             return;
         }
+
         if (!step) {
             return;
         }
-        const { visited, current } = step;
+
         setState(State.Computing);
 
-        console.log(visited);
-
+        const { visited, current } = step;
         for (let i = 0; i < graph.nodes.length; i++) {
             const node = graph.nodes[i];
             if (visited.indexOf(node.value) > -1) {
@@ -80,10 +80,10 @@ const ActionPanel = () => {
                 await node.text.color.setColor(nodeOriginalTextColor);
             }
 
-            // if (i === current) {
-            //     await node.skin.color.setColor("orange");
-            //     await node.text.color.setColor("green");
-            // }
+            if (node.value === current) {
+                await node.skin.color.setColor(nodeEnabledSkinColor);
+                await node.text.color.setColor(nodeEnabledTextColor);
+            }
         }
 
         animate();
@@ -96,7 +96,6 @@ const ActionPanel = () => {
             setState(State.Playing);
             setIndex(i => i + 1);
         }
-
     }
 
     const color = state === State.Playing ? "success" : "default";
