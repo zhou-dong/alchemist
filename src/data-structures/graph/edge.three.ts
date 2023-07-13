@@ -4,9 +4,11 @@ import { GraphEdge, DirectedGraphEdge as IDirectedGraphEdge, UndirectedGraphEdge
 import { GraphNode } from "./node.interface";
 import Displayer from "../_commons/params/displayer.interface";
 import DisplayerImpl from "../_commons/three/displayer.class";
+import Color from "../_commons/params/color.interface";
+import ColorImpl from "../_commons/three/color.class";
 
 const threePosition = <T>(node: GraphNode<T>) => {
-    const { x, y, z } = node.skin.position;
+    const { x, y, z } = node.skin;
     return new THREE.Vector3(x, y, z);
 }
 
@@ -27,6 +29,10 @@ abstract class Base<T> implements GraphEdge<T> {
         this.displayer = new DisplayerImpl(scene, object3D);
     }
 
+    abstract setColor(color: string): Promise<void>;
+
+    abstract get color(): string
+
     abstract refresh(): void
 
     show() {
@@ -43,6 +49,7 @@ export class DirectedGraphEdge<T> extends Base<T> implements IDirectedGraphEdge<
     private arrow: THREE.ArrowHelper;
     private readonly headLength: number;
     private readonly headWidth: number;
+    private arrowColor: string;
 
     constructor(
         source: GraphNode<T>,
@@ -69,6 +76,16 @@ export class DirectedGraphEdge<T> extends Base<T> implements IDirectedGraphEdge<
         this.arrow = arrow;
         this.headLength = headLength;
         this.headWidth = headWidth;
+        this.arrowColor = color + "";
+    }
+
+    setColor(color: string): Promise<void> {
+        this.arrowColor = color;
+        return Promise.resolve(this.arrow.setColor(color));
+    }
+
+    get color(): string {
+        return this.arrowColor;
     }
 
     refresh(): void {
@@ -80,12 +97,12 @@ export class DirectedGraphEdge<T> extends Base<T> implements IDirectedGraphEdge<
         this.arrow.setDirection(direction.clone().normalize());
         this.arrow.setLength(direction.length(), this.headLength, this.headWidth);
     }
-
 }
 
 export class UndirectedGraphEdge<T> extends Base<T> implements IUndirectedGraphEdge<T> {
 
     private line: THREE.Line;
+    private readonly colorProxy: Color;
 
     constructor(
         source: GraphNode<T>,
@@ -97,6 +114,15 @@ export class UndirectedGraphEdge<T> extends Base<T> implements IUndirectedGraphE
         const line = new THREE.Line(geometry, material);
         super(source, target, scene, line)
         this.line = line;
+        this.colorProxy = new ColorImpl(material);
+    }
+
+    setColor(color: string): Promise<void> {
+        return this.colorProxy.setColor(color);
+    }
+
+    get color(): string {
+        return this.colorProxy.color;
     }
 
     refresh(): void {
@@ -105,11 +131,11 @@ export class UndirectedGraphEdge<T> extends Base<T> implements IUndirectedGraphE
     }
 
     private refreshSource(): void {
-        this.update(this.source.skin.position, 0, 1, 2);
+        this.update(this.source.skin, 0, 1, 2);
     }
 
     private refreshTarget(): void {
-        this.update(this.target.skin.position, 3, 4, 5);
+        this.update(this.target.skin, 3, 4, 5);
     }
 
     private update(position: Position, xIndex: number, yIndex: number, zIndex: number) {
