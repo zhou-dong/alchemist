@@ -15,7 +15,7 @@ import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
 import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
-import { edgeColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
+import { edgeOriginalColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
 import { canFinish } from './algo';
 
 const input1 = [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]];
@@ -101,7 +101,7 @@ const Submit: React.FC<{
         const grpah: Graph<number> = new SimpleDirectedGraph<number>(
             nodeOriginalSkinColor,
             nodeOriginalTextColor,
-            edgeColor,
+            edgeOriginalColor,
             reverse(matrix),
             scene,
         );
