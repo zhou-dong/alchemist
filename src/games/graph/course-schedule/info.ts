@@ -6,11 +6,11 @@ import Difficulty from "../../commons/segments/difficulty";
 const info: Game = {
     name: title,
     path: "/algorithms/course-schedule",
-    categories: [Category.Graph],
+    categories: [Category.Graph, Category.TopologicalSort],
     companies: [],
     difficulty: Difficulty.Medium,
     img: "/img/course-schedule.png",
-    leetcodeId: 210
+    leetcodeId: 207
 }
 
 export default info;
