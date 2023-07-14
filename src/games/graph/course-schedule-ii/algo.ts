@@ -1,8 +1,10 @@
 export interface Step {
     adjacency: Map<number, number[]>;
-    visited: number[];
     current?: number;
-    canFinish?: boolean;
+    hasCycle: boolean;
+    stack: number[];
+    visited: number[];
+    numCourses: number;
 }
 
 const calculateNumCourses = (prerequisites: number[][]): number => {
@@ -14,74 +16,68 @@ const calculateNumCourses = (prerequisites: number[][]): number => {
     return numCourses;
 }
 
-const copyMap = (map: Map<number, number[]>): Map<number, number[]> => {
-    const result: Map<number, number[]> = new Map();
-    Array.from(map.entries()).forEach(entry => {
-        const [key, values] = entry;
-        result.set(key, values);
-    });
-    return result;
-}
-
-export function canFinish(prerequisites: number[][]): Step[] {
-
-    let numCourses: number = calculateNumCourses(prerequisites);
-
-    const steps: Step[] = [];
-
+const buildAdjacency = (numCourses: number, prerequisites: number[][]): Map<number, number[]> => {
     const adjacency: Map<number, number[]> = new Map();
-
     for (let i = 0; i < numCourses; i++) {
         adjacency.set(i, []);
     }
-
     prerequisites.forEach(prerequisite => {
         const [a, b] = prerequisite;
         adjacency.get(b)?.push(a);
     });
+    return adjacency;
+}
+
+export function findOrder(prerequisites: number[][]): Step[] {
+
+    const steps: Step[] = [];
+
+    const numCourses: number = calculateNumCourses(prerequisites);
+    const adjacency: Map<number, number[]> = buildAdjacency(numCourses, prerequisites);
+    const stack: number[] = [];
+    let hasCycle = false;
 
     const visited: Set<number> = new Set();
+    const dfs = (current: number) => {
 
-    const dfs = (current: number): boolean => {
-
-        const returnEarly: boolean = visited.has(current) || adjacency.get(current)!.length === 0;
+        const returnEarly: boolean = visited.has(current) || stack.indexOf(current) >= 0;
         if (returnEarly) { // only add new step if return-early to avoid add same node multple times.
-            steps.push({ visited: Array.from(visited), current, adjacency: copyMap(adjacency) });
+            steps.push({ current, adjacency, hasCycle, stack: [...stack], visited: Array.from(visited), numCourses });
         }
 
         if (visited.has(current)) {
-            return false;
+            hasCycle = true;
+            return;
         }
 
-        if (adjacency.get(current)!.length === 0) {
-            return true;
+        if (stack.indexOf(current) >= 0) {
+            return;
         }
 
         visited.add(current);
-        steps.push({ visited: Array.from(visited), current, adjacency: copyMap(adjacency) });
+        steps.push({ current, adjacency, hasCycle, stack: [...stack], visited: Array.from(visited), numCourses });
 
-        const children = adjacency.get(current)!;
+        const children = adjacency.get(current) || [];
         for (let i = 0; i < children.length; i++) {
-            const child = children[i];
-            if (!dfs(child)) {
-                return false;
+            dfs(children[i]);
+            if (hasCycle) {
+                return;
             }
         }
 
         visited.delete(current);
-        adjacency.set(current, []);
-        steps.push({ visited: Array.from(visited), current, adjacency: copyMap(adjacency) });
-        return true;
+        stack.push(current);
+        steps.push({ current, adjacency, hasCycle, stack: [...stack], visited: Array.from(visited), numCourses });
     }
 
     for (let i = 0; i < numCourses; i++) {
-        if (!dfs(i)) {
-            steps.push({ visited: Array.from(visited), current: i, canFinish: false, adjacency: copyMap(adjacency) });
+        dfs(i);
+        if (hasCycle) {
+            steps.push({ current: i, adjacency, hasCycle, stack: [], visited: Array.from(visited), numCourses });
             return steps;
         }
     }
 
-    steps.push({ visited: Array.from(visited), canFinish: true, adjacency: copyMap(adjacency) });
-
+    steps.push({ adjacency, hasCycle, stack: [...stack], visited: Array.from(visited), numCourses });
     return steps;
 };
