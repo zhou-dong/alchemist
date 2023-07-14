@@ -1,6 +1,6 @@
 import { styled } from '@mui/system';
 import { useAlgoContext } from "./AlgoContext";
-import { Alert, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Alert, Button, ButtonGroup, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import DangerousIcon from '@mui/icons-material/Dangerous';
@@ -8,23 +8,20 @@ import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import { edgeDisabledColor, edgeOriginalColor, nodeEnabledSkinColor, nodeEnabledTextColor, nodeOriginalSkinColor, nodeOriginalTextColor } from "./styles";
 
-const DisplayCanFinishPosition = styled('div')({
+const DashboardPosition = styled('div')({
     position: "fixed",
     top: "20%",
     left: "10%",
-    display: "flex",
-    flexDirection: "column",
-    minWidth: "289px",
 });
 
-const DisplayCanFinish = () => {
+const HasCycle = () => {
     const { state, steps } = useAlgoContext();
 
     const Displayer = () => {
-        const canFinish: boolean | undefined = steps[steps.length - 1]?.canFinish;
-        const severity = canFinish ? "success" : "error";
-        const title = canFinish ? "Can Finish" : "Can Not Finish";
-        const content = canFinish ? "No cycle in the graph" : "Detected cycle in the graph";
+        const hasCycle: boolean | undefined = steps[steps.length - 1]?.hasCycle;
+        const severity = hasCycle ? "error" : "success";
+        const title = hasCycle ? "Has Cycle" : "No Cycle";
+        const content = hasCycle ? "Detected cycle in the graph" : "No cycle in the graph";
 
         return (
             <Alert
@@ -46,15 +43,12 @@ const DisplayCanFinish = () => {
     );
 }
 
-const Dashboard = () => {
+const AdjacencyList = () => {
     const { steps, index } = useAlgoContext();
-
     const step = steps[index];
 
-    const Displayer = () => {
-
+    const Display = () => {
         const { adjacency } = step;
-
         return (
             <Table>
                 <TableHead>
@@ -87,7 +81,39 @@ const Dashboard = () => {
 
     return (
         <>
-            {step && <Displayer />}
+            {step && <Display />}
+        </>
+    );
+}
+
+const Schedule = () => {
+    const { steps, index } = useAlgoContext();
+    const step = steps[index];
+
+    const Display = () => {
+        const { stack, numCourses } = step;
+        const courses: string[] = [];
+        for (let i = 0; i < numCourses; i++) {
+            courses.push(" ");
+        }
+        for (let i = 0; i < stack.length; i++) {
+            courses[i] = stack[i] + "";
+        }
+        return (
+            <ButtonGroup color='inherit'>
+                <Button sx={{ textTransform: "none" }}>
+                    Schedule
+                </Button>
+                {
+                    courses.map((course, i) => <Button key={i} sx={{ width: "45px" }}>{course}</Button>)
+                }
+            </ButtonGroup>
+        );
+    };
+
+    return (
+        <>
+            {step && <Display />}
         </>
     );
 }
@@ -118,7 +144,7 @@ const ActionPanel = () => {
 
         setState(State.Computing);
 
-        const { visited, current, adjacency } = step;
+        const { visited, current, adjacency, stack } = step;
         for (let i = 0; i < graph.nodes.length; i++) {
             const node = graph.nodes[i];
             if (visited.indexOf(node.value) > -1) {
@@ -130,6 +156,11 @@ const ActionPanel = () => {
             }
             if (node.value === current) {
                 await node.skin.setColor(nodeEnabledSkinColor);
+                await node.text.setColor(nodeEnabledTextColor);
+            }
+
+            if (stack.indexOf(node.value) > -1) {
+                await node.skin.setColor("lightgray");
                 await node.text.setColor(nodeEnabledTextColor);
             }
         }
@@ -177,10 +208,13 @@ const ActionPanel = () => {
 
 const Main = () => (
     <>
-        <DisplayCanFinishPosition>
-            <DisplayCanFinish />
-            <Dashboard />
-        </DisplayCanFinishPosition>
+        <DashboardPosition>
+            <Stack direction="column" spacing={2}>
+                <HasCycle />
+                <AdjacencyList />
+                <Schedule />
+            </Stack>
+        </DashboardPosition>
         <ActionPanelPosition>
             <ActionPanel />
         </ActionPanelPosition>
