@@ -94,6 +94,7 @@ import TheSkylineProblem from "./tree/the-skyline-problem/info";
 import RangeSumQueryMutable from "./segment-tree/range-sum-query-mutable/info";
 import CourseSchedule from "./graph/course-schedule/info";
 import CourseScheduleII from "./graph/course-schedule-ii/info";
+import NumberOfIslands from "./graph/number-of-islands/info";
 
 export const games: Game[] = [
     editDistance,
@@ -189,5 +190,6 @@ export const games: Game[] = [
     TheSkylineProblem,
     RangeSumQueryMutable,
     CourseSchedule,
-    CourseScheduleII
+    CourseScheduleII,
+    NumberOfIslands
 ];
