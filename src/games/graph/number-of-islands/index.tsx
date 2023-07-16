@@ -8,104 +8,32 @@ import { ThemeProvider, Typography } from '@mui/material';
 import Steps from '../../dp/_components/Steps';
 import Errors from '../../dp/_components/Errors';
 import Refresh from "../../dp/_components/Refresh";
-import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
-import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
-import { errorStyle, helperStyle } from "../../dp/_commons/styles";
-import Table from '../../dp/_components/Table';
 import theme from '../../dp/_commons/theme';
-import Buttons from '../../dp/_components/Buttons';
 import info from "./info";
 import { CheckCircleOutline } from '@mui/icons-material';
-
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
-
-const buildData = () => {
-    const stringOne: string = Array(8).fill(bases.length).map(random).map(i => bases[i]).join('');
-    const stringTwo: string = Array(4).fill(bases.length).map(random).map(i => bases[i]).join('');
-
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo, table);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
-    return { buttons, buttonsStyles, table, tableStyles, comparedTable };
-}
+import { Step, buildGrid, buildSteps } from './algo';
+import Grid from "./Grid";
+import ActionPanel from './ActionPanel';
 
 const Main = () => {
 
-    const [steps, setSteps] = React.useState(0);
-    const [errors, setErrors] = React.useState(0);
-    const [success, setSuccess] = React.useState(false);
-    const [currentPoint, setCurrentPoint] = React.useState(startPoint);
+    const rows = 6;
+    const cols = 6;
 
-    const data = buildData();
-    const [table, setTable] = React.useState(data.table);
-    const [tableStyles, setTableStyles] = React.useState(data.tableStyles);
-    const [buttons, setButtons] = React.useState(data.buttons);
-    const [buttonsStyles, setButtonsStyles] = React.useState(data.buttonsStyles);
-    const [comparedTable, setComparedTable] = React.useState(data.comparedTable);
+    const grid = buildGrid(rows, cols);
+    const [steps, setSteps] = React.useState<Step[]>(() => buildSteps(grid));
+    const [index, setIndex] = React.useState(0);
+
+    const [stepsCount, setStepsCount] = React.useState(0);
+    const [errorsCount, setErrorsCount] = React.useState(0);
+    const [success, setSuccess] = React.useState(false);
 
     const handleRefresh = () => {
-        setSteps(0);
-        setErrors(0);
-        setSuccess(false);
-        setCurrentPoint(startPoint);
-
-        const data = buildData();
-        setTable(data.table);
-        setTableStyles(data.tableStyles);
-        setButtons(data.buttons);
-        setButtonsStyles(data.buttonsStyles);
-        setComparedTable(data.comparedTable);
-    }
-
-    const handleClick = (value: number) => {
-        if (success) {
-            return;
-        }
-
-        setSteps(steps => steps + 1);
-
-        if (nonCorrect(comparedTable, currentPoint, value)) {
-            setTable((t) => updateTable(t, currentPoint, value));
-            setErrors(errors => errors + 1);
-            setTableStyles(tableStyles => {
-                tableStyles[currentPoint.row][currentPoint.col] = errorStyle;
-                return tableStyles;
-            })
-            return;
-        }
-
-        if (isLastCell(table, currentPoint)) {
-            setTable((t) => updateTable(t, currentPoint, value));
-
-            setTableStyles(() => {
-                const lastCell = getLastCell(table);
-                const newTableStyles = createNewTableStyles(tableStyles);
-                newTableStyles[lastCell.row][lastCell.col] = helperStyle;
-                return newTableStyles;
-            });
-
-            setSuccess(true);
-            return;
-        }
-
-        const nextPoint = getNextPoint(table, currentPoint);
-
-        setTable((t) => {
-            const t1 = updateTable(t, currentPoint, value);
-            const t2 = updateTable(t1, nextPoint, "?");
-            return t2;
-        })
-
-        setTableStyles(() => {
-            const newTableStyles = createNewTableStyles(tableStyles);
-            addHelperStyles(newTableStyles, nextPoint, table);
-            return newTableStyles;
-        });
-
-        setCurrentPoint(nextPoint);
+        const grid = buildGrid(rows, cols);
+        setSteps(() => buildSteps(grid));
+        setIndex(0);
+        setErrorsCount(0);
+        setStepsCount(0);
     }
 
     return (
@@ -117,8 +45,8 @@ const Main = () => {
                         {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
                     </Typography>
                     <div style={{ marginTop: "25px" }}>
-                        <Steps steps={steps} />
-                        <Errors errors={errors} />
+                        <Steps steps={stepsCount} />
+                        <Errors errors={errorsCount} />
                         <Description
                             success={success}
                             title={title}
@@ -129,16 +57,15 @@ const Main = () => {
                         <Formula title={title} formula={formula} />
                         <Refresh handleRefresh={handleRefresh} />
                     </div>
-                    <Table table={table} tableStyles={tableStyles} />
-                    <div style={{ marginTop: "20px" }}>
-                        <Buttons
-                            buttons={buttons}
-                            buttonsStyles={buttonsStyles}
-                            handleButtonClick={function (data: number | string | boolean) {
-                                handleClick(Number(data))
-                            }}
-                        />
-                    </div>
+                    <Grid steps={steps} index={index} />
+                    <ActionPanel
+                        steps={steps}
+                        index={index}
+                        setIndex={setIndex}
+                        setStepsCount={setStepsCount}
+                        setErrorsCount={setErrorsCount}
+                        setSuccess={setSuccess}
+                    />
                 </Centered>
             </ThemeProvider>
         </GameWrapper>
