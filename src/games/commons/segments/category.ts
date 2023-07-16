@@ -13,7 +13,8 @@ enum Category {
     Heap = "heap",
     Deque = "Qeque",
     SegmentTree = "Segment Tree",
-    Graph = "graph"
+    Graph = "graph",
+    TopologicalSort = "Topological Sort"
 }
 
 export default Category;

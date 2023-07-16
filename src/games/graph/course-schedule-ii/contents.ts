@@ -1,6 +1,6 @@
-export const title = "Course Schedule";
+export const title = "Course Schedule II";
 
-export const formula = `function canFinish(numCourses: number, prerequisites: number[][]): boolean {
+export const formula = `function findOrder(numCourses: number, prerequisites: number[][]): number[] {
 
     const adjacency: Map<number, number[]> = new Map();
     for (let i = 0; i < numCourses; i++) {
@@ -11,29 +11,38 @@ export const formula = `function canFinish(numCourses: number, prerequisites: nu
         adjacency.get(b).push(a);
     });
 
+    const stack: number[] = [];
+
+    let hasCycle = false;
     const visited: Set<number> = new Set();
-    const dfs = (current: number): boolean => {
+    const dfs = (current: number) => {
         if (visited.has(current)) {
-            return false;
+            hasCycle = true;
+            return;
+        }
+        if (stack.indexOf(current) >= 0) {
+            return;
         }
         visited.add(current);
         const children = adjacency.get(current);
         for (let i = 0; i < children.length; i++) {
-            const child = children[i];
-            if (!dfs(child)) {
-                return false;
+            dfs(children[i]);
+            if (hasCycle) {
+                return;
             }
         }
         visited.delete(current);
-        adjacency.set(current, []);
-        return true;
+        stack.push(current);
     }
 
     for (let i = 0; i < numCourses; i++) {
-        if (!dfs(i)) return false;
+        dfs(i);
+        if (hasCycle) {
+            return [];
+        }
     }
 
-    return true;
+    return stack.reverse();
 };`;
 
 export const description = `
@@ -45,12 +54,12 @@ you must take course b_i first if you want to take course a_i.
 
 > For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
 
-Return **true** if you can finish all courses. Otherwise, return **false**.
+Return the ordering of courses you should take to finish all courses. 
+
+If there are many valid answers, return any of them. 
+
+If it is impossible to finish all courses, return an empty array.
 `;
-
-export const tips = `This is a **Detect Cycle in a Directed Graph** problem.
-
-We could use **hashSet** to find whehter there is a cycle in a graph.`;
 
 export const usecases = '';
 
