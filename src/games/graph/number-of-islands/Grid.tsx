@@ -6,9 +6,9 @@ import Table from '../../dp/_components/Table';
 import { Step } from './algo';
 import { Point } from '../../commons/point';
 
-const landStyle: React.CSSProperties = { backgroundColor: green[500], color: "#fff", border: "2px solid lightgrey" };
-const waterStyle: React.CSSProperties = { backgroundColor: blue[400], color: "#fff", border: "2px solid lightgrey" };
-const visitedStyle: React.CSSProperties = { backgroundColor: grey[400], color: "#000", border: "2px solid lightgrey" };
+export const landStyle: React.CSSProperties = { backgroundColor: green[600], color: "#fff", border: "2px solid lightgrey" };
+export const waterStyle: React.CSSProperties = { backgroundColor: blue[200], color: "#fff", border: "2px solid lightgrey" };
+export const visitedStyle: React.CSSProperties = { backgroundColor: grey[500], color: "#fff", border: "2px solid lightgrey" };
 
 const getStyle = (value: number): React.CSSProperties => {
     switch (value) {
@@ -29,7 +29,7 @@ const buildStyles = (grid: number[][], point: Point): React.CSSProperties[][] =>
             let style: React.CSSProperties = getStyle(grid[row][col]);
             if (row === x && col === y) {
                 style = { ...style };
-                style.border = "2px solid gold";
+                style.backgroundColor = "gold";
             }
             styles[row].push(style);
         }

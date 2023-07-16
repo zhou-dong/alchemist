@@ -14,6 +14,7 @@ import { CheckCircleOutline } from '@mui/icons-material';
 import { Step, buildGrid, buildSteps } from './algo';
 import Grid from "./Grid";
 import ActionPanel from './ActionPanel';
+import Dashboard from "./Dashboard";
 
 const Main = () => {
 
@@ -23,7 +24,6 @@ const Main = () => {
     const grid = buildGrid(rows, cols);
     const [steps, setSteps] = React.useState<Step[]>(() => buildSteps(grid));
     const [index, setIndex] = React.useState(0);
-
     const [stepsCount, setStepsCount] = React.useState(0);
     const [errorsCount, setErrorsCount] = React.useState(0);
     const [success, setSuccess] = React.useState(false);
@@ -34,6 +34,7 @@ const Main = () => {
         setIndex(0);
         setErrorsCount(0);
         setStepsCount(0);
+        setSuccess(false);
     }
 
     return (
@@ -44,7 +45,7 @@ const Main = () => {
                     <Typography variant='body1' display="inline-flex" sx={{ verticalAlign: 'middle' }}>
                         {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
                     </Typography>
-                    <div style={{ marginTop: "25px" }}>
+                    <div style={{ marginTop: "0px" }}>
                         <Steps steps={stepsCount} />
                         <Errors errors={errorsCount} />
                         <Description
@@ -57,19 +58,27 @@ const Main = () => {
                         <Formula title={title} formula={formula} />
                         <Refresh handleRefresh={handleRefresh} />
                     </div>
+
                     <Grid steps={steps} index={index} />
+
+                    <div style={{ marginTop: "20px" }}>
+                        <Dashboard />
+                    </div>
+
                     <ActionPanel
                         steps={steps}
                         index={index}
+                        success={success}
                         setIndex={setIndex}
                         setStepsCount={setStepsCount}
                         setErrorsCount={setErrorsCount}
                         setSuccess={setSuccess}
                     />
+
                 </Centered>
             </ThemeProvider>
         </GameWrapper>
-    )
+    );
 }
 
 export default Main;
