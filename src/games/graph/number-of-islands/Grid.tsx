@@ -7,7 +7,7 @@ import { Step } from './algo';
 import { Point } from '../../commons/point';
 
 const landStyle: React.CSSProperties = { backgroundColor: green[500], color: "#fff", border: "2px solid lightgrey" };
-const waterStyle: React.CSSProperties = { backgroundColor: blue[400], color: "#000", border: "2px solid lightgrey" };
+const waterStyle: React.CSSProperties = { backgroundColor: blue[400], color: "#fff", border: "2px solid lightgrey" };
 const visitedStyle: React.CSSProperties = { backgroundColor: grey[400], color: "#000", border: "2px solid lightgrey" };
 
 const getStyle = (value: number): React.CSSProperties => {
