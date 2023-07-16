@@ -16,7 +16,6 @@ export const formula = `function numIslands(grid: string[][]): number {
         if (grid[row][col] !== land) {
             return
         }
-
         grid[row][col] = visited;
         dfs(row - 1, col);
         dfs(row, col + 1);
@@ -25,7 +24,6 @@ export const formula = `function numIslands(grid: string[][]): number {
     }
 
     let result = 0;
-
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[row].length; col++) {
             if (grid[row][col] === land) {
