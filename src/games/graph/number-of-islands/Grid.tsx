@@ -5,10 +5,37 @@ import grey from '@mui/material/colors/grey';
 import Table from '../../dp/_components/Table';
 import { Step } from './algo';
 import { Point } from '../../commons/point';
+import { Stack, Typography } from '@mui/material';
 
 export const landStyle: React.CSSProperties = { backgroundColor: green[600], color: "#fff", border: "2px solid lightgrey" };
 export const waterStyle: React.CSSProperties = { backgroundColor: blue[200], color: "#fff", border: "2px solid lightgrey" };
 export const visitedStyle: React.CSSProperties = { backgroundColor: grey[500], color: "#fff", border: "2px solid lightgrey" };
+
+const IslandsNumber: React.FC<{ step: Step }> = ({ step }) => {
+    return (
+        <div style={{ position: "fixed", top: "20%", right: "10%" }}>
+            <Stack direction="column" spacing={1} sx={{ display: "flex", alignItems: "center" }}>
+                <Typography
+                    variant='h5'
+                    sx={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: "50%",
+                        border: "1px solid lightgray",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        color: "gray"
+                    }}>
+                    {step.numIslands}
+                </Typography>
+                <Typography>
+                    Islands Number
+                </Typography>
+            </Stack>
+        </div >
+    );
+}
 
 const getStyle = (value: number): React.CSSProperties => {
     switch (value) {
@@ -53,6 +80,7 @@ const Main = ({ index, steps }: Props) => {
     const step = steps[index];
     return (
         <>
+            {step && <IslandsNumber step={step} />}
             {step && <Grid grid={step.grid} current={step.point} />}
         </>
     );
