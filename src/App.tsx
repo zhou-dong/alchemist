@@ -189,6 +189,8 @@ import CourseScheduleInfo from "./games/graph/course-schedule/info";
 import CourseSchedule from "./games/graph/course-schedule";
 import CourseScheduleIIInfo from "./games/graph/course-schedule-ii/info";
 import CourseScheduleII from "./games/graph/course-schedule-ii";
+import NumberOfIslandsInfo from "./games/graph/number-of-islands/info";
+import NumberOfIslands from "./games/graph/number-of-islands";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -300,6 +302,8 @@ const App = () => (
         <Route path={RangeSumQueryMutableInfo.path} element={<RangeSumQueryMutable renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={CourseScheduleInfo.path} element={<CourseSchedule renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={CourseScheduleIIInfo.path} element={<CourseScheduleII renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={NumberOfIslandsInfo.path} element={<NumberOfIslands />} />
+
     </Routes>
 );
 
