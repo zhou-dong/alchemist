@@ -191,6 +191,8 @@ import CourseScheduleIIInfo from "./games/graph/course-schedule-ii/info";
 import CourseScheduleII from "./games/graph/course-schedule-ii";
 import NumberOfIslandsInfo from "./games/graph/number-of-islands/info";
 import NumberOfIslands from "./games/graph/number-of-islands";
+import SurroundedRegions from "./games/graph/surrounded-regions";
+import SurroundedRegionsInfo from "./games/graph/surrounded-regions/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -303,7 +305,7 @@ const App = () => (
         <Route path={CourseScheduleInfo.path} element={<CourseSchedule renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={CourseScheduleIIInfo.path} element={<CourseScheduleII renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={NumberOfIslandsInfo.path} element={<NumberOfIslands />} />
-
+        <Route path={SurroundedRegionsInfo.path} element={<SurroundedRegions />} />
     </Routes>
 );
 
