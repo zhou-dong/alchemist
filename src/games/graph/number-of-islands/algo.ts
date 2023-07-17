@@ -54,8 +54,6 @@ export const buildSteps = (grid: number[][]): Step[] => {
         dfs(row, col + 1, Direction.Right);
         dfs(row + 1, col, Direction.Down);
         dfs(row, col - 1, Direction.Left);
-
-        steps.push({ grid: cloneGrid(grid), point: { row, col }, numIslands, direction: Direction.Rollback });
     }
 
     for (let row = 0; row < grid.length; row++) {
