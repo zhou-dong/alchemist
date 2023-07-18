@@ -193,6 +193,8 @@ import NumberOfIslandsInfo from "./games/graph/number-of-islands/info";
 import NumberOfIslands from "./games/graph/number-of-islands";
 import SurroundedRegions from "./games/graph/surrounded-regions";
 import SurroundedRegionsInfo from "./games/graph/surrounded-regions/info";
+import NumberOfProvinces from "./games/graph/number-of-provinces";
+import NumberOfProvincesInfo from "./games/graph/number-of-provinces/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -306,6 +308,7 @@ const App = () => (
         <Route path={CourseScheduleIIInfo.path} element={<CourseScheduleII renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={NumberOfIslandsInfo.path} element={<NumberOfIslands />} />
         <Route path={SurroundedRegionsInfo.path} element={<SurroundedRegions />} />
+        <Route path={NumberOfProvincesInfo.path} element={<NumberOfProvinces renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
