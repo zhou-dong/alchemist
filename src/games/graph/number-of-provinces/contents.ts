@@ -21,13 +21,17 @@ export const formula = `function findCircleNum(isConnected: number[][]): number 
         }
 
         countRoots(): number {
-            const roots = Array.from(this.map.values()).map(node => node.parent);
-            return new Set(roots).size;
+            const set: Set<DisjointSetNode> = new Set();
+            Array
+                .from(this.map.values())
+                .map(node => this.findRootByNode(node))
+                .forEach(node => set.add(node));
+            return set.size;
         }
 
         union(a: number, b: number) {
-            const rootA = this.findSet(a);
-            const rootB = this.findSet(b);
+            const rootA = this.findRootByValue(a);
+            const rootB = this.findRootByValue(b);
             if (rootA === rootB) {
                 return;
             }
@@ -41,22 +45,16 @@ export const formula = `function findCircleNum(isConnected: number[][]): number 
             }
         }
 
-        compress() {
-            for (const node of this.map.values()) {
-                this.findParent(node);
-            }
-        }
-
-        private findSet(value: number): DisjointSetNode {
+        private findRootByValue(value: number): DisjointSetNode {
             const node = this.getNode(value);
-            return this.findParent(node);
+            return this.findRootByNode(node);
         }
 
-        private findParent(node: DisjointSetNode): DisjointSetNode {
+        private findRootByNode(node: DisjointSetNode): DisjointSetNode {
             if (node.parent === node) {
                 return node;
             }
-            node.parent = this.findParent(node.parent);
+            node.parent = this.findRootByNode(node.parent);
             return node.parent;
         }
 
@@ -78,12 +76,17 @@ export const formula = `function findCircleNum(isConnected: number[][]): number 
         }
     }
 
-    disjointSet.compress();
-
     return disjointSet.countRoots();
 };`;
 
-export const description = ``;
+export const description = `There are **n** cities. Some of them are connected, while some are not. 
+If city **a** is connected directly with city **b**, and city **b** is connected directly with city **c**, then city **a** is connected indirectly with city **c**.
+
+A **province** is a group of directly or indirectly connected cities and no other cities outside of the group.
+
+You are given an **n x n** matrix **isConnected** where **isConnected[i][j] = 1** if the **i_th** city and the **j_th** city are directly connected, and **isConnected[i][j] = 0** otherwise.
+
+Return the total number of **provinces**.`;
 
 export const usecases = '';
 
