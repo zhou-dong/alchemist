@@ -95,6 +95,7 @@ import RangeSumQueryMutable from "./segment-tree/range-sum-query-mutable/info";
 import CourseSchedule from "./graph/course-schedule/info";
 import CourseScheduleII from "./graph/course-schedule-ii/info";
 import NumberOfIslands from "./graph/number-of-islands/info";
+import SurroundedRegions from "./graph/surrounded-regions/info";
 
 export const games: Game[] = [
     editDistance,
@@ -191,5 +192,6 @@ export const games: Game[] = [
     RangeSumQueryMutable,
     CourseSchedule,
     CourseScheduleII,
-    NumberOfIslands
+    NumberOfIslands,
+    SurroundedRegions
 ];

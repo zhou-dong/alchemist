@@ -56,7 +56,7 @@ const buildStyles = (grid: number[][], point: Point): React.CSSProperties[][] =>
             let style: React.CSSProperties = getStyle(grid[row][col]);
             if (row === x && col === y) {
                 style = { ...style };
-                style.backgroundColor = "gold";
+                style.opacity = 0.4
             }
             styles[row].push(style);
         }
