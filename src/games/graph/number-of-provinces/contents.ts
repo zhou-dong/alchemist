@@ -21,8 +21,8 @@ export const formula = `function findCircleNum(isConnected: number[][]): number 
         }
 
         countRoots(): number {
-            const parents = Array.from(this.map.values()).map(node => node.parent);
-            return new Set(parents).size;
+            const roots = Array.from(this.map.values()).map(node => node.parent);
+            return new Set(roots).size;
         }
 
         union(a: number, b: number) {
