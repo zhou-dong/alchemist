@@ -1,70 +1,84 @@
 import { Point } from "../../commons/point";
 
-const random = (): number => Math.round(Math.random());
+const random = (): number => Math.floor(Math.random() * 4);
 
-export const buildGrid = (rows: number, cols: number): number[][] => {
-    const grid: number[][] = [];
+export const buildBoard = (rows: number, cols: number): string[][] => {
+    const board: string[][] = [];
     for (let row = 0; row < rows; row++) {
-        grid.push([]);
+        board.push([]);
         for (let col = 0; col < cols; col++) {
-            grid[row].push(random());
+            const value = random() ? "X" : "O";
+            board[row].push(value);
         }
     }
-    return grid;
+    return board;
 }
 
-const cloneGrid = (grid: number[][]): number[][] => grid.map(row => [...row]);
+const cloneGrid = (grid: string[][]): string[][] => grid.map(row => [...row]);
 
 export enum Direction {
-    Up, Right, Down, Left, StartDFS, SkipDFS, Rollback
+    Up, Right, Down, Left, StartDFS, SkipDFS, Update
 }
 
 export interface Step {
-    grid: number[][];
+    board: string[][];
     point: Point;
-    direction: Direction;
-    numIslands: number;
+    direction?: Direction;
 }
 
-export const buildSteps = (grid: number[][]): Step[] => {
+export const buildSteps = (board: string[][]): Step[] => {
 
     const steps: Step[] = [];
 
-    let numIslands = 0;
-
-    const land = 1;
-    const visited = 2;
-
     const inArea = (row: number, col: number): boolean => {
-        return row >= 0 && row < grid.length && col >= 0 && col < grid[row].length;
+        return row >= 0 && row < board.length && col >= 0 && col < board[row].length;
     }
 
     const dfs = (row: number, col: number, direction: Direction) => {
         if (!inArea(row, col)) {
             return;
         }
-        if (grid[row][col] !== land) {
+        if (board[row][col] !== "O") {
             return
         }
-
-        steps.push({ grid: cloneGrid(grid), point: { row, col }, numIslands, direction });
-        grid[row][col] = visited;
-
+        steps.push({ board: cloneGrid(board), point: { row, col }, direction });
+        board[row][col] = "#";
         dfs(row - 1, col, Direction.Up);
         dfs(row, col + 1, Direction.Right);
         dfs(row + 1, col, Direction.Down);
         dfs(row, col - 1, Direction.Left);
     }
 
-    for (let row = 0; row < grid.length; row++) {
-        for (let col = 0; col < grid[row].length; col++) {
+    for (let row = 0; row < board.length; row++) {
+        if (board[row][0] !== "O") {
+            steps.push({ board: cloneGrid(board), point: { row, col: 0 }, direction: Direction.SkipDFS });
+        }
+        dfs(row, 0, Direction.StartDFS);
+        if (board[row][board[row].length - 1] !== "O") {
+            steps.push({ board: cloneGrid(board), point: { row, col: board[row].length - 1 }, direction: Direction.SkipDFS });
+        }
+        dfs(row, board[row].length - 1, Direction.StartDFS);
+    }
 
-            if (grid[row][col] === land) {
-                numIslands += 1;
-                dfs(row, col, Direction.StartDFS);
-            } else {
-                steps.push({ grid: cloneGrid(grid), point: { row, col }, numIslands, direction: Direction.SkipDFS });
+    for (let col = 1; col < board[0].length - 1; col++) {
+        if (board[0][col] !== "O") {
+            steps.push({ board: cloneGrid(board), point: { row: 0, col }, direction: Direction.SkipDFS });
+        }
+        dfs(0, col, Direction.StartDFS);
+        if (board[board.length - 1][0] !== "O") {
+            steps.push({ board: cloneGrid(board), point: { row: board.length - 1, col }, direction: Direction.SkipDFS });
+        }
+        dfs(board.length - 1, col, Direction.StartDFS);
+    }
+
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+            if (board[row][col] === 'O') {
+                board[row][col] = 'X';
+            } else if (board[row][col] === "#") {
+                board[row][col] = 'O';
             }
+            steps.push({ board: cloneGrid(board), point: { row, col }, direction: Direction.Update });
         }
     }
 

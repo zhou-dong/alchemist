@@ -4,7 +4,7 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
-import UndoOutlinedIcon from '@mui/icons-material/UndoOutlined';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import SouthOutlinedIcon from '@mui/icons-material/SouthOutlined';
 import RedoOutlinedIcon from '@mui/icons-material/RedoOutlined';
 import { Direction, Step } from "./algo";
@@ -14,6 +14,10 @@ const Position = styled("div")({
     bottom: "15%",
     left: "50%",
     transform: "translate(-50%)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
 });
 
 interface Props {
@@ -68,19 +72,19 @@ const Main = ({ steps, index, success, setStepsCount, setErrorsCount, setSuccess
     const handleDownClick = () => increaseIndex(Direction.Down);
     const handleStartDFS = () => increaseIndex(Direction.StartDFS);
     const handleSkipDFS = () => increaseIndex(Direction.SkipDFS);
-    const hanldeRollback = () => increaseIndex(Direction.Rollback);
+    const hanldeUpdate = () => increaseIndex(Direction.Update);
 
-    const color = "success"
+    const color = "info"
 
     return (
         <Position>
 
             <ButtonGroup disabled={disabled} color={color} variant="contained">
                 <Button endIcon={<SouthOutlinedIcon />} sx={{ textTransform: "none" }} onClick={handleStartDFS}>
-                    DFS
+                    Mark (DFS)
                 </Button>
                 <Button endIcon={<RedoOutlinedIcon />} sx={{ textTransform: "none" }} onClick={handleSkipDFS}>
-                    Next
+                    Next (Skip)
                 </Button>
             </ButtonGroup>
 
@@ -103,8 +107,8 @@ const Main = ({ steps, index, success, setStepsCount, setErrorsCount, setSuccess
                             </IconButton>
                         </TableCell>
                         <TableCell padding="none" sx={{ border: "none" }}>
-                            <IconButton onClick={hanldeRollback} color={color} disabled={disabled}>
-                                <UndoOutlinedIcon fontSize="large" />
+                            <IconButton onClick={handleDownClick} color={color} disabled={disabled}>
+                                <ArrowCircleDownOutlinedIcon fontSize="large" />
                             </IconButton>
                         </TableCell>
                         <TableCell padding="none" sx={{ border: "none" }}>
@@ -113,18 +117,20 @@ const Main = ({ steps, index, success, setStepsCount, setErrorsCount, setSuccess
                             </IconButton>
                         </TableCell>
                     </TableRow>
-
-                    <TableRow>
-                        <TableCell padding="none" sx={{ border: "none" }} />
-                        <TableCell padding="none" sx={{ border: "none" }}>
-                            <IconButton onClick={handleDownClick} color={color} disabled={disabled}>
-                                <ArrowCircleDownOutlinedIcon fontSize="large" />
-                            </IconButton>
-                        </TableCell>
-                        <TableCell padding="none" sx={{ border: "none" }} />
-                    </TableRow>
                 </TableBody>
             </Table>
+
+            <Button
+                disabled={disabled}
+                color={color}
+                endIcon={<PublishedWithChangesIcon />}
+                sx={{ textTransform: "none", marginTop: "10px" }}
+                onClick={hanldeUpdate}
+                variant="contained"
+            >
+                Update
+            </Button>
+
         </Position >
     );
 }
