@@ -20,7 +20,7 @@ export const formula = `function findCircleNum(isConnected: number[][]): number 
             this.map = new Map();
         }
 
-        countSets(): number {
+        countRoots(): number {
             const parents = Array.from(this.map.values()).map(node => node.parent);
             return new Set(parents).size;
         }
@@ -80,7 +80,7 @@ export const formula = `function findCircleNum(isConnected: number[][]): number 
 
     disjointSet.compress();
 
-    return disjointSet.countSets();
+    return disjointSet.countRoots();
 };`;
 
 export const description = ``;
