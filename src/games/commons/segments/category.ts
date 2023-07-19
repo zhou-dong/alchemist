@@ -14,7 +14,8 @@ enum Category {
     Deque = "Qeque",
     SegmentTree = "Segment Tree",
     Graph = "graph",
-    TopologicalSort = "Topological Sort"
+    TopologicalSort = "Topological Sort",
+    UnionFind = "Union Find(Disjoint Set)"
 }
 
 export default Category;
