@@ -139,6 +139,11 @@ const Categories = () => {
                     initSelected={calculateSelected(categories, Category.TopologicalSort)}
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.TopologicalSort, selected))}
                 />
+                <TextItem
+                    name="Union Find(Disjoint Set)"
+                    initSelected={calculateSelected(categories, Category.UnionFind)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.UnionFind, selected))}
+                />
             </Grid>
         </>
     )
