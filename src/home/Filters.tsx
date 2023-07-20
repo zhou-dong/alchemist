@@ -130,6 +130,11 @@ const Categories = () => {
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Heap, selected))}
                 />
                 <TextItem
+                    name="Graph"
+                    initSelected={calculateSelected(categories, Category.Graph)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Graph, selected))}
+                />
+                <TextItem
                     name="Segment Tree"
                     initSelected={calculateSelected(categories, Category.SegmentTree)}
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.SegmentTree, selected))}
