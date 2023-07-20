@@ -6,7 +6,7 @@ import Difficulty from "../../commons/segments/difficulty";
 const info: Game = {
     name: title,
     path: "/algorithms/number-of-provinces",
-    categories: [Category.Graph],
+    categories: [Category.Graph, Category.UnionFind],
     companies: [],
     difficulty: Difficulty.Medium,
     img: "/img/number-of-provinces.png",
