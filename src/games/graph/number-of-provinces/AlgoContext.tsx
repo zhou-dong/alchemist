@@ -1,6 +1,6 @@
 import React from "react";
 import * as THREE from 'three';
-import { clearScene } from '../../../commons/three';
+import { clearScene, registerOrbitControls } from '../../../commons/three';
 import { Step } from "./algo";
 import { State } from "./AlgoState";
 import { Graph } from "../../../data-structures/graph";
@@ -59,6 +59,7 @@ export const AlgoContextProvider: React.FC<{
     React.useEffect(() => {
         const init = () => {
             clearScene(scene);
+            registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
         if (ref && ref.current) {

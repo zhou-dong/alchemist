@@ -17,6 +17,7 @@ import { wait } from '../../../data-structures/_commons/utils';
 import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
 import { edgeOriginalColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
 import { findOrder } from './algo';
+import { buildAdjacencyList } from './adjacencyListBuilder';
 
 const input = [
     [1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -108,6 +109,8 @@ const Submit: React.FC<{
         disabled = true;
     }
 
+    matrix = buildAdjacencyList(input);
+
     const handleSubmit = async () => {
         setState(State.Typing);
         setValue("");
@@ -120,7 +123,7 @@ const Submit: React.FC<{
             nodeOriginalSkinColor,
             nodeOriginalTextColor,
             edgeOriginalColor,
-            reverse(matrix),
+            matrix,
             scene,
         );
 
