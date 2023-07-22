@@ -17,6 +17,7 @@ import { wait } from '../../../data-structures/_commons/utils';
 import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
 import { edgeOriginalColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
 import { canFinish } from './algo';
+import { forceAtlas2Layout } from '../../../data-structures/graph/layoutCalculator';
 
 const input1 = [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]];
 const input2 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 0]];
@@ -105,6 +106,7 @@ const Submit: React.FC<{
             reverse(matrix),
             scene,
         );
+        grpah.setPositions(forceAtlas2Layout);
 
         setGraph(grpah);
         animate();
