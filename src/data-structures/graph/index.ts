@@ -1,10 +1,11 @@
 import Graphology from "graphology";
-import forceAtlas2 from 'graphology-layout-forceatlas2';
 import { GraphNode } from "./node.interface";
 import { GraphEdge } from "./edge.interface";
 import { SimpleGraphSkin, SimpleGraphText } from "./node.three";
 import { SimpleDirectedGraphEdge, SimpleUndirectedGraphEdge } from "./edge.three";
 import Displayer from "../_commons/params/displayer.interface";
+
+type LayoutMapping = { [key: number]: { x: number; y: number } };
 
 export class Graph<T> implements Displayer {
 
@@ -16,7 +17,6 @@ export class Graph<T> implements Displayer {
         this.nodes = nodes;
         this.edges = edges;
         this.graph = this.buildGraphology();
-        this.resetPositions();
     }
 
     show() {
@@ -37,8 +37,8 @@ export class Graph<T> implements Displayer {
         });
     };
 
-    resetPositions() {
-        const positions = this.computePositions();
+    setPositions(calculatorPositions: (graph: Graphology) => LayoutMapping) {
+        const positions = calculatorPositions(this.graph);
 
         this.nodes.forEach(node => {
             const { x, y } = positions[node.id];
@@ -65,19 +65,6 @@ export class Graph<T> implements Displayer {
         });
 
         return graph;
-    }
-
-    private computePositions() {
-        this.graph.forEachNode((_, attributes) => {
-            attributes.x = Math.random() * 10; // Set initial x position
-            attributes.y = Math.random() * 10; // Set initial y position
-        });
-
-        const sensibleSettings = forceAtlas2.inferSettings(this.graph);
-        return forceAtlas2(this.graph, {
-            iterations: 50,
-            settings: sensibleSettings
-        });
     }
 }
 
