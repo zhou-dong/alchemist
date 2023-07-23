@@ -1,4 +1,3 @@
-import Graphology from "graphology";
 import { GraphNode } from "./node.interface";
 import { GraphEdge } from "./edge.interface";
 import { SimpleGraphSkin, SimpleGraphText } from "./node.three";
@@ -11,12 +10,10 @@ export class Graph<T> implements Displayer {
 
     readonly nodes: GraphNode<T>[];
     readonly edges: GraphEdge<T>[];
-    private graph: Graphology;
 
-    constructor(nodes: GraphNode<T>[], edges: GraphEdge<T>[]) {
+    constructor(nodes: GraphNode<T>[] = [], edges: GraphEdge<T>[] = []) {
         this.nodes = nodes;
         this.edges = edges;
-        this.graph = this.buildGraphology();
     }
 
     show() {
@@ -37,34 +34,40 @@ export class Graph<T> implements Displayer {
         });
     };
 
-    setPositions(calculatorPositions: (graph: Graphology) => LayoutMapping) {
-        const positions = calculatorPositions(this.graph);
-
-        this.nodes.forEach(node => {
-            const { x, y } = positions[node.id];
-            node.skin.x = x;
-            node.skin.y = y;
-            node.text.x = x - 0.3;
-            node.text.y = y - 0.3;
-        });
-
-        this.edges.forEach(edge => {
-            edge.refresh();
-        });
+    setPositions(calculatorPositions: (graph: Graph<T>) => LayoutMapping) {
+        const positions = calculatorPositions(this);
+        this.nodes.forEach(node => this.setNodePosition(node, positions));
+        this.edges.forEach(edge => edge.refresh());
     }
 
-    private buildGraphology(): Graphology {
-        const graph = new Graphology();
+    private setNodePosition(node: GraphNode<T>, positions: LayoutMapping) {
+        const { x, y } = positions[node.id];
+        node.skin.x = x;
+        node.skin.y = y;
+        node.text.x = x - 0.3;
+        node.text.y = y - 0.3;
+    }
 
-        this.nodes.forEach(node => {
-            graph.addNode(node.id);
-        });
+    addNode(node: GraphNode<T>) {
+        this.nodes.push(node);
+    }
 
-        this.edges.forEach(edge => {
-            graph.addEdge(edge.source.id, edge.target.id);
-        });
+    dropNode(node: GraphNode<T>) {
+        const index = this.nodes.indexOf(node);
+        if (index > -1) {
+            this.nodes.splice(index, 1);
+        }
+    }
 
-        return graph;
+    addEdge(edge: GraphEdge<T>) {
+        this.edges.push(edge);
+    }
+
+    dropEdge(edge: GraphEdge<T>) {
+        const index = this.edges.indexOf(edge);
+        if (index > -1) {
+            this.edges.splice(index, 1);
+        }
     }
 }
 
