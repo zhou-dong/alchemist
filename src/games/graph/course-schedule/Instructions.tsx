@@ -16,7 +16,7 @@ import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlin
 import { wait } from "../../../data-structures/_commons/utils";
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
-import { forceAtlas2Layout } from '../../../data-structures/graph/layout';
+import { forceAtlas2Layout } from '../../../data-structures/graph/utils';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
