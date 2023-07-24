@@ -15,6 +15,7 @@ import InputIcon from '@mui/icons-material/Input';
 import { wait } from "../../../data-structures/_commons/utils";
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
+import { layoutCalculator } from "./layout";
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -92,7 +93,7 @@ const Refresh = () => {
         if (!graph) {
             return;
         }
-        graph.resetPositions();
+        graph.setPositions(layoutCalculator as any);
         try {
             animate();
             wait(0.2);
@@ -112,8 +113,9 @@ const Refresh = () => {
             value={name}
             disabled={disabled}
             onClick={handleRefresh}
+            color="primary"
         >
-            <RefreshIcon fontSize="medium" color="primary" />
+            <RefreshIcon fontSize="medium" />
         </ToggleButton>
     )
 }

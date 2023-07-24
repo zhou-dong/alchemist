@@ -14,12 +14,13 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
+import { Graph, SimpleUndirectedGraph } from '../../../data-structures/graph';
 import { edgeOriginalColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
-import { findOrder } from './algo';
-import { buildAdjacencyList } from './adjacencyListBuilder';
+import { layoutCalculator } from "./layout";
+import { buildAdjacencyList, buildSteps, getRoots } from "./utils";
+import { DisjointSet } from './unionFind';
 
-const input = [
+const input1 = [
     [1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -37,9 +38,34 @@ const input = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 ];
 
-const input1 = [[0, 1], [0, 2], [1, 2], [1, 3], [2, 3]];
-const input2 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 0]];
-const input3 = [[0, 1], [0, 2], [1, 2], [1, 3], [3, 4], [4, 2]];
+const input2 = [
+    [1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1],
+    [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
+];
+
+const input3 = [
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
+    [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1, 0, 1, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+];
+
+const input4 = [[1, 1, 0], [1, 1, 0], [0, 0, 1]];
 
 const displayMatrix = (matrix: number[][]): string => {
     return "[" + matrix.map(array => "[" + array.join(",") + "]").join(",") + "]";
@@ -52,7 +78,7 @@ const DropDown: React.FC<{
     setValue: React.Dispatch<React.SetStateAction<string>>,
 }> = ({ anchorEl, setAnchorEl, open, setValue, }) => {
 
-    const buildInInputs = [input, input1, input2, input3];
+    const buildInInputs = [input1, input2, input3, input4];
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -87,47 +113,48 @@ const DropDown: React.FC<{
     );
 }
 
-const reverse = (matrix: number[][]): number[][] => {
-    return matrix.map(array => [...array].reverse());
-}
-
 const Submit: React.FC<{
     value: string,
     setValue: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setValue, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setGraph, setIndex, setSteps } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setGraph, setIndex, setSteps, setBoard, setDisjointSet, setRoots } = useAlgoContext();
 
     let disabled: boolean = value.length === 0;
     let matrix: number[][] = [];
+    let adjacency: number[][] = [];
+
     try {
         if (value.length > 0) {
             matrix = JSON.parse(value);
+            adjacency = buildAdjacencyList(matrix);
         }
         disabled = matrix.length === 0;
     } catch (error) {
         disabled = true;
     }
 
-    matrix = buildAdjacencyList(input);
-
     const handleSubmit = async () => {
         setState(State.Typing);
         setValue("");
         setAnchorEl(null);
         setIndex(0);
-        setSteps(findOrder(matrix));
+        setSteps(buildSteps(matrix));
+        setRoots(getRoots(matrix));
+        setDisjointSet(new DisjointSet());
         clearScene(scene);
 
-        const grpah: Graph<number> = new SimpleDirectedGraph<number>(
+        const grpah: Graph<number> = new SimpleUndirectedGraph<number>(
             nodeOriginalSkinColor,
             nodeOriginalTextColor,
             edgeOriginalColor,
-            matrix,
+            adjacency,
             scene,
         );
 
+        grpah.setPositions(layoutCalculator as any);
         setGraph(grpah);
+        setBoard(matrix);
         animate();
         try {
             grpah.show();
@@ -147,7 +174,7 @@ const Submit: React.FC<{
 }
 
 interface Props {
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
 
 export default function AlgoInput({ setAnchorEl }: Props) {

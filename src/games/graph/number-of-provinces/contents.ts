@@ -69,7 +69,7 @@ export const formula = `function findCircleNum(isConnected: number[][]): number 
     const disjointSet = new DisjointSet();
 
     for (let row = 0; row < isConnected.length; row++) {
-        for (let col = 0; col < isConnected[row].length; col++) {
+        for (let col = row; col < isConnected[row].length; col++) {
             if (isConnected[row][col] === 1) {
                 disjointSet.union(row, col);
             }

@@ -1,122 +1,21 @@
 import { styled } from '@mui/system';
+import MergeIcon from '@mui/icons-material/Merge';
 import { useAlgoContext } from "./AlgoContext";
-import { Alert, Button, ButtonGroup, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import DangerousIcon from '@mui/icons-material/Dangerous';
+import { Button, ButtonGroup, Stack } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
-import { edgeDisabledColor, edgeOriginalColor, nodeEnabledSkinColor, nodeEnabledTextColor, nodeOriginalSkinColor, nodeOriginalTextColor } from "./styles";
+import { edgeOriginalColor } from "./styles";
+import { Board } from "./Board";
+import { Graph } from '../../../data-structures/graph';
+import { DirectedGraphEdge } from '../../../data-structures/graph/edge.three';
+import { GraphNode } from '../../../data-structures/graph/node.interface';
+import { GraphEdge } from '../../../data-structures/graph/edge.interface';
 
 const DashboardPosition = styled('div')({
     position: "fixed",
-    top: "20%",
-    left: "10%",
+    top: "10%",
+    left: "8%",
 });
-
-const HasCycle = () => {
-    const { state, steps } = useAlgoContext();
-
-    const Displayer = () => {
-        const hasCycle: boolean | undefined = steps[steps.length - 1]?.hasCycle;
-        const severity = hasCycle ? "error" : "success";
-        const title = hasCycle ? "Has Cycle" : "No Cycle";
-        const content = hasCycle ? "Detected cycle in the graph" : "No cycle in the graph";
-
-        return (
-            <Alert
-                severity={severity}
-                iconMapping={{
-                    success: <TaskAltIcon fontSize="inherit" />,
-                    error: <DangerousIcon fontSize="inherit" />,
-                }}
-            >
-                <strong>{title}</strong> - {content}
-            </Alert>
-        );
-    }
-
-    return (
-        <>
-            {state === State.Finished && <Displayer />}
-        </>
-    );
-}
-
-const AdjacencyList = () => {
-    const { steps, index } = useAlgoContext();
-    const step = steps[index];
-
-    const Display = () => {
-        const { adjacency } = step;
-        return (
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell colSpan={2} align='center'>
-                            Adjacency List
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        Array.from(adjacency.entries()).map((entry, i) => {
-                            const [key, values] = entry;
-                            return (
-                                <TableRow key={i}>
-                                    <TableCell>
-                                        {key}
-                                    </TableCell>
-                                    <TableCell sx={{ borderLeft: "1px solid lightgray" }}>
-                                        {"[" + values.join(", ") + "]"}
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })
-                    }
-                </TableBody>
-            </Table>
-        );
-    }
-
-    return (
-        <>
-            {step && <Display />}
-        </>
-    );
-}
-
-const Schedule = () => {
-    const { steps, index } = useAlgoContext();
-    const step = steps[index];
-
-    const Display = () => {
-        const { stack, numCourses } = step;
-        const courses: string[] = [];
-        for (let i = 0; i < numCourses; i++) {
-            courses.push(" ");
-        }
-        for (let i = 0; i < stack.length; i++) {
-            courses[i] = stack[i] + "";
-        }
-        return (
-            <ButtonGroup color='inherit'>
-                <Button sx={{ textTransform: "none" }}>
-                    Schedule
-                </Button>
-                {
-                    courses.map((course, i) => <Button key={i} sx={{ width: "45px" }}>{course}</Button>)
-                }
-            </ButtonGroup>
-        );
-    };
-
-    return (
-        <>
-            {step && <Display />}
-        </>
-    );
-}
 
 const ActionPanelPosition = styled('div')({
     display: "flex",
@@ -129,52 +28,75 @@ const ActionPanelPosition = styled('div')({
 
 const ActionPanel = () => {
 
-    const { animate, cancelAnimate, state, setState, graph, steps, index, setIndex } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, graph, steps, index, setIndex, disjointSet, scene } = useAlgoContext();
 
-    const step = steps[index];
+    const buildEdge = (g: Graph<number>, i: number, j: number): GraphEdge<number> | null => {
+
+        const findNode = (value: number) => {
+            return g.nodes.filter(node => node.value === value)[0];
+        }
+
+        const source: GraphNode<number> = findNode(i);
+        const target: GraphNode<number> = findNode(j);
+        if (source === target) {
+            return null;
+        }
+
+        const edge = new DirectedGraphEdge(
+            findNode(i),
+            findNode(j),
+            scene,
+            edgeOriginalColor,
+            1.2,
+            0.5
+        );
+
+        edge.show();
+
+        return edge;
+    }
+
+    const doNext = (g: Graph<number>, row: number, col: number) => {
+
+        g.edges
+            .filter(
+                edge => (edge.source.value === row && edge.target.value === col) || (edge.source.value === col && edge.target.value === row)
+            )
+            .forEach(
+                edge => g.dropEdge(edge)
+            );
+
+        disjointSet.union(row, col);
+
+        // g.edges
+        //     .filter(edge => edge.source.value === row)
+        //     .forEach(edge => g.dropEdge(edge))
+
+        const edge1 = buildEdge(g, row, disjointSet.findRootByValue(row).parent.value);
+        if (edge1) {
+            g.addEdge(edge1);
+        }
+
+        const edge2 = buildEdge(g, col, disjointSet.findRootByValue(col).parent.value);
+        if (edge2) {
+            g.addEdge(edge2);
+        }
+    }
 
     const handleNext = async () => {
         if (!graph) {
             return;
         }
-
+        const step = steps[index];
         if (!step) {
             return;
         }
 
         setState(State.Computing);
-
-        const { visited, current, adjacency, stack } = step;
-        for (let i = 0; i < graph.nodes.length; i++) {
-            const node = graph.nodes[i];
-            if (visited.indexOf(node.value) > -1) {
-                await node.skin.setColor(nodeEnabledSkinColor);
-                await node.text.setColor(nodeEnabledTextColor);
-            } else {
-                await node.skin.setColor(nodeOriginalSkinColor);
-                await node.text.setColor(nodeOriginalTextColor);
-            }
-            if (node.value === current) {
-                await node.skin.setColor(nodeEnabledSkinColor);
-                await node.text.setColor(nodeEnabledTextColor);
-            }
-
-            if (stack.indexOf(node.value) > -1) {
-                await node.skin.setColor("lightgray");
-                await node.text.setColor(nodeEnabledTextColor);
-            }
+        const { row, col } = step;
+        if (row !== col) {
+            doNext(graph, row, col);
         }
-
-        for (let i = 0; i < graph.edges.length; i++) {
-            const edge = graph.edges[i];
-            const targets: number[] = adjacency.get(edge.source.value) || [];
-            if (targets.length === 0) {
-                await edge.setColor(edgeDisabledColor);
-            } else {
-                await edge.setColor(edgeOriginalColor);
-            }
-        }
-
         animate();
         wait(0.2);
         cancelAnimate();
@@ -183,36 +105,56 @@ const ActionPanel = () => {
             setState(State.Finished);
         } else {
             setState(State.Playing);
-            setIndex(i => i + 1);
         }
+        setIndex(i => i + 1);
     }
 
-    const color = state === State.Playing ? "success" : "default";
-    const borderColor = state === State.Playing ? "green" : "lightgray";
-
     return (
-        <IconButton
-            size="large"
+        <Button
+            variant='contained'
+            color='success'
             onClick={handleNext}
             disabled={state !== State.Playing}
-            color={color}
-            sx={{
-                border: `1px solid ${borderColor}`,
-                zIndex: 1
-            }}
+            sx={{ zIndex: 1 }}
+            startIcon={<MergeIcon fontSize="large" />}
         >
-            <PlayArrowIcon fontSize="large" />
-        </IconButton>
+            union
+        </Button>
     );
+}
+
+const Roots = () => {
+    const { roots, state } = useAlgoContext();
+
+    const Display = () => (
+        <ButtonGroup variant='contained' color='success'>
+            <Button>roots</Button>
+            {
+                roots.map((root, i) =>
+                    <Button key={i}>
+                        {root}
+                    </Button>
+                )
+            }
+        </ButtonGroup>
+    )
+
+    return (
+        <>
+            {state === State.Finished && <Display />}
+        </>
+    )
 }
 
 const Main = () => (
     <>
         <DashboardPosition>
-            <Stack direction="column" spacing={2}>
-                <HasCycle />
-                <AdjacencyList />
-                <Schedule />
+            <Stack
+                direction="column"
+                spacing={2}
+                sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Board />
+                <Roots />
             </Stack>
         </DashboardPosition>
         <ActionPanelPosition>

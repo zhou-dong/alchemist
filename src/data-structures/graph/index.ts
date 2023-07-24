@@ -56,6 +56,7 @@ export class Graph<T> implements Displayer {
         const index = this.nodes.indexOf(node);
         if (index > -1) {
             this.nodes.splice(index, 1);
+            node.hide();
         }
     }
 
@@ -67,6 +68,7 @@ export class Graph<T> implements Displayer {
         const index = this.edges.indexOf(edge);
         if (index > -1) {
             this.edges.splice(index, 1);
+            edge.hide();
         }
     }
 }

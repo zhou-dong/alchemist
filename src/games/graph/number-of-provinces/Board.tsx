@@ -1,4 +1,5 @@
 import { yellow } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { useAlgoContext } from "./AlgoContext";
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import { State } from './AlgoState';
@@ -17,23 +18,26 @@ export const Board = () => {
         width: 20
     };
 
-    const DataStyle = (i: number, j: number): React.CSSProperties => {
+    const baseDataStyle: React.CSSProperties = {
+        border: "1px solid gray",
+        padding: "6px",
+        textAlign: "center",
+        width: 20
+    };
 
-        const base: React.CSSProperties = {
-            border: "1px solid gray",
-            padding: "6px",
-            textAlign: "center",
-            width: 20
-        };
+    const DataStyle = (i: number, j: number): React.CSSProperties => {
+        if (j < i) {
+            return { ...baseDataStyle, backgroundColor: grey[500], color: "#fff" };
+        }
 
         if (!step) {
-            return base;
+            return baseDataStyle;
         }
         const { row, col } = step;
         if (i === row && j === col) {
-            return { ...base, backgroundColor: yellow[500] };
+            return { ...baseDataStyle, backgroundColor: yellow[500] };
         } else {
-            return base;
+            return baseDataStyle;
         }
     };
 
