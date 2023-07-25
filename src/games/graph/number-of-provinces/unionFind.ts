@@ -12,7 +12,7 @@ class DisjointSetNode {
 
 export class DisjointSet {
 
-    private readonly map: Map<number, DisjointSetNode>;
+    readonly map: Map<number, DisjointSetNode>;
 
     constructor() {
         this.map = new Map();
@@ -22,22 +22,11 @@ export class DisjointSet {
         const set: Set<DisjointSetNode> = new Set();
         Array
             .from(this.map.values())
-            .map(node => node.parent)
-            .forEach(node => set.add(node));
-
-        return Array.from(set).map(node => node.value);
-    }
-
-    getRoots1(): number[] {
-        const set: Set<DisjointSetNode> = new Set();
-        Array
-            .from(this.map.values())
             .map(node => this.findRootByNode(node))
             .forEach(node => set.add(node));
 
         return Array.from(set).map(node => node.value);
     }
-
 
     countRoots(): number {
         const set: Set<DisjointSetNode> = new Set();
@@ -46,6 +35,10 @@ export class DisjointSet {
             .map(node => this.findRootByNode(node))
             .forEach(node => set.add(node));
         return set.size;
+    }
+
+    compress() {
+        Array.from(this.map.values()).forEach(node => this.findRootByNode(node))
     }
 
     union(a: number, b: number) {
