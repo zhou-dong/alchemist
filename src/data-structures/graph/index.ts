@@ -1,22 +1,19 @@
-import Graphology from "graphology";
-import forceAtlas2 from 'graphology-layout-forceatlas2';
 import { GraphNode } from "./node.interface";
 import { GraphEdge } from "./edge.interface";
 import { SimpleGraphSkin, SimpleGraphText } from "./node.three";
 import { SimpleDirectedGraphEdge, SimpleUndirectedGraphEdge } from "./edge.three";
 import Displayer from "../_commons/params/displayer.interface";
 
+type LayoutMapping = { [key: number]: { x: number; y: number } };
+
 export class Graph<T> implements Displayer {
 
     readonly nodes: GraphNode<T>[];
     readonly edges: GraphEdge<T>[];
-    private graph: Graphology;
 
-    constructor(nodes: GraphNode<T>[], edges: GraphEdge<T>[]) {
+    constructor(nodes: GraphNode<T>[] = [], edges: GraphEdge<T>[] = []) {
         this.nodes = nodes;
         this.edges = edges;
-        this.graph = this.buildGraphology();
-        this.resetPositions();
     }
 
     show() {
@@ -37,47 +34,42 @@ export class Graph<T> implements Displayer {
         });
     };
 
-    resetPositions() {
-        const positions = this.computePositions();
-
-        this.nodes.forEach(node => {
-            const { x, y } = positions[node.id];
-            node.skin.x = x;
-            node.skin.y = y;
-            node.text.x = x - 0.3;
-            node.text.y = y - 0.3;
-        });
-
-        this.edges.forEach(edge => {
-            edge.refresh();
-        });
+    setPositions(calculatorPositions: (graph: Graph<T>) => LayoutMapping) {
+        const positions = calculatorPositions(this);
+        this.nodes.forEach(node => this.setNodePosition(node, positions));
+        this.edges.forEach(edge => edge.refresh());
     }
 
-    private buildGraphology(): Graphology {
-        const graph = new Graphology();
-
-        this.nodes.forEach(node => {
-            graph.addNode(node.id);
-        });
-
-        this.edges.forEach(edge => {
-            graph.addEdge(edge.source.id, edge.target.id);
-        });
-
-        return graph;
+    private setNodePosition(node: GraphNode<T>, positions: LayoutMapping) {
+        const { x, y } = positions[node.id];
+        node.skin.x = x;
+        node.skin.y = y;
+        node.text.x = x - 0.3;
+        node.text.y = y - 0.3;
     }
 
-    private computePositions() {
-        this.graph.forEachNode((_, attributes) => {
-            attributes.x = Math.random() * 10; // Set initial x position
-            attributes.y = Math.random() * 10; // Set initial y position
-        });
+    addNode(node: GraphNode<T>) {
+        this.nodes.push(node);
+    }
 
-        const sensibleSettings = forceAtlas2.inferSettings(this.graph);
-        return forceAtlas2(this.graph, {
-            iterations: 50,
-            settings: sensibleSettings
-        });
+    dropNode(node: GraphNode<T>) {
+        const index = this.nodes.indexOf(node);
+        if (index > -1) {
+            this.nodes.splice(index, 1);
+            node.hide();
+        }
+    }
+
+    addEdge(edge: GraphEdge<T>) {
+        this.edges.push(edge);
+    }
+
+    dropEdge(edge: GraphEdge<T>) {
+        const index = this.edges.indexOf(edge);
+        if (index > -1) {
+            this.edges.splice(index, 1);
+            edge.hide();
+        }
     }
 }
 
