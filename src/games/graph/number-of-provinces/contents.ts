@@ -25,7 +25,7 @@ export const formula = `function findCircleNum(isConnected: number[][]): number 
             Array
                 .from(this.map.values())
                 .map(node => this.findRootByNode(node))
-                .forEach(node => set.add(node));
+                .forEach(root => set.add(root));
             return set.size;
         }
 
