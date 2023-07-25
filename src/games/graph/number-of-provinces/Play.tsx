@@ -1,15 +1,17 @@
 import { styled } from '@mui/system';
 import MergeIcon from '@mui/icons-material/Merge';
+import CompressIcon from '@mui/icons-material/Compress';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { Button, ButtonGroup, Stack } from '@mui/material';
 import { wait } from "../../../data-structures/_commons/utils";
 import { State } from "./AlgoState";
 import { edgeOriginalColor } from "./styles";
 import { Board } from "./Board";
-import { Graph } from '../../../data-structures/graph';
 import { DirectedGraphEdge } from '../../../data-structures/graph/edge.three';
 import { GraphNode } from '../../../data-structures/graph/node.interface';
 import { GraphEdge } from '../../../data-structures/graph/edge.interface';
+import { layoutCalculator } from "./layout";
 
 const DashboardPosition = styled('div')({
     position: "fixed",
@@ -26,67 +28,40 @@ const ActionPanelPosition = styled('div')({
     alignItems: "center"
 });
 
+const buildDirectedGraphEdge = (source: GraphNode<number>, target: GraphNode<number>, scene: THREE.Scene): GraphEdge<number> => {
+    const headLength: number = 1.2;
+    const headWidth: number = 0.3;
+    return new DirectedGraphEdge(source, target, scene, edgeOriginalColor, headLength, headWidth);
+}
+
 const ActionPanel = () => {
 
     const { animate, cancelAnimate, state, setState, graph, steps, index, setIndex, disjointSet, scene } = useAlgoContext();
 
-    const buildEdge = (g: Graph<number>, i: number, j: number): GraphEdge<number> | null => {
-
-        const findNode = (value: number) => {
-            return g.nodes.filter(node => node.value === value)[0];
-        }
-
-        const source: GraphNode<number> = findNode(i);
-        const target: GraphNode<number> = findNode(j);
-        if (source === target) {
-            return null;
-        }
-
-        const edge = new DirectedGraphEdge(
-            findNode(i),
-            findNode(j),
-            scene,
-            edgeOriginalColor,
-            1.2,
-            0.5
-        );
-
-        edge.show();
-
-        return edge;
-    }
-
-    const doNext = (g: Graph<number>, row: number, col: number) => {
-
-        g.edges
-            .filter(
-                edge => (edge.source.value === row && edge.target.value === col) || (edge.source.value === col && edge.target.value === row)
-            )
-            .forEach(
-                edge => g.dropEdge(edge)
-            );
-
-        disjointSet.union(row, col);
-
-        // g.edges
-        //     .filter(edge => edge.source.value === row)
-        //     .forEach(edge => g.dropEdge(edge))
-
-        const edge1 = buildEdge(g, row, disjointSet.findRootByValue(row).parent.value);
-        if (edge1) {
-            g.addEdge(edge1);
-        }
-
-        const edge2 = buildEdge(g, col, disjointSet.findRootByValue(col).parent.value);
-        if (edge2) {
-            g.addEdge(edge2);
-        }
-    }
-
-    const handleNext = async () => {
+    const reDrawGraph = async () => {
         if (!graph) {
             return;
         }
+
+        [...graph.edges].forEach(edge => graph.dropEdge(edge));
+
+        Array.from(disjointSet.map.entries()).forEach(entry => {
+            const [key, value] = entry;
+            const source = graph.nodes.filter(node => node.value === key)[0];
+            const target = graph.nodes.filter(node => node.value === value.parent.value)[0];
+            if (source !== target) {
+                graph.addEdge(buildDirectedGraphEdge(source, target, scene));
+            }
+        });
+
+        graph.show();
+
+        animate();
+        await wait(0.2);
+        cancelAnimate();
+    }
+
+    const handleUnion = async () => {
         const step = steps[index];
         if (!step) {
             return;
@@ -94,32 +69,64 @@ const ActionPanel = () => {
 
         setState(State.Computing);
         const { row, col } = step;
-        if (row !== col) {
-            doNext(graph, row, col);
-        }
-        animate();
-        wait(0.2);
-        cancelAnimate();
+        disjointSet.union(row, col);
+
+        await reDrawGraph()
 
         if (index === steps.length - 1) {
-            setState(State.Finished);
+            setState(State.Compress);
         } else {
             setState(State.Playing);
         }
         setIndex(i => i + 1);
     }
 
+    const handleCompress = async () => {
+        setState(State.Computing);
+        disjointSet.compress();
+        await reDrawGraph();
+        setState(State.Finished);
+    }
+
+    const handleResetPositions = async () => {
+        if (!graph) {
+            return;
+        }
+
+        graph.setPositions(layoutCalculator as any);
+
+        animate();
+        await wait(0.2);
+        cancelAnimate();
+    }
+
     return (
-        <Button
-            variant='contained'
-            color='success'
-            onClick={handleNext}
-            disabled={state !== State.Playing}
-            sx={{ zIndex: 1 }}
-            startIcon={<MergeIcon fontSize="large" />}
-        >
-            union
-        </Button>
+        <ButtonGroup variant='contained' color='success' size='large'>
+            <Button
+                sx={{ textTransform: 'none' }}
+                disabled={state !== State.Playing}
+                onClick={handleUnion}
+                startIcon={<MergeIcon />}
+            >
+                Union
+            </Button>
+            <Button
+                sx={{ textTransform: 'none' }}
+                disabled={state !== State.Compress}
+                onClick={handleCompress}
+                startIcon={<CompressIcon />}
+            >
+                Compress
+            </Button>
+            <Button
+                sx={{ textTransform: 'none' }}
+                onClick={handleResetPositions}
+                startIcon={<RefreshIcon />}
+                disabled={graph === undefined || graph.nodes.length === 0}
+            >
+                Reset Positions
+            </Button>
+        </ButtonGroup>
     );
 }
 
@@ -127,23 +134,19 @@ const Roots = () => {
     const { roots, state } = useAlgoContext();
 
     const Display = () => (
-        <ButtonGroup variant='contained' color='success'>
-            <Button>roots</Button>
+        <ButtonGroup variant='contained'>
+            <Button sx={{ textTransform: 'none' }}>Roots</Button>
             {
-                roots.map((root, i) =>
-                    <Button key={i}>
-                        {root}
-                    </Button>
-                )
+                roots.map((root, i) => <Button key={i}>{root}</Button>)
             }
         </ButtonGroup>
-    )
+    );
 
     return (
         <>
             {state === State.Finished && <Display />}
         </>
-    )
+    );
 }
 
 const Main = () => (
@@ -152,7 +155,8 @@ const Main = () => (
             <Stack
                 direction="column"
                 spacing={2}
-                sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
                 <Board />
                 <Roots />
             </Stack>
