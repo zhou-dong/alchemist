@@ -134,7 +134,7 @@ const Roots = () => {
     const { roots, state } = useAlgoContext();
 
     const Display = () => (
-        <ButtonGroup variant='contained'>
+        <ButtonGroup variant='contained' color='success'>
             <Button sx={{ textTransform: 'none' }}>Roots</Button>
             {
                 roots.map((root, i) => <Button key={i}>{root}</Button>)
