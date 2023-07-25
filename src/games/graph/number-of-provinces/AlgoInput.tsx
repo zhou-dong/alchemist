@@ -14,7 +14,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { Graph, SimpleUndirectedGraph } from '../../../data-structures/graph';
+import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
 import { edgeOriginalColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
 import { layoutCalculator } from "./layout";
 import { buildAdjacencyList, buildSteps, getRoots } from "./utils";
@@ -144,7 +144,7 @@ const Submit: React.FC<{
         setDisjointSet(new DisjointSet());
         clearScene(scene);
 
-        const grpah: Graph<number> = new SimpleUndirectedGraph<number>(
+        const grpah: Graph<number> = new SimpleDirectedGraph<number>(
             nodeOriginalSkinColor,
             nodeOriginalTextColor,
             edgeOriginalColor,
@@ -153,6 +153,8 @@ const Submit: React.FC<{
         );
 
         grpah.setPositions(layoutCalculator as any);
+        [...grpah.edges].forEach(edge => grpah.dropEdge(edge));
+
         setGraph(grpah);
         setBoard(matrix);
         animate();
