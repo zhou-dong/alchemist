@@ -5,17 +5,12 @@ import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
 import Instruction from '../../../commons/Instruction';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { description, formula } from "./contents";
 import React from "react";
 import LightTooltip from "../../../commons/LightTooltip";
 import AlgoInput from "./AlgoInput";
 import InputIcon from '@mui/icons-material/Input';
-import { wait } from "../../../data-structures/_commons/utils";
-import { useAlgoContext } from "./AlgoContext";
-import { State } from "./AlgoState";
-import { layoutCalculator } from "./layout";
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -83,44 +78,6 @@ const Input = () => {
     )
 }
 
-const Refresh = () => {
-
-    const { animate, cancelAnimate, state, graph } = useAlgoContext();
-
-    const disabled: boolean = !graph || state !== State.Playing;
-
-    const handleRefresh = () => {
-        if (!graph) {
-            return;
-        }
-        graph.setPositions(layoutCalculator as any);
-        try {
-            animate();
-            wait(0.2);
-        } catch (error) {
-            console.log(error);
-        }
-        cancelAnimate();
-    }
-
-    const name = "refresh";
-
-    return (
-        <ToggleButton
-            aria-label={name}
-            size="large"
-            sx={{ borderRadius: "50%" }}
-            value={name}
-            disabled={disabled}
-            onClick={handleRefresh}
-            color="primary"
-        >
-            <RefreshIcon fontSize="medium" />
-        </ToggleButton>
-    )
-}
-
-
 const Instructions = () => {
     return (
         <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
@@ -145,7 +102,6 @@ const Instructions = () => {
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             />
-            <Refresh />
         </MuiStack>
     );
 }
