@@ -97,6 +97,7 @@ import CourseScheduleII from "./graph/course-schedule-ii/info";
 import NumberOfIslands from "./graph/number-of-islands/info";
 import SurroundedRegions from "./graph/surrounded-regions/info";
 import NumberOfProvinces from "./graph/number-of-provinces/info";
+import MaxAreaOfIsland from "./graph/max-area-of-island/info";
 
 export const games: Game[] = [
     editDistance,
@@ -195,5 +196,6 @@ export const games: Game[] = [
     CourseScheduleII,
     NumberOfIslands,
     SurroundedRegions,
-    NumberOfProvinces
+    NumberOfProvinces,
+    MaxAreaOfIsland
 ];
