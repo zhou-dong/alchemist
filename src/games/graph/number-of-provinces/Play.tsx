@@ -49,9 +49,9 @@ const ActionPanel = () => {
             const [key, value] = entry;
             const source = graph.nodes.filter(node => node.value === key)[0];
             const target = graph.nodes.filter(node => node.value === value.parent.value)[0];
-            if (source !== target) {
-                graph.addEdge(buildDirectedGraphEdge(source, target, scene));
-            }
+            // if (source !== target) {
+            graph.addEdge(buildDirectedGraphEdge(source, target, scene));
+            // }
         });
 
         graph.show();
