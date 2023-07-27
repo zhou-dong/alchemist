@@ -195,6 +195,8 @@ import SurroundedRegions from "./games/graph/surrounded-regions";
 import SurroundedRegionsInfo from "./games/graph/surrounded-regions/info";
 import NumberOfProvinces from "./games/graph/number-of-provinces";
 import NumberOfProvincesInfo from "./games/graph/number-of-provinces/info";
+import MaxAreaOfIsland from "./games/graph/max-area-of-island";
+import MaxAreaOfIslandInfo from "./games/graph/max-area-of-island/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -309,6 +311,7 @@ const App = () => (
         <Route path={NumberOfIslandsInfo.path} element={<NumberOfIslands />} />
         <Route path={SurroundedRegionsInfo.path} element={<SurroundedRegions />} />
         <Route path={NumberOfProvincesInfo.path} element={<NumberOfProvinces renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={MaxAreaOfIslandInfo.path} element={<MaxAreaOfIsland />} />
     </Routes>
 );
 
