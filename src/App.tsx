@@ -197,6 +197,8 @@ import NumberOfProvinces from "./games/graph/number-of-provinces";
 import NumberOfProvincesInfo from "./games/graph/number-of-provinces/info";
 import MaxAreaOfIsland from "./games/graph/max-area-of-island";
 import MaxAreaOfIslandInfo from "./games/graph/max-area-of-island/info";
+import RedundantConnection from "./games/graph/redundant-connection";
+import RedundantConnectionInfo from "./games/graph/redundant-connection/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -312,6 +314,7 @@ const App = () => (
         <Route path={SurroundedRegionsInfo.path} element={<SurroundedRegions />} />
         <Route path={NumberOfProvincesInfo.path} element={<NumberOfProvinces renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={MaxAreaOfIslandInfo.path} element={<MaxAreaOfIsland />} />
+        <Route path={RedundantConnectionInfo.path} element={<RedundantConnection renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
