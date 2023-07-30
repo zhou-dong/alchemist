@@ -84,7 +84,6 @@ const ActionPanel = () => {
         cancelAnimate();
     }
 
-
     const handleUnion = async () => {
         if (index >= edges.length) {
             return;
