@@ -84,4 +84,16 @@ export const usecases = '';
 
 export const example = ``;
 
-export const tips = `Use **union-find-set**(**disjoint set**) to solve this problem`;
+export const tips = `// Use union-find-set(disjoint set) to solve this problem
+for (let i = 0; i < edges.length; i++) {
+    const [a, b] = edges[i];
+
+    const rootA = unionFindSet.find(a);
+    const rootB = unionFindSet.find(b);
+
+    if (rootA !== rootB) {
+        unionFindSet.union(a, b);
+    } else {
+        return [a, b];
+    }
+}`;
