@@ -4,9 +4,10 @@ import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import CodeIcon from '@mui/icons-material/Code';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 import Instruction from '../../../commons/Instruction';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import { description, formula } from "./contents";
+import { description, formula, tips } from "./contents";
 import React from "react";
 import LightTooltip from "../../../commons/LightTooltip";
 import AlgoInput from "./AlgoInput";
@@ -99,6 +100,13 @@ const Instructions = () => {
                     linesToHighlight={[]}
                     wrapLines={true}
                 />}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
+            />
+            <Instruction
+                name="Tips"
+                icon={<TipsAndUpdatesOutlinedIcon fontSize="medium" />}
+                popover={<StyledReactMarkdown>{tips}</StyledReactMarkdown>}
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             />
