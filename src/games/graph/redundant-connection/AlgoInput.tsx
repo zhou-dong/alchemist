@@ -14,10 +14,9 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from '../../../commons/three';
 import { wait } from '../../../data-structures/_commons/utils';
-import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
-import { edgeOriginalColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
+import { Graph, SimpleUndirectedGraph } from '../../../data-structures/graph';
+import { regularEdgeColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
 import { layoutCalculator } from "./layout";
-import { buildAdjacencyList } from "./utils";
 import { DisjointSet } from './unionFindSet';
 
 const input1 = [[1, 2], [1, 3], [2, 3]];
@@ -74,16 +73,14 @@ const Submit: React.FC<{
     setValue: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setValue, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setGraph, setIndex, setBoard, setDisjointSet } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setGraph, setIndex, setDisjointSet, setEdges } = useAlgoContext();
 
     let disabled: boolean = value.length === 0;
     let matrix: number[][] = [];
-    let adjacency: number[][] = [];
 
     try {
         if (value.length > 0) {
             matrix = JSON.parse(value);
-            adjacency = buildAdjacencyList(matrix);
         }
         disabled = matrix.length === 0;
     } catch (error) {
@@ -97,20 +94,20 @@ const Submit: React.FC<{
         setIndex(0);
         setDisjointSet(new DisjointSet());
         clearScene(scene);
+        setEdges(matrix);
 
-        const grpah: Graph<number> = new SimpleDirectedGraph<number>(
+        const grpah: Graph<number> = new SimpleUndirectedGraph<number>(
             nodeOriginalSkinColor,
             nodeOriginalTextColor,
-            edgeOriginalColor,
-            adjacency,
+            regularEdgeColor,
+            matrix,
             scene,
         );
 
         grpah.setPositions(layoutCalculator as any);
-        [...grpah.edges].forEach(edge => grpah.dropEdge(edge));
+        // [...grpah.edges].forEach(edge => grpah.dropEdge(edge));
 
         setGraph(grpah);
-        setBoard(matrix);
         animate();
         try {
             grpah.show();
