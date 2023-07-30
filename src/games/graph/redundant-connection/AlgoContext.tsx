@@ -1,7 +1,6 @@
 import React from "react";
 import * as THREE from 'three';
 import { clearScene } from '../../../commons/three';
-import { Step } from "./utils";
 import { State } from "./AlgoState";
 import { Graph } from "../../../data-structures/graph";
 import { DisjointSet } from "./unionFindSet";
