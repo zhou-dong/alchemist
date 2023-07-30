@@ -17,28 +17,11 @@ import { wait } from '../../../data-structures/_commons/utils';
 import { Graph, SimpleDirectedGraph } from '../../../data-structures/graph';
 import { edgeOriginalColor, nodeOriginalSkinColor, nodeOriginalTextColor } from './styles';
 import { layoutCalculator } from "./layout";
-import { buildAdjacencyList, buildSteps, getRoots } from "./utils";
-import { DisjointSet } from './unionFind';
+import { buildAdjacencyList } from "./utils";
+import { DisjointSet } from './unionFindSet';
 
-const input1 = [
-    [1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
-    [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1],
-    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
-];
-
-const input2 = [[1, 1, 0], [1, 1, 0], [0, 0, 1]];
+const input1 = [[1, 2], [1, 3], [2, 3]];
+const input2 = [[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]];
 
 const displayMatrix = (matrix: number[][]): string => {
     return "[" + matrix.map(array => "[" + array.join(",") + "]").join(",") + "]";
@@ -91,7 +74,7 @@ const Submit: React.FC<{
     setValue: React.Dispatch<React.SetStateAction<string>>,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setValue, setAnchorEl }) => {
-    const { scene, animate, cancelAnimate, setState, setGraph, setIndex, setSteps, setBoard, setDisjointSet, setRoots } = useAlgoContext();
+    const { scene, animate, cancelAnimate, setState, setGraph, setIndex, setBoard, setDisjointSet } = useAlgoContext();
 
     let disabled: boolean = value.length === 0;
     let matrix: number[][] = [];
@@ -112,8 +95,6 @@ const Submit: React.FC<{
         setValue("");
         setAnchorEl(null);
         setIndex(0);
-        setSteps(buildSteps(matrix));
-        setRoots(getRoots(matrix));
         setDisjointSet(new DisjointSet());
         clearScene(scene);
 
