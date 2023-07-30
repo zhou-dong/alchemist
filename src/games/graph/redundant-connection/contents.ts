@@ -83,3 +83,5 @@ Return an edge that can be removed so that the resulting graph is a tree of n no
 export const usecases = '';
 
 export const example = ``;
+
+export const tips = `Use **union-find-set**(**disjoint set**) to solve this problem`;
