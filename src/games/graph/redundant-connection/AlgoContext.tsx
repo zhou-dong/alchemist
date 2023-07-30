@@ -4,7 +4,7 @@ import { clearScene } from '../../../commons/three';
 import { Step } from "./utils";
 import { State } from "./AlgoState";
 import { Graph } from "../../../data-structures/graph";
-import { DisjointSet } from "./unionFind";
+import { DisjointSet } from "./unionFindSet";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -12,8 +12,6 @@ const AlgoContext = React.createContext<{
     scene: THREE.Scene,
     animate: () => void,
     cancelAnimate: () => void,
-    steps: Step[],
-    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     graph?: Graph<number>,
@@ -22,16 +20,14 @@ const AlgoContext = React.createContext<{
     setBoard: React.Dispatch<React.SetStateAction<number[][]>>,
     disjointSet: DisjointSet,
     setDisjointSet: React.Dispatch<React.SetStateAction<DisjointSet>>,
-    roots: number[],
-    setRoots: React.Dispatch<React.SetStateAction<number[]>>
+    edges: number[][],
+    setEdges: React.Dispatch<React.SetStateAction<number[][]>>
 }>({
     state: State.Typing,
     setState: () => { },
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
-    steps: [],
-    setSteps: () => { },
     index: 0,
     setIndex: () => { },
     setGraph: () => { },
@@ -39,8 +35,8 @@ const AlgoContext = React.createContext<{
     setBoard: () => { },
     disjointSet: new DisjointSet(),
     setDisjointSet: () => { },
-    roots: [],
-    setRoots: () => { }
+    edges: [],
+    setEdges: () => { }
 });
 
 let animationFrameId = -1;
@@ -54,12 +50,11 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [board, setBoard] = React.useState<number[][]>([]);
     const [graph, setGraph] = React.useState<Graph<number>>();
     const [disjointSet, setDisjointSet] = React.useState<DisjointSet>(new DisjointSet());
-    const [roots, setRoots] = React.useState<number[]>([]);
+    const [edges, setEdges] = React.useState<number[][]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -91,8 +86,6 @@ export const AlgoContextProvider: React.FC<{
             scene,
             animate,
             cancelAnimate,
-            steps,
-            setSteps,
             index,
             setIndex,
             graph,
@@ -101,8 +94,8 @@ export const AlgoContextProvider: React.FC<{
             setBoard,
             disjointSet,
             setDisjointSet,
-            roots,
-            setRoots
+            edges,
+            setEdges
         }}>
             {children}
             <div ref={ref}></div>
