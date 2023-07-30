@@ -98,6 +98,7 @@ import NumberOfIslands from "./graph/number-of-islands/info";
 import SurroundedRegions from "./graph/surrounded-regions/info";
 import NumberOfProvinces from "./graph/number-of-provinces/info";
 import MaxAreaOfIsland from "./graph/max-area-of-island/info";
+import RedundantConnection from "./graph/redundant-connection/info";
 
 export const games: Game[] = [
     editDistance,
@@ -197,5 +198,6 @@ export const games: Game[] = [
     NumberOfIslands,
     SurroundedRegions,
     NumberOfProvinces,
-    MaxAreaOfIsland
+    MaxAreaOfIsland,
+    RedundantConnection
 ];

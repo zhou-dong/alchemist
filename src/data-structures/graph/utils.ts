@@ -11,7 +11,9 @@ export function buildGraphology<T>(graph: Graph<T>): Graphology {
     });
 
     graph.edges.forEach(edge => {
-        graphology.addEdge(edge.source.id, edge.target.id);
+        if (!graphology.hasEdge(edge.source.id, edge.target.id)) {
+            graphology.addEdge(edge.source.id, edge.target.id);
+        }
     });
 
     return graphology;
