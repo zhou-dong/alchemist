@@ -15,8 +15,6 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     graph?: Graph<number>,
     setGraph: React.Dispatch<React.SetStateAction<Graph<number> | undefined>>,
-    board: number[][],
-    setBoard: React.Dispatch<React.SetStateAction<number[][]>>,
     disjointSet: DisjointSet,
     setDisjointSet: React.Dispatch<React.SetStateAction<DisjointSet>>,
     edges: number[][],
@@ -30,8 +28,6 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     setGraph: () => { },
-    board: [],
-    setBoard: () => { },
     disjointSet: new DisjointSet(),
     setDisjointSet: () => { },
     edges: [],
@@ -50,7 +46,6 @@ export const AlgoContextProvider: React.FC<{
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
-    const [board, setBoard] = React.useState<number[][]>([]);
     const [graph, setGraph] = React.useState<Graph<number>>();
     const [disjointSet, setDisjointSet] = React.useState<DisjointSet>(new DisjointSet());
     const [edges, setEdges] = React.useState<number[][]>([]);
@@ -89,8 +84,6 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             graph,
             setGraph,
-            board,
-            setBoard,
             disjointSet,
             setDisjointSet,
             edges,
