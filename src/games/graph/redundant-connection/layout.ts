@@ -1,6 +1,6 @@
 import { buildGraphology } from '../../../data-structures/graph/utils';
 import { Graph } from "../../../data-structures/graph";
-import forceLayout from 'graphology-layout-force';
+import forceAtlas2 from 'graphology-layout-forceatlas2';
 
 export const layoutCalculator = <T>(graph: Graph<T>) => {
     const graphology = buildGraphology(graph);
@@ -10,5 +10,10 @@ export const layoutCalculator = <T>(graph: Graph<T>) => {
         attributes.y = Math.random() * 10 - 2; // Set initial y position
     });
 
-    return forceLayout(graphology, { maxIterations: 50 });
+    const sensibleSettings = forceAtlas2.inferSettings(graphology);
+
+    return forceAtlas2(graphology, {
+        iterations: 50,
+        settings: sensibleSettings
+    });
 }
