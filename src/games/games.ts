@@ -99,6 +99,7 @@ import SurroundedRegions from "./graph/surrounded-regions/info";
 import NumberOfProvinces from "./graph/number-of-provinces/info";
 import MaxAreaOfIsland from "./graph/max-area-of-island/info";
 import RedundantConnection from "./graph/redundant-connection/info";
+import Sqrtx from "./binary-search/sqrtx/info";
 
 export const games: Game[] = [
     editDistance,
@@ -199,5 +200,6 @@ export const games: Game[] = [
     SurroundedRegions,
     NumberOfProvinces,
     MaxAreaOfIsland,
-    RedundantConnection
+    RedundantConnection,
+    Sqrtx,
 ];
