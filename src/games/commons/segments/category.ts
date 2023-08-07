@@ -15,7 +15,8 @@ enum Category {
     SegmentTree = "Segment Tree",
     Graph = "graph",
     TopologicalSort = "Topological Sort",
-    UnionFind = "Union Find(Disjoint Set)"
+    UnionFind = "Union Find(Disjoint Set)",
+    BinarySearch = "binary-search"
 }
 
 export default Category;
