@@ -9,7 +9,7 @@ import { State } from './AlgoState';
 const Position = styled('div')({
     display: "flex",
     position: "fixed",
-    top: "25%",
+    top: "20%",
     justifyContent: "center",
     width: "100%",
     alignItems: "center",
