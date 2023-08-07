@@ -13,15 +13,16 @@ const Submit: React.FC<{
     value: number,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setAnchorEl }) => {
-    const { setState, setIndex, setSteps } = useAlgoContext();
+    const { setState, setIndex, setSteps, setX } = useAlgoContext();
 
     const num: number = +value;
     const disabled: boolean = num <= 0;
 
     const handleSubmit = async () => {
-        setState(State.Playing);
         setIndex(0);
         setSteps(mySqrt(num));
+        setX(num);
+        setState(State.Playing);
         setAnchorEl(null);
     };
 
