@@ -13,14 +13,16 @@ const Submit: React.FC<{
     value: number,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ value, setAnchorEl }) => {
-    const { setState, setIndex, setSteps, setX } = useAlgoContext();
+    const { setState, setIndex, setSteps, setX, setSqrt } = useAlgoContext();
 
     const num: number = +value;
     const disabled: boolean = num <= 0;
+    const result = mySqrt(num);
 
     const handleSubmit = async () => {
         setIndex(0);
-        setSteps(mySqrt(num));
+        setSteps(result.steps);
+        setSqrt(result.sqrt);
         setX(num);
         setState(State.Playing);
         setAnchorEl(null);
@@ -46,7 +48,7 @@ export default function AlgoInput({ setAnchorEl }: Props) {
 
     const defaultValue = 8;
     const from = 4;
-    const size = 11;
+    const size = 13;
     const [value, setValue] = React.useState(defaultValue);
 
     const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
