@@ -11,6 +11,8 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     x: number,
     setX: React.Dispatch<React.SetStateAction<number>>,
+    sqrt: number,
+    setSqrt: React.Dispatch<React.SetStateAction<number>>,
 }>({
     state: State.Playing,
     setState: () => { },
@@ -20,6 +22,8 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     x: 0,
     setX: () => { },
+    sqrt: 0,
+    setSqrt: () => { }
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -28,6 +32,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [x, setX] = React.useState(0);
     const [index, setIndex] = React.useState(0);
+    const [sqrt, setSqrt] = React.useState(0);
 
     return (
         <AlgoContext.Provider value={{
@@ -38,7 +43,9 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             index,
             setIndex,
             x,
-            setX
+            setX,
+            sqrt,
+            setSqrt
         }}>
             {children}
         </AlgoContext.Provider>
