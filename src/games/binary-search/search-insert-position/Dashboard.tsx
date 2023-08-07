@@ -2,7 +2,7 @@ import { styled } from '@mui/system';
 import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useAlgoContext } from './AlgoContext';
 import React from 'react';
-import { blue, green, grey, yellow } from '@mui/material/colors';
+import { blue, green, yellow } from '@mui/material/colors';
 import { Step } from './algo';
 import { State } from './AlgoState';
 
