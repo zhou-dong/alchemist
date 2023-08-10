@@ -201,6 +201,8 @@ import RedundantConnection from "./games/graph/redundant-connection";
 import RedundantConnectionInfo from "./games/graph/redundant-connection/info";
 import SqrtX from "./games/binary-search/sqrtx";
 import SqrtXInfo from "./games/binary-search/sqrtx/info";
+import SearchInsertPosition from "./games/binary-search/search-insert-position";
+import SearchInsertPositionInfo from "./games/binary-search/search-insert-position/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -318,6 +320,7 @@ const App = () => (
         <Route path={MaxAreaOfIslandInfo.path} element={<MaxAreaOfIsland />} />
         <Route path={RedundantConnectionInfo.path} element={<RedundantConnection renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={SqrtXInfo.path} element={<SqrtX />} />
+        <Route path={SearchInsertPositionInfo.path} element={<SearchInsertPosition />} />
     </Routes>
 );
 
