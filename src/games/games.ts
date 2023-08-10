@@ -101,6 +101,7 @@ import MaxAreaOfIsland from "./graph/max-area-of-island/info";
 import RedundantConnection from "./graph/redundant-connection/info";
 import Sqrtx from "./binary-search/sqrtx/info";
 import SearchInsertPosition from "./binary-search/search-insert-position/info";
+import FirstBadVersion from "./binary-search/first-bad-version/info";
 
 export const games: Game[] = [
     editDistance,
@@ -204,4 +205,5 @@ export const games: Game[] = [
     RedundantConnection,
     Sqrtx,
     SearchInsertPosition,
+    FirstBadVersion,
 ];
