@@ -149,6 +149,11 @@ const Categories = () => {
                     initSelected={calculateSelected(categories, Category.UnionFind)}
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.UnionFind, selected))}
                 />
+                <TextItem
+                    name="Binary Search"
+                    initSelected={calculateSelected(categories, Category.BinarySearch)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.BinarySearch, selected))}
+                />
             </Grid>
         </>
     )
