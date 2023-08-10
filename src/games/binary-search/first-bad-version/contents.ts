@@ -23,6 +23,7 @@ var solution = function (isBadVersion: any) {
 
        return left;
    };
+
 };`;
 
 export const description = `
