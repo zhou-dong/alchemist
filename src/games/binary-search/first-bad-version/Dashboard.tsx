@@ -2,7 +2,7 @@ import { styled } from '@mui/system';
 import { Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useAlgoContext } from './AlgoContext';
 import React from 'react';
-import { blue, green, yellow } from '@mui/material/colors';
+import { blue, green, yellow, red } from '@mui/material/colors';
 import { Step } from './algo';
 import { State } from './AlgoState';
 
@@ -16,7 +16,7 @@ const Position = styled('div')({
     flexDirection: "column"
 });
 
-const DisplayStep: React.FC<{ step: Step, target: number }> = ({ step, target }) => (
+const DisplayStep: React.FC<{ step: Step }> = ({ step }) => (
     <Table>
         <TableHead>
             <TableRow>
@@ -28,9 +28,6 @@ const DisplayStep: React.FC<{ step: Step, target: number }> = ({ step, target })
                 </TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
                     Mid
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                    Target
                 </TableCell>
             </TableRow>
         </TableHead>
@@ -45,34 +42,25 @@ const DisplayStep: React.FC<{ step: Step, target: number }> = ({ step, target })
                 <TableCell sx={{ textAlign: "center", borderBottom: "none" }}>
                     {step.mid}
                 </TableCell>
-                <TableCell sx={{ textAlign: "center", borderBottom: "none" }}>
-                    {target}
-                </TableCell>
             </TableRow>
         </TableBody>
     </Table>
 );
 
-const SquareRoot: React.FC<{ index: number, target: number }> = ({ index, target }) => (
+const Bad: React.FC<{ bad: number }> = ({ bad }) => (
     <div>
         <Table>
             <TableHead>
                 <TableRow>
                     <TableCell>
-                        Target
-                    </TableCell>
-                    <TableCell>
-                        Index
+                        Bad
                     </TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
                 <TableRow>
                     <TableCell sx={{ textAlign: "center", borderBottom: "none" }}>
-                        {target}
-                    </TableCell>
-                    <TableCell sx={{ textAlign: "center", borderBottom: "none" }}>
-                        {index}
+                        {bad}
                     </TableCell>
                 </TableRow>
             </TableBody>
@@ -80,7 +68,9 @@ const SquareRoot: React.FC<{ index: number, target: number }> = ({ index, target
     </div>
 );
 
-const Nums: React.FC<{ nums: number[], steps: Step[], index: number }> = ({ nums, steps, index }) => {
+const Nums: React.FC<{ steps: Step[], index: number, n: number, bad: number }> = ({ steps, index, n, bad }) => {
+
+    const nums = Array.from(Array(n).keys()).map(num => num + 1);
 
     const baseNumStyle: React.CSSProperties = {
         textAlign: "center",
@@ -98,13 +88,11 @@ const Nums: React.FC<{ nums: number[], steps: Step[], index: number }> = ({ nums
     };
 
     const getNumStyle = (i: number): React.CSSProperties => {
-        const step = steps[index];
-        if (!step) return baseNumStyle;
-
-        if (i === step.mid) {
-            return { ...baseNumStyle, backgroundColor: yellow[600], color: "#000" };
+        if (i < bad) {
+            return baseNumStyle;
+        } else {
+            return { ...baseNumStyle, backgroundColor: red[500] };
         }
-        return baseNumStyle;
     }
 
     const getIndexStyle = (i: number): React.CSSProperties => {
@@ -112,10 +100,10 @@ const Nums: React.FC<{ nums: number[], steps: Step[], index: number }> = ({ nums
         if (!step) return baseIndexStyle;
 
         if (i === step.mid) {
-            return { ...baseIndexStyle, borderBottom: `2px solid ${yellow[900]}` };
+            return { ...baseIndexStyle, borderBottom: `5px solid ${yellow[600]}` };
         }
         if (i === step.left || i === step.right) {
-            return { ...baseIndexStyle, borderBottom: `2px solid ${blue[500]}` };
+            return { ...baseIndexStyle, borderBottom: `5px solid ${blue[500]}` };
         }
         return baseIndexStyle;
     }
@@ -127,7 +115,7 @@ const Nums: React.FC<{ nums: number[], steps: Step[], index: number }> = ({ nums
                     <TableRow>
                         {
                             nums.map((num, i) =>
-                                <TableCell key={i} sx={getNumStyle(i)} padding='none'>
+                                <TableCell key={i} sx={getNumStyle(i + 1)} padding='none'>
                                     <Typography variant='h5'>
                                         {num}
                                     </Typography>
@@ -135,38 +123,28 @@ const Nums: React.FC<{ nums: number[], steps: Step[], index: number }> = ({ nums
                             )
                         }
                     </TableRow>
-                </TableHead>
-                <TableBody>
                     <TableRow>
                         {
-                            nums.map((_, i) =>
-                                <TableCell key={i} sx={getIndexStyle(i)} padding='none'>
-                                    <Typography>
-                                        {i}
-                                    </Typography>
-                                </TableCell>
-                            )
+                            nums.map((_, i) => <TableCell key={i} sx={getIndexStyle(i + 1)} padding='none' />)
                         }
                     </TableRow>
-                </TableBody>
+                </TableHead>
             </Table>
         </div>
     );
 }
 
 const Main = () => {
-    const { steps, index, nums, state, target } = useAlgoContext();
+    const { steps, index, state, n, bad } = useAlgoContext();
     const step = steps[index];
-
-    const targetIndex = steps[steps.length - 1]?.left || 0;
 
     return (
         <Position>
-            {state === State.Finished && <SquareRoot target={target} index={targetIndex} />}
+            {state === State.Finished && <Bad bad={bad || 0} />}
             <div>
-                {step && <DisplayStep step={step} target={target} />}
+                {step && <DisplayStep step={step} />}
             </div>
-            {state !== State.Input && <Nums steps={steps} index={index} nums={nums} />}
+            {state !== State.Input && <Nums steps={steps} index={index} n={n || 0} bad={bad || 0} />}
         </Position>
     );
 }

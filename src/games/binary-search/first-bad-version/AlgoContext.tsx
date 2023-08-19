@@ -9,10 +9,10 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    nums: number[],
-    setNums: React.Dispatch<React.SetStateAction<number[]>>,
-    target: number,
-    setTarget: React.Dispatch<React.SetStateAction<number>>
+    n?: number,
+    setN: React.Dispatch<React.SetStateAction<number | undefined>>,
+    bad?: number,
+    setBad: React.Dispatch<React.SetStateAction<number | undefined>>,
 }>({
     state: State.Playing,
     setState: () => { },
@@ -20,10 +20,8 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
-    nums: [],
-    setNums: () => { },
-    target: 0,
-    setTarget: () => { },
+    setN: () => { },
+    setBad: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -31,8 +29,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [state, setState] = React.useState(State.Input);
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
-    const [nums, setNums] = React.useState<number[]>([]);
-    const [target, setTarget] = React.useState(0);
+    const [n, setN] = React.useState<number>();
+    const [bad, setBad] = React.useState<number>();
 
     return (
         <AlgoContext.Provider value={{
@@ -42,10 +40,10 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setSteps,
             index,
             setIndex,
-            nums,
-            setNums,
-            target,
-            setTarget
+            n,
+            setN,
+            bad,
+            setBad
         }}>
             {children}
         </AlgoContext.Provider>

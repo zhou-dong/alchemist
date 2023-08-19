@@ -23,7 +23,9 @@ const Main = () => {
     const [rightBtnColor, setRightBtnColor] = React.useState<btnColor>("success");
     const [foundBtnColor, setFoundBtnColor] = React.useState<btnColor>("success");
 
-    const { state, setState, steps, index, setIndex, nums, target } = useAlgoContext();
+    const { state, setState, steps, index, setIndex } = useAlgoContext();
+    const nums: number[] = [];
+    const target = 1;
 
     const step = steps[index];
 
