@@ -203,6 +203,8 @@ import SqrtX from "./games/binary-search/sqrtx";
 import SqrtXInfo from "./games/binary-search/sqrtx/info";
 import SearchInsertPosition from "./games/binary-search/search-insert-position";
 import SearchInsertPositionInfo from "./games/binary-search/search-insert-position/info";
+import FirstBadVersion from "./games/binary-search/first-bad-version";
+import FirstBadVersionInfo from "./games/binary-search/first-bad-version/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -321,6 +323,7 @@ const App = () => (
         <Route path={RedundantConnectionInfo.path} element={<RedundantConnection renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={SqrtXInfo.path} element={<SqrtX />} />
         <Route path={SearchInsertPositionInfo.path} element={<SearchInsertPosition />} />
+        <Route path={FirstBadVersionInfo.path} element={<FirstBadVersion />} />
     </Routes>
 );
 
