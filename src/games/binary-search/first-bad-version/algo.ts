@@ -4,9 +4,9 @@ export interface Step {
     mid: number;
 }
 
-export const solution = function (n: number, bad: number): Step[] {
+export const isBadVersion = (num: number, n: number, bad: number): boolean => num >= bad && num <= n;
 
-    const isBadVersion = (num: number): boolean => num >= bad && num <= n;
+export const solution = function (n: number, bad: number): Step[] {
 
     const steps: Step[] = [];
 
@@ -17,7 +17,7 @@ export const solution = function (n: number, bad: number): Step[] {
 
         steps.push({ left, right, mid });
 
-        if (isBadVersion(mid)) {
+        if (isBadVersion(mid, n, bad)) {
             right = mid;
         } else {
             left = mid + 1;
@@ -25,4 +25,5 @@ export const solution = function (n: number, bad: number): Step[] {
     }
 
     return steps;
+
 };
