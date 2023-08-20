@@ -5,7 +5,7 @@ import { State } from "./AlgoState";
 import { useAlgoContext } from "./AlgoContext";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CheckIcon from '@mui/icons-material/Check';
+import { isBadVersion } from "./algo";
 
 const Position = styled('div')({
     display: "flex",
@@ -21,69 +21,40 @@ const Main = () => {
     type btnColor = "error" | "success";
     const [leftBtnColor, setLeftBtnColor] = React.useState<btnColor>("success");
     const [rightBtnColor, setRightBtnColor] = React.useState<btnColor>("success");
-    const [foundBtnColor, setFoundBtnColor] = React.useState<btnColor>("success");
 
-    const { state, setState, steps, index, setIndex } = useAlgoContext();
-    const nums: number[] = [];
-    const target = 1;
-
+    const { state, setState, steps, index, setIndex, n, bad } = useAlgoContext();
     const step = steps[index];
 
-    const handleFoundClick = () => {
-        if (!step) return;
-
+    const handleLeftClick = () => {
+        if (!step || !n || !bad) return;
         const { mid } = step;
 
-        if (nums[mid] === target) {
-            setState(State.Finished);
-            setIndex(i => i + 1);
-
+        if (isBadVersion(mid, n, bad)) {
             setLeftBtnColor("success");
             setRightBtnColor("success");
-            setFoundBtnColor("success");
+            if (index === steps.length - 1) {
+                setState(State.Finished);
+            }
+            setIndex(i => i + 1);
         } else {
-            setFoundBtnColor("error");
-        }
-    }
-
-    const handleLeftClick = () => {
-        if (!step) return;
-        const { mid } = step;
-
-        if (nums[mid] <= target) {
             setLeftBtnColor("error");
-            return;
         }
-
-        setLeftBtnColor("success");
-        setRightBtnColor("success");
-        setFoundBtnColor("success");
-
-        if (index === steps.length - 1) {
-            setState(State.Finished);
-        }
-
-        setIndex(i => i + 1);
     }
 
     const handleRightClick = () => {
-        if (!step) return;
+        if (!step || !n || !bad) return;
         const { mid } = step;
 
-        if (nums[mid] >= target) {
+        if (isBadVersion(mid, n, bad)) {
             setRightBtnColor("error");
-            return;
+        } else {
+            setLeftBtnColor("success");
+            setRightBtnColor("success");
+            if (index === steps.length - 1) {
+                setState(State.Finished);
+            }
+            setIndex(i => i + 1);
         }
-
-        setLeftBtnColor("success");
-        setRightBtnColor("success");
-        setFoundBtnColor("success");
-
-        if (index === steps.length - 1) {
-            setState(State.Finished);
-        }
-
-        setIndex(i => i + 1);
     }
 
     const disabled = state !== State.Playing;
@@ -94,13 +65,9 @@ const Main = () => {
                 <IconButton color={leftBtnColor} onClick={handleLeftClick} sx={{ border: "1px solid lightgray" }} size='large' disabled={disabled}>
                     <ArrowBackIcon />
                 </IconButton>
-                <IconButton color={foundBtnColor} onClick={handleFoundClick} sx={{ border: "1px solid lightgray" }} size='large' disabled={disabled}>
-                    <CheckIcon />
-                </IconButton>
                 <IconButton color={rightBtnColor} onClick={handleRightClick} sx={{ border: "1px solid lightgray" }} size='large' disabled={disabled}>
                     <ArrowForwardIcon />
                 </IconButton>
-
             </Stack>
         </Position>
     );
