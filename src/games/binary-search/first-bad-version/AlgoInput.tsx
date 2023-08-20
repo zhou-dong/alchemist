@@ -21,7 +21,9 @@ interface Input {
 
 const defaultInputs: Input[] = [
     { n: 5, bad: 4 },
-    { n: 9, bad: 5 }
+    { n: 9, bad: 5 },
+    { n: 9, bad: 8 },
+    { n: 10, bad: 2 }
 ];
 
 const DropDown: React.FC<{
