@@ -1,46 +1,37 @@
 export const title = "Plus One";
 
+export const formulaOne = `function plusOne(digits: number[]): number[] {
 
-export const formula = `function myAtoi(s: string): number {
-    function isNumeric(str: string) {
-        const num = parseInt(str);
-        return !isNaN(num);
-    }
-    const max = Math.pow(2, 31) - 1;
-    const min = Math.pow(-2, 31);
+    let carrier = 1;
 
-    let index = 0;
-    while (s.charAt(index) === ' ') {
-        index++;
-    }
-
-    let sign = 1;
-    if (s.charAt(index) === "+" || s.charAt(index) === "-") {
-        if (s.charAt(index) === "-")
-            sign = -1;
-        index++;
-    }
-
-    let num = 0;
-    for (; index < s.length; index++) {
-        if (!isNumeric(s.charAt(index)))
-            return num * sign;
-        if (num > ~~(max / 10))
-            return sign === 1 ? max : min;
-
-        const digit: number = +s.charAt(index);
-        if (num === ~~(max / 10)) {
-            if (sign === 1 && digit > (max % 10)) {
-                return max;
-            } else if (sign === -1 && (digit * -1) < (min % 10)) {
-                return min;
-            }
+    for (let i = digits.length - 1; i >= 0; i--) {
+        const temp = digits[i] + carrier;
+        digits[i] = temp % 10;
+        carrier = Math.floor(temp / 10);
+        if (carrier === 0) {
+            return digits;
         }
-
-        num = num * 10 + digit;
     }
 
-    return sign * num;
+    digits.unshift(1);
+    return digits;
+};`;
+
+export const formulaTwo = `function plusOne(digits: number[]): number[] {
+
+    for (let i = digits.length - 1; i >= 0; i--) {
+        if (digits[i] !== 9) {
+            digits[i] += 1;
+            for (let j = i + 1; j < digits.length; j++) {
+                digits[j] = 0;
+            }
+            return digits;
+        }
+    }
+
+    const ans = new Array(digits.length + 1).fill(0);
+    ans[0] = 1;
+    return ans;
 };`;
 
 export const description = `#### Description
