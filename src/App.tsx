@@ -205,6 +205,8 @@ import SearchInsertPosition from "./games/binary-search/search-insert-position";
 import SearchInsertPositionInfo from "./games/binary-search/search-insert-position/info";
 import FirstBadVersion from "./games/binary-search/first-bad-version";
 import FirstBadVersionInfo from "./games/binary-search/first-bad-version/info";
+import PlusOneInfo from "./games/math/plus-one/info";
+import PlusOne from "./games/math/plus-one";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -324,6 +326,7 @@ const App = () => (
         <Route path={SqrtXInfo.path} element={<SqrtX />} />
         <Route path={SearchInsertPositionInfo.path} element={<SearchInsertPosition />} />
         <Route path={FirstBadVersionInfo.path} element={<FirstBadVersion />} />
+        <Route path={PlusOneInfo.path} element={<PlusOne />} />
     </Routes>
 );
 
