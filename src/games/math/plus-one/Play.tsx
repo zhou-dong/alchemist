@@ -9,7 +9,7 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
-import { formula } from "./contents";
+import { formulaOne } from "./contents";
 import { State } from "./AlgoState";
 import Title from "./Title";
 import { Item, Action } from "./algo";
@@ -39,7 +39,7 @@ const InputDisplay: React.FC<{ index: number, value: string }> = ({ index, value
 const CodeDisplay: React.FC<{ linesToHighlight: number[] }> = ({ linesToHighlight }) => (
     <Paper>
         <CodeBlock
-            code={formula}
+            code={formulaOne}
             language={languages.Typescript}
             showLineNumbers={true}
             linesToHighlight={linesToHighlight}
