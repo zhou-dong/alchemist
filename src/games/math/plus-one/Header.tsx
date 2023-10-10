@@ -28,6 +28,6 @@ const Main = ({ solution, setSolution }: Props) => (
             <Switcher solution={solution} setSolution={setSolution} />
         </Stack>
     </Position>
-)
+);
 
 export default Main;
