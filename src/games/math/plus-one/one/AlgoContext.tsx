@@ -1,31 +1,36 @@
 import React from "react";
 import { State } from "./AlgoState";
-import { Item } from "./algo";
 
-export const defaultValue = "12345";
+export const defaultValue = 1999;
 
 const AlgoContext = React.createContext<{
-    value: string,
-    setValue: React.Dispatch<React.SetStateAction<string>>,
+    value: number,
+    setValue: React.Dispatch<React.SetStateAction<number>>,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    converted: number,
-    setConverted: React.Dispatch<React.SetStateAction<number>>,
-    result: Item[],
-    setResult: React.Dispatch<React.SetStateAction<Item[]>>,
+    digits: number[],
+    setDigits: React.Dispatch<React.SetStateAction<number[]>>,
+    carrier: number,
+    setCarrier: React.Dispatch<React.SetStateAction<number>>,
+    temp?: number,
+    setTemp: React.Dispatch<React.SetStateAction<number | undefined>>,
+    digit?: number,
+    setDigit: React.Dispatch<React.SetStateAction<number | undefined>>
 }>({
-    value: defaultValue,
+    value: +defaultValue,
     setValue: () => { },
     state: State.Typing,
     setState: () => { },
     index: 0,
     setIndex: () => { },
-    converted: 0,
-    setConverted: () => { },
-    result: [],
-    setResult: () => { },
+    digits: [],
+    setDigits: () => { },
+    carrier: 1,
+    setCarrier: () => { },
+    setTemp: () => { },
+    setDigit: () => { }
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -33,8 +38,10 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
     const [value, setValue] = React.useState(defaultValue);
-    const [converted, setConverted] = React.useState(0);
-    const [result, setResult] = React.useState<Item[]>([]);
+    const [digits, setDigits] = React.useState<number[]>([]);
+    const [carrier, setCarrier] = React.useState(1);
+    const [temp, setTemp] = React.useState<number>();
+    const [digit, setDigit] = React.useState<number>();
 
     return (
         <AlgoContext.Provider value={{
@@ -44,10 +51,14 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setIndex,
             value,
             setValue,
-            converted,
-            setConverted,
-            result,
-            setResult,
+            digits,
+            setDigits,
+            carrier,
+            setCarrier,
+            temp,
+            setTemp,
+            digit,
+            setDigit
         }}>
             {children}
         </AlgoContext.Provider>

@@ -1,5 +1,4 @@
 import React from "react";
-import { styled } from '@mui/system';
 import { Button, ButtonGroup, Chip, Divider, Grid, Paper, Stack, Table, TableBody, TableCell, TableRow, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
@@ -88,91 +87,60 @@ const ActionButton: React.FC<{
     );
 }
 
-const Dashboard = () => {
-    const { carrier, temp, digit } = useAlgoContext();
-    return (
-        <Table>
-            <TableBody>
-                <TableRow>
-                    <TableCell padding="none">carrier</TableCell>
-                    <TableCell padding="none">{carrier}</TableCell>
-                </TableRow>
-
-                <TableRow>
-                    <TableCell padding="none">temp</TableCell>
-                    <TableCell padding="none">{temp}</TableCell>
-                </TableRow>
-
-                <TableRow>
-                    <TableCell padding="none">digits[i]</TableCell>
-                    <TableCell padding="none">{digit}</TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
-    );
-}
-
-const Digits = () => {
-    const { index, value, carrier, digits } = useAlgoContext();
-
-
-    return (
-        <Table>
-            <TableBody>
-                <TableRow>
-                    {
-                        (value + "").split("").map((num, i) =>
-                            <TableCell key={i} padding="none">
-                                {num}
-                            </TableCell>
-                        )
-                    }
-                </TableRow>
-
-                <TableRow>
-                    {
-                        digits.map((num, i) =>
-                            <TableCell key={i} padding="none" sx={{ border: "none" }}>
-                                {i === index && carrier}
-                            </TableCell>
-                        )
-                    }
-                </TableRow>
-
-                <TableRow>
-                    {
-                        digits.map((num, i) =>
-                            <TableCell key={i} padding="none">
-                                {num}
-                            </TableCell>
-                        )
-                    }
-                </TableRow>
-            </TableBody>
-        </Table>
-    );
-}
-
 const Main = () => {
 
-    const { index, value, setIndex, setState, state, carrier, temp, digit } = useAlgoContext();
+    const { index, value, setIndex, setState, state } = useAlgoContext();
 
     const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([]);
 
+    // React.useEffect(() => {
+    //     if (state === State.Typing) {
+    //         setLinesToHighlight([]);
+    //         return;
+    //     }
+
+    //     const item = result[index];
+    //     if (!item) {
+    //         return;
+    //     }
+
+    //     setLinesToHighlight(() => item.data.linesToHighlight);
+
+    // }, [index, result, state]);
+
     return (
         <Grid container sx={{ width: "80%", margin: "auto", marginTop: "20px" }}>
+            <Grid item md={7} xs={12}>
+                <CodeDisplay linesToHighlight={linesToHighlight} />
+            </Grid>
 
-
-            <Grid item md={6} xs={12}>
+            <Grid item md={5} xs={12}>
                 <Stack sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", direction: "row" }} spacing={2}>
+                    <div style={{ marginTop: "40px" }} />
+             
+                    <Divider sx={{ width: "90%" }} />
 
+                    <InputDisplay index={index} value={value+""} />
+                    <div style={{ marginBottom: "10px" }} />
 
-                    {/* <Divider sx={{ width: "90%" }} /> */}
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell padding="none">Index</TableCell>
+                                <TableCell padding="none">{index}</TableCell>
+                            </TableRow>
 
-                    {/* <InputDisplay index={index} value={value} /> */}
-                    {/* <div style={{ marginBottom: "10px" }} /> */}
-                    <Digits />
-                    <Dashboard />
+                            <TableRow>
+                                <TableCell padding="none">Sign</TableCell>
+                                {/* <TableCell padding="none">{result[index - 1] && result[index - 1].data.sign}</TableCell> */}
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell padding="none">Num</TableCell>
+                                {/* <TableCell padding="none">{result[index - 1] && result[index - 1].data.num}</TableCell> */}
+                            </TableRow>
+                        </TableBody>
+                    </Table>
 
                     <div style={{ marginBottom: "10px" }} />
 
@@ -275,27 +243,17 @@ const Main = () => {
                     </ButtonGroup>
                 </Stack>
             </Grid>
-
-            <Grid item md={6} xs={12}>
-                <CodeDisplay linesToHighlight={linesToHighlight} />
-            </Grid>
         </Grid>
-    );
+    )
 }
-
-const Position = styled("div")({
-    position: "fixed",
-    top: 80,
-    width: "100%",
-});
 
 const Play = () => {
     const { state } = useAlgoContext();
 
     return (
-        <Position>
+        <>
             {state !== State.Typing && <Main />}
-        </Position>
+        </>
     );
 }
 

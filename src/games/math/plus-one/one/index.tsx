@@ -1,15 +1,13 @@
 import { AlgoContextProvider } from "./AlgoContext";
+import Introduction from "./Introduction";
+import Play from "./Play";
+
 const Main = () => {
-
-
     return (
-        <>
-
-            <AlgoContextProvider>
-                one
-            </AlgoContextProvider>
-
-        </>
+        <AlgoContextProvider>
+            <Introduction />
+            <Play />
+        </AlgoContextProvider>
     );
 }
 

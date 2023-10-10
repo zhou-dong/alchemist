@@ -6,7 +6,10 @@ import { Divider, InputBase } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { defaultValue, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { myAtoi } from "./algo";
+
+interface Props {
+    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+}
 
 const Submit: React.FC<{
     input: string,
@@ -14,16 +17,18 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
 
-    const { setValue, setState, setResult, setIndex } = useAlgoContext();
+    const { setValue, setState, setIndex, setDigits } = useAlgoContext();
 
     const handleSubmit = () => {
-        let newValue: string = (!input) ? defaultValue : input;
-        setIndex(0);
-        setValue(newValue);
+        let newValue: string = (!input) ? defaultValue + "" : input;
+        setIndex(newValue.length-1);
+        setValue(+newValue);
         setState(State.Playing);
         setInput("");
         setAnchorEl(null);
-        setResult(() => myAtoi(newValue))
+
+        setDigits(newValue.split("").map(num => +num));
+        // setResult(() => myAtoi(newValue))
     }
 
     return (
@@ -31,10 +36,6 @@ const Submit: React.FC<{
             <OutputIcon />
         </IconButton>
     );
-}
-
-interface Props {
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
 
 const Main = ({ setAnchorEl }: Props) => {
@@ -61,6 +62,7 @@ const Main = ({ setAnchorEl }: Props) => {
                 placeholder={defaultValue + ""}
                 value={input}
                 onChange={handleTextFieldChange}
+                type='number'
             />
             <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => setInput("")}>
                 <ClearIcon />
