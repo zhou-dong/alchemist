@@ -121,7 +121,6 @@ const Digits = () => {
     );
 }
 
-
 const Action = () => {
 
     const disabled = false;
@@ -138,8 +137,6 @@ const Main = () => {
     const { index, value, setIndex, setState, state, carrier, temp, digit } = useAlgoContext();
 
     const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([3]);
-
-
 
     return (
         <Grid container sx={{ width: "80%", margin: "auto", }}>
