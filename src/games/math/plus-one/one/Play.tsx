@@ -7,11 +7,9 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
-import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
+import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
-import { formulaOne } from "./contents";
 import { State } from "./AlgoState";
-import Title from "./Title";
 import { Item, Action } from "./algo";
 
 const InputDisplay: React.FC<{ index: number, value: string }> = ({ index, value }) => (
@@ -39,7 +37,7 @@ const InputDisplay: React.FC<{ index: number, value: string }> = ({ index, value
 const CodeDisplay: React.FC<{ linesToHighlight: number[] }> = ({ linesToHighlight }) => (
     <Paper>
         <CodeBlock
-            code={formulaOne}
+            code={"formulaOne"}
             language={languages.Typescript}
             showLineNumbers={true}
             linesToHighlight={linesToHighlight}
@@ -114,7 +112,7 @@ const Main = () => {
             <Grid item md={5} xs={12}>
                 <Stack sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", direction: "row" }} spacing={2}>
                     <div style={{ marginTop: "40px" }} />
-                    <Title />
+             
                     <Divider sx={{ width: "90%" }} />
 
                     <InputDisplay index={index} value={value} />
