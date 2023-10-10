@@ -1,17 +1,11 @@
 import React from "react";
 import { styled } from '@mui/system';
-import { Button, ButtonGroup, Chip, Divider, Grid, Paper, Stack, Table, TableBody, TableCell, TableRow, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
-import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
-
+import { Button, Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
-import { Item, Action } from "./algo";
+import { Item } from "./algo";
 
 const formula = `function plusOne(digits: number[]): number[] {
 
@@ -29,28 +23,6 @@ const formula = `function plusOne(digits: number[]): number[] {
     digits.unshift(1);
     return digits;
 };`;
-
-const InputDisplay: React.FC<{ index: number, value: string }> = ({ index, value }) => (
-    <Stack direction="column" spacing={1} sx={{ alignItems: "center" }}>
-        <Chip label="Input String" variant="outlined" />
-
-        <ToggleButtonGroup>
-            {
-                value.split("").map((char, i) => (
-                    <ToggleButton
-                        key={i}
-                        value={char}
-                        sx={{ height: "45px", width: "45px", fontWeight: "500" }}
-                        selected={i === index}
-                        color="primary"
-                    >
-                        {char}
-                    </ToggleButton>
-                ))
-            }
-        </ToggleButtonGroup>
-    </Stack>
-);
 
 const CodeDisplay: React.FC<{ linesToHighlight: number[] }> = ({ linesToHighlight }) => (
     <Paper>
@@ -115,20 +87,26 @@ const Dashboard = () => {
 const Digits = () => {
     const { index, value, carrier, digits } = useAlgoContext();
 
+    {
+        (value + "").split("").map((num, i) =>
+            <TableCell key={i} padding="none">
+                {num}
+            </TableCell>
+        )
+    }
 
     return (
         <Table>
             <TableBody>
                 <TableRow>
                     {
-                        (value + "").split("").map((num, i) =>
+                        digits.map((num, i) =>
                             <TableCell key={i} padding="none">
                                 {num}
                             </TableCell>
                         )
                     }
                 </TableRow>
-
                 <TableRow>
                     {
                         digits.map((num, i) =>
@@ -138,141 +116,48 @@ const Digits = () => {
                         )
                     }
                 </TableRow>
-
-                <TableRow>
-                    {
-                        digits.map((num, i) =>
-                            <TableCell key={i} padding="none">
-                                {num}
-                            </TableCell>
-                        )
-                    }
-                </TableRow>
             </TableBody>
         </Table>
     );
+}
+
+
+const Action = () => {
+
+    const disabled = false;
+
+    return (
+        <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled}>
+            <ArrowForwardIcon />
+        </IconButton>
+    )
 }
 
 const Main = () => {
 
     const { index, value, setIndex, setState, state, carrier, temp, digit } = useAlgoContext();
 
-    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([]);
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([3]);
+
+
 
     return (
-        <Grid container sx={{ width: "80%", margin: "auto", marginTop: "20px" }}>
+        <Grid container sx={{ width: "80%", margin: "auto", }}>
 
-
-            <Grid item md={6} xs={12}>
-                <Stack sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", direction: "row" }} spacing={2}>
-
-
-                    {/* <Divider sx={{ width: "90%" }} /> */}
-
-                    {/* <InputDisplay index={index} value={value} /> */}
-                    {/* <div style={{ marginBottom: "10px" }} /> */}
-                    <Digits />
+            <Grid item md={6} xs={12} sx={{ marginTop: "40px" }}>
+                <Stack
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "100%",
+                        direction: "row"
+                    }}
+                    spacing={3}
+                >
                     <Dashboard />
-
-                    <div style={{ marginBottom: "10px" }} />
-
-                    <ButtonGroup orientation="vertical" size="large" variant="contained" disabled={state !== State.Playing}>
-
-                        <ActionButton
-                            name="Remove Whitespace"
-                            startIcon={<RemoveCircleOutlineOutlinedIcon />}
-                            onClick={(item) => {
-                                if (item.action === Action.RemoveSpace) {
-                                    setIndex(i => i + 1);
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }}
-                        />
-
-                        <ActionButton
-                            name="Assign Sign (1/-1)"
-                            startIcon={<HelpOutlineIcon />}
-                            onClick={(item) => {
-                                if (item.action === Action.AssignSign) {
-                                    setIndex(i => i + 1);
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }}
-                        />
-
-                        <ActionButton
-                            name="Non-digit Character"
-                            startIcon={<ErrorOutlineIcon />}
-                            onClick={(item) => {
-                                if (item.action === Action.NonDigitCharacter) {
-                                    setIndex(i => i + 1);
-                                    setState(State.Finished);
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }}
-                        />
-
-                        <ActionButton
-                            name="greater than max"
-                            startIcon={<KeyboardDoubleArrowUpIcon />}
-                            onClick={(item) => {
-                                if (item.action === Action.BiggerThanMax) {
-                                    setState(State.Finished);
-                                    setIndex(i => i + 1);
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }}
-                        />
-
-                        <ActionButton
-                            name="less than min"
-                            startIcon={<KeyboardDoubleArrowDownIcon />}
-                            onClick={(item) => {
-                                if (item.action === Action.LessThanMin) {
-                                    setIndex(i => i + 1);
-                                    setState(State.Finished);
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }}
-                        />
-
-                        <ActionButton
-                            name="num * 10 + digit"
-                            startIcon={<HighlightOffOutlinedIcon />}
-                            onClick={(item) => {
-                                if (item.action === Action.Accumulate) {
-                                    setIndex(i => i + 1);
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }}
-                        />
-
-                        <ActionButton
-                            name="Num * Sign"
-                            startIcon={<HighlightOffOutlinedIcon />}
-                            onClick={(item) => {
-                                if (item.action === Action.NumMultiplySign) {
-                                    setIndex(i => i + 1);
-                                    setState(State.Finished);
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }}
-                        />
-                    </ButtonGroup>
+                    <Digits />
+                    <Action />
                 </Stack>
             </Grid>
 
@@ -285,7 +170,7 @@ const Main = () => {
 
 const Position = styled("div")({
     position: "fixed",
-    top: 80,
+    top: 100,
     width: "100%",
 });
 
