@@ -1,11 +1,10 @@
 import React from "react";
 import { styled } from '@mui/system';
-import { Button, Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import { Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
-import { Item } from "./algo";
 
 const formula = `function plusOne(digits: number[]): number[] {
 
@@ -36,30 +35,6 @@ const CodeDisplay: React.FC<{ linesToHighlight: number[] }> = ({ linesToHighligh
     </Paper>
 );
 
-const ActionButton: React.FC<{
-    name: string,
-    startIcon: React.ReactNode,
-    onClick: (item: Item) => boolean,
-}> = ({ name, startIcon, onClick }) => {
-
-    type ColorType = "primary" | "error"
-
-    const { index } = useAlgoContext();
-    const [color, setColor] = React.useState<ColorType>("primary");
-
-    const handleOnClick = () => {
-
-    }
-
-    return (
-        <Button startIcon={startIcon} onClick={handleOnClick} sx={{ color: "#FFF" }} color={color}>
-            <Typography sx={{ flex: 1 }}>
-                {name}
-            </Typography>
-        </Button>
-    );
-}
-
 const Dashboard = () => {
     const { carrier, temp, digit } = useAlgoContext();
     return (
@@ -82,18 +57,10 @@ const Dashboard = () => {
             </TableBody>
         </Table>
     );
-}
+};
 
 const Digits = () => {
-    const { index, value, carrier, digits } = useAlgoContext();
-
-    {
-        (value + "").split("").map((num, i) =>
-            <TableCell key={i} padding="none">
-                {num}
-            </TableCell>
-        )
-    }
+    const { index, carrier, digits } = useAlgoContext();
 
     return (
         <Table>
@@ -121,7 +88,9 @@ const Digits = () => {
     );
 }
 
-const Action = () => {
+const Action: React.FC<{ setLinesToHighlight: React.Dispatch<React.SetStateAction<number[]>> }> = ({ setLinesToHighlight }) => {
+
+    // const { index, value, setIndex, setState, state, carrier, temp, digit } = useAlgoContext();
 
     const disabled = false;
 
@@ -134,13 +103,10 @@ const Action = () => {
 
 const Main = () => {
 
-    const { index, value, setIndex, setState, state, carrier, temp, digit } = useAlgoContext();
-
     const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([3]);
 
     return (
         <Grid container sx={{ width: "80%", margin: "auto", }}>
-
             <Grid item md={6} xs={12} sx={{ marginTop: "40px" }}>
                 <Stack
                     sx={{
@@ -154,10 +120,9 @@ const Main = () => {
                 >
                     <Dashboard />
                     <Digits />
-                    <Action />
+                    <Action setLinesToHighlight={setLinesToHighlight} />
                 </Stack>
             </Grid>
-
             <Grid item md={6} xs={12}>
                 <CodeDisplay linesToHighlight={linesToHighlight} />
             </Grid>
