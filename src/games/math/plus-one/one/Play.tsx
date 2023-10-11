@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import { Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
+import { Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
@@ -45,22 +45,30 @@ const Dashboard = () => {
     const { actions, index } = useAlgoContext();
     const action = actions[index];
 
+    const highlightLine = action?.linesToHighlight[0]
+
     return (
         <Table>
             <TableBody>
                 <TableRow>
                     <TableCell padding="none">carrier</TableCell>
-                    <TableCell padding="none">{action?.carrier}</TableCell>
+                    <TableCell padding="none" sx={{ backgroundColor: (highlightLine === 8 || highlightLine === 3) ? "gold" : "white" }}>
+                        {action?.carrier}
+                    </TableCell>
                 </TableRow>
 
                 <TableRow>
                     <TableCell padding="none">temp</TableCell>
-                    <TableCell padding="none">{action?.temp}</TableCell>
+                    <TableCell padding="none" sx={{ backgroundColor: (highlightLine === 6) ? "gold" : "white" }}>
+                        {action?.temp}
+                    </TableCell>
                 </TableRow>
 
                 <TableRow>
                     <TableCell padding="none">digits[i]</TableCell>
-                    <TableCell padding="none">{action?.digit}</TableCell>
+                    <TableCell padding="none" sx={{ backgroundColor: (highlightLine === 7) ? "gold" : "white" }}>
+                        {action?.digit}
+                    </TableCell>
                 </TableRow>
             </TableBody>
         </Table>
@@ -115,7 +123,7 @@ const Action = () => {
 
     return (
         <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled} onClick={handleOnClick}>
-            {disabled ? <DoneIcon color='success'/> : <ArrowForwardIcon />}
+            {disabled ? <DoneIcon color='success' /> : <ArrowForwardIcon />}
         </IconButton>
     );
 }
@@ -141,8 +149,11 @@ const Main = () => (
 
 const Position = styled("div")({
     position: "fixed",
-    top: 100,
     width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "80%",
 });
 
 const Play = () => {
