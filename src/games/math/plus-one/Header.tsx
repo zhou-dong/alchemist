@@ -13,6 +13,7 @@ const Position = styled("div")({
     position: "fixed",
     top: 40,
     width: "100%",
+    zIndex: 1,
 });
 
 const Title = () => (

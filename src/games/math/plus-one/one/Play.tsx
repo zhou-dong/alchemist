@@ -149,11 +149,13 @@ const Main = () => (
 
 const Position = styled("div")({
     position: "fixed",
+    top: 200,
     width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "80%",
+    height: "40%",
+    zIndex: 0
 });
 
 const Play = () => {
