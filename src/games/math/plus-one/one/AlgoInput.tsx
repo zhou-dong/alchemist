@@ -7,6 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { defaultValue, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { plusOne } from "./algo";
+
 interface Props {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
