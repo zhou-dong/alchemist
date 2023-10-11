@@ -1,10 +1,10 @@
-import React from "react";
 import { styled } from '@mui/system';
 import { Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
+import DoneIcon from '@mui/icons-material/Done';
 
 const formula = `function plusOne(digits: number[]): number[] {
 
@@ -23,36 +23,44 @@ const formula = `function plusOne(digits: number[]): number[] {
     return digits;
 };`;
 
-const CodeDisplay: React.FC<{ linesToHighlight: number[] }> = ({ linesToHighlight }) => (
-    <Paper>
-        <CodeBlock
-            code={formula}
-            language={languages.Typescript}
-            showLineNumbers={true}
-            linesToHighlight={linesToHighlight}
-            wrapLines={true}
-        />
-    </Paper>
-);
+const CodeDisplay = () => {
+    const { index, actions } = useAlgoContext();
+    const action = actions[index];
+    const linesToHighlight = (!action) ? [] : action.linesToHighlight;
+
+    return (
+        <Paper>
+            <CodeBlock
+                code={formula}
+                language={languages.Typescript}
+                showLineNumbers={true}
+                linesToHighlight={linesToHighlight}
+                wrapLines={true}
+            />
+        </Paper>
+    );
+}
 
 const Dashboard = () => {
-    const { carrier, temp, digit } = useAlgoContext();
+    const { actions, index } = useAlgoContext();
+    const action = actions[index];
+
     return (
         <Table>
             <TableBody>
                 <TableRow>
                     <TableCell padding="none">carrier</TableCell>
-                    <TableCell padding="none">{carrier}</TableCell>
+                    <TableCell padding="none">{action?.carrier}</TableCell>
                 </TableRow>
 
                 <TableRow>
                     <TableCell padding="none">temp</TableCell>
-                    <TableCell padding="none">{temp}</TableCell>
+                    <TableCell padding="none">{action?.temp}</TableCell>
                 </TableRow>
 
                 <TableRow>
                     <TableCell padding="none">digits[i]</TableCell>
-                    <TableCell padding="none">{digit}</TableCell>
+                    <TableCell padding="none">{action?.digit}</TableCell>
                 </TableRow>
             </TableBody>
         </Table>
@@ -60,7 +68,14 @@ const Dashboard = () => {
 };
 
 const Digits = () => {
-    const { index, carrier, digits } = useAlgoContext();
+    const { index, actions } = useAlgoContext();
+
+    let action = actions[index];
+    if (!action) {
+        action = actions[actions.length - 1];
+    }
+
+    const { digits, carrier, i } = action;
 
     return (
         <Table>
@@ -76,9 +91,9 @@ const Digits = () => {
                 </TableRow>
                 <TableRow>
                     {
-                        digits.map((num, i) =>
-                            <TableCell key={i} padding="none" sx={{ border: "none" }}>
-                                {i === index && carrier}
+                        digits.map((num, j) =>
+                            <TableCell key={j} padding="none" sx={{ border: "none" }}>
+                                {j === i && carrier}
                             </TableCell>
                         )
                     }
@@ -88,47 +103,41 @@ const Digits = () => {
     );
 }
 
-const Action: React.FC<{ setLinesToHighlight: React.Dispatch<React.SetStateAction<number[]>> }> = ({ setLinesToHighlight }) => {
+const Action = () => {
 
-    // const { index, value, setIndex, setState, state, carrier, temp, digit } = useAlgoContext();
+    const { setIndex, index, actions } = useAlgoContext();
 
-    const disabled = false;
+    const disabled = (index >= actions.length);
+
+    const handleOnClick = () => {
+        setIndex(i => i + 1);
+    }
 
     return (
-        <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled}>
-            <ArrowForwardIcon />
+        <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled} onClick={handleOnClick}>
+            {disabled ? <DoneIcon color='success'/> : <ArrowForwardIcon />}
         </IconButton>
-    )
-}
-
-const Main = () => {
-
-    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([3]);
-
-    return (
-        <Grid container sx={{ width: "80%", margin: "auto", }}>
-            <Grid item md={6} xs={12} sx={{ marginTop: "40px" }}>
-                <Stack
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "100%",
-                        direction: "row"
-                    }}
-                    spacing={3}
-                >
-                    <Dashboard />
-                    <Digits />
-                    <Action setLinesToHighlight={setLinesToHighlight} />
-                </Stack>
-            </Grid>
-            <Grid item md={6} xs={12}>
-                <CodeDisplay linesToHighlight={linesToHighlight} />
-            </Grid>
-        </Grid>
     );
 }
+
+const Main = () => (
+    <Grid container sx={{ width: "80%", margin: "auto", }}>
+        <Grid item md={6} xs={12} sx={{ marginTop: "40px" }}>
+            <Stack
+                sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+                spacing={3}
+                direction="column"
+            >
+                <Dashboard />
+                <Digits />
+                <Action />
+            </Stack>
+        </Grid>
+        <Grid item md={6} xs={12}>
+            <CodeDisplay />
+        </Grid>
+    </Grid>
+);
 
 const Position = styled("div")({
     position: "fixed",

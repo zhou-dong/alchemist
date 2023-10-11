@@ -6,7 +6,7 @@ import { Divider, InputBase } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { defaultValue, useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-
+import { plusOne } from "./algo";
 interface Props {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
@@ -17,18 +17,20 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ input, setInput, setAnchorEl }) => {
 
-    const { setValue, setState, setIndex, setDigits } = useAlgoContext();
+    const { setValue, setState, setIndex, setActions } = useAlgoContext();
 
     const handleSubmit = () => {
         let newValue: string = (!input) ? defaultValue + "" : input;
-        setIndex(newValue.length-1);
+
+        const digits = newValue.split("").map(num => +num);
+
         setValue(+newValue);
         setState(State.Playing);
         setInput("");
         setAnchorEl(null);
 
-        setDigits(newValue.split("").map(num => +num));
-        // setResult(() => myAtoi(newValue))
+        setIndex(0);
+        setActions(plusOne(digits))
     }
 
     return (

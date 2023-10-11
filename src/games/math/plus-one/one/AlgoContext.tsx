@@ -1,5 +1,6 @@
 import React from "react";
 import { State } from "./AlgoState";
+import { Action } from "./algo";
 
 export const defaultValue = 1999;
 
@@ -10,14 +11,8 @@ const AlgoContext = React.createContext<{
     setState: React.Dispatch<React.SetStateAction<State>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    digits: number[],
-    setDigits: React.Dispatch<React.SetStateAction<number[]>>,
-    carrier: number,
-    setCarrier: React.Dispatch<React.SetStateAction<number>>,
-    temp?: number,
-    setTemp: React.Dispatch<React.SetStateAction<number | undefined>>,
-    digit?: number,
-    setDigit: React.Dispatch<React.SetStateAction<number | undefined>>
+    actions: Action[],
+    setActions: React.Dispatch<React.SetStateAction<Action[]>>
 }>({
     value: +defaultValue,
     setValue: () => { },
@@ -25,12 +20,8 @@ const AlgoContext = React.createContext<{
     setState: () => { },
     index: 0,
     setIndex: () => { },
-    digits: [],
-    setDigits: () => { },
-    carrier: 1,
-    setCarrier: () => { },
-    setTemp: () => { },
-    setDigit: () => { }
+    actions: [],
+    setActions: () => { }
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -38,10 +29,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
     const [value, setValue] = React.useState(defaultValue);
-    const [digits, setDigits] = React.useState<number[]>([]);
-    const [carrier, setCarrier] = React.useState(1);
-    const [temp, setTemp] = React.useState<number>();
-    const [digit, setDigit] = React.useState<number>();
+    const [actions, setActions] = React.useState<Action[]>([]);
 
     return (
         <AlgoContext.Provider value={{
@@ -51,14 +39,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setIndex,
             value,
             setValue,
-            digits,
-            setDigits,
-            carrier,
-            setCarrier,
-            temp,
-            setTemp,
-            digit,
-            setDigit
+            actions,
+            setActions
         }}>
             {children}
         </AlgoContext.Provider>
