@@ -25,8 +25,9 @@ export function plusOne(digits: number[]): Action[] {
     }
 
     const ans = new Array(digits.length + 1).fill(0);
+    actions.push({ digits: [...ans], i: -1, linesToHighlight: [13] });
     ans[0] = 1;
-    actions.push({ digits: [...ans], i: -1, linesToHighlight: [15] });
+    actions.push({ digits: [...ans], i: -1, linesToHighlight: [14] });
 
     return actions;
 };
