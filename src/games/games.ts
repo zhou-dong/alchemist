@@ -102,6 +102,7 @@ import RedundantConnection from "./graph/redundant-connection/info";
 import Sqrtx from "./binary-search/sqrtx/info";
 import SearchInsertPosition from "./binary-search/search-insert-position/info";
 import FirstBadVersion from "./binary-search/first-bad-version/info";
+import PlusOne from "./math/plus-one/info";
 
 export const games: Game[] = [
     editDistance,
@@ -206,4 +207,5 @@ export const games: Game[] = [
     Sqrtx,
     SearchInsertPosition,
     FirstBadVersion,
+    PlusOne
 ];
