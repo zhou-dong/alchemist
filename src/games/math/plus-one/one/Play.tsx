@@ -1,6 +1,6 @@
 import { styled } from '@mui/system';
 import { Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
@@ -123,7 +123,7 @@ const Action = () => {
 
     return (
         <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled} onClick={handleOnClick}>
-            {disabled ? <DoneIcon color='success' /> : <ArrowForwardIcon />}
+            {disabled ? <DoneIcon color='success' /> : <ArrowBackIcon />}
         </IconButton>
     );
 }
