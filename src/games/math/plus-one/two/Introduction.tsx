@@ -6,26 +6,9 @@ import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Instruction from '../../../../commons/Instruction';
 import { description, examples } from "../description";
-// import AlgoInput from "../AlgoInput";
+import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
-
-export const formulaTwo = `function plusOne(digits: number[]): number[] {
-
-    for (let i = digits.length - 1; i >= 0; i--) {
-        if (digits[i] !== 9) {
-            digits[i] += 1;
-            for (let j = i + 1; j < digits.length; j++) {
-                digits[j] = 0;
-            }
-            return digits;
-        }
-    }
-
-    const ans = new Array(digits.length + 1).fill(0);
-    ans[0] = 1;
-    return ans;
-};`;
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -87,7 +70,7 @@ const Input = () => {
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             >
-                {/* <AlgoInput setAnchorEl={setAnchorEl} /> */}
+                <AlgoInput setAnchorEl={setAnchorEl} />
             </Popover>
         </>
     )
