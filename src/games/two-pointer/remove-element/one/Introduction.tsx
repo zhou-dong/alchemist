@@ -1,6 +1,7 @@
 import * as React from 'react';
 import ReactMarkdown from "react-markdown";
 import MuiStack from '@mui/material/Stack';
+import CodeIcon from '@mui/icons-material/Code';
 import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
@@ -9,6 +10,21 @@ import { description, examples } from "../../../math/plus-one/description";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
+import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
+
+const solution = `export function removeElement(nums: number[], val: number): number {
+
+    let left = 0;
+
+    for (let right = 0; right < nums.length; right++) {
+        if (nums[right] !== val) {
+            nums[left] = nums[right];
+            left++;
+        }
+    }
+
+    return left;
+};`;
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -83,6 +99,19 @@ const Main = () => (
             name="Description"
             icon={<DescriptionOutlinedIcon fontSize="medium" />}
             popover={<StyledReactMarkdown>{description + examples}</StyledReactMarkdown>}
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin}
+        />
+        <Instruction
+            name="Code"
+            icon={<CodeIcon fontSize="medium" />}
+            popover={<CodeBlock
+                code={solution}
+                language={languages.Typescript}
+                showLineNumbers={true}
+                linesToHighlight={[]}
+                wrapLines={true}
+            />}
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
         />
