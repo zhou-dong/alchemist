@@ -11,8 +11,9 @@ interface Props {
 const Position = styled("div")({
     position: "fixed",
     top: 40,
-    width: "100%",
     zIndex: 1,
+    left: "50%",
+    transform: "translate(-50%)",
 });
 
 const Title = () => (
