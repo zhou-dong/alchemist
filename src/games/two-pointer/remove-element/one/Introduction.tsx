@@ -108,9 +108,6 @@ const Main = () => (
             popover={<CodeBlock
                 code={solution}
                 language={languages.Typescript}
-                showLineNumbers={true}
-                linesToHighlight={[]}
-                wrapLines={true}
             />}
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
