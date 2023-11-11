@@ -20,10 +20,10 @@ interface Props {
 }
 
 const Submit: React.FC<{
-    input: string,
+    nums: string,
     target: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ input, target, setAnchorEl }) => {
+}> = ({ nums, target, setAnchorEl }) => {
 
     const { setValue, setState, setIndex, setActions } = useAlgoContext();
 
@@ -34,7 +34,6 @@ const Submit: React.FC<{
 
         setValue(+newValue);
         setState(State.Playing);
-        // setInput("");
         setAnchorEl(null);
 
         setIndex(0);
@@ -80,7 +79,7 @@ const Main = ({ setAnchorEl }: Props) => {
                 type='text'
             />
 
-            <Divider sx={{ height: 28, }} orientation="vertical" />
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
             <InputBase
                 placeholder='val'
@@ -100,7 +99,7 @@ const Main = ({ setAnchorEl }: Props) => {
                 <RefreshIcon />
             </IconButton>
 
-            <Submit input={nums} target={target} setAnchorEl={setAnchorEl} />
+            <Submit nums={nums} target={target} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
