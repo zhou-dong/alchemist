@@ -3,7 +3,6 @@ import OutputIcon from '@mui/icons-material/Output';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
@@ -22,9 +21,9 @@ interface Props {
 
 const Submit: React.FC<{
     input: string,
-    setInput: React.Dispatch<React.SetStateAction<string>>,
+    target: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ input, setInput, setAnchorEl }) => {
+}> = ({ input, target, setAnchorEl }) => {
 
     const { setValue, setState, setIndex, setActions } = useAlgoContext();
 
@@ -35,7 +34,7 @@ const Submit: React.FC<{
 
         setValue(+newValue);
         setState(State.Playing);
-        setInput("");
+        // setInput("");
         setAnchorEl(null);
 
         setIndex(0);
@@ -51,19 +50,17 @@ const Submit: React.FC<{
 
 const Main = ({ setAnchorEl }: Props) => {
 
-    const [input, setInput] = React.useState("");
+    const [nums, setNums] = React.useState("");
     const [target, setTarget] = React.useState("");
 
-    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(e.currentTarget.value);
+    const handleNumsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNums(e.currentTarget.value);
     }
 
     const handleTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTarget(e.currentTarget.value);
     }
 
-    // nums 
-    // val
     return (
         <Paper
             variant="elevation"
@@ -71,15 +68,15 @@ const Main = ({ setAnchorEl }: Props) => {
             sx={{
                 p: '2px 4px',
                 display: 'flex',
-                width: 400,
+                width: 350,
                 alignItems: "center"
             }}
         >
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
                 placeholder='nums, seprate by ","'
-                value={input}
-                onChange={handleTextFieldChange}
+                value={nums}
+                onChange={handleNumsChange}
                 type='text'
             />
 
@@ -97,13 +94,13 @@ const Main = ({ setAnchorEl }: Props) => {
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
             <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
-                setInput(() => buildNums().join(", "));
+                setNums(() => buildNums().join(", "));
                 setTarget(() => getRandomInt() + "");
             }}>
                 <RefreshIcon />
             </IconButton>
 
-            <Submit input={input} setInput={setInput} setAnchorEl={setAnchorEl} />
+            <Submit input={nums} target={target} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
