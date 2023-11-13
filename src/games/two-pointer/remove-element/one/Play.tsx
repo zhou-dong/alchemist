@@ -1,115 +1,42 @@
 import { styled } from '@mui/system';
-import { Grid, IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
+import { Grid, IconButton, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import DoneIcon from '@mui/icons-material/Done';
 
-const formula = `function plusOne(digits: number[]): number[] {
-
-    let carrier = 1;
-
-    for (let i = digits.length - 1; i >= 0; i--) {
-        const temp = digits[i] + carrier;
-        digits[i] = temp % 10;
-        carrier = Math.floor(temp / 10);
-        if (carrier === 0) {
-            return digits;
-        }
-    }
-
-    digits.unshift(1);
-    return digits;
-};`;
-
-const CodeDisplay = () => {
-    const { index, actions } = useAlgoContext();
-    const action = actions[index];
-    const linesToHighlight = (!action) ? [] : action.linesToHighlight;
-
-    return (
-        <Paper>
-            <CodeBlock
-                code={formula}
-                language={languages.Typescript}
-                showLineNumbers={true}
-                linesToHighlight={linesToHighlight}
-                wrapLines={true}
-            />
-        </Paper>
-    );
-}
 
 const Dashboard = () => {
     const { actions, index } = useAlgoContext();
     const action = actions[index];
-
-    const highlightLine = action?.linesToHighlight[0]
 
     return (
         <Table>
             <TableBody>
                 <TableRow>
                     <TableCell padding="none">carrier</TableCell>
-                    <TableCell padding="none" sx={{ backgroundColor: (highlightLine === 8 || highlightLine === 3) ? "gold" : "white" }}>
-                        {action?.carrier}
+                    <TableCell padding="none" sx={{ backgroundColor: "gold" }}>
+                        {action?.left}
                     </TableCell>
                 </TableRow>
 
                 <TableRow>
                     <TableCell padding="none">temp</TableCell>
-                    <TableCell padding="none" sx={{ backgroundColor: (highlightLine === 6) ? "gold" : "white" }}>
-                        {action?.temp}
+                    <TableCell padding="none" sx={{ backgroundColor: "white" }}>
+                        {action?.right}
                     </TableCell>
                 </TableRow>
 
                 <TableRow>
                     <TableCell padding="none">digits[i]</TableCell>
-                    <TableCell padding="none" sx={{ backgroundColor: (highlightLine === 7) ? "gold" : "white" }}>
-                        {action?.digit}
+                    <TableCell padding="none" sx={{ backgroundColor: "white" }}>
+                        {action?.update}
                     </TableCell>
                 </TableRow>
             </TableBody>
         </Table>
     );
 };
-
-const Digits = () => {
-    const { index, actions } = useAlgoContext();
-
-    let action = actions[index];
-    if (!action) {
-        action = actions[actions.length - 1];
-    }
-
-    const { digits, carrier, i } = action;
-
-    return (
-        <Table>
-            <TableBody>
-                <TableRow>
-                    {
-                        digits.map((num, i) =>
-                            <TableCell key={i} padding="none">
-                                {num}
-                            </TableCell>
-                        )
-                    }
-                </TableRow>
-                <TableRow>
-                    {
-                        digits.map((num, j) =>
-                            <TableCell key={j} padding="none" sx={{ border: "none" }}>
-                                {j === i && carrier}
-                            </TableCell>
-                        )
-                    }
-                </TableRow>
-            </TableBody>
-        </Table>
-    );
-}
 
 const Action = () => {
 
@@ -137,12 +64,11 @@ const Main = () => (
                 direction="column"
             >
                 <Dashboard />
-                <Digits />
                 <Action />
             </Stack>
         </Grid>
         <Grid item md={6} xs={12}>
-            <CodeDisplay />
+
         </Grid>
     </Grid>
 );
