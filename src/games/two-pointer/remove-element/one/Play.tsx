@@ -114,6 +114,31 @@ const Dashboard = () => {
     );
 };
 
+const Result = () => {
+    const { actions } = useAlgoContext();
+
+    if (actions.length === 0) {
+        return <></>;
+    }
+
+    const last = actions[actions.length - 1];
+    const left = last.left;
+    const nums = last.nums;
+
+    return (
+        <Table>
+            <TableBody>
+                <TableRow>
+                    <TableCell padding='none'>result</TableCell>
+                    {
+                        nums.slice(0, left).map((num, i) => <TableCell key={i} padding='none'>{num}</TableCell>)
+                    }
+                </TableRow>
+            </TableBody>
+        </Table>
+    );
+}
+
 const Action = () => {
 
     const { setIndex, index, actions } = useAlgoContext();
@@ -131,17 +156,22 @@ const Action = () => {
     );
 }
 
-const Main = () => (
-    <Stack
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-        spacing={4}
-        direction="column"
-    >
-        <CodeDisplay />
-        <Dashboard />
-        <Action />
-    </Stack>
-);
+const Main = () => {
+    const { actions, index } = useAlgoContext();
+    const action = actions[index];
+
+    return (
+        <Stack
+            sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+            spacing={4}
+            direction="column"
+        >
+            <CodeDisplay />
+            {(action) ? <Dashboard /> : < Result />}
+            <Action />
+        </Stack>
+    );
+};
 
 const Position = styled("div")({
     position: "fixed",
