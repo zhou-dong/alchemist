@@ -2,11 +2,7 @@ import React from "react";
 import { State } from "./AlgoState";
 import { Action } from "./algo";
 
-export const defaultValue = 1999;
-
 const AlgoContext = React.createContext<{
-    value: number,
-    setValue: React.Dispatch<React.SetStateAction<number>>,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
     index: number,
@@ -14,8 +10,6 @@ const AlgoContext = React.createContext<{
     actions: Action[],
     setActions: React.Dispatch<React.SetStateAction<Action[]>>
 }>({
-    value: +defaultValue,
-    setValue: () => { },
     state: State.Typing,
     setState: () => { },
     index: 0,
@@ -28,7 +22,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
-    const [value, setValue] = React.useState(defaultValue);
     const [actions, setActions] = React.useState<Action[]>([]);
 
     return (
@@ -37,8 +30,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setState,
             index,
             setIndex,
-            value,
-            setValue,
             actions,
             setActions
         }}>
