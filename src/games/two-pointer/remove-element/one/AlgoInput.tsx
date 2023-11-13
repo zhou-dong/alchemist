@@ -6,7 +6,7 @@ import { Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { plusOne } from "./algo";
+import { removeElement } from "./algo";
 
 function getRandomInt() {
     const max = 9;
@@ -25,19 +25,18 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nums, target, setAnchorEl }) => {
 
-    const { setValue, setState, setIndex, setActions } = useAlgoContext();
+    const { setState, setIndex, setActions } = useAlgoContext();
 
     const handleSubmit = () => {
-        let newValue: string = "";
-
-        const digits = newValue.split("").map(num => +num);
-
-        setValue(+newValue);
         setState(State.Playing);
         setAnchorEl(null);
-
-        setIndex(0);
-        setActions(plusOne(digits))
+        try {
+            const actions = removeElement(nums.split(",").map(num => +num), +target);
+            setActions(actions);
+            setIndex(0);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
