@@ -12,7 +12,7 @@ import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 
-const solution = `export function removeElement(nums: number[], val: number): number {
+const solution = `function removeElement(nums: number[], val: number): number {
 
     let left = 0;
 
