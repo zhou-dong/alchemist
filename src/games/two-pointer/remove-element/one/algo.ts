@@ -1,8 +1,10 @@
 export interface Action {
+    val: number;
     left: number;
     right: number;
-    update: boolean;
+    isUpdate: boolean;
     nums: number[];
+    linesToHighlight: number[];
 }
 
 export function removeElement(nums: number[], val: number): Action[] {
@@ -13,7 +15,7 @@ export function removeElement(nums: number[], val: number): Action[] {
     let right = 0;
 
     actions.push({
-        left, right, update: false, nums: [...nums]
+        val, left, right, isUpdate: false, nums: [...nums], linesToHighlight: [3]
     });
 
     for (; right < nums.length;) {
@@ -23,14 +25,14 @@ export function removeElement(nums: number[], val: number): Action[] {
             right++;
 
             actions.push({
-                left, right, update: true, nums: [...nums]
+                val, left, right, isUpdate: true, nums: [...nums], linesToHighlight: [6]
             });
 
         } else {
             right++;
 
             actions.push({
-                left, right, update: false, nums: [...nums]
+                val, left, right, isUpdate: false, nums: [...nums], linesToHighlight: [5]
             });
         }
     }
