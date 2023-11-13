@@ -10,21 +10,6 @@ import { description, examples } from "../../../math/plus-one/description";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
-import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
-
-const solution = `function removeElement(nums: number[], val: number): number {
-
-    let left = 0;
-
-    for (let right = 0; right < nums.length; right++) {
-        if (nums[right] !== val) {
-            nums[left] = nums[right];
-            left++;
-        }
-    }
-
-    return left;
-};`;
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -99,16 +84,6 @@ const Main = () => (
             name="Description"
             icon={<DescriptionOutlinedIcon fontSize="medium" />}
             popover={<StyledReactMarkdown>{description + examples}</StyledReactMarkdown>}
-            anchorOrigin={anchorOrigin}
-            transformOrigin={transformOrigin}
-        />
-        <Instruction
-            name="Code"
-            icon={<CodeIcon fontSize="medium" />}
-            popover={<CodeBlock
-                code={solution}
-                language={languages.Typescript}
-            />}
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
         />
