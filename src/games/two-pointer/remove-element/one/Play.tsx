@@ -1,37 +1,113 @@
 import { styled } from '@mui/system';
-import { Grid, IconButton, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import DoneIcon from '@mui/icons-material/Done';
+import React from 'react';
+import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 
+const formula = `function removeElement(nums: number[], val: number): number {
+
+    let left = 0;
+
+    for (let right = 0; right < nums.length; right++) {
+        if (nums[right] !== val) {
+            nums[left] = nums[right];
+            left++;
+        }
+    }
+
+    return left;
+};`;
+
+const CodeDisplay = () => {
+    const { index, actions } = useAlgoContext();
+    const action = actions[index];
+    const linesToHighlight = (!action) ? [] : action.linesToHighlight;
+
+    return (
+        <Paper>
+            <CodeBlock
+                code={formula}
+                language={languages.Typescript}
+                showLineNumbers={true}
+                linesToHighlight={linesToHighlight}
+                wrapLines={true}
+            />
+        </Paper>
+    );
+}
 
 const Dashboard = () => {
     const { actions, index } = useAlgoContext();
     const action = actions[index];
 
+    const nums: number[] = action?.nums || [];
+    const left: number = action?.left || 0;
+    const right: number = action?.right || 0;
+    const isUpdate: boolean = action?.isUpdate || false;
+    const val: string = (action) ? action.val + "" : ""
+
+    const baseStyle: React.CSSProperties = { paddingLeft: "15px", paddingRight: "15px" };
+
+    const getStyle = (i: number): React.CSSProperties => {
+        if (left === i) {
+            return { ...baseStyle, backgroundColor: "gold" };
+        } else if (right === i) {
+            return { ...baseStyle, backgroundColor: "green" };
+        } else {
+            return { ...baseStyle };
+        }
+    }
+
+    const getLeftStyle = (i: number): React.CSSProperties => {
+        if (i === left) {
+            return { ...baseStyle, backgroundColor: "gold" };
+        } else {
+            return baseStyle;
+        }
+    }
+
+    const getRightStyle = (i: number): React.CSSProperties => {
+        if (i === right) {
+            return { ...baseStyle, backgroundColor: "green" };
+        } else {
+            return baseStyle;
+        }
+    }
     return (
         <Table>
             <TableBody>
                 <TableRow>
-                    <TableCell padding="none">carrier</TableCell>
-                    <TableCell padding="none" sx={{ backgroundColor: "gold" }}>
-                        {action?.left}
-                    </TableCell>
+                    <TableCell padding='none' sx={baseStyle}>val</TableCell>
+                    <TableCell padding='none' colSpan={nums.length} >{val}</TableCell>
                 </TableRow>
-
                 <TableRow>
-                    <TableCell padding="none">temp</TableCell>
-                    <TableCell padding="none" sx={{ backgroundColor: "white" }}>
-                        {action?.right}
-                    </TableCell>
+                    <TableCell padding='none' sx={baseStyle}>nums</TableCell>
+                    {
+                        nums.map((num, i) => <TableCell key={i} padding='none' sx={getStyle(i)}>{num}</TableCell>)
+                    }
                 </TableRow>
-
                 <TableRow>
-                    <TableCell padding="none">digits[i]</TableCell>
-                    <TableCell padding="none" sx={{ backgroundColor: "white" }}>
-                        {action?.update}
-                    </TableCell>
+                    <TableCell padding='none' sx={baseStyle}>left</TableCell>
+                    {
+                        nums.map((num, i) =>
+                            <TableCell key={i} padding='none' sx={getLeftStyle(i)}>
+                                {(i === left) ? num : ""}
+                            </TableCell>
+                        )
+                    }
+                </TableRow>
+                <TableRow>
+                    <TableCell padding='none' sx={baseStyle}>right</TableCell>
+                    {
+                        nums.map((num, i) =>
+                            <TableCell key={i} padding='none' sx={getRightStyle(i)} >
+                                {(i === right) ? num : ""}
+                            </TableCell>
+                        )
+                    }
                 </TableRow>
             </TableBody>
         </Table>
@@ -50,27 +126,21 @@ const Action = () => {
 
     return (
         <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled} onClick={handleOnClick}>
-            {disabled ? <DoneIcon color='success' /> : <ArrowBackIcon />}
+            {disabled ? <DoneIcon color='success' /> : <ArrowForwardIcon />}
         </IconButton>
     );
 }
 
 const Main = () => (
-    <Grid container sx={{ width: "80%", margin: "auto", }}>
-        <Grid item md={6} xs={12} sx={{ marginTop: "40px" }}>
-            <Stack
-                sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-                spacing={3}
-                direction="column"
-            >
-                <Dashboard />
-                <Action />
-            </Stack>
-        </Grid>
-        <Grid item md={6} xs={12}>
-
-        </Grid>
-    </Grid>
+    <Stack
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        spacing={4}
+        direction="column"
+    >
+        <CodeDisplay />
+        <Dashboard />
+        <Action />
+    </Stack>
 );
 
 const Position = styled("div")({
