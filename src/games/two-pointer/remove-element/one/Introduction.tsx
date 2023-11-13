@@ -1,7 +1,6 @@
 import * as React from 'react';
 import ReactMarkdown from "react-markdown";
 import MuiStack from '@mui/material/Stack';
-import CodeIcon from '@mui/icons-material/Code';
 import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
