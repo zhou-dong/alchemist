@@ -1,14 +1,14 @@
 import React from "react";
 import { State } from "./AlgoState";
-import { Action } from "./algo";
+import { Step } from "./algo";
 
 const AlgoContext = React.createContext<{
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    actions: Action[],
-    setActions: React.Dispatch<React.SetStateAction<Action[]>>
+    actions: Step[],
+    setActions: React.Dispatch<React.SetStateAction<Step[]>>
 }>({
     state: State.Typing,
     setState: () => { },
@@ -22,7 +22,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
-    const [actions, setActions] = React.useState<Action[]>([]);
+    const [actions, setActions] = React.useState<Step[]>([]);
 
     return (
         <AlgoContext.Provider value={{
