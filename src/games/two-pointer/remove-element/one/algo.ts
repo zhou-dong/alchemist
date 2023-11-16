@@ -1,28 +1,30 @@
-export interface Action {
+export type Action = "Update" | "Next" | "Start" | "Finish";
+
+export interface Step {
     val: number;
     left: number;
     right: number;
-    isUpdate?: boolean;
+    action: Action;
     nums: number[];
     linesToHighlight: number[];
 }
 
-export function removeElement(nums: number[], val: number): Action[] {
+export function removeElement(nums: number[], val: number): Step[] {
 
-    const actions: Action[] = [];
+    const actions: Step[] = [];
 
     let left = 0;
     let right = 0;
 
     actions.push({
-        val, left: -1, right: -1, nums: [...nums], linesToHighlight: [3]
+        val, left: -1, right: -1, nums: [...nums], linesToHighlight: [3], action: "Start"
     });
 
     for (; right < nums.length;) {
         if (nums[right] !== val) {
 
             actions.push({
-                val, left, right, isUpdate: true, nums: [...nums], linesToHighlight: [6]
+                val, left, right, action: "Update", nums: [...nums], linesToHighlight: [6]
             });
 
             nums[left] = nums[right];
@@ -32,13 +34,13 @@ export function removeElement(nums: number[], val: number): Action[] {
             // handle the last action
             if (right === nums.length) {
                 actions.push({
-                    val, left, right, isUpdate: true, nums: [...nums], linesToHighlight: [6]
+                    val, left, right, action: "Finish", nums: [...nums], linesToHighlight: [6]
                 });
             }
         } else {
 
             actions.push({
-                val, left, right, isUpdate: false, nums: [...nums], linesToHighlight: [5]
+                val, left, right, action: "Next", nums: [...nums], linesToHighlight: [5]
             });
 
             right++;
@@ -46,7 +48,7 @@ export function removeElement(nums: number[], val: number): Action[] {
             // handle the last action
             if (right === nums.length) {
                 actions.push({
-                    val, left, right, isUpdate: false, nums: [...nums], linesToHighlight: [5]
+                    val, left, right, action: "Finish", nums: [...nums], linesToHighlight: [5]
                 });
             }
         }
