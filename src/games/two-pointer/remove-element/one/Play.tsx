@@ -1,11 +1,12 @@
 import { styled } from '@mui/system';
-import { IconButton, Paper, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Button, ButtonGroup, Paper, Stack, Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
-import DoneIcon from '@mui/icons-material/Done';
 import React from 'react';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import NextPlanIcon from '@mui/icons-material/NextPlan';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 
 const formula = `function removeElement(nums: number[], val: number): number {
 
@@ -46,10 +47,10 @@ const Dashboard = () => {
     const nums: number[] = action?.nums || [];
     const left: number = action?.left || 0;
     const right: number = action?.right || 0;
-    const isUpdate: boolean = action?.isUpdate || false;
     const val: string = (action) ? action.val + "" : ""
 
-    const baseStyle: React.CSSProperties = { paddingLeft: "15px", paddingRight: "15px" };
+    const baseStyle: React.CSSProperties = { minWidth: 50 };
+    const indexStyle: React.CSSProperties = { ...baseStyle, border: "none" };
 
     const getStyle = (i: number): React.CSSProperties => {
         if (left === i) {
@@ -63,25 +64,25 @@ const Dashboard = () => {
 
     const getLeftStyle = (i: number): React.CSSProperties => {
         if (i === left) {
-            return { ...baseStyle, backgroundColor: "gold" };
+            return { ...indexStyle, border: "none", backgroundColor: "gold" };
         } else {
-            return baseStyle;
+            return indexStyle;
         }
     }
 
     const getRightStyle = (i: number): React.CSSProperties => {
         if (i === right) {
-            return { ...baseStyle, backgroundColor: "green" };
+            return { ...indexStyle, backgroundColor: "green" };
         } else {
-            return baseStyle;
+            return indexStyle;
         }
     }
     return (
         <Table>
             <TableBody>
                 <TableRow>
-                    <TableCell padding='none' sx={baseStyle}>val</TableCell>
-                    <TableCell padding='none' colSpan={nums.length} >{val}</TableCell>
+                    <TableCell padding='none' sx={indexStyle}>val</TableCell>
+                    <TableCell padding='none' sx={indexStyle} colSpan={nums.length} >{val}</TableCell>
                 </TableRow>
                 <TableRow>
                     <TableCell padding='none' sx={baseStyle}>nums</TableCell>
@@ -90,7 +91,7 @@ const Dashboard = () => {
                     }
                 </TableRow>
                 <TableRow>
-                    <TableCell padding='none' sx={baseStyle}>left</TableCell>
+                    <TableCell padding='none' sx={indexStyle}>left</TableCell>
                     {
                         nums.map((num, i) =>
                             <TableCell key={i} padding='none' sx={getLeftStyle(i)}>
@@ -100,7 +101,7 @@ const Dashboard = () => {
                     }
                 </TableRow>
                 <TableRow>
-                    <TableCell padding='none' sx={baseStyle}>right</TableCell>
+                    <TableCell padding='none' sx={indexStyle}>right</TableCell>
                     {
                         nums.map((num, i) =>
                             <TableCell key={i} padding='none' sx={getRightStyle(i)} >
@@ -142,17 +143,50 @@ const Result = () => {
 const Action = () => {
 
     const { setIndex, index, actions } = useAlgoContext();
-
+    const action = actions[index];
+    const isUpdate = action?.isUpdate;
     const disabled = (index >= actions.length);
 
-    const handleOnClick = () => {
-        setIndex(i => i + 1);
-    }
+    type BntColor = "info" | "error";
+    const [color, setColor] = React.useState<BntColor>("info");
 
     return (
-        <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled} onClick={handleOnClick}>
-            {disabled ? <DoneIcon color='success' /> : <ArrowForwardIcon />}
-        </IconButton>
+        <>
+
+            <ButtonGroup disabled={disabled} color={color}>
+                <Button
+                    disabled={isUpdate !== undefined} startIcon={<PlayCircleOutlineIcon />} onClick={() => {
+                        setIndex(i => i + 1);
+                    }}>
+                    Start
+                </Button>
+                <Button disabled={isUpdate === undefined} startIcon={<NextPlanIcon />} onClick={() => {
+                    if (isUpdate) {
+                        setColor("error");
+                    } else {
+                        setColor("info");
+                        setIndex(i => i + 1);
+                    }
+                }}>
+                    next
+                </Button>
+                <Button disabled={isUpdate === undefined} startIcon={<ChangeCircleIcon />} onClick={() => {
+                    if (isUpdate) {
+                        setColor("info");
+                        setIndex(i => i + 1);
+                    } else {
+                        setColor("error");
+                    }
+                }}>
+                    update
+                </Button>
+            </ButtonGroup>
+
+            {/* <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled} onClick={handleOnClick}>
+                {disabled ? <DoneIcon color='success' /> : <ArrowForwardIcon />}
+            </IconButton> */}
+        </>
+
     );
 }
 
