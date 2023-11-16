@@ -7,6 +7,7 @@ import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import NextPlanIcon from '@mui/icons-material/NextPlan';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const formula = `function removeElement(nums: number[], val: number): number {
 
@@ -143,50 +144,47 @@ const Result = () => {
 const Action = () => {
 
     const { setIndex, index, actions } = useAlgoContext();
-    const action = actions[index];
-    const isUpdate = action?.isUpdate;
+    const step = actions[index];
+    const action = step?.action;
     const disabled = (index >= actions.length);
 
     type BntColor = "info" | "error";
     const [color, setColor] = React.useState<BntColor>("info");
 
     return (
-        <>
-
-            <ButtonGroup disabled={disabled} color={color}>
-                <Button
-                    disabled={isUpdate !== undefined} startIcon={<PlayCircleOutlineIcon />} onClick={() => {
-                        setIndex(i => i + 1);
-                    }}>
-                    Start
-                </Button>
-                <Button disabled={isUpdate === undefined} startIcon={<NextPlanIcon />} onClick={() => {
-                    if (isUpdate) {
-                        setColor("error");
-                    } else {
-                        setColor("info");
-                        setIndex(i => i + 1);
-                    }
+        <ButtonGroup disabled={disabled} color={color}>
+            <Button
+                disabled={action !== "Start"} startIcon={<PlayCircleOutlineIcon />} onClick={() => {
+                    setIndex(i => i + 1);
                 }}>
-                    next
-                </Button>
-                <Button disabled={isUpdate === undefined} startIcon={<ChangeCircleIcon />} onClick={() => {
-                    if (isUpdate) {
-                        setColor("info");
-                        setIndex(i => i + 1);
-                    } else {
-                        setColor("error");
-                    }
-                }}>
-                    update
-                </Button>
-            </ButtonGroup>
-
-            {/* <IconButton size="medium" sx={{ border: "1px solid gray" }} color="success" disabled={disabled} onClick={handleOnClick}>
-                {disabled ? <DoneIcon color='success' /> : <ArrowForwardIcon />}
-            </IconButton> */}
-        </>
-
+                Start
+            </Button>
+            <Button disabled={action === "Start" || action === "Finish"} startIcon={<NextPlanIcon />} onClick={() => {
+                if (action === "Next") {
+                    setColor("info");
+                    setIndex(i => i + 1);
+                } else {
+                    setColor("error");
+                }
+            }}>
+                next
+            </Button>
+            <Button disabled={action === "Start" || action === "Finish"} startIcon={<ChangeCircleIcon />} onClick={() => {
+                if (action === "Update") {
+                    setColor("info");
+                    setIndex(i => i + 1);
+                } else {
+                    setColor("error");
+                }
+            }}>
+                update
+            </Button>
+            <Button disabled={action !== "Finish"} startIcon={<CheckCircleOutlineIcon />} onClick={() => {
+                setIndex(i => i + 1);
+            }}>
+                finish
+            </Button>
+        </ButtonGroup>
     );
 }
 
