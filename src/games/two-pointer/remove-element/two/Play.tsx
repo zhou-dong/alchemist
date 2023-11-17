@@ -7,7 +7,6 @@ import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import NextPlanIcon from '@mui/icons-material/NextPlan';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const formula = `function removeElement(nums: number[], val: number): number {
 
@@ -162,7 +161,7 @@ const Action = () => {
                 }}>
                 Start
             </Button>
-            <Button disabled={action === "Start" || action === "Finish"} startIcon={<NextPlanIcon />} onClick={() => {
+            <Button disabled={action === "Start"} startIcon={<NextPlanIcon />} onClick={() => {
                 if (action === "Next") {
                     setColor("info");
                     setIndex(i => i + 1);
@@ -172,7 +171,7 @@ const Action = () => {
             }}>
                 next
             </Button>
-            <Button disabled={action === "Start" || action === "Finish"} startIcon={<ChangeCircleIcon />} onClick={() => {
+            <Button disabled={action === "Start"} startIcon={<ChangeCircleIcon />} onClick={() => {
                 if (action === "Update") {
                     setColor("info");
                     setIndex(i => i + 1);
@@ -181,11 +180,6 @@ const Action = () => {
                 }
             }}>
                 update
-            </Button>
-            <Button disabled={action !== "Finish"} startIcon={<CheckCircleOutlineIcon />} onClick={() => {
-                setIndex(i => i + 1);
-            }}>
-                finish
             </Button>
         </ButtonGroup>
     );
