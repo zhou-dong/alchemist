@@ -1,26 +1,13 @@
 export const title = "Remove Element";
 
 export const description = `#### Description
-You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. 
+Given an integer array **nums** and an integer **val**, remove all occurrences of **val** in **nums** in-place. The order of the elements may be changed. Then return the number of elements in **nums** which are not equal to **val**.
 
-The digits are ordered from most significant to least significant in left-to-right order. 
+Consider the number of elements in **nums** which are not equal to **val** be **k**, to get accepted, you need to do the following things:
 
-The large integer does not contain any leading 0's.
-
-Increment the large integer by one and return the resulting array of digits.
+- Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
+- Return k.
 `;
 
 export const examples = `
-
----
-
-#### Example 1:
-
-- Input: digits = [1,2,3]
-- Output: [1,2,4]
-
-#### Example 2:
-
-- Input: digits = [9]
-- Output: [1,0]
 `;
