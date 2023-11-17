@@ -104,6 +104,7 @@ import SearchInsertPosition from "./binary-search/search-insert-position/info";
 import FirstBadVersion from "./binary-search/first-bad-version/info";
 import PlusOne from "./math/plus-one/info";
 import RemoveElement from "./two-pointer/remove-element/info";
+import RemoveDuplicatesFromSortedArray from "./two-pointer/remove-duplicates-from-sorted-array/info";
 
 export const games: Game[] = [
     editDistance,
@@ -209,5 +210,6 @@ export const games: Game[] = [
     SearchInsertPosition,
     FirstBadVersion,
     PlusOne,
-    RemoveElement
+    RemoveElement,
+    RemoveDuplicatesFromSortedArray
 ];
