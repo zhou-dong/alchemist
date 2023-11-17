@@ -1,4 +1,4 @@
-export type Action = "Update" | "Next" | "Start" | "Finish";
+export type Action = "Update" | "Next" | "Start";
 
 export interface Step {
     val: number;
@@ -29,27 +29,13 @@ export function removeElement(nums: number[], val: number): Step[] {
 
             nums[left] = nums[right];
             right--;
-
-            // handle the last action
-            if (right === nums.length) {
-                actions.push({
-                    val, left, right, action: "Finish", nums: [...nums], linesToHighlight: [7]
-                });
-            }
         } else {
 
             actions.push({
-                val, left, right, action: "Next", nums: [...nums], linesToHighlight: [11]
+                val, left, right, action: "Next", nums: [...nums], linesToHighlight: [10]
             });
 
             left++;
-
-            // handle the last action
-            if (right === nums.length) {
-                actions.push({
-                    val, left, right, action: "Finish", nums: [...nums], linesToHighlight: [11]
-                });
-            }
         }
     }
 
