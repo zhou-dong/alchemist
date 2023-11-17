@@ -13,7 +13,7 @@ function getRandomInt() {
     return Math.floor(Math.random() * max) + 1;
 }
 
-const buildNums = () => new Array(10).fill(0).map(() => getRandomInt());
+const buildNums = () => new Array(12).fill(0).map(() => getRandomInt()).sort();
 
 interface Props {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
@@ -21,9 +21,8 @@ interface Props {
 
 const Submit: React.FC<{
     nums: string,
-    target: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nums, target, setAnchorEl }) => {
+}> = ({ nums, setAnchorEl }) => {
 
     const { setState, setIndex, setActions } = useAlgoContext();
 
@@ -31,7 +30,7 @@ const Submit: React.FC<{
         setState(State.Playing);
         setAnchorEl(null);
         try {
-            const actions = removeElement(nums.split(",").map(num => +num), +target);
+            const actions = removeElement(nums.split(",").map(num => +num));
             setActions(actions);
             setIndex(0);
         } catch (error) {
@@ -39,10 +38,8 @@ const Submit: React.FC<{
         }
     }
 
-    const disabled = !nums || !target;
-
     return (
-        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
+        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={!nums}>
             <OutputIcon />
         </IconButton>
     );
@@ -51,14 +48,9 @@ const Submit: React.FC<{
 const Main = ({ setAnchorEl }: Props) => {
 
     const [nums, setNums] = React.useState("");
-    const [target, setTarget] = React.useState("");
 
     const handleNumsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNums(e.currentTarget.value);
-    }
-
-    const handleTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTarget(e.currentTarget.value);
     }
 
     return (
@@ -82,25 +74,13 @@ const Main = ({ setAnchorEl }: Props) => {
 
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
-            <InputBase
-                placeholder='val'
-                value={target}
-                onChange={handleTargetChange}
-                type='number'
-                inputProps={{ style: { textAlign: 'center' } }}
-                sx={{ width: 50 }}
-            />
-
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
             <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
                 setNums(() => buildNums().join(", "));
-                setTarget(() => getRandomInt() + "");
             }}>
                 <RefreshIcon />
             </IconButton>
 
-            <Submit nums={nums} target={target} setAnchorEl={setAnchorEl} />
+            <Submit nums={nums} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }

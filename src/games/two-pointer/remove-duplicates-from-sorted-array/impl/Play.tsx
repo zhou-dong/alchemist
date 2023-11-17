@@ -9,18 +9,18 @@ import NextPlanIcon from '@mui/icons-material/NextPlan';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
-const formula = `function removeElement(nums: number[], val: number): number {
+const formula = `function removeDuplicates(nums: number[]): number {
 
     let left = 0;
 
-    for (let right = 0; right < nums.length; right++) {
-        if (nums[right] !== val) {
-            nums[left] = nums[right];
+    for (let right = 1; right < nums.length; right++) {
+        if (nums[left] !== nums[right]) {
+            nums[left + 1] = nums[right];
             left++;
         }
     }
 
-    return left;
+    return left + 1;
 };`;
 
 const CodeDisplay = () => {
@@ -48,7 +48,6 @@ const Dashboard = () => {
     const nums: number[] = action?.nums || [];
     const left: number = action?.left || 0;
     const right: number = action?.right || 0;
-    const val: string = (action) ? action.val + "" : ""
 
     const baseStyle: React.CSSProperties = { minWidth: 50 };
     const indexStyle: React.CSSProperties = { ...baseStyle, border: "none" };
@@ -81,10 +80,6 @@ const Dashboard = () => {
     return (
         <Table>
             <TableBody>
-                <TableRow>
-                    <TableCell padding='none' sx={indexStyle}>val</TableCell>
-                    <TableCell padding='none' sx={indexStyle} colSpan={nums.length} >{val}</TableCell>
-                </TableRow>
                 <TableRow>
                     <TableCell padding='none' sx={baseStyle}>nums</TableCell>
                     {
@@ -207,7 +202,7 @@ const Main = () => {
 
 const Position = styled("div")({
     position: "fixed",
-    top: 200,
+    top: 150,
     width: "100%",
     display: "flex",
     alignItems: "center",

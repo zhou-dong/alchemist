@@ -8,7 +8,7 @@ such that each unique element appears only once. The relative order of the eleme
 
 Then return the number of unique elements in **nums**.
 
-Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
+---
 
 Consider the number of elements in **nums** which are not equal to **val** be **k**, to get accepted, you need to do the following things:
 
