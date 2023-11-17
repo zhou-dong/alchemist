@@ -39,8 +39,10 @@ const Submit: React.FC<{
         }
     }
 
+    const disabled = !nums || !target;
+
     return (
-        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit}>
+        <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
             <OutputIcon />
         </IconButton>
     );
