@@ -5,7 +5,7 @@ import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Instruction from '../../../../commons/Instruction';
-import { description, examples } from "../../../math/plus-one/description";
+import { description, examples } from "../description";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
