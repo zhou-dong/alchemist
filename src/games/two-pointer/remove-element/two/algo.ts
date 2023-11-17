@@ -29,6 +29,12 @@ export function removeElement(nums: number[], val: number): Step[] {
 
             nums[left] = nums[right];
             right--;
+
+            if (left > right) {
+                actions.push({
+                    val, left, right, action: "Update", nums: [...nums], linesToHighlight: [7]
+                });
+            }
         } else {
 
             actions.push({
@@ -36,6 +42,12 @@ export function removeElement(nums: number[], val: number): Step[] {
             });
 
             left++;
+
+            if (left > right) {
+                actions.push({
+                    val, left, right, action: "Next", nums: [...nums], linesToHighlight: [10]
+                });
+            }
         }
     }
 
