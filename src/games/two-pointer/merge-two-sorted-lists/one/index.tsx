@@ -1,4 +1,3 @@
-import React from "react";
 import { AlgoContextProvider } from "./AlgoContext";
 import Introduction from "./Introduction";
 import Play from "./Play";
