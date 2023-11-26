@@ -18,7 +18,12 @@ const AlgoContext = React.createContext<{
     setActions: () => { }
 });
 
-export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AlgoContextProvider: React.FC<{
+    children: React.ReactNode,
+    renderer: THREE.Renderer,
+    camera: THREE.Camera,
+    scene: THREE.Scene
+}> = ({ children, renderer, camera, scene }) => {
 
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);

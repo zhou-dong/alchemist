@@ -8,7 +8,13 @@ import One from "./one";
 import Two from "./two";
 import Header from './Header';
 
-const Main = () => {
+interface Props {
+    renderer: THREE.Renderer;
+    camera: THREE.Camera;
+    scene: THREE.Scene;
+}
+
+const Main = ({ renderer, camera, scene }: Props) => {
 
     const [solution, setSolution] = React.useState<Solution>("one");
 
@@ -16,8 +22,8 @@ const Main = () => {
         <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
                 <Header solution={solution} setSolution={setSolution} />
-                {solution === "one" && <One />}
-                {solution === "two" && <Two />}
+                {solution === "one" && <One renderer={renderer} camera={camera} scene={scene} />}
+                {solution === "two" && <Two renderer={renderer} camera={camera} scene={scene} />}
             </ThemeProvider>
         </GameWrapper>
     );

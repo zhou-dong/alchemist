@@ -336,7 +336,7 @@ const App = () => (
         <Route path={PlusOneInfo.path} element={<PlusOne />} />
         <Route path={RemoveElementInfo.path} element={<RemoveElement />} />
         <Route path={RemoveDuplicatesFromSortedArrayInfo.path} element={<RemoveDuplicatesFromSortedArray />} />
-        <Route path={MergeTwoSortedListsInfo.path} element={<MergeTwoSortedLists />} />
+        <Route path={MergeTwoSortedListsInfo.path} element={<MergeTwoSortedLists renderer={renderer} camera={camera} scene={createScene()} />} />
 
     </Routes>
 );
