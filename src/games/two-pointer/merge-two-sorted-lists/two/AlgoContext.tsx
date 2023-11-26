@@ -59,7 +59,9 @@ export const AlgoContextProvider: React.FC<{
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(
-        () => { ref?.current?.appendChild(renderer.domElement) },
+        () => {
+            ref?.current?.appendChild(renderer.domElement)
+        },
         [ref, renderer]
     );
 
