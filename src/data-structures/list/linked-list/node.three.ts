@@ -14,5 +14,4 @@ export class LinkedListNode<T> implements ILinkedListNode<TextCube<T>> {
     constructor(data: TextCube<T>) {
         this.data = data;
     }
-
 }
