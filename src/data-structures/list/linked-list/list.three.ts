@@ -67,7 +67,6 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
 
         this._size--;
 
-        // TODO implement animate
         return Promise.resolve(head);
     }
 
@@ -78,8 +77,6 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
 
         this.dummyHead.next!.prev = item;
         this.dummyHead.next = item;
-
-        // TODO implement animate
 
         this._size++;
         return Promise.resolve(this.size);
