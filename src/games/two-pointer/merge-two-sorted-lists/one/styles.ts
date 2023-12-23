@@ -1,5 +1,5 @@
 import { Scene } from "three";
-import { LinkedListNode, SimpleLinkedListNode } from "../../../../data-structures/list/doubly-linked-list/node.three";
+import { DoublyLinkedListNode, SimpleDoublyLinkedListNode } from "../../../../data-structures/list/doubly-linked-list/node.three";
 
 export const buildDummyNode = (
     scene: Scene,
@@ -7,8 +7,8 @@ export const buildDummyNode = (
     x: number,
     y: number,
     z: number
-): LinkedListNode<number> => {
-    const node = new SimpleLinkedListNode<number>(
+): DoublyLinkedListNode<number> => {
+    const node = new SimpleDoublyLinkedListNode<number>(
         -1,
         text,
         scene,
@@ -40,7 +40,7 @@ export const buildNode = (
     scene: Scene,
     value: number,
 ) => {
-    const node = new SimpleLinkedListNode<number>(
+    const node = new SimpleDoublyLinkedListNode<number>(
         value,
         value + "",
         scene,

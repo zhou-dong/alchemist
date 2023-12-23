@@ -1,15 +1,15 @@
-import { LinkedListNode } from "./node.three";
+import { DoublyLinkedListNode } from "./node.three";
 import { LinkedList as ILinkedList } from "./list.interface";
 import { calDestination, calDistance } from '../../_commons/utils';
 import { SimpleLink } from "./link.three";
 
-const extractPosition = <T>({ x, y, z }: LinkedListNode<T>) => ({ x, y, z });
+const extractPosition = <T>({ x, y, z }: DoublyLinkedListNode<T>) => ({ x, y, z });
 
-export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
+export class LinkedList<T> implements ILinkedList<DoublyLinkedListNode<T>> {
     private _size: number;
 
-    private dummyHead: LinkedListNode<T>;
-    private dummyTail: LinkedListNode<T>;
+    private dummyHead: DoublyLinkedListNode<T>;
+    private dummyTail: DoublyLinkedListNode<T>;
     private scene: THREE.Scene;
     private linkColor: THREE.Color | string | number
 
@@ -18,8 +18,8 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     constructor(
         scene: THREE.Scene,
         duration: number,
-        dummyHead: LinkedListNode<T>,
-        dummyTail: LinkedListNode<T>,
+        dummyHead: DoublyLinkedListNode<T>,
+        dummyTail: DoublyLinkedListNode<T>,
         linkColor: THREE.Color | string | number
 
     ) {
@@ -44,7 +44,7 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     }
 
     // add to tail
-    async push(item: LinkedListNode<T>): Promise<number> {
+    async push(item: DoublyLinkedListNode<T>): Promise<number> {
 
         const targetPosition = extractPosition(this.dummyTail);
         const distance = calDistance(this.dummyTail.prev!, this.dummyTail);
@@ -104,13 +104,13 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     }
 
     // remove the last
-    pop(): Promise<LinkedListNode<T> | undefined> {
+    pop(): Promise<DoublyLinkedListNode<T> | undefined> {
         if (this._size === 0) {
             // todo animate
             return Promise.resolve(undefined);
         }
 
-        const last: LinkedListNode<T> = this.dummyTail.prev!;
+        const last: DoublyLinkedListNode<T> = this.dummyTail.prev!;
 
         this.dummyTail.prev = last.prev;
         last.prev!.next = this.dummyTail;
@@ -123,13 +123,13 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     }
 
     // move the first
-    shift(): Promise<LinkedListNode<T> | undefined> {
+    shift(): Promise<DoublyLinkedListNode<T> | undefined> {
         if (this._size === 0) {
             // todo animate
             return Promise.resolve(undefined);
         }
 
-        const head: LinkedListNode<T> = this.dummyHead.next!;
+        const head: DoublyLinkedListNode<T> = this.dummyHead.next!;
 
         this.dummyHead.next = head.next;
         head.next!.prev = this.dummyHead;
@@ -143,7 +143,7 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     }
 
     // add to head
-    unshift(item: LinkedListNode<T>): Promise<number> {
+    unshift(item: DoublyLinkedListNode<T>): Promise<number> {
         item.next = this.dummyHead.next;
         item.prev = this.dummyHead;
 

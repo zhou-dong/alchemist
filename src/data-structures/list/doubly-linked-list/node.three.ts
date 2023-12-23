@@ -9,7 +9,7 @@ import MoverImpl from '../../_commons/three/mover.class';
 import Color from '../../_commons/params/color.interface';
 import ColorImpl from '../../_commons/three/color.class';
 import { font } from '../../../commons/three';
-import { LinkedListNode as ILinkedListNode } from "./node.interface";
+import { DoublyLinkedListNode as ILinkedListNode } from "./node.interface";
 import { calDestination, calDistance } from '../../_commons/utils';
 import { Link } from './link.three';
 
@@ -81,11 +81,11 @@ class NodeText extends NodeBase {
     }
 }
 
-export class LinkedListNode<T> implements ILinkedListNode<T> {
+export class DoublyLinkedListNode<T> implements ILinkedListNode<T> {
     data: T;
 
-    next?: LinkedListNode<T>;
-    prev?: LinkedListNode<T>;
+    next?: DoublyLinkedListNode<T>;
+    prev?: DoublyLinkedListNode<T>;
 
     linkToNext?: Link<T>;
     linkToPrev?: Link<T>;
@@ -139,7 +139,7 @@ export class LinkedListNode<T> implements ILinkedListNode<T> {
     };
 }
 
-export class SimpleLinkedListNode<T> extends LinkedListNode<T> {
+export class SimpleDoublyLinkedListNode<T> extends DoublyLinkedListNode<T> {
 
     constructor(
         data: T,
