@@ -6,21 +6,8 @@ import { Link } from '../link.three';
 import { LinkedListBaseNode } from '../list-node-base';
 
 export class LinkedListNode<T> extends LinkedListBaseNode<T> implements ILinkedListNode<T> {
-
     next?: LinkedListNode<T>;
     linkToNext?: Link<T>;
-
-    constructor(
-        data: T,
-        text: string,
-        scene: THREE.Scene,
-        skinGeometry: THREE.BufferGeometry,
-        skinMaterial: THREE.Material,
-        textGeometryParameters: TextGeometryParameters,
-        textMaterial: THREE.Material,
-    ) {
-        super(data, text, scene, skinGeometry, skinMaterial, textGeometryParameters, textMaterial)
-    }
 }
 
 export class SimpleLinkedListNode<T> extends LinkedListNode<T> {
