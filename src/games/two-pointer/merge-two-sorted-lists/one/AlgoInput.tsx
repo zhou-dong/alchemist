@@ -36,13 +36,13 @@ const Submit: React.FC<{
 
             animate();
 
-            const duration = 2;
+            const duration = 1;
 
             const list = new LinkedList<number>(
                 scene,
                 duration,
-                buildDummyNode(scene, "H", -5, 1, 1),
-                buildDummyNode(scene, "T", -1, 1, 1),
+                buildDummyNode(scene, "H", -10, 1, 1),
+                buildDummyNode(scene, "T", -7, 1, 1),
                 "gold"
             );
 
