@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { Step } from "./algo";
 import { clearScene, registerOrbitControls } from "../../../../commons/three";
-import { LinkedList } from "../../../../data-structures/list/doubly-linked-list/list.three";
+import { DoublyLinkedList } from "../../../../data-structures/list/doubly-linked-list/list.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -15,8 +15,8 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     actions: Step[],
     setActions: React.Dispatch<React.SetStateAction<Step[]>>,
-    list: LinkedList<number>,
-    setList: React.Dispatch<React.SetStateAction<LinkedList<number>>>
+    list: DoublyLinkedList<number>,
+    setList: React.Dispatch<React.SetStateAction<DoublyLinkedList<number>>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -45,7 +45,7 @@ export const AlgoContextProvider: React.FC<{
     const [index, setIndex] = React.useState(0);
     const [actions, setActions] = React.useState<Step[]>([]);
 
-    const [list, setList] = React.useState<LinkedList<number>>(null as any);
+    const [list, setList] = React.useState<DoublyLinkedList<number>>(null as any);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);

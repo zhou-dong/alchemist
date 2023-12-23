@@ -1,4 +1,4 @@
-export interface LinkedList<T> {
+export interface DoublyLinkedList<T> {
 
     /**
      * Represents the number of elements in that list. 

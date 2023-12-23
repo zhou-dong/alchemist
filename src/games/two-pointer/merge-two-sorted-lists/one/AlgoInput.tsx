@@ -6,7 +6,7 @@ import { Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { LinkedList } from '../../../../data-structures/list/doubly-linked-list/list.three';
+import { DoublyLinkedList } from '../../../../data-structures/list/doubly-linked-list/list.three';
 import { buildDummyNode } from './styles';
 import { wait } from '../../../../data-structures/_commons/utils';
 
@@ -38,7 +38,7 @@ const Submit: React.FC<{
 
             const duration = 1;
 
-            const list = new LinkedList<number>(
+            const list = new DoublyLinkedList<number>(
                 scene,
                 duration,
                 buildDummyNode(scene, "H", -10, 1, 1),

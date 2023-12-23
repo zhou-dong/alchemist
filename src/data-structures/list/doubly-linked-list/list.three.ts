@@ -1,11 +1,11 @@
 import { DoublyLinkedListNode } from "./node.three";
-import { LinkedList as ILinkedList } from "./list.interface";
+import { DoublyLinkedList as ILinkedList } from "./list.interface";
 import { calDestination, calDistance } from '../../_commons/utils';
 import { SimpleLink } from "./link.three";
 
 const extractPosition = <T>({ x, y, z }: DoublyLinkedListNode<T>) => ({ x, y, z });
 
-export class LinkedList<T> implements ILinkedList<DoublyLinkedListNode<T>> {
+export class DoublyLinkedList<T> implements ILinkedList<DoublyLinkedListNode<T>> {
     private _size: number;
 
     private dummyHead: DoublyLinkedListNode<T>;
