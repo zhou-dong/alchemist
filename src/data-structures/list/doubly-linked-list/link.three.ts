@@ -1,14 +1,14 @@
 import * as THREE from "three";
 import { Link as ILink } from "./link.interface";
-import { DoublyLinkedListNode } from "./node.interface";
 import DisplayerImpl from "../../_commons/three/displayer.class";
+import Position from "../../_commons/params/position.interface";
 
-const threePosition = <T>({ x, y, z }: DoublyLinkedListNode<T>) => new THREE.Vector3(x, y, z);
+const threePosition = ({ x, y, z }: Position) => new THREE.Vector3(x, y, z);
 
 export class Link<T> extends DisplayerImpl implements ILink<T> {
 
-    source: DoublyLinkedListNode<T>;
-    target: DoublyLinkedListNode<T>;
+    source: Position;
+    target: Position;
 
     readonly arrow: THREE.ArrowHelper;
     public headLength: number;
@@ -16,8 +16,8 @@ export class Link<T> extends DisplayerImpl implements ILink<T> {
     private arrowColor: THREE.Color | string | number;
 
     constructor(
-        source: DoublyLinkedListNode<T>,
-        target: DoublyLinkedListNode<T>,
+        source: Position,
+        target: Position,
         scene: THREE.Scene,
         color: THREE.Color | string | number,
         headLength: number,
@@ -75,8 +75,8 @@ export class Link<T> extends DisplayerImpl implements ILink<T> {
 export class SimpleLink<T> extends Link<T>  {
 
     constructor(
-        source: DoublyLinkedListNode<T>,
-        target: DoublyLinkedListNode<T>,
+        source: Position,
+        target: Position,
         scene: THREE.Scene,
         color: THREE.Color | string | number
     ) {
