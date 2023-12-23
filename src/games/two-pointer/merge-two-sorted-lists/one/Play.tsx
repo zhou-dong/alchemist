@@ -24,9 +24,9 @@ const Play = () => {
     const push = async () => {
         animate();
         const node = buildNode(scene, num);
-        list.push(node);
-        setNum(n => n + 1);
+        await list.push(node);
         await wait(0.1);
+        setNum(n => n + 1);
         cancelAnimate();
     }
 
