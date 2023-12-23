@@ -21,8 +21,6 @@ const Play = () => {
 
     const [num, setNum] = React.useState(1);
 
-    console.log(list);
-
     const push = async () => {
         animate();
         const node = buildNode(scene, num);
