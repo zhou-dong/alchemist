@@ -12,6 +12,7 @@ import { font } from '../../../commons/three';
 import { DoublyLinkedListNode as ILinkedListNode } from "./node.interface";
 import { calDestination, calDistance } from '../../_commons/utils';
 import { Link } from '../link.three';
+import { LinkedListBaseNode } from '../list-node-base';
 
 class NodeBase extends PositionImpl implements Mover, Displayer, Position, Color {
 
@@ -81,17 +82,13 @@ class NodeText extends NodeBase {
     }
 }
 
-export class DoublyLinkedListNode<T> implements ILinkedListNode<T> {
-    data: T;
+export class DoublyLinkedListNode<T> extends LinkedListBaseNode<T> implements ILinkedListNode<T> {
 
     next?: DoublyLinkedListNode<T>;
     prev?: DoublyLinkedListNode<T>;
 
     linkToNext?: Link<T>;
     linkToPrev?: Link<T>;
-
-    readonly nodeSkin: NodeSkin;
-    readonly nodeText: NodeText;
 
     constructor(
         data: T,
@@ -102,41 +99,8 @@ export class DoublyLinkedListNode<T> implements ILinkedListNode<T> {
         textGeometryParameters: TextGeometryParameters,
         textMaterial: THREE.Material,
     ) {
-        this.data = data;
-        this.nodeSkin = new NodeSkin(scene, skinGeometry, skinMaterial);
-        this.nodeText = new NodeText(text, scene, textGeometryParameters, textMaterial);
+        super(data, text, scene, skinGeometry, skinMaterial, textGeometryParameters, textMaterial)
     }
-
-    get x() {
-        return this.nodeSkin.x;
-    }
-
-    get y() {
-        return this.nodeSkin.y;
-    }
-
-    get z() {
-        return this.nodeSkin.z;
-    }
-
-    async move(position: Position, duration: number, onUpdate?: (() => void) | undefined) {
-        const distance = this.nodeSkin.distance(position);
-        const textEndPosition = this.nodeText.destinate(distance);
-
-        const skinMove = this.nodeSkin.move(position, duration, onUpdate);
-        const textMove = this.nodeText.move(textEndPosition, duration);
-        return Promise.all([skinMove, textMove]).then(() => { });
-    };
-
-    show() {
-        this.nodeSkin.show();
-        this.nodeText.show();
-    };
-
-    hide() {
-        this.nodeSkin.hide();
-        this.nodeText.hide();
-    };
 }
 
 export class SimpleDoublyLinkedListNode<T> extends DoublyLinkedListNode<T> {
