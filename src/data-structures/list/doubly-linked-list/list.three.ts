@@ -46,7 +46,7 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     // add to tail
     async push(item: LinkedListNode<T>): Promise<number> {
 
-        const targetPosition = extractPosition(this.dummyTail.prev!);
+        const targetPosition = extractPosition(this.dummyTail);
         const distance = calDistance(this.dummyTail.prev!, this.dummyTail);
         const tailTargetPosition = calDestination(this.dummyTail, distance);
 
