@@ -8,7 +8,6 @@ import Mover from '../_commons/params/mover.interface';
 import MoverImpl from '../_commons/three/mover.class';
 import Color from '../_commons/params/color.interface';
 import ColorImpl from '../_commons/three/color.class';
-import { font } from '../../commons/three';
 import { calDestination, calDistance } from '../_commons/utils';
 
 class NodeBase extends PositionImpl implements Mover, Displayer, Position, Color {
@@ -129,38 +128,4 @@ export class LinkedListBaseNode<T> {
         this.nodeSkin.hide();
         this.nodeText.hide();
     };
-}
-
-export class SimpleLinkedListBaseNode<T> extends LinkedListBaseNode<T> {
-
-    constructor(
-        data: T,
-        text: string,
-        scene: THREE.Scene,
-        skinColor: string,
-        skinWidth: number,
-        skinHeight: number,
-        skinDepth: number,
-        skinOpacity: number,
-        skinTransparent: boolean,
-        textColor: string,
-        fontSize: number,
-        fontHeight: number
-    ) {
-        const skinMaterial = new THREE.MeshBasicMaterial({ color: skinColor, opacity: skinOpacity, transparent: skinTransparent });
-        const skinGeometry = new THREE.BoxGeometry(skinWidth, skinHeight, skinDepth);
-        const textGeometryParameters: TextGeometryParameters = { font, size: fontSize, height: fontHeight };
-        const textMaterial: THREE.Material = new THREE.MeshBasicMaterial({ color: textColor });
-
-        super(
-            data,
-            text,
-            scene,
-            skinGeometry,
-            skinMaterial,
-            textGeometryParameters,
-            textMaterial
-        )
-    }
-
 }
