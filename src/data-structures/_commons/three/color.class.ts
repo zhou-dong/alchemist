@@ -16,4 +16,8 @@ export default class Color implements IColor {
         return (this.material as any).color.getHexString();
     }
 
+    set color(c: string) {
+        (this.material as any).color.set(c);
+    }
+
 }
