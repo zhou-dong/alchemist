@@ -7,10 +7,13 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     private dummyHead: LinkedListNode<T>;
     private dummyTail: LinkedListNode<T>;
 
-    constructor() {
+    constructor(
+        dummyHead: LinkedListNode<T>,
+        dummyTail: LinkedListNode<T>
+    ) {
         this._size = 0;
-        this.dummyHead = new LinkedListNode<T>(null as any);
-        this.dummyTail = new LinkedListNode<T>(null as any);
+        this.dummyHead = dummyHead;
+        this.dummyTail = dummyTail;
         this.dummyHead.next = this.dummyTail;
         this.dummyTail.prev = this.dummyHead;
     }
@@ -28,6 +31,9 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
         this.dummyTail.prev = item;
 
         this._size++;
+
+        // animate
+
         return Promise.resolve(this.size);
     }
 
@@ -79,6 +85,8 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
         this.dummyHead.next = item;
 
         this._size++;
+
+        // animate
         return Promise.resolve(this.size);
     }
 
