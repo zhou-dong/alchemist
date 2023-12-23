@@ -16,20 +16,52 @@ export const buildDummyNode = (
         2,
         2,
         2,
-        0.1,
+        0.3,
         true,
         "gold",
-        0.4,
-        1
+        0.6,
+        0.5
     );
 
     node.nodeSkin.x = x;
     node.nodeSkin.y = y;
     node.nodeSkin.z = z;
 
-    node.nodeText.x = x - 2 * x;
-    node.nodeText.y = y;
+    node.nodeText.x = x - 0.7;
+    node.nodeText.y = 2.2 * y;
     node.nodeText.z = z;
+
+    node.show();
+
+    return node;
+}
+
+export const buildNode = (
+    scene: Scene,
+    value: number,
+) => {
+    const node = new SimpleLinkedListNode<number>(
+        value,
+        value + "",
+        scene,
+        "lightgray",
+        2,
+        2,
+        2,
+        0.5,
+        true,
+        "gold",
+        0.6,
+        0.5
+    );
+
+    // node.nodeSkin.x = x;
+    // node.nodeSkin.y = y;
+    // node.nodeSkin.z = z;
+
+    // node.nodeText.x = x;
+    // node.nodeText.y = 2.2 * y;
+    // node.nodeText.z = z;
 
     node.show();
 

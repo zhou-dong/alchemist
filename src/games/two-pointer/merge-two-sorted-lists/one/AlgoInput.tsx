@@ -6,7 +6,9 @@ import { Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { removeElement } from "./algo";
+import { LinkedList } from '../../../../data-structures/list/doubly-linked-list/list.three';
+import { buildDummyNode } from './styles';
+import { wait } from '../../../../data-structures/_commons/utils';
 
 function getRandomInt() {
     const max = 9;
@@ -25,15 +27,28 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nums, target, setAnchorEl }) => {
 
-    const { setState, setIndex, setActions } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setList } = useAlgoContext();
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setState(State.Playing);
         setAnchorEl(null);
         try {
-            const actions = removeElement(nums.split(",").map(num => +num), +target);
-            setActions(actions);
-            setIndex(0);
+
+            animate();
+
+            const list = new LinkedList<number>(
+                scene,
+                2,
+                buildDummyNode(scene, "head", -2, 1, 1),
+                buildDummyNode(scene, "tail", 2, 1, 1),
+                "gold"
+            );
+
+            setList(list);
+
+            await wait(0.1);
+            cancelAnimate();
+
         } catch (error) {
             console.error(error);
         }

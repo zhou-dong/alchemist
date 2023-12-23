@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { Step } from "./algo";
 import { clearScene } from "../../../../commons/three";
+import { LinkedList } from "../../../../data-structures/list/doubly-linked-list/list.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -13,7 +14,9 @@ const AlgoContext = React.createContext<{
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     actions: Step[],
-    setActions: React.Dispatch<React.SetStateAction<Step[]>>
+    setActions: React.Dispatch<React.SetStateAction<Step[]>>,
+    list: LinkedList<number>,
+    setList: React.Dispatch<React.SetStateAction<LinkedList<number>>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -23,7 +26,9 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     actions: [],
-    setActions: () => { }
+    setActions: () => { },
+    list: (null as any),
+    setList: () => { }
 });
 
 let animationFrameId = -1;
@@ -40,6 +45,8 @@ export const AlgoContextProvider: React.FC<{
     const [index, setIndex] = React.useState(0);
     const [actions, setActions] = React.useState<Step[]>([]);
 
+    const [list, setList] = React.useState<LinkedList<number>>(null as any);
+
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
         renderer.render(scene, camera);
@@ -49,20 +56,20 @@ export const AlgoContextProvider: React.FC<{
         cancelAnimationFrame(animationFrameId);
     }
 
-    function init() {
-        clearScene(scene);
-        renderer.render(scene, camera);
-    }
-
-    init();
-
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(
         () => {
-            ref?.current?.appendChild(renderer.domElement)
+            function init() {
+                clearScene(scene);
+                renderer.render(scene, camera);
+            }
+
+            init();
+
+            ref?.current?.appendChild(renderer.domElement);
         },
-        [ref, renderer]
+        [ref, renderer, scene, camera]
     );
 
     return (
@@ -75,7 +82,9 @@ export const AlgoContextProvider: React.FC<{
             index,
             setIndex,
             actions,
-            setActions
+            setActions,
+            list,
+            setList
         }}>
             {children}
             <div ref={ref} />
