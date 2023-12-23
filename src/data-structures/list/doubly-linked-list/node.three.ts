@@ -123,7 +123,7 @@ export class LinkedListNode<T> implements ILinkedListNode<T> {
         const distance = this.nodeSkin.distance(position);
         const textEndPosition = this.nodeText.destinate(distance);
 
-        const skinMove = this.nodeSkin.move(position, duration)
+        const skinMove = this.nodeSkin.move(position, duration, onUpdate);
         const textMove = this.nodeText.move(textEndPosition, duration);
         return Promise.all([skinMove, textMove]).then(() => { });
     };

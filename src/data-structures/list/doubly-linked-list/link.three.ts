@@ -7,8 +7,8 @@ const threePosition = <T>({ x, y, z }: LinkedListNode<T>) => new THREE.Vector3(x
 
 export class Link<T> extends DisplayerImpl implements ILink<T> {
 
-    readonly source: LinkedListNode<T>;
-    readonly target: LinkedListNode<T>;
+    source: LinkedListNode<T>;
+    target: LinkedListNode<T>;
 
     readonly arrow: THREE.ArrowHelper;
     public headLength: number;
@@ -68,6 +68,21 @@ export class Link<T> extends DisplayerImpl implements ILink<T> {
     set color(color: string) {
         this.arrowColor = color;
         this.arrow.setColor(color);
+    }
+
+}
+
+export class SimpleLink<T> extends Link<T>  {
+
+    constructor(
+        source: LinkedListNode<T>,
+        target: LinkedListNode<T>,
+        scene: THREE.Scene,
+        color: THREE.Color | string | number
+    ) {
+        const headLength = 0.6;
+        const headWidth = 0.4;
+        super(source, target, scene, color, headLength, headWidth);
     }
 
 }

@@ -8,6 +8,9 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import NextPlanIcon from '@mui/icons-material/NextPlan';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { LinkedList } from '../../../../data-structures/list/doubly-linked-list/list.three';
+import { buildDummyNode } from './styles';
+import { wait } from '../../../../data-structures/_commons/utils';
 
 const formula = `function removeElement(nums: number[], val: number): number {
 
@@ -42,8 +45,24 @@ const CodeDisplay = () => {
 }
 
 const Dashboard = () => {
-    const { actions, index } = useAlgoContext();
+    const { actions, index, scene, animate, cancelAnimate } = useAlgoContext();
     const action = actions[index];
+
+    animate();
+
+    const list = new LinkedList<number>(
+        scene,
+        2,
+        buildDummyNode(scene, "head", -2, 1, 1),
+        buildDummyNode(scene, "tail", 2, 1, 1),
+        "gold"
+    );
+
+    // await wait(0.1);
+    cancelAnimate();
+
+
+
 
     const nums: number[] = action?.nums || [];
     const left: number = action?.left || 0;
@@ -198,9 +217,9 @@ const Main = () => {
             spacing={4}
             direction="column"
         >
-            <CodeDisplay />
-            {(action) ? <Dashboard /> : < Result />}
-            <Action />
+            {/* <CodeDisplay /> */}
+            {/* {(action) ? <Dashboard /> : < Result />} */}
+            {/* <Action /> */}
         </Stack>
     );
 };
@@ -219,9 +238,26 @@ const Position = styled("div")({
 const Play = () => {
     const { state } = useAlgoContext();
 
+    const { actions, index, scene, animate, cancelAnimate } = useAlgoContext();
+    const action = actions[index];
+
+    animate();
+
+    const list = new LinkedList<number>(
+        scene,
+        2,
+        buildDummyNode(scene, "head", -2, 1, 1),
+        buildDummyNode(scene, "tail", 2, 1, 1),
+        "gold"
+    );
+
+    // await wait(0.1);
+    cancelAnimate();
+
     return (
         <Position>
-            {state !== State.Typing && <Main />}
+            {/* {state !== State.Typing && <Main />} */}
+            <Main />
         </Position>
     );
 }
