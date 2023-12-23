@@ -11,7 +11,7 @@ import ColorImpl from '../../_commons/three/color.class';
 import { font } from '../../../commons/three';
 import { LinkedListNode as ILinkedListNode } from "./node.interface";
 import { calDestination, calDistance } from '../../_commons/utils';
-import { Link } from '../doubly-linked-list/link.three';
+import { Link } from '../link.three';
 
 class NodeBase extends PositionImpl implements Mover, Displayer, Position, Color {
 

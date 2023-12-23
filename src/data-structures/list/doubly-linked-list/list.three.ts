@@ -1,7 +1,7 @@
 import { DoublyLinkedListNode } from "./node.three";
 import { DoublyLinkedList as ILinkedList } from "./list.interface";
 import { calDestination, calDistance } from '../../_commons/utils';
-import { SimpleLink } from "./link.three";
+import { SimpleLink } from "../link.three";
 
 const extractPosition = <T>({ x, y, z }: DoublyLinkedListNode<T>) => ({ x, y, z });
 

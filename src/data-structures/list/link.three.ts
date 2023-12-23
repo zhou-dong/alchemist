@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Link as ILink } from "./link.interface";
-import DisplayerImpl from "../../_commons/three/displayer.class";
-import Position from "../../_commons/params/position.interface";
+import DisplayerImpl from "../_commons/three/displayer.class";
+import Position from "../_commons/params/position.interface";
 
 const threePosition = ({ x, y, z }: Position) => new THREE.Vector3(x, y, z);
 
