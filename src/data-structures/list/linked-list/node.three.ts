@@ -80,7 +80,7 @@ class NodeText extends NodeBase {
     }
 }
 
-export class LinkedListNode<T> implements ILinkedListNode<T>, Mover, Displayer, Position {
+export class LinkedListNode<T> implements ILinkedListNode<T> {
     data: T;
 
     next?: LinkedListNode<T>;
