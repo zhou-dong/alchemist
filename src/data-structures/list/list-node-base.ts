@@ -9,6 +9,7 @@ import MoverImpl from '../_commons/three/mover.class';
 import Color from '../_commons/params/color.interface';
 import ColorImpl from '../_commons/three/color.class';
 import { calDestination, calDistance } from '../_commons/utils';
+import { font } from '../../commons/three';
 
 class NodeBase extends PositionImpl implements Mover, Displayer, Position, Color {
 
@@ -59,6 +60,22 @@ export class LinkedListNodeSkin extends NodeBase {
     }
 }
 
+export class SimpleLinkedListNodeSkin extends LinkedListNodeSkin {
+    constructor(
+        scene: THREE.Scene,
+        color: string,
+        width: number,
+        height: number,
+        depth: number,
+        opacity: number,
+        transparent: boolean,
+    ) {
+        const material = new THREE.MeshBasicMaterial({ color, opacity, transparent });
+        const geometry = new THREE.BoxGeometry(width, height, depth);
+        super(scene, geometry, material)
+    }
+}
+
 export class LinkedListNodeText extends NodeBase {
     text: string;
 
@@ -78,6 +95,20 @@ export class LinkedListNodeText extends NodeBase {
     }
 }
 
+export class SimpleLinkedListNodeText extends LinkedListNodeText {
+    constructor(
+        text: string,
+        scene: THREE.Scene,
+        textColor: string,
+        fontSize: number,
+        fontHeight: number
+    ) {
+        const geometryParameters: TextGeometryParameters = { font, size: fontSize, height: fontHeight };
+        const material: THREE.Material = new THREE.MeshBasicMaterial({ color: textColor });
+        super(text, scene, geometryParameters, material);
+    }
+}
+
 export class LinkedListBaseNode<T> {
     data: T;
 
@@ -86,16 +117,12 @@ export class LinkedListBaseNode<T> {
 
     constructor(
         data: T,
-        text: string,
-        scene: THREE.Scene,
-        skinGeometry: THREE.BufferGeometry,
-        skinMaterial: THREE.Material,
-        textGeometryParameters: TextGeometryParameters,
-        textMaterial: THREE.Material,
+        nodeSkin: LinkedListNodeSkin,
+        nodeText: LinkedListNodeText
     ) {
         this.data = data;
-        this.nodeSkin = new LinkedListNodeSkin(scene, skinGeometry, skinMaterial);
-        this.nodeText = new LinkedListNodeText(text, scene, textGeometryParameters, textMaterial);
+        this.nodeSkin = nodeSkin;
+        this.nodeText = nodeText;
     }
 
     get x() {

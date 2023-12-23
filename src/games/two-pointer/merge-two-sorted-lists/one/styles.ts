@@ -1,5 +1,6 @@
 import { Scene } from "three";
-import { DoublyLinkedListNode, SimpleDoublyLinkedListNode } from "../../../../data-structures/list/doubly-linked-list/node.three";
+import { DoublyLinkedListNode } from "../../../../data-structures/list/doubly-linked-list/node.three";
+import { SimpleLinkedListNodeSkin, SimpleLinkedListNodeText } from "../../../../data-structures/list/list-node-base";
 
 export const buildDummyNode = (
     scene: Scene,
@@ -8,20 +9,10 @@ export const buildDummyNode = (
     y: number,
     z: number
 ): DoublyLinkedListNode<number> => {
-    const node = new SimpleDoublyLinkedListNode<number>(
-        -1,
-        text,
-        scene,
-        "lightgray",
-        2,
-        2,
-        2,
-        0.3,
-        true,
-        "gold",
-        0.6,
-        0.5
-    );
+
+    const nodeSkin = new SimpleLinkedListNodeSkin(scene, "lightgray", 2, 2, 2, 0.3, true);
+    const nodeText = new SimpleLinkedListNodeText(text, scene, "gold", 0.6, 0.5);
+    const node = new DoublyLinkedListNode<number>(-1, nodeSkin, nodeText);
 
     node.nodeSkin.x = x;
     node.nodeSkin.y = y;
@@ -40,20 +31,10 @@ export const buildNode = (
     scene: Scene,
     value: number,
 ) => {
-    const node = new SimpleDoublyLinkedListNode<number>(
-        value,
-        value + "",
-        scene,
-        "lightgray",
-        2,
-        2,
-        2,
-        0.5,
-        true,
-        "gold",
-        0.6,
-        0.5
-    );
+
+    const nodeSkin = new SimpleLinkedListNodeSkin(scene, "lightgray", 2, 2, 2, 0.3, true);
+    const nodeText = new SimpleLinkedListNodeText(value + "", scene, "gold", 0.6, 0.5);
+    const node = new DoublyLinkedListNode<number>(value, nodeSkin, nodeText);
 
     // node.nodeSkin.x = x;
     // node.nodeSkin.y = y;
