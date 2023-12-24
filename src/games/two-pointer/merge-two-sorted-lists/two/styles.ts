@@ -4,9 +4,9 @@ import { LinkedListNode } from "../../../../data-structures/list/linked-list/nod
 import Position from "../../../../data-structures/_commons/params/position.interface";
 
 const buildSkin = (scene: THREE.Scene, position: Position) => {
-    const width = 1;
-    const height = 1;
-    const depth = 1;
+    const width = 2;
+    const height = 2;
+    const depth = 2;
 
     const color = "lightblue";
     const opacity = 0.4;
@@ -24,8 +24,8 @@ const buildSkin = (scene: THREE.Scene, position: Position) => {
 
 const buildText = (scene: THREE.Scene, text: string, position: Position) => {
     const color = "gold";
-    const fontSize = 0.5;
-    const fontHeight = 0.5;
+    const fontSize = 1;
+    const fontHeight = 0.1;
 
     const skinText = new SimpleLinkedListNodeText(text, scene, color, fontSize, fontHeight);
 
