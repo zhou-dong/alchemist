@@ -8,8 +8,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { removeElement } from "./algo";
 import { LinkedList } from '../../../../data-structures/list/linked-list/list.three';
-import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
-import { SimpleLinkedListNodeSkin, SimpleLinkedListNodeText } from '../../../../data-structures/list/list-node-base';
+import { buildLinkedListNode } from './styles';
 
 function getRandomInt() {
     const max = 9;
@@ -40,53 +39,18 @@ const Submit: React.FC<{
             setIndex(0);
 
             const duration = 1;
+
             const list1 = new LinkedList<number>(scene, duration, "gold", 2);
             const list2 = new LinkedList<number>(scene, duration, "gold", 2);
-
-            const skin1 = new SimpleLinkedListNodeSkin(scene, "lightgray", 2, 2, 2, 0.4, true);
-            const text1 = new SimpleLinkedListNodeText("0", scene, "gold", 0.5, 0.5);
-
-            skin1.x = -8
-            skin1.y = 1;
-            skin1.z = 1;
-
-            text1.x = -8;
-            text1.y = 1;
-            text1.z = 1;
-
-            const head1 = new LinkedListNode<number>(0, skin1, text1);
-
-            const skin2 = new SimpleLinkedListNodeSkin(scene, "lightgray", 2, 2, 2, 0.4, true);
-            const text2 = new SimpleLinkedListNodeText("10", scene, "gold", 0.5, 0.5);
-
-            skin2.x = -8
-            skin2.y = -4;
-            skin2.z = 1;
-
-            text2.x = -8;
-            text2.y = -4;
-            text2.z = 1;
-
-            const head2 = new LinkedListNode<number>(10, skin2, text2);
+            const head1 = buildLinkedListNode(scene, 0, { x: -8, y: 0, z: 0 }, { x: -8.2, y: 0.7, z: 0 });
+            const head2 = buildLinkedListNode(scene, 10, { x: -8, y: -4, z: 0 }, { x: -8.4, y: -3.3, z: 0 });
 
             await list1.push(head1);
             await list2.push(head2);
 
             for (let i = 0; i < 5; i++) {
-                await list1.push(
-                    new LinkedListNode<number>(
-                        i + 1,
-                        new SimpleLinkedListNodeSkin(scene, "lightgray", 1, 1, 1, 0.4, true),
-                        new SimpleLinkedListNodeText(i + 1 + "", scene, "gold", 0.5, 0.5)
-                    )
-                );
-                await list2.push(
-                    new LinkedListNode<number>(
-                        i + 11,
-                        new SimpleLinkedListNodeSkin(scene, "lightgray", 1, 1, 1, 0.4, true),
-                        new SimpleLinkedListNodeText(i + 11 + "", scene, "gold", 0.5, 0.5)
-                    )
-                );
+                await list1.push(buildLinkedListNode(scene, i + 1, { x: 0, y: 0, z: 0 }, { x: -0.2, y: 0.7, z: 0 }));
+                await list2.push(buildLinkedListNode(scene, i + 11, { x: 0, y: 0, z: 0 }, { x: -0.4, y: 0.7, z: 0 }));
             }
 
             setList1(list1);
