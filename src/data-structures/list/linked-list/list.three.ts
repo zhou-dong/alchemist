@@ -1,6 +1,5 @@
 import { LinkedListNode } from "./node.three";
 import { LinkedList as ILinkedList } from "./list.interface";
-import { calDestination } from '../../_commons/utils';
 import { SimpleLink } from "../link.three";
 
 export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
