@@ -33,11 +33,8 @@ const Submit: React.FC<{
         setState(State.Playing);
         setAnchorEl(null);
         try {
-
             animate();
-
             const duration = 1;
-
             const list = new DoublyLinkedList<number>(
                 scene,
                 duration,
@@ -45,14 +42,12 @@ const Submit: React.FC<{
                 buildDummyNode(scene, "T", -7, 1, 1),
                 "gold"
             );
-
             setList(list);
-
             await wait(0.1);
-            cancelAnimate();
-
         } catch (error) {
             console.error(error);
+        } finally {
+            cancelAnimate();
         }
     }
 
