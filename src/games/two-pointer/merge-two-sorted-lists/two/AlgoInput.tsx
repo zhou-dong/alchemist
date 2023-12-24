@@ -45,7 +45,7 @@ const Submit: React.FC<{
             const list1 = new LinkedList<number>(scene, duration, linkColor, linkLength);
             const list2 = new LinkedList<number>(scene, duration, linkColor, linkLength);
 
-            const head1 = buildLinkedListNode(scene, 0, { x: -8, y: 0, z: 0 }, { x: -8.4, y: 1, z: 0 });
+            const head1 = buildLinkedListNode(scene, 0, { x: -8, y: 4, z: 0 }, { x: -8.4, y: 5, z: 0 });
             const head2 = buildLinkedListNode(scene, 10, { x: -8, y: -4, z: 0 }, { x: -8.8, y: -3, z: 0 });
 
             await list1.push(head1);
