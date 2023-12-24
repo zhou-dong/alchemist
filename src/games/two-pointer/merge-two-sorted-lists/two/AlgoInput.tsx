@@ -7,6 +7,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { removeElement } from "./algo";
+import { LinkedList } from '../../../../data-structures/list/linked-list/list.three';
+import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
+import { SimpleLinkedListNodeSkin, SimpleLinkedListNodeText } from '../../../../data-structures/list/list-node-base';
 
 function getRandomInt() {
     const max = 9;
@@ -25,17 +28,73 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nums, target, setAnchorEl }) => {
 
-    const { setState, setIndex, setActions } = useAlgoContext();
+    const { animate, setState, setIndex, setActions, cancelAnimate, scene, setList1, setList2 } = useAlgoContext();
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setState(State.Playing);
         setAnchorEl(null);
         try {
+            animate();
             const actions = removeElement(nums.split(",").map(num => +num), +target);
             setActions(actions);
             setIndex(0);
+
+            const duration = 1;
+            const list1 = new LinkedList<number>(scene, duration, "gold", 2);
+            const list2 = new LinkedList<number>(scene, duration, "gold", 2);
+
+            const skin1 = new SimpleLinkedListNodeSkin(scene, "lightgray", 2, 2, 2, 0.4, true);
+            const text1 = new SimpleLinkedListNodeText("0", scene, "gold", 0.5, 0.5);
+
+            skin1.x = -8
+            skin1.y = 1;
+            skin1.z = 1;
+
+            text1.x = -8;
+            text1.y = 1;
+            text1.z = 1;
+
+            const head1 = new LinkedListNode<number>(0, skin1, text1);
+
+            const skin2 = new SimpleLinkedListNodeSkin(scene, "lightgray", 2, 2, 2, 0.4, true);
+            const text2 = new SimpleLinkedListNodeText("10", scene, "gold", 0.5, 0.5);
+
+            skin2.x = -8
+            skin2.y = -4;
+            skin2.z = 1;
+
+            text2.x = -8;
+            text2.y = -4;
+            text2.z = 1;
+
+            const head2 = new LinkedListNode<number>(10, skin2, text2);
+
+            await list1.push(head1);
+            await list2.push(head2);
+
+            for (let i = 0; i < 5; i++) {
+                await list1.push(
+                    new LinkedListNode<number>(
+                        i + 1,
+                        new SimpleLinkedListNodeSkin(scene, "lightgray", 1, 1, 1, 0.4, true),
+                        new SimpleLinkedListNodeText(i + 1 + "", scene, "gold", 0.5, 0.5)
+                    )
+                );
+                await list2.push(
+                    new LinkedListNode<number>(
+                        i + 11,
+                        new SimpleLinkedListNodeSkin(scene, "lightgray", 1, 1, 1, 0.4, true),
+                        new SimpleLinkedListNodeText(i + 11 + "", scene, "gold", 0.5, 0.5)
+                    )
+                );
+            }
+
+            setList1(list1);
+            setList2(list2);
         } catch (error) {
             console.error(error);
+        } finally {
+            cancelAnimate();
         }
     }
 

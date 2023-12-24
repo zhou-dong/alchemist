@@ -2,7 +2,8 @@ import React from "react";
 import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { Step } from "./algo";
-import { clearScene } from "../../../../commons/three";
+import { clearScene, registerOrbitControls } from "../../../../commons/three";
+import { LinkedList } from "../../../../data-structures/list/linked-list/list.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -13,7 +14,11 @@ const AlgoContext = React.createContext<{
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     actions: Step[],
-    setActions: React.Dispatch<React.SetStateAction<Step[]>>
+    setActions: React.Dispatch<React.SetStateAction<Step[]>>,
+    list1: LinkedList<number>,
+    list2: LinkedList<number>,
+    setList1: React.Dispatch<React.SetStateAction<LinkedList<number>>>,
+    setList2: React.Dispatch<React.SetStateAction<LinkedList<number>>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -23,7 +28,11 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     actions: [],
-    setActions: () => { }
+    setActions: () => { },
+    list1: (null as any),
+    list2: (null as any),
+    setList1: () => { },
+    setList2: () => { }
 });
 
 let animationFrameId = -1;
@@ -40,6 +49,9 @@ export const AlgoContextProvider: React.FC<{
     const [index, setIndex] = React.useState(0);
     const [actions, setActions] = React.useState<Step[]>([]);
 
+    const [list1, setList1] = React.useState<LinkedList<number>>(null as any);
+    const [list2, setList2] = React.useState<LinkedList<number>>(null as any);
+
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
         renderer.render(scene, camera);
@@ -49,20 +61,21 @@ export const AlgoContextProvider: React.FC<{
         cancelAnimationFrame(animationFrameId);
     }
 
-    function init() {
-        clearScene(scene);
-        renderer.render(scene, camera);
-    }
-
-    init();
-
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(
         () => {
-            ref?.current?.appendChild(renderer.domElement)
+            function init() {
+                clearScene(scene);
+                registerOrbitControls(camera, renderer, scene);
+                renderer.render(scene, camera);
+            }
+            if (ref && ref.current) {
+                init();
+                ref.current.appendChild(renderer.domElement);
+            }
         },
-        [ref, renderer]
+        [ref, renderer, scene, camera]
     );
 
     return (
@@ -75,7 +88,11 @@ export const AlgoContextProvider: React.FC<{
             index,
             setIndex,
             actions,
-            setActions
+            setActions,
+            list1,
+            list2,
+            setList1,
+            setList2
         }}>
             {children}
             <div ref={ref} />
