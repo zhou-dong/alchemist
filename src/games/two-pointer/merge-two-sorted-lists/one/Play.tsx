@@ -1,40 +1,60 @@
 import { styled } from '@mui/system';
-import { Button } from "@mui/material";
+import MergeIcon from '@mui/icons-material/Merge';
+import { Button, ButtonGroup } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import React from 'react';
-import { buildNode } from './styles';
 import { wait } from '../../../../data-structures/_commons/utils';
+import { State } from './AlgoState';
 
 const Position = styled("div")({
     position: "fixed",
-    top: 200,
+    bottom: 200,
     width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "40%",
-    zIndex: 0
+    zIndex: 1
 });
 
 const Play = () => {
-    const { scene, animate, cancelAnimate, list } = useAlgoContext();
-
-    const [num, setNum] = React.useState(1);
+    const { animate, cancelAnimate, list1, list2, state, setState } = useAlgoContext();
 
     const push = async () => {
-        animate();
-        const node = buildNode(scene, num);
-        await list.push(node);
-        await wait(0.1);
-        setNum(n => n + 1);
-        cancelAnimate();
+        if (!list1) {
+            setState(State.Finished);
+            return;
+        }
+        if (!list2) {
+            setState(State.Finished);
+            return;
+        }
+
+        try {
+            animate();
+            if (list1.data < list2.data) {
+
+            } else {
+
+            }
+            await wait(0.1);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            cancelAnimate();
+        }
     }
+
+    const disabled: boolean = state !== State.Playing
 
     return (
         <Position>
-            <Button onClick={push} >
-                add
-            </Button>
+
+            <ButtonGroup size='large'>
+                <Button onClick={push} startIcon={<MergeIcon />} disabled={disabled}>
+                    merge
+                </Button>
+            </ButtonGroup>
+
         </Position>
     );
 }

@@ -6,7 +6,6 @@ import { Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { removeElement } from "./algo";
 import { LinkedList } from '../../../../data-structures/list/linked-list/list.three';
 import { buildLinkedListNode } from '../styles';
 
@@ -27,16 +26,13 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ nums, target, setAnchorEl }) => {
 
-    const { animate, setState, setIndex, setActions, cancelAnimate, scene, setList1, setList2 } = useAlgoContext();
+    const { animate, setState, cancelAnimate, scene, setList1, setList2 } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Playing);
         setAnchorEl(null);
         try {
             animate();
-            const actions = removeElement(nums.split(",").map(num => +num), +target);
-            setActions(actions);
-            setIndex(0);
 
             const duration = 1;
             const linkLength = 4;

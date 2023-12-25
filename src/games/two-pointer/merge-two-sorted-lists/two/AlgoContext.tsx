@@ -1,7 +1,6 @@
 import React from "react";
 import * as THREE from 'three';
 import { State } from "./AlgoState";
-import { Step } from "./algo";
 import { clearScene, registerOrbitControls } from "../../../../commons/three";
 import { LinkedList } from "../../../../data-structures/list/linked-list/list.three";
 
@@ -11,10 +10,6 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>,
-    actions: Step[],
-    setActions: React.Dispatch<React.SetStateAction<Step[]>>,
     list1: LinkedList<number>,
     list2: LinkedList<number>,
     setList1: React.Dispatch<React.SetStateAction<LinkedList<number>>>,
@@ -25,10 +20,6 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => { },
     state: State.Typing,
     setState: () => { },
-    index: 0,
-    setIndex: () => { },
-    actions: [],
-    setActions: () => { },
     list1: (null as any),
     list2: (null as any),
     setList1: () => { },
@@ -46,9 +37,6 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [index, setIndex] = React.useState(0);
-    const [actions, setActions] = React.useState<Step[]>([]);
-
     const [list1, setList1] = React.useState<LinkedList<number>>(null as any);
     const [list2, setList2] = React.useState<LinkedList<number>>(null as any);
 
@@ -85,10 +73,6 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             state,
             setState,
-            index,
-            setIndex,
-            actions,
-            setActions,
             list1,
             list2,
             setList1,
