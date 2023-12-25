@@ -1,11 +1,11 @@
 import { styled } from '@mui/system';
 import MergeIcon from '@mui/icons-material/Merge';
+import CheckIcon from '@mui/icons-material/Check';
 import { Button, ButtonGroup } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
-import React from 'react';
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { Connection } from './code';
+import { Connection, Order } from './code';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
 import { linkColor } from '../styles';
 
@@ -30,7 +30,7 @@ const Play = () => {
             return;
         }
 
-        const { node1, node2, connection } = action;
+        const { node1, node2, connection, order } = action;
 
         const connect1 = () => {
             if (node1 && node1.next) {
@@ -56,8 +56,14 @@ const Play = () => {
             }
         }
 
-        try {
-            animate();
+        if (order === Order.PreOrder) {
+            if (node1) {
+                node1.nodeSkin.color = "orange";
+            }
+            if (node2) {
+                node2.nodeSkin.color = "orange";
+            }
+        } else {
             if (node1) {
                 node1.nodeSkin.color = "blue";
             }
@@ -76,6 +82,10 @@ const Play = () => {
                     connect2();
                     break;
             }
+        }
+
+        try {
+            animate();
             await wait(0.1);
         } catch (error) {
             console.log(error);
@@ -95,13 +105,11 @@ const Play = () => {
 
     return (
         <Position>
-
             <ButtonGroup size='large'>
-                <Button onClick={push} startIcon={<MergeIcon />} disabled={disabled}>
+                <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
                     merge
                 </Button>
             </ButtonGroup>
-
         </Position>
     );
 }

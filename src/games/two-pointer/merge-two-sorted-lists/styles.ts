@@ -6,9 +6,9 @@ import Position from "../../../data-structures/_commons/params/position.interfac
 export const linkColor = "gold";
 
 const buildSkin = (scene: THREE.Scene, position: Position) => {
-    const width = 2;
-    const height = 2;
-    const depth = 2;
+    const width = 1.5;
+    const height = 1.5;
+    const depth = 1.5;
 
     const color = "lightblue";
     const opacity = 0.4;
@@ -26,7 +26,7 @@ const buildSkin = (scene: THREE.Scene, position: Position) => {
 
 const buildText = (scene: THREE.Scene, text: string, position: Position) => {
     const color = "gold";
-    const fontSize = 1;
+    const fontSize = 0.6;
     const fontHeight = 0.1;
 
     const skinText = new SimpleLinkedListNodeText(text, scene, color, fontSize, fontHeight);

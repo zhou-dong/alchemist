@@ -93,8 +93,8 @@ const Submit: React.FC<{
         try {
             animate();
 
-            const head1 = await buildList(first, 4);
-            const head2 = await buildList(second, -4);
+            const head1 = await buildList(first, 8);
+            const head2 = await buildList(second, 2);
 
             setList1(head1);
             setList2(head2);
