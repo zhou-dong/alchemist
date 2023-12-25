@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { SimpleLinkedListNodeSkin, SimpleLinkedListNodeText } from "../../../../data-structures/list/list-node-base";
-import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
-import Position from "../../../../data-structures/_commons/params/position.interface";
+import { SimpleLinkedListNodeSkin, SimpleLinkedListNodeText } from "../../../data-structures/list/list-node-base";
+import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
+import Position from "../../../data-structures/_commons/params/position.interface";
 
 const buildSkin = (scene: THREE.Scene, position: Position) => {
     const width = 2;

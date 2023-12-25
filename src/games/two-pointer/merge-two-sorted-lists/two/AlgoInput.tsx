@@ -8,7 +8,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { removeElement } from "./algo";
 import { LinkedList } from '../../../../data-structures/list/linked-list/list.three';
-import { buildLinkedListNode } from './styles';
+import { buildLinkedListNode } from '../styles';
 
 function getRandomInt() {
     const max = 9;
