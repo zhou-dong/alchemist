@@ -5,6 +5,9 @@ import { useAlgoContext } from "./AlgoContext";
 import React from 'react';
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
+import { Connection } from './code';
+import { SimpleLink } from '../../../../data-structures/list/link.three';
+import { linkColor } from '../styles';
 
 const Position = styled("div")({
     position: "fixed",
@@ -17,24 +20,61 @@ const Position = styled("div")({
 });
 
 const Play = () => {
-    const { animate, cancelAnimate, list1, list2, state, setState } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, actions, setIndex, scene } = useAlgoContext();
 
     const push = async () => {
-        if (!list1) {
-            setState(State.Finished);
+
+        const action = actions[index];
+
+        if (!action) {
             return;
         }
-        if (!list2) {
-            setState(State.Finished);
-            return;
+
+        const { node1, node2, connection } = action;
+
+        const connect1 = () => {
+            if (node1 && node1.next) {
+                if (node1.linkToNext) {
+                    node1.linkToNext.target = node1.next;
+                } else {
+                    node1.linkToNext = new SimpleLink(node1, node1.next, scene, linkColor);
+                    node1.linkToNext.show();
+                }
+                node1.linkToNext.refresh();
+            }
+        }
+
+        const connect2 = () => {
+            if (node2 && node2.next) {
+                if (node2.linkToNext) {
+                    node2.linkToNext.target = node2.next;
+                } else {
+                    node2.linkToNext = new SimpleLink(node2, node2.next, scene, linkColor);
+                    node2.linkToNext.show();
+                }
+                node2.linkToNext.refresh();
+            }
         }
 
         try {
             animate();
-            if (list1.data < list2.data) {
-
-            } else {
-
+            if (node1) {
+                node1.nodeSkin.color = "blue";
+            }
+            if (node2) {
+                node2.nodeSkin.color = "blue";
+            }
+            switch (connection) {
+                case Connection.None:
+                    connect1();
+                    connect2();
+                    break;
+                case Connection.One:
+                    connect1();
+                    break;
+                case Connection.Two:
+                    connect2();
+                    break;
             }
             await wait(0.1);
         } catch (error) {
@@ -42,6 +82,13 @@ const Play = () => {
         } finally {
             cancelAnimate();
         }
+
+        if (index === actions.length - 1) {
+            setState(State.Finished);
+        } else {
+            setIndex(i => i + 1);
+        }
+
     }
 
     const disabled: boolean = state !== State.Playing

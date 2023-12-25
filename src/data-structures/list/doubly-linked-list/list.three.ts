@@ -57,12 +57,12 @@ export class DoublyLinkedList<T> implements ILinkedList<DoublyLinkedListNode<T>>
         this.dummyTail.prev = item;
 
         if (!item.linkToPrev) {
-            item.linkToPrev = new SimpleLink<T>(item, item.prev!, this.scene, this.linkColor);
+            item.linkToPrev = new SimpleLink(item, item.prev!, this.scene, this.linkColor);
             item.linkToPrev.show();
         }
 
         if (!item.linkToNext) {
-            item.linkToNext = new SimpleLink<T>(item, item.next!, this.scene, this.linkColor);
+            item.linkToNext = new SimpleLink(item, item.next!, this.scene, this.linkColor);
             item.linkToNext.show();
         }
 

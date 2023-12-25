@@ -4,5 +4,5 @@ import { LinkedListBaseNode } from '../list-node-base';
 
 export class LinkedListNode<T> extends LinkedListBaseNode<T> implements ILinkedListNode<T> {
     next?: LinkedListNode<T>;
-    linkToNext?: Link<T>;
+    linkToNext?: Link;
 }

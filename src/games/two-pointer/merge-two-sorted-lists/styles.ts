@@ -3,6 +3,8 @@ import { SimpleLinkedListNodeSkin, SimpleLinkedListNodeText } from "../../../dat
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 import Position from "../../../data-structures/_commons/params/position.interface";
 
+export const linkColor = "gold";
+
 const buildSkin = (scene: THREE.Scene, position: Position) => {
     const width = 2;
     const height = 2;

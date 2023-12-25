@@ -5,7 +5,7 @@ import Position from "../_commons/params/position.interface";
 
 const threePosition = ({ x, y, z }: Position) => new THREE.Vector3(x, y, z);
 
-export class Link<T> extends DisplayerImpl implements ILink<T> {
+export class Link extends DisplayerImpl implements ILink {
 
     source: Position;
     target: Position;
@@ -72,7 +72,7 @@ export class Link<T> extends DisplayerImpl implements ILink<T> {
 
 }
 
-export class SimpleLink<T> extends Link<T>  {
+export class SimpleLink extends Link {
 
     constructor(
         source: Position,

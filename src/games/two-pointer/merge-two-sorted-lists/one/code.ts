@@ -1,28 +1,41 @@
-// Definition for singly-linked list.
-class ListNode {
-    val: number
-    next: ListNode | null
-    constructor(val?: number, next?: ListNode | null) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = (next === undefined ? null : next)
-    }
+import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
+
+export enum Connection {
+    None, One, Two
 }
 
-export function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode | null {
+export interface Action {
+    node1?: LinkedListNode<number>;
+    node2?: LinkedListNode<number>;
+    connection: Connection
+}
 
-    if (list1 === null) {
-        return list2;
-    }
+export function buildActions(node1?: LinkedListNode<number>, node2?: LinkedListNode<number>): Action[] {
+    const actions: Action[] = [];
 
-    if (list2 === null) {
-        return list1;
-    }
+    function mergeTwoLists(node1?: LinkedListNode<number>, node2?: LinkedListNode<number>): LinkedListNode<number> | undefined {
 
-    if (list1.val < list2.val) {
-        list1.next = mergeTwoLists(list1.next, list2);
-        return list1;
-    }
+        if (!node1) {
+            actions.push({ node1, node2, connection: Connection.None });
+            return node2;
+        }
 
-    list2.next = mergeTwoLists(list1, list2.next);
-    return list2;
-};
+        if (!node2) {
+            actions.push({ node1, node2, connection: Connection.None });
+            return node1;
+        }
+
+        if (node1.data < node2.data) {
+            node1.next = mergeTwoLists(node1.next, node2);
+            actions.push({ node1, node2, connection: Connection.One });
+            return node1;
+        }
+
+        node2.next = mergeTwoLists(node1, node2.next);
+        actions.push({ node1, node2, connection: Connection.Two });
+        return node2;
+    };
+
+    mergeTwoLists(node1, node2);
+    return actions;
+}

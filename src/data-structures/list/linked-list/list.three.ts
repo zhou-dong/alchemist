@@ -47,7 +47,7 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
         current.next = item;
 
         if (!current.linkToNext) {
-            current.linkToNext = new SimpleLink<T>(current, item, this.scene, this.linkColor);
+            current.linkToNext = new SimpleLink(current, item, this.scene, this.linkColor);
             current.linkToNext.show();
         }
 

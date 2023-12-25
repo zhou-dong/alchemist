@@ -9,7 +9,8 @@ import { State } from './AlgoState';
 import { LinkedList } from "../../../../data-structures/list/linked-list/list.three";
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 import { clearScene } from "../../../../commons/three";
-import { buildLinkedListNode } from "../styles";
+import { buildLinkedListNode, linkColor } from "../styles";
+import { buildActions } from './code';
 
 const buildTwoArraies = () => {
 
@@ -59,14 +60,13 @@ const Submit: React.FC<{
 
     const disabled = !nums1 || !nums2 || first.length === 0 || second.length === 0;
 
-    const { setState, animate, cancelAnimate, scene, setList1, setList2 } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setList1, setList2, setActions, setIndex } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
 
-        const linkColor = "gold";
         const linkLength = 4;
         const duration = 1;
 
@@ -98,12 +98,16 @@ const Submit: React.FC<{
 
             setList1(head1);
             setList2(head2);
+
+            const actions = buildActions(head1, head2);
+            setActions(actions);
         } catch (error) {
             console.error(error);
         } finally {
             cancelAnimate();
         }
 
+        setIndex(0);
         setState(State.Playing);
     }
 

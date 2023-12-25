@@ -6,6 +6,6 @@ export class DoublyLinkedListNode<T> extends LinkedListBaseNode<T> implements IL
     next?: DoublyLinkedListNode<T>;
     prev?: DoublyLinkedListNode<T>;
 
-    linkToNext?: Link<T>;
-    linkToPrev?: Link<T>;
+    linkToNext?: Link;
+    linkToPrev?: Link;
 }
