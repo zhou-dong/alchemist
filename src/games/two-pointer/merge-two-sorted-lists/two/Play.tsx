@@ -139,9 +139,7 @@ const Play = () => {
     return (
         <>
             <Position>
-                <ButtonGroup>
-
-
+                <ButtonGroup size='large'>
                     <Button onClick={handleMerge} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
                         merge
                     </Button>
