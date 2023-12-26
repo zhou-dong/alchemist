@@ -1,8 +1,8 @@
 import React from "react";
 import * as THREE from 'three';
 import { State } from "./AlgoState";
-import { clearScene, registerOrbitControls } from "../../../../commons/three";
-import { LinkedList } from "../../../../data-structures/list/linked-list/list.three";
+import { clearScene } from "../../../../commons/three";
+import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -10,10 +10,10 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    list1: LinkedList<number>,
-    list2: LinkedList<number>,
-    setList1: React.Dispatch<React.SetStateAction<LinkedList<number>>>,
-    setList2: React.Dispatch<React.SetStateAction<LinkedList<number>>>
+    list1?: LinkedListNode<number>,
+    list2?: LinkedListNode<number>,
+    setList1: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    setList2: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -37,8 +37,8 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [list1, setList1] = React.useState<LinkedList<number>>(null as any);
-    const [list2, setList2] = React.useState<LinkedList<number>>(null as any);
+    const [list1, setList1] = React.useState<LinkedListNode<number>>();
+    const [list2, setList2] = React.useState<LinkedListNode<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -55,7 +55,6 @@ export const AlgoContextProvider: React.FC<{
         () => {
             function init() {
                 clearScene(scene);
-                registerOrbitControls(camera, renderer, scene);
                 renderer.render(scene, camera);
             }
             if (ref && ref.current) {
