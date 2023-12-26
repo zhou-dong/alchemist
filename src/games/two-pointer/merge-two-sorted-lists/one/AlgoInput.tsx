@@ -148,7 +148,7 @@ const Main = ({ setAnchorEl }: Props) => {
                 alignItems: "center"
             }}
         >
-            <Stack sx={{ width: "100%" }} direction="column">
+            <Stack sx={{ width: "100%", padding: 2 }} direction="column">
                 <TextField fullWidth label='List1, seprate by ","' variant="standard" value={nums1} onChange={handleNums1Change} />
                 <TextField fullWidth label='List2, seprate by ","' variant="standard" value={nums2} onChange={handleNums2Change} />
                 <Stack direction="row" justifyContent="end">
