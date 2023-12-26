@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Button, ButtonGroup, IconButton, Paper, Stack, Toolbar } from "@mui/material";
+import { Button, ButtonGroup, Divider, IconButton, Paper, Stack, Toolbar } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
@@ -50,6 +50,7 @@ const CodeDisplay = () => {
                                 <DragIndicatorIcon />
                             </IconButton>
                         </Toolbar>
+                        <Divider variant='middle' />
                         <CodeBlock
                             code={formula}
                             language={languages.Typescript}
