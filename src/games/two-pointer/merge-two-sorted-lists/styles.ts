@@ -47,14 +47,27 @@ const buildText = (scene: THREE.Scene, text: string, position: Position) => {
     return skinText;
 }
 
-export const buildHead = (scene: THREE.Scene, i: number, y: number): LinkedListNode<number> => {
+const buildHead = (scene: THREE.Scene, i: number, y: number): LinkedListNode<number> => {
     const textX = ((i + "").length === 1) ? -0.4 : -0.6;
     return buildLinkedListNode(scene, i, { x: -8, y, z: 0 }, { x: -8 + textX, y: y + 0.3, z: 0 })
 }
 
-export const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
+const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
     const textX = ((i + "").length === 1) ? -0.4 : -0.6;
     return buildLinkedListNode(scene, i, { x: 0, y: 0, z: 0 }, { x: textX, y: 0.3, z: 0 })
+}
+
+const buildLinkedListNode = (
+    scene: THREE.Scene,
+    value: number,
+    skinPosition: Position,
+    textPosition: Position
+) => {
+
+    const skin = buildSkin(scene, skinPosition);
+    const text = buildText(scene, value + "", textPosition);
+
+    return new LinkedListNode<number>(value, skin, text);
 }
 
 export const buildList = async (
@@ -69,17 +82,4 @@ export const buildList = async (
         await list.push(buildNode(scene, array[i]));
     }
     return head;
-}
-
-export const buildLinkedListNode = (
-    scene: THREE.Scene,
-    value: number,
-    skinPosition: Position,
-    textPosition: Position
-) => {
-
-    const skin = buildSkin(scene, skinPosition);
-    const text = buildText(scene, value + "", textPosition);
-
-    return new LinkedListNode<number>(value, skin, text);
 }
