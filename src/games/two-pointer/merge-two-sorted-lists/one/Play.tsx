@@ -7,7 +7,7 @@ import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
 import { Connection, Order } from './code';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
-import { linkColor } from '../styles';
+import { linkColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
 
 const Position = styled("div")({
     position: "fixed",
@@ -58,17 +58,17 @@ const Play = () => {
 
         if (order === Order.PreOrder) {
             if (node1) {
-                node1.nodeSkin.color = "orange";
+                node1.nodeSkin.color = skinPreOrderColor;
             }
             if (node2) {
-                node2.nodeSkin.color = "orange";
+                node2.nodeSkin.color = skinPreOrderColor;
             }
         } else {
             if (node1) {
-                node1.nodeSkin.color = "lightgreen";
+                node1.nodeSkin.color = skinPostOrderColor;
             }
             if (node2) {
-                node2.nodeSkin.color = "lightgreen";
+                node2.nodeSkin.color = skinPostOrderColor;
             }
             switch (connection) {
                 case Connection.None:

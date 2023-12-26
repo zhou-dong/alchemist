@@ -5,13 +5,19 @@ import Position from "../../../data-structures/_commons/params/position.interfac
 
 export const linkColor = "gold";
 
+export const skinDefaultColor = "yellow";
+export const skinPreOrderColor = "orange";
+export const skinPostOrderColor = "lightgreen";
+
+const textColor = "green";
+
 const buildSkin = (scene: THREE.Scene, position: Position) => {
     const width = 1.5;
     const height = 1.5;
     const depth = 1.5;
 
-    const color = "lightblue";
-    const opacity = 0.4;
+    const color = skinDefaultColor;
+    const opacity = 0.3;
     const transparent = true;
 
     const skin = new SimpleLinkedListNodeSkin(scene, color, width, height, depth, opacity, transparent);
@@ -25,7 +31,7 @@ const buildSkin = (scene: THREE.Scene, position: Position) => {
 }
 
 const buildText = (scene: THREE.Scene, text: string, position: Position) => {
-    const color = "gold";
+    const color = textColor;
     const fontSize = 0.6;
     const fontHeight = 0.1;
 
