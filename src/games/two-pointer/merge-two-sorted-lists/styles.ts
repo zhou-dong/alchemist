@@ -2,12 +2,14 @@ import * as THREE from "three";
 import { SimpleLinkedListNodeSkin, SimpleLinkedListNodeText } from "../../../data-structures/list/list-node-base";
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 import Position from "../../../data-structures/_commons/params/position.interface";
+import { LinkedList } from "../../../data-structures/list/linked-list/list.three";
 
 export const linkColor = "gold";
-
 export const skinDefaultColor = "yellow";
 export const skinPreOrderColor = "orange";
 export const skinPostOrderColor = "lightgreen";
+const linkLength = 4;
+const duration = 1;
 
 const textColor = "green";
 
@@ -43,6 +45,30 @@ const buildText = (scene: THREE.Scene, text: string, position: Position) => {
     skinText.z = z;
 
     return skinText;
+}
+
+export const buildHead = (scene: THREE.Scene, i: number, y: number): LinkedListNode<number> => {
+    const textX = ((i + "").length === 1) ? -0.4 : -0.6;
+    return buildLinkedListNode(scene, i, { x: -8, y, z: 0 }, { x: -8 + textX, y: y + 0.3, z: 0 })
+}
+
+export const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
+    const textX = ((i + "").length === 1) ? -0.4 : -0.6;
+    return buildLinkedListNode(scene, i, { x: 0, y: 0, z: 0 }, { x: textX, y: 0.3, z: 0 })
+}
+
+export const buildList = async (
+    scene: THREE.Scene,
+    array: number[],
+    y: number
+): Promise<LinkedListNode<number>> => {
+    const list = new LinkedList<number>(scene, duration, linkColor, linkLength);
+    const head = buildHead(scene, array[0], y);
+    await list.push(head);
+    for (let i = 1; i < array.length; i++) {
+        await list.push(buildNode(scene, array[i]));
+    }
+    return head;
 }
 
 export const buildLinkedListNode = (
