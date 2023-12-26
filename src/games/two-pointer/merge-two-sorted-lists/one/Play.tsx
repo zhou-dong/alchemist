@@ -1,13 +1,68 @@
+import * as React from 'react';
 import { styled } from '@mui/system';
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
-import { Button, ButtonGroup } from "@mui/material";
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import { Button, ButtonGroup, IconButton, Paper, Stack, Toolbar } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
 import { Connection, Order } from './code';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
 import { linkColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
+import CodeIcon from '@mui/icons-material/Code';
+import Draggable from 'react-draggable';
+import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
+
+const formula = `function mergeTwoLists(list1, list2) {
+
+    if (!list1) {
+        return list2;
+    }
+
+    if (!list2) {
+        return list1;
+    }
+
+    if (list1.val < list2.val) {
+        const next = mergeTwoLists(list1.next, list2);
+        list1.next = next;
+        return list1;
+    }
+
+    const next = mergeTwoLists(list1, list2.next);
+    list2.next = next;
+    return list2;
+};`;
+
+const CodeDisplay = () => {
+    const { index, actions } = useAlgoContext();
+    const action = actions[index - 1];
+    const linesToHighlight: number[] = action ? action.linesToHighlight : [];
+
+    return (
+        <div style={{ position: 'fixed', top: 330, left: 40, zIndex: 2 }}>
+            <Draggable>
+                <Paper elevation={8} sx={{ cursor: 'pointer' }}>
+                    <Stack spacing={0}>
+                        <Toolbar variant='dense' sx={{ minHeight: 0 }}>
+                            <IconButton color='info' sx={{ minHeight: 0 }}>
+                                <DragIndicatorIcon />
+                            </IconButton>
+                        </Toolbar>
+                        <CodeBlock
+                            code={formula}
+                            language={languages.Typescript}
+                            showLineNumbers={true}
+                            linesToHighlight={linesToHighlight}
+                            wrapLines={true}
+                        />
+                    </Stack>
+                </Paper>
+            </Draggable>
+        </div>
+    );
+}
 
 const Position = styled("div")({
     position: "fixed",
@@ -102,6 +157,12 @@ const Play = () => {
 
     const disabled: boolean = state !== State.Playing
 
+    const [displayCode, setDisplayCode] = React.useState(false);
+
+    const handleCodeDisplayToggle = () => {
+        setDisplayCode(isOpen => !isOpen);
+    }
+
     return (
         <>
             <Position>
@@ -109,8 +170,16 @@ const Play = () => {
                     <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
                         merge
                     </Button>
+                    <Button
+                        onClick={handleCodeDisplayToggle}
+                        endIcon={<CodeIcon />}
+                        color={displayCode ? "info" : "inherit"}
+                    >
+                        code
+                    </Button>
                 </ButtonGroup>
             </Position>
+            {displayCode && <CodeDisplay />}
         </>
     );
 }

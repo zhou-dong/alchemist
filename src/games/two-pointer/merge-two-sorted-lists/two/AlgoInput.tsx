@@ -2,46 +2,82 @@ import * as React from 'react';
 import OutputIcon from '@mui/icons-material/Output';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
-import { Divider, InputBase } from '@mui/material';
+import { Stack, TextField } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
-import { LinkedList } from '../../../../data-structures/list/linked-list/list.three';
+import { clearScene } from "../../../../commons/three";
+import { buildList } from '../styles';
 
-function getRandomInt() {
-    const max = 9;
-    return Math.floor(Math.random() * max) + 1;
+const buildTwoArraies = () => {
+
+    const max = 20;
+    const arrayLength = 6;
+
+    const pool: number[] = [];
+    for (let i = 0; i < max; i++) {
+        pool.push(i);
+    }
+
+    const first: number[] = [];
+    const second: number[] = [];
+
+    for (let i = 0; i < arrayLength; i++) {
+        const randomIndex = Math.floor(Math.random() * pool.length);
+        const selectedNumber = pool[randomIndex];
+        first.push(selectedNumber);
+        pool.splice(randomIndex, 1);
+    }
+
+    for (let i = 0; i < arrayLength; i++) {
+        const randomIndex = Math.floor(Math.random() * pool.length);
+        const selectedNumber = pool[randomIndex];
+        second.push(selectedNumber);
+        pool.splice(randomIndex, 1);
+    }
+
+    first.sort((a, b) => a - b);
+    second.sort((a, b) => a - b);
+
+    return [first, second];
 }
-
-const buildNums = () => new Array(10).fill(0).map(() => getRandomInt());
 
 interface Props {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
 
 const Submit: React.FC<{
-    nums: string,
-    target: string,
+    nums1: string,
+    nums2: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nums, target, setAnchorEl }) => {
+}> = ({ nums1, nums2, setAnchorEl }) => {
 
-    const { animate, setState, cancelAnimate, scene, setList1, setList2 } = useAlgoContext();
+    const first: number[] = nums1.split(",").map(num => +num);
+    const second: number[] = nums2.split(",").map(num => +num);
+
+    const disabled = !nums1 || !nums2 || first.length === 0 || second.length === 0;
+
+    const { setState, animate, cancelAnimate, scene, setNode1, setNode2 } = useAlgoContext();
 
     const handleSubmit = async () => {
-        setState(State.Playing);
+        setState(State.Typing);
         setAnchorEl(null);
+        clearScene(scene);
+
         try {
             animate();
-
-      
+            const head1 = await buildList(scene, first, 8);
+            const head2 = await buildList(scene, second, 2);
+            setNode1(head1);
+            setNode2(head2);
         } catch (error) {
             console.error(error);
         } finally {
             cancelAnimate();
         }
-    }
 
-    const disabled = !nums || !target;
+        setState(State.Playing);
+    }
 
     return (
         <IconButton sx={{ p: '10px' }} aria-label="submit input" onClick={handleSubmit} disabled={disabled}>
@@ -50,17 +86,24 @@ const Submit: React.FC<{
     );
 }
 
+
 const Main = ({ setAnchorEl }: Props) => {
 
-    const [nums, setNums] = React.useState("");
-    const [target, setTarget] = React.useState("");
+    const [nums1, setNums1] = React.useState("");
+    const [nums2, setNums2] = React.useState("");
 
-    const handleNumsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNums(e.currentTarget.value);
+    const handleNums1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNums1(e.currentTarget.value);
     }
 
-    const handleTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTarget(e.currentTarget.value);
+    const handleNums2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNums2(e.currentTarget.value);
+    }
+
+    const handleFresh = () => {
+        const [first, second] = buildTwoArraies();
+        setNums1(() => first.join(","));
+        setNums2(() => second.join(","));
     }
 
     return (
@@ -70,41 +113,23 @@ const Main = ({ setAnchorEl }: Props) => {
             sx={{
                 p: '2px 4px',
                 display: 'flex',
-                width: 350,
+                width: 300,
                 alignItems: "center"
             }}
         >
-            <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                placeholder='nums, seprate by ","'
-                value={nums}
-                onChange={handleNumsChange}
-                type='text'
-            />
-
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
-            <InputBase
-                placeholder='val'
-                value={target}
-                onChange={handleTargetChange}
-                type='number'
-                inputProps={{ style: { textAlign: 'center' } }}
-                sx={{ width: 50 }}
-            />
-
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={() => {
-                setNums(() => buildNums().join(", "));
-                setTarget(() => getRandomInt() + "");
-            }}>
-                <RefreshIcon />
-            </IconButton>
-
-            <Submit nums={nums} target={target} setAnchorEl={setAnchorEl} />
+            <Stack sx={{ width: "100%", padding: 2 }} direction="column">
+                <TextField fullWidth label='List1, seprate by ","' variant="standard" value={nums1} onChange={handleNums1Change} />
+                <TextField fullWidth label='List2, seprate by ","' variant="standard" value={nums2} onChange={handleNums2Change} />
+                <Stack direction="row" justifyContent="end">
+                    <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={handleFresh}>
+                        <RefreshIcon />
+                    </IconButton>
+                    <Submit nums1={nums1} nums2={nums2} setAnchorEl={setAnchorEl} />
+                </Stack>
+            </Stack>
         </Paper>
     );
 }
+
 
 export default Main;

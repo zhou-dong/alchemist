@@ -10,20 +10,24 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    list1?: LinkedListNode<number>,
-    list2?: LinkedListNode<number>,
-    setList1: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
-    setList2: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    node1?: LinkedListNode<number>,
+    node2?: LinkedListNode<number>,
+    setNode1: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    setNode2: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    linesToHighlight: number[],
+    setLinesToHighlight: React.Dispatch<React.SetStateAction<number[]>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
     state: State.Typing,
     setState: () => { },
-    list1: (null as any),
-    list2: (null as any),
-    setList1: () => { },
-    setList2: () => { }
+    node1: (null as any),
+    node2: (null as any),
+    setNode1: () => { },
+    setNode2: () => { },
+    linesToHighlight: [],
+    setLinesToHighlight: () => { }
 });
 
 let animationFrameId = -1;
@@ -37,8 +41,9 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [list1, setList1] = React.useState<LinkedListNode<number>>();
-    const [list2, setList2] = React.useState<LinkedListNode<number>>();
+    const [node1, setNode1] = React.useState<LinkedListNode<number>>();
+    const [node2, setNode2] = React.useState<LinkedListNode<number>>();
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -72,10 +77,12 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             state,
             setState,
-            list1,
-            list2,
-            setList1,
-            setList2
+            node1,
+            node2,
+            setNode1,
+            setNode2,
+            linesToHighlight,
+            setLinesToHighlight
         }}>
             {children}
             <div ref={ref} />
