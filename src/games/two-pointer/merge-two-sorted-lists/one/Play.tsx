@@ -65,10 +65,10 @@ const Play = () => {
             }
         } else {
             if (node1) {
-                node1.nodeSkin.color = "blue";
+                node1.nodeSkin.color = "lightgreen";
             }
             if (node2) {
-                node2.nodeSkin.color = "blue";
+                node2.nodeSkin.color = "lightgreen";
             }
             switch (connection) {
                 case Connection.None:

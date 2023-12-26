@@ -71,12 +71,12 @@ const Submit: React.FC<{
         const duration = 1;
 
         const buildHead = (i: number, y: number): LinkedListNode<number> => {
-            const textX = ((i + "").length === 1) ? -0.4 : -0.8;
+            const textX = ((i + "").length === 1) ? -0.4 : -0.6;
             return buildLinkedListNode(scene, i, { x: -8, y, z: 0 }, { x: -8 + textX, y: y + 1, z: 0 })
         }
 
         const buildNode = (i: number): LinkedListNode<number> => {
-            const textX = ((i + "").length === 1) ? -0.4 : -0.8;
+            const textX = ((i + "").length === 1) ? -0.4 : -0.6;
             return buildLinkedListNode(scene, i, { x: 0, y: 0, z: 0 }, { x: textX, y: 1, z: 0 })
         }
 

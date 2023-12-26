@@ -107,7 +107,7 @@ const CodeDisplay = () => {
     const linesToHighlight: number[] = action ? action.linesToHighlight : [];
 
     return (
-        <div style={{ position: 'fixed', top: 330, left: 40, zIndex: 0 }}>
+        <div style={{ position: 'fixed', top: 330, left: 40, zIndex: 2 }}>
             <Draggable>
                 <Paper elevation={8} sx={{ cursor: 'pointer' }}>
                     <CodeBlock

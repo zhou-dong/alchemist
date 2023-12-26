@@ -1,7 +1,7 @@
 import React from "react";
 import * as THREE from 'three';
 import { State } from "./AlgoState";
-import { clearScene, registerOrbitControls } from "../../../../commons/three";
+import { clearScene } from "../../../../commons/three";
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 import { Action } from "./code";
 
@@ -64,7 +64,6 @@ export const AlgoContextProvider: React.FC<{
         () => {
             function init() {
                 clearScene(scene);
-                registerOrbitControls(camera, renderer, scene);
                 renderer.render(scene, camera);
             }
             if (ref && ref.current) {
