@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import { Stack, TextField } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
-import { State } from './AlgoState';
+import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
 import { buildList } from "../styles";
 import { buildActions } from './code';

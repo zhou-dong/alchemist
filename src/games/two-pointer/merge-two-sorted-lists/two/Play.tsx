@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
 import { Stack } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
-import { State } from "./AlgoState";
+import { State } from "../AlgoState";
 
 const Main = () => {
     return (

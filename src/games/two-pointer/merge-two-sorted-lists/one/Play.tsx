@@ -6,7 +6,7 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { Button, ButtonGroup, Divider, IconButton, Paper, Stack, Toolbar } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
-import { State } from './AlgoState';
+import { State } from '../AlgoState';
 import { Connection, Order } from './code';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
 import { linkColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
