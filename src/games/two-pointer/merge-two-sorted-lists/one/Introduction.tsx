@@ -81,6 +81,7 @@ const Input = () => {
 }
 
 const formula = `function mergeTwoLists(list1, list2) {
+
     if (!list1) {
         return list2;
     }
@@ -90,17 +91,19 @@ const formula = `function mergeTwoLists(list1, list2) {
     }
 
     if (list1.val < list2.val) {
-        list1.next = mergeTwoLists(list1.next, list2);
+        const next = mergeTwoLists(list1.next, list2);
+        list1.next = next;
         return list1;
     }
 
-    list2.next = mergeTwoLists(list1, list2.next);
+    const next = mergeTwoLists(list1, list2.next);
+    list2.next = next;
     return list2;
-};`
+};`;
 
 const CodeDisplay = () => {
     const { index, actions } = useAlgoContext();
-    const action = actions[index];
+    const action = actions[index - 1];
     const linesToHighlight: number[] = action ? action.linesToHighlight : [];
 
     return (
