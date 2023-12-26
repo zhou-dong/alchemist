@@ -100,7 +100,7 @@ const Play = () => {
         } else {
             current.next = !node1 ? node2 : node1;
 
-            setLinesToHighlight([17]);
+            setLinesToHighlight([16]);
             setState(State.Finished);
         }
 
