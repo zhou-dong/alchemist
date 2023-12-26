@@ -69,13 +69,13 @@ const Submit: React.FC<{
 
             setLinesToHighlight([4]);
 
-            const current = buildLinkedListNode(scene, -1, "H", { x: -11, y: 6, z: 0 }, { x: -11.4, y: 6, z: 0 });
+            const current = buildLinkedListNode(scene, -1, "H", { x: -11, y: 7, z: 0 }, { x: -11.4, y: 7, z: 0 });
             current.show();
             current.nodeSkin.color = skinPostOrderColor;
             setCurrent(current);
 
             const head1 = await buildList(scene, first, 9);
-            const head2 = await buildList(scene, second, 3);
+            const head2 = await buildList(scene, second, 5);
             setNode1(head1);
             setNode2(head2);
         } catch (error) {
