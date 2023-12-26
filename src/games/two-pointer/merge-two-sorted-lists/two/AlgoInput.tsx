@@ -7,7 +7,6 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { LinkedList } from '../../../../data-structures/list/linked-list/list.three';
-import { buildLinkedListNode } from '../styles';
 
 function getRandomInt() {
     const max = 9;
@@ -34,26 +33,7 @@ const Submit: React.FC<{
         try {
             animate();
 
-            const duration = 1;
-            const linkLength = 4;
-            const linkColor = "gold"
-
-            const list1 = new LinkedList<number>(scene, duration, linkColor, linkLength);
-            const list2 = new LinkedList<number>(scene, duration, linkColor, linkLength);
-
-            const head1 = buildLinkedListNode(scene, 0, { x: -8, y: 4, z: 0 }, { x: -8.4, y: 5, z: 0 });
-            const head2 = buildLinkedListNode(scene, 10, { x: -8, y: -4, z: 0 }, { x: -8.8, y: -3, z: 0 });
-
-            await list1.push(head1);
-            await list2.push(head2);
-
-            for (let i = 0; i < 5; i++) {
-                await list1.push(buildLinkedListNode(scene, i + 1, { x: 0, y: 0, z: 0 }, { x: -0.4, y: 1, z: 0 }));
-                await list2.push(buildLinkedListNode(scene, i + 11, { x: 0, y: 0, z: 0 }, { x: -0.8, y: 1, z: 0 }));
-            }
-
-            setList1(list1);
-            setList2(list2);
+      
         } catch (error) {
             console.error(error);
         } finally {
