@@ -7,7 +7,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
-import { buildList } from '../styles';
+import { buildLinkedListNode, buildList, skinPostOrderColor } from '../styles';
 
 const buildTwoArraies = () => {
 
@@ -57,7 +57,7 @@ const Submit: React.FC<{
 
     const disabled = !nums1 || !nums2 || first.length === 0 || second.length === 0;
 
-    const { setState, animate, cancelAnimate, scene, setNode1, setNode2 } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setNode1, setNode2, setCurrent, setLinesToHighlight } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -66,8 +66,16 @@ const Submit: React.FC<{
 
         try {
             animate();
-            const head1 = await buildList(scene, first, 8);
-            const head2 = await buildList(scene, second, 2);
+
+            setLinesToHighlight([4]);
+
+            const current = buildLinkedListNode(scene, -1, "H", { x: -11, y: 6, z: 0 }, { x: -11.4, y: 6, z: 0 });
+            current.show();
+            current.nodeSkin.color = skinPostOrderColor;
+            setCurrent(current);
+
+            const head1 = await buildList(scene, first, 9);
+            const head2 = await buildList(scene, second, 3);
             setNode1(head1);
             setNode2(head2);
         } catch (error) {

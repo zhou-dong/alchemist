@@ -67,8 +67,8 @@ const Submit: React.FC<{
 
         try {
             animate();
-            const head1 = await buildList(scene, first, 8);
-            const head2 = await buildList(scene, second, 2);
+            const head1 = await buildList(scene, first, 9);
+            const head2 = await buildList(scene, second, 3);
             const actions = buildActions(head1, head2);
             setActions(actions);
         } catch (error) {

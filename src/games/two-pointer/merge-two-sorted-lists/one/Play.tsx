@@ -14,8 +14,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 
-const formula = `function mergeTwoLists(list1, list2) {
-
+const formula = `function mergeTwoLists(list1?: ListNode, list2?: ListNode): ListNode | undefined {
     if (!list1) {
         return list2;
     }

@@ -15,19 +15,21 @@ const AlgoContext = React.createContext<{
     setNode1: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
     setNode2: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
     linesToHighlight: number[],
-    setLinesToHighlight: React.Dispatch<React.SetStateAction<number[]>>
+    setLinesToHighlight: React.Dispatch<React.SetStateAction<number[]>>,
+    current: LinkedListNode<number>,
+    setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number>>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
     state: State.Typing,
     setState: () => { },
-    node1: (null as any),
-    node2: (null as any),
     setNode1: () => { },
     setNode2: () => { },
-    linesToHighlight: [],
-    setLinesToHighlight: () => { }
+    linesToHighlight: [4],
+    setLinesToHighlight: () => { },
+    current: (null as any),
+    setCurrent: () => { }
 });
 
 let animationFrameId = -1;
@@ -43,7 +45,8 @@ export const AlgoContextProvider: React.FC<{
     const [state, setState] = React.useState(State.Typing);
     const [node1, setNode1] = React.useState<LinkedListNode<number>>();
     const [node2, setNode2] = React.useState<LinkedListNode<number>>();
-    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([]);
+    const [current, setCurrent] = React.useState<LinkedListNode<number>>((null as any));
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([4]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -82,7 +85,9 @@ export const AlgoContextProvider: React.FC<{
             setNode1,
             setNode2,
             linesToHighlight,
-            setLinesToHighlight
+            setLinesToHighlight,
+            current,
+            setCurrent
         }}>
             {children}
             <div ref={ref} />
