@@ -98,19 +98,20 @@ const Play = () => {
         } else {
             setIndex(i => i + 1);
         }
-
     }
 
     const disabled: boolean = state !== State.Playing
 
     return (
-        <Position>
-            <ButtonGroup size='large'>
-                <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
-                    merge
-                </Button>
-            </ButtonGroup>
-        </Position>
+        <>
+            <Position>
+                <ButtonGroup size='large'>
+                    <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
+                        merge
+                    </Button>
+                </ButtonGroup>
+            </Position>
+        </>
     );
 }
 

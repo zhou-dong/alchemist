@@ -12,7 +12,8 @@ export interface Action {
     order: Order;
     node1?: LinkedListNode<number>;
     node2?: LinkedListNode<number>;
-    connection: Connection
+    connection: Connection,
+    linesToHighlight: number[]
 }
 
 export function buildActions(node1?: LinkedListNode<number>, node2?: LinkedListNode<number>): Action[] {
@@ -21,28 +22,61 @@ export function buildActions(node1?: LinkedListNode<number>, node2?: LinkedListN
     function mergeTwoLists(node1?: LinkedListNode<number>, node2?: LinkedListNode<number>): LinkedListNode<number> | undefined {
 
         if (!node1) {
-            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder });
+            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder, linesToHighlight: [] });
             return node2;
         }
 
         if (!node2) {
-            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder });
+            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder, linesToHighlight: [] });
             return node1;
         }
 
-        actions.push({ node1, node2, connection: Connection.None, order: Order.PreOrder });
+        actions.push({ node1, node2, connection: Connection.None, order: Order.PreOrder, linesToHighlight: [] });
 
         if (node1.data < node2.data) {
             node1.next = mergeTwoLists(node1.next, node2);
-            actions.push({ node1, node2, connection: Connection.One, order: Order.PostOrder });
+            actions.push({ node1, node2, connection: Connection.One, order: Order.PostOrder, linesToHighlight: [] });
             return node1;
         }
 
         node2.next = mergeTwoLists(node1, node2.next);
-        actions.push({ node1, node2, connection: Connection.Two, order: Order.PostOrder });
+        actions.push({ node1, node2, connection: Connection.Two, order: Order.PostOrder, linesToHighlight: [] });
         return node2;
     };
 
     mergeTwoLists(node1, node2);
     return actions;
 }
+
+
+// Definition for singly-linked list.
+class ListNode {
+    val: number
+    next?: ListNode
+    constructor(val?: number, next?: ListNode) {
+        this.val = (val === undefined ? 0 : val)
+        this.next = next;
+    }
+}
+
+// two pointers solution
+export function mergeTwoLists(
+    list1?: ListNode, list2?: ListNode
+): ListNode | undefined {
+
+    if (!list1) {
+        return list2;
+    }
+
+    if (!list2) {
+        return list1;
+    }
+
+    if (list1.val < list2.val) {
+        list1.next = mergeTwoLists(list1.next, list2);
+        return list1;
+    }
+
+    list2.next = mergeTwoLists(list1, list2.next);
+    return list2;
+};
