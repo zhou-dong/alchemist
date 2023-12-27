@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Button, ButtonGroup, Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Toolbar } from "@mui/material";
+import { Button, ButtonGroup, Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from '../AlgoState';
@@ -64,6 +64,9 @@ const CodeDisplay = () => {
                             <IconButton color='info' sx={{ minHeight: 0 }}>
                                 <DragIndicatorIcon />
                             </IconButton>
+                            <Typography component="div">
+                                Recursive Solution
+                            </Typography>
                         </Toolbar>
                         <Divider variant='middle' />
                         <Grid container spacing={0}>
@@ -81,7 +84,7 @@ const CodeDisplay = () => {
                             </Grid>
                             <Grid item xs={4}>
                                 <List>
-                                    <ListItem>
+                                    <ListItem sx={{ paddingTop: 0, paddingBottom: 0, marginTop: "-7px" }}>
                                         <ListItemIcon>
                                             <ReorderIcon color='info' />
                                         </ListItemIcon>
