@@ -137,6 +137,10 @@ export class LinkedListBaseNode<T> {
         return this.nodeSkin.z;
     }
 
+    get width() {
+        return this.nodeSkin.width;
+    }
+
     async move(position: Position, duration: number, onUpdate?: (() => void) | undefined) {
         const distance = this.nodeSkin.distance(position);
         const textEndPosition = this.nodeText.destinate(distance);
