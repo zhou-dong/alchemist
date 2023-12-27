@@ -105,6 +105,7 @@ import FirstBadVersion from "./binary-search/first-bad-version/info";
 import PlusOne from "./math/plus-one/info";
 import RemoveElement from "./two-pointer/remove-element/info";
 import RemoveDuplicatesFromSortedArray from "./two-pointer/remove-duplicates-from-sorted-array/info";
+import MergeTwoSortedLists from "./two-pointer/merge-two-sorted-lists/info";
 
 export const games: Game[] = [
     editDistance,
@@ -211,5 +212,6 @@ export const games: Game[] = [
     FirstBadVersion,
     PlusOne,
     RemoveElement,
-    RemoveDuplicatesFromSortedArray
+    RemoveDuplicatesFromSortedArray,
+    MergeTwoSortedLists
 ];

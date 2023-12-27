@@ -211,6 +211,9 @@ import RemoveElementInfo from "./games/two-pointer/remove-element/info";
 import RemoveElement from "./games/two-pointer/remove-element";
 import RemoveDuplicatesFromSortedArrayInfo from "./games/two-pointer/remove-duplicates-from-sorted-array/info";
 import RemoveDuplicatesFromSortedArray from "./games/two-pointer/remove-duplicates-from-sorted-array";
+import MergeTwoSortedListsInfo from "./games/two-pointer/merge-two-sorted-lists/info";
+import MergeTwoSortedLists from "./games/two-pointer/merge-two-sorted-lists";
+
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -333,6 +336,8 @@ const App = () => (
         <Route path={PlusOneInfo.path} element={<PlusOne />} />
         <Route path={RemoveElementInfo.path} element={<RemoveElement />} />
         <Route path={RemoveDuplicatesFromSortedArrayInfo.path} element={<RemoveDuplicatesFromSortedArray />} />
+        <Route path={MergeTwoSortedListsInfo.path} element={<MergeTwoSortedLists renderer={renderer} camera={camera} scene={createScene()} />} />
+
     </Routes>
 );
 
