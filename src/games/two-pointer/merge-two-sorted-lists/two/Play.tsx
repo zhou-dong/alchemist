@@ -13,6 +13,7 @@ import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import CodeIcon from '@mui/icons-material/Code';
+import Position from '../../../../data-structures/_commons/params/position.interface';
 
 const formula = `function mergeTwoLists(list1?: ListNode, list2: ListNode): ListNode | undefined {
     const dummy = new ListNode();
@@ -69,7 +70,7 @@ const CodeDisplay = () => {
     );
 }
 
-const Position = styled("div")({
+const MainPosition = styled("div")({
     position: "fixed",
     bottom: 200,
     width: "100%",
@@ -115,7 +116,16 @@ const Play = () => {
 
         if (current && current.next) {
             if (!current.linkToNext) {
-                current.linkToNext = new SimpleLink(current, current.next, scene, linkColor);
+                const adjustSource = ({ x, y, z }: Position): Position => {
+                    const width = current.width;
+                    return { x: x + width / 2, y, z };
+                }
+
+                const adjustTarget = ({ x, y, z }: Position): Position => {
+                    const width = current.next?.width || 0;
+                    return { x: x - width / 2, y, z };
+                }
+                current.linkToNext = new SimpleLink(current, adjustSource, current.next, adjustTarget, scene, linkColor);
                 current.linkToNext.show();
             } else {
                 current.linkToNext.target = current.next;
@@ -147,7 +157,7 @@ const Play = () => {
 
     return (
         <>
-            <Position>
+            <MainPosition>
                 <ButtonGroup sx={{ zIndex: 1 }}>
                     <Button onClick={handleMerge} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
                         merge
@@ -160,7 +170,7 @@ const Play = () => {
                         code
                     </Button>
                 </ButtonGroup>
-            </Position>
+            </MainPosition>
             {displayCode && <CodeDisplay />}
         </>
     );
