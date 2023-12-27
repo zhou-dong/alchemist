@@ -3,12 +3,17 @@ import { Link as ILink } from "./link.interface";
 import DisplayerImpl from "../_commons/three/displayer.class";
 import Position from "../_commons/params/position.interface";
 
-const threePosition = ({ x, y, z }: Position) => new THREE.Vector3(x, y, z);
+const threePosition = (position: Position, adjustPosition: (p: Position) => Position) => {
+    const { x, y, z } = adjustPosition(position);
+    return new THREE.Vector3(x, y, z);
+}
 
 export class Link extends DisplayerImpl implements ILink {
 
     source: Position;
     target: Position;
+    adjustSource: (p: Position) => Position;
+    adjustTarget: (p: Position) => Position;
 
     readonly arrow: THREE.ArrowHelper;
     public headLength: number;
@@ -17,14 +22,16 @@ export class Link extends DisplayerImpl implements ILink {
 
     constructor(
         source: Position,
+        adjustSource: (p: Position) => Position,
         target: Position,
+        adjustTarget: (p: Position) => Position,
         scene: THREE.Scene,
         color: THREE.Color | string | number,
         headLength: number,
         headWidth: number
     ) {
-        const origin = threePosition(source);
-        const dest = threePosition(target);
+        const origin = threePosition(source, adjustSource);
+        const dest = threePosition(target, adjustTarget);
         const direction = dest.clone().sub(origin);
 
         const arrow = new THREE.ArrowHelper(
@@ -44,11 +51,14 @@ export class Link extends DisplayerImpl implements ILink {
         this.headLength = headLength;
         this.headWidth = headWidth;
         this.arrowColor = color;
+
+        this.adjustSource = adjustSource;
+        this.adjustTarget = adjustTarget;
     }
 
     refresh(): void {
-        const origin = threePosition(this.source);
-        const dest = threePosition(this.target);
+        const origin = threePosition(this.source, this.adjustSource);
+        const dest = threePosition(this.target, this.adjustTarget);
         const direction = dest.clone().sub(origin);
 
         this.arrow.position.copy(origin);
@@ -76,13 +86,15 @@ export class SimpleLink extends Link {
 
     constructor(
         source: Position,
+        adjustSource: (p: Position) => Position,
         target: Position,
+        adjustTarget: (p: Position) => Position,
         scene: THREE.Scene,
         color: THREE.Color | string | number
     ) {
         const headLength = 0.6;
         const headWidth = 0.4;
-        super(source, target, scene, color, headLength, headWidth);
+        super(source, adjustSource, target, adjustTarget, scene, color, headLength, headWidth);
     }
 
 }
