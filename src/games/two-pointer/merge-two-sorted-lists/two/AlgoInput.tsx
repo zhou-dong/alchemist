@@ -67,7 +67,7 @@ const Submit: React.FC<{
         try {
             animate();
 
-            setLinesToHighlight([4]);
+            setLinesToHighlight([3]);
 
             const current = buildLinkedListNode(scene, -1, "H", { x: -11, y: 7, z: 0 }, { x: -11.4, y: 7, z: 0 });
             current.show();
