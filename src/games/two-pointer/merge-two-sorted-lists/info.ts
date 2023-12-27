@@ -6,7 +6,7 @@ import Difficulty from "../../commons/segments/difficulty";
 const info: Game = {
     name: title,
     path: "/algorithms/merge-two-sorted-lists",
-    categories: [Category.TwoPointers],
+    categories: [Category.TwoPointers, Category.Recursion],
     companies: [],
     difficulty: Difficulty.Easy,
     img: "/img/merge-two-sorted-lists.png",

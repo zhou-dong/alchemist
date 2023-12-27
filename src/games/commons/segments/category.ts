@@ -16,7 +16,8 @@ enum Category {
     Graph = "graph",
     TopologicalSort = "Topological Sort",
     UnionFind = "Union Find(Disjoint Set)",
-    BinarySearch = "binary-search"
+    BinarySearch = "Binary Search",
+    Recursion = "Recursion"
 }
 
 export default Category;
