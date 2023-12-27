@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/system';
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
+import LoopIcon from '@mui/icons-material/Loop';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { Button, ButtonGroup, Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
@@ -60,13 +61,18 @@ const CodeDisplay = () => {
             <Draggable>
                 <Paper elevation={8} sx={{ cursor: 'pointer' }}>
                     <Stack spacing={0}>
-                        <Toolbar variant='dense' sx={{ minHeight: 0 }}>
-                            <IconButton color='info' sx={{ minHeight: 0 }}>
-                                <DragIndicatorIcon />
+                        <Toolbar variant='dense' sx={{ display: "flex" }}>
+                            <IconButton disabled>
+                                <LoopIcon />
                             </IconButton>
-                            <Typography component="div">
+                            <Typography component="div" sx={{ flexGrow: 1 }}>
                                 Recursive Solution
                             </Typography>
+                            <div>
+                                <IconButton color='info'>
+                                    <DragIndicatorIcon />
+                                </IconButton>
+                            </div>
                         </Toolbar>
                         <Divider variant='middle' />
                         <Grid container spacing={0}>
@@ -86,7 +92,7 @@ const CodeDisplay = () => {
                                 <List>
                                     <ListItem sx={{ paddingTop: 0, paddingBottom: 0, marginTop: "-7px" }}>
                                         <ListItemIcon>
-                                            <ReorderIcon color='info' />
+                                            <ReorderIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Call Stack" />
                                     </ListItem>
