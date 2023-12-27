@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/system';
-import { Button, ButtonGroup, Divider, IconButton, Paper, Stack, Toolbar } from "@mui/material";
+import { Button, ButtonGroup, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
 import { useAlgoContext } from "./AlgoContext";
@@ -44,6 +44,9 @@ const CodeDisplay = () => {
                             <IconButton color='info' sx={{ minHeight: 0 }}>
                                 <DragIndicatorIcon />
                             </IconButton>
+                            <Typography component="div">
+                                Iterative Solution
+                            </Typography>
                         </Toolbar>
                         <Divider variant='middle' />
                         <CodeBlock
