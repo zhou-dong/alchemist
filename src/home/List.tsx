@@ -18,7 +18,7 @@ const Algorithm = ({ title, path, img }: AlgorithmProps) => (
                 >
                 </CardMedia>
             </CardActionArea>
-            <CardContent style={{ paddingBottom: 1 }} sx={{ maxHeight: "64px" }}>
+            <CardContent style={{ paddingBottom: 2, paddingTop: 5 }} sx={{ maxHeight: "64px" }}>
                 <Typography variant="body1">
                     {title}
                 </Typography>
