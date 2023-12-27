@@ -3,6 +3,7 @@ import { styled } from '@mui/system';
 import { Button, ButtonGroup, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
+import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "../AlgoState";
 import { wait } from '../../../../data-structures/_commons/utils';
@@ -42,7 +43,7 @@ const CodeDisplay = () => {
                     <Stack spacing={0}>
                         <Toolbar variant='dense' sx={{ display: "flex" }}>
                             <IconButton disabled>
-                                <DragIndicatorIcon />
+                                <VerticalAlignBottomIcon />
                             </IconButton>
                             <div style={{ flexGrow: 1 }}>
                                 <Typography>
