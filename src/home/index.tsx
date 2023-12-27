@@ -11,7 +11,7 @@ const Home = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <div style={{ marginLeft: 30, marginRight: 30 }}>
+            <div style={{ marginLeft: 40, marginRight: 40 }}>
                 <Header open={open} setOpen={setOpen} />
                 <Filters open={open} setOpen={setOpen} />
                 <List />
