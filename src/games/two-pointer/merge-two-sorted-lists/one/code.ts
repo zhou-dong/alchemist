@@ -22,31 +22,31 @@ export function buildActions(node1?: LinkedListNode<number>, node2?: LinkedListN
     function mergeTwoLists(node1?: LinkedListNode<number>, node2?: LinkedListNode<number>): LinkedListNode<number> | undefined {
 
         if (!node1) {
-            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder, linesToHighlight: [4] });
+            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder, linesToHighlight: [3] });
             return node2;
         }
 
         if (!node2) {
-            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder, linesToHighlight: [8] });
+            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder, linesToHighlight: [7] });
             return node1;
         }
 
         if (node1.data < node2.data) {
 
-            actions.push({ node1, node2, connection: Connection.None, order: Order.PreOrder, linesToHighlight: [12] });
+            actions.push({ node1, node2, connection: Connection.None, order: Order.PreOrder, linesToHighlight: [11] });
 
             node1.next = mergeTwoLists(node1.next, node2);
 
-            actions.push({ node1, node2, connection: Connection.One, order: Order.PostOrder, linesToHighlight: [13] });
+            actions.push({ node1, node2, connection: Connection.One, order: Order.PostOrder, linesToHighlight: [12] });
 
             return node1;
         }
 
-        actions.push({ node1, node2, connection: Connection.None, order: Order.PreOrder, linesToHighlight: [17] });
+        actions.push({ node1, node2, connection: Connection.None, order: Order.PreOrder, linesToHighlight: [16] });
 
         node2.next = mergeTwoLists(node1, node2.next);
 
-        actions.push({ node1, node2, connection: Connection.Two, order: Order.PostOrder, linesToHighlight: [18] });
+        actions.push({ node1, node2, connection: Connection.Two, order: Order.PostOrder, linesToHighlight: [17] });
         return node2;
     };
 

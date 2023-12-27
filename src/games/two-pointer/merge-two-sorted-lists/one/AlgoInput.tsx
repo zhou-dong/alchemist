@@ -64,6 +64,7 @@ const Submit: React.FC<{
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
+        setActions([]);
 
         try {
             animate();
