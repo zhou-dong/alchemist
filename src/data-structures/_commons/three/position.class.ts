@@ -31,4 +31,9 @@ export default class Position implements IPosition {
     public set z(v: number) {
         this.mesh.position.setZ(v);
     }
+
+    public get width(): number {
+        return +(this.mesh.geometry as any).parameters.width;
+    }
+
 }
