@@ -48,13 +48,13 @@ const buildText = (scene: THREE.Scene, text: string, position: Position) => {
 }
 
 const buildHead = (scene: THREE.Scene, i: number, y: number): LinkedListNode<number> => {
-    const textX = ((i + "").length === 1) ? -0.4 : -0.6;
-    return buildLinkedListNode(scene, i, i + "", { x: -8, y, z: 0 }, { x: -8 + textX, y: y + 0.3, z: 0 })
+    const textX = ((i + "").length === 1) ? -0.3 : -0.5;
+    return buildLinkedListNode(scene, i, i + "", { x: -8, y, z: 0 }, { x: -8 + textX, y: y - 0.2, z: 0 })
 }
 
 const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
-    const textX = ((i + "").length === 1) ? -0.4 : -0.6;
-    return buildLinkedListNode(scene, i, i + "", { x: 0, y: 0, z: 0 }, { x: textX, y: 0.3, z: 0 })
+    const textX = ((i + "").length === 1) ? -0.3 : -0.5;
+    return buildLinkedListNode(scene, i, i + "", { x: 0, y: 0, z: 0 }, { x: textX, y: -0.2, z: 0 })
 }
 
 export const buildLinkedListNode = (
