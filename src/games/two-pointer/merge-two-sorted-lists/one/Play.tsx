@@ -16,6 +16,7 @@ import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
+import Position from "../../../../data-structures/_commons/params/position.interface";
 
 const formula = `function mergeTwoLists(list1, list2) {
     if (!list1) {
@@ -36,7 +37,9 @@ const formula = `function mergeTwoLists(list1, list2) {
     list2.next = next;
     return list2;
 };`;
-let nbsp = "\u00A0"
+
+const nbsp = "\u00A0";
+
 const CodeDisplay = () => {
     const { index, actions } = useAlgoContext();
     const action = actions[index - 1];
@@ -118,7 +121,7 @@ const CodeDisplay = () => {
     );
 }
 
-const Position = styled("div")({
+const MainPosition = styled("div")({
     position: "fixed",
     bottom: 200,
     width: "100%",
@@ -146,7 +149,18 @@ const Play = () => {
                 if (node1.linkToNext) {
                     node1.linkToNext.target = node1.next;
                 } else {
-                    node1.linkToNext = new SimpleLink(node1, node1.next, scene, linkColor);
+
+                    const adjustSource = ({ x, y, z }: Position): Position => {
+                        const width = node1.width;
+                        return { x: x + width / 2, y, z };
+                    }
+
+                    const adjustTarget = ({ x, y, z }: Position): Position => {
+                        const width = node1.next?.width || 0;
+                        return { x: x - width / 2, y, z };
+                    }
+
+                    node1.linkToNext = new SimpleLink(node1, adjustSource, node1.next, adjustTarget, scene, linkColor);
                     node1.linkToNext.show();
                 }
                 node1.linkToNext.refresh();
@@ -158,7 +172,16 @@ const Play = () => {
                 if (node2.linkToNext) {
                     node2.linkToNext.target = node2.next;
                 } else {
-                    node2.linkToNext = new SimpleLink(node2, node2.next, scene, linkColor);
+                    const adjustSource = ({ x, y, z }: Position): Position => {
+                        const width = node2.width;
+                        return { x: x + width / 2, y, z };
+                    }
+
+                    const adjustTarget = ({ x, y, z }: Position): Position => {
+                        const width = node2.next?.width || 0;
+                        return { x: x - width / 2, y, z };
+                    }
+                    node2.linkToNext = new SimpleLink(node2, adjustSource, node2.next, adjustTarget, scene, linkColor);
                     node2.linkToNext.show();
                 }
                 node2.linkToNext.refresh();
@@ -219,7 +242,7 @@ const Play = () => {
 
     return (
         <>
-            <Position>
+            <MainPosition>
                 <ButtonGroup sx={{ zIndex: 3 }}>
                     <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
                         merge
@@ -232,7 +255,7 @@ const Play = () => {
                         code
                     </Button>
                 </ButtonGroup>
-            </Position>
+            </MainPosition>
             {displayCode && <CodeDisplay />}
         </>
     );
