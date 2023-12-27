@@ -220,7 +220,7 @@ const Play = () => {
     return (
         <>
             <Position>
-                <ButtonGroup size='large' sx={{ zIndex: 3 }}>
+                <ButtonGroup sx={{ zIndex: 3 }}>
                     <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
                         merge
                     </Button>
