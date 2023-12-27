@@ -60,7 +60,7 @@ export class LinkedListNodeSkin extends NodeBase {
     }
 }
 
-export class SimpleLinkedListNodeSkin extends LinkedListNodeSkin {
+export class SimpleLinkedListBoxNodeSkin extends LinkedListNodeSkin {
     constructor(
         scene: THREE.Scene,
         color: string,
