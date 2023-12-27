@@ -36,17 +36,22 @@ const CodeDisplay = () => {
     const { linesToHighlight } = useAlgoContext();
 
     return (
-        <div style={{ position: 'fixed', top: 330, left: 40, zIndex: 2 }}>
+        <div style={{ position: 'fixed', top: 330, left: 40 }}>
             <Draggable>
                 <Paper elevation={8} sx={{ cursor: 'pointer' }}>
                     <Stack spacing={0}>
-                        <Toolbar variant='dense' sx={{ minHeight: 0 }}>
-                            <IconButton color='info' sx={{ minHeight: 0 }}>
+                        <Toolbar variant='dense' sx={{ display: "flex" }}>
+                            <IconButton disabled>
                                 <DragIndicatorIcon />
                             </IconButton>
-                            <Typography component="div">
-                                Iterative Solution
-                            </Typography>
+                            <div style={{ flexGrow: 1 }}>
+                                <Typography>
+                                    Iterative Solution
+                                </Typography>
+                            </div>
+                            <IconButton color='info'>
+                                <DragIndicatorIcon />
+                            </IconButton>
                         </Toolbar>
                         <Divider variant='middle' />
                         <CodeBlock
@@ -142,7 +147,7 @@ const Play = () => {
     return (
         <>
             <Position>
-                <ButtonGroup size='large'>
+                <ButtonGroup sx={{ zIndex: 1 }}>
                     <Button onClick={handleMerge} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
                         merge
                     </Button>
