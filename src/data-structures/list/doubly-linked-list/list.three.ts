@@ -32,11 +32,11 @@ export class DoublyLinkedList<T> implements ILinkedList<DoublyLinkedListNode<T>>
         this.dummyTail.prev = this.dummyHead;
         this.linkColor = linkColor;
 
-        this.dummyHead.linkToNext = new SimpleLink(this.dummyHead, this.dummyTail, scene, linkColor);
-        this.dummyTail.linkToPrev = new SimpleLink(this.dummyTail, this.dummyHead, scene, linkColor);
+        // this.dummyHead.linkToNext = new SimpleLink(this.dummyHead, this.dummyTail, scene, linkColor);
+        // this.dummyTail.linkToPrev = new SimpleLink(this.dummyTail, this.dummyHead, scene, linkColor);
 
-        this.dummyHead.linkToNext.show();
-        this.dummyTail.linkToPrev.show();
+        // this.dummyHead.linkToNext.show();
+        // this.dummyTail.linkToPrev.show();
     }
 
     get size() {
@@ -57,22 +57,22 @@ export class DoublyLinkedList<T> implements ILinkedList<DoublyLinkedListNode<T>>
         this.dummyTail.prev = item;
 
         if (!item.linkToPrev) {
-            item.linkToPrev = new SimpleLink(item, item.prev!, this.scene, this.linkColor);
-            item.linkToPrev.show();
+            // item.linkToPrev = new SimpleLink(item, item.prev!, this.scene, this.linkColor);
+            // item.linkToPrev.show();
         }
 
         if (!item.linkToNext) {
-            item.linkToNext = new SimpleLink(item, item.next!, this.scene, this.linkColor);
-            item.linkToNext.show();
+            // item.linkToNext = new SimpleLink(item, item.next!, this.scene, this.linkColor);
+            // item.linkToNext.show();
         }
 
-        item.linkToPrev.source = item;
-        item.linkToPrev.target = item.prev!;
-        item.linkToPrev.refresh();
+        // item.linkToPrev.source = item;
+        // item.linkToPrev.target = item.prev!;
+        // item.linkToPrev.refresh();
 
-        item.linkToNext.source = item;
-        item.linkToNext.target = item.next;
-        item.linkToNext.refresh();
+        // item.linkToNext.source = item;
+        // item.linkToNext.target = item.next;
+        // item.linkToNext.refresh();
 
         this.dummyTail.linkToPrev!.target = item;
         this.dummyTail.linkToPrev!.refresh();
