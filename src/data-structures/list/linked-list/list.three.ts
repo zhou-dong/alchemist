@@ -1,6 +1,7 @@
 import { LinkedListNode } from "./node.three";
 import { LinkedList as ILinkedList } from "./list.interface";
 import { SimpleLink } from "../link.three";
+import Position from "../../_commons/params/position.interface";
 
 export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     private _size: number;
@@ -47,7 +48,18 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
         current.next = item;
 
         if (!current.linkToNext) {
-            current.linkToNext = new SimpleLink(current, item, this.scene, this.linkColor);
+
+            const adjustSource = ({ x, y, z }: Position): Position => {
+                const width = current.width;
+                return { x: x + width / 2, y, z };
+            }
+
+            const adjustTarget = ({ x, y, z }: Position): Position => {
+                const width = item.width;
+                return { x: x - width / 2, y, z };
+            }
+
+            current.linkToNext = new SimpleLink(current, adjustSource, item, adjustTarget, this.scene, this.linkColor);
             current.linkToNext.show();
         }
 
