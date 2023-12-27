@@ -32,7 +32,7 @@ const Sorting = () => {
     const { games } = useGames();
 
     return (
-        <Grid container spacing={1}>
+        <Grid container spacing={1.5}>
             {
                 games.map((game, index) => (
                     <Algorithm
