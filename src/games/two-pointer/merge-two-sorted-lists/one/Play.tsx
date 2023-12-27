@@ -102,7 +102,7 @@ const CodeDisplay = () => {
                                             <ListItem key={i} sx={{ paddingTop: 0, paddingBottom: 0 }}>
                                                 {m[0]}
                                                 <ListItemIcon sx={{ minWidth: 0 }}>
-                                                    <SubdirectoryArrowRightIcon />
+                                                    <SubdirectoryArrowRightIcon color={(i + 1) === callStack.length ? "success" : "disabled"} />
                                                 </ListItemIcon>
                                                 <ListItemText primary={m[1]} />
                                             </ListItem>
