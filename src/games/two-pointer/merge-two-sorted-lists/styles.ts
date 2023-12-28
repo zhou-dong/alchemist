@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { SimpleLinkedListBoxNodeSkin, SimpleLinkedListNodeText } from "../../../data-structures/list/list-node-base";
+import { SimpleLinkedListNodeText, SimpleLinkedListSphereNodeSkin } from "../../../data-structures/list/list-node-base";
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 import Position from "../../../data-structures/_commons/params/position.interface";
 import { LinkedList } from "../../../data-structures/list/linked-list/list.three";
@@ -14,15 +14,13 @@ const duration = 1;
 const textColor = "green";
 
 const buildSkin = (scene: THREE.Scene, position: Position) => {
-    const width = 1.5;
-    const height = 1.5;
-    const depth = 1.5;
+    const radius = 1;
 
     const color = skinDefaultColor;
     const opacity = 0.3;
     const transparent = true;
 
-    const skin = new SimpleLinkedListBoxNodeSkin(scene, color, width, height, depth, opacity, transparent);
+    const skin = new SimpleLinkedListSphereNodeSkin(scene, color, radius, opacity, transparent);
 
     const { x, y, z } = position;
     skin.x = x;
