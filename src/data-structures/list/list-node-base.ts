@@ -54,13 +54,22 @@ class NodeBase extends PositionImpl implements Mover, Displayer, Position, Color
     }
 }
 
-export class LinkedListNodeSkin extends NodeBase {
+export abstract class LinkedListNodeSkin extends NodeBase {
     distance(position: Position): Position {
         return calDistance({ x: this.x, y: this.y, z: this.z }, position);
     }
+
+    abstract get width(): number;
 }
 
 export class SimpleLinkedListBoxNodeSkin extends LinkedListNodeSkin {
+
+    private _width: number;
+
+    get width(): number {
+        return this._width;
+    }
+
     constructor(
         scene: THREE.Scene,
         color: string,
@@ -73,6 +82,30 @@ export class SimpleLinkedListBoxNodeSkin extends LinkedListNodeSkin {
         const material = new THREE.MeshBasicMaterial({ color, opacity, transparent });
         const geometry = new THREE.BoxGeometry(width, height, depth);
         super(scene, geometry, material)
+
+        this._width = geometry.parameters.width;
+    }
+}
+
+export class SimpleLinkedListSphereNodeSkin extends LinkedListNodeSkin {
+
+    private _radius: number;
+
+    get width(): number {
+        return this._radius * 2;
+    }
+
+    constructor(
+        scene: THREE.Scene,
+        color: string,
+        radius: number,
+        opacity: number,
+        transparent: boolean,
+    ) {
+        const material = new THREE.MeshBasicMaterial({ color, opacity, transparent });
+        const geometry = new THREE.SphereGeometry(radius);
+        super(scene, geometry, material)
+        this._radius = geometry.parameters.radius;
     }
 }
 
