@@ -154,6 +154,11 @@ const Categories = () => {
                     initSelected={calculateSelected(categories, Category.BinarySearch)}
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.BinarySearch, selected))}
                 />
+                <TextItem
+                    name="Recursion"
+                    initSelected={calculateSelected(categories, Category.Recursion)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Recursion, selected))}
+                />
             </Grid>
         </>
     )
