@@ -18,8 +18,11 @@ import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import Position from "../../../../data-structures/_commons/params/position.interface";
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 
-const formula = `function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
+const formula = `function removeNthFromEnd(head?: ListNode, n: number): ListNode | undefined {
 
     const dummy = new ListNode();
     dummy.next = head;
@@ -54,11 +57,15 @@ const CodeDisplay = () => {
                     <Stack spacing={0}>
                         <Toolbar variant='dense' sx={{ display: "flex" }}>
                             <IconButton disabled>
-                                <VerticalAlignBottomIcon />
+                                <ArrowRightAltIcon />
+                                <ArrowRightAltIcon />
+                            </IconButton>
+                            <IconButton disabled>
+
                             </IconButton>
                             <div style={{ flexGrow: 1 }}>
                                 <Typography>
-                                    Iterative Solution
+                                    Two Pointers Solution
                                 </Typography>
                             </div>
                             <IconButton color='info'>
