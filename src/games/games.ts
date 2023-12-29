@@ -27,7 +27,7 @@ import palindromePartitioning from "./dp/palindrome-partitioning/info";
 import houseRobber from "./dp/house-robber/info";
 import eggDroppingProblem from "./dp/egg-dropping-problem/info";
 import trappingRainWater from "./dp/trapping-rain-water/info";
-import trappingRainWaterII from "./two-pointer/trapping-rain-water-ii/info";
+import trappingRainWaterII from "./two-pointers/trapping-rain-water-ii/info";
 import twoSum from "./hash-table/two-sum/info";
 import binaryTreeInorderTraversal from "./tree/binary-tree-inorder-traversal/info";
 import binaryTreePostorderTraversal from "./tree/binary-tree-postorder-traversal/info";
@@ -45,7 +45,7 @@ import ZigzagConversion from "./flip-direction/zigzag-conversion/info";
 import PalindromeNumber from "./math/palindrome-number/info";
 import ReverseInteger from "./math/reverse-integer/info";
 import StringToIntegerAtoi from "./math/string-to-integer-atoi/info";
-import ContainerWithMostWater from "./two-pointer/container-with-most-water/info";
+import ContainerWithMostWater from "./two-pointers/container-with-most-water/info";
 import IntegerToRoman from "./greedy/integer-to-roman/info";
 import RomanToInteger from "./math/roman-to-integer/info";
 import MaximumDepthOfBinaryTree from "./tree/maximum-depth-of-binary-tree/info";
@@ -103,9 +103,10 @@ import Sqrtx from "./binary-search/sqrtx/info";
 import SearchInsertPosition from "./binary-search/search-insert-position/info";
 import FirstBadVersion from "./binary-search/first-bad-version/info";
 import PlusOne from "./math/plus-one/info";
-import RemoveElement from "./two-pointer/remove-element/info";
-import RemoveDuplicatesFromSortedArray from "./two-pointer/remove-duplicates-from-sorted-array/info";
-import MergeTwoSortedLists from "./two-pointer/merge-two-sorted-lists/info";
+import RemoveElement from "./two-pointers/remove-element/info";
+import RemoveDuplicatesFromSortedArray from "./two-pointers/remove-duplicates-from-sorted-array/info";
+import MergeTwoSortedLists from "./two-pointers/merge-two-sorted-lists/info";
+import RemoveNthNodeFromEndOfList from "./two-pointers/remove-nth-node-from-end-of-list/info";
 
 export const games: Game[] = [
     editDistance,
@@ -213,5 +214,6 @@ export const games: Game[] = [
     PlusOne,
     RemoveElement,
     RemoveDuplicatesFromSortedArray,
-    MergeTwoSortedLists
+    MergeTwoSortedLists,
+    RemoveNthNodeFromEndOfList
 ];
