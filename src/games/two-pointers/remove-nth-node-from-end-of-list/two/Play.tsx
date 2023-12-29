@@ -3,7 +3,6 @@ import { styled } from '@mui/system';
 import { Button, ButtonGroup, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
-import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "../AlgoState";
 import { wait } from '../../../../data-structures/_commons/utils';
@@ -14,6 +13,7 @@ import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import CodeIcon from '@mui/icons-material/Code';
 import Position from '../../../../data-structures/_commons/params/position.interface';
+import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined';
 
 const formula = `function mergeTwoLists(list1?: ListNode, list2: ListNode): ListNode | undefined {
     const dummy = new ListNode();
@@ -44,11 +44,11 @@ const CodeDisplay = () => {
                     <Stack spacing={0}>
                         <Toolbar variant='dense' sx={{ display: "flex" }}>
                             <IconButton disabled>
-                                <VerticalAlignBottomIcon />
+                                <TableRowsOutlinedIcon />
                             </IconButton>
                             <div style={{ flexGrow: 1 }}>
                                 <Typography>
-                                    Iterative Solution
+                                    Stack Solution
                                 </Typography>
                             </div>
                             <IconButton color='info'>
