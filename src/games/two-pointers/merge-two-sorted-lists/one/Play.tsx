@@ -1,126 +1,15 @@
-import * as React from 'react';
 import { styled } from '@mui/system';
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
-import LoopIcon from '@mui/icons-material/Loop';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Button, ButtonGroup, Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from '../AlgoState';
 import { Connection, Order } from './algo';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
 import { linkColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
-import CodeIcon from '@mui/icons-material/Code';
-import Draggable from 'react-draggable';
-import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
-import ReorderIcon from '@mui/icons-material/Reorder';
-import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import Position from "../../../../data-structures/_commons/params/position.interface";
 import Code from './Code';
-
-const formula = `function mergeTwoLists(list1, list2) {
-    if (!list1) {
-        return list2;
-    }
-
-    if (!list2) {
-        return list1;
-    }
-
-    if (list1.val < list2.val) {
-        const next = mergeTwoLists(list1.next, list2);
-        list1.next = next;
-        return list1;
-    }
-
-    const next = mergeTwoLists(list1, list2.next);
-    list2.next = next;
-    return list2;
-};`;
-
-const nbsp = "\u00A0";
-
-const CodeDisplay = () => {
-    const { index, actions } = useAlgoContext();
-    const action = actions[index - 1];
-    const linesToHighlight: number[] = action ? action.linesToHighlight : [];
-
-    const callStack: string[][] = [];
-    for (let i = 0; i < index; i++) {
-        const act = actions[i];
-        if (act) {
-            const { order, node1, node2 } = act;
-            if (order === Order.PreOrder) {
-                const spaces = Array(callStack.length).fill(nbsp + nbsp).join("");
-                callStack.push([spaces, `mergeTwoLists(${node1?.data}, ${node2?.data})`]);
-            } else {
-                callStack.pop();
-            }
-        }
-    }
-
-    return (
-        <div style={{ position: 'fixed', top: 330, left: 40, minWidth: 1000 }}>
-            <Draggable>
-                <Paper elevation={8} sx={{ cursor: 'pointer' }}>
-                    <Stack spacing={0}>
-                        <Toolbar variant='dense' sx={{ display: "flex" }}>
-                            <IconButton disabled>
-                                <LoopIcon />
-                            </IconButton>
-                            <Typography component="div" sx={{ flexGrow: 1 }}>
-                                Recursive Solution
-                            </Typography>
-                            <div>
-                                <IconButton color='info'>
-                                    <DragIndicatorIcon />
-                                </IconButton>
-                            </div>
-                        </Toolbar>
-                        <Divider variant='middle' />
-                        <Grid container spacing={0}>
-                            <Grid item xs={7}>
-                                <CodeBlock
-                                    code={formula}
-                                    language={languages.Typescript}
-                                    showLineNumbers={true}
-                                    linesToHighlight={linesToHighlight}
-                                    wrapLines={true}
-                                />
-                            </Grid>
-                            <Grid item xs={1}>
-                                <Divider orientation='vertical' />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <List>
-                                    <ListItem sx={{ paddingTop: 0, paddingBottom: 0, marginTop: "-7px" }}>
-                                        <ListItemIcon>
-                                            <ReorderIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Call Stack" />
-                                    </ListItem>
-                                    <Divider variant='middle' sx={{ marginBottom: 1 }} />
-                                    {
-                                        callStack.map((m, i) =>
-                                            <ListItem key={i} sx={{ paddingTop: 0, paddingBottom: 0 }}>
-                                                {m[0]}
-                                                <ListItemIcon sx={{ minWidth: 0 }}>
-                                                    <SubdirectoryArrowRightIcon color={(i + 1) === callStack.length ? "success" : "disabled"} />
-                                                </ListItemIcon>
-                                                <ListItemText primary={m[1]} />
-                                            </ListItem>
-                                        )
-                                    }
-                                </List>
-                            </Grid>
-                        </Grid>
-                    </Stack>
-                </Paper>
-            </Draggable>
-        </div>
-    );
-}
 
 const MainPosition = styled("div")({
     position: "fixed",
