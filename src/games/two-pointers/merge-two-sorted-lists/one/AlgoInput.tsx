@@ -8,7 +8,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
 import { buildList } from "../styles";
-import { buildActions } from './code';
+import { buildActions } from './algo';
 
 const buildTwoArraies = () => {
 

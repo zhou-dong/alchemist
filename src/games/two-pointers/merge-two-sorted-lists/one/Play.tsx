@@ -8,7 +8,7 @@ import { Button, ButtonGroup, Divider, Grid, IconButton, List, ListItem, ListIte
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from '../AlgoState';
-import { Connection, Order } from './code';
+import { Connection, Order } from './algo';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
 import { linkColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
 import CodeIcon from '@mui/icons-material/Code';
