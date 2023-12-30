@@ -17,6 +17,7 @@ import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import Position from "../../../../data-structures/_commons/params/position.interface";
+import Code from './Code';
 
 const formula = `function mergeTwoLists(list1, list2) {
     if (!list1) {
@@ -132,7 +133,7 @@ const MainPosition = styled("div")({
 });
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, actions, setIndex, scene } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, actions, setIndex, scene, displayCode } = useAlgoContext();
 
     const push = async () => {
 
@@ -232,31 +233,21 @@ const Play = () => {
         }
     }
 
-    const disabled: boolean = state !== State.Playing
-
-    const [displayCode, setDisplayCode] = React.useState(false);
-
-    const handleCodeDisplayToggle = () => {
-        setDisplayCode(isOpen => !isOpen);
-    }
-
     return (
         <>
             <MainPosition>
-                <ButtonGroup sx={{ zIndex: 3 }}>
-                    <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
-                        merge
-                    </Button>
+                <ButtonGroup >
                     <Button
-                        onClick={handleCodeDisplayToggle}
-                        endIcon={<CodeIcon />}
-                        color={displayCode ? "info" : "inherit"}
+                        sx={{ zIndex: 3 }}
+                        size='large'
+                        onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />}
+                        disabled={state !== State.Playing}
                     >
-                        code
+                        merge
                     </Button>
                 </ButtonGroup>
             </MainPosition>
-            {displayCode && <CodeDisplay />}
+            {displayCode && <Code />}
         </>
     );
 }

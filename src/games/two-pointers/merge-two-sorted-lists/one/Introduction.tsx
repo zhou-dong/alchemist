@@ -9,6 +9,8 @@ import { description, examples } from "../description";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
+import { useAlgoContext } from './AlgoContext';
+import CodeIcon from '@mui/icons-material/Code';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -76,6 +78,30 @@ const Input = () => {
     )
 }
 
+const Code = () => {
+    const { displayCode, setDisplayCode } = useAlgoContext();
+
+    const handleToggle = () => {
+        setDisplayCode(isOpen => !isOpen);
+    }
+
+    return (
+        <LightTooltip title="Code" placement="right">
+            <ToggleButton
+                onChange={handleToggle}
+                aria-label="code"
+                size="large"
+                sx={{ borderRadius: "50%" }}
+                value="code"
+                selected={displayCode}
+                color='info'
+            >
+                <CodeIcon fontSize="medium" />
+            </ToggleButton>
+        </LightTooltip>
+    );
+}
+
 const Main = () => (
     <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
         <Input />
@@ -86,6 +112,7 @@ const Main = () => (
             anchorOrigin={anchorOrigin}
             transformOrigin={transformOrigin}
         />
+        <Code />
     </MuiStack>
 );
 
