@@ -1,28 +1,17 @@
-import * as React from 'react';
 import { styled } from '@mui/system';
-import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import NumbersIcon from '@mui/icons-material/Numbers';
-import DataArrayIcon from '@mui/icons-material/DataArray';
-import { Button, ButtonGroup, Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from '../AlgoState';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
 import { linkColor, skinDefaultColor } from '../styles';
-import CodeIcon from '@mui/icons-material/Code';
-import Draggable from 'react-draggable';
-import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import Position from "../../../../data-structures/_commons/params/position.interface";
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
 import { Action } from './algo';
+import { skinFastColor, skinSlowColor } from './Code';
 import Code from "./Code";
-
-const skinFastColor = "lightgreen";
-const skinSlowColor = "green";
-const skinDummyColor = "lightgray";
+import MouseIcon from '@mui/icons-material/Mouse';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -43,7 +32,7 @@ const resetListColor = (head: LinkedListNode<number>) => {
 }
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, items, setIndex, scene } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, items, setIndex, scene, displayCode } = useAlgoContext();
 
     const push = async () => {
         setState(State.Typing);
@@ -142,29 +131,20 @@ const Play = () => {
         setState(State.Playing);
     }
 
-    const disabled: boolean = state !== State.Playing
-
-    const [displayCode, setDisplayCode] = React.useState(true);
-
-    const handleCodeDisplayToggle = () => {
-        setDisplayCode(isOpen => !isOpen);
-    }
-
     return (
         <>
             <MainPosition>
-                <ButtonGroup sx={{ zIndex: 3 }}>
-                    <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
-                        Next
-                    </Button>
-                    <Button
-                        onClick={handleCodeDisplayToggle}
-                        endIcon={<CodeIcon />}
-                        color={displayCode ? "info" : "inherit"}
-                    >
-                        code
-                    </Button>
-                </ButtonGroup>
+                <Button
+                    sx={{ zIndex: 3 }}
+                    onClick={push}
+                    startIcon={state === State.Finished ? <CheckIcon /> : <MouseIcon />}
+                    disabled={state !== State.Playing}
+                    size="large"
+                    variant='outlined'
+                    color='success'
+                >
+                    Next
+                </Button>
             </MainPosition>
             {displayCode && <Code />}
         </>

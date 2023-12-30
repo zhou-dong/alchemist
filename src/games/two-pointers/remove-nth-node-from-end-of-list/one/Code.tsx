@@ -10,9 +10,9 @@ import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Action } from './algo';
 
-const skinFastColor = "lightgreen";
-const skinSlowColor = "green";
-const skinDummyColor = "lightgray";
+export const skinFastColor = "lightgreen";
+export const skinSlowColor = "green";
+export const skinDummyColor = "lightgray";
 
 const formula = `function removeNthFromEnd(head: ListNode | undefined, n: number): ListNode | undefined {
 
@@ -55,7 +55,6 @@ const MainPosition = styled("div")({
 });
 
 const Head = () => {
-
     const { n, list } = useAlgoContext();
     return (
         <Toolbar variant='dense' sx={{ display: "flex" }}>

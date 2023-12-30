@@ -1,12 +1,13 @@
 import Position from "../../../../data-structures/_commons/params/position.interface";
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 import { adjustX, adjustY, buildLinkedListNode } from "../styles";
+import { skinDummyColor } from "./Code";
 
 const dummySkinPosition: Position = { x: -15, y: 7, z: 0 }
 const dummyTextPosition: Position = { x: adjustX(0, dummySkinPosition.x), y: adjustY(dummySkinPosition.y), z: dummySkinPosition.z };
 const buildDummy = (scene: THREE.Scene) => {
     const dummy: LinkedListNode<number> = buildLinkedListNode(scene, -1, "D", dummySkinPosition, dummyTextPosition);
-    dummy.nodeSkin.color = "lightgray";
+    dummy.nodeSkin.color = skinDummyColor;
     return dummy;
 }
 
