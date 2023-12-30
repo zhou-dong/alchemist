@@ -109,7 +109,7 @@ const Body = () => {
 }
 
 const MainPosition = styled("div")({
-    position: 'fixed', bottom: 200, right: 40
+    position: 'fixed', bottom: 200, right: 60
 });
 
 const Main = () => (
