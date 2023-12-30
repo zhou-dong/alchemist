@@ -17,7 +17,9 @@ const AlgoContext = React.createContext<{
     list: string,
     n: number,
     setList: React.Dispatch<React.SetStateAction<string>>,
-    setN: React.Dispatch<React.SetStateAction<number>>
+    setN: React.Dispatch<React.SetStateAction<number>>,
+    displayCode: boolean,
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -31,7 +33,9 @@ const AlgoContext = React.createContext<{
     list: "",
     n: 0,
     setList: () => { },
-    setN: () => { }
+    setN: () => { },
+    displayCode: true,
+    setDisplayCode: () => { }
 });
 
 let animationFrameId = -1;
@@ -50,6 +54,8 @@ export const AlgoContextProvider: React.FC<{
 
     const [list, setList] = React.useState("");
     const [n, setN] = React.useState(0);
+
+    const [displayCode, setDisplayCode] = React.useState(true);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -90,7 +96,9 @@ export const AlgoContextProvider: React.FC<{
             list,
             setList,
             n,
-            setN
+            setN,
+            displayCode,
+            setDisplayCode
         }}>
             {children}
             <div ref={ref} />
