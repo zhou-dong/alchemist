@@ -37,40 +37,40 @@ export function buildItems(scene: THREE.Scene, head: LinkedListNode<number> | un
 
     function removeNthFromEnd(head: LinkedListNode<number> | undefined, n: number): LinkedListNode<number> | undefined {
 
-        items.push({ action: Action.Ready, linesToHighlight: [] });
+        items.push({ action: Action.Ready, linesToHighlight: [1] });
 
         let length = 0;
-        items.push({ length, action: Action.Define_Length, linesToHighlight: [] });
+        items.push({ length, action: Action.Define_Length, linesToHighlight: [3] });
 
         let current = head;
-        items.push({ length, current, action: Action.Define_Current, linesToHighlight: [] });
+        items.push({ length, current, action: Action.Define_Current, linesToHighlight: [4] });
 
         while (current) {
             length++;
             current = current.next;
-            items.push({ length, current, action: Action.Count_Length, linesToHighlight: [] });
+            items.push({ length, current, action: Action.Count_Length, linesToHighlight: [6, 7] });
         }
 
         const dummy = buildDummy(scene);
-        items.push({ length, current, dummy, action: Action.New_Dummy, linesToHighlight: [] });
+        items.push({ length, current, dummy, action: Action.New_Dummy, linesToHighlight: [10] });
 
         dummy.next = head;
-        items.push({ length, current, dummy, action: Action.Link_Dummy_Head, linesToHighlight: [] });
+        items.push({ length, current, dummy, action: Action.Link_Dummy_Head, linesToHighlight: [11] });
 
         current = dummy;
-        items.push({ length, current, dummy, action: Action.Set_Current_To_Dummy, linesToHighlight: [] });
+        items.push({ length, current, dummy, action: Action.Set_Current_To_Dummy, linesToHighlight: [12] });
 
         for (let i = 0; i < length - n; i++) {
             current = current?.next;
-            items.push({ length, current, dummy, action: Action.Forward_Current, linesToHighlight: [] });
+            items.push({ length, current, dummy, action: Action.Forward_Current, linesToHighlight: [15] });
         }
 
         if (current?.next) {
             current.next = current.next.next;
-            items.push({ length, dummy, action: Action.Remove_Next, linesToHighlight: [] });
+            items.push({ length, dummy, action: Action.Remove_Next, linesToHighlight: [18] });
         }
 
-        items.push({ length, dummy, action: Action.Return_Head, linesToHighlight: [] });
+        items.push({ length, dummy, action: Action.Return_Head, linesToHighlight: [20] });
         return dummy.next;
     };
 

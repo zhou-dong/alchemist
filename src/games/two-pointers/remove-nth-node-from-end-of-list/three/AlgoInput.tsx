@@ -49,20 +49,21 @@ const Submit: React.FC<{
     const disabled = !n || !n.length || !+n || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setList, setN, setItems} = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setList, setN, setItems, setIndex } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-
+        setIndex(0);
+        setItems([]);
         setList(list);
         setN(+n);
 
         try {
             animate();
             const head = await buildList(scene, array, y);
-            const items = buildItems(scene, head,+n);
+            const items = buildItems(scene, head, +n);
             setItems(items);
         } catch (error) {
             console.error(error);

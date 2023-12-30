@@ -21,9 +21,22 @@ const MainPosition = styled("div")({
 });
 
 const Play = () => {
-    const { scene, state, setState, animate, cancelAnimate, displayCode } = useAlgoContext();
+    const { scene, state, setState, animate, cancelAnimate, displayCode, setIndex, index, items } = useAlgoContext();
 
     const handleClick = async () => {
+
+        setState(State.Typing);
+
+        const item = items[index + 1];
+
+        console.log(item);
+
+        if (!item) {
+            setState(State.Finished);
+            return;
+        }
+
+        console.log(index);
 
         try {
             animate();
@@ -33,6 +46,9 @@ const Play = () => {
         } finally {
             cancelAnimate();
         }
+
+        setIndex(i => i + 1);
+        setState(State.Playing);
     }
 
     return (
