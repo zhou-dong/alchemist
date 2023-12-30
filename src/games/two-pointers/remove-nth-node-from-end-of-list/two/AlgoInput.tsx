@@ -7,7 +7,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
-import { buildLinkedListNode, buildList, skinPostOrderColor } from '../styles';
+import { buildLinkedListNode, buildList } from '../styles';
 
 const buildTwoArraies = () => {
 
@@ -71,7 +71,7 @@ const Submit: React.FC<{
 
             const current = buildLinkedListNode(scene, -1, "H", { x: -11, y: 7, z: 0 }, { x: -11.4, y: 7, z: 0 });
             current.show();
-            current.nodeSkin.color = skinPostOrderColor;
+            current.nodeSkin.color = "skinPostOrderColor";
             setCurrent(current);
 
             const head1 = await buildList(scene, first, 9);

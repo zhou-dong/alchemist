@@ -2,17 +2,15 @@ import * as React from 'react';
 import OutputIcon from '@mui/icons-material/Output';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
-import { Divider, InputBase, ListItemIcon, ListItemText, Menu, MenuItem, Stack, TextField } from '@mui/material';
+import { Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
 import { buildList } from "../styles";
-import { buildActions } from './code';
-import DataArrayOutlinedIcon from '@mui/icons-material/DataArrayOutlined';
-import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
+import { buildItems } from './algo';
+import InputIcon from '@mui/icons-material/Input';
 
 const arrayLength = 7;
 
@@ -32,6 +30,8 @@ const buildRandomList = (): number[] => {
         pool.splice(randomIndex, 1);
     }
 
+    list.sort((a, b) => a - b);
+
     return list;
 }
 
@@ -45,25 +45,25 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ list, n, setAnchorEl }) => {
 
-    const disabled = !n || !n.length || !list || !list.length;
+    const disabled = !n || !n.length || !+n || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setActions, setIndex } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setItems, setIndex, setList, setN } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-        setActions([]);
+        setItems([]);
+
+        setList(list);
+        setN(+n);
 
         try {
             animate();
-            const head1 = await buildList(scene, array, 9);
-
-            // const head1 = await buildList(scene, first, 9);
-            // const head2 = await buildList(scene, second, 5);
-            // const actions = buildActions(head1, head2);
-            // setActions(actions);
+            const head = await buildList(scene, array, 9);
+            const items = buildItems(scene, head, +n);
+            setItems(items);
         } catch (error) {
             console.error(error);
         } finally {
@@ -105,19 +105,8 @@ const Main = ({ setAnchorEl }: Props) => {
         setN(() => buildRandom(arrayLength));
     }
 
-    const reference = React.useRef(null);
-    const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(menuAnchorEl);
-
-    const handleMenuOpen = () => {
-        if (reference && reference.current) {
-            setMenuAnchorEl(reference.current);
-        }
-    };
-
     return (
         <Paper
-            ref={reference}
             variant="elevation"
             elevation={8}
             sx={{
@@ -127,8 +116,8 @@ const Main = ({ setAnchorEl }: Props) => {
                 alignItems: "center"
             }}
         >
-            <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={handleMenuOpen}>
-                <KeyboardArrowDownIcon />
+            <IconButton sx={{ p: '10px' }} aria-label="menu">
+                <InputIcon />
             </IconButton>
 
             <InputBase

@@ -7,7 +7,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from "../AlgoState";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
-import { linkColor, skinPostOrderColor } from '../styles';
+import { linkColor } from '../styles';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
@@ -132,7 +132,7 @@ const Play = () => {
                 current.linkToNext.refresh();
             }
 
-            current.next.nodeSkin.color = skinPostOrderColor;
+            current.next.nodeSkin.color = "skinPostOrderColor";
         }
 
         if (!current.next) {

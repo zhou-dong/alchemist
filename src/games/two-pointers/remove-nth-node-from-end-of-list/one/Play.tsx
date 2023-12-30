@@ -2,27 +2,28 @@ import * as React from 'react';
 import { styled } from '@mui/system';
 import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
-import LoopIcon from '@mui/icons-material/Loop';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
-import { Button, ButtonGroup, Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import NumbersIcon from '@mui/icons-material/Numbers';
+import DataArrayIcon from '@mui/icons-material/DataArray';
+import { Button, ButtonGroup, Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from '../AlgoState';
-import { Connection, Order } from './code';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
-import { linkColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
+import { linkColor, skinDefaultColor } from '../styles';
 import CodeIcon from '@mui/icons-material/Code';
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
-import ReorderIcon from '@mui/icons-material/Reorder';
-import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import Position from "../../../../data-structures/_commons/params/position.interface";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
+import { Action } from './algo';
 
-const formula = `function removeNthFromEnd(head?: ListNode, n: number): ListNode | undefined {
+const skinFastColor = "lightgreen";
+const skinSlowColor = "green";
+const skinDummyColor = "lightgray";
+
+const formula = `function removeNthFromEnd(head: ListNode | undefined, n: number): ListNode | undefined {
 
     const dummy = new ListNode();
     dummy.next = head;
@@ -44,14 +45,27 @@ const formula = `function removeNthFromEnd(head?: ListNode, n: number): ListNode
     return dummy.next;
 };`
 
-const nbsp = "\u00A0";
+const getLinesToHighlight = (action: Action): number[] => {
+    switch (action) {
+        case Action.Ready: return [1];
+        case Action.New_Dummy: return [3];
+        case Action.Link_Dummy_Head: return [4];
+        case Action.Define_Fast: return [6];
+        case Action.Define_Slow: return [7];
+        case Action.Fast_Forward: return [10];
+        case Action.Both_Forward: return [14, 15];
+        case Action.Remove_Next: return [18];
+        case Action.Return_Head: return [20];
+    }
+}
 
 const CodeDisplay = () => {
-    // const { linesToHighlight } = useAlgoContext();
-    const linesToHighlight = [1];
+    const { index, items, n, list } = useAlgoContext();
+    const item = items[index];
+    const linesToHighlight = item ? getLinesToHighlight(item.action) : [];
 
     return (
-        <div style={{ position: 'fixed', top: 330, left: 40 }}>
+        <div style={{ position: 'fixed', top: 345, right: 40 }}>
             <Draggable>
                 <Paper elevation={8} sx={{ cursor: 'pointer' }}>
                     <Stack spacing={0}>
@@ -61,15 +75,17 @@ const CodeDisplay = () => {
                                 <ArrowRightAltIcon />
                             </IconButton>
                             <IconButton disabled>
-
                             </IconButton>
-                            <div style={{ flexGrow: 1 }}>
+                            <Stack direction="row" spacing={2} sx={{ flexGrow: 1, alignItems: "center" }}>
                                 <Typography>
                                     Two Pointers Solution
                                 </Typography>
-                            </div>
+                                <Chip icon={<DataArrayIcon />} label={list} />
+                                <Chip icon={<NumbersIcon />} label={n || ""} />
+
+                            </Stack>
                             <IconButton color='info'>
-                                <DragIndicatorIcon />
+                                <DragIndicatorIcon fontSize='medium' />
                             </IconButton>
                         </Toolbar>
                         <Divider variant='middle' />
@@ -80,10 +96,34 @@ const CodeDisplay = () => {
                             linesToHighlight={linesToHighlight}
                             wrapLines={true}
                         />
+                        <Divider variant='middle' />
+
+                        <Toolbar variant='dense'>
+                            <Stack direction="row" spacing={2}
+                                sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}
+                            >
+                                <Chip
+                                    sx={{ backgroundColor: `${skinDummyColor}`, color: "#000" }}
+                                    label="dummy node"
+                                />
+                                <Chip
+                                    sx={{ backgroundColor: `${skinDefaultColor}`, color: "#000" }}
+                                    label="default node"
+                                />
+                                <Chip
+                                    sx={{ backgroundColor: `${skinSlowColor}`, color: "#fff" }}
+                                    label="slow node"
+                                />
+                                <Chip
+                                    sx={{ backgroundColor: `${skinFastColor}`, color: "#000" }}
+                                    label="fast node"
+                                />
+                            </Stack>
+                        </Toolbar>
                     </Stack>
                 </Paper>
             </Draggable>
-        </div>
+        </div >
     );
 }
 
@@ -97,110 +137,117 @@ const MainPosition = styled("div")({
     zIndex: 1
 });
 
+const resetListColor = (head: LinkedListNode<number>) => {
+    let current: LinkedListNode<number> | undefined = head;
+    while (current) {
+        current.nodeSkin.color = skinDefaultColor;
+        current = current.next
+    }
+}
+
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, actions, setIndex, scene } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, items, setIndex, scene } = useAlgoContext();
 
     const push = async () => {
+        setState(State.Typing);
 
-        const action = actions[index];
+        const item = items[index + 1];
 
-        if (!action) {
+        if (!item) {
+            setState(State.Finished);
             return;
         }
 
-        const { node1, node2, connection, order } = action;
+        const { dummy, action, fast, slow } = item;
 
-        const connect1 = () => {
-            if (node1 && node1.next) {
-                if (node1.linkToNext) {
-                    node1.linkToNext.target = node1.next;
-                } else {
+        if (dummy) {
+            dummy.show();
+            dummy.nodeSkin.color = "lightgray";
+        }
 
-                    const adjustSource = ({ x, y, z }: Position): Position => {
-                        const width = node1.width;
-                        return { x: x + width / 2, y, z };
-                    }
+        if (action === Action.Link_Dummy_Head && dummy && dummy.next) {
+            const adjustSource = ({ x, y, z }: Position): Position => {
+                const width = dummy.width;
+                return { x: x + width / 2, y, z };
+            }
+            const adjustTarget = ({ x, y, z }: Position): Position => {
+                const width = dummy.next?.width || 0;
+                return { x: x - width / 2, y, z };
+            }
+            dummy.linkToNext = new SimpleLink(dummy, adjustSource, dummy.next, adjustTarget, scene, linkColor);
+            dummy.linkToNext.show();
+        }
 
-                    const adjustTarget = ({ x, y, z }: Position): Position => {
-                        const width = node1.next?.width || 0;
-                        return { x: x - width / 2, y, z };
-                    }
+        if (dummy?.next) {
+            resetListColor(dummy.next);
+        }
 
-                    node1.linkToNext = new SimpleLink(node1, adjustSource, node1.next, adjustTarget, scene, linkColor);
-                    node1.linkToNext.show();
+        if (fast) {
+            fast.nodeSkin.color = skinFastColor;
+        }
+
+        if (slow) {
+            slow.nodeSkin.color = skinSlowColor;
+        }
+
+        if (action === Action.Remove_Next) {
+            if (slow && slow.next) {
+
+                try {
+                    const duration = 1.5;
+                    const { x, y, z } = slow.next
+                    animate();
+
+                    slow.next.nodeSkin.color = "lightgray";
+                    slow.next.nodeText.color = "#000";
+                    await slow.next.move({ x, y: y - 2, z }, duration, () => {
+                        slow.linkToNext?.refresh();
+                        slow.next?.linkToNext?.refresh()
+                    })
+
+                    slow.next.linkToNext?.hide();
+                    slow.next.hide();
+                } catch (error) {
+                    console.log(error);
+                } finally {
+                    cancelAnimate();
                 }
-                node1.linkToNext.refresh();
+
+                if (slow.next.next) {
+                    slow.linkToNext!.target = slow.next.next;
+                    slow.linkToNext?.refresh();
+                } else {
+                    slow.linkToNext?.hide();
+                    slow.next.linkToNext?.hide();
+                }
+            }
+
+            if (slow) {
+                slow.next = slow.next?.next;
             }
         }
 
-        const connect2 = () => {
-            if (node2 && node2.next) {
-                if (node2.linkToNext) {
-                    node2.linkToNext.target = node2.next;
-                } else {
-                    const adjustSource = ({ x, y, z }: Position): Position => {
-                        const width = node2.width;
-                        return { x: x + width / 2, y, z };
-                    }
-
-                    const adjustTarget = ({ x, y, z }: Position): Position => {
-                        const width = node2.next?.width || 0;
-                        return { x: x - width / 2, y, z };
-                    }
-                    node2.linkToNext = new SimpleLink(node2, adjustSource, node2.next, adjustTarget, scene, linkColor);
-                    node2.linkToNext.show();
-                }
-                node2.linkToNext.refresh();
-            }
-        }
-
-        if (order === Order.PreOrder) {
-            if (node1) {
-                node1.nodeSkin.color = skinPreOrderColor;
-            }
-            if (node2) {
-                node2.nodeSkin.color = skinPreOrderColor;
-            }
-        } else {
-            if (node1) {
-                node1.nodeSkin.color = skinPostOrderColor;
-            }
-            if (node2) {
-                node2.nodeSkin.color = skinPostOrderColor;
-            }
-            switch (connection) {
-                case Connection.None:
-                    connect1();
-                    connect2();
-                    break;
-                case Connection.One:
-                    connect1();
-                    break;
-                case Connection.Two:
-                    connect2();
-                    break;
-            }
+        if (action === Action.Return_Head) {
+            dummy?.hide();
+            dummy?.linkToNext?.hide();
         }
 
         try {
             animate();
-            await wait(0.1);
+            await wait(0.2);
         } catch (error) {
             console.log(error);
         } finally {
             cancelAnimate();
         }
 
-        if (index === actions.length - 1) {
-            setState(State.Finished);
-        } else {
-            setIndex(i => i + 1);
-        }
+        setIndex(i => i + 1);
+        setState(State.Playing);
     }
 
     const disabled: boolean = state !== State.Playing
 
-    const [displayCode, setDisplayCode] = React.useState(false);
+    const [displayCode, setDisplayCode] = React.useState(true);
 
     const handleCodeDisplayToggle = () => {
         setDisplayCode(isOpen => !isOpen);
@@ -211,7 +258,7 @@ const Play = () => {
             <MainPosition>
                 <ButtonGroup sx={{ zIndex: 3 }}>
                     <Button onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />} disabled={disabled}>
-                        merge
+                        Next
                     </Button>
                     <Button
                         onClick={handleCodeDisplayToggle}

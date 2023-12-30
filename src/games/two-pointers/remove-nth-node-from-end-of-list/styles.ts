@@ -6,8 +6,6 @@ import { LinkedList } from "../../../data-structures/list/linked-list/list.three
 
 export const linkColor = "gold";
 export const skinDefaultColor = "yellow";
-export const skinPreOrderColor = "orange";
-export const skinPostOrderColor = "lightgreen";
 const linkLength = 4;
 const duration = 1;
 
@@ -45,14 +43,30 @@ const buildText = (scene: THREE.Scene, text: string, position: Position) => {
     return skinText;
 }
 
+export const adjustX = (value: number, x: number): number => {
+    const adjusted = ((value + "").length === 1) ? -0.3 : -0.5;
+    return x + adjusted;
+}
+
+export const adjustY = (y: number): number => {
+    return y - 0.2;
+}
+
 const buildHead = (scene: THREE.Scene, i: number, y: number): LinkedListNode<number> => {
-    const textX = ((i + "").length === 1) ? -0.3 : -0.5;
-    return buildLinkedListNode(scene, i, i + "", { x: -11, y, z: 0 }, { x: -11 + textX, y: y - 0.2, z: 0 })
+    const x = -11;
+    const z = 0;
+    const textX = adjustX(i, x);
+    const textY = adjustY(y);
+    return buildLinkedListNode(scene, i, i + "", { x, y, z }, { x: textX, y: textY, z })
 }
 
 const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
-    const textX = ((i + "").length === 1) ? -0.3 : -0.5;
-    return buildLinkedListNode(scene, i, i + "", { x: 0, y: 0, z: 0 }, { x: textX, y: -0.2, z: 0 })
+    const x = 0;
+    const y = 0;
+    const z = 0;
+    const textX = adjustX(i, 0);
+    const textY = adjustY(0);
+    return buildLinkedListNode(scene, i, i + "", { x, y, z }, { x: textX, y: textY, z })
 }
 
 export const buildLinkedListNode = (
