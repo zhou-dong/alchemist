@@ -6,6 +6,7 @@ import React from 'react';
 import { Solution } from './Switcher';
 import One from "./one";
 import Two from "./two";
+import Three from "./three";
 import Header from './Header';
 
 interface Props {
@@ -24,6 +25,7 @@ const Main = ({ renderer, camera, scene }: Props) => {
                 <Header solution={solution} setSolution={setSolution} />
                 {solution === "one" && <One renderer={renderer} camera={camera} scene={scene} />}
                 {solution === "two" && <Two renderer={renderer} camera={camera} scene={scene} />}
+                {solution === "three" && <Three renderer={renderer} camera={camera} scene={scene} />}
             </ThemeProvider>
         </GameWrapper>
     );
