@@ -18,114 +18,11 @@ import Position from "../../../../data-structures/_commons/params/position.inter
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
 import { Action } from './algo';
+import Code from "./Code";
 
 const skinFastColor = "lightgreen";
 const skinSlowColor = "green";
 const skinDummyColor = "lightgray";
-
-const formula = `function removeNthFromEnd(head: ListNode | undefined, n: number): ListNode | undefined {
-
-    const dummy = new ListNode();
-    dummy.next = head;
-
-    let fast = dummy;
-    let slow = dummy;
-
-    for (let i = 0; i < n; i++) {
-        fast = fast.next;
-    }
-
-    while (fast.next) {
-        fast = fast.next;
-        slow = slow.next;
-    }
-
-    slow.next = slow.next.next;
-
-    return dummy.next;
-};`
-
-const getLinesToHighlight = (action: Action): number[] => {
-    switch (action) {
-        case Action.Ready: return [1];
-        case Action.New_Dummy: return [3];
-        case Action.Link_Dummy_Head: return [4];
-        case Action.Define_Fast: return [6];
-        case Action.Define_Slow: return [7];
-        case Action.Fast_Forward: return [10];
-        case Action.Both_Forward: return [14, 15];
-        case Action.Remove_Next: return [18];
-        case Action.Return_Head: return [20];
-    }
-}
-
-const CodeDisplay = () => {
-    const { index, items, n, list } = useAlgoContext();
-    const item = items[index];
-    const linesToHighlight = item ? getLinesToHighlight(item.action) : [];
-
-    return (
-        <div style={{ position: 'fixed', top: 345, right: 40 }}>
-            <Draggable>
-                <Paper elevation={8} sx={{ cursor: 'pointer' }}>
-                    <Stack spacing={0}>
-                        <Toolbar variant='dense' sx={{ display: "flex" }}>
-                            <IconButton disabled>
-                                <ArrowRightAltIcon />
-                                <ArrowRightAltIcon />
-                            </IconButton>
-                            <IconButton disabled>
-                            </IconButton>
-                            <Stack direction="row" spacing={2} sx={{ flexGrow: 1, alignItems: "center" }}>
-                                <Typography>
-                                    Two Pointers Solution
-                                </Typography>
-                                <Chip icon={<DataArrayIcon />} label={list} />
-                                <Chip icon={<NumbersIcon />} label={n || ""} />
-
-                            </Stack>
-                            <IconButton color='info'>
-                                <DragIndicatorIcon fontSize='medium' />
-                            </IconButton>
-                        </Toolbar>
-                        <Divider variant='middle' />
-                        <CodeBlock
-                            code={formula}
-                            language={languages.Typescript}
-                            showLineNumbers={true}
-                            linesToHighlight={linesToHighlight}
-                            wrapLines={true}
-                        />
-                        <Divider variant='middle' />
-
-                        <Toolbar variant='dense'>
-                            <Stack direction="row" spacing={2}
-                                sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}
-                            >
-                                <Chip
-                                    sx={{ backgroundColor: `${skinDummyColor}`, color: "#000" }}
-                                    label="dummy node"
-                                />
-                                <Chip
-                                    sx={{ backgroundColor: `${skinDefaultColor}`, color: "#000" }}
-                                    label="default node"
-                                />
-                                <Chip
-                                    sx={{ backgroundColor: `${skinSlowColor}`, color: "#fff" }}
-                                    label="slow node"
-                                />
-                                <Chip
-                                    sx={{ backgroundColor: `${skinFastColor}`, color: "#000" }}
-                                    label="fast node"
-                                />
-                            </Stack>
-                        </Toolbar>
-                    </Stack>
-                </Paper>
-            </Draggable>
-        </div >
-    );
-}
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -269,7 +166,7 @@ const Play = () => {
                     </Button>
                 </ButtonGroup>
             </MainPosition>
-            {displayCode && <CodeDisplay />}
+            {displayCode && <Code />}
         </>
     );
 }
