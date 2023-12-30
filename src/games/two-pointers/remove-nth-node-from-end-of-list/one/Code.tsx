@@ -50,10 +50,6 @@ const getLinesToHighlight = (action: Action): number[] => {
     }
 }
 
-const MainPosition = styled("div")({
-    position: 'fixed', top: 345, right: 40
-});
-
 const Head = () => {
     const { n, list } = useAlgoContext();
     return (
@@ -111,6 +107,10 @@ const Body = () => {
         />
     );
 }
+
+const MainPosition = styled("div")({
+    position: 'fixed', bottom: 200, right: 40
+});
 
 const Main = () => (
     <MainPosition>
