@@ -21,7 +21,7 @@ const MainPosition = styled("div")({
 });
 
 const Play = () => {
-    const { scene, state, setState, node1, setNode1, setNode2, node2, current, setCurrent, setLinesToHighlight, animate, cancelAnimate, displayCode } = useAlgoContext();
+    const { scene, state, setState, animate, cancelAnimate, displayCode } = useAlgoContext();
 
     const handleClick = async () => {
 
