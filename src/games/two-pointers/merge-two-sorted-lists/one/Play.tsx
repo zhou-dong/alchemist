@@ -242,6 +242,8 @@ const Play = () => {
                         size='large'
                         onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />}
                         disabled={state !== State.Playing}
+                        color='success'
+                        variant='outlined'
                     >
                         merge
                     </Button>
