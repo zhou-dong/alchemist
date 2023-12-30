@@ -48,13 +48,13 @@ const Submit: React.FC<{
     const disabled = !n || !n.length || !+n || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setList, setN } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setList, setN, setLinesToHighlight } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-
+        setLinesToHighlight([1]);
 
         setList(list);
         setN(+n);
