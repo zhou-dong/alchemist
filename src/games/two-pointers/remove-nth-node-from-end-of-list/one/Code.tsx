@@ -14,7 +14,7 @@ export const skinFastColor = "lightgreen";
 export const skinSlowColor = "green";
 export const skinDummyColor = "lightgray";
 
-const formula = `function removeNthFromEnd(head: ListNode | undefined, n: number): ListNode | undefined {
+const formula = `function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
 
     const dummy = new ListNode();
     dummy.next = head;
@@ -58,7 +58,7 @@ const Head = () => {
                 <ArrowRightAltIcon />
                 <ArrowRightAltIcon />
             </IconButton>
-            <Stack direction="row" spacing={2} sx={{ flexGrow: 1, alignItems: "center" }}>
+            <Stack direction="row" spacing={1} sx={{ flexGrow: 1, alignItems: "center" }}>
                 <Typography>
                     Two Pointers Solution
                 </Typography>
