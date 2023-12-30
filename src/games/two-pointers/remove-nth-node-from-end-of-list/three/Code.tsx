@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import { Avatar, Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import Draggable from 'react-draggable';
@@ -45,6 +45,8 @@ const Head = () => {
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                 <Chip icon={<DataArrayIcon fontSize='small' />} label={list} />
                 <Chip icon={<NumbersIcon fontSize='small' />} label={n || ""} />
+
+                <Avatar sx={{ bgcolor: "green" }}>123</Avatar>
             </Stack>
 
             <IconButton color='info'>
