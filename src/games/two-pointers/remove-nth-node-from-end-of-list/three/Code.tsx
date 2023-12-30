@@ -31,7 +31,18 @@ const formula = `function removeNthFromEnd(head: ListNode | null, n: number): Li
 };`;
 
 const Head = () => {
-    const { n, list } = useAlgoContext();
+    const { n, list, index, items } = useAlgoContext();
+    const item = items[index];
+    const length: number | undefined = item?.length;
+
+    const Len = () => {
+        if (length !== undefined) {
+            return (<Avatar sx={{ bgcolor: "green" }}>{length}</Avatar>);
+        } else {
+            return (<></>);
+        }
+    }
+
     return (
         <Toolbar variant='dense' sx={{ display: "flex" }}>
             <IconButton disabled>
@@ -45,8 +56,7 @@ const Head = () => {
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                 <Chip icon={<DataArrayIcon fontSize='small' />} label={list} />
                 <Chip icon={<NumbersIcon fontSize='small' />} label={n || ""} />
-
-                <Avatar sx={{ bgcolor: "green" }}>123</Avatar>
+                <Len />
             </Stack>
 
             <IconButton color='info'>
@@ -57,7 +67,9 @@ const Head = () => {
 }
 
 const Code = () => {
-    const { linesToHighlight } = useAlgoContext();
+    const { index, items } = useAlgoContext();
+    const item = items[index];
+    const linesToHighlight = item ? item.linesToHighlight : [];
 
     return (
         <CodeBlock
