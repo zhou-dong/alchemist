@@ -10,6 +10,7 @@ import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
 import { buildList } from "../styles";
 import InputIcon from '@mui/icons-material/Input';
+import { buildItems } from './algo';
 
 const arrayLength = 7;
 const y = 9;
@@ -48,13 +49,12 @@ const Submit: React.FC<{
     const disabled = !n || !n.length || !+n || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setList, setN, setLinesToHighlight } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setList, setN, setItems} = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-        setLinesToHighlight([1]);
 
         setList(list);
         setN(+n);
@@ -62,7 +62,8 @@ const Submit: React.FC<{
         try {
             animate();
             const head = await buildList(scene, array, y);
-
+            const items = buildItems(scene, head,+n);
+            setItems(items);
         } catch (error) {
             console.error(error);
         } finally {
