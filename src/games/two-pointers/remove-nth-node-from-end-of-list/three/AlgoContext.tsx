@@ -32,7 +32,7 @@ const AlgoContext = React.createContext<{
     setState: () => { },
     setNode1: () => { },
     setNode2: () => { },
-    linesToHighlight: [4],
+    linesToHighlight: [1],
     setLinesToHighlight: () => { },
     current: (null as any),
     setCurrent: () => { },
@@ -58,7 +58,7 @@ export const AlgoContextProvider: React.FC<{
     const [node1, setNode1] = React.useState<LinkedListNode<number>>();
     const [node2, setNode2] = React.useState<LinkedListNode<number>>();
     const [current, setCurrent] = React.useState<LinkedListNode<number>>((null as any));
-    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([4]);
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([1]);
 
     const [list, setList] = React.useState("");
     const [n, setN] = React.useState(0);
