@@ -26,7 +26,7 @@ const formula = `function mergeTwoLists(list1?: ListNode, list2: ListNode): List
 };`;
 
 const MainPosition = styled("div")({
-    position: 'fixed', bottom: 200, right: 60, minWidth: 1000
+    position: 'fixed', bottom: 200, right: 60
 });
 
 const Head = () => (
