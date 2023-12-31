@@ -3,6 +3,8 @@ import { SimpleLink } from "../../../../data-structures/list/link.three";
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 import { adjustX, adjustY, buildLinkedListNode, linkColor } from "../styles";
 
+export const skinDummyColor = "lightgray";
+
 const buildDummy = (scene: THREE.Scene, listLength: number) => {
     const calX = () => {
         switch (listLength) {
@@ -12,7 +14,6 @@ const buildDummy = (scene: THREE.Scene, listLength: number) => {
         }
     }
 
-    const skinDummyColor = "lightgray";
     const dummySkinPosition: Position = { x: calX(), y: 9, z: 0 }
     const dummyTextPosition: Position = { x: adjustX(0, dummySkinPosition.x), y: adjustY(dummySkinPosition.y), z: dummySkinPosition.z };
     const dummy: LinkedListNode<number> = buildLinkedListNode(scene, -1, "D", dummySkinPosition, dummyTextPosition);
@@ -89,7 +90,7 @@ export function buildItems(scene: THREE.Scene, head: LinkedListNode<number> | un
         }
 
         if (current?.next) {
-            current.next = current.next.next;
+            // current.next = current.next.next;
             items.push({ length, dummy, action: Action.Remove_Next, linesToHighlight: [18] });
         }
 
