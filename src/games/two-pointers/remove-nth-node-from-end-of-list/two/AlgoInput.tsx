@@ -69,7 +69,6 @@ const Submit: React.FC<{
             cancelAnimate();
         }
 
-
         setState(State.Playing);
     }
 
