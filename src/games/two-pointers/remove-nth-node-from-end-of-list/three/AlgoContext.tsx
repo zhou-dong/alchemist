@@ -2,7 +2,6 @@ import React from "react";
 import * as THREE from 'three';
 import { State } from "../AlgoState";
 import { clearScene } from "../../../../commons/three";
-import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 import { Item } from "./algo";
 
 const AlgoContext = React.createContext<{
