@@ -92,10 +92,10 @@ export function buildItems(scene: THREE.Scene, head: LinkedListNode<number> | un
 
         if (current?.next) {
             // current.next = current.next.next;
-            items.push({ length, current, dummy, action: Action.Remove_Next, linesToHighlight: [18], head });
+            items.push({ current, dummy, action: Action.Remove_Next, linesToHighlight: [18], head });
         }
 
-        items.push({ length, dummy, action: Action.Return_Head, linesToHighlight: [20], head });
+        items.push({ dummy, action: Action.Return_Head, linesToHighlight: [20], head });
         return dummy.next;
     };
 
