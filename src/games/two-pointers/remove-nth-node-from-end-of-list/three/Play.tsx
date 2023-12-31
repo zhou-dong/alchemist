@@ -5,10 +5,20 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from "../AlgoState";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
-import { linkColor } from '../styles';
+import { linkColor, skinDefaultColor } from '../styles';
 import Position from '../../../../data-structures/_commons/params/position.interface';
 import Code from './Code';
 import MouseIcon from '@mui/icons-material/Mouse';
+import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
+import { Action } from './algo';
+
+const resetListColor = (head?: LinkedListNode<number>) => {
+    let current: LinkedListNode<number> | undefined = head;
+    while (current) {
+        current.nodeSkin.color = skinDefaultColor;
+        current = current.next
+    }
+}
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -29,14 +39,25 @@ const Play = () => {
 
         const item = items[index + 1];
 
-        console.log(item);
-
         if (!item) {
             setState(State.Finished);
             return;
         }
 
-        console.log(index);
+        const { dummy, current, action } = item;
+        resetListColor(dummy?.next);
+
+        if (current) {
+            current.nodeSkin.color = "green";
+        }
+
+        if (action === Action.New_Dummy) {
+            dummy?.show();
+        }
+
+        if (action === Action.Link_Dummy_Head) {
+            dummy?.linkToNext?.show();
+        }
 
         try {
             animate();
