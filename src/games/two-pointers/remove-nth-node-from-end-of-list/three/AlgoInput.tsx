@@ -12,10 +12,10 @@ import { buildList } from "../styles";
 import InputIcon from '@mui/icons-material/Input';
 import { buildItems } from './algo';
 
-const arrayLength = 7;
+// const arrayLength = 7;
 const y = 9;
 
-const buildRandomList = (): number[] => {
+const buildRandomList = (length: number): number[] => {
     const max = 20;
 
     const pool: number[] = [];
@@ -24,7 +24,7 @@ const buildRandomList = (): number[] => {
     }
 
     const list: number[] = [];
-    for (let i = 0; i < arrayLength; i++) {
+    for (let i = 0; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * pool.length);
         const selectedNumber = pool[randomIndex];
         list.push(selectedNumber);
@@ -32,7 +32,6 @@ const buildRandomList = (): number[] => {
     }
 
     list.sort((a, b) => a - b);
-
     return list;
 }
 
@@ -62,7 +61,7 @@ const Submit: React.FC<{
 
         try {
             animate();
-            const head = await buildList(scene, array, y);
+            const head = await buildList(scene, array, -11, y);
             const items = buildItems(scene, head, +n);
             setItems(items);
         } catch (error) {
@@ -70,7 +69,6 @@ const Submit: React.FC<{
         } finally {
             cancelAnimate();
         }
-
 
         setState(State.Playing);
     }
@@ -82,15 +80,19 @@ const Submit: React.FC<{
     );
 }
 
-const buildRandom = (max: number): string => {
-    const random = Math.floor(Math.random() * arrayLength) + 1;
-    return random + "";
+const createInput = () => {
+    const random = Math.floor(Math.random() * 3);
+    const max = 5 + random;
+    const list: number[] = buildRandomList(max);
+    const n = Math.floor(Math.random() * max) + 1;
+    return { inputList: list, inputN: n };
 }
 
 const Main = ({ setAnchorEl }: Props) => {
 
-    const [list, setList] = React.useState(() => buildRandomList().join(","));
-    const [n, setN] = React.useState(() => buildRandom(arrayLength));
+    const { inputList, inputN } = createInput();
+    const [list, setList] = React.useState<string>(() => inputList.join(","));
+    const [n, setN] = React.useState<string>(() => inputN + "");
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
@@ -101,9 +103,9 @@ const Main = ({ setAnchorEl }: Props) => {
     }
 
     const handleFresh = () => {
-        const list = buildRandomList();
-        setList(() => list.join(","));
-        setN(() => buildRandom(arrayLength));
+        const { inputList, inputN } = createInput();
+        setList(() => inputList.join(","));
+        setN(() => inputN + "");
     }
 
     return (
