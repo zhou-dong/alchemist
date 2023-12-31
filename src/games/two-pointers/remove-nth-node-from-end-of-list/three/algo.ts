@@ -82,7 +82,6 @@ export function buildItems(scene: THREE.Scene, head: LinkedListNode<number> | un
 
         items.push({ length, current, dummy, action: Action.Link_Dummy_Head, linesToHighlight: [11], head });
 
-        current = undefined;
         current = dummy;
         items.push({ length, current, dummy, action: Action.Set_Current_To_Dummy, linesToHighlight: [12], head });
 
