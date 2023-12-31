@@ -2,10 +2,18 @@ import Position from "../../../../data-structures/_commons/params/position.inter
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 import { adjustX, adjustY, buildLinkedListNode } from "../styles";
 
-const skinDummyColor = "lightgray";
-const dummySkinPosition: Position = { x: -15, y: 9, z: 0 }
-const dummyTextPosition: Position = { x: adjustX(0, dummySkinPosition.x), y: adjustY(dummySkinPosition.y), z: dummySkinPosition.z };
-const buildDummy = (scene: THREE.Scene) => {
+const buildDummy = (scene: THREE.Scene, listLength: number) => {
+    const calX = () => {
+        switch (listLength) {
+            case 5: return -11;
+            case 6: return -13;
+            default: return -15;
+        }
+    }
+
+    const skinDummyColor = "lightgray";
+    const dummySkinPosition: Position = { x: calX(), y: 9, z: 0 }
+    const dummyTextPosition: Position = { x: adjustX(0, dummySkinPosition.x), y: adjustY(dummySkinPosition.y), z: dummySkinPosition.z };
     const dummy: LinkedListNode<number> = buildLinkedListNode(scene, -1, "D", dummySkinPosition, dummyTextPosition);
     dummy.nodeSkin.color = skinDummyColor;
     return dummy;
@@ -32,7 +40,7 @@ export interface Item {
     linesToHighlight: number[],
 }
 
-export function buildItems(scene: THREE.Scene, head: LinkedListNode<number> | undefined, n: number): Item[] {
+export function buildItems(scene: THREE.Scene, head: LinkedListNode<number> | undefined, list: number[], n: number): Item[] {
     const items: Item[] = [];
 
     function removeNthFromEnd(head: LinkedListNode<number> | undefined, n: number): LinkedListNode<number> | undefined {
@@ -51,7 +59,8 @@ export function buildItems(scene: THREE.Scene, head: LinkedListNode<number> | un
             items.push({ length, current, action: Action.Count_Length, linesToHighlight: [6, 7] });
         }
 
-        const dummy = buildDummy(scene);
+        const dummy = buildDummy(scene, list.length);
+        dummy.show()
         items.push({ length, current, dummy, action: Action.New_Dummy, linesToHighlight: [10] });
 
         dummy.next = head;
