@@ -61,7 +61,7 @@ const Submit: React.FC<{
 
         try {
             animate();
-            const head = await buildList(scene, array, y);
+            const head = await buildList(scene, array, -11, y);
 
         } catch (error) {
             console.error(error);
