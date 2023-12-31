@@ -8,7 +8,7 @@ import { skinDefaultColor } from '../styles';
 import Code from './Code';
 import MouseIcon from '@mui/icons-material/Mouse';
 import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
-import { Action } from './algo';
+import { Action, skinDummyColor } from './algo';
 
 const resetListColor = (head?: LinkedListNode<number>) => {
     let current: LinkedListNode<number> | undefined = head;
@@ -55,6 +55,10 @@ const Play = () => {
 
         if (action === Action.Link_Dummy_Head) {
             dummy?.linkToNext?.show();
+        }
+
+        if (action !== Action.Set_Current_To_Dummy && dummy) {
+            dummy.nodeSkin.color = skinDummyColor;
         }
 
         try {
