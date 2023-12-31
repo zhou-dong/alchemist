@@ -1,6 +1,7 @@
 import Position from "../../../../data-structures/_commons/params/position.interface";
+import { SimpleLink } from "../../../../data-structures/list/link.three";
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
-import { adjustX, adjustY, buildLinkedListNode } from "../styles";
+import { adjustX, adjustY, buildLinkedListNode, linkColor } from "../styles";
 
 const buildDummy = (scene: THREE.Scene, listLength: number) => {
     const calX = () => {
@@ -60,10 +61,23 @@ export function buildItems(scene: THREE.Scene, head: LinkedListNode<number> | un
         }
 
         const dummy = buildDummy(scene, list.length);
-        dummy.show()
         items.push({ length, current, dummy, action: Action.New_Dummy, linesToHighlight: [10] });
 
         dummy.next = head;
+
+        if (dummy.next) {
+            const adjustSource = ({ x, y, z }: Position): Position => {
+                const width = dummy.width;
+                return { x: x + width / 2, y, z };
+            }
+
+            const adjustTarget = ({ x, y, z }: Position): Position => {
+                const width = dummy.next?.width || 0;
+                return { x: x - width / 2, y, z };
+            }
+            dummy.linkToNext = new SimpleLink(dummy, adjustSource, dummy.next, adjustTarget, scene, linkColor);
+        }
+
         items.push({ length, current, dummy, action: Action.Link_Dummy_Head, linesToHighlight: [11] });
 
         current = dummy;
