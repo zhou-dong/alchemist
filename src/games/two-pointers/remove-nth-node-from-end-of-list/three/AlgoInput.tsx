@@ -12,7 +12,6 @@ import { buildList } from "../styles";
 import InputIcon from '@mui/icons-material/Input';
 import { buildItems } from './algo';
 
-// const arrayLength = 7;
 const y = 9;
 
 const buildRandomList = (length: number): number[] => {
@@ -31,8 +30,9 @@ const buildRandomList = (length: number): number[] => {
         pool.splice(randomIndex, 1);
     }
 
-    list.sort((a, b) => a - b);
-    return list;
+    const result = list.map(n => n + 1);
+    result.sort((a, b) => a - b);
+    return result;
 }
 
 interface Props {
