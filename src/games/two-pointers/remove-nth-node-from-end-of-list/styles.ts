@@ -86,6 +86,7 @@ export const buildLinkedListNode = (
 export const buildList = async (
     scene: THREE.Scene,
     array: number[],
+    x: number,
     y: number
 ): Promise<LinkedListNode<number>> => {
     const list = new LinkedList<number>(scene, duration, linkColor, linkLength);
