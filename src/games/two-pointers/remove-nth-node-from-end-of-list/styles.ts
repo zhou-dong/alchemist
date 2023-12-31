@@ -52,9 +52,7 @@ export const adjustY = (y: number): number => {
     return y - 0.2;
 }
 
-const buildHead = (scene: THREE.Scene, i: number, y: number): LinkedListNode<number> => {
-    const x = -11;
-    const z = 0;
+const buildHead = (scene: THREE.Scene, i: number, x: number, y: number, z: number): LinkedListNode<number> => {
     const textX = adjustX(i, x);
     const textY = adjustY(y);
     return buildLinkedListNode(scene, i, i + "", { x, y, z }, { x: textX, y: textY, z })
@@ -90,7 +88,7 @@ export const buildList = async (
     y: number
 ): Promise<LinkedListNode<number>> => {
     const list = new LinkedList<number>(scene, duration, linkColor, linkLength);
-    const head = buildHead(scene, array[0], y);
+    const head = buildHead(scene, array[0], x, y, 0);
     await list.push(head);
     for (let i = 1; i < array.length; i++) {
         await list.push(buildNode(scene, array[i]));
