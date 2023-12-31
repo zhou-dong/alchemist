@@ -42,8 +42,8 @@ const Play = () => {
             return;
         }
 
-        const { dummy, current, action } = item;
-        resetListColor(dummy?.next);
+        const { head, dummy, current, action } = item;
+        resetListColor(head);
 
         if (current) {
             current.nodeSkin.color = "green";
@@ -59,6 +59,41 @@ const Play = () => {
 
         if (action !== Action.Set_Current_To_Dummy && dummy) {
             dummy.nodeSkin.color = skinDummyColor;
+        }
+
+        if (action === Action.Remove_Next) {
+            if (current && current.next) {
+                try {
+                    const duration = 1.5;
+                    const { x, y, z } = current.next
+
+                    animate();
+                    current.next.nodeSkin.color = "lightgray";
+                    current.next.nodeText.color = "#000";
+                    await current.next.move({ x, y: y - 2, z }, duration, () => {
+                        current.linkToNext?.refresh();
+                        current.next?.linkToNext?.refresh()
+                    });
+                    current.next.linkToNext?.hide();
+                    current.next.hide();
+                } catch (error) {
+                    console.log(error);
+                } finally {
+                    cancelAnimate();
+                }
+
+                if (current.next.next) {
+                    current.linkToNext!.target = current.next.next;
+                    current.linkToNext?.refresh();
+                } else {
+                    current.linkToNext?.hide();
+                }
+            }
+        }
+
+        if (action === Action.Return_Head) {
+            dummy?.hide();
+            dummy?.linkToNext?.hide();
         }
 
         try {
