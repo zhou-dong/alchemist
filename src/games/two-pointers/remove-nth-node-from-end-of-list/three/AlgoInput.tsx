@@ -50,6 +50,14 @@ const Submit: React.FC<{
 
     const { setState, animate, cancelAnimate, scene, setList, setN, setItems, setIndex } = useAlgoContext();
 
+    const calX = () => {
+        switch (array.length) {
+            case 5: return -7;
+            case 6: return -9;
+            default: return -11;
+        }
+    }
+
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
@@ -61,7 +69,7 @@ const Submit: React.FC<{
 
         try {
             animate();
-            const head = await buildList(scene, array, -11, y);
+            const head = await buildList(scene, array, calX(), y);
             const items = buildItems(scene, head, +n);
             setItems(items);
         } catch (error) {
