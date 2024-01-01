@@ -55,7 +55,9 @@ const Head = () => {
 }
 
 const Code = () => {
-    const { linesToHighlight } = useAlgoContext();
+    const { index, items } = useAlgoContext();
+    const item = items[index];
+    const linesToHighlight = item ? item.linesToHighlight : [];
 
     return (
         <CodeBlock

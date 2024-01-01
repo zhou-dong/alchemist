@@ -8,13 +8,15 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
-import { buildList } from "../styles";
+import { buildList, duration, radius } from "../styles";
 import InputIcon from '@mui/icons-material/Input';
+import { buildItems } from './algo';
+import { Stack } from './stack';
 
-const arrayLength = 7;
-const y = 9;
+const listY = 9;
+const stackY = 5;
 
-const buildRandomList = (): number[] => {
+const buildRandomList = (length: number): number[] => {
     const max = 20;
 
     const pool: number[] = [];
@@ -23,16 +25,16 @@ const buildRandomList = (): number[] => {
     }
 
     const list: number[] = [];
-    for (let i = 0; i < arrayLength; i++) {
+    for (let i = 0; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * pool.length);
         const selectedNumber = pool[randomIndex];
         list.push(selectedNumber);
         pool.splice(randomIndex, 1);
     }
 
-    list.sort((a, b) => a - b);
-
-    return list;
+    const result = list.map(n => n + 1);
+    result.sort((a, b) => a - b);
+    return result;
 }
 
 interface Props {
@@ -48,21 +50,33 @@ const Submit: React.FC<{
     const disabled = !n || !n.length || !+n || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setList, setN } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setList, setN, setItems, setIndex, setStack, setPositionMap } = useAlgoContext();
+
+    const calX = () => {
+        switch (array.length) {
+            case 5: return -7;
+            case 6: return -9;
+            default: return -11;
+        }
+    }
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-
-
+        setIndex(0);
+        setItems([]);
         setList(list);
         setN(+n);
+        setPositionMap(new Map());
 
         try {
             animate();
-            const head = await buildList(scene, array, -11, y);
-
+            const head = await buildList(scene, array, calX(), listY);
+            const items = buildItems(scene, head, array, +n);
+            setItems(items);
+            const stack = new Stack(scene, array.length + 1, { x: 0, y: stackY, z: 0 }, duration, "lightgray", radius, 0.3);
+            setStack(stack);
         } catch (error) {
             console.error(error);
         } finally {
@@ -79,15 +93,19 @@ const Submit: React.FC<{
     );
 }
 
-const buildRandom = (max: number): string => {
-    const random = Math.floor(Math.random() * arrayLength) + 1;
-    return random + "";
+const createInput = () => {
+    const random = Math.floor(Math.random() * 3);
+    const max = 5 + random;
+    const list: number[] = buildRandomList(max);
+    const n = Math.floor(Math.random() * max) + 1;
+    return { inputList: list, inputN: n };
 }
 
 const Main = ({ setAnchorEl }: Props) => {
 
-    const [list, setList] = React.useState(() => buildRandomList().join(","));
-    const [n, setN] = React.useState(() => buildRandom(arrayLength));
+    const { inputList, inputN } = createInput();
+    const [list, setList] = React.useState<string>(() => inputList.join(","));
+    const [n, setN] = React.useState<string>(() => inputN + "");
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
@@ -98,9 +116,9 @@ const Main = ({ setAnchorEl }: Props) => {
     }
 
     const handleFresh = () => {
-        const list = buildRandomList();
-        setList(() => list.join(","));
-        setN(() => buildRandom(arrayLength));
+        const { inputList, inputN } = createInput();
+        setList(() => inputList.join(","));
+        setN(() => inputN + "");
     }
 
     return (

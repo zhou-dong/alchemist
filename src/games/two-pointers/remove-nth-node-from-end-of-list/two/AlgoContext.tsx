@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import { State } from "../AlgoState";
 import { clearScene } from "../../../../commons/three";
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
+import { Stack } from "../../../../data-structures/stack/stack.three";
+import { Item } from "./algo";
+import Position from "../../../../data-structures/_commons/params/position.interface";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -10,38 +13,39 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    node1?: LinkedListNode<number>,
-    node2?: LinkedListNode<number>,
-    setNode1: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
-    setNode2: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
-    linesToHighlight: number[],
-    setLinesToHighlight: React.Dispatch<React.SetStateAction<number[]>>,
-    current: LinkedListNode<number>,
-    setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number>>>,
     list: string,
     n: number,
     setList: React.Dispatch<React.SetStateAction<string>>,
     setN: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
-    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
+    stack?: Stack,
+    setStack: React.Dispatch<React.SetStateAction<Stack | undefined>>,
+    items: Item[],
+    setItems: React.Dispatch<React.SetStateAction<Item[]>>,
+    index: number,
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
+    positionMap: Map<LinkedListNode<number>, Position>,
+    setPositionMap: React.Dispatch<React.SetStateAction<Map<LinkedListNode<number>, Position>>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
     state: State.Typing,
     setState: () => { },
-    setNode1: () => { },
-    setNode2: () => { },
-    linesToHighlight: [4],
-    setLinesToHighlight: () => { },
-    current: (null as any),
-    setCurrent: () => { },
     list: "",
     n: 0,
     setList: () => { },
     setN: () => { },
     displayCode: true,
-    setDisplayCode: () => { }
+    setDisplayCode: () => { },
+    setStack: () => { },
+    items: [],
+    setItems: () => { },
+    index: 0,
+    setIndex: () => { },
+    positionMap: new Map(),
+    setPositionMap: () => { }
 });
 
 let animationFrameId = -1;
@@ -55,14 +59,14 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [node1, setNode1] = React.useState<LinkedListNode<number>>();
-    const [node2, setNode2] = React.useState<LinkedListNode<number>>();
-    const [current, setCurrent] = React.useState<LinkedListNode<number>>((null as any));
-    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([4]);
 
     const [list, setList] = React.useState("");
     const [n, setN] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
+    const [stack, setStack] = React.useState<Stack>();
+    const [index, setIndex] = React.useState(0);
+    const [items, setItems] = React.useState<Item[]>([]);
+    const [positionMap, setPositionMap] = React.useState<Map<LinkedListNode<number>, Position>>(new Map());
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -96,20 +100,20 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             state,
             setState,
-            node1,
-            node2,
-            setNode1,
-            setNode2,
-            linesToHighlight,
-            setLinesToHighlight,
-            current,
-            setCurrent,
             list,
             setList,
             n,
             setN,
             displayCode,
-            setDisplayCode
+            setDisplayCode,
+            stack,
+            setStack,
+            items,
+            setItems,
+            index,
+            setIndex,
+            positionMap,
+            setPositionMap
         }}>
             {children}
             <div ref={ref} />
