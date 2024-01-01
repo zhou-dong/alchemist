@@ -77,7 +77,7 @@ export class Stack implements IStack<Item> {
         while (iterator.hasNext()) {
             const current = iterator.next();
             const { x, y, z, width } = current;
-            current.move({ x: x - width, y, z }, this.duration);
+            current.move({ x: x - width, y, z }, this.duration, current.onMove);
         }
         await wait(this.duration);
     }
