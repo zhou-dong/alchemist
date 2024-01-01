@@ -133,10 +133,6 @@ const Play = () => {
             }
         }
 
-        // if (action !== Action.Set_Current_To_Dummy && dummy) {
-        //     dummy.nodeSkin.color = skinDummyColor;
-        // }
-
         try {
             animate();
             await wait(0.1);
