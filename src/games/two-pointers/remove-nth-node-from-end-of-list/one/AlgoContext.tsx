@@ -2,7 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import { State } from "../AlgoState";
 import { clearScene } from "../../../../commons/three";
-import { Action } from "./code";
+import { Item } from "./algo";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -10,20 +10,32 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    actions: Action[],
-    setActions: React.Dispatch<React.SetStateAction<Action[]>>,
+    items: Item[],
+    setItems: React.Dispatch<React.SetStateAction<Item[]>>,
     index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
+    list: string,
+    n: number,
+    setList: React.Dispatch<React.SetStateAction<string>>,
+    setN: React.Dispatch<React.SetStateAction<number>>,
+    displayCode: boolean,
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
     state: State.Typing,
     setState: () => { },
-    actions: [],
-    setActions: () => { },
+    items: [],
+    setItems: () => { },
     index: 0,
-    setIndex: () => { }
+    setIndex: () => { },
+    list: "",
+    n: 0,
+    setList: () => { },
+    setN: () => { },
+    displayCode: true,
+    setDisplayCode: () => { }
 });
 
 let animationFrameId = -1;
@@ -37,8 +49,13 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [actions, setActions] = React.useState<Action[]>([]);
+    const [items, setItems] = React.useState<Item[]>([]);
     const [index, setIndex] = React.useState(0);
+
+    const [list, setList] = React.useState("");
+    const [n, setN] = React.useState(0);
+
+    const [displayCode, setDisplayCode] = React.useState(true);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -72,10 +89,16 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             state,
             setState,
-            actions,
-            setActions,
+            items,
+            setItems,
             index,
-            setIndex
+            setIndex,
+            list,
+            setList,
+            n,
+            setN,
+            displayCode,
+            setDisplayCode
         }}>
             {children}
             <div ref={ref} />

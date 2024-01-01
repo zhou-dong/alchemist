@@ -55,8 +55,8 @@ import EggDroppingProblem from "./games/dp/egg-dropping-problem";
 import EggDroppingProblemInfo from "./games/dp/egg-dropping-problem/info";
 import TrappingRainWater from "./games/dp/trapping-rain-water";
 import TrappingRainWaterInfo from "./games/dp/trapping-rain-water/info";
-import TrappingRainWaterII from "./games/two-pointer/trapping-rain-water-ii";
-import TrappingRainWaterIIInfo from "./games/two-pointer/trapping-rain-water-ii/info";
+import TrappingRainWaterII from "./games/two-pointers/trapping-rain-water-ii";
+import TrappingRainWaterIIInfo from "./games/two-pointers/trapping-rain-water-ii/info";
 import TwoSum from "./games/hash-table/two-sum";
 import TwoSumInfo from "./games/hash-table/two-sum/info";
 import BinaryTreeInorderTraversal from "./games/tree/binary-tree-inorder-traversal";
@@ -91,8 +91,8 @@ import ReverseInteger from "./games/math/reverse-integer";
 import ReverseIntegerInfo from "./games/math/reverse-integer/info";
 import StringToIntegerAtoi from "./games/math/string-to-integer-atoi";
 import StringToIntegerAtoiInfo from "./games/math/string-to-integer-atoi/info";
-import ContainerWithMostWater from "./games/two-pointer/container-with-most-water";
-import ContainerWithMostWaterInfo from "./games/two-pointer/container-with-most-water/info";
+import ContainerWithMostWater from "./games/two-pointers/container-with-most-water";
+import ContainerWithMostWaterInfo from "./games/two-pointers/container-with-most-water/info";
 import IntegerToRoman from "./games/greedy/integer-to-roman";
 import IntegerToRomanInfo from "./games/greedy/integer-to-roman/info";
 import RomanToInteger from "./games/math/roman-to-integer";
@@ -207,13 +207,14 @@ import FirstBadVersion from "./games/binary-search/first-bad-version";
 import FirstBadVersionInfo from "./games/binary-search/first-bad-version/info";
 import PlusOneInfo from "./games/math/plus-one/info";
 import PlusOne from "./games/math/plus-one";
-import RemoveElementInfo from "./games/two-pointer/remove-element/info";
-import RemoveElement from "./games/two-pointer/remove-element";
-import RemoveDuplicatesFromSortedArrayInfo from "./games/two-pointer/remove-duplicates-from-sorted-array/info";
-import RemoveDuplicatesFromSortedArray from "./games/two-pointer/remove-duplicates-from-sorted-array";
-import MergeTwoSortedListsInfo from "./games/two-pointer/merge-two-sorted-lists/info";
-import MergeTwoSortedLists from "./games/two-pointer/merge-two-sorted-lists";
-
+import RemoveElementInfo from "./games/two-pointers/remove-element/info";
+import RemoveElement from "./games/two-pointers/remove-element";
+import RemoveDuplicatesFromSortedArrayInfo from "./games/two-pointers/remove-duplicates-from-sorted-array/info";
+import RemoveDuplicatesFromSortedArray from "./games/two-pointers/remove-duplicates-from-sorted-array";
+import MergeTwoSortedListsInfo from "./games/two-pointers/merge-two-sorted-lists/info";
+import MergeTwoSortedLists from "./games/two-pointers/merge-two-sorted-lists";
+import RemoveNthNodeFromEndOfListInfo from "./games/two-pointers/remove-nth-node-from-end-of-list/info";
+import RemoveNthNodeFromEndOfList from "./games/two-pointers/remove-nth-node-from-end-of-list";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -337,6 +338,7 @@ const App = () => (
         <Route path={RemoveElementInfo.path} element={<RemoveElement />} />
         <Route path={RemoveDuplicatesFromSortedArrayInfo.path} element={<RemoveDuplicatesFromSortedArray />} />
         <Route path={MergeTwoSortedListsInfo.path} element={<MergeTwoSortedLists renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={RemoveNthNodeFromEndOfListInfo.path} element={<RemoveNthNodeFromEndOfList renderer={renderer} camera={camera} scene={createScene()} />} />
 
     </Routes>
 );
