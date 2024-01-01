@@ -105,8 +105,15 @@ const Play = () => {
             cancelAnimate();
         }
 
+
+        const last = items[items.length - 1];
+        if (item === last) {
+            setState(State.Finished);
+        } else {
+            setState(State.Playing);
+        }
+
         setIndex(i => i + 1);
-        setState(State.Playing);
     }
 
     return (
