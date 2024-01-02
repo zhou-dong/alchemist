@@ -4,7 +4,6 @@ import NumbersIcon from '@mui/icons-material/Numbers';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
-import { skinDefaultColor } from './styles';
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
@@ -61,14 +60,6 @@ const Head = () => {
                 <Chip icon={<DataArrayIcon fontSize='small' />} label={list} />
                 <Chip icon={<NumbersIcon fontSize='small' />} label={n || ""} />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <Chip
-                    sx={{ backgroundColor: `${skinDummyColor}`, color: "#000" }}
-                    label="dummy"
-                />
-                <Chip
-                    sx={{ backgroundColor: `${skinDefaultColor}`, color: "#000" }}
-                    label="default"
-                />
                 <Chip
                     sx={{ backgroundColor: `${skinSlowColor}`, color: "#fff" }}
                     label="slow"
