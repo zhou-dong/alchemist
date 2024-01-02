@@ -4,9 +4,9 @@ import NumbersIcon from '@mui/icons-material/Numbers';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
-import { skinDefaultColor } from '../styles';
+import { skinDefaultColor } from './styles';
 import Draggable from 'react-draggable';
-import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
+import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Action } from './algo';
 

@@ -1,7 +1,7 @@
 import React from "react";
 import * as THREE from 'three';
-import { State } from "../AlgoState";
-import { clearScene } from "../../../../commons/three";
+import { State } from "./AlgoState";
+import { clearScene } from "../../../commons/three";
 import { Item } from "./algo";
 
 const AlgoContext = React.createContext<{

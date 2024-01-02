@@ -1,6 +1,6 @@
-import Position from "../../../../data-structures/_commons/params/position.interface";
-import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
-import { adjustX, adjustY, buildLinkedListNode } from "../styles";
+import Position from "../../../data-structures/_commons/params/position.interface";
+import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
+import { adjustX, adjustY, buildLinkedListNode } from "./styles";
 import { skinDummyColor } from "./Code";
 
 const dummySkinPosition: Position = { x: -15, y: 9, z: 0 }

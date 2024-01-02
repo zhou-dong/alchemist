@@ -6,9 +6,9 @@ import { Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
-import { State } from '../AlgoState';
-import { clearScene } from "../../../../commons/three";
-import { buildList } from "../styles";
+import { State } from './AlgoState';
+import { clearScene } from "../../../commons/three";
+import { buildList } from "./styles";
 import { buildItems } from './algo';
 import InputIcon from '@mui/icons-material/Input';
 
