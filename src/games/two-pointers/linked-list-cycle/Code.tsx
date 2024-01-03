@@ -35,25 +35,22 @@ const getLinesToHighlight = (action: Action): number[] => {
     }
 }
 
-const Head = () => {
-    const { list } = useAlgoContext();
-    return (
-        <Toolbar variant='dense' sx={{ display: "flex" }}>
-            <IconButton disabled>
-                <ArrowRightAltIcon />
-                <ArrowRightAltIcon />
-            </IconButton>
-            <Stack direction="row" spacing={1} sx={{ flexGrow: 1, alignItems: "center" }}>
-                <Typography>
-                    Two Pointers Solution
-                </Typography>
-            </Stack>
-            <IconButton color='info'>
-                <DragIndicatorIcon fontSize='medium' />
-            </IconButton>
-        </Toolbar>
-    );
-}
+const Head = () => (
+    <Toolbar variant='dense' sx={{ display: "flex" }}>
+        <IconButton disabled>
+            <ArrowRightAltIcon />
+            <ArrowRightAltIcon />
+        </IconButton>
+        <Stack direction="row" spacing={1} sx={{ flexGrow: 1, alignItems: "center" }}>
+            <Typography>
+                Two Pointers Solution
+            </Typography>
+        </Stack>
+        <IconButton color='info'>
+            <DragIndicatorIcon fontSize='medium' />
+        </IconButton>
+    </Toolbar>
+);
 
 const Body = () => {
     const { index, items } = useAlgoContext();
