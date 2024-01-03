@@ -1,11 +1,11 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import DataArrayIcon from '@mui/icons-material/DataArray';
 import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import InputIcon from '@mui/icons-material/Input';
 import { Action } from './algo';
 
 export const skinFastColor = "lightgreen";
@@ -56,7 +56,7 @@ const Head = () => {
 
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
-                <Chip icon={<DataArrayIcon fontSize='small' />} label={list} />
+                <Chip icon={<InputIcon fontSize='small' />} label={list} variant="outlined" />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                 <Chip
                     sx={{ backgroundColor: `${skinSlowColor}`, color: "#fff" }}
