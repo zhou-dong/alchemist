@@ -29,9 +29,11 @@ const formula = `function hasCycle(head: ListNode | null): boolean {
 const getLinesToHighlight = (action: Action): number[] => {
     switch (action) {
         case Action.Ready: return [1];
-        case Action.Define_Fast: return [6];
-        case Action.Define_Slow: return [7];
-        default: return [1];
+        case Action.Define_Fast: return [2];
+        case Action.Define_Slow: return [3];
+        case Action.Forward: return [6, 7];
+        case Action.Return_True: return [9];
+        case Action.Return_False: return [13];
     }
 }
 
