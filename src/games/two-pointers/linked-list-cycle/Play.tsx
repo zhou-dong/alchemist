@@ -44,29 +44,7 @@ const Play = () => {
             return;
         }
 
-        const { dummy, action, fast, slow } = item;
-
-        if (dummy) {
-            dummy.show();
-            dummy.nodeSkin.color = "lightgray";
-        }
-
-        if (action === Action.Link_Dummy_Head && dummy && dummy.next) {
-            const adjustSource = ({ x, y, z }: Position): Position => {
-                const width = dummy.width;
-                return { x: x + width / 2, y, z };
-            }
-            const adjustTarget = ({ x, y, z }: Position): Position => {
-                const width = dummy.next?.width || 0;
-                return { x: x - width / 2, y, z };
-            }
-            dummy.linkToNext = new SimpleLink(dummy, adjustSource, dummy.next, adjustTarget, scene, linkColor);
-            dummy.linkToNext.show();
-        }
-
-        if (dummy?.next) {
-            resetListColor(dummy.next);
-        }
+        const { action, fast, slow } = item;
 
         if (fast) {
             fast.nodeSkin.color = skinFastColor;
@@ -76,7 +54,7 @@ const Play = () => {
             slow.nodeSkin.color = skinSlowColor;
         }
 
-        if (action === Action.Remove_Next) {
+        if (action === Action.Define_Fast) {
             if (slow && slow.next) {
 
                 try {
@@ -111,11 +89,6 @@ const Play = () => {
             if (slow) {
                 slow.next = slow.next?.next;
             }
-        }
-
-        if (action === Action.Return_Head) {
-            dummy?.hide();
-            dummy?.linkToNext?.hide();
         }
 
         try {
