@@ -43,7 +43,7 @@ const getLinesToHighlight = (action: Action): number[] => {
 }
 
 const Head = () => {
-    const { n, list } = useAlgoContext();
+    const { list } = useAlgoContext();
     return (
         <Toolbar variant='dense' sx={{ display: "flex" }}>
             <IconButton disabled>
@@ -58,7 +58,6 @@ const Head = () => {
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
                 <Chip icon={<DataArrayIcon fontSize='small' />} label={list} />
-                <Chip icon={<NumbersIcon fontSize='small' />} label={n || ""} />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                 <Chip
                     sx={{ backgroundColor: `${skinSlowColor}`, color: "#fff" }}

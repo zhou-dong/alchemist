@@ -12,9 +12,7 @@ import { buildList } from "./styles";
 import { buildItems } from './algo';
 import InputIcon from '@mui/icons-material/Input';
 
-const arrayLength = 7;
-
-const buildRandomList = (): number[] => {
+const buildRandomList = (length: number): number[] => {
     const max = 20;
 
     const pool: number[] = [];
@@ -23,16 +21,16 @@ const buildRandomList = (): number[] => {
     }
 
     const list: number[] = [];
-    for (let i = 0; i < arrayLength; i++) {
+    for (let i = 0; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * pool.length);
         const selectedNumber = pool[randomIndex];
         list.push(selectedNumber);
         pool.splice(randomIndex, 1);
     }
 
-    list.sort((a, b) => a - b);
-
-    return list;
+    const result = list.map(n => n + 1);
+    result.sort((a, b) => a - b);
+    return result;
 }
 
 interface Props {
@@ -41,14 +39,13 @@ interface Props {
 
 const Submit: React.FC<{
     list: string,
-    n: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, n, setAnchorEl }) => {
+}> = ({ list, setAnchorEl }) => {
 
-    const disabled = !n || !n.length || !+n || !list || !list.length;
+    const disabled = !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setItems, setIndex, setList, setN } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setItems, setIndex, setList } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -57,12 +54,11 @@ const Submit: React.FC<{
         setItems([]);
 
         setList(list);
-        setN(+n);
 
         try {
             animate();
             const head = await buildList(scene, array, -11, 9);
-            const items = buildItems(scene, head, +n);
+            const items = buildItems(scene, head, 1);
             setItems(items);
         } catch (error) {
             console.error(error);
@@ -81,28 +77,17 @@ const Submit: React.FC<{
     );
 }
 
-const buildRandom = (max: number): string => {
-    const random = Math.floor(Math.random() * arrayLength) + 1;
-    return random + "";
-}
-
 const Main = ({ setAnchorEl }: Props) => {
 
-    const [list, setList] = React.useState(() => buildRandomList().join(","));
-    const [n, setN] = React.useState(() => buildRandom(arrayLength));
+    const [list, setList] = React.useState(() => buildRandomList(9).join(","));
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
     }
 
-    const handleNChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setN(e.currentTarget.value);
-    }
-
     const handleFresh = () => {
-        const list = buildRandomList();
+        const list = buildRandomList(9);
         setList(() => list.join(","));
-        setN(() => buildRandom(arrayLength));
     }
 
     return (
@@ -129,16 +114,6 @@ const Main = ({ setAnchorEl }: Props) => {
 
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
-            <InputBase
-                sx={{ width: 50 }}
-                placeholder='n'
-                value={n}
-                onChange={handleNChange}
-                type="number"
-            />
-
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
             <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={handleFresh}>
                 <RefreshIcon />
             </IconButton>
@@ -147,16 +122,15 @@ const Main = ({ setAnchorEl }: Props) => {
                 type="button"
                 sx={{ p: '10px' }}
                 aria-label="clear"
-                disabled={!list.length && !n.length}
+                disabled={!list.length}
                 onClick={() => {
                     setList("");
-                    setN("");
                 }}
             >
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} n={n} setAnchorEl={setAnchorEl} />
+            <Submit list={list} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }

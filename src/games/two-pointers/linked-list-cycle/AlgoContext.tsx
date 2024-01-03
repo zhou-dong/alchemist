@@ -15,9 +15,7 @@ const AlgoContext = React.createContext<{
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     list: string,
-    n: number,
     setList: React.Dispatch<React.SetStateAction<string>>,
-    setN: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
 }>({
@@ -31,9 +29,7 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     list: "",
-    n: 0,
     setList: () => { },
-    setN: () => { },
     displayCode: true,
     setDisplayCode: () => { }
 });
@@ -51,10 +47,7 @@ export const AlgoContextProvider: React.FC<{
     const [state, setState] = React.useState(State.Typing);
     const [items, setItems] = React.useState<Item[]>([]);
     const [index, setIndex] = React.useState(0);
-
     const [list, setList] = React.useState("");
-    const [n, setN] = React.useState(0);
-
     const [displayCode, setDisplayCode] = React.useState(true);
 
     function animate() {
@@ -95,8 +88,6 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             list,
             setList,
-            n,
-            setN,
             displayCode,
             setDisplayCode
         }}>
