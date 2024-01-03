@@ -1,6 +1,5 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import NumbersIcon from '@mui/icons-material/Numbers';
 import DataArrayIcon from '@mui/icons-material/DataArray';
 import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
