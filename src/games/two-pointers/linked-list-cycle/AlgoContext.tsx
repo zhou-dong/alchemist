@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { clearScene } from "../../../commons/three";
 import { Item } from "./algo";
+import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -14,10 +15,10 @@ const AlgoContext = React.createContext<{
     setItems: React.Dispatch<React.SetStateAction<Item[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    list: string,
-    setList: React.Dispatch<React.SetStateAction<string>>,
     displayCode: boolean,
-    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
+    head?: LinkedListNode<number>,
+    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -28,10 +29,9 @@ const AlgoContext = React.createContext<{
     setItems: () => { },
     index: 0,
     setIndex: () => { },
-    list: "",
-    setList: () => { },
     displayCode: true,
-    setDisplayCode: () => { }
+    setDisplayCode: () => { },
+    setHead: () => { }
 });
 
 let animationFrameId = -1;
@@ -47,8 +47,8 @@ export const AlgoContextProvider: React.FC<{
     const [state, setState] = React.useState(State.Typing);
     const [items, setItems] = React.useState<Item[]>([]);
     const [index, setIndex] = React.useState(0);
-    const [list, setList] = React.useState("");
     const [displayCode, setDisplayCode] = React.useState(true);
+    const [head, setHead] = React.useState<LinkedListNode<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -86,10 +86,10 @@ export const AlgoContextProvider: React.FC<{
             setItems,
             index,
             setIndex,
-            list,
-            setList,
             displayCode,
-            setDisplayCode
+            setDisplayCode,
+            head,
+            setHead
         }}>
             {children}
             <div ref={ref} />
