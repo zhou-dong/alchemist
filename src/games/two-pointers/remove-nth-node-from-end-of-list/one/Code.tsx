@@ -65,8 +65,8 @@ const Head = () => {
 
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
-                <Chip icon={<DataArrayIcon fontSize='small' />} label={list} />
-                <Chip icon={<NumbersIcon fontSize='small' />} label={n || ""} />
+                <Chip icon={<DataArrayIcon fontSize='small' />} label={list} variant="outlined" />
+                <Chip icon={<NumbersIcon fontSize='small' />} label={n || ""} variant="outlined" />
                 <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                 <Chip
                     sx={{ backgroundColor: `${skinDummyColor}`, color: "#000" }}
