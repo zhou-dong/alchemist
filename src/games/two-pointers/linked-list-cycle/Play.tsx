@@ -4,9 +4,7 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { SimpleLink } from '../../../data-structures/list/link.three';
-import { linkColor, skinDefaultColor } from './styles';
-import Position from "../../../data-structures/_commons/params/position.interface";
+import { skinDefaultColor } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
 import { Action } from './algo';
 import { skinFastColor, skinSlowColor } from './Code';
@@ -23,7 +21,7 @@ const MainPosition = styled("div")({
     zIndex: 1
 });
 
-const resetListColor = (head: LinkedListNode<number>) => {
+const resetListColor = (head: LinkedListNode<number> | undefined) => {
     let current: LinkedListNode<number> | undefined = head;
     while (current) {
         current.nodeSkin.color = skinDefaultColor;
@@ -32,7 +30,7 @@ const resetListColor = (head: LinkedListNode<number>) => {
 }
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, items, setIndex, scene, displayCode } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, items, setIndex, displayCode, head } = useAlgoContext();
 
     const push = async () => {
         setState(State.Typing);
@@ -45,6 +43,8 @@ const Play = () => {
         }
 
         const { action, fast, slow } = item;
+
+        resetListColor(head);
 
         if (fast) {
             fast.nodeSkin.color = skinFastColor;
