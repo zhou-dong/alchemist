@@ -43,8 +43,8 @@ const buildText = (scene: THREE.Scene, text: string, position: Position) => {
     return skinText;
 }
 
-export const adjustX = (value: number, x: number): number => {
-    const adjusted = ((value + "").length === 1) ? -0.3 : -0.5;
+export const adjustX = (value: string, x: number): number => {
+    const adjusted = ((value).length === 1) ? -0.3 : -0.5;
     return x + adjusted;
 }
 
@@ -53,7 +53,7 @@ export const adjustY = (y: number): number => {
 }
 
 const buildHead = (scene: THREE.Scene, i: number, x: number, y: number, z: number): LinkedListNode<number> => {
-    const textX = adjustX(i, x);
+    const textX = adjustX(i + "", x);
     const textY = adjustY(y);
     return buildLinkedListNode(scene, i, i + "", { x, y, z }, { x: textX, y: textY, z })
 }
@@ -62,7 +62,7 @@ const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
     const x = 0;
     const y = 0;
     const z = 0;
-    const textX = adjustX(i, 0);
+    const textX = adjustX(i + "", 0);
     const textY = adjustY(0);
     return buildLinkedListNode(scene, i, i + "", { x, y, z }, { x: textX, y: textY, z })
 }
@@ -88,6 +88,10 @@ export const buildList = async (
     y: number
 ): Promise<LinkedListNode<number>> => {
     const list = new LinkedList<number>(scene, duration, linkColor, linkLength);
+    const adjustPosition = (position: Position) => position;
+    list.adjustSource = adjustPosition;
+    list.adjustTarget = adjustPosition;
+
     const head = buildHead(scene, array[0], x, y, 0);
     await list.push(head);
     for (let i = 1; i < array.length; i++) {
