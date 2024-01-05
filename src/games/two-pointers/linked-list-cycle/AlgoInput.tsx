@@ -11,6 +11,7 @@ import { clearScene } from "../../../commons/three";
 import { buildList } from "./styles";
 import { buildItems } from './algo';
 import InputIcon from '@mui/icons-material/Input';
+import { updatePositions } from './circle';
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
@@ -57,6 +58,7 @@ const Submit: React.FC<{
             animate();
             const head = await buildList(scene, array, -11, 9);
             setHead(head);
+            updatePositions(head)
             const items = buildItems(head);
             setItems(items);
         } catch (error) {
