@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { State } from "../AlgoState";
 import { clearScene } from "../../../../commons/three";
 import { Action } from "./algo";
+import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -15,7 +16,9 @@ const AlgoContext = React.createContext<{
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
-    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
+    listHead?: LinkedListNode<number>,
+    setListHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -27,7 +30,8 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     displayCode: true,
-    setDisplayCode: () => { }
+    setDisplayCode: () => { },
+    setListHead: () => { }
 });
 
 let animationFrameId = -1;
@@ -44,6 +48,8 @@ export const AlgoContextProvider: React.FC<{
     const [actions, setActions] = React.useState<Action[]>([]);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
+
+    const [listHead, setListHead] = React.useState<LinkedListNode<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -82,7 +88,9 @@ export const AlgoContextProvider: React.FC<{
             index,
             setIndex,
             displayCode,
-            setDisplayCode
+            setDisplayCode,
+            listHead,
+            setListHead
         }}>
             {children}
             <div ref={ref} />
