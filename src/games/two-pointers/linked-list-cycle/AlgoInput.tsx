@@ -11,7 +11,7 @@ import { clearScene } from "../../../commons/three";
 import { buildList, findCycleBeginNode, findTail, linkColor } from "./styles";
 import { buildItems } from './algo';
 import InputIcon from '@mui/icons-material/Input';
-import { updatePositions } from './circle';
+import { recenter, updatePositions } from './circle';
 import { SimpleLink } from '../../../data-structures/list/link.three';
 import Position from '../../../data-structures/_commons/params/position.interface';
 import { wait } from '../../../data-structures/_commons/utils';
@@ -57,6 +57,7 @@ const Submit: React.FC<{
         setAnchorEl(null);
         clearScene(scene);
         setItems([]);
+        setIndex(0);
 
         try {
             animate();
@@ -73,9 +74,10 @@ const Submit: React.FC<{
                 tail.linkToNext.show();
 
                 await updatePositions(beginNode);
+                await recenter(head);
+                await wait(0.2);
             }
 
-            await wait(0.2);
             const items = buildItems(head);
             setItems(items);
         } catch (error) {
@@ -84,7 +86,6 @@ const Submit: React.FC<{
             cancelAnimate();
         }
 
-        setIndex(0);
         setState(State.Playing);
     }
 
