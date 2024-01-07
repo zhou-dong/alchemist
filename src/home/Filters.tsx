@@ -159,6 +159,11 @@ const Categories = () => {
                     initSelected={calculateSelected(categories, Category.Recursion)}
                     onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.Recursion, selected))}
                 />
+                <TextItem
+                    name="Linked List"
+                    initSelected={calculateSelected(categories, Category.LinkedList)}
+                    onClick={(selected: boolean) => setCategories(items => updateSegments(items, Category.LinkedList, selected))}
+                />
             </Grid>
         </>
     )
