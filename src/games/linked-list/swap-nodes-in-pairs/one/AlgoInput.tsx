@@ -29,7 +29,6 @@ const buildRandomList = (length: number): number[] => {
     }
 
     const result = list.map(n => n + 1);
-    result.sort((a, b) => a - b);
     return result;
 }
 
