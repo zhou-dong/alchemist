@@ -6,7 +6,7 @@ import Difficulty from "../../commons/segments/difficulty";
 const info: Game = {
     name: title,
     path: "/algorithms/linked-list-cycle",
-    categories: [Category.TwoPointers],
+    categories: [Category.TwoPointers, Category.LinkedList],
     companies: [],
     difficulty: Difficulty.Easy,
     img: "/img/linked-list-cycle.png",

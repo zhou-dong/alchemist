@@ -17,7 +17,8 @@ enum Category {
     TopologicalSort = "Topological Sort",
     UnionFind = "Union Find(Disjoint Set)",
     BinarySearch = "Binary Search",
-    Recursion = "Recursion"
+    Recursion = "Recursion",
+    LinkedList = "Linked List"
 }
 
 export default Category;

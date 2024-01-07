@@ -6,7 +6,7 @@ import Difficulty from "../../commons/segments/difficulty";
 const info: Game = {
     name: title,
     path: "/algorithms/remove-nth-node-from-end-of-list",
-    categories: [Category.TwoPointers, Category.Stack],
+    categories: [Category.TwoPointers, Category.Stack, Category.LinkedList],
     companies: [],
     difficulty: Difficulty.Medium,
     img: "/img/remove-nth-node-from-end-of-list.png",
