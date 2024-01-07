@@ -99,3 +99,22 @@ export const buildList = async (
     }
     return head;
 }
+
+export const findCycleBeginNode = (head: LinkedListNode<number>, pos: number): LinkedListNode<number> | undefined => {
+    let current: LinkedListNode<number> | undefined = head;
+    for (let i = 0; i < pos; i++) {
+        if (!current) {
+            return undefined;
+        }
+        current = current.next;
+    }
+    return current;
+}
+
+export const findTail = (head: LinkedListNode<number>): LinkedListNode<number> => {
+    let current: LinkedListNode<number> = head;
+    while (current.next) {
+        current = current.next;
+    }
+    return current;
+}

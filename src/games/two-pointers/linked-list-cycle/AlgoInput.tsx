@@ -8,10 +8,13 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildList } from "./styles";
+import { adjustX, adjustY, buildList, findCycleBeginNode, findTail, linkColor } from "./styles";
 import { buildItems } from './algo';
 import InputIcon from '@mui/icons-material/Input';
 import { updatePositions } from './circle';
+import { SimpleLink } from '../../../data-structures/list/link.three';
+import Position from '../../../data-structures/_commons/params/position.interface';
+import { wait } from '../../../data-structures/_commons/utils';
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
@@ -40,10 +43,11 @@ interface Props {
 
 const Submit: React.FC<{
     list: string,
+    pos: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, setAnchorEl }) => {
+}> = ({ list, pos, setAnchorEl }) => {
 
-    const disabled = !list || !list.length;
+    const disabled = !pos || +pos < 1 || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
     const { setState, animate, cancelAnimate, scene, setItems, setIndex, setHead } = useAlgoContext();
@@ -56,11 +60,24 @@ const Submit: React.FC<{
 
         try {
             animate();
-            const head = await buildList(scene, array, -11, 9);
+            const head = await buildList(scene, array, -11, 5);
             setHead(head);
-            updatePositions(head)
-            const items = buildItems(head);
-            setItems(items);
+            const tail = findTail(head);
+            const beginNode = findCycleBeginNode(head, +pos);
+
+            if (beginNode) {
+                const adjustSource = (position: Position): Position => position;
+                const adjustTarget = (position: Position): Position => position;
+                tail.next = beginNode;
+                tail.linkToNext = new SimpleLink(tail, adjustSource, beginNode, adjustTarget, scene, linkColor);
+                tail.linkToNext.show();
+
+                await updatePositions(beginNode);
+            }
+
+            await wait(0.2);
+            // const items = buildItems(head);
+            // setItems(items);
         } catch (error) {
             console.error(error);
         } finally {
@@ -122,17 +139,15 @@ const Main = ({ setAnchorEl }: Props) => {
                 onChange={handleListChange}
             />
 
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+            <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
 
             <InputBase
-                sx={{ width: 50 }}
+                sx={{ width: 40 }}
                 placeholder='pos'
                 value={pos}
                 onChange={handlePosChange}
                 type="number"
             />
-
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
             <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={handleFresh}>
                 <RefreshIcon />
@@ -150,7 +165,7 @@ const Main = ({ setAnchorEl }: Props) => {
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} setAnchorEl={setAnchorEl} />
+            <Submit list={list} pos={pos} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
