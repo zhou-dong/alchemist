@@ -9,24 +9,14 @@ import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 
-const formula = `function mergeTwoLists(list1, list2) {
-    if (!list1) {
-        return list2;
+const formula = `function swapPairs(head: ListNode | null): ListNode | null {
+    if (head === null || head.next === null) {
+        return head;
     }
-
-    if (!list2) {
-        return list1;
-    }
-
-    if (list1.val < list2.val) {
-        const next = mergeTwoLists(list1.next, list2);
-        list1.next = next;
-        return list1;
-    }
-
-    const next = mergeTwoLists(list1, list2.next);
-    list2.next = next;
-    return list2;
+    const temp = head.next;
+    head.next = swapPairs(temp.next);
+    temp.next = head;
+    return temp;
 };`;
 
 const Code = () => {
