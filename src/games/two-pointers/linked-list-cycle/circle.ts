@@ -94,18 +94,55 @@ const calPositions = (cycleBeginNode: LinkedListNode<number>): GraphNode[] => {
     return nodes;
 }
 
-const moveNodes = async (graphNodes: GraphNode[]): Promise<void> => {
+const moveNodes = async (graphNodes: GraphNode[]): Promise<any> => {
 
     const asyncs = graphNodes.map(node => {
         const { listNode, skinPosition } = node;
         return listNode.move(skinPosition, duration, () => listNode.linkToNext?.refresh());
     })
 
-    return Promise.all(asyncs).then(() => { });
+    return Promise.all(asyncs);
 }
 
+const getNodes = (head: LinkedListNode<number>): LinkedListNode<number>[] => {
+    const result: LinkedListNode<number>[] = [];
 
-export const updatePositions = async (cycleBeginNode: LinkedListNode<number>): Promise<void> => {
+    const set: Set<LinkedListNode<number>> = new Set();
+    let current: LinkedListNode<number> | undefined = head;
+    while (current && !set.has(current)) {
+        set.add(current);
+        result.push(current);
+        current = current.next;
+    }
+
+    return result;
+}
+
+export const recenter = async (head: LinkedListNode<number>): Promise<any> => {
+
+    const nodes: LinkedListNode<number>[] = getNodes(head);
+
+    let min: number = Number.MAX_VALUE;
+    let max: number = Number.MIN_VALUE;
+
+    nodes.forEach(node => {
+        const { x } = node;
+        min = Math.min(min, x);
+        max = Math.max(max, x);
+    })
+
+    const mid = (min + max) / 2;
+    const distance = 0 - mid;
+
+    const asyncs = nodes.map(node => {
+        const { x, y, z } = node;
+        return node.move({ x: x + distance, y, z }, duration, () => node.linkToNext?.refresh());
+    })
+
+    return Promise.all(asyncs);
+}
+
+export const updatePositions = async (cycleBeginNode: LinkedListNode<number>): Promise<any> => {
     const graphNodes = calPositions(cycleBeginNode);
     return moveNodes(graphNodes);
 }
