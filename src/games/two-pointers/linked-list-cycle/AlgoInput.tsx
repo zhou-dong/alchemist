@@ -78,12 +78,21 @@ const Submit: React.FC<{
     );
 }
 
+const random = (max: number): number => {
+    return Math.floor(Math.random() * max) + 1;
+}
+
 const Main = ({ setAnchorEl }: Props) => {
 
     const [list, setList] = React.useState(() => buildRandomList(9).join(","));
+    const [pos, setPos] = React.useState<string>(() => random(5) + "");
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
+    }
+
+    const handlePosChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPos(e.currentTarget.value);
     }
 
     const handleFresh = () => {
@@ -111,6 +120,16 @@ const Main = ({ setAnchorEl }: Props) => {
                 placeholder='list, seprate by ","'
                 value={list}
                 onChange={handleListChange}
+            />
+
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+
+            <InputBase
+                sx={{ width: 50 }}
+                placeholder='pos'
+                value={pos}
+                onChange={handlePosChange}
+                type="number"
             />
 
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
