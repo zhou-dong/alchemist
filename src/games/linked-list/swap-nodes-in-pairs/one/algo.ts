@@ -1,88 +1,39 @@
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 
-export enum Connection {
-    None, One, Two
-}
-
 export enum Order {
     PreOrder, PostOrder
 }
 
 export interface Action {
-    order: Order;
-    node1?: LinkedListNode<number>;
-    node2?: LinkedListNode<number>;
-    connection: Connection,
+    order?: Order;
+    head?: LinkedListNode<number>;
+    next?: LinkedListNode<number>;
     linesToHighlight: number[]
 }
 
-export function buildActions(node1?: LinkedListNode<number>, node2?: LinkedListNode<number>): Action[] {
+export function buildActions(head: LinkedListNode<number>): Action[] {
     const actions: Action[] = [];
 
-    function mergeTwoLists(node1?: LinkedListNode<number>, node2?: LinkedListNode<number>): LinkedListNode<number> | undefined {
+    function swapPairs(head: LinkedListNode<number> | undefined): LinkedListNode<number> | undefined {
 
-        if (!node1) {
-            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder, linesToHighlight: [3] });
-            return node2;
+        if (head === undefined || head.next === undefined) {
+            actions.push({ head, next: head?.next, linesToHighlight: [3] });
+            return head;
         }
 
-        if (!node2) {
-            actions.push({ node1, node2, connection: Connection.None, order: Order.PostOrder, linesToHighlight: [7] });
-            return node1;
-        }
+        const temp = head.next;
+        actions.push({ head, next: temp, order: Order.PreOrder, linesToHighlight: [5] });
 
-        if (node1.data < node2.data) {
+        head.next = swapPairs(temp.next);
+        actions.push({ head, next: temp, order: Order.PostOrder, linesToHighlight: [6] });
 
-            actions.push({ node1, node2, connection: Connection.None, order: Order.PreOrder, linesToHighlight: [11] });
+        temp.next = head;
+        actions.push({ head, next: temp, linesToHighlight: [7] });
 
-            node1.next = mergeTwoLists(node1.next, node2);
-
-            actions.push({ node1, node2, connection: Connection.One, order: Order.PostOrder, linesToHighlight: [12] });
-
-            return node1;
-        }
-
-        actions.push({ node1, node2, connection: Connection.None, order: Order.PreOrder, linesToHighlight: [16] });
-
-        node2.next = mergeTwoLists(node1, node2.next);
-
-        actions.push({ node1, node2, connection: Connection.Two, order: Order.PostOrder, linesToHighlight: [17] });
-        return node2;
+        return temp;
     };
 
-    mergeTwoLists(node1, node2);
+    swapPairs(head);
+
     return actions;
 }
-
-
-// Definition for singly-linked list.
-class ListNode {
-    val: number
-    next?: ListNode
-    constructor(val?: number, next?: ListNode) {
-        this.val = (val === undefined ? 0 : val)
-        this.next = next;
-    }
-}
-
-// two pointers solution
-export function mergeTwoLists(
-    list1?: ListNode, list2?: ListNode
-): ListNode | undefined {
-
-    if (!list1) {
-        return list2;
-    }
-
-    if (!list2) {
-        return list1;
-    }
-
-    if (list1.val < list2.val) {
-        list1.next = mergeTwoLists(list1.next, list2);
-        return list1;
-    }
-
-    list2.next = mergeTwoLists(list1, list2.next);
-    return list2;
-};

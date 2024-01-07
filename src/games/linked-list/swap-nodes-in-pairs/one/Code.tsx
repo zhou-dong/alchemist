@@ -59,11 +59,11 @@ const CallStack = () => {
     for (let i = 0; i < index; i++) {
         const act = actions[i];
         if (act) {
-            const { order, node1, node2 } = act;
+            const { order, head } = act;
             if (order === Order.PreOrder) {
                 const spaces = Array(callStack.length).fill(nbsp + nbsp).join("");
-                callStack.push([spaces, `mergeTwoLists(${node1?.data}, ${node2?.data})`]);
-            } else {
+                callStack.push([spaces, `swapPairs(${head?.data})`]);
+            } else if (order === Order.PostOrder) {
                 callStack.pop();
             }
         }
