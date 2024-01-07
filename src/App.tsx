@@ -219,6 +219,8 @@ import LinkedListCycleInfo from "./games/two-pointers/linked-list-cycle/info";
 import LinkedListCycle from "./games/two-pointers/linked-list-cycle";
 import LinkedListCycleIIInfo from "./games/two-pointers/linked-list-cycle-ii/info";
 import LinkedListCycleII from "./games/two-pointers/linked-list-cycle-ii";
+import SwapNodesInPairsInfo from "./games/linked-list/swap-nodes-in-pairs/info";
+import SwapNodesInPairs from "./games/linked-list/swap-nodes-in-pairs";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -345,6 +347,7 @@ const App = () => (
         <Route path={RemoveNthNodeFromEndOfListInfo.path} element={<RemoveNthNodeFromEndOfList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={LinkedListCycleInfo.path} element={<LinkedListCycle renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={LinkedListCycleIIInfo.path} element={<LinkedListCycleII renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SwapNodesInPairsInfo.path} element={<SwapNodesInPairs renderer={renderer} camera={camera} scene={createScene()} />} />
 
     </Routes>
 );

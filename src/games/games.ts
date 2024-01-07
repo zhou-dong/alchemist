@@ -109,6 +109,7 @@ import MergeTwoSortedLists from "./two-pointers/merge-two-sorted-lists/info";
 import RemoveNthNodeFromEndOfList from "./two-pointers/remove-nth-node-from-end-of-list/info";
 import LinkedListCycle from "./two-pointers/linked-list-cycle/info";
 import LinkedListCycleII from "./two-pointers/linked-list-cycle-ii/info";
+import SwapNodesInPairs from "./linked-list/swap-nodes-in-pairs/info";
 
 export const games: Game[] = [
     editDistance,
@@ -219,5 +220,6 @@ export const games: Game[] = [
     MergeTwoSortedLists,
     RemoveNthNodeFromEndOfList,
     LinkedListCycle,
-    LinkedListCycleII
+    LinkedListCycleII,
+    SwapNodesInPairs
 ];
