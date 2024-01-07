@@ -4,9 +4,12 @@ export enum Action {
     Ready,
     Define_Fast,
     Define_Slow,
-    Forward,
-    Return_True,
-    Return_False
+    Detected_No_Cycle,
+    Detected_Cycle,
+    Reset_Head,
+    Two_Steps_Forward,
+    One_Step_Forward,
+    Return_Cycle_Begin_Node
 }
 
 export interface Item {
@@ -18,7 +21,8 @@ export interface Item {
 export function buildItems(head: LinkedListNode<number> | undefined): Item[] {
     const items: Item[] = [];
 
-    function hasCycle(head: LinkedListNode<number> | undefined): boolean {
+    function detectCycle(head: LinkedListNode<number> | undefined): LinkedListNode<number> | undefined {
+
         items.push({ action: Action.Ready });
 
         let fast = head
@@ -27,23 +31,37 @@ export function buildItems(head: LinkedListNode<number> | undefined): Item[] {
         let slow = head;
         items.push({ action: Action.Define_Slow, fast, slow });
 
-        while (fast !== undefined && fast.next !== undefined) {
+        while (true) {
+            if (fast === undefined || fast.next === undefined) {
+                items.push({ action: Action.Detected_No_Cycle, fast, slow });
+                return undefined;
+            }
+
             fast = fast.next.next;
-            slow = slow?.next;
+            slow = slow!.next;
 
             if (fast === slow) {
-                items.push({ action: Action.Return_True, fast, slow });
-                return true;
+                items.push({ action: Action.Detected_Cycle, fast, slow });
+                break;
             } else {
-                items.push({ action: Action.Forward, fast, slow });
+                items.push({ action: Action.Two_Steps_Forward, fast, slow });
             }
         }
 
-        items.push({ action: Action.Return_False, fast, slow });
-        return false;
-    }
+        fast = head;
+        items.push({ action: Action.Reset_Head, fast, slow });
 
-    hasCycle(head);
+        while (fast !== slow) {
+            fast = fast!.next;
+            slow = slow!.next;
+            items.push({ action: Action.One_Step_Forward, fast, slow });
+        }
+
+        items.push({ action: Action.Return_Cycle_Begin_Node, fast, slow });
+        return fast;
+    };
+
+    detectCycle(head);
 
     return items;
 }

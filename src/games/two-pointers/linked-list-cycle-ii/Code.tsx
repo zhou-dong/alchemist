@@ -36,9 +36,12 @@ const getLinesToHighlight = (action: Action): number[] => {
         case Action.Ready: return [1];
         case Action.Define_Fast: return [2];
         case Action.Define_Slow: return [3];
-        case Action.Forward: return [6, 7];
-        case Action.Return_True: return [9];
-        case Action.Return_False: return [13];
+        case Action.Detected_No_Cycle: return [6];
+        case Action.Two_Steps_Forward: return [7, 8];
+        case Action.Detected_Cycle: return [9];
+        case Action.Reset_Head: return [12];
+        case Action.One_Step_Forward: return [14, 15];
+        case Action.Return_Cycle_Begin_Node: return [18];
     }
 }
 
