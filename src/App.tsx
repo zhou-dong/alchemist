@@ -215,6 +215,9 @@ import MergeTwoSortedListsInfo from "./games/two-pointers/merge-two-sorted-lists
 import MergeTwoSortedLists from "./games/two-pointers/merge-two-sorted-lists";
 import RemoveNthNodeFromEndOfListInfo from "./games/two-pointers/remove-nth-node-from-end-of-list/info";
 import RemoveNthNodeFromEndOfList from "./games/two-pointers/remove-nth-node-from-end-of-list";
+import LinkedListCycleInfo from "./games/two-pointers/linked-list-cycle/info";
+import LinkedListCycle from "./games/two-pointers/linked-list-cycle";
+
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -339,7 +342,7 @@ const App = () => (
         <Route path={RemoveDuplicatesFromSortedArrayInfo.path} element={<RemoveDuplicatesFromSortedArray />} />
         <Route path={MergeTwoSortedListsInfo.path} element={<MergeTwoSortedLists renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={RemoveNthNodeFromEndOfListInfo.path} element={<RemoveNthNodeFromEndOfList renderer={renderer} camera={camera} scene={createScene()} />} />
-
+        <Route path={LinkedListCycleInfo.path} element={<LinkedListCycle renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 

@@ -13,6 +13,9 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
     private linkColor: THREE.Color | string | number;
     private linkLength: number;
 
+    public adjustSource?: (position: Position, width: number) => Position;
+    public adjustTarget?: (position: Position, width: number) => Position;
+
     constructor(
         scene: THREE.Scene,
         duration: number,
@@ -49,14 +52,24 @@ export class LinkedList<T> implements ILinkedList<LinkedListNode<T>> {
 
         if (!current.linkToNext) {
 
-            const adjustSource = ({ x, y, z }: Position): Position => {
-                const width = current.width;
-                return { x: x + width / 2, y, z };
+            const adjustSource = (position: Position): Position => {
+                if (this.adjustSource) {
+                    return this.adjustSource(position, current.width);
+                } else {
+                    const { x, y, z } = position;
+                    const width = current.width;
+                    return { x: x + width / 2, y, z };
+                }
             }
 
-            const adjustTarget = ({ x, y, z }: Position): Position => {
-                const width = item.width;
-                return { x: x - width / 2, y, z };
+            const adjustTarget = (position: Position): Position => {
+                if (this.adjustTarget) {
+                    return this.adjustTarget(position, current.width);
+                } else {
+                    const { x, y, z } = position;
+                    const width = item.width;
+                    return { x: x - width / 2, y, z };
+                }
             }
 
             current.linkToNext = new SimpleLink(current, adjustSource, item, adjustTarget, this.scene, this.linkColor);

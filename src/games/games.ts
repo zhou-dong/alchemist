@@ -107,6 +107,7 @@ import RemoveElement from "./two-pointers/remove-element/info";
 import RemoveDuplicatesFromSortedArray from "./two-pointers/remove-duplicates-from-sorted-array/info";
 import MergeTwoSortedLists from "./two-pointers/merge-two-sorted-lists/info";
 import RemoveNthNodeFromEndOfList from "./two-pointers/remove-nth-node-from-end-of-list/info";
+import LinkedListCycle from "./two-pointers/linked-list-cycle/info";
 
 export const games: Game[] = [
     editDistance,
@@ -215,5 +216,6 @@ export const games: Game[] = [
     RemoveElement,
     RemoveDuplicatesFromSortedArray,
     MergeTwoSortedLists,
-    RemoveNthNodeFromEndOfList
+    RemoveNthNodeFromEndOfList,
+    LinkedListCycle
 ];
