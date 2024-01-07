@@ -7,9 +7,10 @@ import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from '../AlgoState';
 import { Order } from './algo';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
-import { linkColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
+import { linkColor, skinDefaultColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
 import Position from "../../../../data-structures/_commons/params/position.interface";
 import Code from './Code';
+import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -21,8 +22,15 @@ const MainPosition = styled("div")({
     zIndex: 1
 });
 
+const resetColor = (node: LinkedListNode<number> | undefined) => {
+    if (node) {
+        node.nodeSkin.color = skinDefaultColor;
+        resetColor(node.next);
+    }
+}
+
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, actions, setIndex, scene, displayCode } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, actions, setIndex, scene, displayCode, listHead } = useAlgoContext();
 
     const push = async () => {
 
@@ -34,6 +42,8 @@ const Play = () => {
 
         const { head, next, order } = action;
 
+        resetColor(listHead);
+
         if (order === Order.PreOrder) {
             if (head) {
                 head.nodeSkin.color = skinPreOrderColor;
@@ -41,12 +51,19 @@ const Play = () => {
             if (next) {
                 next.nodeSkin.color = skinPreOrderColor;
             }
-        } else {
+        } else if (order === Order.PostOrder) {
             if (head) {
                 head.nodeSkin.color = skinPostOrderColor;
             }
             if (next) {
                 next.nodeSkin.color = skinPostOrderColor;
+            }
+        } else {
+            if (head) {
+                head.nodeSkin.color = skinDefaultColor;
+            }
+            if (next) {
+                next.nodeSkin.color = skinDefaultColor;
             }
         }
 
