@@ -30,11 +30,12 @@ export function buildItems(head: LinkedListNode<number> | undefined): Item[] {
         while (fast !== undefined && fast.next !== undefined) {
             fast = fast.next.next;
             slow = slow?.next;
-            items.push({ action: Action.Forward, fast, slow });
 
             if (fast === slow) {
                 items.push({ action: Action.Return_True, fast, slow });
                 return true;
+            } else {
+                items.push({ action: Action.Forward, fast, slow });
             }
         }
 
