@@ -101,6 +101,9 @@ export const buildList = async (
 }
 
 export const findCycleBeginNode = (head: LinkedListNode<number>, pos: number): LinkedListNode<number> | undefined => {
+    if (pos < 0) {
+        return undefined;
+    }
     let current: LinkedListNode<number> | undefined = head;
     for (let i = 0; i < pos; i++) {
         if (!current) {
