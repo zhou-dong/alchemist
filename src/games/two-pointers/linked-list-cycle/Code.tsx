@@ -1,14 +1,14 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Action } from './algo';
 
-export const skinFastColor = "orange";
-export const skinSlowColor = "green";
+export const skinFastColor = "lightblue";
+export const skinSlowColor = "lightgreen";
 export const skinDummyColor = "lightgray";
 
 const formula = `function hasCycle(head: ListNode | null): boolean {
@@ -47,6 +47,14 @@ const Head = () => (
             <Typography>
                 Two Pointers Solution
             </Typography>
+            <Chip
+                sx={{ backgroundColor: `${skinSlowColor}`, color: "#000" }}
+                label="slow"
+            />
+            <Chip
+                sx={{ backgroundColor: `${skinFastColor}`, color: "#000" }}
+                label="fast"
+            />
         </Stack>
         <IconButton color='info'>
             <DragIndicatorIcon fontSize='medium' />
