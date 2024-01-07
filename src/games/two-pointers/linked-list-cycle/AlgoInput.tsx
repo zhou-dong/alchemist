@@ -47,7 +47,7 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ list, pos, setAnchorEl }) => {
 
-    const disabled = !pos || +pos < 1 || !list || !list.length;
+    const disabled = !pos || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
     const { setState, animate, cancelAnimate, scene, setItems, setIndex, setHead } = useAlgoContext();
