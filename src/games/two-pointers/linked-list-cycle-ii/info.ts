@@ -8,7 +8,7 @@ const info: Game = {
     path: "/algorithms/linked-list-cycle-ii",
     categories: [Category.TwoPointers],
     companies: [],
-    difficulty: Difficulty.Easy,
+    difficulty: Difficulty.Medium,
     img: "/img/linked-list-cycle-ii.png",
     leetcodeId: 142
 }
