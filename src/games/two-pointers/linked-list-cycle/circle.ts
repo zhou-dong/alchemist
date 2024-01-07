@@ -20,18 +20,6 @@ class GraphNode {
     }
 }
 
-const buildIdMap = (head: LinkedListNode<number>): Map<LinkedListNode<number>, number> => {
-    const map: Map<LinkedListNode<number>, number> = new Map();
-
-    let current: LinkedListNode<number> | undefined = head;
-    for (let i = 0; current && !map.has(current); i++) {
-        map.set(current, i);
-        current = current.next;
-    }
-
-    return map;
-}
-
 const buildGraphNodes = (head: LinkedListNode<number>): GraphNode[] => {
     const map: Map<LinkedListNode<number>, GraphNode> = new Map();
 
@@ -67,31 +55,6 @@ const buildGraph = (nodes: GraphNode[]) => {
         if (next) {
             if (!graphology.hasEdge(id, next.id)) {
                 graphology.addEdge(id, next.id);
-            }
-        }
-    });
-
-    return graphology;
-}
-
-const buildGraphology = (map: Map<LinkedListNode<number>, number>) => {
-    const graphology = new Graphology();
-
-    const nodes: LinkedListNode<number>[] = Array.from(map.keys());
-
-    nodes.forEach(node => {
-        const id = map.get(node);
-        if (id) {
-            graphology.addNode(id);
-        }
-    });
-
-    nodes.forEach(node => {
-        const nodeId: number | undefined = map.get(node);
-        const nextId: number | undefined = node.next && map.get(node.next);
-        if (nodeId && nextId) {
-            if (!graphology.hasEdge(nodeId, nextId)) {
-                graphology.addEdge(nodeId, nextId);
             }
         }
     });
@@ -143,8 +106,6 @@ const moveNodes = async (graphNodes: GraphNode[]): Promise<void> => {
 
 
 export const updatePositions = async (cycleBeginNode: LinkedListNode<number>): Promise<void> => {
-    const idMap = buildIdMap(cycleBeginNode);
-
     const graphNodes = calPositions(cycleBeginNode);
     return moveNodes(graphNodes);
 }

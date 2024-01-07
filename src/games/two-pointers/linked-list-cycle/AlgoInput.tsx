@@ -8,7 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { adjustX, adjustY, buildList, findCycleBeginNode, findTail, linkColor } from "./styles";
+import { buildList, findCycleBeginNode, findTail, linkColor } from "./styles";
 import { buildItems } from './algo';
 import InputIcon from '@mui/icons-material/Input';
 import { updatePositions } from './circle';
@@ -76,8 +76,8 @@ const Submit: React.FC<{
             }
 
             await wait(0.2);
-            // const items = buildItems(head);
-            // setItems(items);
+            const items = buildItems(head);
+            setItems(items);
         } catch (error) {
             console.error(error);
         } finally {

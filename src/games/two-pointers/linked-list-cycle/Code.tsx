@@ -7,7 +7,7 @@ import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Action } from './algo';
 
-export const skinFastColor = "lightgreen";
+export const skinFastColor = "orange";
 export const skinSlowColor = "green";
 export const skinDummyColor = "lightgray";
 

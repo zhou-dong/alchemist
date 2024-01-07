@@ -22,8 +22,10 @@ const MainPosition = styled("div")({
 });
 
 const resetListColor = (head: LinkedListNode<number> | undefined) => {
+    const set: Set<LinkedListNode<number>> = new Set();
     let current: LinkedListNode<number> | undefined = head;
-    while (current) {
+    while (current && !set.has(current)) {
+        set.add(current);
         current.nodeSkin.color = skinDefaultColor;
         current = current.next
     }
@@ -64,6 +66,7 @@ const Play = () => {
 
                     slow.next.nodeSkin.color = "lightgray";
                     slow.next.nodeText.color = "#000";
+
                     await slow.next.move({ x, y: y - 2, z }, duration, () => {
                         slow.linkToNext?.refresh();
                         slow.next?.linkToNext?.refresh()
