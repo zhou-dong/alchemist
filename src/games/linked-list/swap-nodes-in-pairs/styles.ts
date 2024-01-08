@@ -8,6 +8,9 @@ export const linkColor = "gold";
 export const skinDefaultColor = "yellow";
 export const skinPreOrderColor = "orange";
 export const skinPostOrderColor = "lightgreen";
+
+export const skinEnabledColor = "lightblue";
+
 const linkLength = 4;
 const duration = 1;
 
