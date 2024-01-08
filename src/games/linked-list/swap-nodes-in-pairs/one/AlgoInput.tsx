@@ -79,15 +79,19 @@ const Submit: React.FC<{
 
 const Main = ({ setAnchorEl }: Props) => {
 
-    const maxLength = 8;
-    const [list, setList] = React.useState(() => buildRandomList(maxLength).join(","));
+    const listLength = (): number => {
+        const random = Math.random();
+        return random > 0.5 ? 7 : 8;
+    }
+
+    const [list, setList] = React.useState(() => buildRandomList(listLength()).join(","));
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
     }
 
     const handleFresh = () => {
-        setList(() => buildRandomList(maxLength).join(","));
+        setList(() => buildRandomList(listLength()).join(","));
     }
 
     return (
