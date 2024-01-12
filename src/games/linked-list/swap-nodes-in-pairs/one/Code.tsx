@@ -95,7 +95,7 @@ const CallStack = () => {
 };
 
 const MainPosition = styled("div")({
-    position: 'fixed', bottom: 200, right: 60, minWidth: 1000
+    position: 'fixed', bottom: 320, right: 60, minWidth: 1000
 });
 
 const Main = () => (
