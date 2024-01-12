@@ -19,7 +19,9 @@ const AlgoContext = React.createContext<{
     current: LinkedListNode<number>,
     setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number>>>,
     displayCode: boolean,
-    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
+    index: number,
+    setIndex: React.Dispatch<React.SetStateAction<number>>,
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -33,7 +35,9 @@ const AlgoContext = React.createContext<{
     current: (null as any),
     setCurrent: () => { },
     displayCode: true,
-    setDisplayCode: () => { }
+    setDisplayCode: () => { },
+    index: 0,
+    setIndex: () => { },
 });
 
 let animationFrameId = -1;
@@ -52,6 +56,7 @@ export const AlgoContextProvider: React.FC<{
     const [current, setCurrent] = React.useState<LinkedListNode<number>>((null as any));
     const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([2]);
     const [displayCode, setDisplayCode] = React.useState(true);
+    const [index, setIndex] = React.useState(0);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -94,7 +99,9 @@ export const AlgoContextProvider: React.FC<{
             current,
             setCurrent,
             displayCode,
-            setDisplayCode
+            setDisplayCode,
+            index,
+            setIndex,
         }}>
             {children}
             <div ref={ref} />

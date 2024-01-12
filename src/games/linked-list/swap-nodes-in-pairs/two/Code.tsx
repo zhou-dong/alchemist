@@ -6,22 +6,21 @@ import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
-const formula = `function mergeTwoLists(list1?: ListNode, list2: ListNode): ListNode | undefined {
+const formula = `function swapPairs(head: ListNode | null): ListNode | null {
     const dummy = new ListNode();
-    let current = dummy;
+    dummy.next = head;
 
-    while (list1 !== null && list2 !== null) {
-        if (list1.val < list2.val) {
-            current.next = list1;
-            list1 = list1.next;
-        } else {
-            current.next = list2;
-            list2 = list2.next;
-        }
-        current = current.next;
+    let current = dummy;
+    while (current.next && current.next.next) {
+        const a = current.next;
+        const b = current.next.next;
+
+        current.next = b;
+        a.next = b.next;
+        b.next = a;
+        current = a;
     }
 
-    current.next = list1 === null ? list2 : list1;
     return dummy.next;
 };`;
 

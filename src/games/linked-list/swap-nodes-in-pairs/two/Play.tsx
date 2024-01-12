@@ -1,6 +1,5 @@
 import { styled } from '@mui/system';
 import { Button } from "@mui/material";
-import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "../AlgoState";
@@ -9,6 +8,7 @@ import { SimpleLink } from '../../../../data-structures/list/link.three';
 import { linkColor, skinPostOrderColor } from '../styles';
 import Position from '../../../../data-structures/_commons/params/position.interface';
 import Code from './Code';
+import MouseIcon from '@mui/icons-material/Mouse';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -94,12 +94,12 @@ const Play = () => {
             <MainPosition>
                 <Button
                     onClick={handleMerge}
-                    startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />}
+                    startIcon={state === State.Finished ? <CheckIcon /> : <MouseIcon />}
                     disabled={disabled}
                     size='large'
                     sx={{ zIndex: 1 }}
                 >
-                    merge
+                    next
                 </Button>
             </MainPosition>
             {displayCode && <Code />}
