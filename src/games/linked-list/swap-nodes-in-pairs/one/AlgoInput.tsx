@@ -85,7 +85,7 @@ const Main = ({ setAnchorEl }: Props) => {
 
     const listLength = (): number => {
         const random = Math.random();
-        return random > 0.5 ? 7 : 8;
+        return random > 0.5 ? 7 : 6;
     }
 
     const [list, setList] = React.useState(() => buildRandomList(listLength()).join(","));
