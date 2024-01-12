@@ -4,36 +4,45 @@ export enum Order {
     PreOrder, PostOrder
 }
 
-export interface Action {
-    order?: Order;
+export enum Action {
+    Return_Head,
+    Define_Temp,
+    Swap
+}
+
+export interface Step {
+    action: Action;
+    order: Order;
     head?: LinkedListNode<number>;
     next?: LinkedListNode<number>;
     linesToHighlight: number[]
 }
 
-export function buildActions(head: LinkedListNode<number>): Action[] {
-    const actions: Action[] = [];
+export function buildSteps(head: LinkedListNode<number>): Step[] {
+    const steps: Step[] = [];
 
     function swapPairs(head: LinkedListNode<number> | undefined): LinkedListNode<number> | undefined {
 
         if (head === undefined || head.next === undefined) {
-            actions.push({ head, next: head?.next, linesToHighlight: [3] });
+            // pre-order
+            steps.push({ head, next: head?.next, order: Order.PreOrder, linesToHighlight: [1, 5], action: Action.Define_Temp });
+
+            // post-order
+            steps.push({ head, next: head?.next, order: Order.PostOrder, linesToHighlight: [3], action: Action.Return_Head, });
             return head;
         }
 
         const temp = head.next;
-        actions.push({ head, next: temp, order: Order.PreOrder, linesToHighlight: [5] });
+        steps.push({ head, next: head.next, order: Order.PreOrder, linesToHighlight: [1, 5], action: Action.Define_Temp });
 
         head.next = swapPairs(temp.next);
-        actions.push({ head, next: temp, order: Order.PostOrder, linesToHighlight: [6] });
-
         temp.next = head;
-        actions.push({ head, next: temp, linesToHighlight: [7] });
+        steps.push({ head, next: temp, linesToHighlight: [6, 7], action: Action.Swap, order: Order.PostOrder, });
 
         return temp;
     };
 
     swapPairs(head);
 
-    return actions;
+    return steps;
 }

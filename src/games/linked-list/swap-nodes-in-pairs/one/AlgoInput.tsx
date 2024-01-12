@@ -9,7 +9,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
 import { buildList, center } from "../styles";
-import { buildActions } from './algo';
+import { buildSteps } from './algo';
 import ClearIcon from '@mui/icons-material/Clear';
 
 const buildRandomList = (length: number): number[] => {
@@ -45,22 +45,26 @@ const Submit: React.FC<{
 
     const disabled = !list || nums.length === 0;
 
-    const { setState, animate, cancelAnimate, scene, setActions, setIndex, setListHead } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setListHead } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-        setActions([]);
+        setSteps([]);
         setIndex(0);
 
         try {
             animate();
             const head = await buildList(scene, nums, 7);
             await center(head);
-            setListHead(head);
-            const actions = buildActions(head);
-            setActions(actions);
+
+            // head is the original head
+            // head.next is the swapped list head
+            setListHead(head.next);
+
+            const steps = buildSteps(head);
+            setSteps(steps);
         } catch (error) {
             console.error(error);
         } finally {

@@ -2,7 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import { State } from "../AlgoState";
 import { clearScene } from "../../../../commons/three";
-import { Action } from "./algo";
+import { Step } from "./algo";
 import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 
 const AlgoContext = React.createContext<{
@@ -11,8 +11,8 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    actions: Action[],
-    setActions: React.Dispatch<React.SetStateAction<Action[]>>,
+    steps: Step[],
+    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
@@ -25,8 +25,8 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => { },
     state: State.Typing,
     setState: () => { },
-    actions: [],
-    setActions: () => { },
+    steps: [],
+    setSteps: () => { },
     index: 0,
     setIndex: () => { },
     displayCode: true,
@@ -45,7 +45,7 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [actions, setActions] = React.useState<Action[]>([]);
+    const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
 
@@ -83,8 +83,8 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             state,
             setState,
-            actions,
-            setActions,
+            steps,
+            setSteps,
             index,
             setIndex,
             displayCode,

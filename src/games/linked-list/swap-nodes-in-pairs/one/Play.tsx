@@ -1,16 +1,15 @@
 import { styled } from '@mui/system';
-import MergeIcon from '@mui/icons-material/Merge';
 import CheckIcon from '@mui/icons-material/Check';
 import { Button, ButtonGroup } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from '../AlgoState';
-import { Order } from './algo';
-import { SimpleLink } from '../../../../data-structures/list/link.three';
-import { linkColor, skinDefaultColor, skinPostOrderColor, skinPreOrderColor } from '../styles';
+import { Action } from './algo';
+import { duration, skinDefaultColor, skinEnabledColor } from '../styles';
 import Position from "../../../../data-structures/_commons/params/position.interface";
 import Code from './Code';
 import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
+import MouseIcon from '@mui/icons-material/Mouse';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -29,59 +28,73 @@ const resetColor = (node: LinkedListNode<number> | undefined) => {
     }
 }
 
+const enableColor = (node: LinkedListNode<number> | undefined) => {
+    if (node) {
+        node.nodeSkin.color = skinEnabledColor;
+    }
+}
+
+const clonePosition = (node: LinkedListNode<number>): Position => {
+    const { x, y, z } = node;
+    return { x, y, z };
+}
+
+const swap = (a: LinkedListNode<number>, b: LinkedListNode<number>) => {
+    const positionA = clonePosition(a);
+    const positionB = clonePosition(b);
+
+    if (a.next && a.linkToNext) {
+        a.linkToNext.target = a.next;
+    }
+
+    if (b.next && b.linkToNext) {
+        b.linkToNext.target = b.next;
+    }
+
+    const moveA = a.move(positionB, duration, () => a.linkToNext?.refresh());
+    const moveB = b.move(positionA, duration, () => b.linkToNext?.refresh());
+
+    return Promise.all([moveA, moveB]);
+}
+
+const safeRun = async (run: () => Promise<any>, animate: () => void, cancelAnimate: () => void) => {
+    try {
+        animate();
+        await run();
+    } catch (error) {
+        console.log(error);
+    } finally {
+        cancelAnimate();
+    }
+}
+
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, actions, setIndex, scene, displayCode, listHead } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, listHead } = useAlgoContext();
 
     const push = async () => {
+        const step = steps[index];
+        if (!step) return;
 
-        const action = actions[index];
+        setState(State.Typing);
 
-        if (!action) {
-            return;
-        }
-
-        const { head, next, order } = action;
-
+        const { head, next, action } = step;
         resetColor(listHead);
+        enableColor(head);
+        enableColor(next);
 
-        if (order === Order.PreOrder) {
-            if (head) {
-                head.nodeSkin.color = skinPreOrderColor;
-            }
-            if (next) {
-                next.nodeSkin.color = skinPreOrderColor;
-            }
-        } else if (order === Order.PostOrder) {
-            if (head) {
-                head.nodeSkin.color = skinPostOrderColor;
-            }
-            if (next) {
-                next.nodeSkin.color = skinPostOrderColor;
-            }
-        } else {
-            if (head) {
-                head.nodeSkin.color = skinDefaultColor;
-            }
-            if (next) {
-                next.nodeSkin.color = skinDefaultColor;
+        if (action === Action.Swap && head && next) {
+            if (head && next) {
+                await safeRun(() => swap(head, next), animate, cancelAnimate);
             }
         }
 
-        console.log(index, action);
+        await safeRun(() => wait(0.1), animate, cancelAnimate);
 
-        try {
-            animate();
-            await wait(0.1);
-        } catch (error) {
-            console.log(error);
-        } finally {
-            cancelAnimate();
-        }
-
-        if (index === actions.length - 1) {
+        setIndex(i => i + 1);
+        if (index === steps.length - 1) {
             setState(State.Finished);
         } else {
-            setIndex(i => i + 1);
+            setState(State.Playing);
         }
     }
 
@@ -92,12 +105,12 @@ const Play = () => {
                     <Button
                         sx={{ zIndex: 3 }}
                         size='large'
-                        onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />}
+                        onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MouseIcon />}
                         disabled={state !== State.Playing}
                         color='success'
                         variant='outlined'
                     >
-                        merge
+                        next
                     </Button>
                 </ButtonGroup>
             </MainPosition>

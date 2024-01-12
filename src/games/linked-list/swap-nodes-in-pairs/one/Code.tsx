@@ -20,8 +20,8 @@ const formula = `function swapPairs(head: ListNode | null): ListNode | null {
 };`;
 
 const Code = () => {
-    const { index, actions } = useAlgoContext();
-    const action = actions[index - 1];
+    const { index, steps } = useAlgoContext();
+    const action = steps[index - 1];
     const linesToHighlight: number[] = action ? action.linesToHighlight : [];
 
     return (
@@ -53,13 +53,14 @@ const Head = () => (
 
 const CallStack = () => {
     const nbsp = "\u00A0";
-    const { index, actions } = useAlgoContext();
+    const { index, steps } = useAlgoContext();
 
     const callStack: string[][] = [];
+
     for (let i = 0; i < index; i++) {
-        const act = actions[i];
-        if (act) {
-            const { order, head } = act;
+        const step = steps[i];
+        if (step) {
+            const { order, head } = step;
             if (order === Order.PreOrder) {
                 const spaces = Array(callStack.length).fill(nbsp + nbsp).join("");
                 callStack.push([spaces, `swapPairs(${head?.data})`]);

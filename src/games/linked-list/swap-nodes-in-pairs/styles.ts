@@ -12,7 +12,7 @@ export const skinPostOrderColor = "lightgreen";
 export const skinEnabledColor = "lightblue";
 
 const linkLength = 4;
-const duration = 1;
+export const duration = 1;
 
 const textColor = "green";
 
