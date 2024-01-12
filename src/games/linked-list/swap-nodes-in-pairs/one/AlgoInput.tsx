@@ -56,7 +56,7 @@ const Submit: React.FC<{
 
         try {
             animate();
-            const head = await buildList(scene, nums, 7);
+            const head = await buildList(scene, nums, -8, 7);
             await center(head);
 
             // head is the original head
