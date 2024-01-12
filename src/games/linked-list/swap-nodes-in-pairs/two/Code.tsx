@@ -25,7 +25,7 @@ const formula = `function swapPairs(head: ListNode | null): ListNode | null {
 };`;
 
 const MainPosition = styled("div")({
-    position: 'fixed', bottom: 200, right: 60
+    position: 'fixed', bottom: 330, right: 60
 });
 
 const Head = () => (
