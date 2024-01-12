@@ -48,7 +48,7 @@ const buildLink = (source: LinkedListNode<number>, target: LinkedListNode<number
         return { x: x + width / 2, y, z };
     }
     const adjustTarget = ({ x, y, z }: Position): Position => {
-        const width = target.next?.width || 0;
+        const width = target.width || 0;
         return { x: x - width / 2, y, z };
     }
     return new SimpleLink(source, adjustSource, target, adjustTarget, scene, linkColor);
