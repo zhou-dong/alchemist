@@ -69,7 +69,7 @@ const Submit: React.FC<{
 
             setLinesToHighlight([3]);
 
-            const current = buildLinkedListNode(scene, -1, "H", { x: -11, y: 7, z: 0 }, { x: -11.4, y: 7, z: 0 });
+            const current = buildLinkedListNode(scene, -1, "D", { x: -11, y: 7, z: 0 }, { x: -11.4, y: 7, z: 0 });
             current.show();
             current.nodeSkin.color = skinPostOrderColor;
             setCurrent(current);
