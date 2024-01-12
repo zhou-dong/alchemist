@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { styled } from '@mui/system';
 import CheckIcon from '@mui/icons-material/Check';
 import { Button, ButtonGroup } from "@mui/material";
@@ -5,11 +6,12 @@ import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { State } from '../AlgoState';
 import { Action } from './algo';
-import { duration, skinDefaultColor, skinEnabledColor } from '../styles';
+import { duration, linkColor, skinDefaultColor, skinEnabledColor } from '../styles';
 import Position from "../../../../data-structures/_commons/params/position.interface";
 import Code from './Code';
 import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
 import MouseIcon from '@mui/icons-material/Mouse';
+import { SimpleLink } from '../../../../data-structures/list/link.three';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -39,17 +41,37 @@ const clonePosition = (node: LinkedListNode<number>): Position => {
     return { x, y, z };
 }
 
-const swap = (a: LinkedListNode<number>, b: LinkedListNode<number>) => {
+const buildLink = (source: LinkedListNode<number>, target: LinkedListNode<number>, scene: THREE.Scene) => {
+    const adjustSource = ({ x, y, z }: Position): Position => {
+        const width = source.width;
+        return { x: x + width / 2, y, z };
+    }
+    const adjustTarget = ({ x, y, z }: Position): Position => {
+        const width = target.next?.width || 0;
+        return { x: x - width / 2, y, z };
+    }
+    return new SimpleLink(source, adjustSource, target, adjustTarget, scene, linkColor);
+}
+
+const resetLink = (node: LinkedListNode<number>, scene: THREE.Scene) => {
+    if (node.next) {
+        if (node.linkToNext) {
+            node.linkToNext.target = node.next;
+        } else {
+            node.linkToNext = buildLink(node, node.next, scene);
+            node.linkToNext.show();
+        }
+    } else {
+        node.linkToNext?.hide();
+    }
+}
+
+const swap = (a: LinkedListNode<number>, b: LinkedListNode<number>, scene: THREE.Scene) => {
     const positionA = clonePosition(a);
     const positionB = clonePosition(b);
 
-    if (a.next && a.linkToNext) {
-        a.linkToNext.target = a.next;
-    }
-
-    if (b.next && b.linkToNext) {
-        b.linkToNext.target = b.next;
-    }
+    resetLink(a, scene);
+    resetLink(b, scene);
 
     const moveA = a.move(positionB, duration, () => a.linkToNext?.refresh());
     const moveB = b.move(positionA, duration, () => b.linkToNext?.refresh());
@@ -69,7 +91,7 @@ const safeRun = async (run: () => Promise<any>, animate: () => void, cancelAnima
 }
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, listHead } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, listHead, scene } = useAlgoContext();
 
     const push = async () => {
         const step = steps[index];
@@ -84,7 +106,7 @@ const Play = () => {
 
         if (action === Action.Swap && head && next) {
             if (head && next) {
-                await safeRun(() => swap(head, next), animate, cancelAnimate);
+                await safeRun(() => swap(head, next, scene), animate, cancelAnimate);
             }
         }
 
