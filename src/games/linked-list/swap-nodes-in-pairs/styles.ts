@@ -11,7 +11,7 @@ export const skinPostOrderColor = "lightgreen";
 
 export const skinEnabledColor = "lightblue";
 
-const linkLength = 4;
+export const linkLength = 4;
 export const duration = 1;
 
 const textColor = "green";
@@ -48,14 +48,16 @@ const buildText = (scene: THREE.Scene, text: string, position: Position) => {
     return skinText;
 }
 
-const buildHead = (scene: THREE.Scene, i: number, y: number): LinkedListNode<number> => {
-    const textX = ((i + "").length === 1) ? -0.3 : -0.5;
-    return buildLinkedListNode(scene, i, i + "", { x: -8, y, z: 0 }, { x: -8 + textX, y: y - 0.2, z: 0 })
+const buildHead = (scene: THREE.Scene, num: number, x: number, y: number): LinkedListNode<number> => {
+    const textX = ((num + "").length === 1) ? -0.3 : -0.5;
+    const textY = y - 0.2;
+    return buildLinkedListNode(scene, num, num + "", { x, y, z: 0 }, { x: x + textX, y: textY, z: 0 })
 }
 
 const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
     const textX = ((i + "").length === 1) ? -0.3 : -0.5;
-    return buildLinkedListNode(scene, i, i + "", { x: 0, y: 0, z: 0 }, { x: textX, y: -0.2, z: 0 })
+    const textY = -0.2;
+    return buildLinkedListNode(scene, i, i + "", { x: 0, y: 0, z: 0 }, { x: textX, y: textY, z: 0 })
 }
 
 export const buildLinkedListNode = (
@@ -75,10 +77,11 @@ export const buildLinkedListNode = (
 export const buildList = async (
     scene: THREE.Scene,
     array: number[],
+    x: number,
     y: number
 ): Promise<LinkedListNode<number>> => {
     const list = new LinkedList<number>(scene, duration, linkColor, linkLength);
-    const head = buildHead(scene, array[0], y);
+    const head = buildHead(scene, array[0], x, y);
     await list.push(head);
     for (let i = 1; i < array.length; i++) {
         await list.push(buildNode(scene, array[i]));
