@@ -8,9 +8,10 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
-import { buildList, center } from "../styles";
-// import { buildSteps } from './algo';
+import { buildList, center, linkLength } from "../styles";
+import { buildSteps } from './algo';
 import ClearIcon from '@mui/icons-material/Clear';
+import { wait } from '../../../../data-structures/_commons/utils';
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
@@ -56,14 +57,18 @@ const Submit: React.FC<{
 
         try {
             animate();
-            const head = await buildList(scene, nums, 7);
-            await center(head);
+            const x = -8;
+            const y = 7;
+            const head = await buildList(scene, nums, x, y);
+
 
             // head is the original head
             // head.next is the swapped list head
             // setListHead(head.next);
 
-            // const steps = buildSteps(head);
+            const steps = buildSteps(head, scene, x - linkLength, y);
+            await center(steps[0].dummy);
+            await wait(0.1);
             // setSteps(steps);
         } catch (error) {
             console.error(error);
