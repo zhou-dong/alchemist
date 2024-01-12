@@ -12,6 +12,7 @@ import Code from './Code';
 import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
 import MouseIcon from '@mui/icons-material/Mouse';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
+import { safeRun } from "../../../commons/utils";
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -77,17 +78,6 @@ const swap = (a: LinkedListNode<number>, b: LinkedListNode<number>, scene: THREE
     const moveB = b.move(positionA, duration, () => b.linkToNext?.refresh());
 
     return Promise.all([moveA, moveB]);
-}
-
-const safeRun = async (run: () => Promise<any>, animate: () => void, cancelAnimate: () => void) => {
-    try {
-        animate();
-        await run();
-    } catch (error) {
-        console.log(error);
-    } finally {
-        cancelAnimate();
-    }
 }
 
 const Play = () => {
