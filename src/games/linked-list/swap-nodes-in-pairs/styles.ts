@@ -10,6 +10,7 @@ export const skinPreOrderColor = "orange";
 export const skinPostOrderColor = "lightgreen";
 
 export const skinEnabledColor = "lightblue";
+export const skinDummyColor = "lightgray";
 
 export const linkLength = 4;
 export const duration = 1;

@@ -12,6 +12,8 @@ import { buildList, center, linkLength } from "../styles";
 import { buildSteps } from './algo';
 import ClearIcon from '@mui/icons-material/Clear';
 import { wait } from '../../../../data-structures/_commons/utils';
+import { safeRun } from '../../../commons/utils';
+import { SimpleLinkedListNodeText } from '../../../../data-structures/list/list-node-base';
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
@@ -46,35 +48,36 @@ const Submit: React.FC<{
 
     const disabled = !list || nums.length === 0;
 
-    const { setState, animate, cancelAnimate, scene, setIndex, } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setIndex, setSteps, setCurrentText, setAText, setBText } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-        // setSteps([]);
+        setSteps([]);
         setIndex(0);
 
-        try {
-            animate();
+        const init = async () => {
+
             const x = -8;
             const y = 7;
             const head = await buildList(scene, nums, x, y);
 
-
-            // head is the original head
-            // head.next is the swapped list head
-            // setListHead(head.next);
-
             const steps = buildSteps(head, scene, x - linkLength, y);
             await center(steps[0].dummy);
             await wait(0.1);
-            // setSteps(steps);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            cancelAnimate();
+            setSteps(steps);
+
+            const currentText: SimpleLinkedListNodeText = new SimpleLinkedListNodeText("c", scene, "green", 0.5, 0.1);
+            const aText: SimpleLinkedListNodeText = new SimpleLinkedListNodeText("a", scene, "green", 0.5, 0.1);
+            const bText: SimpleLinkedListNodeText = new SimpleLinkedListNodeText("b", scene, "green", 0.5, 0.1);
+
+            setCurrentText(currentText);
+            setAText(aText);
+            setBText(bText);
         }
+
+        safeRun(init, animate, cancelAnimate);
 
         setState(State.Playing);
     }

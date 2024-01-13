@@ -83,7 +83,7 @@ const swap = (a: LinkedListNode<number>, b: LinkedListNode<number>, scene: THREE
 const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, listHead, scene } = useAlgoContext();
 
-    const push = async () => {
+    const doNext = async () => {
         const step = steps[index];
         if (!step) return;
 
@@ -117,7 +117,7 @@ const Play = () => {
                     <Button
                         sx={{ zIndex: 3 }}
                         size='large'
-                        onClick={push} startIcon={state === State.Finished ? <CheckIcon /> : <MouseIcon />}
+                        onClick={doNext} startIcon={state === State.Finished ? <CheckIcon /> : <MouseIcon />}
                         disabled={state !== State.Playing}
                         color='success'
                         variant='outlined'

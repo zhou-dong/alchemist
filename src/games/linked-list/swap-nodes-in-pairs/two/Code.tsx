@@ -45,7 +45,9 @@ const Head = () => (
 );
 
 const Body = () => {
-    const { linesToHighlight } = useAlgoContext();
+    const { index, steps } = useAlgoContext();
+    const action = steps[index - 1];
+    const linesToHighlight: number[] = action ? action.linesToHighlight : [];
     return (
         <CodeBlock
             code={formula}
