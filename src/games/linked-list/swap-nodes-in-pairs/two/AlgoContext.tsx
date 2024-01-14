@@ -21,7 +21,7 @@ const AlgoContext = React.createContext<{
     aText?: LinkedListNodeText,
     bText?: LinkedListNodeText,
     setCurrentText: React.Dispatch<React.SetStateAction<LinkedListNodeText | undefined>>,
-    setAText: React.Dispatch<React.SetStateAction<LinkedListNodeText | undefined>>
+    setAText: React.Dispatch<React.SetStateAction<LinkedListNodeText | undefined>>,
     setBText: React.Dispatch<React.SetStateAction<LinkedListNodeText | undefined>>
 }>({
     scene: new THREE.Scene(),
@@ -80,8 +80,6 @@ export const AlgoContextProvider: React.FC<{
                 init();
                 ref.current.appendChild(renderer.domElement);
             }
-
-            return () => clearScene(scene);
         },
         [ref, renderer, scene, camera]
     );
