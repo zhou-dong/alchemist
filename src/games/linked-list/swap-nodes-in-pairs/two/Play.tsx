@@ -110,17 +110,14 @@ const Main = () => {
     const { scene, state, setState, animate, cancelAnimate, displayCode, index, steps, setIndex, currentText, aText, bText } = useAlgoContext();
 
     const doNext = async () => {
-
         const step = steps[index];
-        if (!step) {
-            setState(State.Finished);
-            return;
-        }
+        if (!step) return;
 
         setState(State.Typing);
+        const { action, dummy, current, a, b, temp } = step;
 
         const goNext = async () => {
-            const { action, dummy, current, a, b, temp } = step;
+
             switch (action) {
                 case Action.New_Dummy: {
                     dummy.show();
