@@ -348,7 +348,6 @@ const App = () => (
         <Route path={LinkedListCycleInfo.path} element={<LinkedListCycle renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={LinkedListCycleIIInfo.path} element={<LinkedListCycleII renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={SwapNodesInPairsInfo.path} element={<SwapNodesInPairs renderer={renderer} camera={camera} scene={createScene()} />} />
-
     </Routes>
 );
 
