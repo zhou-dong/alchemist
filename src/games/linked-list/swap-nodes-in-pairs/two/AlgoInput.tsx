@@ -39,6 +39,10 @@ interface Props {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }
 
+const buildText = (text: string, scene: THREE.Scene) => {
+    return new SimpleLinkedListNodeText(text, scene, "green", 0.5, 0.1);
+}
+
 const Submit: React.FC<{
     list: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
@@ -67,13 +71,9 @@ const Submit: React.FC<{
             await wait(0.1);
             setSteps(steps);
 
-            const currentText: SimpleLinkedListNodeText = new SimpleLinkedListNodeText("c", scene, "green", 0.5, 0.1);
-            const aText: SimpleLinkedListNodeText = new SimpleLinkedListNodeText("a", scene, "green", 0.5, 0.1);
-            const bText: SimpleLinkedListNodeText = new SimpleLinkedListNodeText("b", scene, "green", 0.5, 0.1);
-
-            setCurrentText(currentText);
-            setAText(aText);
-            setBText(bText);
+            setCurrentText(buildText("c", scene));
+            setAText(buildText("a", scene));
+            setBText(buildText("b", scene));
         }
 
         await safeRun(init, animate, cancelAnimate);
