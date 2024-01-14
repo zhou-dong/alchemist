@@ -66,10 +66,11 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene, x: 
             steps.push({ dummy, a, b, current, action: Action.Assign_Current_Next_To_B, linesToHighlight: [10] });
             a.next = b.next;
             steps.push({ dummy, a, b, current, action: Action.Assign_A_Next_To_B_Next, linesToHighlight: [11], temp: a.next });
+            let temp = b.next;
             b.next = a;
-            steps.push({ dummy, a, b, current, action: Action.Assign_B_Next_To_A, linesToHighlight: [12] });
+            steps.push({ dummy, a, b, current, action: Action.Assign_B_Next_To_A, linesToHighlight: [12], temp: temp });
             current = a;
-            steps.push({ dummy, a, b, current, action: Action.Assign_Current_To_A, linesToHighlight: [13] });
+            steps.push({ dummy, a, b, current, action: Action.Assign_Current_To_A, linesToHighlight: [13], temp: current.next });
         }
 
         steps.push({ dummy, action: Action.Return_Dummy_Next, linesToHighlight: [16] });
