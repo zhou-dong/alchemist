@@ -77,7 +77,8 @@ const Submit: React.FC<{
             setBText(bText);
         }
 
-        safeRun(init, animate, cancelAnimate);
+        await safeRun(init, animate, cancelAnimate);
+        setIndex(0);
 
         setState(State.Playing);
     }
