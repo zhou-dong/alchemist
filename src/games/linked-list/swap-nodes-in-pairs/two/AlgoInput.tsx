@@ -77,7 +77,6 @@ const Submit: React.FC<{
         }
 
         await safeRun(init, animate, cancelAnimate);
-        setIndex(0);
 
         setState(State.Playing);
     }
