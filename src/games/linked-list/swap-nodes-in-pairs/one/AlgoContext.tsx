@@ -68,10 +68,13 @@ export const AlgoContextProvider: React.FC<{
                 clearScene(scene);
                 renderer.render(scene, camera);
             }
+
             if (ref && ref.current) {
                 init();
                 ref.current.appendChild(renderer.domElement);
             }
+
+            return () => clearScene(scene);
         },
         [ref, renderer, scene, camera]
     );

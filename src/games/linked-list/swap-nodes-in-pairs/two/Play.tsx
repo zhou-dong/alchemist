@@ -106,7 +106,7 @@ const displayIndicator = (node?: LinkedListNode<number>, indicator?: LinkedListN
     }
 }
 
-const Play = () => {
+const Main = () => {
     const { scene, state, setState, animate, cancelAnimate, displayCode, index, steps, setIndex, currentText, aText, bText } = useAlgoContext();
 
     const doNext = async () => {
@@ -228,4 +228,4 @@ const Play = () => {
     );
 }
 
-export default Play;
+export default Main;
