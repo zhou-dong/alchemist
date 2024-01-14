@@ -58,7 +58,6 @@ const Submit: React.FC<{
         setIndex(0);
 
         const init = async () => {
-
             const x = -8;
             const y = 7;
             const head = await buildList(scene, nums, x, y);
