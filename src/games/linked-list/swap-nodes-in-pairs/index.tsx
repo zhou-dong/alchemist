@@ -9,16 +9,13 @@ import Two from "./two";
 import Header from './Header';
 import * as THREE from 'three';
 
-const createScene = () => {
-    return new THREE.Scene();
-}
-
 interface Props {
     renderer: THREE.Renderer;
     camera: THREE.Camera;
+    scene: THREE.Scene;
 }
 
-const Main = ({ renderer, camera }: Props) => {
+const Main = ({ renderer, camera, scene }: Props) => {
 
     const [solution, setSolution] = React.useState<Solution>("one");
 
@@ -26,8 +23,8 @@ const Main = ({ renderer, camera }: Props) => {
         <GameWrapper path={info.path}>
             <ThemeProvider theme={theme}>
                 <Header solution={solution} setSolution={setSolution} />
-                {solution === "one" && <One renderer={renderer} camera={camera} scene={createScene()} />}
-                {solution === "two" && <Two renderer={renderer} camera={camera} scene={createScene()} />}
+                {solution === "one" && <One renderer={renderer} camera={camera} scene={scene} />}
+                {solution === "two" && <Two renderer={renderer} camera={camera} scene={scene} />}
             </ThemeProvider>
         </GameWrapper>
     );
