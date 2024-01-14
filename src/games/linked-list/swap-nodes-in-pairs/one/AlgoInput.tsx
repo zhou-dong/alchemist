@@ -11,6 +11,7 @@ import { clearScene } from "../../../../commons/three";
 import { buildList, center } from "../styles";
 import { buildSteps } from './algo';
 import ClearIcon from '@mui/icons-material/Clear';
+import { safeRun } from '../../../commons/utils';
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
@@ -54,22 +55,17 @@ const Submit: React.FC<{
         setSteps([]);
         setIndex(0);
 
-        try {
-            animate();
+        const init = async () => {
             const head = await buildList(scene, nums, -8, 7);
             await center(head);
-
             // head is the original head
             // head.next is the swapped list head
             setListHead(head.next);
-
             const steps = buildSteps(head);
             setSteps(steps);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            cancelAnimate();
         }
+
+        await safeRun(init, animate, cancelAnimate);
 
         setState(State.Playing);
     }
