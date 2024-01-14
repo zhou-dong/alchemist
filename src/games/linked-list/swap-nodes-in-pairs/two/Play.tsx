@@ -49,9 +49,7 @@ const clonePosition = (node: LinkedListNode<number>): Position => {
 
 const resetLink = (node: LinkedListNode<number>, scene: THREE.Scene) => {
     if (node.next) {
-        if (node.linkToNext) {
-            node.linkToNext.target = node.next;
-        } else {
+        if (node.linkToNext === undefined) {
             node.linkToNext = buildLink(node, node.next, scene);
             node.linkToNext.show();
         }
@@ -65,6 +63,7 @@ const refreshLink = (node?: LinkedListNode<number>, next?: LinkedListNode<number
     if (link && next) {
         link.target = next;
         link.refresh();
+        link.show();
     }
 }
 
@@ -169,7 +168,8 @@ const Play = () => {
                     enableColor(b);
                     enableColor(b?.next);
                     refreshLink(b, b?.next);
-                    await wait(1);
+                    refreshLink(a, temp);
+                    await wait(0.5);
                     if (a && b) {
                         const update = () => current?.linkToNext?.refresh();
                         await safeRun(() => swap(a, b, scene, update), animate, cancelAnimate);
@@ -182,6 +182,7 @@ const Play = () => {
                     resetColors(dummy);
                     enableColor(current);
                     displayIndicator(current, currentText);
+                    refreshLink(current, temp);
                     aText?.hide();
                     bText?.hide();
                     break;
