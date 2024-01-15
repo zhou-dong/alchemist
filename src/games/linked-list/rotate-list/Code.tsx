@@ -11,20 +11,32 @@ export const skinFastColor = "lightblue";
 export const skinSlowColor = "lightgreen";
 export const skinDummyColor = "lightgray";
 
-const formula = `function hasCycle(head: ListNode | null): boolean {
-    let fast = head
-    let slow = head;
+const formula = `function rotateRight(head: ListNode | null, k: number): ListNode | null {
+    if (!head || !k) return head;
 
-    while (fast !== null && fast.next !== null) {
-        fast = fast.next.next;
-        slow = slow.next;
-        if (fast === slow) {
-            return true;
-        }
+    let length = 1;
+    let current = head;
+    while (current.next) {
+        length++;
+        current = current.next;
     }
 
-    return false;
-};`
+    const newK = k % length;
+    if (!newK) {
+        return head;
+    }
+
+    const steps = length - newK;
+    current.next = head;
+
+    for (let i = 0; i < steps; i++) {
+        current = current.next;
+    }
+
+    const newHead = current.next;
+    current.next = null;
+    return newHead;
+};`;
 
 const getLinesToHighlight = (action: Action): number[] => {
     switch (action) {
