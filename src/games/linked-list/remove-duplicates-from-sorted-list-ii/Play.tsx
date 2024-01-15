@@ -65,6 +65,7 @@ const Main = () => {
             }
             case Action.Delete_Next: {
                 enableColor(current);
+                enableColor(after);
                 enableColor(before);
                 if (before) {
                     const { x, y, z } = before;
