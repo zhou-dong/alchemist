@@ -2,8 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { clearScene } from "../../../commons/three";
-import { Step } from "./algo";
-import { LinkedListNodeText } from "../../../data-structures/list/list-node-base";
+import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -13,16 +12,12 @@ const AlgoContext = React.createContext<{
     setState: React.Dispatch<React.SetStateAction<State>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    index: number,
-    setIndex: React.Dispatch<React.SetStateAction<number>>,
-    steps: Step[],
-    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
-    currentText?: LinkedListNodeText,
-    aText?: LinkedListNodeText,
-    bText?: LinkedListNodeText,
-    setCurrentText: React.Dispatch<React.SetStateAction<LinkedListNodeText | undefined>>,
-    setAText: React.Dispatch<React.SetStateAction<LinkedListNodeText | undefined>>,
-    setBText: React.Dispatch<React.SetStateAction<LinkedListNodeText | undefined>>
+    head?: LinkedListNode<number>,
+    current?: LinkedListNode<number>,
+    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    linesToHighlight: number[],
+    setLinesToHighlight: React.Dispatch<React.SetStateAction<number[]>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -31,13 +26,10 @@ const AlgoContext = React.createContext<{
     setState: () => { },
     displayCode: true,
     setDisplayCode: () => { },
-    index: 0,
-    setIndex: () => { },
-    steps: [],
-    setSteps: () => { },
-    setCurrentText: () => { },
-    setAText: () => { },
-    setBText: () => { }
+    setHead: () => { },
+    setCurrent: () => { },
+    linesToHighlight: [],
+    setLinesToHighlight: () => { }
 });
 
 let animationFrameId = -1;
@@ -52,11 +44,9 @@ export const AlgoContextProvider: React.FC<{
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
     const [displayCode, setDisplayCode] = React.useState(true);
-    const [index, setIndex] = React.useState(0);
-    const [steps, setSteps] = React.useState<Step[]>([]);
-    const [currentText, setCurrentText] = React.useState<LinkedListNodeText>();
-    const [aText, setAText] = React.useState<LinkedListNodeText>();
-    const [bText, setBText] = React.useState<LinkedListNodeText>();
+    const [head, setHead] = React.useState<LinkedListNode<number>>();
+    const [current, setCurrent] = React.useState<LinkedListNode<number>>();
+    const [linesToHighlight, setLinesToHighlight] = React.useState<number[]>([2]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -75,7 +65,6 @@ export const AlgoContextProvider: React.FC<{
                 clearScene(scene);
                 renderer.render(scene, camera);
             }
-
             if (ref && ref.current) {
                 init();
                 ref.current.appendChild(renderer.domElement);
@@ -93,16 +82,12 @@ export const AlgoContextProvider: React.FC<{
             setState,
             displayCode,
             setDisplayCode,
-            index,
-            setIndex,
-            steps,
-            setSteps,
-            currentText,
-            setCurrentText,
-            aText,
-            setAText,
-            bText,
-            setBText
+            head,
+            setHead,
+            current,
+            setCurrent,
+            linesToHighlight,
+            setLinesToHighlight
         }}>
             {children}
             <div ref={ref} />

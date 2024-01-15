@@ -8,39 +8,27 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildList, center, linkLength } from "./styles";
-import { buildSteps } from './algo';
+import { buildList, center, skinEnabledColor } from "./styles";
 import ClearIcon from '@mui/icons-material/Clear';
 import { wait } from '../../../data-structures/_commons/utils';
 import { safeRun } from '../../commons/utils';
-import { SimpleLinkedListNodeText } from '../../../data-structures/list/list-node-base';
 
 const buildRandomList = (length: number): number[] => {
-    const max = 20;
-
-    const pool: number[] = [];
-    for (let i = 0; i < max; i++) {
-        pool.push(i);
-    }
+    const max = 10;
 
     const list: number[] = [];
     for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * pool.length);
-        const selectedNumber = pool[randomIndex];
-        list.push(selectedNumber);
-        pool.splice(randomIndex, 1);
+        const random = Math.floor(Math.random() * max) + 1;
+        list.push(random);
     }
 
     const result = list.map(n => n + 1);
+    result.sort((a, b) => a - b);
     return result;
 }
 
 interface Props {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}
-
-const buildText = (text: string, scene: THREE.Scene) => {
-    return new SimpleLinkedListNodeText(text, scene, "green", 0.5, 0.1);
 }
 
 const Submit: React.FC<{
@@ -52,32 +40,26 @@ const Submit: React.FC<{
 
     const disabled = !list || nums.length === 0;
 
-    const { setState, animate, cancelAnimate, scene, setIndex, setSteps, setCurrentText, setAText, setBText } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setHead, setCurrent, setLinesToHighlight } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-        setSteps([]);
-        setIndex(0);
+        setLinesToHighlight([2]);
 
         const init = async () => {
             const x = -8;
             const y = 7;
             const head = await buildList(scene, nums, x, y);
-
-            const steps = buildSteps(head, scene, x - linkLength, y);
-            await center(steps[0].dummy);
+            head.nodeSkin.color = skinEnabledColor;
+            await center(head);
+            setHead(head);
+            setCurrent(head);
             await wait(0.1);
-            setSteps(steps);
-
-            setCurrentText(buildText("c", scene));
-            setAText(buildText("a", scene));
-            setBText(buildText("b", scene));
         }
 
         await safeRun(init, animate, cancelAnimate);
-
         setState(State.Playing);
     }
 
