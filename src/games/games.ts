@@ -111,6 +111,7 @@ import LinkedListCycle from "./two-pointers/linked-list-cycle/info";
 import LinkedListCycleII from "./two-pointers/linked-list-cycle-ii/info";
 import SwapNodesInPairs from "./linked-list/swap-nodes-in-pairs/info";
 import RemoveDuplicatesFromSortedList from "./linked-list/remove-duplicates-from-sorted-list/info";
+import RemoveDuplicatesFromSortedListII from "./linked-list/remove-duplicates-from-sorted-list-ii/info";
 
 export const games: Game[] = [
     editDistance,
@@ -224,4 +225,5 @@ export const games: Game[] = [
     LinkedListCycleII,
     SwapNodesInPairs,
     RemoveDuplicatesFromSortedList,
+    RemoveDuplicatesFromSortedListII
 ];

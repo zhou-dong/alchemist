@@ -64,6 +64,7 @@ const swap = (a: LinkedListNode<number>, b: LinkedListNode<number>, scene: THREE
 
     return Promise.all([moveA, moveB]);
 }
+
 const resetColors = (dummy: LinkedListNode<number>) => {
     dummy.nodeSkin.color = skinDummyColor;
     resetColor(dummy.next);

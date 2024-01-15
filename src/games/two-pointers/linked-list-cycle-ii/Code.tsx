@@ -56,11 +56,11 @@ const Head = () => (
                 Two Pointers Solution
             </Typography>
             <Chip
-                sx={{ backgroundColor: `${skinSlowColor}`, color: "#000" }}
+                sx={{ backgroundColor: skinSlowColor, color: "#000" }}
                 label="slow"
             />
             <Chip
-                sx={{ backgroundColor: `${skinFastColor}`, color: "#000" }}
+                sx={{ backgroundColor: skinFastColor, color: "#000" }}
                 label="fast"
             />
         </Stack>

@@ -223,6 +223,8 @@ import SwapNodesInPairsInfo from "./games/linked-list/swap-nodes-in-pairs/info";
 import SwapNodesInPairs from "./games/linked-list/swap-nodes-in-pairs";
 import RemoveDuplicatesFromSortedListInfo from "./games/linked-list/remove-duplicates-from-sorted-list/info";
 import RemoveDuplicatesFromSortedList from "./games/linked-list/remove-duplicates-from-sorted-list";
+import RemoveDuplicatesFromSortedListIIInfo from "./games/linked-list/remove-duplicates-from-sorted-list-ii/info";
+import RemoveDuplicatesFromSortedListII from "./games/linked-list/remove-duplicates-from-sorted-list-ii";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -351,6 +353,7 @@ const App = () => (
         <Route path={LinkedListCycleIIInfo.path} element={<LinkedListCycleII renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={SwapNodesInPairsInfo.path} element={<SwapNodesInPairs renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={RemoveDuplicatesFromSortedListInfo.path} element={<RemoveDuplicatesFromSortedList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={RemoveDuplicatesFromSortedListIIInfo.path} element={<RemoveDuplicatesFromSortedListII renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
