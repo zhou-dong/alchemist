@@ -1,17 +1,20 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 import { Action } from './algo';
 
 export const skinFastColor = "lightblue";
 export const skinSlowColor = "lightgreen";
 export const skinDummyColor = "lightgray";
 
-const formula = `function rotateRight(head: ListNode | null, k: number): ListNode | null {
+const formula = `function rotateRight(
+    head: ListNode | null,
+    k: number
+): ListNode | null {
     if (!head || !k) return head;
 
     let length = 1;
@@ -28,7 +31,6 @@ const formula = `function rotateRight(head: ListNode | null, k: number): ListNod
 
     const steps = length - newK;
     current.next = head;
-
     for (let i = 0; i < steps; i++) {
         current = current.next;
     }
@@ -40,7 +42,7 @@ const formula = `function rotateRight(head: ListNode | null, k: number): ListNod
 
 const getLinesToHighlight = (action: Action): number[] => {
     switch (action) {
-        case Action.Ready: return [1];
+        case Action.Ready: return [];
         case Action.Define_Fast: return [2];
         case Action.Define_Slow: return [3];
         case Action.Forward: return [6, 7];
@@ -52,22 +54,13 @@ const getLinesToHighlight = (action: Action): number[] => {
 const Head = () => (
     <Toolbar variant='dense' sx={{ display: "flex" }}>
         <IconButton disabled>
-            <ArrowRightAltIcon />
-            <ArrowRightAltIcon />
+            <EmojiObjectsOutlinedIcon />
         </IconButton>
-        <Stack direction="row" spacing={1} sx={{ flexGrow: 1, alignItems: "center" }}>
+        <div style={{ flexGrow: 1 }}>
             <Typography>
-                Two Pointers Solution
+                Solution
             </Typography>
-            <Chip
-                sx={{ backgroundColor: `${skinSlowColor}`, color: "#000" }}
-                label="slow"
-            />
-            <Chip
-                sx={{ backgroundColor: `${skinFastColor}`, color: "#000" }}
-                label="fast"
-            />
-        </Stack>
+        </div>
         <IconButton color='info'>
             <DragIndicatorIcon fontSize='medium' />
         </IconButton>
