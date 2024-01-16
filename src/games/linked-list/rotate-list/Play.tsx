@@ -4,12 +4,15 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { skinDefaultColor } from './styles';
+import { center, linkColor, skinDefaultColor, skinEnabledColor } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import { Action } from './algo';
-import { skinFastColor, skinSlowColor } from './Code';
+import { Action, Step } from './algo';
 import Code from "./Code";
 import MouseIcon from '@mui/icons-material/Mouse';
+import { safeRun } from '../../commons/utils';
+import Position from '../../../data-structures/_commons/params/position.interface';
+import { SimpleLink } from '../../../data-structures/list/link.three';
+import { circleToLine, updatePositions } from './circle';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -31,80 +34,78 @@ const resetListColor = (head: LinkedListNode<number> | undefined) => {
     }
 }
 
+const enableColor = (node: LinkedListNode<number> | undefined) => {
+    if (node) {
+        node.nodeSkin.color = skinEnabledColor;
+    }
+}
+
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, items, setIndex, displayCode, head } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, } = useAlgoContext();
+
+    const execute = async (step: Step) => {
+        const { action, head, current, newHead } = step;
+        resetListColor(head);
+        enableColor(current);
+
+        switch (action) {
+            case Action.Define_Current: {
+                enableColor(current);
+                break;
+            }
+            case Action.Find_Tail: {
+                enableColor(current);
+                break;
+            }
+            case Action.Tail_Connect_Head: {
+                if (head && current) {
+                    const adjustSource = (position: Position): Position => position;
+                    const adjustTarget = (position: Position): Position => position;
+                    // current.next = head;
+                    current.linkToNext = new SimpleLink(current, adjustSource, head, adjustTarget, scene, linkColor);
+                    current.linkToNext.show();
+
+                    await updatePositions(head);
+                    await wait(0.1);
+                }
+                break;
+            }
+            case Action.Cut_Circle: {
+                if (current) {
+                    const newHead = current.next;
+                    current.next = undefined;
+                    current.linkToNext?.hide();
+                    if (newHead) {
+                        await circleToLine(newHead);
+                        await center(newHead);
+                    }
+                }
+                break;
+            }
+            case Action.Found_New_Head: {
+                resetListColor(head);
+                enableColor(newHead);
+                break;
+            }
+
+
+        }
+
+        // resetListColor(head);
+    }
 
     const push = async () => {
         setState(State.Typing);
 
-        const item = items[index + 1];
+        const step = steps[index];
 
-        if (!item) {
-            setState(State.Finished);
-            return;
-        }
+        if (!step) return;
 
-        const { action, fast, slow } = item;
+        await safeRun(() => execute(step), animate, cancelAnimate);
+        await safeRun(() => wait(0.1), animate, cancelAnimate);
 
-        resetListColor(head);
-
-        if (fast) {
-            fast.nodeSkin.color = skinFastColor;
-        }
-
-        if (slow) {
-            slow.nodeSkin.color = skinSlowColor;
-        }
-
-        if (action === Action.Define_Fast) {
-            if (slow && slow.next) {
-
-                try {
-                    const duration = 1.5;
-                    const { x, y, z } = slow.next
-                    animate();
-
-                    slow.next.nodeSkin.color = "lightgray";
-                    slow.next.nodeText.color = "#000";
-
-                    await slow.next.move({ x, y: y - 2, z }, duration, () => {
-                        slow.linkToNext?.refresh();
-                        slow.next?.linkToNext?.refresh()
-                    })
-
-                    slow.next.linkToNext?.hide();
-                    slow.next.hide();
-                } catch (error) {
-                    console.log(error);
-                } finally {
-                    cancelAnimate();
-                }
-
-                if (slow.next.next) {
-                    slow.linkToNext!.target = slow.next.next;
-                    slow.linkToNext?.refresh();
-                } else {
-                    slow.linkToNext?.hide();
-                    slow.next.linkToNext?.hide();
-                }
-            }
-
-            if (slow) {
-                slow.next = slow.next?.next;
-            }
-        }
-
-        try {
-            animate();
-            await wait(0.2);
-        } catch (error) {
-            console.log(error);
-        } finally {
-            cancelAnimate();
-        }
-
-        const last = items[items.length - 1];
-        if (item === last) {
+        const last = steps[steps.length - 1];
+        if (step === last) {
             setState(State.Finished);
         } else {
             setState(State.Playing);
