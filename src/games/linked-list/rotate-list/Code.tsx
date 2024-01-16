@@ -38,26 +38,35 @@ const formula = `function rotateRight(
 };`;
 
 const Head = () => {
-    const { k, list } = useAlgoContext();
+    const { k, list, steps, index } = useAlgoContext();
+    const step = steps[index - 1];
 
     return (
-        <Toolbar variant='dense' sx={{ display: "flex" }}>
-            <IconButton disabled>
-                <EmojiObjectsOutlinedIcon />
-            </IconButton>
-
-            <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={2} direction="row">
-                <Typography>
-                    Solution
-                </Typography>
-                <Chip icon={<DataArrayIcon fontSize='small' />} label={list.join(",")} variant="outlined" />
-                <Chip icon={<RotateRightIcon />} label={k || ""} variant="outlined" />
-            </Stack>
-
-            <IconButton color='info'>
-                <DragIndicatorIcon fontSize='medium' />
-            </IconButton>
-        </Toolbar>
+        <Stack spacing={0}>
+            <Toolbar variant='dense' sx={{ display: "flex" }}>
+                <IconButton disabled>
+                    <EmojiObjectsOutlinedIcon />
+                </IconButton>
+                <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={2} direction="row">
+                    <Typography>
+                        Solution
+                    </Typography>
+                    <Chip icon={<DataArrayIcon fontSize='small' />} label={list.join(",")} variant="outlined" />
+                    <Chip icon={<RotateRightIcon />} label={k || ""} variant="outlined" />
+                </Stack>
+                <IconButton color='info'>
+                    <DragIndicatorIcon fontSize='medium' />
+                </IconButton>
+            </Toolbar>
+            <Divider variant='middle' />
+            <Toolbar variant='dense' sx={{ display: "flex" }}>
+                <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={1} direction="row">
+                    {step?.length && <Chip label={`length: ${step.length}`} variant="outlined" />}
+                    {step?.newK && <Chip label={`newK: ${step.newK}`} variant="outlined" />}
+                    {step?.steps && <Chip label={`steps: ${step.steps}`} variant="outlined" />}
+                </Stack>
+            </Toolbar>
+        </Stack>
     );
 };
 
