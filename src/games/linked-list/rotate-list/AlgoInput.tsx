@@ -8,13 +8,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildList, findCycleBeginNode, findTail, linkColor } from "./styles";
-import { buildItems } from './algo';
+import { buildList, center } from "./styles";
+import { buildSteps } from './algo';
 import InputIcon from '@mui/icons-material/Input';
-import { recenter, updatePositions } from './circle';
-import { SimpleLink } from '../../../data-structures/list/link.three';
-import Position from '../../../data-structures/_commons/params/position.interface';
-import { wait } from '../../../data-structures/_commons/utils';
+import { safeRun } from '../../commons/utils';
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
@@ -43,49 +40,30 @@ interface Props {
 
 const Submit: React.FC<{
     list: string,
-    pos: string,
+    k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, pos, setAnchorEl }) => {
+}> = ({ list, k, setAnchorEl }) => {
 
-    const disabled = !pos || !list || !list.length;
+    const disabled = !k || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setItems, setIndex, setHead } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-        setItems([]);
+        setSteps([]);
         setIndex(0);
 
-        try {
-            animate();
-            const head = await buildList(scene, array, -11, 5);
-            setHead(head);
-            const tail = findTail(head);
-            const beginNode = findCycleBeginNode(head, +pos);
-
-            if (beginNode) {
-                const adjustSource = (position: Position): Position => position;
-                const adjustTarget = (position: Position): Position => position;
-                tail.next = beginNode;
-                tail.linkToNext = new SimpleLink(tail, adjustSource, beginNode, adjustTarget, scene, linkColor);
-                tail.linkToNext.show();
-
-                await updatePositions(beginNode);
-                await recenter(head);
-                await wait(0.2);
-            }
-
-            const items = buildItems(head);
-            setItems(items);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            cancelAnimate();
+        const init = async () => {
+            const head = await buildList(scene, array, -8, 5);
+            await center(head);
+            const steps = buildSteps(head);
+            setSteps(steps);
         }
 
+        await safeRun(init, animate, cancelAnimate);
         setState(State.Playing);
     }
 
@@ -102,22 +80,22 @@ const random = (max: number): number => {
 
 const Main = ({ setAnchorEl }: Props) => {
 
-    const maxLength = 11;
+    const maxLength = 7;
     const [list, setList] = React.useState(() => buildRandomList(maxLength).join(","));
-    const [pos, setPos] = React.useState<string>(() => random(5) + "");
+    const [k, setK] = React.useState<string>(() => random(5) + "");
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
     }
 
     const handlePosChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPos(e.currentTarget.value);
+        setK(e.currentTarget.value);
     }
 
     const handleFresh = () => {
         const list = buildRandomList(maxLength);
         setList(() => list.join(","));
-        setPos(() => random(list.length - 1) + "");
+        setK(() => random(list.length - 1) + "");
     }
 
     return (
@@ -146,8 +124,8 @@ const Main = ({ setAnchorEl }: Props) => {
 
             <InputBase
                 sx={{ width: 40 }}
-                placeholder='pos'
-                value={pos}
+                placeholder='k'
+                value={k}
                 onChange={handlePosChange}
                 type="number"
             />
@@ -163,12 +141,13 @@ const Main = ({ setAnchorEl }: Props) => {
                 disabled={!list.length}
                 onClick={() => {
                     setList("");
+                    setK("0");
                 }}
             >
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} pos={pos} setAnchorEl={setAnchorEl} />
+            <Submit list={list} k={k} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
