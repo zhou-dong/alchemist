@@ -1,15 +1,11 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import RotateRightIcon from '@mui/icons-material/RotateRight';
+import { Avatar, Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
-import { Action } from './algo';
-
-export const skinFastColor = "lightblue";
-export const skinSlowColor = "lightgreen";
-export const skinDummyColor = "lightgray";
 
 const formula = `function rotateRight(
     head: ListNode | null,
@@ -40,37 +36,34 @@ const formula = `function rotateRight(
     return newHead;
 };`;
 
-const getLinesToHighlight = (action: Action): number[] => {
-    switch (action) {
-        case Action.Ready: return [];
-        case Action.Define_Fast: return [2];
-        case Action.Define_Slow: return [3];
-        case Action.Forward: return [6, 7];
-        case Action.Return_True: return [9];
-        case Action.Return_False: return [13];
-    }
-}
+const Head = () => {
+    const { index, steps } = useAlgoContext();
+    const step = steps[index];
 
-const Head = () => (
-    <Toolbar variant='dense' sx={{ display: "flex" }}>
-        <IconButton disabled>
-            <EmojiObjectsOutlinedIcon />
-        </IconButton>
-        <div style={{ flexGrow: 1 }}>
-            <Typography>
-                Solution
-            </Typography>
-        </div>
-        <IconButton color='info'>
-            <DragIndicatorIcon fontSize='medium' />
-        </IconButton>
-    </Toolbar>
-);
+    return (
+        <Toolbar variant='dense' sx={{ display: "flex" }}>
+            <IconButton disabled>
+                <EmojiObjectsOutlinedIcon />
+            </IconButton>
+
+            <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={2} direction="row">
+                <Typography>
+                    Solution
+                </Typography>
+                {step?.k && <Chip icon={<RotateRightIcon />} label={`rotate: ${step?.k}`} variant="outlined" />}
+            </Stack>
+
+            <IconButton color='info'>
+                <DragIndicatorIcon fontSize='medium' />
+            </IconButton>
+        </Toolbar>
+    );
+};
 
 const Body = () => {
-    const { index, items } = useAlgoContext();
-    const item = items[index];
-    const linesToHighlight = item ? getLinesToHighlight(item.action) : [];
+    const { index, steps } = useAlgoContext();
+    const step = steps[index];
+    const linesToHighlight = step?.linesToHighlight || [];
 
     return (
         <CodeBlock
