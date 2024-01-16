@@ -121,3 +121,29 @@ export const findTail = (head: LinkedListNode<number>): LinkedListNode<number> =
     }
     return current;
 }
+
+export const center = (head: LinkedListNode<number> | undefined): Promise<any> => {
+    let min = Number.MAX_VALUE;
+    let max = Number.MIN_VALUE;
+
+    let current: LinkedListNode<number> | undefined = head;
+    const nodes: LinkedListNode<number>[] = [];
+
+    while (current) {
+        nodes.push(current);
+        const { x } = current;
+        min = Math.min(min, x);
+        max = Math.max(max, x);
+        current = current.next;
+    }
+
+    const mid = (min + max) / 2;
+    const distance = 0 - mid;
+
+    const promises = nodes.map(node => {
+        const { x, y, z } = node;
+        return node.move({ x: x + distance, y, z }, duration, () => node.linkToNext?.refresh());
+    })
+
+    return Promise.all(promises);
+}
