@@ -103,20 +103,6 @@ const moveNodes = async (graphNodes: GraphNode[]): Promise<any> => {
     return Promise.all(asyncs);
 }
 
-const getNodes = (head: LinkedListNode<number>): LinkedListNode<number>[] => {
-    const result: LinkedListNode<number>[] = [];
-
-    const set: Set<LinkedListNode<number>> = new Set();
-    let current: LinkedListNode<number> | undefined = head;
-    while (current && !set.has(current)) {
-        set.add(current);
-        result.push(current);
-        current = current.next;
-    }
-
-    return result;
-}
-
 export const updatePositions = async (cycleBeginNode: LinkedListNode<number>): Promise<any> => {
     const graphNodes = calPositions(cycleBeginNode);
     return moveNodes(graphNodes);
