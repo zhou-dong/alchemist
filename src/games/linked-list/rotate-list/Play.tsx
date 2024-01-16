@@ -46,7 +46,6 @@ const Play = () => {
     const execute = async (step: Step) => {
         const { action, head, current, newHead } = step;
         resetListColor(head);
-        enableColor(current);
 
         switch (action) {
             case Action.Define_Current: {
@@ -58,13 +57,13 @@ const Play = () => {
                 break;
             }
             case Action.Tail_Connect_Head: {
+                enableColor(current);
                 if (head && current) {
                     const adjustSource = (position: Position): Position => position;
                     const adjustTarget = (position: Position): Position => position;
                     // current.next = head;
                     current.linkToNext = new SimpleLink(current, adjustSource, head, adjustTarget, scene, linkColor);
                     current.linkToNext.show();
-
                     await updatePositions(head);
                     await wait(0.1);
                 }
@@ -72,26 +71,30 @@ const Play = () => {
             }
             case Action.Cut_Circle: {
                 if (current) {
-                    const newHead = current.next;
+                    enableColor(newHead);
+                    const newH = current.next;
                     current.next = undefined;
                     current.linkToNext?.hide();
-                    if (newHead) {
-                        await circleToLine(newHead);
-                        await center(newHead);
+                    if (newH) {
+                        await circleToLine(newH);
+                        await center(newH);
                     }
                 }
                 break;
             }
             case Action.Found_New_Head: {
-                resetListColor(head);
                 enableColor(newHead);
                 break;
             }
-
-
+            case Action.Return_New_Head: {
+                enableColor(newHead);
+                break;
+            }
+            case Action.Go_Next: {
+                enableColor(current);
+                break;
+            }
         }
-
-        // resetListColor(head);
     }
 
     const push = async () => {
