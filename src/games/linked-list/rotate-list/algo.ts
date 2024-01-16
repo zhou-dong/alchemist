@@ -72,7 +72,7 @@ export function buildSteps(head: LinkedListNode<number> | undefined, k: number):
         const newHead = current?.next;
         items.push({ action: Action.Found_New_Head, linesToHighlight: [25], k, head, length, current, newK, steps, newHead });
 
-        current!.next = undefined;
+        // current!.next = undefined;
         items.push({ action: Action.Cut_Circle, linesToHighlight: [26], k, head, length, current, newK, steps, newHead });
 
         items.push({ action: Action.Return_Head, linesToHighlight: [27], k, head, length, current, newK, steps, newHead });
