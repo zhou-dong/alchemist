@@ -6,9 +6,12 @@ import { LinkedList } from "../../../data-structures/list/linked-list/list.three
 
 export const linkColor = "gold";
 export const skinDefaultColor = "yellow";
-const linkLength = 4;
+export const linkLength = 4;
 export const duration = 1;
 export const radius = 1;
+export const skinEnabledColor = "lightblue";
+export const x = -8;
+export const y = 7;
 
 const textColor = "green";
 
