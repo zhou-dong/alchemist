@@ -2,8 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { clearScene } from "../../../commons/three";
-import { Item } from "./algo";
-import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
+import { Step } from "./algo";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -11,27 +10,24 @@ const AlgoContext = React.createContext<{
     cancelAnimate: () => void,
     state: State,
     setState: React.Dispatch<React.SetStateAction<State>>,
-    items: Item[],
-    setItems: React.Dispatch<React.SetStateAction<Item[]>>,
+    steps: Step[],
+    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    head?: LinkedListNode<number>,
-    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
     cancelAnimate: () => { },
     state: State.Typing,
     setState: () => { },
-    items: [],
-    setItems: () => { },
+    steps: [],
+    setSteps: () => { },
     index: 0,
     setIndex: () => { },
     displayCode: true,
     setDisplayCode: () => { },
-    setHead: () => { }
 });
 
 let animationFrameId = -1;
@@ -45,10 +41,9 @@ export const AlgoContextProvider: React.FC<{
 
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
-    const [items, setItems] = React.useState<Item[]>([]);
+    const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
-    const [head, setHead] = React.useState<LinkedListNode<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -82,14 +77,12 @@ export const AlgoContextProvider: React.FC<{
             cancelAnimate,
             state,
             setState,
-            items,
-            setItems,
+            steps,
+            setSteps,
             index,
             setIndex,
             displayCode,
             setDisplayCode,
-            head,
-            setHead
         }}>
             {children}
             <div ref={ref} />
