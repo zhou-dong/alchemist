@@ -1,8 +1,7 @@
 import Graphology from "graphology";
 import circular from 'graphology-layout/circular';
-
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import { duration } from "./styles";
+import { duration, linkLength, x, y } from "./styles";
 import Position from "../../../data-structures/_commons/params/position.interface";
 
 class GraphNode {
@@ -87,8 +86,8 @@ const calPositions = (cycleBeginNode: LinkedListNode<number>): GraphNode[] => {
     // move nodes back
     const distance = calDistance(cycleBeginNode, nodes[0].skinPosition);
     nodes.forEach(node => {
-        const { x, y, z } = node.skinPosition;
-        node.skinPosition = { x: x + distance.x, y: y + distance.y, z: z + distance.z };
+        const { y } = node.skinPosition;
+        node.skinPosition.y = y + distance.y;
     });
 
     return nodes;
@@ -118,31 +117,22 @@ const getNodes = (head: LinkedListNode<number>): LinkedListNode<number>[] => {
     return result;
 }
 
-export const recenter = async (head: LinkedListNode<number>): Promise<any> => {
-
-    const nodes: LinkedListNode<number>[] = getNodes(head);
-
-    let min: number = Number.MAX_VALUE;
-    let max: number = Number.MIN_VALUE;
-
-    nodes.forEach(node => {
-        const { x } = node;
-        min = Math.min(min, x);
-        max = Math.max(max, x);
-    })
-
-    const mid = (min + max) / 2;
-    const distance = 0 - mid;
-
-    const asyncs = nodes.map(node => {
-        const { x, y, z } = node;
-        return node.move({ x: x + distance, y, z }, duration, () => node.linkToNext?.refresh());
-    })
-
-    return Promise.all(asyncs);
-}
-
 export const updatePositions = async (cycleBeginNode: LinkedListNode<number>): Promise<any> => {
     const graphNodes = calPositions(cycleBeginNode);
     return moveNodes(graphNodes);
+}
+
+export const circleToLine = async (head: LinkedListNode<number>): Promise<any> => {
+    const nodes: LinkedListNode<number>[] = [];
+    let current: LinkedListNode<number> | undefined = head;
+    while (current) {
+        nodes.push(current);
+        current = current.next;
+    }
+
+    const asyncs = nodes.map((node, i) => {
+        return node.move({ x: x + i * linkLength, y, z: head.z }, duration, () => node.linkToNext?.refresh());
+    })
+
+    return Promise.all(asyncs);
 }
