@@ -82,8 +82,9 @@ const random = (max: number): number => {
 
 const Main = ({ setAnchorEl }: Props) => {
 
-    const maxLength = 7;
-    const [list, setList] = React.useState(() => buildRandomList(maxLength).join(","));
+    const length = () => Math.random() > 0.5 ? 7 : 6;
+
+    const [list, setList] = React.useState(() => buildRandomList(length()).join(","));
     const [k, setK] = React.useState<string>(() => random(5) + "");
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +96,7 @@ const Main = ({ setAnchorEl }: Props) => {
     }
 
     const handleFresh = () => {
-        const list = buildRandomList(maxLength);
+        const list = buildRandomList(length());
         setList(() => list.join(","));
         setK(() => random(list.length - 1) + "");
     }
