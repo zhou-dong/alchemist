@@ -227,6 +227,8 @@ import RemoveDuplicatesFromSortedListIIInfo from "./games/linked-list/remove-dup
 import RemoveDuplicatesFromSortedListII from "./games/linked-list/remove-duplicates-from-sorted-list-ii";
 import RotateListInfo from "./games/linked-list/rotate-list/info"
 import RotateList from "./games/linked-list/rotate-list"
+import PartitionListInfo from "./games/linked-list/partition-list/info";
+import PartitionList from "./games/linked-list/partition-list";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -357,6 +359,7 @@ const App = () => (
         <Route path={RemoveDuplicatesFromSortedListInfo.path} element={<RemoveDuplicatesFromSortedList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={RemoveDuplicatesFromSortedListIIInfo.path} element={<RemoveDuplicatesFromSortedListII renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={RotateListInfo.path} element={<RotateList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={PartitionListInfo.path} element={<PartitionList renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
