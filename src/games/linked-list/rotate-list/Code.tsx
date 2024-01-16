@@ -1,7 +1,8 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
-import { Avatar, Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import DataArrayIcon from '@mui/icons-material/DataArray';
+import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
@@ -37,8 +38,7 @@ const formula = `function rotateRight(
 };`;
 
 const Head = () => {
-    const { index, steps } = useAlgoContext();
-    const step = steps[index];
+    const { k, list } = useAlgoContext();
 
     return (
         <Toolbar variant='dense' sx={{ display: "flex" }}>
@@ -50,7 +50,8 @@ const Head = () => {
                 <Typography>
                     Solution
                 </Typography>
-                {step?.k && <Chip icon={<RotateRightIcon />} label={`rotate: ${step?.k}`} variant="outlined" />}
+                <Chip icon={<DataArrayIcon fontSize='small' />} label={list.join(",")} variant="outlined" />
+                <Chip icon={<RotateRightIcon />} label={k || ""} variant="outlined" />
             </Stack>
 
             <IconButton color='info'>
