@@ -6,7 +6,11 @@ import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 
-const formula = `function partition(head: ListNode | null, x: number): ListNode | null {
+const formula = `function partition(
+    head: ListNode | null, 
+    x: number
+): ListNode | null {
+
     const smallDummy = new ListNode();
     const largeDummy = new ListNode();
     let small = smallDummy;
