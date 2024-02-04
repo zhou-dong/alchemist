@@ -3,7 +3,7 @@ import OutputIcon from '@mui/icons-material/Output';
 import IconButton from '@mui/material/IconButton';
 import InputIcon from '@mui/icons-material/Input';
 import Paper from '@mui/material/Paper';
-import { InputBase } from '@mui/material';
+import { Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
@@ -14,18 +14,23 @@ import { wait } from '../../../data-structures/_commons/utils';
 import { safeRun } from '../../commons/utils';
 import { buildSteps } from './algo';
 
-const buildRandomList = (length: number): number[] => {
-    const max = 10;
+const maxNum = 6;
 
+const buildRandomList = (length: number): number[] => {
     const list: number[] = [];
     for (let i = 0; i < length; i++) {
-        const random = Math.floor(Math.random() * max) + 1;
+        const random = Math.floor(Math.random() * maxNum) + 1;
         list.push(random);
     }
 
     const result = list.map(n => n + 1);
     result.sort((a, b) => a - b);
     return result;
+}
+
+const buildRandomX = (): string => {
+    const random = Math.floor(Math.random() * maxNum) + 1;
+    return random + "";
 }
 
 interface Props {
@@ -79,13 +84,19 @@ const Main = ({ setAnchorEl }: Props) => {
     }
 
     const [list, setList] = React.useState(() => buildRandomList(listLength()).join(","));
+    const [x, setX] = React.useState(() => buildRandomX());
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
     }
 
+    const handleXChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setX(e.currentTarget.value);
+    }
+
     const handleFresh = () => {
         setList(() => buildRandomList(listLength()).join(","));
+        setX(() => buildRandomX());
     }
 
     return (
@@ -95,7 +106,7 @@ const Main = ({ setAnchorEl }: Props) => {
             sx={{
                 p: '2px 4px',
                 display: 'flex',
-                width: 360,
+                width: 400,
                 alignItems: "center"
             }}
         >
@@ -108,6 +119,16 @@ const Main = ({ setAnchorEl }: Props) => {
                 placeholder='list, seprate by ","'
                 value={list}
                 onChange={handleListChange}
+            />
+
+            <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
+
+            <InputBase
+                sx={{ width: 40 }}
+                placeholder='k'
+                value={x}
+                onChange={handleXChange}
+                type="number"
             />
 
             <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={handleFresh}>
