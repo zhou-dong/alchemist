@@ -21,9 +21,11 @@ const MainPosition = styled("div")({
     zIndex: 1
 });
 
-const resetColors = (dummy: LinkedListNode<number>) => {
-    dummy.nodeSkin.color = skinDummyColor;
-    resetColor(dummy.next);
+const resetColors = (dummy: LinkedListNode<number> | undefined) => {
+    if (dummy) {
+        dummy.nodeSkin.color = skinDummyColor;
+        resetColor(dummy.next);
+    }
 }
 
 const resetColor = (node: LinkedListNode<number> | undefined) => {
@@ -42,19 +44,19 @@ const enableColor = (node: LinkedListNode<number> | undefined) => {
 const Main = () => {
     const { state, setState, animate, cancelAnimate, displayCode, steps, index, setIndex } = useAlgoContext();
 
-    const execute = async ({ action, current }: Step) => {
-        // resetColors(dummy);
+    const execute = async ({ action, current, smallDummy, largeDummy }: Step) => {
+        resetColors(smallDummy);
 
-        // switch (action) {
-        //     case Action.New_Small_Dummy: {
-        //         dummy.show();
-        //         break;
-        //     }
-        //     case Action.New_Large_Dummy: {
-        //         dummy.linkToNext?.show();
-        //         break;
-        //     }
-        // }
+        switch (action) {
+            case Action.New_Small_Dummy: {
+                smallDummy?.show();
+                break;
+            }
+            case Action.New_Large_Dummy: {
+                largeDummy?.show();
+                break;
+            }
+        }
     }
 
     const doNext = async () => {
