@@ -42,59 +42,19 @@ const enableColor = (node: LinkedListNode<number> | undefined) => {
 const Main = () => {
     const { state, setState, animate, cancelAnimate, displayCode, steps, index, setIndex } = useAlgoContext();
 
-    const execute = async ({ action, dummy, current, after, before, next }: Step) => {
-        resetColors(dummy);
+    const execute = async ({ action, current }: Step) => {
+        // resetColors(dummy);
 
-        switch (action) {
-            case Action.New_Dummy: {
-                dummy.show();
-                break;
-            }
-            case Action.Assign_Dummy_Next_To_Head: {
-                dummy.linkToNext?.show();
-                break;
-            }
-            case Action.Define_Current: {
-                enableColor(current);
-                break;
-            }
-            case Action.Get_Duplicated_Value: {
-                enableColor(current);
-                enableColor(next);
-                break;
-            }
-            case Action.Delete_Next: {
-                enableColor(current);
-                enableColor(after);
-                enableColor(before);
-                if (before) {
-                    const { x, y, z } = before;
-                    await before.move({ x, y: y - 2, z }, duration, () => {
-                        current?.linkToNext?.refresh();
-                        before.linkToNext?.refresh();
-                    });
-                    before.linkToNext?.hide();
-                    before.hide();
-                    const link = current?.linkToNext;
-                    if (link) {
-                        if (after) {
-                            link.target = after;
-                            link.refresh();
-                        } else {
-                            link.hide();
-                        }
-                    }
-                }
-                break;
-            }
-            case Action.Go_Next: {
-                enableColor(next);
-                break;
-            }
-            case Action.Return_Dummy_Next: {
-                enableColor(dummy.next);
-            }
-        }
+        // switch (action) {
+        //     case Action.New_Small_Dummy: {
+        //         dummy.show();
+        //         break;
+        //     }
+        //     case Action.New_Large_Dummy: {
+        //         dummy.linkToNext?.show();
+        //         break;
+        //     }
+        // }
     }
 
     const doNext = async () => {
