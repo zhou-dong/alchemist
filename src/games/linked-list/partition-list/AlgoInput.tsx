@@ -14,7 +14,7 @@ import { wait } from '../../../data-structures/_commons/utils';
 import { safeRun } from '../../commons/utils';
 import { buildSteps } from './algo';
 
-const maxNum = 6;
+const maxNum = 10;
 
 const buildRandomList = (length: number): number[] => {
     const list: number[] = [];
@@ -24,7 +24,7 @@ const buildRandomList = (length: number): number[] => {
     }
 
     const result = list.map(n => n + 1);
-    result.sort((a, b) => a - b);
+    // result.sort((a, b) => a - b);
     return result;
 }
 
@@ -39,20 +39,23 @@ interface Props {
 
 const Submit: React.FC<{
     list: string,
+    x: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, setAnchorEl }) => {
+}> = ({ list, x, setAnchorEl }) => {
 
     const nums: number[] = list.split(",").map(num => +num);
 
-    const disabled = !list || nums.length === 0;
+    const disabled = !list || nums.length === 0 || !x;
+    const num = +x;
 
-    const { setState, animate, cancelAnimate, scene, setIndex, setSteps } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setIndex, setSteps, setX } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
         setIndex(0);
+        setX(+x);
 
         const init = async () => {
             const x = -8;
@@ -60,7 +63,7 @@ const Submit: React.FC<{
             const head = await buildList(scene, nums, x, y);
             const tail = getTail(head);
             await center(head, x - linkLength, tail.x);
-            const steps = buildSteps(head, scene, head.x - linkLength, y);
+            const steps = buildSteps(head, num, scene, head.x - linkLength, y);
             await wait(0.05);
             setSteps(steps);
         }
@@ -147,7 +150,7 @@ const Main = ({ setAnchorEl }: Props) => {
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} setAnchorEl={setAnchorEl} />
+            <Submit x={x} list={list} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
