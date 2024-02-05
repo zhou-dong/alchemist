@@ -5,7 +5,7 @@ import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
-import CloseIcon from '@mui/icons-material/Close';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const formula = `function partition(
     head: ListNode | null, 
@@ -50,7 +50,7 @@ const Head = () => {
                 <Typography>
                     Solution
                 </Typography>
-                {x && <Chip icon={<CloseIcon fontSize='small' />} label={x} variant='outlined' />}
+                {x && <Chip icon={<HighlightOffIcon fontSize='small' />} label={x} variant='outlined' />}
             </Stack>
             <IconButton color='info'>
                 <DragIndicatorIcon />
