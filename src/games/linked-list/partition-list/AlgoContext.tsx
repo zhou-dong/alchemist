@@ -16,6 +16,8 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     steps: Step[],
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
+    x?: number,
+    setX: React.Dispatch<React.SetStateAction<number | undefined>>,
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -28,6 +30,7 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     index: 0,
     setIndex: () => { },
+    setX: () => { },
 });
 
 let animationFrameId = -1;
@@ -44,6 +47,7 @@ export const AlgoContextProvider: React.FC<{
     const [displayCode, setDisplayCode] = React.useState(true);
     const [index, setIndex] = React.useState(0);
     const [steps, setSteps] = React.useState<Step[]>([]);
+    const [x, setX] = React.useState<number>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -83,6 +87,8 @@ export const AlgoContextProvider: React.FC<{
             setSteps,
             index,
             setIndex,
+            x,
+            setX,
         }}>
             {children}
             <div ref={ref} />
