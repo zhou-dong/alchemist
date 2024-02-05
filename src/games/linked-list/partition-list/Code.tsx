@@ -5,6 +5,7 @@ import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 
 const formula = `function partition(
     head: ListNode | null, 
@@ -39,9 +40,7 @@ const MainPosition = styled("div")({
 });
 
 const Head = () => {
-    const { index, steps } = useAlgoContext();
-    const action = steps[index - 1];
-    const value = action?.value ? action.value + "" : "";
+    const { x } = useAlgoContext();
     return (
         <Toolbar variant='dense' sx={{ display: "flex" }}>
             <IconButton disabled>
@@ -51,7 +50,7 @@ const Head = () => {
                 <Typography>
                     Solution
                 </Typography>
-                {value && <Chip label={value} sx={{ fontSize: 15, backgroundColor: "green", color: "#fff" }} />}
+                {x && <Chip icon={<CloseIcon fontSize='small' />} label={x} variant='outlined' />}
             </Stack>
             <IconButton color='info'>
                 <DragIndicatorIcon />
