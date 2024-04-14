@@ -46,6 +46,7 @@ const Main = () => {
 
     const execute = async ({ action, current, smallDummy, largeDummy }: Step) => {
         resetColors(smallDummy);
+        resetColor(largeDummy);
 
         switch (action) {
             case Action.New_Small_Dummy: {
@@ -54,6 +55,48 @@ const Main = () => {
             }
             case Action.New_Large_Dummy: {
                 largeDummy?.show();
+                break;
+            }
+            case Action.Define_Small: {
+
+                break;
+            }
+            case Action.Define_Large: {
+                break;
+            }
+            case Action.Define_Head: {
+                break;
+            }
+            case Action.Append_Small: {
+
+                break;
+            }
+            case Action.Small_Forward: {
+
+                break;
+            }
+            case Action.Append_Large: {
+
+                break;
+            }
+            case Action.Large_Forward: {
+
+                break;
+            }
+            case Action.Current_Forward: {
+
+                break;
+            }
+            case Action.Remove_Large_Next: {
+
+                break;
+            }
+            case Action.Connect_Small_Large: {
+
+                break;
+            }
+            case Action.Return_Small_Dummy_Next: {
+
                 break;
             }
         }
