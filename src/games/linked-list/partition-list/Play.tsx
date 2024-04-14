@@ -4,7 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import { wait } from '../../../data-structures/_commons/utils';
-import { duration, skinDefaultColor, skinDummyColor, skinEnabledColor } from './styles';
+import { duration, skinDefaultColor, skinDummyColor, skinEnabledColor, linkLength } from './styles';
 import Code from './Code';
 import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
@@ -44,9 +44,8 @@ const enableColor = (node: LinkedListNode<number> | undefined) => {
 const Main = () => {
     const { state, setState, animate, cancelAnimate, displayCode, steps, index, setIndex } = useAlgoContext();
 
-    const execute = async ({ action, current, smallDummy, largeDummy }: Step) => {
+    const execute = async ({ action, current, smallDummy, largeDummy, small, large }: Step) => {
         resetColors(smallDummy);
-        resetColor(largeDummy);
 
         switch (action) {
             case Action.New_Small_Dummy: {
@@ -58,16 +57,26 @@ const Main = () => {
                 break;
             }
             case Action.Define_Small: {
-
+                enableColor(smallDummy);
                 break;
             }
             case Action.Define_Large: {
+                enableColor(largeDummy);
                 break;
             }
             case Action.Define_Head: {
+                enableColor(current);
                 break;
             }
             case Action.Append_Small: {
+                if (small) {
+
+                    const { x, y, z } = small;
+
+                    await current?.move({ x: x + linkLength, y, z }, duration);
+                }
+
+
 
                 break;
             }
@@ -76,6 +85,13 @@ const Main = () => {
                 break;
             }
             case Action.Append_Large: {
+                if (large) {
+
+                    const { x, y, z } = large;
+
+                    await current?.move({ x: x + linkLength, y, z }, duration);
+                }
+
 
                 break;
             }
