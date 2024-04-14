@@ -73,11 +73,11 @@ const Main = () => {
 
                     const { x, y, z } = small;
 
-                    await current?.move({ x: x + linkLength, y, z }, duration);
+                    await current?.move({ x: x + linkLength, y, z }, duration, () => {
+                        small.linkToNext?.refresh();
+                        current.linkToNext?.refresh();
+                    });
                 }
-
-
-
                 break;
             }
             case Action.Small_Forward: {
@@ -89,7 +89,10 @@ const Main = () => {
 
                     const { x, y, z } = large;
 
-                    await current?.move({ x: x + linkLength, y, z }, duration);
+                    await current?.move({ x: x + linkLength, y, z }, duration, () => {
+                        large.linkToNext?.refresh();
+                        current.linkToNext?.refresh();
+                    });
                 }
 
 
