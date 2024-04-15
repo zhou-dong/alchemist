@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { clearScene } from "../../../commons/three";
 import { Step } from "./algo";
+import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -18,6 +19,18 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     x?: number,
     setX: React.Dispatch<React.SetStateAction<number | undefined>>,
+    list?: LinkedListNode<number>,
+    setList: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    smallDummy?: LinkedListNode<number>,
+    setSmallDummy: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    largeDummy?: LinkedListNode<number>,
+    setLargeDummy: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    small?: LinkedListNode<number>,
+    setSmall: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    large?: LinkedListNode<number>,
+    setLarge: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    current?: LinkedListNode<number>,
+    setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -31,6 +44,12 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     setX: () => { },
+    setList: () => { },
+    setSmallDummy: () => { },
+    setLargeDummy: () => { },
+    setSmall: () => { },
+    setLarge: () => { },
+    setCurrent: () => { },
 });
 
 let animationFrameId = -1;
@@ -48,6 +67,13 @@ export const AlgoContextProvider: React.FC<{
     const [index, setIndex] = React.useState(0);
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [x, setX] = React.useState<number>();
+
+    const [list, setList] = React.useState<LinkedListNode<number>>();
+    const [smallDummy, setSmallDummy] = React.useState<LinkedListNode<number>>();
+    const [largeDummy, setLargeDummy] = React.useState<LinkedListNode<number>>();
+    const [small, setSmall] = React.useState<LinkedListNode<number>>();
+    const [large, setLarge] = React.useState<LinkedListNode<number>>();
+    const [current, setCurrent] = React.useState<LinkedListNode<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -89,6 +115,18 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             x,
             setX,
+            list,
+            setList,
+            smallDummy,
+            setSmallDummy,
+            largeDummy,
+            setLargeDummy,
+            small,
+            setSmall,
+            large,
+            setLarge,
+            current,
+            setCurrent
         }}>
             {children}
             <div ref={ref} />
