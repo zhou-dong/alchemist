@@ -114,6 +114,7 @@ import RemoveDuplicatesFromSortedList from "./linked-list/remove-duplicates-from
 import RemoveDuplicatesFromSortedListII from "./linked-list/remove-duplicates-from-sorted-list-ii/info";
 import RotateList from "./linked-list/rotate-list/info";
 import PartitionList from "./linked-list/partition-list/info";
+import ReverseLinkedList from "./linked-list/reverse-linked-list/info";
 
 export const games: Game[] = [
     editDistance,
@@ -229,5 +230,6 @@ export const games: Game[] = [
     RemoveDuplicatesFromSortedList,
     RemoveDuplicatesFromSortedListII,
     RotateList,
-    PartitionList
+    PartitionList,
+    ReverseLinkedList
 ];
