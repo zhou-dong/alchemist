@@ -2,7 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { clearScene } from "../../../commons/three";
-import { Step } from "./algo";
+import { Step } from "./stepsBuilder";
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 const AlgoContext = React.createContext<{
@@ -19,8 +19,8 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     x?: number,
     setX: React.Dispatch<React.SetStateAction<number | undefined>>,
-    list?: LinkedListNode<number>,
-    setList: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    head?: LinkedListNode<number>,
+    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
     smallDummy?: LinkedListNode<number>,
     setSmallDummy: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
     largeDummy?: LinkedListNode<number>,
@@ -44,7 +44,7 @@ const AlgoContext = React.createContext<{
     index: 0,
     setIndex: () => { },
     setX: () => { },
-    setList: () => { },
+    setHead: () => { },
     setSmallDummy: () => { },
     setLargeDummy: () => { },
     setSmall: () => { },
@@ -68,7 +68,7 @@ export const AlgoContextProvider: React.FC<{
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [x, setX] = React.useState<number>();
 
-    const [list, setList] = React.useState<LinkedListNode<number>>();
+    const [head, setHead] = React.useState<LinkedListNode<number>>();
     const [smallDummy, setSmallDummy] = React.useState<LinkedListNode<number>>();
     const [largeDummy, setLargeDummy] = React.useState<LinkedListNode<number>>();
     const [small, setSmall] = React.useState<LinkedListNode<number>>();
@@ -115,8 +115,8 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             x,
             setX,
-            list,
-            setList,
+            head,
+            setHead,
             smallDummy,
             setSmallDummy,
             largeDummy,

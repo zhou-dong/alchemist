@@ -9,7 +9,8 @@ import Code from './Code';
 import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import { Action, Step } from './algo';
+import { Action, Step } from './stepsBuilder';
+import { buildLink } from './nodeBuilder';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -42,10 +43,11 @@ const enableColor = (node: LinkedListNode<number> | undefined) => {
 }
 
 const Main = () => {
-    const { state, setState, animate, cancelAnimate, displayCode, steps, index, setIndex } = useAlgoContext();
+    const { scene, state, setState, animate, cancelAnimate, displayCode, steps, index, setIndex, current, smallDummy, largeDummy, small, large, head, setCurrent, setSmall, setLarge } = useAlgoContext();
 
-    const execute = async ({ action, current, smallDummy, largeDummy, small, large }: Step) => {
+    const execute = async ({ action, }: Step) => {
         resetColors(smallDummy);
+        resetColors(largeDummy);
 
         switch (action) {
             case Action.New_Small_Dummy: {
@@ -57,65 +59,113 @@ const Main = () => {
                 break;
             }
             case Action.Define_Small: {
+                setSmall(smallDummy);
                 enableColor(smallDummy);
                 break;
             }
             case Action.Define_Large: {
+                setLarge(largeDummy);
                 enableColor(largeDummy);
                 break;
             }
             case Action.Define_Head: {
-                enableColor(current);
+                setCurrent(head);
+                enableColor(head);
                 break;
             }
             case Action.Append_Small: {
                 if (small) {
-
                     const { x, y, z } = small;
-
+                    small.next = current;
+                    if (!small.linkToNext) {
+                        if (current) {
+                            small.linkToNext = buildLink(scene, small, current);
+                            small.linkToNext.show();
+                        }
+                    } else {
+                        if (current) {
+                            small.linkToNext.target = current;
+                        }
+                    }
                     await current?.move({ x: x + linkLength, y, z }, duration, () => {
                         small.linkToNext?.refresh();
+                        large?.linkToNext?.refresh();
                         current.linkToNext?.refresh();
                     });
                 }
                 break;
             }
             case Action.Small_Forward: {
-
+                enableColor(small?.next);
+                setSmall(small?.next);
                 break;
             }
             case Action.Append_Large: {
                 if (large) {
-
                     const { x, y, z } = large;
-
+                    large.next = current;
+                    if (!large.linkToNext) {
+                        if (current) {
+                            large.linkToNext = buildLink(scene, large, current);
+                            large.linkToNext.show();
+                        }
+                    } else {
+                        if (current) {
+                            large.linkToNext.target = current;
+                        }
+                    }
                     await current?.move({ x: x + linkLength, y, z }, duration, () => {
                         large.linkToNext?.refresh();
+                        small?.linkToNext?.refresh();
                         current.linkToNext?.refresh();
                     });
                 }
-
-
                 break;
             }
             case Action.Large_Forward: {
-
+                enableColor(large?.next);
+                setLarge(large?.next);
                 break;
             }
             case Action.Current_Forward: {
-
+                enableColor(current?.next);
+                setCurrent(current?.next);
                 break;
             }
             case Action.Remove_Large_Next: {
-
+                if (large) {
+                    enableColor(large);
+                    large.next = undefined;
+                    large.linkToNext?.hide();
+                }
                 break;
             }
             case Action.Connect_Small_Large: {
-
+                enableColor(small);
+                enableColor(largeDummy?.next);
+                if (small) {
+                    const next = largeDummy?.next;
+                    small.next = next;
+                    if (!small.linkToNext) {
+                        if (next) {
+                            small.linkToNext = buildLink(scene, small, next);
+                            small.linkToNext.show();
+                        }
+                    } else {
+                        if (next) {
+                            small.linkToNext.target = next;
+                        }
+                    }
+                    small?.linkToNext?.refresh();
+                }
                 break;
             }
             case Action.Return_Small_Dummy_Next: {
-
+                smallDummy?.linkToNext?.hide();
+                smallDummy?.hide();
+                largeDummy?.linkToNext?.hide();
+                largeDummy?.hide();
+                enableColor(smallDummy?.next);
                 break;
             }
         }

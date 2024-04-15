@@ -12,7 +12,8 @@ import { buildList, center, getTail, linkLength } from "./styles";
 import ClearIcon from '@mui/icons-material/Clear';
 import { wait } from '../../../data-structures/_commons/utils';
 import { safeRun } from '../../commons/utils';
-import { buildSteps } from './algo';
+import { buildSteps } from './stepsBuilder';
+import { buildDummyNode } from './nodeBuilder';
 
 const maxNum = 10;
 
@@ -48,7 +49,7 @@ const Submit: React.FC<{
     const disabled = !list || nums.length === 0 || !x;
     const num = +x;
 
-    const { setState, animate, cancelAnimate, scene, setIndex, setSteps, setX } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setIndex, setSteps, setX, setSmallDummy, setLargeDummy, setHead } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -63,7 +64,15 @@ const Submit: React.FC<{
             const head = await buildList(scene, nums, x, y);
             const tail = getTail(head);
             await center(head, x - linkLength, tail.x);
-            const steps = buildSteps(head, num, scene, head.x - linkLength, y);
+
+            const smallDummy = buildDummyNode(scene, "S", head.x - linkLength, y - 5);
+            const largeDummy = buildDummyNode(scene, "L", head.x - linkLength, y - 5 - 5);
+
+            setHead(head);
+            setSmallDummy(smallDummy);
+            setLargeDummy(largeDummy);
+
+            const steps = buildSteps(nums, num);
             await wait(0.05);
             setSteps(steps);
         }
