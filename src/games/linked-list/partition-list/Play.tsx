@@ -74,6 +74,8 @@ const Main = () => {
                 break;
             }
             case Action.Append_Small: {
+                enableColor(small);
+                enableColor(current);
                 if (small) {
                     const { x, y, z } = small;
                     small.next = current;
@@ -101,6 +103,8 @@ const Main = () => {
                 break;
             }
             case Action.Append_Large: {
+                enableColor(large);
+                enableColor(current);
                 if (large) {
                     const { x, y, z } = large;
                     large.next = current;
