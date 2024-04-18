@@ -2,7 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import Stack from '../../../data-structures/stack';
 import Queue from '../../../data-structures/queue';
-import { clearScene, registerOrbitControls } from '../../../commons/three';
+import { clearScene } from '../../../commons/three';
 import { stackPosition, queuePosition } from './styles';
 import { State } from "./AlgoState";
 
@@ -76,7 +76,6 @@ export const AlgoContextProvider: React.FC<{
             clearScene(scene);
             setQueue(new Queue<string>(queuePosition, duration));
             setStack(new Stack<string>(stackPosition, duration));
-            registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
 
