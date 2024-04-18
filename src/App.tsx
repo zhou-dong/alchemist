@@ -231,6 +231,8 @@ import PartitionListInfo from "./games/linked-list/partition-list/info";
 import PartitionList from "./games/linked-list/partition-list";
 import ReverseLinkedList from "./games/linked-list/reverse-linked-list";
 import ReverseLinkedListInfo from "./games/linked-list/reverse-linked-list/info";
+import ReverseLinkedListII from "./games/linked-list/reverse-linked-list-ii";
+import ReverseLinkedListIIInfo from "./games/linked-list/reverse-linked-list-ii/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -363,6 +365,7 @@ const App = () => (
         <Route path={RotateListInfo.path} element={<RotateList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={PartitionListInfo.path} element={<PartitionList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={ReverseLinkedListInfo.path} element={<ReverseLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={ReverseLinkedListIIInfo.path} element={<ReverseLinkedListII renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
