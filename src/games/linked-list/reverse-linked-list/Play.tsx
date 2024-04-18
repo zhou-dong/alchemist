@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { center, linkColor, skinDefaultColor, skinEnabledColor } from './styles';
+import { linkColor, skinDefaultColor, skinEnabledColor, radius } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
 import { Action, Step } from './stepsBuilder';
 import Code from "./Code";
@@ -12,6 +12,21 @@ import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
 import Position from '../../../data-structures/_commons/params/position.interface';
 import { SimpleLink } from '../../../data-structures/list/link.three';
+
+export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number>, next: LinkedListNode<number>): SimpleLink => {
+
+    const adjustSource = ({ x, y, z }: Position): Position => {
+        const width = node.width;
+        return { x: x + width / 2, y, z };
+    }
+
+    const adjustTarget = ({ x, y, z }: Position): Position => {
+        const width = next.width;
+        return { x: x - width / 2, y, z };
+    }
+
+    return new SimpleLink(node, adjustSource, next, adjustTarget, scene, linkColor);
+}
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -40,33 +55,57 @@ const enableColor = (node: LinkedListNode<number> | undefined) => {
 }
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, tail } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, tail, head } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, head } = step;
-        resetListColor(tail);
+        const { action, current } = step;
+        resetListColor(head);
 
         switch (action) {
             case Action.return_head: {
-                enableColor(head);
+                enableColor(current);
                 break;
             }
             case Action.recurse: {
-                enableColor(head?.next);
+                enableColor(current);
                 break;
             }
             case Action.reverse: {
-                enableColor(head);
-                enableColor(head?.next);
-                await wait(0.1);
+                const next = current.next;
+                if (next) {
+                    if (!next.linkToNext) {
+                        next.linkToNext = buildLink(scene, next, current);
+                    }
+                    if (next.linkToNext) {
+                        next.linkToNext.source = next;
+                        next.linkToNext.target = current;
+
+                        next.linkToNext.setColor("lightblue");
+
+                        next.linkToNext.adjustSource = (p) => {
+                            const { x, y, z } = p;
+                            return { x: x - radius, y, z };
+                        }
+
+                        next.linkToNext.adjustTarget = (p) => {
+                            const { x, y, z } = p;
+                            return { x: x + radius, y, z };
+                        }
+                    }
+                    next.linkToNext?.show();
+                    next.linkToNext?.refresh();
+                    enableColor(current);
+                    enableColor(next);
+                }
                 break;
             }
             case Action.remove_next: {
-                enableColor(head?.next);
+                enableColor(current);
+                current.linkToNext?.hide();
                 break;
             }
             case Action.return_last: {
-                // enableColor(newHead);
+                enableColor(tail);
                 break;
             }
         }
