@@ -1,22 +1,44 @@
-// Definition for singly-linked list.
-class ListNode {
-    val: number
-    next?: ListNode
+import { ListNode } from "../_commons/listNode";
 
-    constructor(val: number, next?: ListNode) {
-        this.val = val;
-        this.next = next;
+export enum Action {
+    return_head,
+    recurse,
+    reverse,
+    remove_next,
+    return_last
+}
+
+export class Step {
+    action: Action;
+    linesToHighlight: number[];
+
+    constructor(action: Action, linesToHighlight: number[]) {
+        this.action = action;
+        this.linesToHighlight = linesToHighlight;
     }
 }
 
-function reverseList(head: ListNode): ListNode {
-    if (!head.next) return head;
-    const last = reverseList(head.next);
-    head.next.next = head;
-    head.next = undefined;
-    return last;
-};
+export function buildSteps(nums: number[]): Step[] {
+    const steps: Step[] = [];
 
-export function buildSteps(nums: number[]) {
+    function reverseList(head: ListNode<number>): ListNode<number> {
+        if (!head.next) {
+            steps.push(new Step(Action.return_head, [2]));
+            return head;
+        }
 
+        steps.push(new Step(Action.recurse, [3]));
+        const last = reverseList(head.next);
+
+        steps.push(new Step(Action.reverse, [4]));
+        head.next.next = head;
+
+        steps.push(new Step(Action.remove_next, [5]));
+        head.next = undefined;
+
+        steps.push(new Step(Action.return_last, [6]));
+        return last;
+    };
+
+    return steps;
 }
