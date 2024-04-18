@@ -2,7 +2,7 @@ export const title = "Reverse Linked List II";
 
 export const description = `#### Description
 
-Given the head of a singly linked list and two integers left and right where left <= right, \ 
+Given the head of a singly linked list and two integers left and right where left <= right,  
 reverse the nodes of the list from position left to position right, and return the reversed list.
 
 For instance:
