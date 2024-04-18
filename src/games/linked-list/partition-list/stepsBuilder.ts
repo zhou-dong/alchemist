@@ -1,23 +1,5 @@
-// Definition for singly-linked list.
-class ListNode {
-    val: number
-    next?: ListNode
-
-    constructor(val: number, next?: ListNode) {
-        this.val = val;
-        this.next = next;
-    }
-}
-
-const buildList = (nums: number[]): ListNode | undefined => {
-    const dummy = new ListNode(-1);
-    let current = dummy;
-    nums.forEach(num => {
-        current.next = new ListNode(num);
-        current = current.next;
-    });
-    return dummy.next;
-}
+import { ListNode } from "../_commons/listNode";
+import { build } from "../_commons/listBuilder";
 
 export enum Action {
     New_Small_Dummy,
@@ -43,7 +25,7 @@ export interface Step {
 export function buildSteps(nums: number[], num: number): Step[] {
     const steps: Step[] = [];
 
-    function partition(head: ListNode, x: number): ListNode | undefined {
+    function partition(head: ListNode<number>, x: number): ListNode<number> | undefined {
         const smallDummy = new ListNode(-1);
         steps.push({ action: Action.New_Small_Dummy, linesToHighlight: [6] });
 
@@ -56,7 +38,7 @@ export function buildSteps(nums: number[], num: number): Step[] {
         let large = largeDummy;
         steps.push({ action: Action.Define_Large, linesToHighlight: [9] });
 
-        let current: ListNode | undefined = head;
+        let current: ListNode<number> | undefined = head;
         steps.push({ action: Action.Define_Head, linesToHighlight: [11] });
         while (current) {
             if (current.val < num) {
@@ -84,7 +66,7 @@ export function buildSteps(nums: number[], num: number): Step[] {
         return smallDummy.next;
     };
 
-    const listHead = buildList(nums);
+    const listHead = build(nums);
     if (listHead) {
         partition(listHead, num);
     }

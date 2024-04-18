@@ -8,8 +8,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildList, center, x, y } from "./styles";
-import { buildSteps } from './algo';
+import { buildList, center, getTail } from "./styles";
+import { buildSteps } from './stepsBuilder';
 import InputIcon from '@mui/icons-material/Input';
 import { safeRun } from '../../commons/utils';
 
@@ -40,14 +40,13 @@ interface Props {
 
 const Submit: React.FC<{
     list: string,
-    k: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, k, setAnchorEl }) => {
+}> = ({ list, setAnchorEl }) => {
 
-    const disabled = !k || !list || !list.length;
+    const disabled = !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setK, setList } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setTail, setHead } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -55,14 +54,17 @@ const Submit: React.FC<{
         clearScene(scene);
         setSteps([]);
         setIndex(0);
-        setK(+k);
-        setList(array);
 
         const init = async () => {
+            const x = -8;
+            const y = 7;
             const head = await buildList(scene, array, x, y);
-            await center(head);
-            const steps = buildSteps(head, +k);
+            setHead(head);
+            const tail = getTail(head);
+            const steps = buildSteps(head, array);
+            await center(head, head.x, tail.x);
             setSteps(steps);
+            setTail(tail);
         }
 
         await safeRun(init, animate, cancelAnimate);
@@ -76,29 +78,19 @@ const Submit: React.FC<{
     );
 }
 
-const random = (max: number): number => {
-    return Math.floor(Math.random() * max) + 1;
-}
-
 const Main = ({ setAnchorEl }: Props) => {
 
     const length = () => Math.random() > 0.5 ? 7 : 6;
 
     const [list, setList] = React.useState(() => buildRandomList(length()).join(","));
-    const [k, setK] = React.useState<string>(() => random(5) + "");
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
     }
 
-    const handlePosChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setK(e.currentTarget.value);
-    }
-
     const handleFresh = () => {
         const list = buildRandomList(length());
         setList(() => list.join(","));
-        setK(() => random(list.length - 1) + "");
     }
 
     return (
@@ -125,14 +117,6 @@ const Main = ({ setAnchorEl }: Props) => {
 
             <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
 
-            <InputBase
-                sx={{ width: 40 }}
-                placeholder='k'
-                value={k}
-                onChange={handlePosChange}
-                type="number"
-            />
-
             <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={handleFresh}>
                 <RefreshIcon />
             </IconButton>
@@ -142,15 +126,12 @@ const Main = ({ setAnchorEl }: Props) => {
                 sx={{ p: '10px' }}
                 aria-label="clear"
                 disabled={!list.length}
-                onClick={() => {
-                    setList("");
-                    setK("0");
-                }}
+                onClick={() => setList("")}
             >
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} k={k} setAnchorEl={setAnchorEl} />
+            <Submit list={list} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
