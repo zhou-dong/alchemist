@@ -1,3 +1,4 @@
+import { build } from "../_commons/listBuilder";
 import { ListNode } from "../_commons/listNode";
 
 export enum Action {
@@ -39,6 +40,11 @@ export function buildSteps(nums: number[]): Step[] {
         steps.push(new Step(Action.return_last, [6]));
         return last;
     };
+
+    const head = build(nums);
+    if (head) {
+        reverseList(head);
+    }
 
     return steps;
 }
