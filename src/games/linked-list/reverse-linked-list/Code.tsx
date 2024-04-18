@@ -1,8 +1,6 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import RotateRightIcon from '@mui/icons-material/RotateRight';
-import DataArrayIcon from '@mui/icons-material/DataArray';
-import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
