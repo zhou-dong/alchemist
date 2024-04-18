@@ -1,7 +1,7 @@
 import React from "react";
 import * as THREE from 'three';
 import Queue from "../../../data-structures/queue";
-import { clearScene, registerOrbitControls } from '../../../commons/three';
+import { clearScene } from '../../../commons/three';
 import QueueShellBuilder from "./queueShellBuilder";
 import { queuePosition } from "./queueStyles";
 import QueueName from "./queueName";
@@ -63,7 +63,6 @@ export const AlgoContextProvider: React.FC<{
             }
             setQueueName(new QueueName("Queue", queuePosition.name, scene));
             setQueue(queue);
-            registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
 
