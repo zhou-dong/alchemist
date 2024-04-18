@@ -8,7 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildList, center, x, y } from "./styles";
+import { buildList, center } from "./styles";
 import { buildSteps } from './stepsBuilder';
 import InputIcon from '@mui/icons-material/Input';
 import { safeRun } from '../../commons/utils';
@@ -56,11 +56,13 @@ const Submit: React.FC<{
         setIndex(0);
 
         const init = async () => {
+            const x = -8;
+            const y = 7;
             const head = await buildList(scene, array, x, y);
-            await center(head);
-            const steps = buildSteps(head);
-            setSteps(steps[0]);
-            setTail(steps[1]);
+            const [steps, tail] = buildSteps(head);
+            await center(tail, head.x, tail.x);
+            setSteps(steps);
+            setTail(tail);
         }
 
         await safeRun(init, animate, cancelAnimate);
