@@ -12,7 +12,6 @@ import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
 import Position from '../../../data-structures/_commons/params/position.interface';
 import { SimpleLink } from '../../../data-structures/list/link.three';
-import { circleToLine, updatePositions } from './circle';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -41,29 +40,29 @@ const enableColor = (node: LinkedListNode<number> | undefined) => {
 }
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, tail } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, } = step;
-        // resetListColor(head);
+        const { action, head } = step;
+        resetListColor(tail);
 
         switch (action) {
             case Action.return_head: {
-                // enableColor(current);
+                enableColor(head);
                 break;
             }
             case Action.recurse: {
-                // enableColor(current);
+                enableColor(head?.next);
                 break;
             }
             case Action.reverse: {
-                // enableColor(current);
+                enableColor(head);
+                enableColor(head?.next);
                 await wait(0.1);
                 break;
             }
             case Action.remove_next: {
-                // await circleToLine(newH);
-                // await center(newH);
+                enableColor(head?.next);
                 break;
             }
             case Action.return_last: {
