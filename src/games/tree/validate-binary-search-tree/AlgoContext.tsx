@@ -1,6 +1,6 @@
 import React from "react";
 import * as THREE from 'three';
-import { clearScene, registerOrbitControls } from '../../../commons/three';
+import { clearScene } from '../../../commons/three';
 import { State } from "./AlgoState";
 import { Step } from "./algo";
 import TreeNode from "../../../data-structures/tree/nodes/v1/node";
@@ -60,7 +60,6 @@ export const AlgoContextProvider: React.FC<{
     React.useEffect(() => {
         const init = () => {
             clearScene(scene);
-            registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
         if (ref && ref.current) {

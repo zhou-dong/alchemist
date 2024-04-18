@@ -1,6 +1,6 @@
 import React from "react";
 import * as THREE from 'three';
-import { clearScene, registerOrbitControls } from '../../../commons/three';
+import { clearScene } from '../../../commons/three';
 import { State } from "./AlgoState";
 import MaxHeap from "../../../data-structures/tree/heap/max-heap";
 import { SxProps } from '@mui/system';
@@ -121,7 +121,6 @@ export const AlgoContextProvider: React.FC<{
     React.useEffect(() => {
         const init = () => {
             clearScene(scene);
-            registerOrbitControls(camera, renderer, scene);
             renderer.render(scene, camera);
         }
         if (ref && ref.current) {
