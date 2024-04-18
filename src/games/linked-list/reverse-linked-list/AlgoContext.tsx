@@ -17,8 +17,8 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    head?: LinkedListNode<number>,
-    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>
+    tail?: LinkedListNode<number>,
+    setTail: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -31,7 +31,7 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     displayCode: true,
     setDisplayCode: () => { },
-    setHead: () => { }
+    setTail: () => { }
 });
 
 let animationFrameId = -1;
@@ -48,8 +48,7 @@ export const AlgoContextProvider: React.FC<{
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
-
-    const [head, setHead] = React.useState<LinkedListNode<number>>();
+    const [tail, setTail] = React.useState<LinkedListNode<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -89,8 +88,8 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             displayCode,
             setDisplayCode,
-            head,
-            setHead
+            tail,
+            setTail
         }}>
             {children}
             <div ref={ref} />
