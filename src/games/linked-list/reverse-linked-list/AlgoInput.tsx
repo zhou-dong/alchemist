@@ -9,7 +9,7 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
 import { buildList, center, x, y } from "./styles";
-import { buildSteps } from './algo';
+import { buildSteps } from './stepsBuilder';
 import InputIcon from '@mui/icons-material/Input';
 import { safeRun } from '../../commons/utils';
 
@@ -47,7 +47,7 @@ const Submit: React.FC<{
     const disabled = !k || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
 
-    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setK, setList } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -55,13 +55,11 @@ const Submit: React.FC<{
         clearScene(scene);
         setSteps([]);
         setIndex(0);
-        setK(+k);
-        setList(array);
 
         const init = async () => {
             const head = await buildList(scene, array, x, y);
             await center(head);
-            const steps = buildSteps(head, +k);
+            const steps = buildSteps(array);
             setSteps(steps);
         }
 

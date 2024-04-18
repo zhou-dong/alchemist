@@ -6,7 +6,7 @@ import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
 import { center, linkColor, skinDefaultColor, skinEnabledColor } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import { Action, Step } from './algo';
+import { Action, Step } from './stepsBuilder';
 import Code from "./Code";
 import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
@@ -44,54 +44,30 @@ const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, head, current, newHead } = step;
-        resetListColor(head);
+        const { action, } = step;
+        // resetListColor(head);
 
         switch (action) {
-            case Action.Define_Current: {
-                enableColor(current);
+            case Action.return_head: {
+                // enableColor(current);
                 break;
             }
-            case Action.Find_Tail: {
-                enableColor(current);
+            case Action.recurse: {
+                // enableColor(current);
                 break;
             }
-            case Action.Tail_Connect_Head: {
-                enableColor(current);
-                if (head && current) {
-                    const adjustSource = (position: Position): Position => position;
-                    const adjustTarget = (position: Position): Position => position;
-                    // current.next = head;
-                    current.linkToNext = new SimpleLink(current, adjustSource, head, adjustTarget, scene, linkColor);
-                    current.linkToNext.show();
-                    await updatePositions(head);
-                    await wait(0.1);
-                }
+            case Action.reverse: {
+                // enableColor(current);
+                await wait(0.1);
                 break;
             }
-            case Action.Cut_Circle: {
-                if (current) {
-                    enableColor(newHead);
-                    const newH = current.next;
-                    current.next = undefined;
-                    current.linkToNext?.hide();
-                    if (newH) {
-                        await circleToLine(newH);
-                        await center(newH);
-                    }
-                }
+            case Action.remove_next: {
+                // await circleToLine(newH);
+                // await center(newH);
                 break;
             }
-            case Action.Found_New_Head: {
-                enableColor(newHead);
-                break;
-            }
-            case Action.Return_New_Head: {
-                enableColor(newHead);
-                break;
-            }
-            case Action.Go_Next: {
-                enableColor(current);
+            case Action.return_last: {
+                // enableColor(newHead);
                 break;
             }
         }

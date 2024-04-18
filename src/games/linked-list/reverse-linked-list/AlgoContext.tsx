@@ -2,7 +2,7 @@ import React from "react";
 import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { clearScene } from "../../../commons/three";
-import { Step } from "./algo";
+import { Step } from "./stepsBuilder";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -16,10 +16,6 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    k?: number,
-    setK: React.Dispatch<React.SetStateAction<number | undefined>>,
-    list: number[],
-    setList: React.Dispatch<React.SetStateAction<number[]>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -32,9 +28,6 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     displayCode: true,
     setDisplayCode: () => { },
-    setK: () => { },
-    list: [],
-    setList: () => { }
 });
 
 let animationFrameId = -1;
@@ -51,9 +44,6 @@ export const AlgoContextProvider: React.FC<{
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
-
-    const [k, setK] = React.useState<number>();
-    const [list, setList] = React.useState<number[]>([]);
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -93,10 +83,6 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             displayCode,
             setDisplayCode,
-            k,
-            setK,
-            list,
-            setList
         }}>
             {children}
             <div ref={ref} />
