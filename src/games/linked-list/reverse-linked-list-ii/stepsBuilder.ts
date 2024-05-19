@@ -3,50 +3,88 @@ import { build } from "../_commons/listBuilder";
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 export enum Action {
+    define_successor,
+    assign_successor,
+    return_reverse_n_head,
+    assign_reverse_n_last,
+    start_reverse_n,
+    assign_next_next_to_this,
+    assign_next_to_successor,
+    return_reverse_n_last,
+    start_reverse_between,
     return_head,
-    recurse,
-    reverse,
-    remove_next,
-    return_last
 }
 
 export class Step {
     action: Action;
     linesToHighlight: number[];
     current: LinkedListNode<number>;
+    left: number;
+    right: number;
 
-    constructor(action: Action, linesToHighlight: number[], current: LinkedListNode<number>) {
+    constructor(action: Action, linesToHighlight: number[], current: LinkedListNode<number>, left: number, right: number) {
         this.action = action;
         this.linesToHighlight = linesToHighlight;
         this.current = current;
+        this.left = left;
+        this.right = right;
     }
 }
 
-export function buildSteps(listHead: LinkedListNode<number>, nums: number[]): Step[] {
+export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: number, r: number): Step[] {
     const steps: Step[] = [];
 
-    function reverseList(head: ListNode<number>, realHead: LinkedListNode<number>): ListNode<number> {
-        if (!head.next) {
-            steps.push(new Step(Action.return_head, [2], realHead));
-            return head;
+    function reverseBetween(head: ListNode<number>, left: number, right: number, realHead: LinkedListNode<number>): ListNode<number> | undefined {
+        if (left > right || left < 1) {
+            return;
         }
 
-        steps.push(new Step(Action.recurse, [3], realHead));
-        const last = reverseList(head.next, realHead.next!);
+        steps.push(new Step(Action.define_successor, [3], realHead, left, right));
+        let successor: ListNode<number> | undefined = undefined;
+        function reverseN(node: ListNode<number>, n: number): ListNode<number> {
+            // boundary check
+            if (node.next === undefined) {
+                successor = node.next;
+                return node;
+            }
+            if (n === 1) {
+                steps.push(new Step(Action.define_successor, [6], realHead, left, right));
+                successor = node.next;
+                steps.push(new Step(Action.return_reverse_n_head, [7], realHead, left, right));
+                return node;
+            }
+            steps.push(new Step(Action.assign_reverse_n_last, [7], realHead, left, right));
+            const last = reverseN(node.next, n - 1);
 
-        steps.push(new Step(Action.reverse, [4], realHead));
-        head.next.next = head;
+            steps.push(new Step(Action.assign_next_next_to_this, [10], realHead, left, right));
+            node.next.next = node;
 
-        steps.push(new Step(Action.remove_next, [5], realHead));
-        head.next = undefined;
+            steps.push(new Step(Action.assign_next_to_successor, [11], realHead, left, right));
+            node.next = successor;
 
-        steps.push(new Step(Action.return_last, [6], realHead));
-        return last;
+            steps.push(new Step(Action.return_reverse_n_last, [12], realHead, left, right));
+            return last;
+        }
+
+        if (left === 1) {
+            steps.push(new Step(Action.start_reverse_n, [16], realHead, left, right));
+            return reverseN(head, right);
+        }
+
+        if (head.next) {
+            steps.push(new Step(Action.start_reverse_between, [18], realHead, left, right));
+            head.next = reverseBetween(head.next, left - 1, right - 1, realHead);
+        }
+
+        steps.push(new Step(Action.return_head, [19], realHead, left, right));
+        return head;
     };
 
     const head = build(nums);
+
     if (head) {
-        reverseList(head, listHead);
+        reverseBetween(head, l, r, listHead);
     }
+
     return steps;
 }
