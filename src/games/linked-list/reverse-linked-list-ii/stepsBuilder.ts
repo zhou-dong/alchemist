@@ -41,34 +41,34 @@ export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: 
 
         steps.push(new Step(Action.define_successor, [3], realHead, left, right));
         let successor: ListNode<number> | undefined = undefined;
-        function reverseN(node: ListNode<number>, n: number): ListNode<number> {
+        function reverseN(node: ListNode<number>, n: number, realNode: LinkedListNode<number>): ListNode<number> {
             // boundary check
-            if (node.next === undefined) {
+            if (node.next === undefined || realNode.next === undefined) {
                 successor = node.next;
                 return node;
             }
             if (n === 1) {
-                steps.push(new Step(Action.define_successor, [6], realHead, left, right));
+                steps.push(new Step(Action.define_successor, [6], realNode, left, right));
                 successor = node.next;
-                steps.push(new Step(Action.return_reverse_n_head, [7], realHead, left, right));
+                steps.push(new Step(Action.return_reverse_n_head, [7], realNode, left, right));
                 return node;
             }
-            steps.push(new Step(Action.assign_reverse_n_last, [7], realHead, left, right));
-            const last = reverseN(node.next, n - 1);
+            steps.push(new Step(Action.assign_reverse_n_last, [7], realNode, left, right));
+            const last = reverseN(node.next, n - 1, realNode.next);
 
-            steps.push(new Step(Action.assign_next_next_to_this, [10], realHead, left, right));
+            steps.push(new Step(Action.assign_next_next_to_this, [10], realNode, left, right));
             node.next.next = node;
 
-            steps.push(new Step(Action.assign_next_to_successor, [11], realHead, left, right));
+            steps.push(new Step(Action.assign_next_to_successor, [11], realNode, left, right));
             node.next = successor;
 
-            steps.push(new Step(Action.return_reverse_n_last, [12], realHead, left, right));
+            steps.push(new Step(Action.return_reverse_n_last, [12], realNode, left, right));
             return last;
         }
 
         if (left === 1) {
             steps.push(new Step(Action.start_reverse_n, [16], realHead, left, right));
-            return reverseN(head, right);
+            return reverseN(head, right, realHead);
         }
 
         if (head.next) {
