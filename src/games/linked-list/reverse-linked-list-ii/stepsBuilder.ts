@@ -3,7 +3,6 @@ import { build } from "../_commons/listBuilder";
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 export enum Action {
-    define_successor,
     assign_successor,
     return_reverse_n_head,
     assign_reverse_n_last,
@@ -43,7 +42,7 @@ export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: 
         }
 
         if (n === 1) {
-            steps.push(new Step(Action.define_successor, [4], realNode, left, right));
+            steps.push(new Step(Action.assign_successor, [4], realNode, left, right));
             successor = node.next;
             steps.push(new Step(Action.return_reverse_n_head, [5], realNode, left, right));
             return node;
