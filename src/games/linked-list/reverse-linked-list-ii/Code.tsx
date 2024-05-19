@@ -6,20 +6,19 @@ import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 
-const formula = `function reverseBetween(head: ListNode | null, left: number, right: number): ListNode | null {
-
-    let successor: ListNode | null = null;
-    function reverseN(node: ListNode | null, n: number) {
-        if (n === 1) {
-            successor = node.next;
-            return node;
-        }
-        const last = reverseN(node.next, n - 1);
-        node.next.next = node;
-        node.next = successor;
-        return last;
+const formula = `let successor: ListNode | null = null;
+function reverseN(node: ListNode | null, n: number) {
+    if (n === 1) {
+        successor = node.next;
+        return node;
     }
+    const last = reverseN(node.next, n - 1);
+    node.next.next = node;
+    node.next = successor;
+    return last;
+}
 
+function reverseBetween(head: ListNode | null, left: number, right: number): ListNode | null {
     if (left === 1) {
         return reverseN(head, right);
     }
