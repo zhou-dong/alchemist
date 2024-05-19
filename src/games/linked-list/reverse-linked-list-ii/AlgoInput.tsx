@@ -55,13 +55,16 @@ const Submit: React.FC<{
         setSteps([]);
         setIndex(0);
 
+        const left = 1;
+        const right = 5;
+
         const init = async () => {
             const x = -8;
             const y = 7;
             const head = await buildList(scene, array, x, y);
             setHead(head);
             const tail = getTail(head);
-            const steps = buildSteps(head, array);
+            const steps = buildSteps(head, array, left, right);
             await center(head, head.x, tail.x);
             setSteps(steps);
             setTail(tail);
