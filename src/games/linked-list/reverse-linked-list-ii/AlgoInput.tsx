@@ -39,9 +39,11 @@ interface Props {
 }
 
 const Submit: React.FC<{
+    left: number,
+    right: number,
     list: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, setAnchorEl }) => {
+}> = ({ list, left, right, setAnchorEl }) => {
 
     const disabled = !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
@@ -54,9 +56,6 @@ const Submit: React.FC<{
         clearScene(scene);
         setSteps([]);
         setIndex(0);
-
-        const left = 1;
-        const right = 5;
 
         const init = async () => {
             const x = -8;
@@ -177,7 +176,7 @@ const Main = ({ setAnchorEl }: Props) => {
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} setAnchorEl={setAnchorEl} />
+            <Submit list={list} left={left} right={right} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
