@@ -45,8 +45,8 @@ const Submit: React.FC<{
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
 }> = ({ list, left, right, setAnchorEl }) => {
 
-    const disabled = !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
+    const disabled = !list || !list.length || left < 1 || left >= right || right >= array.length;
 
     const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setTail, setHead } = useAlgoContext();
 
@@ -125,7 +125,7 @@ const Main = ({ setAnchorEl }: Props) => {
             sx={{
                 p: '2px 4px',
                 display: 'flex',
-                width: 490,
+                width: 520,
                 alignItems: "center"
             }}
         >
@@ -153,7 +153,7 @@ const Main = ({ setAnchorEl }: Props) => {
             <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
 
             <InputBase
-                sx={{ width: 25 }}
+                sx={{ width: 33 }}
                 placeholder='right'
                 value={right}
                 onChange={handleRightChange}
