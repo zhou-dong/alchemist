@@ -66,11 +66,11 @@ const Play = () => {
                 enableColor(current);
                 break;
             }
-            case Action.recurse: {
+            case Action.assign_next_next_to_this: {
                 enableColor(current);
                 break;
             }
-            case Action.reverse: {
+            case Action.assign_next_to_successor: {
                 const next = current.next;
                 if (next) {
                     if (!next.linkToNext) {
@@ -99,12 +99,12 @@ const Play = () => {
                 }
                 break;
             }
-            case Action.remove_next: {
+            case Action.assign_reverse_n_last: {
                 enableColor(current);
                 current.linkToNext?.hide();
                 break;
             }
-            case Action.return_last: {
+            case Action.assign_successor: {
                 enableColor(tail);
                 break;
             }
