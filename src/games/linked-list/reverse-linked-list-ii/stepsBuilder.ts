@@ -47,6 +47,7 @@ export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: 
             steps.push(new Step(Action.return_reverse_n_head, [5], realNode, left, right));
             return node;
         }
+
         steps.push(new Step(Action.assign_reverse_n_last, [7], realNode, left, right));
         const last = reverseN(node.next, n - 1, realNode.next, left, right);
 
