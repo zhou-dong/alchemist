@@ -9,7 +9,6 @@ import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 import React from 'react';
-import { Step } from './stepsBuilder';
 
 const formula = `let successor: ListNode | null = null;
 function reverseN(node: ListNode | null, n: number) {
