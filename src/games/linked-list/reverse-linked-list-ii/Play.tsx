@@ -58,7 +58,7 @@ const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, tail, head } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, current } = step;
+        const { action, current, successor } = step;
         resetListColor(head);
 
         switch (action) {
@@ -67,10 +67,6 @@ const Play = () => {
                 break;
             }
             case Action.assign_next_next_to_this: {
-                enableColor(current);
-                break;
-            }
-            case Action.assign_next_to_successor: {
                 const next = current.next;
                 if (next) {
                     if (!next.linkToNext) {
@@ -99,7 +95,7 @@ const Play = () => {
                 }
                 break;
             }
-            case Action.assign_reverse_n_last: {
+            case Action.assign_last_reverse_n: {
                 enableColor(current);
                 current.linkToNext?.hide();
                 break;

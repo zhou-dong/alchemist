@@ -1,10 +1,15 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import NumbersIcon from '@mui/icons-material/Numbers';
+import { Button, Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
+import React from 'react';
+import { Step } from './stepsBuilder';
 
 const formula = `let successor: ListNode | null = null;
 function reverseN(node: ListNode | null, n: number) {
@@ -26,21 +31,41 @@ function reverseBetween(head: ListNode | null, left: number, right: number): Lis
     return head;
 };`;
 
-const Head = () => (
-    <Toolbar variant='dense' sx={{ display: "flex" }}>
-        <IconButton disabled>
-            <EmojiObjectsOutlinedIcon />
-        </IconButton>
-        <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={2} direction="row">
-            <Typography>
-                Solution
-            </Typography>
-        </Stack>
-        <IconButton color='info'>
-            <DragIndicatorIcon fontSize='medium' />
-        </IconButton>
-    </Toolbar>
-);
+
+const Head = () => {
+    const { index, steps } = useAlgoContext();
+    const step = steps[index];
+    // const { left, right, n } = step;
+
+    const DisplayLeft: React.FC<{ left: number }> = ({ left }) => (
+        <Button size='small' variant='outlined' startIcon={<ArrowBackIosIcon />} color='inherit'>{left}</Button>
+    );
+
+    const DisplayRight: React.FC<{ right: number }> = ({ right }) => (
+        <Button size='small' variant='outlined' endIcon={<ArrowForwardIosIcon />} color='inherit'>{right}</Button>
+    );
+
+    const DisplayN: React.FC<{ num: number }> = ({ num }) => (
+        <Chip icon={<NumbersIcon />} label={num} variant="outlined" />
+    );
+
+    return (
+        <Toolbar variant='dense' sx={{ display: "flex" }}>
+            <IconButton disabled>
+                <EmojiObjectsOutlinedIcon />
+            </IconButton>
+            <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={2} direction="row">
+                <Typography>Solution</Typography>
+                {step && step.left && <DisplayLeft left={step.left} />}
+                {step && step.right && <DisplayRight right={step.right} />}
+                {step && step.n && <DisplayN num={step.n} />}
+            </Stack>
+            <IconButton color='info'>
+                <DragIndicatorIcon fontSize='medium' />
+            </IconButton>
+        </Toolbar>
+    );
+}
 
 const Body = () => {
     const { index, steps } = useAlgoContext();
