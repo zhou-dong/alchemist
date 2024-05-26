@@ -35,15 +35,15 @@ const Head = () => {
     const step = steps[index];
 
     const DisplayLeft: React.FC<{ left: number }> = ({ left }) => (
-        <Button size='small' variant='outlined' startIcon={<ArrowBackIosIcon />} color='inherit'>{left}</Button>
+        <Button size='small' variant='outlined' startIcon={<ArrowBackIosIcon />} color='inherit'>left: {left}</Button>
     );
 
     const DisplayRight: React.FC<{ right: number }> = ({ right }) => (
-        <Button size='small' variant='outlined' endIcon={<ArrowForwardIosIcon />} color='inherit'>{right}</Button>
+        <Button size='small' variant='outlined' endIcon={<ArrowForwardIosIcon />} color='inherit'>right: {right}</Button>
     );
 
     const DisplayN: React.FC<{ num: number }> = ({ num }) => (
-        <Chip icon={<NumbersIcon />} label={num} variant="outlined" />
+        <Chip icon={<NumbersIcon />} label={"n: " + num} variant="outlined" />
     );
 
     return (
