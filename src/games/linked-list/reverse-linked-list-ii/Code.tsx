@@ -33,7 +33,6 @@ function reverseBetween(head: ListNode | null, left: number, right: number): Lis
 const Head = () => {
     const { index, steps } = useAlgoContext();
     const step = steps[index];
-    // const { left, right, n } = step;
 
     const DisplayLeft: React.FC<{ left: number }> = ({ left }) => (
         <Button size='small' variant='outlined' startIcon={<ArrowBackIosIcon />} color='inherit'>{left}</Button>
