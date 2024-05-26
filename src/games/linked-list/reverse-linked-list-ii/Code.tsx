@@ -30,7 +30,6 @@ function reverseBetween(head: ListNode | null, left: number, right: number): Lis
     return head;
 };`;
 
-
 const Head = () => {
     const { index, steps } = useAlgoContext();
     const step = steps[index];
