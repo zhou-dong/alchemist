@@ -130,8 +130,21 @@ const Play = () => {
                     let node: LinkedListNode<number> | undefined = last;
                     const moves = [];
                     while (node && node !== successor) {
+                        const temp = node;
+                        const link = temp.linkToNext
                         const mv = node.move({ x: x + i * linkLength, y, z }, duration, () => {
-                            node?.linkToNext?.refresh();
+                            if (link) {
+                                link.adjustSource = (p) => {
+                                    const { x, y, z } = p;
+                                    return { x: x + radius, y, z };
+                                }
+
+                                link.adjustTarget = (p) => {
+                                    const { x, y, z } = p;
+                                    return { x: x - radius, y, z };
+                                }
+                                temp.linkToNext?.refresh();
+                            }
                         })
                         moves.push(mv);
                         node = node.next;
