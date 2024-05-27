@@ -24,6 +24,7 @@ export class Step {
     right?: number;
     successor?: LinkedListNode<number>;
     n?: number;
+    last?: LinkedListNode<number>;
 
     constructor(
         action: Action,
@@ -32,7 +33,8 @@ export class Step {
         left?: number,
         right?: number,
         successor?: LinkedListNode<number>,
-        n?: number
+        n?: number,
+        last?: LinkedListNode<number>,
     ) {
         this.action = action;
         this.linesToHighlight = linesToHighlight;
@@ -41,6 +43,7 @@ export class Step {
         this.right = right;
         this.successor = successor;
         this.n = n;
+        this.last = last;
     }
 }
 
@@ -49,6 +52,7 @@ export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: 
 
     let successor: ListNode<number> | undefined = undefined;
     let realSuccessor: LinkedListNode<number> | undefined = undefined;
+    let realLast: LinkedListNode<number> | undefined = undefined;
     function reverseN(
         node: ListNode<number>,
         n: number,
@@ -62,24 +66,25 @@ export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: 
         }
 
         if (n === 1) {
-            steps.push(new Step(Action.assign_successor, [4], realNode, undefined, undefined, realSuccessor, n));
+            steps.push(new Step(Action.assign_successor, [4], realNode, undefined, undefined, realSuccessor, n, realLast));
             successor = node.next;
             realSuccessor = realNode.next;
-            steps.push(new Step(Action.return_reverse_n_head, [5], realNode, undefined, undefined, realSuccessor, n));
+            realLast = realNode;
+            steps.push(new Step(Action.return_reverse_n_head, [5], realNode, undefined, undefined, realSuccessor, n, realLast));
             return node;
         }
 
-        steps.push(new Step(Action.recursive_reverse_n, [7], realNode, undefined, undefined, realSuccessor, n));
+        steps.push(new Step(Action.recursive_reverse_n, [7], realNode, undefined, undefined, realSuccessor, n, realLast));
         const last = reverseN(node.next, n - 1, realNode.next);
-        steps.push(new Step(Action.assign_last_reverse_n, [7], realNode, undefined, undefined, realSuccessor, n));
+        steps.push(new Step(Action.assign_last_reverse_n, [7], realNode, undefined, undefined, realSuccessor, n, realLast));
 
-        steps.push(new Step(Action.assign_next_next_to_this, [8], realNode, undefined, undefined, realSuccessor, n));
+        steps.push(new Step(Action.assign_next_next_to_this, [8], realNode, undefined, undefined, realSuccessor, n, realLast));
         node.next.next = node;
 
-        steps.push(new Step(Action.assign_next_to_successor, [9], realNode, undefined, undefined, realSuccessor, n));
+        steps.push(new Step(Action.assign_next_to_successor, [9], realNode, undefined, undefined, realSuccessor, n, realLast));
         node.next = successor;
 
-        steps.push(new Step(Action.return_reverse_n_last, [10], realNode, undefined, undefined, realSuccessor, n));
+        steps.push(new Step(Action.return_reverse_n_last, [10], realNode, undefined, undefined, realSuccessor, n, realLast));
         return last;
     }
 
@@ -89,19 +94,19 @@ export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: 
         }
 
         if (left === 1) {
-            steps.push(new Step(Action.start_reverse_n, [15], realHead, left, right, realSuccessor));
+            steps.push(new Step(Action.start_reverse_n, [15], realHead, left, right, realSuccessor, undefined, realLast));
             return reverseN(head, right, realHead);
         }
 
         if (head.next && realHead.next) {
-            steps.push(new Step(Action.recursive_reverse_between, [17], realHead, left, right, realSuccessor));
+            steps.push(new Step(Action.recursive_reverse_between, [17], realHead, left, right, realSuccessor, undefined, realLast));
             const next = reverseBetween(head.next, left - 1, right - 1, realHead.next);
 
-            steps.push(new Step(Action.reverse_between_assign_next, [17], realHead, left, right, realSuccessor));
+            steps.push(new Step(Action.reverse_between_assign_next, [17], realHead, left, right, realSuccessor, undefined, realLast));
             head.next = next;
         }
 
-        steps.push(new Step(Action.return_head, [18], realHead, left, right, realSuccessor));
+        steps.push(new Step(Action.return_head, [18], realHead, left, right, realSuccessor, undefined, realLast));
         return head;
     };
 
