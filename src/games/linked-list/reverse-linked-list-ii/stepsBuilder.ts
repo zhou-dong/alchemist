@@ -103,7 +103,7 @@ export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: 
         }
 
         if (head.next && realHead.next) {
-            steps.push(new Step(Action.recursive_reverse_between, [17], realHead, left, right, realSuccessor, undefined, realLast));
+            steps.push(new Step(Action.recursive_reverse_between, [17], realHead.next, left, right, realSuccessor, undefined, realLast));
             const next = reverseBetween(head.next, left - 1, right - 1, realHead.next);
 
             steps.push(new Step(Action.reverse_between_assign_next, [17], realHead, left, right, realSuccessor, undefined, realLast));
