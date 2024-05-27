@@ -39,12 +39,14 @@ interface Props {
 }
 
 const Submit: React.FC<{
+    left: number,
+    right: number,
     list: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, setAnchorEl }) => {
+}> = ({ list, left, right, setAnchorEl }) => {
 
-    const disabled = !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
+    const disabled = !list || !list.length || left < 1 || left >= right || right >= array.length;
 
     const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setTail, setHead } = useAlgoContext();
 
@@ -61,7 +63,7 @@ const Submit: React.FC<{
             const head = await buildList(scene, array, x, y);
             setHead(head);
             const tail = getTail(head);
-            const steps = buildSteps(head, array);
+            const steps = buildSteps(head, array, left, right);
             await center(head, head.x, tail.x);
             setSteps(steps);
             setTail(tail);
@@ -78,19 +80,42 @@ const Submit: React.FC<{
     );
 }
 
+const random = (max: number): number => {
+    return Math.floor(Math.random() * max);
+}
+
 const Main = ({ setAnchorEl }: Props) => {
 
-    const length = () => Math.random() > 0.5 ? 7 : 6;
+    const length = () => Math.random() > 0.5 ? 9 : 8;
 
     const [list, setList] = React.useState(() => buildRandomList(length()).join(","));
+    const [right, setRight] = React.useState(() => random(5) + 1);
+    const [left, setLeft] = React.useState(() => random(3) + 1);
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
     }
 
+    const handleLeftChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLeft(+e.currentTarget.value);
+    }
+
+    const handleRightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRight(+e.currentTarget.value);
+    }
+
     const handleFresh = () => {
         const list = buildRandomList(length());
         setList(() => list.join(","));
+        const left = random(3) + 1;
+        setLeft(left);
+        setRight(left + 2);
+    }
+
+    const handleClear = () => {
+        setList("");
+        setLeft(1);
+        setRight(2);
     }
 
     return (
@@ -100,7 +125,7 @@ const Main = ({ setAnchorEl }: Props) => {
             sx={{
                 p: '2px 4px',
                 display: 'flex',
-                width: 420,
+                width: 520,
                 alignItems: "center"
             }}
         >
@@ -117,6 +142,26 @@ const Main = ({ setAnchorEl }: Props) => {
 
             <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
 
+            <InputBase
+                sx={{ width: 25 }}
+                placeholder='left'
+                value={left}
+                onChange={handleLeftChange}
+                type="number"
+            />
+
+            <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
+
+            <InputBase
+                sx={{ width: 33 }}
+                placeholder='right'
+                value={right}
+                onChange={handleRightChange}
+                type="number"
+            />
+
+            <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
+
             <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={handleFresh}>
                 <RefreshIcon />
             </IconButton>
@@ -126,12 +171,12 @@ const Main = ({ setAnchorEl }: Props) => {
                 sx={{ p: '10px' }}
                 aria-label="clear"
                 disabled={!list.length}
-                onClick={() => setList("")}
+                onClick={handleClear}
             >
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} setAnchorEl={setAnchorEl} />
+            <Submit list={list} left={left} right={right} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
