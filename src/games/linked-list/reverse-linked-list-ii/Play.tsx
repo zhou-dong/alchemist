@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { linkColor, skinDefaultColor, skinEnabledColor, radius } from './styles';
+import { linkColor, skinDefaultColor, skinEnabledColor, radius, linkLength, duration } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
 import { Action, Step } from './stepsBuilder';
 import Code from "./Code";
@@ -58,7 +58,7 @@ const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, head } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, current, successor } = step;
+        const { action, current, successor, last } = step;
         resetListColor(head);
         enableColor(current);
 
@@ -123,8 +123,22 @@ const Play = () => {
                 enableColor(successor);
                 break;
             }
-            case Action.return_head: {
-
+            case Action.return_last: {
+                if (last) {
+                    let i = 0;
+                    const { x, y, z } = current;
+                    let node: LinkedListNode<number> | undefined = last;
+                    const moves = [];
+                    while (node && node !== successor) {
+                        const mv = node.move({ x: x + i * linkLength, y, z }, duration, () => {
+                            node?.linkToNext?.refresh();
+                        })
+                        moves.push(mv);
+                        node = node.next;
+                        i++;
+                    }
+                    await Promise.all(moves);
+                }
                 break;
             }
         }
