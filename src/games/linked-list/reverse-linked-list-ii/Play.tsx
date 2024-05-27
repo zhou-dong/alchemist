@@ -55,17 +55,14 @@ const enableColor = (node: LinkedListNode<number> | undefined) => {
 }
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, tail, head } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, head } = useAlgoContext();
 
     const execute = async (step: Step) => {
         const { action, current, successor } = step;
         resetListColor(head);
+        enableColor(current);
 
         switch (action) {
-            case Action.return_head: {
-                enableColor(current);
-                break;
-            }
             case Action.assign_next_next_to_this: {
                 const next = current.next;
                 if (next) {
@@ -116,10 +113,6 @@ const Play = () => {
                 }
                 break;
             }
-            case Action.reverse_between_assign_next: {
-
-                break;
-            }
             case Action.assign_last_reverse_n: {
                 enableColor(current);
                 current.linkToNext?.hide();
@@ -128,6 +121,10 @@ const Play = () => {
             case Action.assign_successor: {
                 enableColor(current.next);
                 enableColor(successor);
+                break;
+            }
+            case Action.return_head: {
+
                 break;
             }
         }
