@@ -92,7 +92,32 @@ const Play = () => {
                     next.linkToNext?.refresh();
                     enableColor(current);
                     enableColor(next);
+
+                    next.next = current;
                 }
+                break;
+            }
+            case Action.assign_next_to_successor: {
+                if (successor) {
+                    if (!current.linkToNext) {
+                        current.linkToNext = buildLink(scene, current, successor);
+                    }
+                    if (current.linkToNext) {
+                        current.linkToNext.source = current;
+                        current.linkToNext.target = successor;
+                        current.linkToNext.setColor("lightblue");
+                    }
+                    current.linkToNext?.show();
+                    current.linkToNext?.refresh();
+                    enableColor(current);
+                    enableColor(successor);
+
+                    current.next = successor;
+                }
+                break;
+            }
+            case Action.reverse_between_assign_next: {
+
                 break;
             }
             case Action.assign_last_reverse_n: {
@@ -101,7 +126,8 @@ const Play = () => {
                 break;
             }
             case Action.assign_successor: {
-                enableColor(tail);
+                enableColor(current.next);
+                enableColor(successor);
                 break;
             }
         }
