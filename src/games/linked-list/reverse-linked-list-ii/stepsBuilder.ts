@@ -14,6 +14,7 @@ export enum Action {
     recursive_reverse_between,
     reverse_between_assign_next,
     return_head,
+    return_last,
 }
 
 export class Step {
@@ -95,7 +96,10 @@ export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: 
 
         if (left === 1) {
             steps.push(new Step(Action.start_reverse_n, [15], realHead, left, right, realSuccessor, undefined, realLast));
-            return reverseN(head, right, realHead);
+            const returned_last = reverseN(head, right, realHead);
+
+            steps.push(new Step(Action.return_last, [15], realHead, left, right, realSuccessor, undefined, realLast));
+            return returned_last;
         }
 
         if (head.next && realHead.next) {
