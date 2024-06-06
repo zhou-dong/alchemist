@@ -48,7 +48,9 @@ export class Step {
     }
 }
 
-export function buildSteps(listHead: LinkedListNode<number>, nums: number[], l: number, r: number): Step[] {
+export function buildSteps(listHead: LinkedListNode<number>, nums: number[]): Step[] {
+    const l: number = 1;
+    const r: number = 2;
     const steps: Step[] = [];
 
     let successor: ListNode<number> | undefined = undefined;
