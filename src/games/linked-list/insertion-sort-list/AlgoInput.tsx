@@ -44,7 +44,7 @@ const Submit: React.FC<{
     const array: number[] = list.split(",").map(num => +num);
     const disabled = !list || !list.length;
 
-    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setTail, setHead } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setHead } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -62,7 +62,6 @@ const Submit: React.FC<{
             const steps = buildSteps(head, array);
             await center(head, head.x, tail.x);
             setSteps(steps);
-            setTail(tail);
         }
 
         await safeRun(init, animate, cancelAnimate);
@@ -74,10 +73,6 @@ const Submit: React.FC<{
             <OutputIcon />
         </IconButton>
     );
-}
-
-const random = (max: number): number => {
-    return Math.floor(Math.random() * max);
 }
 
 const Main = ({ setAnchorEl }: Props) => {
