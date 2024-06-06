@@ -17,8 +17,6 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    tail?: LinkedListNode<number>,
-    setTail: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
     head?: LinkedListNode<number>,
     setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>
 }>({
@@ -33,7 +31,6 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     displayCode: true,
     setDisplayCode: () => { },
-    setTail: () => { },
     setHead: () => { }
 });
 
@@ -52,7 +49,6 @@ export const AlgoContextProvider: React.FC<{
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
     const [head, setHead] = React.useState<LinkedListNode<number>>();
-    const [tail, setTail] = React.useState<LinkedListNode<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -92,8 +88,6 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             displayCode,
             setDisplayCode,
-            tail,
-            setTail,
             head,
             setHead
         }}>
