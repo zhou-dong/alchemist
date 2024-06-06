@@ -59,7 +59,7 @@ const Submit: React.FC<{
             const head = await buildList(scene, array, x, y);
             setHead(head);
             const tail = getTail(head);
-            const steps = buildSteps(head, array, 1, 2);
+            const steps = buildSteps(head, array);
             await center(head, head.x, tail.x);
             setSteps(steps);
             setTail(tail);
