@@ -8,10 +8,28 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildLinkedListNode, buildList, center, getTail, linkLength, skinDummyColor } from "./styles";
+import { buildLinkedListNode, buildList, center, getTail, linkColor, linkLength, skinDummyColor } from "./styles";
 import { buildSteps } from './stepsBuilder';
 import InputIcon from '@mui/icons-material/Input';
 import { safeRun } from '../../commons/utils';
+import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
+import Position from '../../../data-structures/_commons/params/position.interface';
+import { SimpleLink } from '../../../data-structures/list/link.three';
+
+const buildLink = (scene: THREE.Scene, node: LinkedListNode<number | string>, next: LinkedListNode<number | string>): SimpleLink => {
+
+    const adjustSource = ({ x, y, z }: Position): Position => {
+        const width = node.width;
+        return { x: x + width / 2, y, z };
+    }
+
+    const adjustTarget = ({ x, y, z }: Position): Position => {
+        const width = next.width;
+        return { x: x - width / 2, y, z };
+    }
+
+    return new SimpleLink(node, adjustSource, next, adjustTarget, scene, linkColor);
+}
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
@@ -44,7 +62,7 @@ const Submit: React.FC<{
     const array: number[] = list.split(",").map(num => +num);
     const disabled = !list || !list.length;
 
-    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setHead } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setHead, setDummyHead } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -65,12 +83,17 @@ const Submit: React.FC<{
                 { x: -8, y: 7, z: 0 },
                 { x: -8.3, y: 6.8, z: 0 }
             );
+
+            const link = buildLink(scene, dummyHead, head);
+            dummyHead.linkToNext = link;
+
             dummyHead.nodeSkin.setColor(skinDummyColor);
             dummyHead.next = head;
 
+            setDummyHead(dummyHead);
             setHead(head);
             const tail = getTail(dummyHead);
-            const steps = buildSteps(head, array, dummyHead);
+            const steps = buildSteps(array);
             await center(dummyHead, dummyHead.x, tail.x);
             setSteps(steps);
         }
