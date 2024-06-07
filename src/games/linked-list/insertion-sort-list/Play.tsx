@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { styled } from '@mui/system';
 import CheckIcon from '@mui/icons-material/Check';
 import { Button } from "@mui/material";
@@ -50,6 +51,22 @@ const resetDummy = (node: LinkedListNode<number | string> | undefined) => {
     }
 }
 
+const appendLink = (
+    scene: THREE.Scene,
+    from: LinkedListNode<number | string> | undefined,
+    to: LinkedListNode<number | string> | undefined
+) => {
+    if (!from || !to) {
+        return;
+    }
+    if (!from.linkToNext) {
+        from.linkToNext = buildLink(scene, from, to);
+    }
+    from.linkToNext.target = to;
+    from.linkToNext.refresh();
+    from.linkToNext.show();
+}
+
 const Play = () => {
     const {
         animate,
@@ -77,6 +94,7 @@ const Play = () => {
         const { action } = step;
         resetListColor(dummyHead);
         resetDummy(dummyHead);
+        enableDummyColor(current);
 
         switch (action) {
             case Action.create_dummy_head: {
@@ -126,14 +144,7 @@ const Play = () => {
                     current.linkToNext = undefined;
                 }
 
-                if (current && nextNext) {
-                    if (!current.linkToNext) {
-                        current.linkToNext = buildLink(scene, current, nextNext);
-                    }
-                    current.linkToNext!.target = nextNext;
-                    current.linkToNext.refresh();
-                    current.linkToNext.show();
-                }
+                appendLink(scene, current, nextNext);
                 break;
             }
             case Action.define_prev: {
@@ -151,33 +162,22 @@ const Play = () => {
                 break;
             }
             case Action.temp_next_to_prev_next: {
+                enableColor(prev);
+                enableColor(temp);
                 if (temp) {
                     temp.next = prev?.next;
-
-                    if (prev?.next) {
-                        if (!temp.linkToNext) {
-                            temp.linkToNext = buildLink(scene, temp, prev.next);
-                        }
-                        temp.linkToNext!.target = prev.next;
-                        temp.linkToNext.refresh();
-                        temp.linkToNext.show();
-                    }
+                    appendLink(scene, temp, prev?.next);
                 }
                 break;
             }
             case Action.prev_next_to_temp: {
+                enableColor(prev);
+                enableColor(temp);
+
                 if (prev && temp) {
-
                     const next = prev.next;
-
                     prev.next = temp;
-
-                    if (!prev.linkToNext) {
-                        prev.linkToNext = buildLink(scene, prev, temp);
-                    }
-                    prev.linkToNext!.target = temp;
-                    prev.linkToNext.refresh();
-                    prev.linkToNext.show();
+                    appendLink(scene, prev, temp);
 
                     const nodes = [];
                     let start = temp.next;
@@ -188,7 +188,7 @@ const Play = () => {
 
                     const moves = nodes.map(node => {
                         const { x, y, z } = node;
-                        node.move({ x: x + linkLength, y, z }, duration, () => {
+                        return node.move({ x: x + linkLength, y, z }, duration, () => {
                             node.linkToNext?.refresh();
                         })
                     })
