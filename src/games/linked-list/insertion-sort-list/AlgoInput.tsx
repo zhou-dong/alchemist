@@ -16,7 +16,7 @@ import { LinkedListNode } from '../../../data-structures/list/linked-list/node.t
 import Position from '../../../data-structures/_commons/params/position.interface';
 import { SimpleLink } from '../../../data-structures/list/link.three';
 
-const buildLink = (scene: THREE.Scene, node: LinkedListNode<number | string>, next: LinkedListNode<number | string>): SimpleLink => {
+export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number | string>, next: LinkedListNode<number | string>): SimpleLink => {
 
     const adjustSource = ({ x, y, z }: Position): Position => {
         const width = node.width;

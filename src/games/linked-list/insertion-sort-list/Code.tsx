@@ -49,7 +49,7 @@ const Head = () => {
 
 const Body = () => {
     const { index, steps } = useAlgoContext();
-    const step = steps[index];
+    const step = steps[index - 1];
     const linesToHighlight = step?.linesToHighlight || [];
 
     return (

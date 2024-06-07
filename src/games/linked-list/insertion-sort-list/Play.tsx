@@ -4,29 +4,13 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { linkColor, skinDefaultColor, skinEnabledColor, radius, linkLength, duration } from './styles';
+import { skinDefaultColor, skinEnabledColor, radius, duration, skinDummyColor, linkLength } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
 import { Action, Step } from './stepsBuilder';
 import Code from "./Code";
 import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
-import Position from '../../../data-structures/_commons/params/position.interface';
-import { SimpleLink } from '../../../data-structures/list/link.three';
-
-export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number | string>, next: LinkedListNode<number | string>): SimpleLink => {
-
-    const adjustSource = ({ x, y, z }: Position): Position => {
-        const width = node.width;
-        return { x: x + width / 2, y, z };
-    }
-
-    const adjustTarget = ({ x, y, z }: Position): Position => {
-        const width = next.width;
-        return { x: x - width / 2, y, z };
-    }
-
-    return new SimpleLink(node, adjustSource, next, adjustTarget, scene, linkColor);
-}
+import { buildLink } from './AlgoInput';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -54,95 +38,177 @@ const enableColor = (node: LinkedListNode<number | string> | undefined) => {
     }
 }
 
+const enableDummyColor = (node: LinkedListNode<number | string> | undefined) => {
+    if (node) {
+        node.nodeSkin.color = skinDummyColor;
+    }
+}
+
+const resetDummy = (node: LinkedListNode<number | string> | undefined) => {
+    if (node) {
+        node.nodeSkin.color = skinDummyColor;
+    }
+}
+
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, head } = useAlgoContext();
+    const {
+        animate,
+        cancelAnimate,
+        state,
+        setState,
+        index,
+        steps,
+        setIndex,
+        displayCode,
+        scene,
+        head,
+        current,
+        dummyHead,
+        temp,
+        setTemp,
+        setCurrent,
+        prev,
+        setPrev,
+        nextNext,
+        setNextNext
+    } = useAlgoContext();
 
     const execute = async (step: Step) => {
         const { action } = step;
-        const current = head!;
-        resetListColor(head);
-        enableColor(current);
+        resetListColor(dummyHead);
+        resetDummy(dummyHead);
 
         switch (action) {
             case Action.create_dummy_head: {
-                const next = current.next;
+                dummyHead?.show();
+                break;
+            }
+            case Action.dummy_head_next_to_head: {
+                dummyHead?.linkToNext?.show();
+                break;
+            }
+            case Action.define_current: {
+                setCurrent(head);
+                enableColor(head);
+                break;
+            }
+            case Action.current_to_current_next: {
+                enableColor(current?.next);
+                setCurrent(current?.next);
+                break;
+            }
+            case Action.define_temp: {
+                setTemp(current?.next);
+                enableColor(current?.next);
+                const next = current?.next;
                 if (next) {
-                    if (!next.linkToNext) {
-                        next.linkToNext = buildLink(scene, next, current);
-                    }
-                    if (next.linkToNext) {
-                        next.linkToNext.source = next;
-                        next.linkToNext.target = current;
-
-                        next.linkToNext.setColor("lightblue");
-
-                        next.linkToNext.adjustSource = (p) => {
-                            const { x, y, z } = p;
-                            return { x: x - radius, y, z };
-                        }
-
-                        next.linkToNext.adjustTarget = (p) => {
-                            const { x, y, z } = p;
-                            return { x: x + radius, y, z };
-                        }
-                    }
-                    next.linkToNext?.show();
-                    next.linkToNext?.refresh();
-                    enableColor(current);
-                    enableColor(next);
-
-                    next.next = current;
-                }
-                break;
-            }
-            case Action.create_dummy_head: {
-                if (current.linkToNext) {
-                    current.linkToNext.source = current;
-
-                    current.linkToNext.setColor("lightblue");
-                }
-                current.linkToNext?.show();
-                current.linkToNext?.refresh();
-                enableColor(current);
-                break;
-            }
-            case Action.create_dummy_head: {
-                enableColor(current);
-                current.linkToNext?.hide();
-                break;
-            }
-            case Action.create_dummy_head: {
-                enableColor(current.next);
-                break;
-            }
-            case Action.create_dummy_head: {
-                let i = 0;
-                const { x, y, z } = current;
-                let node: LinkedListNode<number> | undefined;
-                const moves = [];
-                while (node) {
-                    const temp = node;
-                    const link = temp.linkToNext
-                    const mv = node.move({ x: x + i * linkLength, y, z }, duration, () => {
-                        if (link) {
-                            link.adjustSource = (p) => {
-                                const { x, y, z } = p;
-                                return { x: x + radius, y, z };
-                            }
-
-                            link.adjustTarget = (p) => {
-                                const { x, y, z } = p;
-                                return { x: x - radius, y, z };
-                            }
-                            temp.linkToNext?.refresh();
-                        }
+                    const { x, y, z } = next;
+                    await next.move({ x, y: y + radius * 2, z }, duration, () => {
+                        current.linkToNext?.refresh();
+                        next.linkToNext?.refresh();
                     })
-                    moves.push(mv);
-                    node = node.next;
-                    i++;
                 }
-                await Promise.all(moves);
+                break;
+            }
+            case Action.current_next_to_current_next_next: {
+                enableDummyColor(temp);
+                enableColor(current);
+                enableColor(current?.next?.next);
+                const nextNext = current?.next?.next;
+                setNextNext(nextNext);
 
+                if (current) {
+                    current.next = nextNext;
+                }
+
+                if (current && !nextNext) {
+                    current.linkToNext?.hide();
+                    current.linkToNext = undefined;
+                }
+
+                if (current && nextNext) {
+                    if (!current.linkToNext) {
+                        current.linkToNext = buildLink(scene, current, nextNext);
+                    }
+                    current.linkToNext!.target = nextNext;
+                    current.linkToNext.refresh();
+                    current.linkToNext.show();
+                }
+                break;
+            }
+            case Action.define_prev: {
+                enableDummyColor(temp);
+                enableDummyColor(current);
+                enableColor(dummyHead);
+                setPrev(dummyHead);
+                break;
+            }
+            case Action.prev_to_prev_next: {
+                enableDummyColor(temp);
+                enableDummyColor(current);
+                enableColor(prev?.next);
+                setPrev(prev?.next);
+                break;
+            }
+            case Action.temp_next_to_prev_next: {
+                if (temp) {
+                    temp.next = prev?.next;
+
+                    if (prev?.next) {
+                        if (!temp.linkToNext) {
+                            temp.linkToNext = buildLink(scene, temp, prev.next);
+                        }
+                        temp.linkToNext!.target = prev.next;
+                        temp.linkToNext.refresh();
+                        temp.linkToNext.show();
+                    }
+                }
+                break;
+            }
+            case Action.prev_next_to_temp: {
+                if (prev && temp) {
+
+                    const next = prev.next;
+
+                    prev.next = temp;
+
+                    if (!prev.linkToNext) {
+                        prev.linkToNext = buildLink(scene, prev, temp);
+                    }
+                    prev.linkToNext!.target = temp;
+                    prev.linkToNext.refresh();
+                    prev.linkToNext.show();
+
+                    const nodes = [];
+                    let start = temp.next;
+                    while (start && start !== nextNext) {
+                        nodes.push(start);
+                        start = start?.next
+                    }
+
+                    const moves = nodes.map(node => {
+                        const { x, y, z } = node;
+                        node.move({ x: x + linkLength, y, z }, duration, () => {
+                            node.linkToNext?.refresh();
+                        })
+                    })
+
+                    if (next) {
+                        const { x, y, z } = next;
+                        const move = temp.move({ x, y, z }, duration, () => {
+                            prev.linkToNext?.refresh();
+                            temp.linkToNext?.refresh();
+                        });
+
+                        await Promise.all([...moves, move]).then(() => { });
+                    }
+                }
+                break;
+            }
+            case Action.return_dummy_head_next: {
+                enableColor(dummyHead?.next);
+                dummyHead?.linkToNext?.hide();
+                dummyHead?.hide();
                 break;
             }
         }

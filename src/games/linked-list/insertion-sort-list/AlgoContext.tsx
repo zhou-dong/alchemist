@@ -26,7 +26,9 @@ const AlgoContext = React.createContext<{
     temp?: LinkedListNode<number | string>,
     setTemp: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
     prev?: LinkedListNode<number | string>,
-    setPrev: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>
+    setPrev: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
+    nextNext?: LinkedListNode<number | string>,
+    setNextNext: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -44,6 +46,7 @@ const AlgoContext = React.createContext<{
     setCurrent: () => { },
     setTemp: () => { },
     setPrev: () => { },
+    setNextNext: () => { }
 });
 
 let animationFrameId = -1;
@@ -66,6 +69,7 @@ export const AlgoContextProvider: React.FC<{
     const [current, setCurrent] = React.useState<LinkedListNode<number | string>>();
     const [temp, setTemp] = React.useState<LinkedListNode<number | string>>();
     const [prev, setPrev] = React.useState<LinkedListNode<number | string>>();
+    const [nextNext, setNextNext] = React.useState<LinkedListNode<number | string>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -114,7 +118,9 @@ export const AlgoContextProvider: React.FC<{
             temp,
             setTemp,
             prev,
-            setPrev
+            setPrev,
+            nextNext,
+            setNextNext
         }}>
             {children}
             <div ref={ref} />
