@@ -18,9 +18,15 @@ const AlgoContext = React.createContext<{
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
     head?: LinkedListNode<number | string>,
-    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>
+    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
     dummyHead?: LinkedListNode<number | string>,
-    setDummyHead: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>
+    setDummyHead: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
+    current?: LinkedListNode<number | string>,
+    setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
+    temp?: LinkedListNode<number | string>,
+    setTemp: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
+    prev?: LinkedListNode<number | string>,
+    setPrev: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -35,6 +41,9 @@ const AlgoContext = React.createContext<{
     setDisplayCode: () => { },
     setHead: () => { },
     setDummyHead: () => { },
+    setCurrent: () => { },
+    setTemp: () => { },
+    setPrev: () => { },
 });
 
 let animationFrameId = -1;
@@ -52,7 +61,11 @@ export const AlgoContextProvider: React.FC<{
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
     const [head, setHead] = React.useState<LinkedListNode<number | string>>();
+
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
+    const [current, setCurrent] = React.useState<LinkedListNode<number | string>>();
+    const [temp, setTemp] = React.useState<LinkedListNode<number | string>>();
+    const [prev, setPrev] = React.useState<LinkedListNode<number | string>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -95,7 +108,13 @@ export const AlgoContextProvider: React.FC<{
             head,
             setHead,
             dummyHead,
-            setDummyHead
+            setDummyHead,
+            current,
+            setCurrent,
+            temp,
+            setTemp,
+            prev,
+            setPrev
         }}>
             {children}
             <div ref={ref} />

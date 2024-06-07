@@ -58,7 +58,8 @@ const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, head } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, current } = step;
+        const { action } = step;
+        const current = head!;
         resetListColor(head);
         enableColor(current);
 
