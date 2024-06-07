@@ -8,7 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildList, center, getTail } from "./styles";
+import { buildLinkedListNode, buildList, center, getTail, linkLength, skinDummyColor } from "./styles";
 import { buildSteps } from './stepsBuilder';
 import InputIcon from '@mui/icons-material/Input';
 import { safeRun } from '../../commons/utils';
@@ -56,11 +56,22 @@ const Submit: React.FC<{
         const init = async () => {
             const x = -8;
             const y = 7;
-            const head = await buildList(scene, array, x, y);
+            const head = await buildList(scene, array, x + linkLength, y);
+
+            const dummyHead = buildLinkedListNode<string | number>(
+                scene,
+                "DummyHead",
+                "D",
+                { x: -8, y: 7, z: 0 },
+                { x: -8.3, y: 6.8, z: 0 }
+            );
+            dummyHead.nodeSkin.setColor(skinDummyColor);
+            dummyHead.next = head;
+
             setHead(head);
-            const tail = getTail(head);
+            const tail = getTail(dummyHead);
             const steps = buildSteps(head, array);
-            await center(head, head.x, tail.x);
+            await center(dummyHead, dummyHead.x, tail.x);
             setSteps(steps);
         }
 

@@ -13,7 +13,7 @@ import { safeRun } from '../../commons/utils';
 import Position from '../../../data-structures/_commons/params/position.interface';
 import { SimpleLink } from '../../../data-structures/list/link.three';
 
-export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number>, next: LinkedListNode<number>): SimpleLink => {
+export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number | string>, next: LinkedListNode<number | string>): SimpleLink => {
 
     const adjustSource = ({ x, y, z }: Position): Position => {
         const width = node.width;
@@ -38,9 +38,9 @@ const MainPosition = styled("div")({
     zIndex: 1
 });
 
-const resetListColor = (head: LinkedListNode<number> | undefined) => {
-    const set: Set<LinkedListNode<number>> = new Set();
-    let current: LinkedListNode<number> | undefined = head;
+const resetListColor = (head: LinkedListNode<number | string> | undefined) => {
+    const set: Set<LinkedListNode<number | string>> = new Set();
+    let current: LinkedListNode<number | string> | undefined = head;
     while (current && !set.has(current)) {
         set.add(current);
         current.nodeSkin.color = skinDefaultColor;
@@ -48,7 +48,7 @@ const resetListColor = (head: LinkedListNode<number> | undefined) => {
     }
 }
 
-const enableColor = (node: LinkedListNode<number> | undefined) => {
+const enableColor = (node: LinkedListNode<number | string> | undefined) => {
     if (node) {
         node.nodeSkin.color = skinEnabledColor;
     }
@@ -58,12 +58,12 @@ const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene, head } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, current, successor, last } = step;
+        const { action, current } = step;
         resetListColor(head);
         enableColor(current);
 
         switch (action) {
-            case Action.assign_next_next_to_this: {
+            case Action.create_dummy_head: {
                 const next = current.next;
                 if (next) {
                     if (!next.linkToNext) {
@@ -94,64 +94,54 @@ const Play = () => {
                 }
                 break;
             }
-            case Action.assign_next_to_successor: {
-                if (successor) {
-                    if (!current.linkToNext) {
-                        current.linkToNext = buildLink(scene, current, successor);
-                    }
-                    if (current.linkToNext) {
-                        current.linkToNext.source = current;
-                        current.linkToNext.target = successor;
-                        current.linkToNext.setColor("lightblue");
-                    }
-                    current.linkToNext?.show();
-                    current.linkToNext?.refresh();
-                    enableColor(current);
-                    enableColor(successor);
+            case Action.create_dummy_head: {
+                if (current.linkToNext) {
+                    current.linkToNext.source = current;
 
-                    current.next = successor;
+                    current.linkToNext.setColor("lightblue");
                 }
+                current.linkToNext?.show();
+                current.linkToNext?.refresh();
+                enableColor(current);
                 break;
             }
-            case Action.assign_last_reverse_n: {
+            case Action.create_dummy_head: {
                 enableColor(current);
                 current.linkToNext?.hide();
                 break;
             }
-            case Action.assign_successor: {
+            case Action.create_dummy_head: {
                 enableColor(current.next);
-                enableColor(successor);
                 break;
             }
-            case Action.return_last: {
-                if (last) {
-                    let i = 0;
-                    const { x, y, z } = current;
-                    let node: LinkedListNode<number> | undefined = last;
-                    const moves = [];
-                    while (node && node !== successor) {
-                        const temp = node;
-                        const link = temp.linkToNext
-                        const mv = node.move({ x: x + i * linkLength, y, z }, duration, () => {
-                            if (link) {
-                                link.adjustSource = (p) => {
-                                    const { x, y, z } = p;
-                                    return { x: x + radius, y, z };
-                                }
-
-                                link.adjustTarget = (p) => {
-                                    const { x, y, z } = p;
-                                    return { x: x - radius, y, z };
-                                }
-                                temp.linkToNext?.refresh();
+            case Action.create_dummy_head: {
+                let i = 0;
+                const { x, y, z } = current;
+                let node: LinkedListNode<number> | undefined;
+                const moves = [];
+                while (node) {
+                    const temp = node;
+                    const link = temp.linkToNext
+                    const mv = node.move({ x: x + i * linkLength, y, z }, duration, () => {
+                        if (link) {
+                            link.adjustSource = (p) => {
+                                const { x, y, z } = p;
+                                return { x: x + radius, y, z };
                             }
-                        })
-                        moves.push(mv);
-                        node = node.next;
-                        i++;
-                    }
-                    await Promise.all(moves);
+
+                            link.adjustTarget = (p) => {
+                                const { x, y, z } = p;
+                                return { x: x - radius, y, z };
+                            }
+                            temp.linkToNext?.refresh();
+                        }
+                    })
+                    moves.push(mv);
+                    node = node.next;
+                    i++;
                 }
+                await Promise.all(moves);
+
                 break;
             }
         }

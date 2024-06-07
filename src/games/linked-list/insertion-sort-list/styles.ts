@@ -52,18 +52,18 @@ const buildText = (scene: THREE.Scene, text: string, position: Position) => {
 const buildHead = (scene: THREE.Scene, num: number, x: number, y: number): LinkedListNode<number> => {
     const textX = ((num + "").length === 1) ? -0.3 : -0.5;
     const textY = y - 0.2;
-    return buildLinkedListNode(scene, num, num + "", { x, y, z: 0 }, { x: x + textX, y: textY, z: 0 })
+    return buildLinkedListNode<number>(scene, num, num + "", { x, y, z: 0 }, { x: x + textX, y: textY, z: 0 })
 }
 
 const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
     const textX = ((i + "").length === 1) ? -0.3 : -0.5;
     const textY = -0.2;
-    return buildLinkedListNode(scene, i, i + "", { x: 0, y: 0, z: 0 }, { x: textX, y: textY, z: 0 })
+    return buildLinkedListNode<number>(scene, i, i + "", { x: 0, y: 0, z: 0 }, { x: textX, y: textY, z: 0 })
 }
 
-export const buildLinkedListNode = (
+export const buildLinkedListNode = <T>(
     scene: THREE.Scene,
-    value: number,
+    value: T,
     text: string,
     skinPosition: Position,
     textPosition: Position
@@ -72,7 +72,7 @@ export const buildLinkedListNode = (
     const nodeSkin = buildSkin(scene, skinPosition);
     const nodeText = buildText(scene, text, textPosition);
 
-    return new LinkedListNode<number>(value, nodeSkin, nodeText);
+    return new LinkedListNode<T>(value, nodeSkin, nodeText);
 }
 
 export const buildList = async (
@@ -80,8 +80,8 @@ export const buildList = async (
     array: number[],
     x: number,
     y: number
-): Promise<LinkedListNode<number>> => {
-    const list = new LinkedList<number>(scene, duration, linkColor, linkLength);
+): Promise<LinkedListNode<number | string>> => {
+    const list = new LinkedList<number | string>(scene, duration, linkColor, linkLength);
     const head = buildHead(scene, array[0], x, y);
     await list.push(head);
     for (let i = 1; i < array.length; i++) {
@@ -90,9 +90,9 @@ export const buildList = async (
     return head;
 }
 
-export const center = (head: LinkedListNode<number> | undefined, min: number, max: number): Promise<any> => {
-    let current: LinkedListNode<number> | undefined = head;
-    const nodes: LinkedListNode<number>[] = [];
+export const center = (head: LinkedListNode<number | string> | undefined, min: number, max: number): Promise<any> => {
+    let current: LinkedListNode<number | string> | undefined = head;
+    const nodes: LinkedListNode<number | string>[] = [];
 
     while (current) {
         nodes.push(current);
@@ -110,8 +110,8 @@ export const center = (head: LinkedListNode<number> | undefined, min: number, ma
     return Promise.all(promises);
 }
 
-export const getTail = (head: LinkedListNode<number>): LinkedListNode<number> => {
-    let current: LinkedListNode<number> = head;
+export const getTail = (head: LinkedListNode<number | string>): LinkedListNode<number | string> => {
+    let current: LinkedListNode<number | string> = head;
     while (current.next) {
         current = current.next;
     }
