@@ -1,6 +1,5 @@
 import { ListNode } from "../_commons/listNode";
 import { build } from "../_commons/listBuilder";
-import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 export enum Action {
     create_dummy_head,
@@ -42,11 +41,11 @@ export class Step {
     }
 }
 
-export function buildSteps(listHead: LinkedListNode<number | string>, nums: number[], realDummyHead: LinkedListNode<number | string>): Step[] {
+export function buildSteps(nums: number[]): Step[] {
 
     const steps: Step[] = [];
 
-    function insertionSortList(head: ListNode<number>, realHead: LinkedListNode<number | string>): ListNode<number> | undefined {
+    function insertionSortList(head: ListNode<number>): ListNode<number> | undefined {
         const dummyHead = new ListNode<number>(0);
         steps.push(new Step(Action.create_dummy_head))
 
@@ -54,14 +53,12 @@ export function buildSteps(listHead: LinkedListNode<number | string>, nums: numb
         steps.push(new Step(Action.dummy_head_next_to_head));
 
         let curr = head;
-        let current = realHead;
         steps.push(new Step(Action.define_current));
 
         while (curr && curr.next) {
             if (curr.val <= curr.next.val) {
-                current = current.next!;
-                steps.push(new Step(Action.current_to_current_next));
                 curr = curr.next;
+                steps.push(new Step(Action.current_to_current_next));
             } else {
 
                 let temp = curr.next;
@@ -70,11 +67,9 @@ export function buildSteps(listHead: LinkedListNode<number | string>, nums: numb
                 steps.push(new Step(Action.current_next_to_current_next_next));
 
                 let prev = dummyHead;
-                let realPrev = realDummyHead;
                 steps.push(new Step(Action.define_prev));
                 while (prev.next && (prev.next.val <= temp.val)) {
                     prev = prev.next;
-                    realPrev = realPrev.next!;
                     steps.push(new Step(Action.prev_to_prev_next));
                 }
 
@@ -92,7 +87,7 @@ export function buildSteps(listHead: LinkedListNode<number | string>, nums: numb
 
     const head = build(nums);
     if (head) {
-        insertionSortList(head, listHead);
+        insertionSortList(head);
     }
 
     return steps;
