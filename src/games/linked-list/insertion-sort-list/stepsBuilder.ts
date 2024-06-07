@@ -65,7 +65,6 @@ export function buildSteps(listHead: LinkedListNode<number | string>, nums: numb
             } else {
 
                 let temp = curr.next;
-                let realTemp = current.next;
                 steps.push(new Step(Action.define_temp));
                 curr.next = curr.next.next;
                 steps.push(new Step(Action.current_next_to_current_next_next));
