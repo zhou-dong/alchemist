@@ -2,44 +2,24 @@ import * as React from 'react';
 import OutputIcon from '@mui/icons-material/Output';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
-import { Stack, TextField } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from '../AlgoState';
 import { clearScene } from "../../../../commons/three";
-import { buildLinkedListNode, buildList, skinPostOrderColor } from '../styles';
+import { buildLink, buildLinkedListNode, buildList, center, getTail, linkLength, skinDummyColor } from "../styles";
+import InputIcon from '@mui/icons-material/Input';
+import { Divider, InputBase } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import { safeRun } from '../../../commons/utils';
+import { buildSteps } from './stepsBuilder';
 
-const buildTwoArraies = () => {
-
-    const max = 20;
-    const arrayLength = 6;
-
-    const pool: number[] = [];
-    for (let i = 0; i < max; i++) {
-        pool.push(i);
+const buildRandomList = (length: number, max: number): number[] => {
+    const list: number[] = [];
+    for (let i = 0; i < length; i++) {
+        const random = Math.floor(Math.random() * max) + 1;
+        list.push(random);
     }
-
-    const first: number[] = [];
-    const second: number[] = [];
-
-    for (let i = 0; i < arrayLength; i++) {
-        const randomIndex = Math.floor(Math.random() * pool.length);
-        const selectedNumber = pool[randomIndex];
-        first.push(selectedNumber);
-        pool.splice(randomIndex, 1);
-    }
-
-    for (let i = 0; i < arrayLength; i++) {
-        const randomIndex = Math.floor(Math.random() * pool.length);
-        const selectedNumber = pool[randomIndex];
-        second.push(selectedNumber);
-        pool.splice(randomIndex, 1);
-    }
-
-    first.sort((a, b) => a - b);
-    second.sort((a, b) => a - b);
-
-    return [first, second];
+    return list;
 }
 
 interface Props {
@@ -47,43 +27,49 @@ interface Props {
 }
 
 const Submit: React.FC<{
-    nums1: string,
-    nums2: string,
+    list: string,
+    num: number,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ nums1, nums2, setAnchorEl }) => {
+}> = ({ list, num, setAnchorEl }) => {
 
-    const first: number[] = nums1.split(",").map(num => +num);
-    const second: number[] = nums2.split(",").map(num => +num);
+    const array: number[] = list.split(",").map(num => +num);
+    const disabled = !list || !list.length || num < 1;
 
-    const disabled = !nums1 || !nums2 || first.length === 0 || second.length === 0;
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setHead, setDummyHead } = useAlgoContext();
 
-    const { setState, animate, cancelAnimate, scene, setNode1, setNode2, setCurrent, setLinesToHighlight } = useAlgoContext();
+    const init = async () => {
+        const x = -8;
+        const y = 7;
+        const head = await buildList(scene, array, x + linkLength, y);
+
+        const dummyHead = buildLinkedListNode(
+            scene,
+            -1,
+            "D",
+            { x: x, y: 7, z: 0 },
+            { x: x - 0.3, y: y - 0.2, z: 0 }
+        );
+
+        dummyHead.linkToNext = buildLink(scene, dummyHead, head);
+        dummyHead.nodeSkin.setColor(skinDummyColor);
+        dummyHead.next = head;
+
+        setDummyHead(dummyHead);
+        setHead(head);
+
+        const tail = getTail(dummyHead);
+        await center(dummyHead, dummyHead.x, tail.x);
+
+        const steps = buildSteps(array);
+        setSteps(steps);
+    }
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-
-        try {
-            animate();
-
-            setLinesToHighlight([3]);
-
-            const current = buildLinkedListNode(scene, -1, "D", { x: -11, y: 7, z: 0 }, { x: -11.4, y: 7, z: 0 });
-            current.show();
-            current.nodeSkin.color = skinPostOrderColor;
-            setCurrent(current);
-
-            const head1 = await buildList(scene, first, 8, 7);
-            const head2 = await buildList(scene, second, 8, 7);
-            setNode1(head1);
-            setNode2(head2);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            cancelAnimate();
-        }
-
+        setIndex(0);
+        await safeRun(init, animate, cancelAnimate);
         setState(State.Playing);
     }
 
@@ -94,24 +80,35 @@ const Submit: React.FC<{
     );
 }
 
+const random = (max: number): number => {
+    return Math.floor(Math.random() * max);
+}
 
 const Main = ({ setAnchorEl }: Props) => {
+    const max = 20;
 
-    const [nums1, setNums1] = React.useState("");
-    const [nums2, setNums2] = React.useState("");
+    const length = () => Math.random() > 0.5 ? 9 : 8;
 
-    const handleNums1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNums1(e.currentTarget.value);
+    const [list, setList] = React.useState(() => buildRandomList(length(), max).join(","));
+    const [num, setNum] = React.useState(() => random(19) + 1);
+
+    const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setList(e.currentTarget.value);
     }
 
-    const handleNums2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNums2(e.currentTarget.value);
+    const handleNumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNum(+e.currentTarget.value);
     }
 
     const handleFresh = () => {
-        const [first, second] = buildTwoArraies();
-        setNums1(() => first.join(","));
-        setNums2(() => second.join(","));
+        const list = buildRandomList(length(), max);
+        setList(() => list.join(","));
+        setNum(() => random(19) + 1);
+    }
+
+    const handleClear = () => {
+        setList("");
+        setNum(0);
     }
 
     return (
@@ -121,23 +118,50 @@ const Main = ({ setAnchorEl }: Props) => {
             sx={{
                 p: '2px 4px',
                 display: 'flex',
-                width: 300,
+                width: 420,
                 alignItems: "center"
             }}
         >
-            <Stack sx={{ width: "100%", padding: 2 }} direction="column">
-                <TextField fullWidth label='List1, seprate by ","' variant="standard" value={nums1} onChange={handleNums1Change} />
-                <TextField fullWidth label='List2, seprate by ","' variant="standard" value={nums2} onChange={handleNums2Change} />
-                <Stack direction="row" justifyContent="end">
-                    <IconButton type="button" sx={{ p: '10px' }} aria-label="clear" onClick={handleFresh}>
-                        <RefreshIcon />
-                    </IconButton>
-                    <Submit nums1={nums1} nums2={nums2} setAnchorEl={setAnchorEl} />
-                </Stack>
-            </Stack>
+            <IconButton sx={{ p: '10px' }} aria-label="menu">
+                <InputIcon />
+            </IconButton>
+
+            <InputBase
+                sx={{ ml: 1, flex: 1, }}
+                placeholder='list, seprate by ","'
+                value={list}
+                onChange={handleListChange}
+            />
+
+            <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
+
+            <InputBase
+                sx={{ width: 35 }}
+                placeholder='num'
+                value={num}
+                onChange={handleNumChange}
+                type="number"
+            />
+
+            <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
+
+            <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={handleFresh}>
+                <RefreshIcon />
+            </IconButton>
+
+            <IconButton
+                type="button"
+                sx={{ p: '10px' }}
+                aria-label="clear"
+                disabled={!list.length}
+                onClick={handleClear}
+            >
+                <ClearIcon />
+            </IconButton>
+
+            <Submit list={list} num={num} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
-
 
 export default Main;
