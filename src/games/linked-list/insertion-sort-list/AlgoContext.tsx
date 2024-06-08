@@ -63,8 +63,8 @@ export const AlgoContextProvider: React.FC<{
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
-    const [head, setHead] = React.useState<LinkedListNode<number | string>>();
 
+    const [head, setHead] = React.useState<LinkedListNode<number | string>>();
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
     const [current, setCurrent] = React.useState<LinkedListNode<number | string>>();
     const [temp, setTemp] = React.useState<LinkedListNode<number | string>>();
