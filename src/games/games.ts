@@ -117,6 +117,7 @@ import PartitionList from "./linked-list/partition-list/info";
 import ReverseLinkedList from "./linked-list/reverse-linked-list/info";
 import ReverseLinkedListII from "./linked-list/reverse-linked-list-ii/info";
 import InsertionSortList from "./linked-list/insertion-sort-list/info";
+import RemoveLinkedListElements from "./linked-list/remove-linked-list-elements/info";
 
 export const games: Game[] = [
     editDistance,
@@ -235,5 +236,6 @@ export const games: Game[] = [
     PartitionList,
     ReverseLinkedList,
     ReverseLinkedListII,
-    InsertionSortList
+    InsertionSortList,
+    RemoveLinkedListElements
 ];
