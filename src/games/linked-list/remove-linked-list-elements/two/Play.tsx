@@ -75,7 +75,7 @@ const Play = () => {
 
                 if (next) {
                     const { x, y, z } = next;
-                    await next.move({ x, y: y + 2 * radius, z }, duration, () => {
+                    await next.move({ x, y: y - 2 * radius, z }, duration, () => {
                         current.linkToNext?.refresh();
                         next.linkToNext?.refresh();
                     })
