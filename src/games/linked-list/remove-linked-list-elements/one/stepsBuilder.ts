@@ -1,30 +1,21 @@
+import { ListNode } from "../../_commons/listNode";
+import { build } from "../../_commons/listBuilder";
+
 export enum Action {
-    create_dummy_head,
-    dummy_head_next_to_head,
-    define_current,
-    current_to_current_next,
-    define_temp,
-    current_next_to_current_next_next,
-    define_prev,
-    prev_to_prev_next,
-    temp_next_to_prev_next,
-    prev_next_to_temp,
-    return_dummy_head_next,
+    return_null,
+    found_next,
+    head_next_to_next,
+    return_head_next,
+    return_head,
 }
 
 const getlinesToHighlight = (action: Action): number[] => {
     switch (action) {
-        case Action.create_dummy_head: return [2];
-        case Action.dummy_head_next_to_head: return [3];
-        case Action.define_current: return [5];
-        case Action.current_to_current_next: return [8];
-        case Action.define_temp: return [10];
-        case Action.current_next_to_current_next_next: return [11];
-        case Action.define_prev: return [13];
-        case Action.prev_to_prev_next: return [15];
-        case Action.temp_next_to_prev_next: return [18];
-        case Action.prev_next_to_temp: return [19];
-        case Action.return_dummy_head_next: return [23];
+        case Action.return_null: return [3];
+        case Action.found_next: return [5];
+        case Action.head_next_to_next: return [5];
+        case Action.return_head_next: return [6];
+        case Action.return_head: return [6];
     }
 }
 
@@ -38,11 +29,34 @@ export class Step {
     }
 }
 
-export const buildSteps = (nums: number[]): Step[] => {
+export const buildSteps = (nums: number[], val: number): Step[] => {
     const steps: Step[] = [];
 
+    function removeElements(head: ListNode<number> | undefined, val: number): ListNode<number> | undefined {
+        if (head === undefined) {
+            steps.push(new Step(Action.return_null));
+            return head;
+        }
 
+        const next = removeElements(head.next, val);
+        steps.push(new Step(Action.found_next));
 
+        head.next = next;
+        steps.push(new Step(Action.head_next_to_next));
+
+        if (head.val === val) {
+            steps.push(new Step(Action.return_head_next));
+            return head.next;
+        } else {
+            steps.push(new Step(Action.return_head));
+            return head;
+        }
+    };
+
+    const head = build(nums);
+    if (head) {
+        removeElements(head, val);
+    }
 
     return steps;
 }
