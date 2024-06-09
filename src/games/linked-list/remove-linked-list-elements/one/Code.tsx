@@ -57,7 +57,7 @@ const CallStack = () => {
         const step = steps[i];
         if (step) {
             const { order, action, num, head } = step;
-            const headVal = (head === undefined) ? "null" : head + "";
+            const headVal = (head === undefined) ? "null" : head.data + "";
             if (order === Order.PreOrder) {
                 const spaces = Array(callStack.length).fill(nbsp + nbsp).join("");
                 callStack.push([spaces, `removeElements(${headVal}, ${num})`]);
