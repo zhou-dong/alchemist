@@ -1,5 +1,6 @@
 import { ListNode } from "../../_commons/listNode";
 import { build } from "../../_commons/listBuilder";
+import { LinkedListNode } from "../../../../data-structures/list/linked-list/node.three";
 
 export enum Action {
     return_null,
@@ -30,9 +31,9 @@ export class Step {
     linesToHighlight: number[];
     order: Order;
     num: number;
-    head?: number;
+    head?: LinkedListNode<number>;
 
-    constructor(action: Action, order: Order, num: number, head?: number) {
+    constructor(action: Action, order: Order, num: number, head?: LinkedListNode<number>) {
         this.action = action;
         this.linesToHighlight = getlinesToHighlight(action);
         this.order = order;
@@ -41,36 +42,36 @@ export class Step {
     }
 }
 
-export const buildSteps = (nums: number[], val: number): Step[] => {
+export const buildSteps = (listHead: LinkedListNode<number>, nums: number[], val: number): Step[] => {
     const steps: Step[] = [];
 
-    function removeElements(head: ListNode<number> | undefined, val: number): ListNode<number> | undefined {
+    function removeElements(realHead: LinkedListNode<number> | undefined, head: ListNode<number> | undefined, val: number): ListNode<number> | undefined {
 
-        steps.push(new Step(Action.recursive, Order.PreOrder, val, head?.val));
+        steps.push(new Step(Action.recursive, Order.PreOrder, val, realHead));
 
         if (head === undefined) {
             steps.push(new Step(Action.return_null, Order.PostOrder, val, undefined));
             return head;
         }
 
-        const next = removeElements(head.next, val);
-        steps.push(new Step(Action.found_next, Order.PostOrder, val, head.val));
+        const next = removeElements(realHead?.next, head.next, val);
+        steps.push(new Step(Action.found_next, Order.PostOrder, val, realHead));
 
         head.next = next;
-        steps.push(new Step(Action.head_next_to_next, Order.PostOrder, val, head.val));
+        steps.push(new Step(Action.head_next_to_next, Order.PostOrder, val, realHead));
 
         if (head.val === val) {
-            steps.push(new Step(Action.return_head_next, Order.PostOrder, val, head.val));
+            steps.push(new Step(Action.return_head_next, Order.PostOrder, val, realHead));
             return head.next;
         } else {
-            steps.push(new Step(Action.return_head, Order.PostOrder, val, head.val));
+            steps.push(new Step(Action.return_head, Order.PostOrder, val, realHead));
             return head;
         }
     };
 
     const head = build(nums);
     if (head) {
-        removeElements(head, val);
+        removeElements(listHead, head, val);
     }
 
     return steps;
