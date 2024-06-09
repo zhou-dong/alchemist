@@ -3,11 +3,11 @@ import LoopIcon from '@mui/icons-material/Loop';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
-import { Order } from './algo';
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
+import { Action, Order } from './stepsBuilder';
 
 const formula = `function removeElements(head: ListNode | null, val: number): ListNode | null {
     if (head === null) {
@@ -18,11 +18,9 @@ const formula = `function removeElements(head: ListNode | null, val: number): Li
 };`;
 
 const Code = () => {
-    // const { index, actions } = useAlgoContext();
-    // const action = actions[index - 1];
-    // const linesToHighlight: number[] = action ? action.linesToHighlight : [];
-    const linesToHighlight: number[] = [];
-
+    const { index, steps } = useAlgoContext();
+    const step = steps[index - 1];
+    const linesToHighlight: number[] = step ? step.linesToHighlight : [];
     return (
         <CodeBlock
             code={formula}
@@ -51,22 +49,25 @@ const Head = () => (
 );
 
 const CallStack = () => {
-    // const nbsp = "\u00A0";
-    // const { index, actions } = useAlgoContext();
+    const nbsp = "\u00A0";
+    const { index, steps } = useAlgoContext();
 
-    // const callStack: string[][] = [];
-    // for (let i = 0; i < index; i++) {
-    //     const act = actions[i];
-    //     if (act) {
-    //         const { order, node1, node2 } = act;
-    //         if (order === Order.PreOrder) {
-    //             const spaces = Array(callStack.length).fill(nbsp + nbsp).join("");
-    //             callStack.push([spaces, `mergeTwoLists(${node1?.data}, ${node2?.data})`]);
-    //         } else {
-    //             callStack.pop();
-    //         }
-    //     }
-    // }
+    const callStack: string[][] = [];
+    for (let i = 0; i < index; i++) {
+        const step = steps[i];
+        if (step) {
+            const { order, action, num, head } = step;
+            const headVal = (head === undefined) ? "null" : head + "";
+            if (order === Order.PreOrder) {
+                const spaces = Array(callStack.length).fill(nbsp + nbsp).join("");
+                callStack.push([spaces, `removeElements(${headVal}, ${num})`]);
+            } else {
+                if (action === Action.return_null || action === Action.return_head || action === Action.return_head_next) {
+                    callStack.pop();
+                }
+            }
+        }
+    }
 
     return (
         <List>
@@ -77,7 +78,7 @@ const CallStack = () => {
                 <ListItemText primary="Call Stack" />
             </ListItem>
             <Divider variant='middle' sx={{ marginBottom: 1 }} />
-            {/* {
+            {
                 callStack.map((m, i) =>
                     <ListItem key={i} sx={{ paddingTop: 0, paddingBottom: 0 }}>
                         {m[0]}
@@ -87,7 +88,7 @@ const CallStack = () => {
                         <ListItemText primary={m[1]} />
                     </ListItem>
                 )
-            } */}
+            }
         </List>
     );
 };
