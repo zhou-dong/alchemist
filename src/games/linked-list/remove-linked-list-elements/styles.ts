@@ -5,7 +5,7 @@ import Position from "../../../data-structures/_commons/params/position.interfac
 import { LinkedList } from "../../../data-structures/list/linked-list/list.three";
 import { SimpleLink } from "../../../data-structures/list/link.three";
 
-export const linkColor = "gold";
+const linkColor = "gold";
 export const skinDefaultColor = "yellow";
 export const skinPreOrderColor = "orange";
 export const skinPostOrderColor = "lightgreen";
