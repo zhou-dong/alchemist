@@ -118,6 +118,7 @@ import ReverseLinkedList from "./linked-list/reverse-linked-list/info";
 import ReverseLinkedListII from "./linked-list/reverse-linked-list-ii/info";
 import InsertionSortList from "./linked-list/insertion-sort-list/info";
 import RemoveLinkedListElements from "./linked-list/remove-linked-list-elements/info";
+import IntersectionOfTwoLinkedLists from "./linked-list/intersection-of-two-linked-lists/info";
 
 export const games: Game[] = [
     editDistance,
@@ -237,5 +238,6 @@ export const games: Game[] = [
     ReverseLinkedList,
     ReverseLinkedListII,
     InsertionSortList,
-    RemoveLinkedListElements
+    RemoveLinkedListElements,
+    IntersectionOfTwoLinkedLists
 ];
