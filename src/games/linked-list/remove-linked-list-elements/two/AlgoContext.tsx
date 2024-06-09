@@ -21,6 +21,8 @@ const AlgoContext = React.createContext<{
     setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
     dummyHead?: LinkedListNode<number>,
     setDummyHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
+    current?: LinkedListNode<number>,
+    setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -35,6 +37,7 @@ const AlgoContext = React.createContext<{
     setDisplayCode: () => { },
     setHead: () => { },
     setDummyHead: () => { },
+    setCurrent: () => { },
 });
 
 let animationFrameId = -1;
@@ -53,6 +56,7 @@ export const AlgoContextProvider: React.FC<{
     const [displayCode, setDisplayCode] = React.useState(true);
     const [head, setHead] = React.useState<LinkedListNode<number>>();
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number>>();
+    const [current, setCurrent] = React.useState<LinkedListNode<number>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -96,6 +100,8 @@ export const AlgoContextProvider: React.FC<{
             setHead,
             dummyHead,
             setDummyHead,
+            current,
+            setCurrent
         }}>
             {children}
             <div ref={ref} />

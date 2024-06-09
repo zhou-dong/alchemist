@@ -6,9 +6,12 @@ import { useAlgoContext } from "./AlgoContext";
 import { State } from "../AlgoState";
 import { wait } from '../../../../data-structures/_commons/utils';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
-import { linkColor, skinPostOrderColor } from '../styles';
+import { linkColor, skinDefaultColor, skinDummyColor, skinEnabledColor, skinPostOrderColor } from '../styles';
 import Position from '../../../../data-structures/_commons/params/position.interface';
 import Code from './Code';
+import { safeRun } from '../../../commons/utils';
+import { Action, Step } from './stepsBuilder';
+import { LinkedListNode } from '../../../../data-structures/list/linked-list/node.three';
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -20,86 +23,116 @@ const MainPosition = styled("div")({
     zIndex: 1
 });
 
+const resetListColor = (head: LinkedListNode<number> | undefined) => {
+    const set: Set<LinkedListNode<number>> = new Set();
+    let current: LinkedListNode<number> | undefined = head;
+    while (current && !set.has(current)) {
+        set.add(current);
+        current.nodeSkin.color = skinDefaultColor;
+        current = current.next
+    }
+}
+
+const enableColor = (node: LinkedListNode<number> | undefined) => {
+    if (node) {
+        node.nodeSkin.color = skinEnabledColor;
+    }
+}
+
+const enableDummyColor = (node: LinkedListNode<number> | undefined) => {
+    if (node) {
+        node.nodeSkin.color = skinDummyColor;
+    }
+}
+
 const Play = () => {
-    const { scene, state, setState, node1, setNode1, setNode2, node2, current, setCurrent, setLinesToHighlight, animate, cancelAnimate, displayCode } = useAlgoContext();
+    const { state, setState, animate, cancelAnimate, displayCode, index, steps, setIndex, dummyHead, head, current, setCurrent } = useAlgoContext();
 
     const disabled: boolean = state !== State.Playing;
 
-    const handleMerge = async () => {
+    const execute = async ({ action }: Step) => {
+        resetListColor(dummyHead?.next);
+        enableDummyColor(dummyHead);
 
-        if (!node1 && !node2) {
-            setState(State.Finished);
-            return;
+        switch (action) {
+            case Action.create_dummy_head: {
+                dummyHead?.show();
+                break;
+            };
+            case Action.dummy_head_next_to_head: {
+                dummyHead?.linkToNext?.show();
+                break;
+            };
+            case Action.define_current: {
+                enableColor(dummyHead);
+                setCurrent(dummyHead);
+                break;
+            };
+            case Action.current_next_to_current_next_next: {
+                enableColor(current);
+                enableColor(current?.next?.next);
+                current?.next?.hide();
+                current?.next?.linkToNext?.hide();
+                const nextNext = current?.next?.next;
+                if (!nextNext) {
+                    current?.linkToNext?.hide();
+                } else {
+                    if (current.linkToNext) {
+                        current.linkToNext.target = nextNext;
+                        current.linkToNext.refresh();
+                    }
+                }
+
+                if (current) {
+                    current.next = nextNext;
+                }
+                break;
+            };
+            case Action.current_to_current_next: {
+                enableColor(current?.next);
+                setCurrent(current?.next);
+                break;
+            };
+            case Action.return_dummy_head_next: {
+                enableColor(dummyHead?.next);
+                dummyHead?.linkToNext?.hide();
+                dummyHead?.hide();
+                break;
+            };
         }
+    }
 
-        if (node1 && node2) {
-            if (node1.data < node2.data) {
-                current.next = node1;
-                setNode1(node1.next);
+    const handleNextClick = async () => {
+        setState(State.Typing);
 
-                setLinesToHighlight([7]);
-            } else {
-                current.next = node2;
-                setNode2(node2.next);
+        const step = steps[index];
 
-                setLinesToHighlight([10]);
-            }
-            if (current && current.next) {
-                setCurrent(current.next);
-            }
+        if (!step) return;
+
+        await safeRun(() => execute(step), animate, cancelAnimate);
+        await safeRun(() => wait(0.1), animate, cancelAnimate);
+
+        const last = steps[steps.length - 1];
+        if (step === last) {
+            setState(State.Finished);
         } else {
-            current.next = !node1 ? node2 : node1;
-
-            setLinesToHighlight([16]);
-            setState(State.Finished);
+            setState(State.Playing);
         }
 
-        if (current && current.next) {
-            if (!current.linkToNext) {
-                const adjustSource = ({ x, y, z }: Position): Position => {
-                    const width = current.width;
-                    return { x: x + width / 2, y, z };
-                }
-
-                const adjustTarget = ({ x, y, z }: Position): Position => {
-                    const width = current.next?.width || 0;
-                    return { x: x - width / 2, y, z };
-                }
-                current.linkToNext = new SimpleLink(current, adjustSource, current.next, adjustTarget, scene, linkColor);
-                current.linkToNext.show();
-            } else {
-                current.linkToNext.target = current.next;
-                current.linkToNext.refresh();
-            }
-
-            current.next.nodeSkin.color = skinPostOrderColor;
-        }
-
-        if (!current.next) {
-            setState(State.Finished);
-        }
-
-        try {
-            animate();
-            await wait(0.1);
-        } catch (error) {
-            console.log(error);
-        } finally {
-            cancelAnimate();
-        }
+        setIndex(i => i + 1);
     }
 
     return (
         <>
             <MainPosition>
                 <Button
-                    onClick={handleMerge}
+                    onClick={handleNextClick}
                     startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />}
                     disabled={disabled}
                     size='large'
                     sx={{ zIndex: 1 }}
                 >
-                    merge
+                    Next
                 </Button>
             </MainPosition>
             {displayCode && <Code />}
