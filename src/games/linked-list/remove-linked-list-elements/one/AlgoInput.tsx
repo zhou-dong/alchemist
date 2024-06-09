@@ -14,22 +14,12 @@ import { safeRun } from '../../../commons/utils';
 import { buildSteps } from './stepsBuilder';
 
 const buildRandomList = (length: number, max: number): number[] => {
-    const pool: number[] = [];
-    for (let i = 0; i < max; i++) {
-        pool.push(i);
-    }
-
     const list: number[] = [];
     for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * pool.length);
-        const selectedNumber = pool[randomIndex];
-        list.push(selectedNumber);
-        pool.splice(randomIndex, 1);
+        const random = Math.floor(Math.random() * max) + 1;
+        list.push(random);
     }
-
-    const result = list.map(n => n + 1);
-    result.sort((a, b) => a - b);
-    return result;
+    return list;
 }
 
 interface Props {
@@ -44,7 +34,6 @@ const Submit: React.FC<{
 
     const array: number[] = list.split(",").map(num => +num);
     const disabled = !list || !list.length || num < 1;
-
 
     const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setHead } = useAlgoContext();
 
