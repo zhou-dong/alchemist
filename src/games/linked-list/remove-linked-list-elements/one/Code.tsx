@@ -7,7 +7,7 @@ import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
-import { Action, Order } from './stepsBuilder';
+import { Action } from './stepsBuilder';
 
 const formula = `function removeElements(head: ListNode | null, val: number): ListNode | null {
     if (head === null) {
@@ -56,9 +56,9 @@ const CallStack = () => {
     for (let i = 0; i < index; i++) {
         const step = steps[i];
         if (step) {
-            const { order, action, num, head } = step;
+            const { action, num, head } = step;
             const headVal = (head === undefined) ? "null" : head.data + "";
-            if (order === Order.PreOrder) {
+            if (action === Action.recursive) {
                 const spaces = Array(callStack.length).fill(nbsp + nbsp).join("");
                 callStack.push([spaces, `removeElements(${headVal}, ${num})`]);
             } else {
