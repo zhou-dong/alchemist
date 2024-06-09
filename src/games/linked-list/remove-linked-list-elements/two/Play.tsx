@@ -1,13 +1,11 @@
 import { styled } from '@mui/system';
 import { Button } from "@mui/material";
-import MergeIcon from '@mui/icons-material/Merge';
+import MouseIcon from '@mui/icons-material/Mouse';
 import CheckIcon from '@mui/icons-material/Check';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from "../AlgoState";
 import { wait } from '../../../../data-structures/_commons/utils';
-import { SimpleLink } from '../../../../data-structures/list/link.three';
-import { linkColor, skinDefaultColor, skinDummyColor, skinEnabledColor, skinPostOrderColor } from '../styles';
-import Position from '../../../../data-structures/_commons/params/position.interface';
+import { duration, radius, skinDefaultColor, skinDisabledColor, skinDummyColor, skinEnabledColor } from '../styles';
 import Code from './Code';
 import { safeRun } from '../../../commons/utils';
 import { Action, Step } from './stepsBuilder';
@@ -46,7 +44,7 @@ const enableDummyColor = (node: LinkedListNode<number> | undefined) => {
 }
 
 const Play = () => {
-    const { state, setState, animate, cancelAnimate, displayCode, index, steps, setIndex, dummyHead, head, current, setCurrent } = useAlgoContext();
+    const { state, setState, animate, cancelAnimate, displayCode, index, steps, setIndex, dummyHead, current, setCurrent } = useAlgoContext();
 
     const disabled: boolean = state !== State.Playing;
 
@@ -58,22 +56,34 @@ const Play = () => {
             case Action.create_dummy_head: {
                 dummyHead?.show();
                 break;
-            };
+            }
             case Action.dummy_head_next_to_head: {
                 dummyHead?.linkToNext?.show();
                 break;
-            };
+            }
             case Action.define_current: {
                 enableColor(dummyHead);
                 setCurrent(dummyHead);
                 break;
-            };
+            }
             case Action.current_next_to_current_next_next: {
-                enableColor(current);
-                enableColor(current?.next?.next);
-                current?.next?.hide();
-                current?.next?.linkToNext?.hide();
+                const next = current?.next;
                 const nextNext = current?.next?.next;
+                enableColor(current);
+                enableColor(next);
+                enableColor(nextNext);
+
+                if (next) {
+                    const { x, y, z } = next;
+                    await next.move({ x, y: y + 2 * radius, z }, duration, () => {
+                        current.linkToNext?.refresh();
+                        next.linkToNext?.refresh();
+                    })
+                }
+
+                next?.nodeSkin.setColor(skinDisabledColor);
+                next?.linkToNext?.hide();
+
                 if (!nextNext) {
                     current?.linkToNext?.hide();
                 } else {
@@ -87,18 +97,18 @@ const Play = () => {
                     current.next = nextNext;
                 }
                 break;
-            };
+            }
             case Action.current_to_current_next: {
                 enableColor(current?.next);
                 setCurrent(current?.next);
                 break;
-            };
+            }
             case Action.return_dummy_head_next: {
                 enableColor(dummyHead?.next);
                 dummyHead?.linkToNext?.hide();
                 dummyHead?.hide();
                 break;
-            };
+            }
         }
     }
 
@@ -127,7 +137,7 @@ const Play = () => {
             <MainPosition>
                 <Button
                     onClick={handleNextClick}
-                    startIcon={state === State.Finished ? <CheckIcon /> : <MergeIcon />}
+                    startIcon={state === State.Finished ? <CheckIcon /> : <MouseIcon />}
                     disabled={disabled}
                     size='large'
                     sx={{ zIndex: 1 }}

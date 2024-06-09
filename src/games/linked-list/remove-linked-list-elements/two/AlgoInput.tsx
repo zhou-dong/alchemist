@@ -35,7 +35,7 @@ const Submit: React.FC<{
     const array: number[] = list.split(",").map(num => +num);
     const disabled = !list || !list.length || num < 1;
 
-    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setHead, setDummyHead } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setDummyHead } = useAlgoContext();
 
     const init = async () => {
         const x = -8;
@@ -55,7 +55,6 @@ const Submit: React.FC<{
         dummyHead.next = head;
 
         setDummyHead(dummyHead);
-        setHead(head);
 
         const tail = getTail(dummyHead);
         await center(dummyHead, dummyHead.x, tail.x);

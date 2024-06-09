@@ -17,8 +17,6 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    head?: LinkedListNode<number>,
-    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
     dummyHead?: LinkedListNode<number>,
     setDummyHead: React.Dispatch<React.SetStateAction<LinkedListNode<number> | undefined>>,
     current?: LinkedListNode<number>,
@@ -35,7 +33,6 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     displayCode: true,
     setDisplayCode: () => { },
-    setHead: () => { },
     setDummyHead: () => { },
     setCurrent: () => { },
 });
@@ -54,7 +51,6 @@ export const AlgoContextProvider: React.FC<{
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
-    const [head, setHead] = React.useState<LinkedListNode<number>>();
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number>>();
     const [current, setCurrent] = React.useState<LinkedListNode<number>>();
 
@@ -96,8 +92,6 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             displayCode,
             setDisplayCode,
-            head,
-            setHead,
             dummyHead,
             setDummyHead,
             current,

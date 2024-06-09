@@ -12,13 +12,14 @@ export const skinPostOrderColor = "lightgreen";
 
 export const skinEnabledColor = "blue";
 export const skinDummyColor = "lightgray";
+export const skinDisabledColor = "gray";
 export const linkLength = 4;
-const duration = 1;
+export const radius = 1;
+export const duration = 1;
 
 const textColor = "green";
 
 const buildSkin = (scene: THREE.Scene, position: Position) => {
-    const radius = 1;
 
     const color = skinDefaultColor;
     const opacity = 0.3;
