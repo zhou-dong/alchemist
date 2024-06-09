@@ -9,7 +9,7 @@ import ReorderIcon from '@mui/icons-material/Reorder';
 import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
 import { Action } from './stepsBuilder';
 
-const formula = `function removeElements(head: ListNode | null, val: number): ListNode | null {
+const formula1 = `function removeElements(head: ListNode | null, val: number): ListNode | null {
     if (head === null) {
         return head;
     }
@@ -17,13 +17,41 @@ const formula = `function removeElements(head: ListNode | null, val: number): Li
     return head.val === val ? head.next : head;
 };`;
 
-const Code = () => {
+const formula2 = `function removeElements(head: ListNode | null, val: number): ListNode | null {
+    if (head === null) {
+        return head;
+    }
+    const next = removeElements(head.next, val);
+    head.next = next;
+    if (head.val === val) {
+        return head.next;
+    } else {
+        return head;
+    }
+};`;
+
+const Code1 = () => {
     const { index, steps } = useAlgoContext();
     const step = steps[index - 1];
-    const linesToHighlight: number[] = step ? step.linesToHighlight : [];
+    const linesToHighlight: number[] = step ? step.linesToHighlight1 : [];
     return (
         <CodeBlock
-            code={formula}
+            code={formula1}
+            language={languages.Typescript}
+            showLineNumbers={true}
+            linesToHighlight={linesToHighlight}
+            wrapLines={true}
+        />
+    );
+}
+
+const Code2 = () => {
+    const { index, steps } = useAlgoContext();
+    const step = steps[index - 1];
+    const linesToHighlight: number[] = step ? step.linesToHighlight2 : [];
+    return (
+        <CodeBlock
+            code={formula2}
             language={languages.Typescript}
             showLineNumbers={true}
             linesToHighlight={linesToHighlight}
@@ -105,8 +133,14 @@ const Main = () => (
                     <Head />
                     <Divider variant='middle' />
                     <Grid container spacing={0}>
-                        <Grid item xs={7}>
-                            <Code />
+                        <Grid container xs={7} direction="column" overflow="auto">
+                            <Grid item>
+                                <Code1 />
+                            </Grid>
+                            <Divider variant='middle' />
+                            <Grid item>
+                                <Code2 />
+                            </Grid>
                         </Grid>
                         <Grid item xs={1}>
                             <Divider orientation='vertical' />

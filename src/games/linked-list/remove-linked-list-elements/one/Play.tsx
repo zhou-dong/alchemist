@@ -21,9 +21,9 @@ const MainPosition = styled("div")({
 });
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, setIndex, displayCode, steps } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, setIndex, displayCode, steps, h } = useAlgoContext();
 
-    const execute = async ({ action, head, newNext }: Step) => {
+    const execute = async ({ action, head, next, newNext }: Step) => {
         switch (action) {
             case Action.return_null: {
                 break;
@@ -37,12 +37,13 @@ const Play = () => {
                 break;
             }
             case Action.head_next_to_next: {
-                const next = head?.next;
+                head?.nodeSkin.setColor(skinPostOrderColor);
+                newNext?.nodeSkin.setColor(skinPostOrderColor);
 
                 if (next && next !== newNext) {
                     const { x, y, z } = next;
                     await next.move({ x, y: y - 2 * radius, z }, duration, () => {
-                        head.linkToNext?.refresh();
+                        head?.linkToNext?.refresh();
                         next.linkToNext?.refresh();
                     });
                     next.nodeSkin.setColor(skinDisabledColor);
@@ -56,10 +57,6 @@ const Play = () => {
                     }
                 } else {
                     head?.linkToNext?.hide();
-                }
-
-                if (head) {
-                    head.next = newNext;
                 }
                 break;
             }
@@ -87,6 +84,18 @@ const Play = () => {
         const last = steps[steps.length - 1];
         if (step === last) {
             setState(State.Finished);
+            if (h && h.data === step.num) {
+                const removeHead = async () => {
+                    const { x, y, z } = h;
+                    await h.move({ x, y: y - 2 * radius, z }, duration, () => {
+                        h.linkToNext?.refresh();
+                    });
+                    h.nodeSkin.setColor(skinDisabledColor);
+                    h.linkToNext?.hide();
+                };
+                await safeRun(removeHead, animate, cancelAnimate);
+                await safeRun(() => wait(0.1), animate, cancelAnimate);
+            }
         } else {
             setState(State.Playing);
         }
