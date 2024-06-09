@@ -50,7 +50,7 @@ const Submit: React.FC<{
             const tail = getTail(head);
             setHead(head);
             await center(head, head.x, tail.x);
-            const steps = buildSteps(array, num);
+            const steps = buildSteps(head, array, num);
             setSteps(steps);
         }
 
