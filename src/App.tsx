@@ -237,6 +237,8 @@ import InsertionSortList from "./games/linked-list/insertion-sort-list";
 import InsertionSortListInfo from "./games/linked-list/insertion-sort-list/info";
 import RemoveLinkedListElements from "./games/linked-list/remove-linked-list-elements";
 import RemoveLinkedListElementsInfo from "./games/linked-list/remove-linked-list-elements/info";
+import IntersectionOfTwoLinkedLists from "./games/linked-list/intersection-of-two-linked-lists";
+import IntersectionOfTwoLinkedListsInfo from "./games/linked-list/intersection-of-two-linked-lists/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -372,6 +374,7 @@ const App = () => (
         <Route path={ReverseLinkedListIIInfo.path} element={<ReverseLinkedListII renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={InsertionSortListInfo.path} element={<InsertionSortList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={RemoveLinkedListElementsInfo.path} element={<RemoveLinkedListElements renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={IntersectionOfTwoLinkedListsInfo.path} element={<IntersectionOfTwoLinkedLists renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
