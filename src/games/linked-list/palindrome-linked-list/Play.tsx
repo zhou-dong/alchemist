@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { skinDefaultColor, skinEnabledColor, radius, duration, skinDummyColor, linkLength } from './styles';
+import { skinDefaultColor, skinEnabledColor, radius, duration, linkLength } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
 import { Action, Step } from './stepsBuilder';
 import Code from "./Code";
@@ -41,13 +41,13 @@ const enableColor = (node: LinkedListNode<number | string> | undefined) => {
 
 const enableDummyColor = (node: LinkedListNode<number | string> | undefined) => {
     if (node) {
-        node.nodeSkin.color = skinDummyColor;
+        // node.nodeSkin.color = skinDummyColor;
     }
 }
 
 const resetDummy = (node: LinkedListNode<number | string> | undefined) => {
     if (node) {
-        node.nodeSkin.color = skinDummyColor;
+        // node.nodeSkin.color = skinDummyColor;
     }
 }
 
