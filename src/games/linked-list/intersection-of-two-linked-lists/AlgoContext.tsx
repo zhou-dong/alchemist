@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { State } from "./AlgoState";
 import { clearScene } from "../../../commons/three";
 import { Step } from "./stepsBuilder";
-import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 const AlgoContext = React.createContext<{
     scene: THREE.Scene,
@@ -17,18 +16,6 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    head?: LinkedListNode<number | string>,
-    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    dummyHead?: LinkedListNode<number | string>,
-    setDummyHead: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    current?: LinkedListNode<number | string>,
-    setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    temp?: LinkedListNode<number | string>,
-    setTemp: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    prev?: LinkedListNode<number | string>,
-    setPrev: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    nextNext?: LinkedListNode<number | string>,
-    setNextNext: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>
 }>({
     scene: new THREE.Scene(),
     animate: () => { },
@@ -41,12 +28,6 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     displayCode: true,
     setDisplayCode: () => { },
-    setHead: () => { },
-    setDummyHead: () => { },
-    setCurrent: () => { },
-    setTemp: () => { },
-    setPrev: () => { },
-    setNextNext: () => { }
 });
 
 let animationFrameId = -1;
@@ -63,13 +44,6 @@ export const AlgoContextProvider: React.FC<{
     const [steps, setSteps] = React.useState<Step[]>([]);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
-
-    const [head, setHead] = React.useState<LinkedListNode<number | string>>();
-    const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
-    const [current, setCurrent] = React.useState<LinkedListNode<number | string>>();
-    const [temp, setTemp] = React.useState<LinkedListNode<number | string>>();
-    const [prev, setPrev] = React.useState<LinkedListNode<number | string>>();
-    const [nextNext, setNextNext] = React.useState<LinkedListNode<number | string>>();
 
     function animate() {
         animationFrameId = requestAnimationFrame(animate);
@@ -109,18 +83,6 @@ export const AlgoContextProvider: React.FC<{
             setIndex,
             displayCode,
             setDisplayCode,
-            head,
-            setHead,
-            dummyHead,
-            setDummyHead,
-            current,
-            setCurrent,
-            temp,
-            setTemp,
-            prev,
-            setPrev,
-            nextNext,
-            setNextNext
         }}>
             {children}
             <div ref={ref} />

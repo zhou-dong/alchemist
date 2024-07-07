@@ -9,14 +9,21 @@ export const skinDefaultColor = "yellow";
 export const skinPreOrderColor = "orange";
 export const skinPostOrderColor = "lightgreen";
 
-export const skinEnabledColor = "blue";
-export const skinDummyColor = "lightgray";
-
 export const linkLength = 4;
 export const duration = 1;
 export const radius = 1;
 
 const textColor = "green";
+
+export class NodePosition {
+    node: LinkedListNode<number | string>;
+    x: number;
+
+    constructor(node: LinkedListNode<number | string>, x: number) {
+        this.node = node;
+        this.x = x;
+    }
+}
 
 const buildSkin = (scene: THREE.Scene, position: Position) => {
 
@@ -90,23 +97,12 @@ export const buildList = async (
     return head;
 }
 
-export const center = (head: LinkedListNode<number | string> | undefined, min: number, max: number): Promise<any> => {
-    let current: LinkedListNode<number | string> | undefined = head;
-    const nodes: LinkedListNode<number | string>[] = [];
-
-    while (current) {
-        nodes.push(current);
-        current = current.next;
-    }
-
-    const mid = (min + max) / 2;
-    const distance = 0 - mid;
-
-    const promises = nodes.map(node => {
-        const { x, y, z } = node;
-        return node.move({ x: x + distance, y, z }, duration, () => node.linkToNext?.refresh());
+export const repositions = (positions: NodePosition[]): Promise<any> => {
+    const promises = positions.map(nodePosition => {
+        const { node, x } = nodePosition;
+        const { y, z } = node;
+        return node.move({ x, y, z }, duration, () => node.linkToNext?.refresh());
     })
-
     return Promise.all(promises);
 }
 
