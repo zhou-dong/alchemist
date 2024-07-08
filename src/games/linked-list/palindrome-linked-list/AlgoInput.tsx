@@ -82,7 +82,7 @@ const Submit: React.FC<{
     const array: number[] = list.split(",").map(num => +num);
     const disabled = !list || !list.length;
 
-    const { setState, animate, cancelAnimate, scene, setSteps, setIndex, setHead } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setSteps, setIndex } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -95,10 +95,8 @@ const Submit: React.FC<{
             const x = -8;
             const y = 7;
             const head = await buildList(scene, array, x + linkLength, y);
-
-            setHead(head);
             const tail = getTail(head);
-            const steps = buildSteps(array);
+            const steps = buildSteps(head);
             await center(head, head.x, tail.x);
             setSteps(steps);
         }

@@ -9,7 +9,6 @@ export const skinDefaultColor = "yellow";
 export const skinPreOrderColor = "orange";
 export const skinPostOrderColor = "lightgreen";
 
-export const skinEnabledColor = "blue";
 export const linkLength = 4;
 export const duration = 1;
 export const radius = 1;

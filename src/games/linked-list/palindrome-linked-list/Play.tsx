@@ -1,17 +1,18 @@
-import * as THREE from "three";
 import { styled } from '@mui/system';
 import CheckIcon from '@mui/icons-material/Check';
 import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { skinDefaultColor, skinEnabledColor, radius, duration, linkLength } from './styles';
+import { skinDefaultColor } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import { Action, Step } from './stepsBuilder';
+import { Step } from './stepsBuilder';
 import Code from "./Code";
 import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
-import { buildLink } from './AlgoInput';
+
+const skinEnabledColor = "blue";
+const skinFrontPointerColor = "orange";
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -33,38 +34,10 @@ const resetListColor = (head: LinkedListNode<number | string> | undefined) => {
     }
 }
 
-const enableColor = (node: LinkedListNode<number | string> | undefined) => {
+const enableColor = (node: LinkedListNode<number | string> | undefined, color: string) => {
     if (node) {
-        node.nodeSkin.color = skinEnabledColor;
+        node.nodeSkin.color = color;
     }
-}
-
-const enableDummyColor = (node: LinkedListNode<number | string> | undefined) => {
-    if (node) {
-        // node.nodeSkin.color = skinDummyColor;
-    }
-}
-
-const resetDummy = (node: LinkedListNode<number | string> | undefined) => {
-    if (node) {
-        // node.nodeSkin.color = skinDummyColor;
-    }
-}
-
-const appendLink = (
-    scene: THREE.Scene,
-    from: LinkedListNode<number | string> | undefined,
-    to: LinkedListNode<number | string> | undefined
-) => {
-    if (!from || !to) {
-        return;
-    }
-    if (!from.linkToNext) {
-        from.linkToNext = buildLink(scene, from, to);
-    }
-    from.linkToNext.target = to;
-    from.linkToNext.refresh();
-    from.linkToNext.show();
 }
 
 const Play = () => {
@@ -77,141 +50,13 @@ const Play = () => {
         steps,
         setIndex,
         displayCode,
-        scene,
-        head,
-        current,
-        dummyHead,
-        temp,
-        setTemp,
-        setCurrent,
-        prev,
-        setPrev,
-        nextNext,
-        setNextNext
     } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action } = step;
-        resetListColor(dummyHead);
-        resetDummy(dummyHead);
-        enableDummyColor(current);
-
-        switch (action) {
-            case Action.create_dummy_head: {
-                dummyHead?.show();
-                break;
-            }
-            case Action.dummy_head_next_to_head: {
-                dummyHead?.linkToNext?.show();
-                break;
-            }
-            case Action.define_current: {
-                setCurrent(head);
-                enableColor(head);
-                break;
-            }
-            case Action.current_to_current_next: {
-                enableColor(current?.next);
-                setCurrent(current?.next);
-                break;
-            }
-            case Action.define_temp: {
-                setTemp(current?.next);
-                enableColor(current?.next);
-                const next = current?.next;
-                if (next) {
-                    const { x, y, z } = next;
-                    await next.move({ x, y: y + radius * 2, z }, duration, () => {
-                        current.linkToNext?.refresh();
-                        next.linkToNext?.refresh();
-                    })
-                }
-                break;
-            }
-            case Action.current_next_to_current_next_next: {
-                enableDummyColor(temp);
-                enableColor(current);
-                enableColor(current?.next?.next);
-                const nextNext = current?.next?.next;
-                setNextNext(nextNext);
-
-                if (current) {
-                    current.next = nextNext;
-                }
-
-                if (current && !nextNext) {
-                    current.linkToNext?.hide();
-                    current.linkToNext = undefined;
-                }
-
-                appendLink(scene, current, nextNext);
-                break;
-            }
-            case Action.define_prev: {
-                enableDummyColor(temp);
-                enableDummyColor(current);
-                enableColor(dummyHead);
-                setPrev(dummyHead);
-                break;
-            }
-            case Action.prev_to_prev_next: {
-                enableDummyColor(temp);
-                enableDummyColor(current);
-                enableColor(prev?.next);
-                setPrev(prev?.next);
-                break;
-            }
-            case Action.temp_next_to_prev_next: {
-                enableColor(prev);
-                enableColor(temp);
-                if (temp) {
-                    temp.next = prev?.next;
-                    appendLink(scene, temp, prev?.next);
-                }
-                break;
-            }
-            case Action.prev_next_to_temp: {
-                enableColor(prev);
-                enableColor(temp);
-
-                if (prev && temp) {
-                    const next = prev.next;
-                    prev.next = temp;
-                    appendLink(scene, prev, temp);
-
-                    const nodes = [];
-                    let start = temp.next;
-                    while (start && start !== nextNext) {
-                        nodes.push(start);
-                        start = start?.next
-                    }
-
-                    const moves = nodes.map(node => {
-                        const { x, y, z } = node;
-                        return node.move({ x: x + linkLength, y, z }, duration, () => {
-                            node.linkToNext?.refresh();
-                        })
-                    })
-
-                    if (next) {
-                        const { x, y, z } = next;
-                        const move = temp.move({ x, y, z }, duration, () => {
-                            prev.linkToNext?.refresh();
-                            temp.linkToNext?.refresh();
-                        });
-
-                        await Promise.all([...moves, move]).then(() => { });
-                    }
-                }
-                break;
-            }
-            case Action.return_dummy_head_next: {
-                enableColor(dummyHead?.next);
-                dummyHead?.linkToNext?.hide();
-                dummyHead?.hide();
-                break;
-            }
-        }
+        const { head, frontPointer, current } = step;
+        resetListColor(head);
+        enableColor(frontPointer, skinFrontPointerColor);
+        enableColor(current, skinEnabledColor);
     }
 
     const push = async () => {
