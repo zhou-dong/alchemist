@@ -10,9 +10,9 @@ const formula = `function oddEvenList(head: ListNode | null): ListNode | null {
     if (head === null) {
         return null;
     }
+    let odd = head;
     const evenHead = head.next;
     let even = evenHead;
-    let odd = head;
     while (even !== null && even.next !== null) {
         odd.next = even.next;
         odd = odd.next;
@@ -25,7 +25,7 @@ const formula = `function oddEvenList(head: ListNode | null): ListNode | null {
 
 const Code = () => {
     const { index, steps } = useAlgoContext();
-    const action = steps[index];
+    const action = steps[index - 1];
     const linesToHighlight: number[] = action ? action.linesToHighlight : [];
 
     return (

@@ -17,9 +17,9 @@ export enum Action {
 const getlinesToHighlight = (action: Action): number[] => {
     switch (action) {
         case Action.stand_by: return [1];
-        case Action.define_even_head: return [5];
-        case Action.define_even: return [6];
-        case Action.define_odd: return [7];
+        case Action.define_odd: return [5];
+        case Action.define_even_head: return [6];
+        case Action.define_even: return [7];
         case Action.odd_next_to_even_next: return [9];
         case Action.odd_to_odd_next: return [10];
         case Action.even_next_to_odd_next: return [11]
@@ -69,14 +69,14 @@ export function buildSteps(head: LinkedListNode<number | string>): Step[] {
     function oddEvenList(head: ListNode<LinkedListNode<number | string>>): ListNode<LinkedListNode<number | string>> {
         steps.push(new Step(Action.stand_by, undefined, undefined, undefined));
 
+        let odd = head;
+        steps.push(new Step(Action.define_odd, undefined, undefined, odd.val));
+
         const evenHead = head.next;
         steps.push(new Step(Action.define_even_head, evenHead?.val, undefined, undefined));
 
         let even = evenHead;
-        steps.push(new Step(Action.define_even, evenHead?.val, even?.val, undefined));
-
-        let odd = head;
-        steps.push(new Step(Action.define_odd, evenHead?.val, even?.val, odd.val));
+        steps.push(new Step(Action.define_even, evenHead?.val, even?.val, odd.val));
 
         while (even !== undefined && even.next !== undefined) {
             odd.next = even.next;

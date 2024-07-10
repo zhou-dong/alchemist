@@ -72,7 +72,7 @@ const Submit: React.FC<{
 
         const init = async () => {
             const x = -8;
-            const y = 7;
+            const y = 8;
             const head = await buildList(scene, array, x + linkLength, y);
             const tail = getTail(head);
             const steps = buildSteps(head);
