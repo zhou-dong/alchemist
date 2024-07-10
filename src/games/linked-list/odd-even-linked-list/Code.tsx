@@ -6,7 +6,6 @@ import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 
-
 const formula = `function oddEvenList(head: ListNode | null): ListNode | null {
     if (head === null) {
         return null;
@@ -26,7 +25,7 @@ const formula = `function oddEvenList(head: ListNode | null): ListNode | null {
 
 const Code = () => {
     const { index, steps } = useAlgoContext();
-    const action = steps[index - 1];
+    const action = steps[index];
     const linesToHighlight: number[] = action ? action.linesToHighlight : [];
 
     return (
