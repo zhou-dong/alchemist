@@ -241,6 +241,8 @@ import IntersectionOfTwoLinkedLists from "./games/linked-list/intersection-of-tw
 import IntersectionOfTwoLinkedListsInfo from "./games/linked-list/intersection-of-two-linked-lists/info";
 import PalindromeLinkedList from "./games/linked-list/palindrome-linked-list";
 import PalindromeLinkedListInfo from "./games/linked-list/palindrome-linked-list/info";
+import OddEvenLinkedList from "./games/linked-list/odd-even-linked-list";
+import OddEvenLinkedListInfo from "./games/linked-list/odd-even-linked-list/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -378,6 +380,7 @@ const App = () => (
         <Route path={RemoveLinkedListElementsInfo.path} element={<RemoveLinkedListElements renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={IntersectionOfTwoLinkedListsInfo.path} element={<IntersectionOfTwoLinkedLists renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={PalindromeLinkedListInfo.path} element={<PalindromeLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={OddEvenLinkedListInfo.path} element={<OddEvenLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
