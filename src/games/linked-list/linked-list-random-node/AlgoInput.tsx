@@ -31,43 +31,22 @@ export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number | stri
     return new SimpleLink(node, adjustSource, next, adjustTarget, scene, linkColor);
 }
 
-const buildPalindrome = (len: number): number[] => {
-    const max = 12;
+const buildInputs = (size: number): number[] => {
+    const max = Math.max(15, size);
+
     const pool: number[] = [];
     for (let i = 0; i < max; i++) {
         pool.push(i);
     }
 
-    const firstHalf: number[] = [];
-    const half = Math.floor(len / 2);
-    for (let i = 0; i < half; i++) {
+    const nums: number[] = []
+    for (let i = 0; i < size; i++) {
         const randomIndex = Math.floor(Math.random() * pool.length);
         const selectedNumber = pool[randomIndex];
-        firstHalf.push(selectedNumber);
+        nums.push(selectedNumber + 1);
         pool.splice(randomIndex, 1);
     }
-
-    const lastHalf: number[] = [...firstHalf].reverse();
-
-    if (len % 2 !== 0) {
-        const randomIndex = Math.floor(Math.random() * pool.length);
-        const selectedNumber = pool[randomIndex];
-        firstHalf.push(selectedNumber);
-        pool.splice(randomIndex, 1);
-    }
-
-    const palindrome = firstHalf.concat(lastHalf);
-    if (Math.random() > 0.6) {
-        const randomIndex = Math.floor(Math.random() * pool.length);
-        const selectedNumber = pool[randomIndex];
-
-        const pIndex = Math.floor(Math.random() * palindrome.length);
-        palindrome[pIndex] = selectedNumber;
-
-        pool.splice(randomIndex, 1);
-    }
-
-    return palindrome;
+    return nums;
 }
 
 interface Props {
@@ -114,16 +93,16 @@ const Submit: React.FC<{
 
 const Main = ({ setAnchorEl }: Props) => {
 
-    const length = () => Math.random() > 0.5 ? 10 : 9;
+    const length = () => Math.random() > 0.5 ? 7 : 8;
 
-    const [list, setList] = React.useState(() => buildPalindrome(length()).join(","));
+    const [list, setList] = React.useState(() => buildInputs(length()).join(","));
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setList(e.currentTarget.value);
     }
 
     const handleFresh = () => {
-        const list = buildPalindrome(length());
+        const list = buildInputs(length());
         setList(() => list.join(","));
     }
 
