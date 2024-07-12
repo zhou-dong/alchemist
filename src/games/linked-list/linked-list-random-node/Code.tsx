@@ -1,13 +1,10 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
-import ReorderIcon from '@mui/icons-material/Reorder';
-import SubdirectoryArrowRightIcon from '@mui/icons-material/SubdirectoryArrowRight';
-import { Action } from './stepsBuilder';
 
 const formula = `class Solution {
 
@@ -19,16 +16,14 @@ const formula = `class Solution {
 
     getRandom(): number {
         let result = 0;
-        let index = 1;
-        for (let node = this.head; node !== null; node = node.next) {
+        for (let node = this.head, index = 1; node !== null; node = node.next, index++) {
             if (Math.floor(Math.random() * index) === 0) {
                 result = node.val;
             }
-            index++;
         }
         return result;
     }
-}`
+}`;
 
 const Code = () => {
     const { index, steps } = useAlgoContext();
@@ -62,66 +57,6 @@ const Head = () => {
     );
 }
 
-const CallStack = () => {
-    const nbsp = "\u00A0";
-    const { index, steps } = useAlgoContext();
-
-    const callStack: string[][] = [];
-
-    for (let i = 0; i < index; i++) {
-        const step = steps[i];
-        if (step) {
-            const { action, current } = step;
-            switch (action) {
-                case Action.recursively_check_start: {
-                    const spaces = Array(callStack.length).fill(nbsp + nbsp).join("");
-                    callStack.push([spaces, `swapPairs(${current?.data})`]);
-                    break;
-                }
-                case Action.node_null_return_true: {
-                    callStack.pop();
-                    break;
-                }
-                case Action.recursively_non_eq_front_pointer_val: {
-                    callStack.pop();
-                    break;
-                }
-                case Action.update_front_pointer: {
-                    callStack.pop();
-                    break;
-                }
-                case Action.recursively_check_false: {
-                    callStack.pop();
-                    break;
-                }
-            }
-        }
-    }
-
-    return (
-        <List>
-            <ListItem sx={{ paddingTop: 0, paddingBottom: 0, marginTop: "-7px" }}>
-                <ListItemIcon>
-                    <ReorderIcon />
-                </ListItemIcon>
-                <ListItemText primary="Call Stack" />
-            </ListItem>
-            <Divider variant='middle' sx={{ marginBottom: 1 }} />
-            {
-                callStack.map((m, i) =>
-                    <ListItem key={i} sx={{ paddingTop: 0, paddingBottom: 0 }}>
-                        {m[0]}
-                        <ListItemIcon sx={{ minWidth: 0 }}>
-                            <SubdirectoryArrowRightIcon color={(i + 1) === callStack.length ? "success" : "disabled"} />
-                        </ListItemIcon>
-                        <ListItemText primary={m[1]} />
-                    </ListItem>
-                )
-            }
-        </List>
-    );
-};
-
 const MainPosition = styled("div")({
     position: 'fixed', bottom: 200, right: 60
 });
@@ -133,17 +68,7 @@ const Main = () => (
                 <Stack spacing={0}>
                     <Head />
                     <Divider variant='middle' />
-                    <Grid container spacing={0}>
-                        <Grid item xs={7}>
-                            <Code />
-                        </Grid>
-                        <Grid item xs={1}>
-                            <Divider orientation='vertical' />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <CallStack />
-                        </Grid>
-                    </Grid>
+                    <Code />
                 </Stack>
             </Paper>
         </Draggable>
