@@ -122,6 +122,7 @@ import IntersectionOfTwoLinkedLists from "./linked-list/intersection-of-two-link
 import PalindromeLinkedList from "./linked-list/palindrome-linked-list/info";
 import OddEvenLinkedList from "./linked-list/odd-even-linked-list/info";
 import SortList from "./linked-list/sort-list/info";
+import LinkedListRandomNode from "./linked-list/linked-list-random-node/info";
 
 export const games: Game[] = [
     editDistance,
@@ -245,5 +246,6 @@ export const games: Game[] = [
     IntersectionOfTwoLinkedLists,
     PalindromeLinkedList,
     OddEvenLinkedList,
-    SortList
+    SortList,
+    LinkedListRandomNode
 ];
