@@ -24,7 +24,7 @@ const AlgoContext = React.createContext<{
     setState: () => { },
     steps: [],
     setSteps: () => { },
-    index: 1,
+    index: 0,
     setIndex: () => { },
     displayCode: true,
     setDisplayCode: () => { },
@@ -42,7 +42,7 @@ export const AlgoContextProvider: React.FC<{
     camera.position.z = 20;
     const [state, setState] = React.useState(State.Typing);
     const [steps, setSteps] = React.useState<Step[]>([]);
-    const [index, setIndex] = React.useState(1);
+    const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(true);
 
     function animate() {

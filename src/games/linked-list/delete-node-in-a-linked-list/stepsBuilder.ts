@@ -1,67 +1,41 @@
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 export enum Action {
-    define_slow,
-    define_fast,
-    update_slow,
-    update_fast,
-    return_slow,
+    standby,
+    update_node_val,
+    update_node_next,
 }
 
 const getlinesToHighlight = (action: Action): number[] => {
     switch (action) {
-        case Action.define_slow: return [2];
-        case Action.define_fast: return [3];
-        case Action.update_slow: return [5];
-        case Action.update_fast: return [6];
-        case Action.return_slow: return [8];
+        case Action.standby: return [1];
+        case Action.update_node_val: return [3];
+        case Action.update_node_next: return [4];
     }
 }
 
 export class Step {
     action: Action;
     linesToHighlight: number[];
-    head: LinkedListNode<number>;
-    slow: LinkedListNode<number> | undefined;
-    fast: LinkedListNode<number> | undefined;
+    node: LinkedListNode<number> | undefined;
+    next: LinkedListNode<number> | undefined;
 
     constructor(
         action: Action,
-        head: LinkedListNode<number>,
-        slow: LinkedListNode<number> | undefined,
-        fast: LinkedListNode<number> | undefined,
+        node: LinkedListNode<number> | undefined,
+        next: LinkedListNode<number> | undefined,
     ) {
         this.action = action;
         this.linesToHighlight = getlinesToHighlight(action);
-        this.head = head;
-        this.slow = slow;
-        this.fast = fast;
+        this.node = node;
+        this.next = next;
     }
 }
 
-export function buildSteps(head: LinkedListNode<number>): Step[] {
-
+export function buildSteps(node: LinkedListNode<number> | undefined): Step[] {
     const steps: Step[] = [];
-
-    function middleNode(head: LinkedListNode<number>): LinkedListNode<number> | undefined {
-        let slow: LinkedListNode<number> | undefined = head;
-        steps.push(new Step(Action.define_slow, head, slow, undefined));
-
-        let fast: LinkedListNode<number> | undefined = head;
-        steps.push(new Step(Action.define_fast, head, slow, fast));
-
-        while (fast !== undefined && fast.next !== undefined) {
-            slow = slow?.next;
-            steps.push(new Step(Action.update_slow, head, slow, fast));
-
-            fast = fast.next.next;
-            steps.push(new Step(Action.update_fast, head, slow, fast));
-        }
-
-        steps.push(new Step(Action.return_slow, head, slow, fast));
-        return slow;
-    };
-
-    middleNode(head);
+    steps.push(new Step(Action.standby, node, node?.next));
+    steps.push(new Step(Action.update_node_val, node, node?.next));
+    steps.push(new Step(Action.update_node_next, node, node?.next));
     return steps;
 }

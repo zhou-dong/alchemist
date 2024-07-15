@@ -4,15 +4,14 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { skinDefaultColor } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
 import { Action, Step } from './stepsBuilder';
 import Code from "./Code";
 import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
 
-const skinSlowColor = "orange";
-const skinFastColor = "blue";
+const skinNodeColor = "orange";
+const skinNextColor = "blue";
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -30,41 +29,39 @@ const enableColor = (node: LinkedListNode<number | string> | undefined, color: s
     }
 }
 
-const resetColor = (node: LinkedListNode<number | string> | undefined) => {
-    if (node) {
-        node.nodeSkin.color = skinDefaultColor;
-        resetColor(node.next);
-    }
-}
-
 const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, head, slow, fast } = step;
-        resetColor(head);
-        enableColor(slow, skinSlowColor);
-        enableColor(fast, skinFastColor);
+        const { action, node, next } = step;
 
         switch (action) {
-            case Action.define_slow: {
-                enableColor(slow, skinSlowColor);
+            case Action.standby: {
+                enableColor(node, skinNodeColor);
                 break;
             }
-            case Action.define_fast: {
-                enableColor(fast, skinFastColor);
+            case Action.update_node_val: {
+                enableColor(node, skinNodeColor);
+                enableColor(next, skinNextColor);
+                if (node && next) {
+                    node.nodeText.text = next.data + "";
+                    node.data = next.data;
+                }
                 break;
             }
-            case Action.update_slow: {
-                enableColor(slow, skinSlowColor);
-                break;
-            }
-            case Action.update_fast: {
-                enableColor(fast, skinFastColor);
-                break;
-            }
-            case Action.return_slow: {
-                enableColor(slow, skinSlowColor);
+            case Action.update_node_next: {
+                enableColor(node, skinNodeColor);
+                enableColor(next, skinNextColor);
+                const next_next = next?.next;
+                if (node && next) {
+                    next.hide();
+                    if (next_next) {
+                        node.linkToNext!.target = next_next;
+                        node.linkToNext?.refresh();
+                    } else {
+                        node.linkToNext?.hide();
+                    }
+                }
                 break;
             }
         }
@@ -72,7 +69,6 @@ const Play = () => {
 
     const push = async () => {
         setState(State.Typing);
-        console.log(index);
 
         const step = steps[index];
 

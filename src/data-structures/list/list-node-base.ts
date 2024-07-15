@@ -110,21 +110,42 @@ export class SimpleLinkedListSphereNodeSkin extends LinkedListNodeSkin {
 }
 
 export class LinkedListNodeText extends NodeBase {
-    text: string;
+    private _text: string;
+    private _geometryParameters: TextGeometryParameters;
+    private _material: THREE.Material;
+    private _scene: THREE.Scene;
 
     constructor(
         text: string,
         scene: THREE.Scene,
         geometryParameters: TextGeometryParameters,
-        material: THREE.Material
+        material: THREE.Material,
     ) {
         const geometry = new TextGeometry(text, geometryParameters);
         super(scene, geometry, material);
-        this.text = text;
+        this._text = text;
+        this._geometryParameters = geometryParameters;
+        this._material = material;
+        this._scene = scene;
     }
 
     destinate(distance: Position) {
         return calDestination({ x: this.x, y: this.y, z: this.z }, distance);
+    }
+
+    get text() {
+        return this._text;
+    }
+
+    set text(text: string) {
+        this._text = text;
+        const geometry = new TextGeometry(text, this._geometryParameters);
+        const mesh = new THREE.Mesh(geometry, this._material);
+        mesh.position.setX(this.x);
+        mesh.position.setY(this.y);
+        mesh.position.setZ(this.z);
+        this.hide();
+        this._scene.add(mesh);
     }
 }
 

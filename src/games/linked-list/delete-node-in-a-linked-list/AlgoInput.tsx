@@ -54,28 +54,38 @@ interface Props {
 }
 
 const Submit: React.FC<{
+    index: number,
     list: string,
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, setAnchorEl }) => {
+}> = ({ index, list, setAnchorEl }) => {
 
     const array: number[] = list.split(",").map(num => +num);
     const disabled = !list || !list.length;
 
-    const { setState, animate, cancelAnimate, scene, setSteps, setIndex } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setIndex, setSteps } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
         setAnchorEl(null);
         clearScene(scene);
-        setSteps([]);
         setIndex(0);
+        setSteps([]);
+
+        const getTarget = (head: LinkedListNode<number> | undefined) => {
+            let current = head;
+            for (let i = 0; i < index && current !== undefined; i++) {
+                current = current.next;
+            }
+            return current;
+        }
 
         const init = async () => {
             const x = -8;
             const y = 8;
             const head = await buildList(scene, array, x + linkLength, y);
+            const target = getTarget(head);
             const tail = getTail(head);
-            const steps = buildSteps(head);
+            const steps = buildSteps(target);
             await center(head, head.x, tail.x);
             setSteps(steps);
         }
@@ -96,6 +106,7 @@ const Main = ({ setAnchorEl }: Props) => {
     const length = () => 5 + Math.floor(Math.random() * 4);
 
     const [index, setIndex] = React.useState(1);
+    const [target, setTarget] = React.useState(1);
     const [list, setList] = React.useState(() => buildInputs(length()).join(","));
 
     const handleListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,14 +114,25 @@ const Main = ({ setAnchorEl }: Props) => {
     }
 
     const handleIndexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIndex(+e.currentTarget.value);
+        const target = +e.currentTarget.value;
+        let targetIndex = 0;
+        list.split(",")
+            .map(v => v.trim())
+            .forEach((v, i) => {
+                if (+v === target) {
+                    targetIndex = i;
+                }
+            });
+        setIndex(targetIndex);
+        setTarget(target);
     }
 
     const handleFresh = () => {
         const list = buildInputs(length());
         setList(() => list.join(","));
         const randomIndex = Math.floor(Math.random() * (list.length - 2)) + 1;
-        setIndex(list[randomIndex]);
+        setIndex(randomIndex);
+        setTarget(list[randomIndex]);
     }
 
     const handleClear = () => {
@@ -145,7 +167,7 @@ const Main = ({ setAnchorEl }: Props) => {
             <InputBase
                 sx={{ width: 45 }}
                 placeholder='target'
-                value={index}
+                value={target}
                 onChange={handleIndexChange}
                 type='number'
             />
@@ -166,7 +188,7 @@ const Main = ({ setAnchorEl }: Props) => {
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} setAnchorEl={setAnchorEl} />
+            <Submit index={index} list={list} setAnchorEl={setAnchorEl} />
         </Paper>
     );
 }
