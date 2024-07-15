@@ -64,12 +64,12 @@ const Stepper = () => {
 
     const handleNext = async () => {
         setIndex(i => i + 1);
-        await safeRun(() => wait(0.5), animate, cancelAnimate);
+        await safeRun(() => wait(0.1), animate, cancelAnimate);
     };
 
     const handleBack = async () => {
         setIndex(i => i - 1);
-        await safeRun(() => wait(0.5), animate, cancelAnimate);
+        await safeRun(() => wait(0.1), animate, cancelAnimate);
     };
 
     return (
