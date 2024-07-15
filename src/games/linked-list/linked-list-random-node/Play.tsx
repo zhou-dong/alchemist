@@ -161,8 +161,6 @@ const Play = () => {
                     alignItems: "center",
                     justifyContent: "center",
                 }}>
-                    <Stepper />
-
                     <Button
                         sx={{ zIndex: 3 }}
                         variant='outlined'
@@ -174,6 +172,8 @@ const Play = () => {
                     >
                         play
                     </Button>
+
+                    <Stepper />
 
                     <Button
                         sx={{ zIndex: 3 }}
