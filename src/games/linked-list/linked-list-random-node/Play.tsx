@@ -6,7 +6,7 @@ import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
 import { skinDefaultColor } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import { buildSteps, Step } from './stepsBuilder';
+import { Action, buildSteps, Step } from './stepsBuilder';
 import Code from "./Code";
 import { safeRun } from '../../commons/utils';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
@@ -51,6 +51,16 @@ const Stepper = () => {
     resetListColor(head);
     enableColor(step?.result, skinResultColor);
     enableColor(step?.current, skinEnabledColor);
+
+    const action = step?.action;
+    if (action) {
+        switch (action) {
+            case Action.update_result: {
+                enableColor(step?.result, skinResultColor);
+                break;
+            }
+        }
+    }
 
     const handleNext = async () => {
         setIndex(i => i + 1);
@@ -107,10 +117,18 @@ const Play = () => {
     } = useAlgoContext();
 
     const executeStep = async (step: Step) => {
-        const { current, result } = step;
+        const { action, current, result } = step;
         resetListColor(head);
         enableColor(result, skinResultColor);
         enableColor(current, skinEnabledColor);
+
+        switch (action) {
+            case Action.update_result: {
+                enableColor(result, skinResultColor);
+                break;
+            }
+        }
+
         await safeRun(() => wait(0.5), animate, cancelAnimate);
     }
 
