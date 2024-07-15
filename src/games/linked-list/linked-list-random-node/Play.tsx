@@ -1,18 +1,21 @@
 import { styled } from '@mui/system';
 import CheckIcon from '@mui/icons-material/Check';
-import { Button } from "@mui/material";
+import { Button, MobileStepper, Stack } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
 import { skinDefaultColor } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import { Step } from './stepsBuilder';
+import { buildSteps, Step } from './stepsBuilder';
 import Code from "./Code";
-import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import PlayCircleOutlinedIcon from '@mui/icons-material/PlayCircleOutlined';
 
 const skinEnabledColor = "blue";
-const skinFrontPointerColor = "orange";
+const skinResultColor = "orange";
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -21,12 +24,12 @@ const MainPosition = styled("div")({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 1
+    zIndex: 1,
 });
 
-const resetListColor = (head: LinkedListNode<number | string> | undefined) => {
-    const set: Set<LinkedListNode<number | string>> = new Set();
-    let current: LinkedListNode<number | string> | undefined = head;
+const resetListColor = (head: LinkedListNode<number> | undefined) => {
+    const set: Set<LinkedListNode<number>> = new Set();
+    let current: LinkedListNode<number> | undefined = head;
     while (current && !set.has(current)) {
         set.add(current);
         current.nodeSkin.color = skinDefaultColor;
@@ -34,65 +37,138 @@ const resetListColor = (head: LinkedListNode<number | string> | undefined) => {
     }
 }
 
-const enableColor = (node: LinkedListNode<number | string> | undefined, color: string) => {
+const enableColor = (node: LinkedListNode<number> | undefined, color: string) => {
     if (node) {
         node.nodeSkin.color = color;
     }
 }
 
+const Stepper = () => {
+    const { animate, cancelAnimate, head, setIndex, steps, index } = useAlgoContext();
+
+    const step = steps[index - 1];
+
+    resetListColor(head);
+    enableColor(step?.result, skinResultColor);
+    enableColor(step?.current, skinEnabledColor);
+
+    const handleNext = async () => {
+        setIndex(i => i + 1);
+        await safeRun(() => wait(0.5), animate, cancelAnimate);
+    };
+
+    const handleBack = async () => {
+        setIndex(i => i - 1);
+        await safeRun(() => wait(0.5), animate, cancelAnimate);
+    };
+
+    return (
+        <MobileStepper
+            variant="dots"
+            steps={steps.length + 1}
+            activeStep={index}
+            position="static"
+            nextButton={
+                <Button
+                    size="large"
+                    onClick={handleNext}
+                    disabled={index === steps.length}
+                >
+                    Next
+                    <KeyboardArrowRight />
+                </Button>
+            }
+            backButton={
+                <Button
+                    size="large"
+                    onClick={handleBack}
+                    disabled={index === 0}>
+                    <KeyboardArrowLeft />
+                    Back
+                </Button>
+            }
+        />
+    )
+}
+
 const Play = () => {
+
     const {
         animate,
         cancelAnimate,
+        head,
         state,
         setState,
-        index,
-        steps,
-        setIndex,
         displayCode,
+        steps,
+        setSteps,
+        setIndex,
+        index
     } = useAlgoContext();
 
-    const execute = async (step: Step) => {
-        const { head, frontPointer, current } = step;
+    const executeStep = async (step: Step) => {
+        const { current, result } = step;
         resetListColor(head);
-        enableColor(frontPointer, skinFrontPointerColor);
+        enableColor(result, skinResultColor);
         enableColor(current, skinEnabledColor);
+        await safeRun(() => wait(0.5), animate, cancelAnimate);
     }
 
-    const push = async () => {
+    const getRandom = async () => {
         setState(State.Typing);
+        const steps = (head === undefined) ? [] : buildSteps(head);
+        setIndex(0);
+        setSteps(steps);
+        setState(State.Playing);
+    }
 
-        const step = steps[index];
+    const disabled = state !== State.Playing || head === undefined;
 
-        if (!step) return;
-
-        await safeRun(() => execute(step), animate, cancelAnimate);
-        await safeRun(() => wait(0.1), animate, cancelAnimate);
-
-        const last = steps[steps.length - 1];
-        if (step === last) {
-            setState(State.Finished);
-        } else {
-            setState(State.Playing);
+    const handlePlay = async () => {
+        setState(State.Typing);
+        for (let i = index; i < steps.length; i++) {
+            setIndex(i);
+            const step = steps[i];
+            await executeStep(step);
         }
-
         setIndex(i => i + 1);
+        setState(State.Playing);
     }
 
     return (
         <>
             <MainPosition>
-                <Button
-                    sx={{ zIndex: 3 }}
-                    onClick={push}
-                    startIcon={state === State.Finished ? <CheckIcon /> : <MouseIcon />}
-                    disabled={state !== State.Playing}
-                    size="large"
-                    variant='outlined'
-                    color='success'
-                >
-                    Next
-                </Button>
+                <Stack direction="column" spacing={2} sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
+                    <Stepper />
+
+                    <Button
+                        sx={{ zIndex: 3 }}
+                        variant='outlined'
+                        color='success'
+                        size="large"
+                        endIcon={<PlayCircleOutlinedIcon />}
+                        disabled={disabled || steps.length === 0 || index === steps.length}
+                        onClick={handlePlay}
+                    >
+                        play
+                    </Button>
+
+                    <Button
+                        sx={{ zIndex: 3 }}
+                        onClick={getRandom}
+                        startIcon={state === State.Finished ? <CheckIcon /> : <ShuffleIcon />}
+                        disabled={disabled}
+                        size="large"
+                        variant='outlined'
+                        color='success'
+                    >
+                        Get Random
+                    </Button>
+                </Stack>
             </MainPosition>
             {displayCode && <Code />}
         </>

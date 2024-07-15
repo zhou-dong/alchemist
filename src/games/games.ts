@@ -246,6 +246,6 @@ export const games: Game[] = [
     IntersectionOfTwoLinkedLists,
     PalindromeLinkedList,
     OddEvenLinkedList,
-    SortList,
+    // SortList,
     LinkedListRandomNode
 ];

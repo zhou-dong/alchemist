@@ -8,28 +8,9 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildList, center, getTail, linkColor, linkLength } from "./styles";
-import { buildSteps } from './stepsBuilder';
+import { buildList, center, getTail, linkLength } from "./styles";
 import InputIcon from '@mui/icons-material/Input';
 import { safeRun } from '../../commons/utils';
-import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import Position from '../../../data-structures/_commons/params/position.interface';
-import { SimpleLink } from '../../../data-structures/list/link.three';
-
-export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number | string>, next: LinkedListNode<number | string>): SimpleLink => {
-
-    const adjustSource = ({ x, y, z }: Position): Position => {
-        const width = node.width;
-        return { x: x + width / 2, y, z };
-    }
-
-    const adjustTarget = ({ x, y, z }: Position): Position => {
-        const width = next.width;
-        return { x: x - width / 2, y, z };
-    }
-
-    return new SimpleLink(node, adjustSource, next, adjustTarget, scene, linkColor);
-}
 
 const buildInputs = (size: number): number[] => {
     const max = Math.max(15, size);
@@ -61,7 +42,7 @@ const Submit: React.FC<{
     const array: number[] = list.split(",").map(num => +num);
     const disabled = !list || !list.length;
 
-    const { setState, animate, cancelAnimate, scene, setSteps, setIndex } = useAlgoContext();
+    const { setState, animate, cancelAnimate, scene, setHead, setIndex, setSteps } = useAlgoContext();
 
     const handleSubmit = async () => {
         setState(State.Typing);
@@ -75,9 +56,8 @@ const Submit: React.FC<{
             const y = 7;
             const head = await buildList(scene, array, x + linkLength, y);
             const tail = getTail(head);
-            const steps = buildSteps(head);
+            setHead(head);
             await center(head, head.x, tail.x);
-            setSteps(steps);
         }
 
         await safeRun(init, animate, cancelAnimate);

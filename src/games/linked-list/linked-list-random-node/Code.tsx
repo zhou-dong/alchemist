@@ -5,8 +5,16 @@ import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
+import { Step } from './stepsBuilder';
 
-const formula = `class Solution {
+const getFormula = (step: Step | undefined) => {
+
+    const resultComment = (step?.result?.data !== undefined) ? "// " + step?.result?.data : "// 0";
+    const nodeComment = (step?.current?.data !== undefined) ? "// " + step?.current.data : "";
+    const indexComment = (step?.index !== undefined) ? "// " + step.index : "";
+    const randomComment = (step?.random !== undefined) ? "// " + step.random : "";
+
+    return `class Solution {
 
     private readonly head: ListNode | null;
 
@@ -15,24 +23,31 @@ const formula = `class Solution {
     }
 
     getRandom(): number {
-        let result = 0;
-        for (let node = this.head, index = 1; node !== null; node = node.next, index++) {
-            if (Math.floor(Math.random() * index) === 0) {
+        let result = 0; ${resultComment}
+        let node = this.head; ${nodeComment}
+        let index = 1; ${indexComment}
+
+        while (node) {
+            const random = Math.floor(Math.random() * index); 
+            if (random === 0) { ${randomComment}
                 result = node.val;
             }
+            node = node.next;
+            index++;
         }
+
         return result;
     }
 }`;
-
+}
 const Code = () => {
     const { index, steps } = useAlgoContext();
-    const action = steps[index - 1];
-    const linesToHighlight: number[] = action ? action.linesToHighlight : [];
+    const step = steps[index - 1];
+    const linesToHighlight: number[] = step ? step.linesToHighlight : [];
 
     return (
         <CodeBlock
-            code={formula}
+            code={getFormula(step)}
             language={languages.Typescript}
             showLineNumbers={true}
             linesToHighlight={linesToHighlight}
@@ -48,7 +63,7 @@ const Head = () => {
                 <EmojiObjectsOutlinedIcon />
             </IconButton>
             <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={2} direction="row">
-                <Typography>Recursive Solution</Typography>
+                <Typography>Reservoir Sampling Solution</Typography>
             </Stack>
             <IconButton color='info'>
                 <DragIndicatorIcon fontSize='medium' />

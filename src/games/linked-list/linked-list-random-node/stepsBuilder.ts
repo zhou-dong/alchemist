@@ -1,99 +1,88 @@
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 
 export enum Action {
-    assign_front_pointer,
-    node_null_return_true,
-    get_into_recursively_check,
-    recursively_check_start,
-    recursively_check,
-    recursively_check_false,
-    recursively_non_eq_front_pointer_val,
-    recursively_eq_front_pointer_val,
-    update_front_pointer,
-    recursively_check_return_true,
-    return_final,
+    define_result,
+    define_node,
+    define_index,
+    compuate_random,
+    update_result,
+    update_node,
+    update_index,
+    return_result,
 }
 
 const getlinesToHighlight = (action: Action): number[] => {
     switch (action) {
-        case Action.recursively_check_start: return [3];
-        case Action.assign_front_pointer: return [18];
-        case Action.get_into_recursively_check: return [19];
-        case Action.node_null_return_true: return [5];
-        case Action.recursively_check: return [7];
-        case Action.recursively_check_false: return [8]
-        case Action.recursively_non_eq_front_pointer_val: return [11];
-        case Action.update_front_pointer: return [13];
-        case Action.recursively_check_return_true: return [14];
-        case Action.return_final: return [19];
-        case Action.recursively_eq_front_pointer_val: return [12];
+        case Action.define_result: return [10];
+        case Action.define_node: return [11];
+        case Action.define_index: return [12];
+        case Action.compuate_random: return [15];
+        case Action.update_result: return [17];
+        case Action.update_node: return [19]
+        case Action.update_index: return [20];
+        case Action.return_result: return [23];
     }
 }
 
 export class Step {
     action: Action;
     linesToHighlight: number[];
-    head: LinkedListNode<number | string>;
-    frontPointer: LinkedListNode<number | string> | undefined;
-    current: LinkedListNode<number | string> | undefined;
+    result: LinkedListNode<number> | undefined;
+    current: LinkedListNode<number> | undefined;
+    index: number | undefined;
+    random: number | undefined;
 
     constructor(
         action: Action,
-        head: LinkedListNode<number | string>,
-        frontPointer: LinkedListNode<number | string> | undefined,
-        current: LinkedListNode<number | string> | undefined
+        result: LinkedListNode<number> | undefined,
+        current: LinkedListNode<number> | undefined,
+        index: number | undefined,
+        random: number | undefined,
     ) {
         this.action = action;
         this.linesToHighlight = getlinesToHighlight(action);
-        this.head = head;
-        this.frontPointer = frontPointer;
+        this.result = result;
         this.current = current;
+        this.index = index;
+        this.random = random;
     }
 }
 
-export function buildSteps(head: LinkedListNode<number | string>): Step[] {
+export function buildSteps(head: LinkedListNode<number>): Step[] {
 
     const steps: Step[] = [];
 
-    let frontPointer: LinkedListNode<number | string> | undefined;
+    function getRandom(): LinkedListNode<number | string> | undefined {
+        let result: LinkedListNode<number> | undefined = undefined;
+        steps.push(new Step(Action.define_result, result, undefined, undefined, undefined));
 
-    function recursivelyCheck(node: LinkedListNode<number | string> | undefined): boolean {
-        steps.push(new Step(Action.recursively_check_start, head, frontPointer, node));
-        if (node === undefined) {
-            steps.push(new Step(Action.node_null_return_true, head, frontPointer, node));
-            return true;
+        let current: LinkedListNode<number> | undefined = head;
+        steps.push(new Step(Action.define_node, result, current, undefined, undefined));
+
+        let index = 1;
+        steps.push(new Step(Action.define_index, result, current, index, undefined));
+
+        while (current) {
+            const random = Math.floor(Math.random() * index)
+            steps.push(new Step(Action.compuate_random, result, current, index, random));
+
+            if (random === 0) {
+                result = current;
+                steps.push(new Step(Action.update_result, result, current, index, random));
+            }
+
+            current = current.next;
+            steps.push(new Step(Action.update_node, result, current, index, random));
+
+            index++;
+            steps.push(new Step(Action.update_index, result, current, index, random));
         }
 
-        steps.push(new Step(Action.recursively_check, head, frontPointer, node));
-        if (!recursivelyCheck(node.next)) {
-            steps.push(new Step(Action.recursively_check_false, head, frontPointer, node));
-            return false;
-        }
-
-        if (node.data !== frontPointer?.data) {
-            steps.push(new Step(Action.recursively_non_eq_front_pointer_val, head, frontPointer, node));
-            return false;
-        }
-
-        steps.push(new Step(Action.recursively_eq_front_pointer_val, head, frontPointer, node));
-
-        frontPointer = frontPointer.next;
-        steps.push(new Step(Action.update_front_pointer, head, frontPointer, node));
-        return true;
+        steps.push(new Step(Action.return_result, result, current, index, undefined));
+        return result;
     }
 
-    function isPalindrome(head: LinkedListNode<number | string>): boolean {
-        frontPointer = head;
-        steps.push(new Step(Action.assign_front_pointer, head, frontPointer, undefined));
-
-        steps.push(new Step(Action.get_into_recursively_check, head, frontPointer, undefined));
-
-        const result = recursivelyCheck(head);
-        steps.push(new Step(Action.return_final, head, frontPointer, undefined));
-        return result;
-    };
-
-    isPalindrome(head);
+    getRandom();
 
     return steps;
 }
