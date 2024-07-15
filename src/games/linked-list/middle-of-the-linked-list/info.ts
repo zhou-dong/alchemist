@@ -5,7 +5,7 @@ import Difficulty from "../../commons/segments/difficulty";
 
 const info: Game = {
     name: title,
-    path: "/algorithms/middle-of-the-linked-list-list",
+    path: "/algorithms/middle-of-the-linked-list",
     categories: [Category.LinkedList],
     companies: [],
     difficulty: Difficulty.Easy,
