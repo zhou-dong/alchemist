@@ -243,6 +243,10 @@ import PalindromeLinkedList from "./games/linked-list/palindrome-linked-list";
 import PalindromeLinkedListInfo from "./games/linked-list/palindrome-linked-list/info";
 import OddEvenLinkedList from "./games/linked-list/odd-even-linked-list";
 import OddEvenLinkedListInfo from "./games/linked-list/odd-even-linked-list/info";
+import SortList from "./games/linked-list/sort-list";
+import SortListInfo from "./games/linked-list/sort-list/info";
+import LinkedListRandomNode from "./games/linked-list/linked-list-random-node";
+import LinkedListRandomNodeInfo from "./games/linked-list/linked-list-random-node/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -381,6 +385,8 @@ const App = () => (
         <Route path={IntersectionOfTwoLinkedListsInfo.path} element={<IntersectionOfTwoLinkedLists renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={PalindromeLinkedListInfo.path} element={<PalindromeLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={OddEvenLinkedListInfo.path} element={<OddEvenLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={SortListInfo.path} element={<SortList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={LinkedListRandomNodeInfo.path} element={<LinkedListRandomNode renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
