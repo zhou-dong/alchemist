@@ -124,6 +124,7 @@ import OddEvenLinkedList from "./linked-list/odd-even-linked-list/info";
 import SortList from "./linked-list/sort-list/info";
 import LinkedListRandomNode from "./linked-list/linked-list-random-node/info";
 import MiddleOfTeLinkedList from "./linked-list/middle-of-the-linked-list/info";
+import DeleteNodeInALinkedList from "./linked-list/delete-node-in-a-linked-list/info";
 
 export const games: Game[] = [
     editDistance,
@@ -250,4 +251,5 @@ export const games: Game[] = [
     // SortList,
     LinkedListRandomNode,
     MiddleOfTeLinkedList,
+    DeleteNodeInALinkedList,
 ];
