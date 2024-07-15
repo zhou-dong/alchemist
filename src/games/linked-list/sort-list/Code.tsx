@@ -8,9 +8,7 @@ import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 
 const formula = `function merge(head1: ListNode | null, head2: ListNode | null) {
     const dummyHead = new ListNode();
-    let temp = dummyHead;
-    let temp1 = head1;
-    let temp2 = head2;
+    let temp = dummyHead, temp1 = head1, temp2 = head2;
     while (temp1 !== null && temp2 !== null) {
         if (temp1.val <= temp2.val) {
             temp.next = temp1;
@@ -37,8 +35,7 @@ function sort(head: ListNode | null, tail: ListNode | null) {
         head.next = null;
         return head;
     }
-    let slow = head;
-    let fast = head;
+    let slow = head, fast = head;
     while (fast !== tail) {
         slow = slow.next;
         fast = fast.next;
@@ -46,11 +43,9 @@ function sort(head: ListNode | null, tail: ListNode | null) {
             fast = fast.next;
         }
     }
-    let mid = slow;
-    const list1 = sort(head, mid);
-    const list2 = sort(mid, tail);
-    const sorted = merge(list1, list2);
-    return sorted;
+    const list1 = sort(head, slow);
+    const list2 = sort(slow, tail);
+    return merge(list1, list2);
 }
 
 function sortList(head: ListNode | null): ListNode | null {
