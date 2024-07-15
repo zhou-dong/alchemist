@@ -249,6 +249,8 @@ import LinkedListRandomNode from "./games/linked-list/linked-list-random-node";
 import LinkedListRandomNodeInfo from "./games/linked-list/linked-list-random-node/info";
 import MiddleOfTeLinkedList from "./games/linked-list/middle-of-the-linked-list";
 import MiddleOfTeLinkedListInfo from "./games/linked-list/middle-of-the-linked-list/info";
+import DeleteNodeInALinkedList from "./games/linked-list/delete-node-in-a-linked-list";
+import DeleteNodeInALinkedListInfo from "./games/linked-list/delete-node-in-a-linked-list/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
@@ -390,6 +392,7 @@ const App = () => (
         <Route path={SortListInfo.path} element={<SortList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={LinkedListRandomNodeInfo.path} element={<LinkedListRandomNode renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={MiddleOfTeLinkedListInfo.path} element={<MiddleOfTeLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={DeleteNodeInALinkedListInfo.path} element={<DeleteNodeInALinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
     </Routes>
 );
 
