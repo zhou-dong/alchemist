@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import Home from './home';
+import Home from './pages/home';
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import BubbleSortAnimationInfo from "./games/sorting/bubble-sort/info";
 import SelectionSortAnimation from "./games/sorting/selection-sort/Animation";

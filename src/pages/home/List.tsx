@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import { useGames } from "../games/commons/GamesContext";
+import { useGames } from "../../games/commons/GamesContext";
 
 interface AlgorithmProps {
     img: string;

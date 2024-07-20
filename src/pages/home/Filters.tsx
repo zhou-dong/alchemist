@@ -9,10 +9,10 @@ import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import GoogleIcon from '@mui/icons-material/Google';
 import PsychologyOutlinedIcon from '@mui/icons-material/PsychologyOutlined';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { useGames } from '../games/commons/GamesContext';
-import Company from '../games/commons/segments/company';
-import Difficulty from '../games/commons/segments/difficulty';
-import Category from '../games/commons/segments/category';
+import { useGames } from '../../games/commons/GamesContext';
+import Company from '../../games/commons/segments/company';
+import Difficulty from '../../games/commons/segments/difficulty';
+import Category from '../../games/commons/segments/category';
 
 const StyledRowHeader = styled(Grid)(() => ({
     display: 'flex',

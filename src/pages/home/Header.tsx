@@ -1,6 +1,6 @@
 import { AppBar, Toolbar } from "@mui/material";
 import MenuButton from './Menu';
-import Logo from '../commons/Logo';
+import Logo from '../../commons/Logo';
 
 interface Props {
     open: boolean;

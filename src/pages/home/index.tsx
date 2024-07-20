@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Filters from "./Filters";
 import List from './List';
-import Footer from '../commons/Footer';
+import Footer from '../../commons/Footer';
 import { ThemeProvider } from '@mui/material';
-import theme from '../commons/theme';
+import theme from '../../commons/theme';
 import Header from "./Header";
 
 const Home = () => {
