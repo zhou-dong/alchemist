@@ -4,11 +4,8 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
 import { getCircles } from './layouts/no-overlap-layout';
-
-interface Category {
-    emoji: string;
-    title: string;
-}
+import { getCircleLayout, getForceAtlas2Layout, getRandomLayout } from './layouts/graphology-layout';
+import { Category, CategoryType, categories } from './layouts/category';
 
 const drawCircle = (
     context: CanvasRenderingContext2D,
@@ -17,7 +14,7 @@ const drawCircle = (
     radius: number,
     category: Category,
 ) => {
-    const { emoji, title } = category;
+    const { emoji, categoryType } = category;
     const backgroundColor = "#fff";
 
     context.shadowColor = 'rgba(0, 0, 0, 0.5)';
@@ -41,8 +38,10 @@ const drawCircle = (
     context.textBaseline = 'middle';
 
     context.fillText(emoji, x, y - radius / 4);
-    context.fillText(title, x, y + radius / 5);
+    context.fillText(categoryType, x, y + radius / 5); // TODO
 }
+
+type LayoutMapping = { [key: string]: { x: number; y: number } };
 
 function drawCircles(
     categories: Category[],
@@ -50,13 +49,49 @@ function drawCircles(
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D,
 ): void {
-    getCircles(
-        canvas.width,
-        canvas.height,
-        categories.map(_ => radius)
-    ).forEach(({ x, y, radius }, index) => {
-        drawCircle(context, x, y, radius, categories[index]);
+    // getCircles(
+    //     canvas.width,
+    //     canvas.height,
+    //     categories.map(_ => radius)
+    // ).forEach(({ x, y, radius }, index) => {
+    //     drawCircle(context, x, y, radius, categories[index]);
+    // });
+
+    // const titles: string[] = categories.map(category => category.title);
+
+    const nodes = categories.map(category => category.categoryType);
+
+    const edges = [
+        [CategoryType.HashTable, CategoryType.TwoPointers],
+        [CategoryType.HashTable, CategoryType.Stack],
+        [CategoryType.HashTable, CategoryType.Queue],
+        [CategoryType.Stack, CategoryType.LinkedList],
+        [CategoryType.Queue, CategoryType.LinkedList],
+        [CategoryType.BinarySearch, CategoryType.Tree],
+        [CategoryType.Tree, CategoryType.SegmentTree],
+        [CategoryType.Tree, CategoryType.Heap],
+        [CategoryType.Graph, CategoryType.TopologicalSort],
+        [CategoryType.Graph, CategoryType.UnionFind],
+        [CategoryType.TopologicalSort, CategoryType.DP],
+        [CategoryType.TopologicalSort, CategoryType.DP],
+    ]
+
+    const maps = getForceAtlas2Layout(nodes, edges);
+
+    categories.forEach(category => {
+        const { x, y } = maps[category.categoryType];
+
+        drawCircle(context, x + 400, y + 100, radius, category);
     });
+
+
+
+
+
+
+
+
+
 }
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
@@ -83,24 +118,6 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
 
     scaleCanvas(canvas, context);
     context.clearRect(0, 0, canvas.width, canvas.height);
-
-    const categories: Category[] = [
-        { title: "Heap", emoji: "⏳" },
-        { title: "Stack", emoji: "📚" },
-        { title: "Queue", emoji: "🚶‍♂️🚶‍♂️" },
-        { title: "Sorting", emoji: "🔄" },
-        { title: "Tree", emoji: "🌳" },
-        { title: "Segment Tree", emoji: "🌲" },
-        { title: "Union Find", emoji: "🔗" },
-        { title: "Binary Search", emoji: "🔍" },
-        { title: "Two Pointers", emoji: "➡️➡️" },
-        { title: "DP", emoji: "🧩" },
-        { title: "Graph", emoji: "🌐" },
-        { title: "Recursion", emoji: "🌀" },
-        { title: "Linked List", emoji: "🖇️" },
-        { title: "Hash Table", emoji: "🗂️" },
-        { title: "Topological Sort", emoji: "🔣" },
-    ]
     drawCircles(categories, 80, canvas, context);
 }
 
