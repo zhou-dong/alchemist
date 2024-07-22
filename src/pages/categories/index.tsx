@@ -3,27 +3,11 @@ import Footer from '../../commons/Footer';
 import { ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
+import { getCircles } from './layouts/no-overlap-layout';
 
 interface Category {
     emoji: string;
     title: string;
-}
-
-interface Circle {
-    x: number;
-    y: number;
-}
-
-function isOverlap(x: number, y: number, radius: number, circles: Circle[]) {
-    for (let circle of circles) {
-        const dx = x - circle.x;
-        const dy = y - circle.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 2 * radius) {
-            return true;
-        }
-    }
-    return false;
 }
 
 const drawCircle = (
@@ -66,33 +50,13 @@ function drawCircles(
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D,
 ): void {
-    const circles: Circle[] = [];
-    let index = 0;
-    let attempts = 0;
-    const maxAttempts = 1000; // Limit attempts to avoid infinite loop
-
-    const widthAdjust = 0 // canvas.width / 10;
-    const heightAdjust = 0 //canvas.height / 10;
-
-    while (circles.length < categories.length && attempts < maxAttempts) {
-        const x = Math.random() * (canvas.width - 2 * radius - widthAdjust) + radius;
-        const y = Math.random() * (canvas.height - 2 * radius - heightAdjust) + radius;
-        if (!isOverlap(x, y, radius, circles)) {
-            circles.push({ x, y });
-            drawCircle(context, x, y, radius, categories[index]);
-            index++;
-        }
-        attempts++;
-    }
-
-    // If maxAttempts exceeded, generate remaining circles without overlap check
-    while (circles.length < categories.length) {
-        const x = Math.random() * (canvas.width - 2 * radius) + radius;
-        const y = Math.random() * (canvas.height - 2 * radius) + radius;
-        circles.push({ x, y });
+    getCircles(
+        canvas.width,
+        canvas.height,
+        categories.map(_ => radius)
+    ).forEach(({ x, y, radius }, index) => {
         drawCircle(context, x, y, radius, categories[index]);
-        index++;
-    }
+    });
 }
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
