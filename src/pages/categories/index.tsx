@@ -81,7 +81,9 @@ function drawCircles(
     categories.forEach(category => {
         const { x, y } = maps[category.categoryType];
 
-        drawCircle(context, x + 400, y + 100, radius, category);
+        console.log(maps)
+
+        drawCircle(context, x + canvas.width / 2, y + canvas.height / 2, radius, category);
     });
 
 
@@ -118,7 +120,7 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
 
     scaleCanvas(canvas, context);
     context.clearRect(0, 0, canvas.width, canvas.height);
-    drawCircles(categories, 80, canvas, context);
+    drawCircles(categories, 40, canvas, context);
 }
 
 const Body = () => {
