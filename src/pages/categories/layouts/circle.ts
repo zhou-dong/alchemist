@@ -22,11 +22,10 @@ export function isInsideCircle(x: number, y: number, circle: Circle): boolean {
     return distance <= circle.radius;
 }
 
-export const drawCircle = (context: CanvasRenderingContext2D, circle: Circle, category: Category) => {
+export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: CategoryCircle) => {
 
-    const { x, y, radius } = circle;
+    const { x, y, radius, emoji, categoryType } = categoryCircle;
 
-    const { emoji, categoryType } = category;
     const backgroundColor = "#fff";
 
     context.shadowColor = 'rgba(0, 0, 0, 0.5)';
@@ -44,12 +43,13 @@ export const drawCircle = (context: CanvasRenderingContext2D, circle: Circle, ca
     context.shadowOffsetX = 0;
     context.shadowOffsetY = 0;
 
-    context.font = '300 20px "Roboto"';
+    context.font = '300 30px "Roboto"';
     context.fillStyle = "#000";
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-
     context.fillText(emoji, x, y - radius / 4);
+
+    context.font = '300 20px "Roboto"';
     context.fillText(categoryType, x, y + radius / 5); // TODO
 }
 
@@ -82,7 +82,7 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     const base2Y = adjustedEndY - arrowLength * Math.sin(angle) + arrowWidth * Math.cos(angle) / 2;
 
     // Draw line from start point to the adjusted base of the triangle
-    ctx.strokeStyle = "gray";
+    ctx.strokeStyle = "#e2e2e2";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(startX, startY);
@@ -90,7 +90,7 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     ctx.stroke();
 
     // Draw the triangle arrowhead
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = "gray";
     ctx.beginPath();
     ctx.moveTo(arrowTipX, arrowTipY);
     ctx.lineTo(base1X, base1Y);
