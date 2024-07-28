@@ -52,12 +52,12 @@ export const drawCircle = (context: CanvasRenderingContext2D, circle: Circle, ca
 }
 
 export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle2: Circle): void {
+
     const { x: x1, y: y1, radius: r1 } = circle1;
     const { x: x2, y: y2, radius: r2 } = circle2;
-    const headlen = 10; // length of head in pixels
-    const dx = x2 - x1;
-    const dy = y2 - y1;
-    const angle = Math.atan2(dy, dx);
+    const arrowLength = 20; // Length of the arrow triangle
+    const arrowWidth = 15;  // Width of the arrow triangle at the base
+    const angle = Math.atan2(y2 - y1, x2 - x1);
 
     // Starting point adjusted for circle radius
     const startX = x1 + r1 * Math.cos(angle);
@@ -67,16 +67,28 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     const endX = x2 - r2 * Math.cos(angle);
     const endY = y2 - r2 * Math.sin(angle);
 
+    // Calculate the points of the triangle
+    const arrowTipX = endX;
+    const arrowTipY = endY;
+    const base1X = endX - arrowLength * Math.cos(angle) + arrowWidth * Math.sin(angle) / 2;
+    const base1Y = endY - arrowLength * Math.sin(angle) - arrowWidth * Math.cos(angle) / 2;
+    const base2X = endX - arrowLength * Math.cos(angle) - arrowWidth * Math.sin(angle) / 2;
+    const base2Y = endY - arrowLength * Math.sin(angle) + arrowWidth * Math.cos(angle) / 2;
+
+    // Draw line from start point to the base of the triangle
+    ctx.strokeStyle = "gray";
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(startX, startY);
-    ctx.lineTo(endX, endY);
+    ctx.lineTo(arrowTipX, arrowTipY);
     ctx.stroke();
 
-    // Draw the arrow head
+    // Draw the triangle arrowhead
+    ctx.fillStyle = "gray";
     ctx.beginPath();
-    ctx.moveTo(endX, endY);
-    ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
-    ctx.moveTo(endX, endY);
-    ctx.lineTo(endX - headlen * Math.cos(angle + Math.PI / 6), endY - headlen * Math.sin(angle + Math.PI / 6));
-    ctx.stroke();
+    ctx.moveTo(arrowTipX, arrowTipY);
+    ctx.lineTo(base1X, base1Y);
+    ctx.lineTo(base2X, base2Y);
+    ctx.closePath();
+    ctx.fill();
 }
