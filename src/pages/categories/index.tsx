@@ -5,7 +5,7 @@ import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
 import { getNoOverlapCircles } from './layouts/no-overlap-layout';
 import { categories } from './layouts/category';
-import { Circle, drawCircle, isInsideCircle } from './layouts/circle';
+import { Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
     const rect = canvas.getBoundingClientRect();
@@ -31,6 +31,7 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
     scaleCanvas(canvas, context);
     context.clearRect(0, 0, canvas.width, canvas.height);
 
+    drawArrow(context, circles[0], circles[1]);
 
     circles.forEach(({ x, y, radius }, index) => {
         drawCircle(context, { x, y, radius, }, categories[index]);
