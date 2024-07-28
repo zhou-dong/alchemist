@@ -38,3 +38,20 @@ export const categories: Category[] = [
     { categoryType: CategoryType.HashTable, emoji: "🗂️" },
     { categoryType: CategoryType.TopologicalSort, emoji: "🔣" },
 ];
+
+export const connections: CategoryType[][] = [
+    [CategoryType.HashTable, CategoryType.Stack],
+    [CategoryType.HashTable, CategoryType.Queue],
+    [CategoryType.HashTable, CategoryType.TwoPointers],
+    [CategoryType.HashTable, CategoryType.BinarySearch],
+    [CategoryType.BinarySearch, CategoryType.Tree],
+    [CategoryType.Stack, CategoryType.LinkedList],
+    [CategoryType.Queue, CategoryType.LinkedList],
+    [CategoryType.Tree, CategoryType.SegmentTree],
+    [CategoryType.Tree, CategoryType.Heap],
+    [CategoryType.Tree, CategoryType.UnionFind],
+    [CategoryType.Recursion, CategoryType.DP],
+    [CategoryType.Graph, CategoryType.TopologicalSort],
+    [CategoryType.Tree, CategoryType.Recursion],
+    [CategoryType.Tree, CategoryType.Graph],
+]
