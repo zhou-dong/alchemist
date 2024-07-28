@@ -3,9 +3,9 @@ import Footer from '../../commons/Footer';
 import { ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
-import { getNoOverlapCircles } from './layouts/no-overlap-layout';
 import { categories, connections } from './layouts/category';
 import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
+import { getFixedPositionLayout } from './layouts/fixed-position-layout';
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
     const rect = canvas.getBoundingClientRect();
@@ -31,8 +31,8 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
     scaleCanvas(canvas, context);
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    circles.forEach(({ x, y, radius }, index) => {
-        drawCircle(context, { x, y, radius, }, categories[index]);
+    circles.forEach(categoryCircle => {
+        drawCircle(context, categoryCircle);
     });
 
     const map = new Map(circles.map(circle => [circle.categoryType, circle]));
@@ -51,8 +51,6 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
  * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
 */
 const Body = () => {
-    const radius: number = 80;
-
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
     let circles: CategoryCircle[] = [];
@@ -131,10 +129,7 @@ const Body = () => {
     const refreshCanvas = () => {
         const canvas = canvasRef.current;
         if (canvas) {
-            const radiusList = categories.map(_ => radius);
-            circles = getNoOverlapCircles(canvas.width, canvas.height, radiusList).map((circle, i) => {
-                return { ...circle, ...categories[i] }
-            });
+            circles = getFixedPositionLayout(canvas.width, canvas.height);
         }
         draw();
     };
@@ -169,7 +164,7 @@ const Body = () => {
             <canvas
                 ref={canvasRef}
                 style={{
-                    backgroundColor: "#f8f9fa",
+                    backgroundColor: "#fff",
                     borderTop: "2px solid #e2e2e2",
                 }}
             />
