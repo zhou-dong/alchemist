@@ -34,7 +34,7 @@ export function getNoOverlapCircles(
         const radius = radiusList[index];
         const x = Math.random() * (canvasWidth - 2 * radius) + radius;
         const y = Math.random() * (canvasHeight - 2 * radius) + radius;
-        circles.push({ x, y, radius });
+        circles.push({ x, y, radius, });
         index++;
     }
 
