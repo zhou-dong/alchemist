@@ -1,6 +1,5 @@
 import Graphology from "graphology";
 import forceAtlas2 from 'graphology-layout-forceatlas2';
-import forceLayout from 'graphology-layout-force';
 import circular from 'graphology-layout/circular';
 import random from 'graphology-layout/random';
 import { CategoryType } from "./category";
@@ -49,20 +48,14 @@ export function getForceAtlas2Layout(nodes: CategoryType[], edges: CategoryType[
         attributes.y = Math.random() * 10; // Set initial y position
     });
 
-    // random(graphology, { scale: 350 });
-
     const sensibleSettings = forceAtlas2.inferSettings(graphology);
 
     return forceAtlas2(graphology, {
-        iterations: 50,
+        iterations: 150,
         settings: {
-            gravity: 1,
-            scalingRatio: 100,
-            
-            // edgeWeightInfluence: 10,
-            // outboundAttractionDistribution: true,
-            // linLogMode: true,
-            adjustSizes: true
-          }
+            ...sensibleSettings,
+            gravity: 0.01,
+            scalingRatio: 400,
+        }
     });
 };
