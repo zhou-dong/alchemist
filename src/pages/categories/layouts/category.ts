@@ -39,7 +39,12 @@ export const categories: Category[] = [
     { categoryType: CategoryType.TopologicalSort, emoji: "🔣" },
 ];
 
+export const categoryMap: Map<CategoryType, Category> = new Map<CategoryType, Category>(
+    categories.map(category => [category.categoryType, category])
+);
+
 export const connections: CategoryType[][] = [
+    [CategoryType.HashTable, CategoryType.Sorting],
     [CategoryType.HashTable, CategoryType.Stack],
     [CategoryType.HashTable, CategoryType.Queue],
     [CategoryType.HashTable, CategoryType.TwoPointers],
