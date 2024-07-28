@@ -4,8 +4,8 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
 import { getNoOverlapCircles } from './layouts/no-overlap-layout';
-import { categories } from './layouts/category';
-import { Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
+import { categories, connections } from './layouts/category';
+import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
     const rect = canvas.getBoundingClientRect();
@@ -27,14 +27,21 @@ const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2
     canvas.style.height = `${height}px`;
 }
 
-const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, circles: Circle[]) => {
+const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, circles: CategoryCircle[]) => {
     scaleCanvas(canvas, context);
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawArrow(context, circles[0], circles[1]);
-
     circles.forEach(({ x, y, radius }, index) => {
         drawCircle(context, { x, y, radius, }, categories[index]);
+    });
+
+    const map = new Map(circles.map(circle => [circle.categoryType, circle]));
+    connections.forEach(connection => {
+        const from = map.get(connection[0]);
+        const to = map.get(connection[1]);
+        if (from && to) {
+            drawArrow(context, from, to);
+        }
     });
 }
 
@@ -45,10 +52,10 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
 */
 const Body = () => {
     const radius: number = 80;
-    const radiusList = categories.map(_ => radius);
+
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
-    let circles: Circle[] = [];
+    let circles: CategoryCircle[] = [];
     let dragTarget: Circle | null = null;
     let isDragging = false;
     let dragStartTime: number | null = null;
@@ -124,7 +131,10 @@ const Body = () => {
     const refreshCanvas = () => {
         const canvas = canvasRef.current;
         if (canvas) {
-            circles = getNoOverlapCircles(canvas.width, canvas.height, radiusList);
+            const radiusList = categories.map(_ => radius);
+            circles = getNoOverlapCircles(canvas.width, canvas.height, radiusList).map((circle, i) => {
+                return { ...circle, ...categories[i] }
+            });
         }
         draw();
     };
