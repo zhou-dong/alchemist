@@ -6,6 +6,8 @@ export interface Circle {
     radius: number;
 }
 
+export interface CategoryCircle extends Category, Circle { };
+
 export function isOverlap(a: Circle, b: Circle): boolean {
     const dx = a.x - b.x;
     const dy = a.y - b.y;
