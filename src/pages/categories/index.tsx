@@ -3,98 +3,9 @@ import Footer from '../../commons/Footer';
 import { ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
-import { getCircles } from './layouts/no-overlap-layout';
-import { getCircleLayout, getForceAtlas2Layout, getRandomLayout } from './layouts/graphology-layout';
-import { Category, CategoryType, categories } from './layouts/category';
-
-const drawCircle = (
-    context: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    radius: number,
-    category: Category,
-) => {
-    const { emoji, categoryType } = category;
-    const backgroundColor = "#fff";
-
-    context.shadowColor = 'rgba(0, 0, 0, 0.5)';
-    context.shadowBlur = 10;
-    context.shadowOffsetX = 5;
-    context.shadowOffsetY = 5;
-
-    context.beginPath();
-    context.arc(x, y, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = backgroundColor;
-    context.fill();
-
-    context.shadowColor = '#fff';
-    context.shadowBlur = 0;
-    context.shadowOffsetX = 0;
-    context.shadowOffsetY = 0;
-
-    context.font = '300 18px "Roboto"';
-    context.fillStyle = "#000";
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-
-    context.fillText(emoji, x, y - radius / 4);
-    context.fillText(categoryType, x, y + radius / 5); // TODO
-}
-
-type LayoutMapping = { [key: string]: { x: number; y: number } };
-
-function drawCircles(
-    categories: Category[],
-    radius: number,
-    canvas: HTMLCanvasElement,
-    context: CanvasRenderingContext2D,
-): void {
-    // getCircles(
-    //     canvas.width,
-    //     canvas.height,
-    //     categories.map(_ => radius)
-    // ).forEach(({ x, y, radius }, index) => {
-    //     drawCircle(context, x, y, radius, categories[index]);
-    // });
-
-    // const titles: string[] = categories.map(category => category.title);
-
-    const nodes = categories.map(category => category.categoryType);
-
-    const edges = [
-        [CategoryType.HashTable, CategoryType.TwoPointers],
-        [CategoryType.HashTable, CategoryType.Stack],
-        [CategoryType.HashTable, CategoryType.Queue],
-        [CategoryType.Stack, CategoryType.LinkedList],
-        [CategoryType.Queue, CategoryType.LinkedList],
-        [CategoryType.BinarySearch, CategoryType.Tree],
-        [CategoryType.Tree, CategoryType.SegmentTree],
-        [CategoryType.Tree, CategoryType.Heap],
-        [CategoryType.Graph, CategoryType.TopologicalSort],
-        [CategoryType.Graph, CategoryType.UnionFind],
-        [CategoryType.TopologicalSort, CategoryType.DP],
-        [CategoryType.TopologicalSort, CategoryType.DP],
-    ]
-
-    const maps = getForceAtlas2Layout(nodes, edges);
-
-    categories.forEach(category => {
-        const { x, y } = maps[category.categoryType];
-
-        console.log(maps)
-
-        drawCircle(context, x + canvas.width / 2, y + canvas.height / 2, radius, category);
-    });
-
-
-
-
-
-
-
-
-
-}
+import { getNoOverlapCircles } from './layouts/no-overlap-layout';
+import { categories } from './layouts/category';
+import { Circle, drawCircle, isInsideCircle } from './layouts/circle';
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
     const rect = canvas.getBoundingClientRect();
@@ -116,40 +27,130 @@ const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2
     canvas.style.height = `${height}px`;
 }
 
-const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
-
+const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, circles: Circle[]) => {
     scaleCanvas(canvas, context);
     context.clearRect(0, 0, canvas.width, canvas.height);
-    drawCircles(categories, 40, canvas, context);
+
+
+    circles.forEach(({ x, y, radius }, index) => {
+        drawCircle(context, { x, y, radius, }, categories[index]);
+    });
 }
 
+/**
+ * To differentiate between a drag and a click, you can use a combination of mouse events and a time threshold. 
+ * The idea is to record the mouse down and mouse up events and calculate the time difference and distance moved. 
+ * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
+*/
 const Body = () => {
+    const radius: number = 100;
+    const radiusList = categories.map(_ => radius);
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
-    React.useEffect(() => {
-        const handleResize = () => {
-            const canvas = canvasRef.current;
-            const context = canvas?.getContext("2d");
-            if (canvas && context) {
-                drawCanvas(canvas, context)
+    let circles: Circle[] = [];
+    let dragTarget: Circle | null = null;
+    let isDragging = false;
+    let dragStartTime: number | null = null;
+    let dragStartX: number | null = null;
+    let dragStartY: number | null = null;
+    const clickThresholdTime = 200; // milliseconds
+    const clickThresholdDistance = 5; // pixels
+
+    function handleMouseDown(e: MouseEvent, circles: Circle[]): void {
+        const { offsetX, offsetY } = e;
+        dragStartX = offsetX;
+        dragStartY = offsetY;
+        dragStartTime = new Date().getTime();
+        isDragging = false;
+        for (const circle of circles) {
+            if (isInsideCircle(offsetX, offsetY, circle)) {
+                dragTarget = circle;
+                break;
             }
-        };
+        }
+    }
 
-        // Set up event listener
+    function draw(): void {
+        const canvas = canvasRef.current;
+        const context = canvas?.getContext("2d");
+        if (canvas && context) {
+            drawCanvas(canvas, context, circles);
+        }
+    }
+
+    function handleMouseMove(e: MouseEvent): void {
+        if (!dragTarget) {
+            return;
+        }
+        const { offsetX, offsetY } = e;
+
+        const dx = Math.abs(offsetX - (dragStartX ?? 0));
+        const dy = Math.abs(offsetY - (dragStartY ?? 0));
+
+        if (dx > clickThresholdDistance || dy > clickThresholdDistance) {
+            isDragging = true;
+        }
+
+        if (isDragging) {
+            dragTarget.x = offsetX;
+            dragTarget.y = offsetY;
+            draw();
+        }
+    }
+
+    function handleMouseUp(e: MouseEvent, circles: Circle[]): void {
+        const { offsetX, offsetY } = e;
+        const endTime = new Date().getTime();
+
+        if (dragTarget && !isDragging && endTime - (dragStartTime ?? 0) < clickThresholdTime) {
+            for (const circle of circles) {
+                if (isInsideCircle(offsetX, offsetY, circle)) {
+
+
+                    console.log("click")
+                    break;
+                }
+            }
+        }
+
+        dragTarget = null;
+        isDragging = false;
+        dragStartTime = null;
+        dragStartX = null;
+        dragStartY = null;
+    }
+
+    const refreshCanvas = () => {
+        const canvas = canvasRef.current;
+        if (canvas) {
+            circles = getNoOverlapCircles(canvas.width, canvas.height, radiusList);
+        }
+        draw();
+    };
+
+    React.useEffect(() => {
+        const handleResize = () => { refreshCanvas() };
         window.addEventListener('resize', handleResize);
-
-        // Clean up event listener on component unmount
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', handleResize)
         };
     }, []);
 
     React.useEffect(() => {
+        refreshCanvas();
         const canvas = canvasRef.current;
-        const context = canvas?.getContext("2d");
-        if (canvas && context) {
-            drawCanvas(canvas, context);
+        if (canvas) {
+            canvas.addEventListener('mousedown', (e) => handleMouseDown(e, circles));
+            canvas.addEventListener('mousemove', (e) => handleMouseMove(e));
+            canvas.addEventListener('mouseup', (e) => handleMouseUp(e, circles));
         }
+        return () => {
+            if (canvas) {
+                canvas.removeEventListener('mousedown', (e) => handleMouseDown(e, circles));
+                canvas.removeEventListener('mousemove', (e) => handleMouseMove(e));
+                canvas.removeEventListener('mouseup', (e) => handleMouseUp(e, circles));
+            }
+        };
     }, [canvasRef]);
 
     return (
