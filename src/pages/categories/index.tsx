@@ -44,7 +44,7 @@ const drawCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D
  * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
 */
 const Body = () => {
-    const radius: number = 100;
+    const radius: number = 80;
     const radiusList = categories.map(_ => radius);
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
