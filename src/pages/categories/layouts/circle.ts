@@ -55,7 +55,7 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
 
     const { x: x1, y: y1, radius: r1 } = circle1;
     const { x: x2, y: y2, radius: r2 } = circle2;
-    const arrowLength = 20; // Length of the arrow triangle
+    const arrowLength = 15; // Length of the arrow triangle
     const arrowWidth = 15;  // Width of the arrow triangle at the base
     const angle = Math.atan2(y2 - y1, x2 - x1);
 
@@ -67,24 +67,28 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     const endX = x2 - r2 * Math.cos(angle);
     const endY = y2 - r2 * Math.sin(angle);
 
+    // Adjusted end point for the arrowhead
+    const adjustedEndX = endX - (arrowLength / 2) * Math.cos(angle);
+    const adjustedEndY = endY - (arrowLength / 2) * Math.sin(angle);
+
     // Calculate the points of the triangle
     const arrowTipX = endX;
     const arrowTipY = endY;
-    const base1X = endX - arrowLength * Math.cos(angle) + arrowWidth * Math.sin(angle) / 2;
-    const base1Y = endY - arrowLength * Math.sin(angle) - arrowWidth * Math.cos(angle) / 2;
-    const base2X = endX - arrowLength * Math.cos(angle) - arrowWidth * Math.sin(angle) / 2;
-    const base2Y = endY - arrowLength * Math.sin(angle) + arrowWidth * Math.cos(angle) / 2;
+    const base1X = adjustedEndX - arrowLength * Math.cos(angle) + arrowWidth * Math.sin(angle) / 2;
+    const base1Y = adjustedEndY - arrowLength * Math.sin(angle) - arrowWidth * Math.cos(angle) / 2;
+    const base2X = adjustedEndX - arrowLength * Math.cos(angle) - arrowWidth * Math.sin(angle) / 2;
+    const base2Y = adjustedEndY - arrowLength * Math.sin(angle) + arrowWidth * Math.cos(angle) / 2;
 
-    // Draw line from start point to the base of the triangle
+    // Draw line from start point to the adjusted base of the triangle
     ctx.strokeStyle = "gray";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(startX, startY);
-    ctx.lineTo(arrowTipX, arrowTipY);
+    ctx.lineTo(adjustedEndX, adjustedEndY);
     ctx.stroke();
 
     // Draw the triangle arrowhead
-    ctx.fillStyle = "gray";
+    ctx.fillStyle = "#000";
     ctx.beginPath();
     ctx.moveTo(arrowTipX, arrowTipY);
     ctx.lineTo(base1X, base1Y);
