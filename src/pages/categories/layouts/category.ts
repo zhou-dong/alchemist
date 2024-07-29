@@ -48,6 +48,10 @@ export const connections: CategoryType[][] = [
     [CategoryType.HashTable, CategoryType.Stack],
     [CategoryType.HashTable, CategoryType.Queue],
     [CategoryType.HashTable, CategoryType.TwoPointers],
+    [CategoryType.TwoPointers, CategoryType.LinkedList],
+
+    [CategoryType.LinkedList, CategoryType.Tree],
+
     [CategoryType.HashTable, CategoryType.BinarySearch],
     [CategoryType.BinarySearch, CategoryType.Tree],
     [CategoryType.Stack, CategoryType.LinkedList],

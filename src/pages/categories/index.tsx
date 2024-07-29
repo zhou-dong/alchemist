@@ -3,9 +3,9 @@ import Footer from '../../commons/Footer';
 import { ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
-import { categories, connections } from './layouts/category';
+import { connections } from './layouts/category';
 import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
-import { getFixedPositionLayout } from './layouts/fixed-position-layout';
+import { getFixedcompactLayout , getFixedTreeLayout } from './layouts/fixed-position-layout';
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
     const rect = canvas.getBoundingClientRect();
@@ -129,7 +129,7 @@ const Body = () => {
     const refreshCanvas = () => {
         const canvas = canvasRef.current;
         if (canvas) {
-            circles = getFixedPositionLayout(canvas.width, canvas.height);
+            circles = getFixedTreeLayout(canvas.width, canvas.height);
         }
         draw();
     };

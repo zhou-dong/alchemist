@@ -49,7 +49,7 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
     context.textBaseline = 'middle';
     context.fillText(emoji, x, y - radius / 4);
 
-    context.font = '300 20px "Roboto"';
+    context.font = '300 16px "Roboto"';
     context.fillText(categoryType, x, y + radius / 5); // TODO
 }
 
@@ -57,8 +57,8 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
 
     const { x: x1, y: y1, radius: r1 } = circle1;
     const { x: x2, y: y2, radius: r2 } = circle2;
-    const arrowLength = 15; // Length of the arrow triangle
-    const arrowWidth = 15;  // Width of the arrow triangle at the base
+    const arrowLength = 10; // Length of the arrow triangle
+    const arrowWidth = 10;  // Width of the arrow triangle at the base
     const angle = Math.atan2(y2 - y1, x2 - x1);
 
     // Starting point adjusted for circle radius
