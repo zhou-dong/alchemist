@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import Home from './pages/home';
-import Category from "./pages/categories";
+import Roadmap from "./pages/roadmap";
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import BubbleSortAnimationInfo from "./games/sorting/bubble-sort/info";
@@ -264,7 +264,7 @@ window.addEventListener('resize', () => onWindowResize(renderer, camera), false)
 const App = () => (
     <Routes>
         <Route index element={<Home />} />
-        <Route path="pages/categories" element={<Category />} />
+        <Route path="pages/roadmap" element={<Roadmap />} />
         <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={InsertionSortAnimationInfo.path} element={<InsertionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />

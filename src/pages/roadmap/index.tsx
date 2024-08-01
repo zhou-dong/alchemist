@@ -1,11 +1,15 @@
 import * as React from 'react';
 import Footer from '../../commons/Footer';
-import { Grid, ThemeProvider } from '@mui/material';
+import { Grid, Paper, ThemeProvider, Typography } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
 import { connections } from './layouts/category';
 import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
+import { green } from '@mui/material/colors';
+import Divider from '@mui/material/Divider';
+
+const canvasMaxHeight = "750px";
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, width: number, height: number) => {
     const scale = window.devicePixelRatio || 1;
@@ -172,9 +176,9 @@ const Roadmap = () => {
             ref={containerRef}
             style={{
                 width: "100%",
-                height: "750px",
+                height: canvasMaxHeight,
                 maxWidth: '1800px',
-                maxHeight: '750px',
+                maxHeight: canvasMaxHeight,
             }}
         >
             <canvas
@@ -192,16 +196,31 @@ const Main = () => {
         <ThemeProvider theme={theme}>
             <div style={{ marginLeft: 40, marginRight: 40 }}>
                 <Logo />
-            </div>
-            <Grid container spacing={1} sx={{}}>
-                <Grid item xs={12} md={4}>
-                    123
+
+                <Grid container spacing={1} sx={{}}>
+                    <Grid item xs={12} md={12} lg={8} style={{ paddingTop: 0 }}>
+                        <Roadmap />
+                    </Grid>
+                    <Grid item xs={12} md={12} lg={4} style={{ paddingTop: 0 }}>
+                        <Paper
+                            elevation={3}
+                            sx={{
+                                padding: 2,
+                                height: canvasMaxHeight
+                            }}>
+                            <Typography
+                                variant='h6'
+                                sx={{
+                                    textAlign: "center",
+                                    color: green[700],
+                                }}
+                            >
+                                Roadmap
+                            </Typography>
+                            <Divider />
+                        </Paper>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={8} sx={{}} style={{ paddingTop: 0 }}>
-                    <Roadmap />
-                </Grid>
-            </Grid>
-            <div style={{ marginLeft: 40, marginRight: 40 }}>
                 <Footer />
             </div>
         </ThemeProvider>
