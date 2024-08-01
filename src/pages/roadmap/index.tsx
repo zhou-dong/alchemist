@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Footer from '../../commons/Footer';
-import { Grid, Paper, ThemeProvider, Typography } from '@mui/material';
+import { Grid, List, ListItem, ListItemText, Paper, ThemeProvider, Typography } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
 import { connections } from './layouts/category';
 import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
-import { green } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
 
 const canvasMaxHeight = "750px";
@@ -198,10 +198,10 @@ const Main = () => {
                 <Logo />
 
                 <Grid container spacing={1} sx={{}}>
-                    <Grid item xs={12} md={12} lg={8} style={{ paddingTop: 0 }}>
+                    <Grid item xs={12} md={12} lg={8} xl={7} style={{ paddingTop: 0 }}>
                         <Roadmap />
                     </Grid>
-                    <Grid item xs={12} md={12} lg={4} style={{ paddingTop: 0 }}>
+                    <Grid item xs={12} md={12} lg={4} xl={5} style={{ paddingTop: 0 }}>
                         <Paper
                             elevation={3}
                             sx={{
@@ -212,12 +212,23 @@ const Main = () => {
                                 variant='h6'
                                 sx={{
                                     textAlign: "center",
-                                    color: green[700],
+                                    color: grey[800],
                                 }}
                             >
                                 Roadmap
                             </Typography>
                             <Divider />
+                            <List>
+                                <ListItem>
+                                    <ListItemText>123</ListItemText>
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText>234</ListItemText>
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText primary={`Item eeee`} />
+                                </ListItem>
+                            </List>
                         </Paper>
                     </Grid>
                 </Grid>
