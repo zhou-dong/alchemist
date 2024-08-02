@@ -1,3 +1,4 @@
+import { green } from '@mui/material/colors';
 import { Category } from "./category";
 
 export interface Circle {
@@ -26,7 +27,7 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
 
     const { x, y, radius, emoji, categoryType, selected } = categoryCircle;
 
-    const backgroundColor = selected ? "lightgreen" : "#fff";
+    const backgroundColor = selected ? "#fff" : green[300]  //"lightgreen" //"#f8f9fa";
     const textColor = selected ? "#000" : "#000";
 
     context.shadowColor = 'rgba(0, 0, 0, 0.5)';
