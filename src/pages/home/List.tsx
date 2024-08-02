@@ -2,14 +2,29 @@ import { Link as RouterLink } from "react-router-dom";
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { useGames } from "../../games/commons/GamesContext";
 
-interface AlgorithmProps {
+interface Props {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+}
+
+interface AlgorithmProps extends Props {
     img: string;
     title: string;
     path: string;
 }
 
-const Algorithm = ({ title, path, img }: AlgorithmProps) => (
-    <Grid item xs={6} sm={4} md={3} lg={2} xl={1.5}>
+const Algorithm = ({ title, path, img, xs, sm, md, lg, xl }: AlgorithmProps) => (
+    <Grid
+        item
+        xs={xs}
+        sm={sm}
+        md={md}
+        lg={lg}
+        xl={xl}
+    >
         <Card variant="outlined" sx={{ borderRadius: "15px", padding: 1, paddingBottom: 0 }}>
             <CardActionArea component={RouterLink} to={path}>
                 <CardMedia
@@ -19,7 +34,7 @@ const Algorithm = ({ title, path, img }: AlgorithmProps) => (
                 </CardMedia>
             </CardActionArea>
             <CardContent style={{ paddingBottom: 2, paddingTop: 5 }} sx={{ maxHeight: "64px" }}>
-                <Typography variant="body1">
+                <Typography variant="body2">
                     {title}
                 </Typography>
             </CardContent>
@@ -27,7 +42,7 @@ const Algorithm = ({ title, path, img }: AlgorithmProps) => (
     </Grid >
 );
 
-const Sorting = () => {
+const Sorting = ({ xs, sm, md, lg, xl }: Props) => {
 
     const { games } = useGames();
 
@@ -40,6 +55,11 @@ const Sorting = () => {
                         title={game.name}
                         path={game.path}
                         img={game.img}
+                        xs={xs}
+                        sm={sm}
+                        md={md}
+                        lg={lg}
+                        xl={xl}
                     />
                 ))
             }

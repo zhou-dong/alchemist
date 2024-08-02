@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Footer from '../../commons/Footer';
-import { Grid, List, ListItem, ListItemText, Paper, ThemeProvider, Typography } from '@mui/material';
+import { AppBar, Grid, List, ListItem, ListItemText, Paper, styled, ThemeProvider, Toolbar, Typography } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
 import { connections } from './layouts/category';
@@ -8,8 +8,9 @@ import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from '.
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
 import { grey } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
+import Algorithms from "../home/List";
 
-const canvasMaxHeight = "750px";
+const canvasMaxHeight = "900px";
 
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, width: number, height: number) => {
     const scale = window.devicePixelRatio || 1;
@@ -51,7 +52,9 @@ const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[
 const Roadmap = () => {
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const [size, setSize] = React.useState({ width: 0, height: 0 });
+
+    let containerWidth = 0;
+    let containerHeight = 0;
 
     let circles: CategoryCircle[] = [];
     let dragTarget: Circle | null = null;
@@ -102,7 +105,7 @@ const Roadmap = () => {
         if (isDragging) {
             dragTarget.x = offsetX;
             dragTarget.y = offsetY;
-            drawCanvas(size.width, size.height);
+            drawCanvas(containerWidth, containerHeight);
         }
     }
 
@@ -148,6 +151,8 @@ const Roadmap = () => {
 
         const refreshCanvas = (width: number, height: number) => {
             circles = getFixedTreeLayout(width, height);
+            containerWidth = width;
+            containerHeight = height;
             drawCanvas(width, height);
         };
 
@@ -159,7 +164,6 @@ const Roadmap = () => {
         const resizeObserver = new ResizeObserver(entries => {
             for (let entry of entries) {
                 const { width, height } = entry.contentRect;
-                setSize({ width, height });
                 refreshCanvas(width, height);
             }
         });
@@ -183,42 +187,83 @@ const Roadmap = () => {
         >
             <canvas
                 ref={canvasRef}
-                style={{
-                    backgroundColor: "#fff",
-                }}
+                style={{}}
             />
         </div>
     );
 }
 
+const Header = () => (
+    <AppBar
+        elevation={1}
+        position="static"
+    >
+        <Toolbar sx={{ height: 30 }}>
+            <Typography
+                variant='h6'
+                sx={{
+                    color: "#fff",
+                    // marginLeft: "20px"
+                }}
+            >
+                Alchemist
+            </Typography>
+        </Toolbar>
+    </AppBar>
+);
+
+const AlgorithmsContainer = styled(Paper)(({ theme }) => ({
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    padding: theme.spacing(2),
+    height: '100%',
+    overflow: 'auto',
+}));
+
 const Main = () => {
+
+    const xs = 12;
+    const sm = 6;
+    const md = 4;
+    const lg = 6;
+    const xl = 3;
+
     return (
         <ThemeProvider theme={theme}>
-            <div style={{ marginLeft: 40, marginRight: 40 }}>
-                <Logo />
 
-                <Grid container spacing={1} sx={{}}>
-                    <Grid item xs={12} md={12} lg={8} xl={7} style={{ paddingTop: 0 }}>
+            {/* <Header /> */}
+            <div style={{
+                marginLeft: 40,
+                marginRight: 40,
+            }}>
+                <Logo />
+            </div>
+
+            <Divider />
+
+            <div style={{
+                // marginLeft: 40,
+                // marginRight: 40,
+                // backgroundColor: "#f8f9fa"
+            }}>
+                {/* <Logo /> */}
+                <Grid container spacing={1} sx={{ padding: 2 }}>
+                    <Grid item xs={12} md={12} lg={8} xl={7} style={{}}>
                         <Roadmap />
                     </Grid>
-                    <Grid item xs={12} md={12} lg={4} xl={5} style={{ paddingTop: 0 }}>
+                    <Grid item xs={12} md={12} lg={4} xl={5} style={{}}>
                         <Paper
                             elevation={3}
                             sx={{
-                                padding: 2,
+                                // padding: 2,
                                 height: canvasMaxHeight
                             }}>
-                            <Typography
-                                variant='h6'
-                                sx={{
-                                    textAlign: "center",
-                                    color: grey[800],
-                                }}
-                            >
-                                Roadmap
-                            </Typography>
-                            <Divider />
-                            <List>
+                            <AlgorithmsContainer>
+                                <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
+                            </AlgorithmsContainer>
+
+                            {/* <List>
                                 <ListItem>
                                     <ListItemText>123</ListItemText>
                                 </ListItem>
@@ -228,12 +273,12 @@ const Main = () => {
                                 <ListItem>
                                     <ListItemText primary={`Item eeee`} />
                                 </ListItem>
-                            </List>
+                            </List> */}
                         </Paper>
                     </Grid>
                 </Grid>
-                <Footer />
             </div>
+            <Footer />
         </ThemeProvider>
     );
 };
