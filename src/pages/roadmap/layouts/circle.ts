@@ -29,7 +29,7 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
 
     const { x, y, radius, emoji, categoryType, selected } = categoryCircle;
 
-    const backgroundColor = selected ? green[300] : "#fff";
+    const backgroundColor = selected ? "#fff" : green[300];
     const textColor = selected ? "#000" : "#000";
     const fontWeight = selected ? 200 : 200;
 
@@ -95,7 +95,7 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     ctx.stroke();
 
     // Draw the triangle arrowhead
-    ctx.fillStyle = grey[600];
+    ctx.fillStyle = grey[500];
     ctx.beginPath();
     ctx.moveTo(arrowTipX, arrowTipY);
     ctx.lineTo(base1X, base1Y);
