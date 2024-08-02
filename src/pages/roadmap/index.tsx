@@ -12,6 +12,12 @@ import { useGames } from '../../games/commons/GamesContext';
 
 const canvasMaxHeight = "900px";
 
+const updateSegments = <T,>(segments: T[], segment: T, selected: boolean): T[] => {
+    const set = new Set(segments);
+    selected ? set.add(segment) : set.delete(segment);
+    return Array.from(set);
+}
+
 const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, width: number, height: number) => {
     const scale = window.devicePixelRatio || 1;
 
@@ -111,6 +117,12 @@ const Roadmap = () => {
         }
     }
 
+    const handleClick = (circle: CategoryCircle) => {
+        circle.selected = !circle.selected;
+        setCategories(items => updateSegments(items, circle.categoryType, circle.selected));
+        drawCanvas(containerWidth, containerHeight);
+    }
+
     function handleMouseUp(e: MouseEvent): void {
         const { offsetX, offsetY } = e;
         const endTime = new Date().getTime();
@@ -118,7 +130,7 @@ const Roadmap = () => {
         if (dragTarget && !isDragging && endTime - (dragStartTime ?? 0) < clickThresholdTime) {
             for (const circle of circles) {
                 if (isInsideCircle(offsetX, offsetY, circle)) {
-                    console.log("click")
+                    handleClick(circle);
                     break;
                 }
             }
@@ -195,9 +207,6 @@ const Roadmap = () => {
 }
 
 const AlgorithmsContainer = styled(Paper)(({ theme }) => ({
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
     padding: theme.spacing(2),
     height: '100%',
     overflow: 'auto',

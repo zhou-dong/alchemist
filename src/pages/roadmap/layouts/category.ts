@@ -1,42 +1,27 @@
-export enum CategoryType {
-    Heap = "Heap",
-    Stack = "Stack",
-    Queue = "Queue",
-    Sorting = "Sorting",
-    Tree = "Tree",
-    SegmentTree = "Segment Tree",
-    UnionFind = "Union Find",
-    BinarySearch = "Binary Search",
-    TwoPointers = "Two Pointers",
-    DP = "DP",
-    Graph = "Graph",
-    Recursion = "Recursion",
-    LinkedList = "Linked List",
-    HashTable = "Hash Table",
-    TopologicalSort = "Topological Sort",
-}
+import CategoryType from "../../../games/commons/segments/category";
 
 export interface Category {
     categoryType: CategoryType;
     emoji: string;
+    selected: boolean;
 }
 
 export const categories: Category[] = [
-    { categoryType: CategoryType.Heap, emoji: "⏳" },
-    { categoryType: CategoryType.Stack, emoji: "📚" },
-    { categoryType: CategoryType.Queue, emoji: "🚶‍♂️🚶‍♂️" },
-    { categoryType: CategoryType.Sorting, emoji: "🔄" },
-    { categoryType: CategoryType.Tree, emoji: "🌳" },
-    { categoryType: CategoryType.SegmentTree, emoji: "🌲" },
-    { categoryType: CategoryType.UnionFind, emoji: "🔗" },
-    { categoryType: CategoryType.BinarySearch, emoji: "🔍" },
-    { categoryType: CategoryType.TwoPointers, emoji: "➡️➡️" },
-    { categoryType: CategoryType.DP, emoji: "🧩" },
-    { categoryType: CategoryType.Graph, emoji: "🌐" },
-    { categoryType: CategoryType.Recursion, emoji: "🌀" },
-    { categoryType: CategoryType.LinkedList, emoji: "🖇️" },
-    { categoryType: CategoryType.HashTable, emoji: "🗂️" },
-    { categoryType: CategoryType.TopologicalSort, emoji: "🔣" },
+    { categoryType: CategoryType.Heap, emoji: "⏳", selected: false },
+    { categoryType: CategoryType.Stack, emoji: "📚", selected: false },
+    { categoryType: CategoryType.Queue, emoji: "🚶‍♂️🚶‍♂️", selected: false },
+    { categoryType: CategoryType.Sorting, emoji: "🔄", selected: false },
+    { categoryType: CategoryType.Tree, emoji: "🌳", selected: false },
+    { categoryType: CategoryType.SegmentTree, emoji: "🌲", selected: false },
+    { categoryType: CategoryType.UnionFind, emoji: "🔗", selected: false },
+    { categoryType: CategoryType.BinarySearch, emoji: "🔍", selected: false },
+    { categoryType: CategoryType.TwoPointers, emoji: "➡️➡️", selected: false },
+    { categoryType: CategoryType.DynamicProgramming, emoji: "🧩", selected: false },
+    { categoryType: CategoryType.Graph, emoji: "🌐", selected: false },
+    { categoryType: CategoryType.Recursion, emoji: "🌀", selected: false },
+    { categoryType: CategoryType.LinkedList, emoji: "🖇️", selected: false },
+    { categoryType: CategoryType.HashTable, emoji: "🗂️", selected: false },
+    { categoryType: CategoryType.TopologicalSort, emoji: "🔣", selected: false },
 ];
 
 export const categoryMap: Map<CategoryType, Category> = new Map<CategoryType, Category>(
@@ -59,7 +44,7 @@ export const connections: CategoryType[][] = [
     [CategoryType.Tree, CategoryType.SegmentTree],
     [CategoryType.Tree, CategoryType.Heap],
     [CategoryType.Tree, CategoryType.UnionFind],
-    [CategoryType.Recursion, CategoryType.DP],
+    [CategoryType.Recursion, CategoryType.DynamicProgramming],
     [CategoryType.Graph, CategoryType.TopologicalSort],
     [CategoryType.Tree, CategoryType.Recursion],
     [CategoryType.Tree, CategoryType.Graph],

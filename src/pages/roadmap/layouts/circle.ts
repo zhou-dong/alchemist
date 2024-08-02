@@ -24,9 +24,10 @@ export function isInsideCircle(x: number, y: number, circle: Circle): boolean {
 
 export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: CategoryCircle) => {
 
-    const { x, y, radius, emoji, categoryType } = categoryCircle;
+    const { x, y, radius, emoji, categoryType, selected } = categoryCircle;
 
-    const backgroundColor = "#fff";
+    const backgroundColor = selected ? "lightgreen" : "#fff";
+    const textColor = selected ? "#000" : "#000";
 
     context.shadowColor = 'rgba(0, 0, 0, 0.5)';
     context.shadowBlur = 10;
@@ -43,8 +44,8 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
     context.shadowOffsetX = 0;
     context.shadowOffsetY = 0;
 
-    context.font = '300 20px "Roboto"';
-    context.fillStyle = "#000";
+    context.font = '400 20px "Roboto"';
+    context.fillStyle = textColor;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(emoji, x, y - radius / 4);

@@ -1,4 +1,5 @@
-import { Category, categoryMap, CategoryType } from "./category";
+import CategoryType from "../../../games/commons/segments/category";
+import { Category, categoryMap } from "./category";
 import { CategoryCircle } from "./circle";
 
 const buildCategoryCircle = (categoryType: CategoryType, x: number, y: number) => {
@@ -24,7 +25,7 @@ export const getFixedTreeLayout = (canvasWidth: number, canvasHeight: number): C
         buildCategoryCircle(CategoryType.LinkedList, centerX - 4.5 * radius, marginTop + 7 * radius),
         buildCategoryCircle(CategoryType.BinarySearch, centerX + 3 * radius, marginTop + 4 * radius),
         buildCategoryCircle(CategoryType.Recursion, centerX + 6 * radius, marginTop + radius + 9 * radius),
-        buildCategoryCircle(CategoryType.DP, centerX + 4.5 * radius, marginTop + radius + 12 * radius),
+        buildCategoryCircle(CategoryType.DynamicProgramming, centerX + 4.5 * radius, marginTop + radius + 12 * radius),
         buildCategoryCircle(CategoryType.Heap, centerX - 3 * radius, marginTop + 10 * radius),
         buildCategoryCircle(CategoryType.SegmentTree, centerX + 3 * radius, marginTop + 10 * radius),
         buildCategoryCircle(CategoryType.UnionFind, centerX, marginTop + 10 * radius),
@@ -51,7 +52,7 @@ export const getFixedcompactLayout = (canvasWidth: number, canvasHeight: number)
         buildCategoryCircle(CategoryType.LinkedList, centerX - 3.5 * radius, marginTop + radius + 5 * radius),
         buildCategoryCircle(CategoryType.BinarySearch, centerX + 2.5 * radius, marginTop + radius + 2 * radius),
         buildCategoryCircle(CategoryType.Recursion, centerX + 4 * radius, marginTop + radius + 4 * radius),
-        buildCategoryCircle(CategoryType.DP, centerX + 6.5 * radius, marginTop + radius + 6 * radius),
+        buildCategoryCircle(CategoryType.DynamicProgramming, centerX + 6.5 * radius, marginTop + radius + 6 * radius),
         buildCategoryCircle(CategoryType.Heap, centerX - 1.5 * radius, marginTop + radius + 6.5 * radius),
         buildCategoryCircle(CategoryType.SegmentTree, centerX + 4 * radius, marginTop + radius + 7 * radius),
         buildCategoryCircle(CategoryType.UnionFind, centerX + 1.5 * radius, marginTop + radius + 8 * radius),
