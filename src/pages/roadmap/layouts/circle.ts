@@ -27,8 +27,9 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
 
     const { x, y, radius, emoji, categoryType, selected } = categoryCircle;
 
-    const backgroundColor = selected ? "#fff" : green[300]  //"lightgreen" //"#f8f9fa";
-    const textColor = selected ? "#000" : "#000";
+    const backgroundColor = selected ? "#fff" : green[500]  //"lightgreen" //"#f8f9fa";
+    const textColor = selected ? "#000" : "#fff";
+    const fontsize = selected ? 200 : 400;
 
     context.shadowColor = 'rgba(0, 0, 0, 0.5)';
     context.shadowBlur = 10;
@@ -51,7 +52,7 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
     context.textBaseline = 'middle';
     context.fillText(emoji, x, y - radius / 4);
 
-    context.font = '300 16px "Roboto"';
+    context.font = `${fontsize} 17px "Roboto"`;
     context.fillText(categoryType, x, y + radius / 5); // TODO
 }
 
