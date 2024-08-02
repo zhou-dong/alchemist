@@ -27,7 +27,7 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
 
     const { x, y, radius, emoji, categoryType, selected } = categoryCircle;
 
-    const backgroundColor = selected ? "#fff" : green[300]  //"lightgreen" //"#f8f9fa";
+    const backgroundColor = selected ? "#fff" : green[200]  //"lightgreen" //"#f8f9fa";
     const textColor = selected ? "#000" : "#000";
     const fontWeight = selected ? 200 : 200;
 
