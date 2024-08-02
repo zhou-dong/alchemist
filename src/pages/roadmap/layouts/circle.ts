@@ -1,4 +1,6 @@
 import { green } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
+
 import { Category } from "./category";
 
 export interface Circle {
@@ -27,7 +29,7 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
 
     const { x, y, radius, emoji, categoryType, selected } = categoryCircle;
 
-    const backgroundColor = selected ? "#fff" : green[200]  //"lightgreen" //"#f8f9fa";
+    const backgroundColor = selected ? green[300] : "#fff";
     const textColor = selected ? "#000" : "#000";
     const fontWeight = selected ? 200 : 200;
 
@@ -85,7 +87,7 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     const base2Y = adjustedEndY - arrowLength * Math.sin(angle) + arrowWidth * Math.cos(angle) / 2;
 
     // Draw line from start point to the adjusted base of the triangle
-    ctx.strokeStyle = "#e2e2e2";
+    ctx.strokeStyle = grey[300];
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(startX, startY);
@@ -93,7 +95,7 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     ctx.stroke();
 
     // Draw the triangle arrowhead
-    ctx.fillStyle = "gray";
+    ctx.fillStyle = grey[600];
     ctx.beginPath();
     ctx.moveTo(arrowTipX, arrowTipY);
     ctx.lineTo(base1X, base1Y);
