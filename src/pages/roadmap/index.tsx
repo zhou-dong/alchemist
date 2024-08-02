@@ -1,14 +1,14 @@
 import * as React from 'react';
 import Footer from '../../commons/Footer';
-import { AppBar, Grid, List, ListItem, ListItemText, Paper, styled, ThemeProvider, Toolbar, Typography } from '@mui/material';
+import { Grid, Paper, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import Logo from '../../commons/Logo';
 import { connections } from './layouts/category';
 import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
-import { grey } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
 import Algorithms from "../home/List";
+import { useGames } from '../../games/commons/GamesContext';
 
 const canvasMaxHeight = "900px";
 
@@ -50,6 +50,8 @@ const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[
  * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
 */
 const Roadmap = () => {
+    const { categories, setCategories } = useGames();
+
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -75,7 +77,7 @@ const Roadmap = () => {
         }
     }
 
-    function handleMouseDown(e: MouseEvent, circles: Circle[]): void {
+    function handleMouseDown(e: MouseEvent): void {
         const { offsetX, offsetY } = e;
         dragStartX = offsetX;
         dragStartY = offsetY;
@@ -109,7 +111,7 @@ const Roadmap = () => {
         }
     }
 
-    function handleMouseUp(e: MouseEvent, circles: Circle[]): void {
+    function handleMouseUp(e: MouseEvent): void {
         const { offsetX, offsetY } = e;
         const endTime = new Date().getTime();
 
@@ -132,15 +134,15 @@ const Roadmap = () => {
     React.useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas) {
-            canvas.addEventListener('mousedown', (e) => handleMouseDown(e, circles));
+            canvas.addEventListener('mousedown', (e) => handleMouseDown(e));
             canvas.addEventListener('mousemove', (e) => handleMouseMove(e));
-            canvas.addEventListener('mouseup', (e) => handleMouseUp(e, circles));
+            canvas.addEventListener('mouseup', (e) => handleMouseUp(e));
         }
         return () => {
             if (canvas) {
-                canvas.removeEventListener('mousedown', (e) => handleMouseDown(e, circles));
+                canvas.removeEventListener('mousedown', (e) => handleMouseDown(e));
                 canvas.removeEventListener('mousemove', (e) => handleMouseMove(e));
-                canvas.removeEventListener('mouseup', (e) => handleMouseUp(e, circles));
+                canvas.removeEventListener('mouseup', (e) => handleMouseUp(e));
             }
         };
     }, [canvasRef]);
@@ -187,30 +189,10 @@ const Roadmap = () => {
         >
             <canvas
                 ref={canvasRef}
-                style={{}}
             />
         </div>
     );
 }
-
-const Header = () => (
-    <AppBar
-        elevation={1}
-        position="static"
-    >
-        <Toolbar sx={{ height: 30 }}>
-            <Typography
-                variant='h6'
-                sx={{
-                    color: "#fff",
-                    // marginLeft: "20px"
-                }}
-            >
-                Alchemist
-            </Typography>
-        </Toolbar>
-    </AppBar>
-);
 
 const AlgorithmsContainer = styled(Paper)(({ theme }) => ({
     display: 'flex',
@@ -231,53 +213,29 @@ const Main = () => {
 
     return (
         <ThemeProvider theme={theme}>
-
-            {/* <Header /> */}
             <div style={{
                 marginLeft: 40,
                 marginRight: 40,
             }}>
                 <Logo />
             </div>
-
             <Divider />
-
-            <div style={{
-                // marginLeft: 40,
-                // marginRight: 40,
-                // backgroundColor: "#f8f9fa"
-            }}>
-                {/* <Logo /> */}
-                <Grid container spacing={1} sx={{ padding: 2 }}>
-                    <Grid item xs={12} md={12} lg={8} xl={7} style={{}}>
-                        <Roadmap />
-                    </Grid>
-                    <Grid item xs={12} md={12} lg={4} xl={5} style={{}}>
-                        <Paper
-                            elevation={3}
-                            sx={{
-                                // padding: 2,
-                                height: canvasMaxHeight
-                            }}>
-                            <AlgorithmsContainer>
-                                <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
-                            </AlgorithmsContainer>
-
-                            {/* <List>
-                                <ListItem>
-                                    <ListItemText>123</ListItemText>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText>234</ListItemText>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText primary={`Item eeee`} />
-                                </ListItem>
-                            </List> */}
-                        </Paper>
-                    </Grid>
+            <Grid container spacing={1} sx={{ padding: 2 }}>
+                <Grid item xs={12} md={12} lg={8} xl={7} style={{}}>
+                    <Roadmap />
                 </Grid>
-            </div>
+                <Grid item xs={12} md={12} lg={4} xl={5} style={{}}>
+                    <Paper
+                        elevation={3}
+                        sx={{
+                            height: canvasMaxHeight
+                        }}>
+                        <AlgorithmsContainer>
+                            <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
+                        </AlgorithmsContainer>
+                    </Paper>
+                </Grid>
+            </Grid>
             <Footer />
         </ThemeProvider>
     );
