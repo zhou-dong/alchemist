@@ -9,6 +9,7 @@ import { getFixedTreeLayout } from './layouts/fixed-position-layout';
 import Divider from '@mui/material/Divider';
 import Algorithms from "../home/List";
 import { useGames } from '../../games/commons/GamesContext';
+import { green } from '@mui/material/colors';
 
 const canvasMaxHeight = "900px";
 
@@ -210,6 +211,8 @@ const AlgorithmsContainer = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     height: '100%',
     overflow: 'auto',
+    borderRadius: '2%',
+    maxHeight: canvasMaxHeight,
 }));
 
 const Main = () => {
@@ -229,22 +232,18 @@ const Main = () => {
                 <Logo />
             </div>
             <Divider />
-            <Grid container spacing={1} sx={{ padding: 2 }}>
-                <Grid item xs={12} md={12} lg={8} xl={7} style={{}}>
-                    <Roadmap />
-                </Grid>
-                <Grid item xs={12} md={12} lg={4} xl={5} style={{}}>
-                    <Paper
-                        elevation={3}
-                        sx={{
-                            height: canvasMaxHeight
-                        }}>
-                        <AlgorithmsContainer>
+            <div style={{}}>
+                <Grid container spacing={1} sx={{ padding: 2 }}>
+                    <Grid item xs={12} md={12} lg={7} xl={6.5} style={{}}>
+                        <Roadmap />
+                    </Grid>
+                    <Grid item xs={12} md={12} lg={5} xl={5.5} style={{}}>
+                        <AlgorithmsContainer elevation={5}>
                             <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
                         </AlgorithmsContainer>
-                    </Paper>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </div>
             <Footer />
         </ThemeProvider>
     );
