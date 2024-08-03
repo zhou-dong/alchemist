@@ -4,10 +4,18 @@ import Container from '@mui/material/Container';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import Chip from '@mui/material/Chip';
 import { Grid } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 function Copyright() {
     return (
-        <Typography variant="body2" color="text.secondary" sx={{ lineHeight: "36px" }}>
+        <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+                color: "#000",
+                lineHeight: "36px"
+            }}
+        >
             © Alchemist {new Date().getFullYear()}. All rights reserved.
         </Typography>
     );
@@ -15,7 +23,7 @@ function Copyright() {
 
 function Mail() {
     return (
-        <Chip icon={<MailOutlineIcon />} label="alchemist.dong@gmail.com" variant="outlined" sx={{ border: "none", color: "gray" }} />
+        <Chip icon={<MailOutlineIcon />} label="alchemist.dong@gmail.com" variant="outlined" sx={{ border: "none", color: "#000" }} />
     );
 }
 
@@ -27,14 +35,15 @@ export default function Footer() {
                 py: 3,
                 px: 2,
                 mt: 'auto',
+                backgroundColor: grey[300],
             }}
         >
             <Container maxWidth="sm">
                 <Grid container>
-                    <Grid item sm={6}>
+                    <Grid item xs={12} sm={6}>
                         <Copyright />
                     </Grid>
-                    <Grid item sm={6}>
+                    <Grid item xs={12} sm={6}>
                         <Mail />
                     </Grid>
                 </Grid>

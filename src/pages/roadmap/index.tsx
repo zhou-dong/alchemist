@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Footer from '../commons/Footer';
-import { Grid, Paper, styled, ThemeProvider } from '@mui/material';
+import { Box, Grid, Paper, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import { connections } from './layouts/category';
 import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
@@ -225,23 +225,26 @@ const Main = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Header />
-            <Slogan />
-            <Divider />
-
-            <Grid container spacing={1} sx={{ padding: 2 }}>
-                <Grid item xs={12} md={12} lg={7} xl={6.5} style={{}}>
-                    <Roadmap />
+            <Box
+                display="flex"
+                flexDirection="column"
+                minHeight="100vh"
+            >
+                <Header />
+                <Slogan />
+                <Divider />
+                <Grid container spacing={1} sx={{ padding: 2 }}>
+                    <Grid item xs={12} md={12} lg={7} xl={6.5} style={{}}>
+                        <Roadmap />
+                    </Grid>
+                    <Grid item xs={12} md={12} lg={5} xl={5.5} style={{}}>
+                        <AlgorithmsContainer elevation={5}>
+                            <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
+                        </AlgorithmsContainer>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={12} lg={5} xl={5.5} style={{}}>
-                    <AlgorithmsContainer elevation={5}>
-                        <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
-                    </AlgorithmsContainer>
-                </Grid>
-            </Grid>
-
-            <Divider sx={{ marginTop: "20px" }} />
-            <Footer />
+                <Footer />
+            </Box>
         </ThemeProvider>
     );
 };

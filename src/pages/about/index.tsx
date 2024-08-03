@@ -30,7 +30,11 @@ const QuotePaper: React.FC<QuotePaperProps> = ({ icon, text }) => (
                 {icon}
             </Grid>
             <Grid item xs>
-                <Typography variant="body1" component="blockquote" paragraph>
+                <Typography
+                    variant="body1"
+                    component="blockquote"
+                    paragraph
+                >
                     {text}
                 </Typography>
             </Grid>
@@ -77,7 +81,6 @@ const AboutUs: React.FC = () => {
                         </Grid>
                     </Grid>
                 </Container>
-
                 <Footer />
             </Box>
         </ThemeProvider>

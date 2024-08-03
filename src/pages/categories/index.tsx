@@ -20,13 +20,12 @@ const Home = () => {
     return (
         <ThemeProvider theme={theme}>
             <Header />
-            <div style={{ marginLeft: 40, marginRight: 40 }}>
+            <div style={{ marginLeft: 40, marginRight: 40, marginBottom: 40 }}>
                 <MenuButton open={open} setOpen={setOpen} />
                 <Filters open={open} setOpen={setOpen} />
                 <List xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
-                <Divider sx={{ marginTop: "20px" }} />
-                <Footer />
             </div>
+            <Footer />
         </ThemeProvider>
     );
 };
