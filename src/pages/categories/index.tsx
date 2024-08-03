@@ -2,7 +2,7 @@ import * as React from 'react';
 import Filters from "./Filters";
 import List from '../commons/List';
 import Footer from '../commons/Footer';
-import { Divider, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 
 import MenuButton from './Menu';
