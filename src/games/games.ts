@@ -126,7 +126,7 @@ import LinkedListRandomNode from "./linked-list/linked-list-random-node/info";
 import MiddleOfTeLinkedList from "./linked-list/middle-of-the-linked-list/info";
 import DeleteNodeInALinkedList from "./linked-list/delete-node-in-a-linked-list/info";
 
-export const games: Game[] = [
+const games: Game[] = [
     editDistance,
     coinChangeFewestNumber,
     coinChangeHowManyWays,
@@ -171,6 +171,18 @@ export const games: Game[] = [
     ContainerWithMostWater,
     IntegerToRoman,
     RomanToInteger,
+    RemoveDuplicatesFromSortedArray,
+    NumberOfIslands,
+    SurroundedRegions,
+    NumberOfProvinces,
+    MaxAreaOfIsland,
+    RedundantConnection,
+    Sqrtx,
+    SearchInsertPosition,
+    FirstBadVersion,
+    PlusOne,
+    RemoveElement,
+    TheSkylineProblem,
     SlidingWindowMaximum,
     binaryTreeInorderTraversal,
     binaryTreePostorderTraversal,
@@ -217,21 +229,9 @@ export const games: Game[] = [
     TopKFrequentWords,
     KthLargestElementInAStream,
     SlidingWindowMedian,
-    TheSkylineProblem,
     RangeSumQueryMutable,
     CourseSchedule,
     CourseScheduleII,
-    NumberOfIslands,
-    SurroundedRegions,
-    NumberOfProvinces,
-    MaxAreaOfIsland,
-    RedundantConnection,
-    Sqrtx,
-    SearchInsertPosition,
-    FirstBadVersion,
-    PlusOne,
-    RemoveElement,
-    RemoveDuplicatesFromSortedArray,
     MergeTwoSortedLists,
     RemoveNthNodeFromEndOfList,
     LinkedListCycle,
@@ -253,3 +253,7 @@ export const games: Game[] = [
     MiddleOfTeLinkedList,
     DeleteNodeInALinkedList,
 ];
+
+games.reverse();
+
+export { games };
