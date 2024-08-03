@@ -28,7 +28,7 @@ const Main = () => {
                             display: 'flex',
                             alignItems: 'center',
                         }}
-                        to="/pages/discover"
+                        to="/pages/categories"
                     >
                         <CategoryOutlinedIcon sx={{ marginRight: 1 }} />
                         <Typography variant="body1">
