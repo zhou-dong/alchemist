@@ -4,7 +4,9 @@ import List from '../commons/List';
 import Footer from '../commons/Footer';
 import { Divider, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
-import Header from "./Header";
+
+import MenuButton from './Menu';
+import Header from '../commons/Header';
 
 const Home = () => {
     const [open, setOpen] = React.useState<boolean>(false);
@@ -17,8 +19,9 @@ const Home = () => {
 
     return (
         <ThemeProvider theme={theme}>
+            <Header />
             <div style={{ marginLeft: 40, marginRight: 40 }}>
-                <Header open={open} setOpen={setOpen} />
+                <MenuButton open={open} setOpen={setOpen} />
                 <Filters open={open} setOpen={setOpen} />
                 <List xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
                 <Divider sx={{ marginTop: "20px" }} />
