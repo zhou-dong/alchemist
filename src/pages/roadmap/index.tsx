@@ -51,6 +51,18 @@ const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[
     });
 }
 
+let containerWidth = 0;
+let containerHeight = 0;
+
+let circles: CategoryCircle[] = [];
+let dragTarget: Circle | null = null;
+let isDragging = false;
+let dragStartTime: number | null = null;
+let dragStartX: number | null = null;
+let dragStartY: number | null = null;
+const clickThresholdTime = 200; // milliseconds
+const clickThresholdDistance = 5; // pixels
+
 /**
  * To differentiate between a drag and a click, you can use a combination of mouse events and a time threshold. 
  * The idea is to record the mouse down and mouse up events and calculate the time difference and distance moved. 
@@ -62,18 +74,6 @@ const Roadmap = () => {
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    let containerWidth = 0;
-    let containerHeight = 0;
-
-    let circles: CategoryCircle[] = [];
-    let dragTarget: Circle | null = null;
-    let isDragging = false;
-    let dragStartTime: number | null = null;
-    let dragStartX: number | null = null;
-    let dragStartY: number | null = null;
-    const clickThresholdTime = 200; // milliseconds
-    const clickThresholdDistance = 5; // pixels
-
     function drawCanvas(width: number, height: number): void {
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
@@ -84,67 +84,67 @@ const Roadmap = () => {
         }
     }
 
-    function handleMouseDown(e: MouseEvent): void {
-        const { offsetX, offsetY } = e;
-        dragStartX = offsetX;
-        dragStartY = offsetY;
-        dragStartTime = new Date().getTime();
-        isDragging = false;
-        for (const circle of circles) {
-            if (isInsideCircle(offsetX, offsetY, circle)) {
-                dragTarget = circle;
-                break;
-            }
-        }
-    }
-
-    function handleMouseMove(e: MouseEvent): void {
-        if (!dragTarget) {
-            return;
-        }
-        const { offsetX, offsetY } = e;
-
-        const dx = Math.abs(offsetX - (dragStartX ?? 0));
-        const dy = Math.abs(offsetY - (dragStartY ?? 0));
-
-        if (dx > clickThresholdDistance || dy > clickThresholdDistance) {
-            isDragging = true;
-        }
-
-        if (isDragging) {
-            dragTarget.x = offsetX;
-            dragTarget.y = offsetY;
-            drawCanvas(containerWidth, containerHeight);
-        }
-    }
-
-    const handleClick = (circle: CategoryCircle) => {
-        circle.selected = !circle.selected;
-        setCategories(items => updateSegments(items, circle.categoryType, circle.selected));
-        drawCanvas(containerWidth, containerHeight);
-    }
-
-    function handleMouseUp(e: MouseEvent): void {
-        const { offsetX, offsetY } = e;
-        const endTime = new Date().getTime();
-
-        if (dragTarget && !isDragging && endTime - (dragStartTime ?? 0) < clickThresholdTime) {
+    React.useEffect(() => {
+        function handleMouseDown(e: MouseEvent): void {
+            const { offsetX, offsetY } = e;
+            dragStartX = offsetX;
+            dragStartY = offsetY;
+            dragStartTime = new Date().getTime();
+            isDragging = false;
             for (const circle of circles) {
                 if (isInsideCircle(offsetX, offsetY, circle)) {
-                    handleClick(circle);
+                    dragTarget = circle;
                     break;
                 }
             }
         }
 
-        dragTarget = null;
-        isDragging = false;
-        dragStartTime = null;
-        dragStartX = null;
-        dragStartY = null;
-    }
+        function handleMouseMove(e: MouseEvent): void {
+            if (!dragTarget) {
+                return;
+            }
+            const { offsetX, offsetY } = e;
 
-    React.useEffect(() => {
+            const dx = Math.abs(offsetX - (dragStartX ?? 0));
+            const dy = Math.abs(offsetY - (dragStartY ?? 0));
+
+            if (dx > clickThresholdDistance || dy > clickThresholdDistance) {
+                isDragging = true;
+            }
+
+            if (isDragging) {
+                dragTarget.x = offsetX;
+                dragTarget.y = offsetY;
+                drawCanvas(containerWidth, containerHeight);
+            }
+        }
+
+        const handleClick = (circle: CategoryCircle) => {
+            circle.selected = !circle.selected;
+            setCategories(items => updateSegments(items, circle.categoryType, circle.selected));
+            drawCanvas(containerWidth, containerHeight);
+        }
+
+        function handleMouseUp(e: MouseEvent): void {
+            const { offsetX, offsetY } = e;
+            const endTime = new Date().getTime();
+
+            if (dragTarget && !isDragging && endTime - (dragStartTime ?? 0) < clickThresholdTime) {
+                for (const circle of circles) {
+                    if (isInsideCircle(offsetX, offsetY, circle)) {
+                        handleClick(circle);
+                        break;
+                    }
+                }
+            }
+
+            dragTarget = null;
+            isDragging = false;
+            dragStartTime = null;
+            dragStartX = null;
+            dragStartY = null;
+        }
+
         const canvas = canvasRef.current;
         if (canvas) {
             canvas.addEventListener('mousedown', (e) => handleMouseDown(e));
