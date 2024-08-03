@@ -13,12 +13,12 @@ const Slogan = () => {
             }}
         >
             <Typography
-                variant="h4"
+                variant="h5"
                 component="h1"
                 sx={{
                     margin: '5px',
                     color: 'primary.main',
-                    // fontWeight: 'bold'
+                    fontWeight: 300
                 }}
             >
                 See the Logic
@@ -28,8 +28,9 @@ const Slogan = () => {
                 component="h2"
                 sx={{
                     margin: '5px',
-                    color: 'text.secondary',
-                    fontStyle: 'italic'
+                    color: 'text.primary',
+                    fontWeight: 300,
+                    // fontStyle: 'italic'
                 }}
             >
                 - The Intuitive Way to Learn Algorithms

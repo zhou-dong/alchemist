@@ -6,6 +6,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useGames } from "./GamesContext";
 import Logo from '../../pages/commons/Logo';
+import { green } from "@mui/material/colors";
 
 const NextContainer = styled("div")(() => ({
     position: "fixed",
@@ -35,7 +36,7 @@ const GameWrapper: React.FC<{ children: JSX.Element, path: string }> = ({ childr
     return (
         <>
             <LogoContainer>
-                <Logo />
+                <Logo color={green[600]} />
             </LogoContainer>
 
             {children}

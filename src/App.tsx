@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 
-import Home from './pages/home';
 import Categories from './pages/categories';
 import Roadmap from "./pages/roadmap";
 
@@ -256,6 +255,7 @@ import DeleteNodeInALinkedList from "./games/linked-list/delete-node-in-a-linked
 import DeleteNodeInALinkedListInfo from "./games/linked-list/delete-node-in-a-linked-list/info";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
+import AboutUs from './pages/about';
 
 const renderer = createRenderer();
 const camera = createCamera();
@@ -267,6 +267,7 @@ const App = () => (
         <Route index element={<Roadmap />} />
         <Route path="pages/categories" element={<Categories />} />
         <Route path="pages/roadmap" element={<Roadmap />} />
+        <Route path="pages/about-us" element={<AboutUs />} />
         <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={InsertionSortAnimationInfo.path} element={<InsertionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />

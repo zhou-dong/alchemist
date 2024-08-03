@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Logo from '../commons/Logo';
 import BusinessIcon from '@mui/icons-material/Business';
-import { grey } from "@mui/material/colors";
+import { green, grey } from "@mui/material/colors";
 
 const Main = () => {
 
@@ -22,6 +22,7 @@ const Main = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: "center",
+                backgroundColor: green[400]
             }}>
                 <Stack
                     direction="row"
@@ -31,7 +32,7 @@ const Main = () => {
                         flexGrow: 1
                     }}
                 >
-                    <Logo />
+                    <Logo color="#fff" />
                     <MaterialLink
                         component={RouterLink}
                         sx={{
@@ -39,7 +40,7 @@ const Main = () => {
                             fontWeight: "normal",
                             display: 'flex',
                             alignItems: 'center',
-                            color: grey[600]
+                            color: "#fff",
                         }}
                         to="/pages/categories"
                     >
@@ -56,12 +57,14 @@ const Main = () => {
                         fontWeight: "normal",
                         display: 'flex',
                         alignItems: 'center',
-                        color: grey[600]
+                        color: "#fff",
                     }}
-                    to="pages/about-us"
+                    to="/pages/about-us"
                 >
                     <BusinessIcon sx={{ marginRight: 1 }} />
-                    About US
+                    <Typography variant="body1">
+                        About Us
+                    </Typography>
                 </MaterialLink>
             </Toolbar>
         </AppBar>

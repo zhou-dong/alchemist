@@ -1,6 +1,7 @@
 import { AppBar, Toolbar } from "@mui/material";
 import MenuButton from './Menu';
 import Logo from '../commons/Logo';
+import { green } from "@mui/material/colors";
 
 interface Props {
     open: boolean;
@@ -21,7 +22,7 @@ const Main = ({ open, setOpen }: Props) => {
         >
             <Toolbar sx={{ '&.MuiToolbar-root': { paddingLeft: 0, paddingRight: 0 } }}>
                 <div style={{ flexGrow: 1 }}>
-                    <Logo />
+                    <Logo color={green[600]} />
                 </div>
                 <MenuButton open={open} setOpen={setOpen} />
             </Toolbar>
