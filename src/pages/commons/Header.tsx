@@ -4,7 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Logo from '../commons/Logo';
 import BusinessIcon from '@mui/icons-material/Business';
-import { green, grey } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 
 const Main = () => {
 
