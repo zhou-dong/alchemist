@@ -4,6 +4,8 @@ import { Link as RouterLink } from "react-router-dom";
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Logo from '../commons/Logo';
 import BusinessIcon from '@mui/icons-material/Business';
+import { grey } from "@mui/material/colors";
+
 const Main = () => {
 
     return (
@@ -13,12 +15,22 @@ const Main = () => {
             elevation={0}
         >
             <Toolbar sx={{
-                '&.MuiToolbar-root': { paddingLeft: "40px", paddingRight: "40px" },
+                '&.MuiToolbar-root': {
+                    paddingLeft: "40px",
+                    paddingRight: "40px"
+                },
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: "center"
+                alignItems: "center",
             }}>
-                <Stack direction="row" spacing={5} sx={{ alignItems: 'center', flexGrow: 1 }}>
+                <Stack
+                    direction="row"
+                    spacing={5}
+                    sx={{
+                        alignItems: 'center',
+                        flexGrow: 1
+                    }}
+                >
                     <Logo />
                     <MaterialLink
                         component={RouterLink}
@@ -27,6 +39,7 @@ const Main = () => {
                             fontWeight: "normal",
                             display: 'flex',
                             alignItems: 'center',
+                            color: grey[600]
                         }}
                         to="/pages/categories"
                     >
@@ -43,6 +56,7 @@ const Main = () => {
                         fontWeight: "normal",
                         display: 'flex',
                         alignItems: 'center',
+                        color: grey[600]
                     }}
                     to="pages/about-us"
                 >
