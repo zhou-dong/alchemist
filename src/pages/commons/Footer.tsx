@@ -32,7 +32,6 @@ export default function Footer() {
         <Box sx={{
             display: 'flex',
             flexDirection: 'column',
-            marginTop: "20px",
         }}
         >
             <CssBaseline />
@@ -42,7 +41,6 @@ export default function Footer() {
                     py: 3,
                     px: 2,
                     mt: 'auto',
-                    borderTop: "1px solid lightgrey",
                 }}
             >
                 <Container maxWidth="sm">

@@ -1,15 +1,15 @@
 import * as React from 'react';
-import Footer from '../../commons/Footer';
+import Footer from '../commons/Footer';
 import { Grid, Paper, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
-import Logo from '../../commons/Logo';
 import { connections } from './layouts/category';
 import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
 import Divider from '@mui/material/Divider';
-import Algorithms from "../home/List";
+import Algorithms from "../commons/List";
+import Slogan from './Slogan';
 import { useGames } from '../../games/commons/GamesContext';
-import { green } from '@mui/material/colors';
+import Header from '../commons/Header';
 
 const canvasMaxHeight = "900px";
 
@@ -57,7 +57,7 @@ const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[
  * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
 */
 const Roadmap = () => {
-    const { categories, setCategories } = useGames();
+    const { setCategories } = useGames();
 
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -225,25 +225,22 @@ const Main = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <div style={{
-                marginLeft: 40,
-                marginRight: 40,
-            }}>
-                <Logo />
-            </div>
+            <Header />
+            <Slogan />
             <Divider />
-            <div style={{}}>
-                <Grid container spacing={1} sx={{ padding: 2 }}>
-                    <Grid item xs={12} md={12} lg={7} xl={6.5} style={{}}>
-                        <Roadmap />
-                    </Grid>
-                    <Grid item xs={12} md={12} lg={5} xl={5.5} style={{}}>
-                        <AlgorithmsContainer elevation={5}>
-                            <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
-                        </AlgorithmsContainer>
-                    </Grid>
+
+            <Grid container spacing={1} sx={{ padding: 2 }}>
+                <Grid item xs={12} md={12} lg={7} xl={6.5} style={{}}>
+                    <Roadmap />
                 </Grid>
-            </div>
+                <Grid item xs={12} md={12} lg={5} xl={5.5} style={{}}>
+                    <AlgorithmsContainer elevation={5}>
+                        <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
+                    </AlgorithmsContainer>
+                </Grid>
+            </Grid>
+
+            <Divider sx={{ marginTop: "20px" }} />
             <Footer />
         </ThemeProvider>
     );

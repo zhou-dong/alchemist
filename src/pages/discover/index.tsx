@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Filters from "../discover/Filters";
+import Filters from "./Filters";
 import List from '../commons/List';
 import Footer from '../commons/Footer';
 import { Divider, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
-import Header from "../discover/Header";
+import Header from "./Header";
 
 const Home = () => {
     const [open, setOpen] = React.useState<boolean>(false);
