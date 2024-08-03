@@ -58,7 +58,6 @@ const AboutUs: React.FC = () => {
                 <Header />
                 <Divider />
                 <Slogan />
-
                 <Container sx={{ marginTop: 2 }}>
                     <Grid container justifyContent="center" spacing={3}>
                         <Grid item xs={12} md={8}>
