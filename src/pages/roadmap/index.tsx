@@ -51,7 +51,8 @@ const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[
 
 let containerWidth = 0;
 let containerHeight = 0;
-const footerHeight = 84;
+const footerHeight = 64;
+const mainPadding = 10;
 
 let circles: CategoryCircle[] = [];
 let dragTarget: Circle | null = null;
@@ -169,7 +170,7 @@ const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> =
 
             const { width, top } = containerElement.getBoundingClientRect();
             const windowHeight = window.innerHeight;
-            const height = windowHeight - top - footerHeight;
+            const height = windowHeight - top - footerHeight - mainPadding;
 
             circles = getFixedTreeLayout(width, height);
             containerWidth = width;
@@ -232,7 +233,7 @@ const Main = () => {
                 <Header />
                 <Slogan />
                 <Divider />
-                <Grid container spacing={1} style={{ padding: "10px" }}>
+                <Grid container spacing={1} style={{ padding: mainPadding + "px" }}>
                     <Grid item xs={12} md={12} lg={7} xl={6.5} >
                         <Roadmap algoContainerRef={algoContainerRef} />
                     </Grid>
