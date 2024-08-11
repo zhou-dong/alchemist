@@ -15,7 +15,7 @@ enum Category {
     SegmentTree = "Segment Tree",
     Graph = "graph",
     TopologicalSort = "Topological Sort",
-    UnionFind = "Union Find(Disjoint Set)",
+    UnionFind = "Union Find", // (Disjoint Set)
     BinarySearch = "Binary Search",
     Recursion = "Recursion",
     LinkedList = "Linked List"

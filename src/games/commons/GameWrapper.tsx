@@ -5,7 +5,8 @@ import { IconButton, Toolbar } from "@mui/material";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useGames } from "./GamesContext";
-import Logo from '../../commons/Logo';
+import Logo from '../../pages/commons/Logo';
+import { green } from "@mui/material/colors";
 
 const NextContainer = styled("div")(() => ({
     position: "fixed",
@@ -20,7 +21,7 @@ const BeforeContainer = styled("div")(() => ({
 }));
 
 const LogoContainer = styled("div")({
-    paddingLeft: "40px",
+    margin: "20px 40px",
     position: "fixed",
     top: 0
 });
@@ -35,7 +36,7 @@ const GameWrapper: React.FC<{ children: JSX.Element, path: string }> = ({ childr
     return (
         <>
             <LogoContainer>
-                <Logo />
+                <Logo color={green[600]} />
             </LogoContainer>
 
             {children}
