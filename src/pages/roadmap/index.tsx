@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Footer from '../commons/Footer';
-import { Box, Grid, Paper, styled, ThemeProvider } from '@mui/material';
+import { Box, Grid, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import { connections } from './layouts/category';
 import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
@@ -10,8 +10,6 @@ import Algorithms from "../commons/List";
 import Slogan from './Slogan';
 import { useGames } from '../../games/commons/GamesContext';
 import Header from '../commons/Header';
-
-const canvasMaxHeight = "900px";
 
 const updateSegments = <T,>(segments: T[], segment: T, selected: boolean): T[] => {
     const set = new Set(segments);
@@ -53,6 +51,7 @@ const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[
 
 let containerWidth = 0;
 let containerHeight = 0;
+const footerHeight = 84;
 
 let circles: CategoryCircle[] = [];
 let dragTarget: Circle | null = null;
@@ -68,7 +67,7 @@ const clickThresholdDistance = 5; // pixels
  * The idea is to record the mouse down and mouse up events and calculate the time difference and distance moved. 
  * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
 */
-const Roadmap = () => {
+const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> = ({ algoContainerRef }) => {
     const { setCategories } = useGames();
 
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -158,29 +157,33 @@ const Roadmap = () => {
                 canvas.removeEventListener('mouseup', (e) => handleMouseUp(e));
             }
         };
-    }, [canvasRef]);
+    }, [canvasRef, setCategories]);
 
     React.useEffect(() => {
         const containerElement = containerRef.current;
-        if (!containerElement) return;
+        const algoContainerElement = algoContainerRef.current;
 
-        const refreshCanvas = (width: number, height: number) => {
+        if (!containerElement || !algoContainerElement) return;
+
+        const refreshCanvas = () => {
+
+            const { width, top } = containerElement.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const height = windowHeight - top - footerHeight;
+
             circles = getFixedTreeLayout(width, height);
             containerWidth = width;
             containerHeight = height;
             drawCanvas(width, height);
+
+            containerElement.style.height = height + "px";
+            algoContainerElement.style.height = height + "px";
         };
 
-        if (containerRef.current) {
-            const { width, height } = containerRef.current.getBoundingClientRect();
-            refreshCanvas(width, height);
-        }
+        refreshCanvas();
 
-        const resizeObserver = new ResizeObserver(entries => {
-            for (let entry of entries) {
-                const { width, height } = entry.contentRect;
-                refreshCanvas(width, height);
-            }
+        const resizeObserver = new ResizeObserver(() => {
+            refreshCanvas();
         });
 
         resizeObserver.observe(containerElement);
@@ -188,16 +191,14 @@ const Roadmap = () => {
         return () => {
             resizeObserver.unobserve(containerElement);
         };
-    }, [containerRef])
+    }, [containerRef, algoContainerRef])
 
     return (
         <div
             ref={containerRef}
             style={{
                 width: "100%",
-                height: canvasMaxHeight,
-                maxWidth: '1800px',
-                maxHeight: canvasMaxHeight,
+                maxWidth: '3800px',
             }}
         >
             <canvas
@@ -207,15 +208,13 @@ const Roadmap = () => {
     );
 }
 
-const AlgorithmsContainer = styled(Paper)(({ theme }) => ({
-    padding: theme.spacing(2),
-    height: '100%',
+const AlgorithmsContainer = styled("div")(({ theme }) => ({
     overflow: 'auto',
-    borderRadius: '2%',
-    maxHeight: canvasMaxHeight,
 }));
 
 const Main = () => {
+
+    const algoContainerRef = React.useRef<HTMLDivElement>(null);
 
     const xs = 12;
     const sm = 6;
@@ -233,12 +232,12 @@ const Main = () => {
                 <Header />
                 <Slogan />
                 <Divider />
-                <Grid container spacing={1} sx={{ padding: 2 }}>
-                    <Grid item xs={12} md={12} lg={7} xl={6.5} style={{}}>
-                        <Roadmap />
+                <Grid container spacing={1} style={{ padding: "10px" }}>
+                    <Grid item xs={12} md={12} lg={7} xl={6.5} >
+                        <Roadmap algoContainerRef={algoContainerRef} />
                     </Grid>
                     <Grid item xs={12} md={12} lg={5} xl={5.5} style={{}}>
-                        <AlgorithmsContainer elevation={5}>
+                        <AlgorithmsContainer ref={algoContainerRef}>
                             <Algorithms xs={xs} sm={sm} md={md} lg={lg} xl={xl} />
                         </AlgorithmsContainer>
                     </Grid>
