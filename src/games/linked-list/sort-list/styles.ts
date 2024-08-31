@@ -77,8 +77,8 @@ export const buildList = async (
     array: number[],
     x: number,
     y: number
-): Promise<LinkedListNode<number | string>> => {
-    const list = new LinkedList<number | string>(scene, duration, linkColor, linkLength);
+): Promise<LinkedListNode<number>> => {
+    const list = new LinkedList<number>(scene, duration, linkColor, linkLength);
     const head = buildHead(scene, array[0], x, y);
     await list.push(head);
     for (let i = 1; i < array.length; i++) {
@@ -87,9 +87,9 @@ export const buildList = async (
     return head;
 }
 
-export const center = (head: LinkedListNode<number | string> | undefined, min: number, max: number): Promise<any> => {
-    let current: LinkedListNode<number | string> | undefined = head;
-    const nodes: LinkedListNode<number | string>[] = [];
+export const center = (head: LinkedListNode<number> | undefined, min: number, max: number): Promise<any> => {
+    let current: LinkedListNode<number> | undefined = head;
+    const nodes: LinkedListNode<number>[] = [];
 
     while (current) {
         nodes.push(current);
@@ -107,8 +107,8 @@ export const center = (head: LinkedListNode<number | string> | undefined, min: n
     return Promise.all(promises);
 }
 
-export const getTail = (head: LinkedListNode<number | string>): LinkedListNode<number | string> => {
-    let current: LinkedListNode<number | string> = head;
+export const getTail = (head: LinkedListNode<number>): LinkedListNode<number> => {
+    let current: LinkedListNode<number> = head;
     while (current.next) {
         current = current.next;
     }
