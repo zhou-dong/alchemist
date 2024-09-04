@@ -3,6 +3,7 @@ import { ListNode } from "../_commons/listNode";
 
 export enum Action {
     stand_by,
+    merge_entry,
     merge_new_dummy_head,
     merge_define_temp_temp1_temp2,
     merge_meet_while_condition,
@@ -37,6 +38,7 @@ export enum Action {
 const getlinesToHighlight = (action: Action): number[] => {
     switch (action) {
         case Action.stand_by: return [43];
+        case Action.merge_entry: return [1];
         case Action.merge_new_dummy_head: return [2];
         case Action.merge_define_temp_temp1_temp2: return [3];
         case Action.merge_meet_while_condition: return [4];
@@ -72,21 +74,26 @@ const getlinesToHighlight = (action: Action): number[] => {
 export class Step {
     action: Action;
     linesToHighlight: number[];
-    evenHead: LinkedListNode<number | string> | undefined;
-    even: LinkedListNode<number | string> | undefined;
-    odd: LinkedListNode<number | string> | undefined;
 
-    constructor(
-        action: Action,
-        evenHead: LinkedListNode<number | string> | undefined,
-        even: LinkedListNode<number | string> | undefined,
-        odd: LinkedListNode<number | string> | undefined,
-    ) {
+    merge_head1: LinkedListNode<number> | undefined;
+    merge_head2: LinkedListNode<number> | undefined;
+    merge_dummyHead: LinkedListNode<number> | undefined;
+    merge_temp: LinkedListNode<number> | undefined;
+    merge_temp1: LinkedListNode<number> | undefined;
+    merge_temp2: LinkedListNode<number> | undefined;
+
+    sort_head: LinkedListNode<number> | undefined;
+    sort_tail: LinkedListNode<number> | undefined;
+    sort_slow: LinkedListNode<number> | undefined;
+    sort_fast: LinkedListNode<number> | undefined;
+    sort_list1: LinkedListNode<number> | undefined;
+    sort_list2: LinkedListNode<number> | undefined;
+
+    head: LinkedListNode<number> | undefined;
+
+    constructor(action: Action) {
         this.action = action;
         this.linesToHighlight = getlinesToHighlight(action);
-        this.odd = odd;
-        this.even = even;
-        this.evenHead = evenHead;
     }
 }
 
@@ -107,7 +114,14 @@ export function buildSteps(head: LinkedListNode<number>): Step[] {
     const steps: Step[] = [];
 
     function merge(head1: ListNode<LinkedListNode<number>> | undefined, head2: ListNode<LinkedListNode<number>> | undefined) {
+        const s1 = new Step(Action.merge_entry)
+        s1.merge_head1 = head1?.val;
+        s1.merge_head2 = head2?.val;
+        steps.push(s1);
+
         const dummyHead = new ListNode<LinkedListNode<number>>(null as any);
+        const s2 = new Step(Action.merge_new_dummy_head);
+        s2.merge_dummyHead = dummyHead.val;
 
         let temp = dummyHead, temp1 = head1, temp2 = head2;
 
