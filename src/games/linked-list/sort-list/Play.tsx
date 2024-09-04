@@ -41,11 +41,11 @@ const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, evenHead, even, odd } = step;
+        const { action, } = step;
 
-        resetColor(evenHead);
-        resetColor(even);
-        resetColor(odd);
+        // resetColor(evenHead);
+        // resetColor(even);
+        // resetColor(odd);
 
         // switch (action) {
         //     case Action.define_odd: {
