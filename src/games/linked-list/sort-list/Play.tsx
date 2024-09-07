@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import { wait } from '../../../data-structures/_commons/utils';
 import { State } from './AlgoState';
-import { duration, skinDefaultColor } from './styles';
+import { duration, linkLength, radius, skinDefaultColor } from './styles';
 import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
 import { Action, Step } from './stepsBuilder';
 import Code from "./Code";
@@ -44,7 +44,7 @@ const Play = () => {
         const {
             action,
             head,
-            dummyHead,
+            // dummyHead,
             merge_head1,
             merge_head2,
             merge_dummyHead,
@@ -85,8 +85,12 @@ const Play = () => {
                 break;
             };
             case Action.merge_new_dummy_head: {
-                dummyHead?.show();
-                enableColor(dummyHead, skinEnabledColor);
+                enableColor(merge_dummyHead, skinEnabledColor);
+                if (merge_dummyHead && merge_head1) {
+                    const { x, y, z } = merge_head1;
+                    merge_dummyHead.show();
+                    await merge_dummyHead.move({ x: x - linkLength, y: y - radius * 3, z }, duration);
+                }
                 break;
             };
             case Action.merge_define_temp_temp1_temp2: {
@@ -168,7 +172,7 @@ const Play = () => {
                 break;
             };
             case Action.merge_return_dummy_head_next: {
-                dummyHead?.hide();
+                merge_dummyHead?.hide();
                 break;
             };
             case Action.sort_entry: {
