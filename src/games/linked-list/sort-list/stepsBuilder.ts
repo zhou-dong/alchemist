@@ -81,21 +81,22 @@ export class Step {
     action: Action;
     linesToHighlight: number[];
 
-    merge_head1: LinkedListNode<number> | undefined;
-    merge_head2: LinkedListNode<number> | undefined;
-    merge_dummyHead: LinkedListNode<number> | undefined;
-    merge_temp: LinkedListNode<number> | undefined;
-    merge_temp1: LinkedListNode<number> | undefined;
-    merge_temp2: LinkedListNode<number> | undefined;
+    merge_head1?: LinkedListNode<number>;
+    merge_head2?: LinkedListNode<number>;
+    merge_dummyHead?: LinkedListNode<number>;
+    merge_temp?: LinkedListNode<number>;
+    merge_temp1?: LinkedListNode<number>;
+    merge_temp2?: LinkedListNode<number>;
 
-    sort_head: LinkedListNode<number> | undefined;
-    sort_tail: LinkedListNode<number> | undefined;
-    sort_slow: LinkedListNode<number> | undefined;
-    sort_fast: LinkedListNode<number> | undefined;
-    sort_list1: LinkedListNode<number> | undefined;
-    sort_list2: LinkedListNode<number> | undefined;
+    sort_head?: LinkedListNode<number>;
+    sort_tail?: LinkedListNode<number>;
+    sort_slow?: LinkedListNode<number>;
+    sort_fast?: LinkedListNode<number>;
+    sort_list1?: LinkedListNode<number>;
+    sort_list2?: LinkedListNode<number>;
 
-    head: LinkedListNode<number> | undefined;
+    dummyHead?: LinkedListNode<number>;
+    head?: LinkedListNode<number>;
 
     constructor(action: Action) {
         this.action = action;
