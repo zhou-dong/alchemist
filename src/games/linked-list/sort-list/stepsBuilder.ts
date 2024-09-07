@@ -142,6 +142,8 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
 
         const dummyHead = new ListNode<LinkedListNode<number>>(dummyNode);
         const s2 = new Step(Action.merge_new_dummy_head);
+        s2.merge_head1 = head1?.val;
+        s2.merge_head2 = head2?.val;
         s2.merge_dummyHead = dummyHead.val;
         steps.push(s2);
 
