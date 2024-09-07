@@ -24,13 +24,13 @@ const MainPosition = styled("div")({
     zIndex: 1
 });
 
-const enableColor = (node: LinkedListNode<number | string> | undefined, color: string) => {
+const enableColor = (node: LinkedListNode<number> | undefined, color: string) => {
     if (node) {
         node.nodeSkin.color = color;
     }
 }
 
-const resetColor = (node: LinkedListNode<number | string> | undefined) => {
+const resetColor = (node: LinkedListNode<number> | undefined) => {
     if (node) {
         node.nodeSkin.color = skinDefaultColor;
         resetColor(node.next);
@@ -41,7 +41,85 @@ const Play = () => {
     const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene } = useAlgoContext();
 
     const execute = async (step: Step) => {
-        const { action, } = step;
+        const {
+            action,
+            merge_head1,
+            merge_head2,
+            merge_dummyHead,
+            merge_temp,
+            merge_temp1,
+            merge_temp2,
+            sort_head,
+            sort_tail,
+            sort_slow,
+            sort_fast,
+            sort_list1,
+            sort_list2
+        } = step;
+
+        resetColor(merge_head1);
+        resetColor(merge_head2);
+        resetColor(merge_dummyHead);
+        resetColor(merge_temp);
+        resetColor(merge_temp1);
+        resetColor(merge_temp2);
+        resetColor(sort_head);
+        resetColor(sort_head);
+        resetColor(sort_tail);
+        resetColor(sort_slow);
+        resetColor(sort_fast);
+        resetColor(sort_list1);
+        resetColor(sort_list2);
+
+        enableColor(merge_head1, skinEnabledColor);
+        enableColor(merge_head2, skinEnabledColor);
+        enableColor(merge_dummyHead, skinEnabledColor);
+        enableColor(merge_temp, skinEnabledColor);
+        enableColor(merge_temp1, skinEnabledColor);
+        enableColor(merge_temp2, skinEnabledColor);
+        enableColor(sort_head, skinEnabledColor);
+        enableColor(sort_head, skinEnabledColor);
+        enableColor(sort_tail, skinEnabledColor);
+        enableColor(sort_slow, skinEnabledColor);
+        enableColor(sort_fast, skinEnabledColor);
+        enableColor(sort_list1, skinEnabledColor);
+        enableColor(sort_list2, skinEnabledColor);
+
+        switch (action) {
+            case Action.stand_by: return [43];
+            case Action.merge_entry: return [1];
+            case Action.merge_new_dummy_head: return [2];
+            case Action.merge_define_temp_temp1_temp2: return [3];
+            case Action.merge_meet_while_condition: return [4];
+            case Action.merge_while_temp1_less_than_temp2: return [5];
+            case Action.merge_while_temp_next_temp1: return [6];
+            case Action.merge_while_temp1_temp1_next: return [7];
+            case Action.merge_while_temp1_large_than_temp2: return [8];
+            case Action.merge_while_temp_next_temp2: return [9];
+            case Action.merge_while_temp2_temp2_next: return [10];
+            case Action.merge_while_temp_temp_next: return [12];
+            case Action.merge_temp1_not_null: return [14];
+            case Action.merge_temp_next_temp1: return [15];
+            case Action.merge_temp2_not_null: return [16];
+            case Action.merge_temp_next_temp2: return [17];
+            case Action.merge_return_dummy_head_next: return [19];
+            case Action.sort_entry: return [22];
+            case Action.sort_head_equal_null: return [23];
+            case Action.sort_return_head: return [24];
+            case Action.sort_head_next_equal_tail: return [26];
+            case Action.sort_head_next_null: return [27];
+            case Action.sort_return_head_two: return [28];
+            case Action.sort_define_slow_fast: return [30];
+            case Action.sort_meet_while_condition: return [31];
+            case Action.sort_while_slow_slow_next: return [32];
+            case Action.sort_while_fast_fast_next: return [33];
+            case Action.sort_while_meet_fast_not_equal_tail: return [34];
+            case Action.sort_while_nest_fast_fast_next: return [35];
+            case Action.sort_sort1: return [38];
+            case Action.sort_sort2: return [39];
+            case Action.sort_return_merge: return [40];
+            case Action.sort_list_sort: return [44];
+        }
 
         // resetColor(evenHead);
         // resetColor(even);
