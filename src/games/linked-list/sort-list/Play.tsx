@@ -282,7 +282,6 @@ const Play = () => {
 
     const push = async () => {
         setState(State.Typing);
-        console.log(index);
 
         const step = steps[index];
 
