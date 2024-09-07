@@ -1,10 +1,12 @@
 import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
+import { Chip, Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import { useAlgoContext } from "./AlgoContext";
 import Draggable from 'react-draggable';
 import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
+import SortIcon from '@mui/icons-material/Sort';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 const formula = `function merge(head1: ListNode | null, head2: ListNode | null) {
     const dummyHead = new ListNode();
@@ -75,7 +77,10 @@ const Head = () => {
                 <EmojiObjectsOutlinedIcon />
             </IconButton>
             <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={2} direction="row">
-                <Typography>Solution</Typography>
+                <Typography>Solution : </Typography>
+                <Chip icon={<SortIcon />} label="Sort" variant="outlined" />
+                <Typography>{">"} </Typography>
+                <Chip icon={<SwapVertIcon />} label="Merge Sort" variant="outlined" />
             </Stack>
             <IconButton color='info'>
                 <DragIndicatorIcon fontSize='medium' />
