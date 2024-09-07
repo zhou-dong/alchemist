@@ -3,6 +3,7 @@ import { SimpleLinkedListNodeText, SimpleLinkedListSphereNodeSkin } from "../../
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 import Position from "../../../data-structures/_commons/params/position.interface";
 import { LinkedList } from "../../../data-structures/list/linked-list/list.three";
+import { SimpleLink } from "../../../data-structures/list/link.three";
 
 export const linkColor = "gold";
 export const skinDefaultColor = "yellow";
@@ -14,6 +15,21 @@ export const duration = 1;
 export const radius = 1;
 
 const textColor = "green";
+
+export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number>, next: LinkedListNode<number>): SimpleLink => {
+
+    const adjustSource = ({ x, y, z }: Position): Position => {
+        const width = node.width;
+        return { x: x + width / 2, y, z };
+    }
+
+    const adjustTarget = ({ x, y, z }: Position): Position => {
+        const width = next.width;
+        return { x: x - width / 2, y, z };
+    }
+
+    return new SimpleLink(node, adjustSource, next, adjustTarget, scene, linkColor);
+}
 
 const buildSkin = (scene: THREE.Scene, position: Position) => {
 

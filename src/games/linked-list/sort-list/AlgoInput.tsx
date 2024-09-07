@@ -16,21 +16,6 @@ import { LinkedListNode } from '../../../data-structures/list/linked-list/node.t
 import Position from '../../../data-structures/_commons/params/position.interface';
 import { SimpleLink } from '../../../data-structures/list/link.three';
 
-export const buildLink = (scene: THREE.Scene, node: LinkedListNode<number | string>, next: LinkedListNode<number | string>): SimpleLink => {
-
-    const adjustSource = ({ x, y, z }: Position): Position => {
-        const width = node.width;
-        return { x: x + width / 2, y, z };
-    }
-
-    const adjustTarget = ({ x, y, z }: Position): Position => {
-        const width = next.width;
-        return { x: x - width / 2, y, z };
-    }
-
-    return new SimpleLink(node, adjustSource, next, adjustTarget, scene, linkColor);
-}
-
 const buildInputs = (size: number): number[] => {
     const max = Math.max(20, size);
 

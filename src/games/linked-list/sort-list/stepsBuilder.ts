@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 import { ListNode } from "../_commons/listNode";
-import { createDummyNode } from "./styles";
+import { buildLink, createDummyNode } from "./styles";
 
 export enum Action {
     stand_by,
@@ -116,7 +116,18 @@ const buildProxyList = (head: LinkedListNode<number>): ListNode<LinkedListNode<n
     return proxyHead;
 }
 
+const findLast = (head: LinkedListNode<number>): LinkedListNode<number> => {
+    let current: LinkedListNode<number> = head;
+    while (current.next) {
+        current = current.next;
+    }
+    return current;
+}
+
 export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): Step[] {
+
+    const last = findLast(head);
+    last.linkToNext = buildLink(scene, last, createDummyNode(scene));
 
     const steps: Step[] = [];
 
@@ -127,6 +138,8 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         steps.push(s1);
 
         const dummyNode = createDummyNode(scene);
+        dummyNode.linkToNext = buildLink(scene, dummyNode, createDummyNode(scene));
+
         const dummyHead = new ListNode<LinkedListNode<number>>(dummyNode);
         const s2 = new Step(Action.merge_new_dummy_head);
         s2.merge_dummyHead = dummyHead.val;

@@ -10,7 +10,6 @@ import { Action, Step } from './stepsBuilder';
 import Code from "./Code";
 import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
-import { buildLink } from './AlgoInput';
 
 const skinEnabledColor = "blue";
 const skinSecondaryColor = "pink";
@@ -45,6 +44,7 @@ const Play = () => {
         const {
             action,
             head,
+            dummyHead,
             merge_head1,
             merge_head2,
             merge_dummyHead,
@@ -84,21 +84,93 @@ const Play = () => {
                 enableColor(merge_head2, skinEnabledColor);
                 break;
             };
-            case Action.merge_new_dummy_head: return [2];
-            case Action.merge_define_temp_temp1_temp2: return [3];
-            case Action.merge_meet_while_condition: return [4];
-            case Action.merge_while_temp1_less_than_temp2: return [5];
-            case Action.merge_while_temp_next_temp1: return [6];
-            case Action.merge_while_temp1_temp1_next: return [7];
-            case Action.merge_while_temp1_large_than_temp2: return [8];
-            case Action.merge_while_temp_next_temp2: return [9];
-            case Action.merge_while_temp2_temp2_next: return [10];
-            case Action.merge_while_temp_temp_next: return [12];
-            case Action.merge_temp1_not_null: return [14];
-            case Action.merge_temp_next_temp1: return [15];
-            case Action.merge_temp2_not_null: return [16];
-            case Action.merge_temp_next_temp2: return [17];
-            case Action.merge_return_dummy_head_next: return [19];
+            case Action.merge_new_dummy_head: {
+                dummyHead?.show();
+                enableColor(dummyHead, skinEnabledColor);
+                break;
+            };
+            case Action.merge_define_temp_temp1_temp2: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_meet_while_condition: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_while_temp1_less_than_temp2: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_while_temp_next_temp1: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_while_temp1_temp1_next: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_while_temp1_large_than_temp2: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_while_temp_next_temp2: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_while_temp2_temp2_next: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_while_temp_temp_next: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_temp1_not_null: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_temp_next_temp1: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_temp2_not_null: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_temp_next_temp2: {
+                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp2, skinEnabledColor);
+                break;
+            };
+            case Action.merge_return_dummy_head_next: {
+                dummyHead?.hide();
+                break;
+            };
             case Action.sort_entry: {
                 enableColor(sort_head, skinEnabledColor);
                 enableColor(sort_tail, skinEnabledColor);
