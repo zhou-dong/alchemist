@@ -43,6 +43,7 @@ const Play = () => {
     const execute = async (step: Step) => {
         const {
             action,
+            head,
             merge_head1,
             merge_head2,
             merge_dummyHead,
@@ -57,6 +58,7 @@ const Play = () => {
             sort_list2
         } = step;
 
+        resetColor(head);
         resetColor(merge_head1);
         resetColor(merge_head2);
         resetColor(merge_dummyHead);
@@ -71,7 +73,6 @@ const Play = () => {
         resetColor(sort_list1);
         resetColor(sort_list2);
 
-        enableColor(merge_head1, skinEnabledColor);
         enableColor(merge_head2, skinEnabledColor);
         enableColor(merge_dummyHead, skinEnabledColor);
         enableColor(merge_temp, skinEnabledColor);
@@ -86,7 +87,10 @@ const Play = () => {
         enableColor(sort_list2, skinEnabledColor);
 
         switch (action) {
-            case Action.stand_by: return [43];
+            case Action.stand_by: {
+                enableColor(head, skinEnabledColor);
+                break;
+            };
             case Action.merge_entry: return [1];
             case Action.merge_new_dummy_head: return [2];
             case Action.merge_define_temp_temp1_temp2: return [3];
@@ -103,12 +107,20 @@ const Play = () => {
             case Action.merge_temp2_not_null: return [16];
             case Action.merge_temp_next_temp2: return [17];
             case Action.merge_return_dummy_head_next: return [19];
-            case Action.sort_entry: return [22];
+            case Action.sort_entry: {
+                enableColor(sort_head, skinEnabledColor);
+                enableColor(sort_tail, skinEnabledColor);
+                break;
+            };
             case Action.sort_head_equal_null: return [23];
             case Action.sort_return_head: return [24];
             case Action.sort_head_next_equal_tail: return [26];
             case Action.sort_head_next_null: return [27];
-            case Action.sort_return_head_two: return [28];
+            case Action.sort_return_head_two: {
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                break;
+            };
             case Action.sort_define_slow_fast: return [30];
             case Action.sort_meet_while_condition: return [31];
             case Action.sort_while_slow_slow_next: return [32];
@@ -118,7 +130,10 @@ const Play = () => {
             case Action.sort_sort1: return [38];
             case Action.sort_sort2: return [39];
             case Action.sort_return_merge: return [40];
-            case Action.sort_list_sort: return [44];
+            case Action.sort_list_sort: {
+                enableColor(head, skinEnabledColor);
+                break;
+            };
         }
 
         // resetColor(evenHead);
