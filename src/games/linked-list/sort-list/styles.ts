@@ -58,6 +58,12 @@ const buildNode = (scene: THREE.Scene, i: number): LinkedListNode<number> => {
     return buildLinkedListNode<number>(scene, i, i + "", { x: 0, y: 0, z: 0 }, { x: textX, y: textY, z: 0 })
 }
 
+export const createDummyNode = (scene: THREE.Scene): LinkedListNode<number> => {
+    const textX = -0.3;
+    const textY = -0.2;
+    return buildLinkedListNode<number>(scene, -1, "D", { x: 0, y: 0, z: 0 }, { x: textX, y: textY, z: 0 })
+}
+
 export const buildLinkedListNode = <T>(
     scene: THREE.Scene,
     value: T,
