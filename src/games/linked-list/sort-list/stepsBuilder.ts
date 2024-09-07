@@ -1,5 +1,7 @@
+import * as THREE from "three";
 import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 import { ListNode } from "../_commons/listNode";
+import { createDummyNode } from "./styles";
 
 export enum Action {
     stand_by,
@@ -113,7 +115,7 @@ const buildProxyList = (head: LinkedListNode<number>): ListNode<LinkedListNode<n
     return proxyHead;
 }
 
-export function buildSteps(head: LinkedListNode<number>): Step[] {
+export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): Step[] {
 
     const steps: Step[] = [];
 
@@ -123,7 +125,8 @@ export function buildSteps(head: LinkedListNode<number>): Step[] {
         s1.merge_head2 = head2?.val;
         steps.push(s1);
 
-        const dummyHead = new ListNode<LinkedListNode<number>>(null as any);
+        const dummyNode = createDummyNode(scene);
+        const dummyHead = new ListNode<LinkedListNode<number>>(dummyNode);
         const s2 = new Step(Action.merge_new_dummy_head);
         s2.merge_dummyHead = dummyHead.val;
         steps.push(s2);
