@@ -79,7 +79,11 @@ const Play = () => {
                 enableColor(head, skinEnabledColor);
                 break;
             };
-            case Action.merge_entry: return [1];
+            case Action.merge_entry: {
+                enableColor(merge_head1, skinEnabledColor);
+                enableColor(merge_head2, skinEnabledColor);
+                break;
+            };
             case Action.merge_new_dummy_head: return [2];
             case Action.merge_define_temp_temp1_temp2: return [3];
             case Action.merge_meet_while_condition: return [4];
