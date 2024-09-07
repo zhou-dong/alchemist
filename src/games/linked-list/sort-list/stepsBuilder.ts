@@ -311,27 +311,32 @@ export function buildSteps(head: LinkedListNode<number>): Step[] {
             }
         }
 
+        const list1 = sort(head, slow);
         const s13 = new Step(Action.sort_sort1);
         s13.sort_head = head?.val;
         s13.sort_tail = tail?.val;
         s13.sort_slow = slow?.val;
         s13.sort_fast = fast?.val;
+        s13.sort_list1 = list1?.val;
         steps.push(s13);
-        const list1 = sort(head, slow);
 
+        const list2 = sort(slow, tail);
         const s14 = new Step(Action.sort_sort2);
         s14.sort_head = head?.val;
         s14.sort_tail = tail?.val;
         s14.sort_slow = slow?.val;
         s14.sort_fast = fast?.val;
+        s14.sort_list1 = list1?.val;
+        s14.sort_list2 = list2?.val;
         steps.push(s14);
-        const list2 = sort(slow, tail);
 
         const s15 = new Step(Action.sort_return_merge);
         s15.sort_head = head?.val;
         s15.sort_tail = tail?.val;
         s15.sort_slow = slow?.val;
         s15.sort_fast = fast?.val;
+        s15.sort_list1 = list1?.val;
+        s15.sort_list2 = list2?.val;
         steps.push(s15);
         return merge(list1, list2);
     }
