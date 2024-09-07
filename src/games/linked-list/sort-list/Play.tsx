@@ -13,6 +13,7 @@ import { safeRun } from '../../commons/utils';
 import { buildLink } from './AlgoInput';
 
 const skinEnabledColor = "blue";
+const skinSecondaryColor = "pink";
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -73,19 +74,6 @@ const Play = () => {
         resetColor(sort_list1);
         resetColor(sort_list2);
 
-        enableColor(merge_head2, skinEnabledColor);
-        enableColor(merge_dummyHead, skinEnabledColor);
-        enableColor(merge_temp, skinEnabledColor);
-        enableColor(merge_temp1, skinEnabledColor);
-        enableColor(merge_temp2, skinEnabledColor);
-        enableColor(sort_head, skinEnabledColor);
-        enableColor(sort_head, skinEnabledColor);
-        enableColor(sort_tail, skinEnabledColor);
-        enableColor(sort_slow, skinEnabledColor);
-        enableColor(sort_fast, skinEnabledColor);
-        enableColor(sort_list1, skinEnabledColor);
-        enableColor(sort_list2, skinEnabledColor);
-
         switch (action) {
             case Action.stand_by: {
                 enableColor(head, skinEnabledColor);
@@ -114,22 +102,83 @@ const Play = () => {
             };
             case Action.sort_head_equal_null: return [23];
             case Action.sort_return_head: return [24];
-            case Action.sort_head_next_equal_tail: return [26];
-            case Action.sort_head_next_null: return [27];
-            case Action.sort_return_head_two: {
+            case Action.sort_head_next_equal_tail: {
+                enableColor(sort_head, skinEnabledColor);
+                enableColor(sort_tail, skinEnabledColor);
+                break;
+            }
+            case Action.sort_head_next_null: {
+                enableColor(sort_head, skinEnabledColor);
+                enableColor(sort_tail, skinEnabledColor);
+                sort_head?.linkToNext?.hide();
+                break;
+            };
+            case Action.sort_return_head_two: return [];
+            case Action.sort_define_slow_fast: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
             };
-            case Action.sort_define_slow_fast: return [30];
-            case Action.sort_meet_while_condition: return [31];
-            case Action.sort_while_slow_slow_next: return [32];
-            case Action.sort_while_fast_fast_next: return [33];
-            case Action.sort_while_meet_fast_not_equal_tail: return [34];
-            case Action.sort_while_nest_fast_fast_next: return [35];
-            case Action.sort_sort1: return [38];
-            case Action.sort_sort2: return [39];
-            case Action.sort_return_merge: return [40];
+            case Action.sort_meet_while_condition: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                break;
+            };
+            case Action.sort_while_slow_slow_next: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                break;
+            };
+            case Action.sort_while_fast_fast_next: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                break;
+            };
+            case Action.sort_while_meet_fast_not_equal_tail: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                break;
+            };
+            case Action.sort_while_nest_fast_fast_next: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                break;
+            };
+            case Action.sort_sort1: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                break;
+            };
+            case Action.sort_sort2: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                break;
+            };
+            case Action.sort_return_merge: {
+                enableColor(sort_head, skinSecondaryColor);
+                enableColor(sort_tail, skinSecondaryColor);
+                enableColor(sort_slow, skinEnabledColor);
+                enableColor(sort_fast, skinEnabledColor);
+                enableColor(sort_list1, skinEnabledColor);
+                enableColor(sort_list2, skinEnabledColor);
+                break;
+            };
             case Action.sort_list_sort: {
                 enableColor(head, skinEnabledColor);
                 break;
