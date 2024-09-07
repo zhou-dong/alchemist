@@ -95,7 +95,6 @@ export class Step {
     sort_list1?: LinkedListNode<number>;
     sort_list2?: LinkedListNode<number>;
 
-    dummyHead?: LinkedListNode<number>;
     head?: LinkedListNode<number>;
 
     constructor(action: Action) {
@@ -240,6 +239,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         s16.merge_temp = temp.val;
         s16.merge_temp1 = temp1?.val;
         s16.merge_temp2 = temp2?.val;
+        s16.merge_dummyHead = dummyHead.val;
         steps.push(s16);
         return dummyHead.next;
     }
