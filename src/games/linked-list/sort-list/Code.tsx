@@ -54,7 +54,7 @@ function sortList(head: ListNode | null): ListNode | null {
 
 const Code = () => {
     const { index, steps } = useAlgoContext();
-    const action = steps[index];
+    const action = steps[index - 1];
     const linesToHighlight: number[] = action ? action.linesToHighlight : [];
 
     return (
