@@ -114,13 +114,26 @@ const Play = () => {
             case Action.merge_while_temp_next_temp1: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
-                enableColor(merge_temp2, skinEnabledColor);
+                enableColor(merge_temp2, skinSecondaryColor);
+
+                if (merge_temp && merge_temp1) {
+                    const { x, y, z, linkToNext } = merge_temp;
+                    if (linkToNext) {
+                        linkToNext.target = merge_temp1;
+                        linkToNext.refresh();
+                        linkToNext.show();
+                    }
+                    await merge_temp1.move({ x: x + linkLength, y, z }, duration, () => {
+                        merge_temp.linkToNext?.refresh();
+                        merge_temp1.linkToNext?.refresh();
+                    })
+                }
                 break;
             };
             case Action.merge_while_temp1_temp1_next: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
-                enableColor(merge_temp2, skinEnabledColor);
+                enableColor(merge_temp2, skinSecondaryColor);
                 break;
             };
             case Action.merge_while_temp1_large_than_temp2: {
@@ -133,6 +146,19 @@ const Play = () => {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
+
+                if (merge_temp && merge_temp2) {
+                    const { x, y, z, linkToNext } = merge_temp;
+                    if (linkToNext) {
+                        linkToNext.target = merge_temp2;
+                        linkToNext.refresh();
+                        linkToNext.show();
+                    }
+                    await merge_temp2.move({ x: x + linkLength, y, z }, duration, () => {
+                        merge_temp.linkToNext?.refresh();
+                        merge_temp2.linkToNext?.refresh();
+                    })
+                }
                 break;
             };
             case Action.merge_while_temp2_temp2_next: {
@@ -157,6 +183,19 @@ const Play = () => {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
+
+                if (merge_temp && merge_temp1) {
+                    const { x, y, z, linkToNext } = merge_temp;
+                    if (linkToNext) {
+                        linkToNext.target = merge_temp1;
+                        linkToNext.refresh();
+                        linkToNext.show();
+                    }
+                    await merge_temp1.move({ x: x + linkLength, y, z }, duration, () => {
+                        merge_temp1.linkToNext?.refresh();
+                        merge_temp1.linkToNext?.refresh();
+                    })
+                }
                 break;
             };
             case Action.merge_temp2_not_null: {
@@ -169,9 +208,23 @@ const Play = () => {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
+
+                if (merge_temp && merge_temp2) {
+                    const { x, y, z, linkToNext } = merge_temp;
+                    if (linkToNext) {
+                        linkToNext.target = merge_temp2;
+                        linkToNext.refresh();
+                        linkToNext.show();
+                    }
+                    await merge_temp2.move({ x: x + linkLength, y, z }, duration, () => {
+                        merge_temp.linkToNext?.refresh();
+                        merge_temp2.linkToNext?.refresh();
+                    })
+                }
                 break;
             };
             case Action.merge_return_dummy_head_next: {
+                merge_dummyHead?.linkToNext?.hide();
                 merge_dummyHead?.hide();
                 break;
             };
