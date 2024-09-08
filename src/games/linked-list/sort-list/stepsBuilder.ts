@@ -78,8 +78,9 @@ const getlinesToHighlight = (action: Action): number[] => {
 }
 
 export class Step {
-    action: Action;
-    linesToHighlight: number[];
+    readonly action: Action;
+    readonly linesToHighlight: number[];
+    readonly head: LinkedListNode<number>;
 
     merge_head1?: LinkedListNode<number>;
     merge_head2?: LinkedListNode<number>;
@@ -95,11 +96,10 @@ export class Step {
     sort_list1?: LinkedListNode<number>;
     sort_list2?: LinkedListNode<number>;
 
-    head?: LinkedListNode<number>;
-
-    constructor(action: Action) {
+    constructor(action: Action, head: LinkedListNode<number>) {
         this.action = action;
         this.linesToHighlight = getlinesToHighlight(action);
+        this.head = head;
     }
 }
 
@@ -123,15 +123,15 @@ const findLast = (head: LinkedListNode<number>): LinkedListNode<number> => {
     return current;
 }
 
-export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): Step[] {
+export function buildSteps(listHead: LinkedListNode<number>, scene: THREE.Scene): Step[] {
 
-    const last = findLast(head);
+    const last = findLast(listHead);
     last.linkToNext = buildLink(scene, last, createDummyNode(scene));
 
     const steps: Step[] = [];
 
     function merge(head1: ListNode<LinkedListNode<number>> | undefined, head2: ListNode<LinkedListNode<number>> | undefined) {
-        const s1 = new Step(Action.merge_entry);
+        const s1 = new Step(Action.merge_entry, listHead);
         s1.merge_head1 = head1?.val;
         s1.merge_head2 = head2?.val;
         steps.push(s1);
@@ -140,69 +140,69 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         dummyNode.linkToNext = buildLink(scene, dummyNode, createDummyNode(scene));
 
         const dummyHead = new ListNode<LinkedListNode<number>>(dummyNode);
-        const s2 = new Step(Action.merge_new_dummy_head);
+        const s2 = new Step(Action.merge_new_dummy_head, listHead);
         s2.merge_head1 = head1?.val;
         s2.merge_head2 = head2?.val;
         s2.merge_dummyHead = dummyHead.val;
         steps.push(s2);
 
         let temp = dummyHead, temp1 = head1, temp2 = head2;
-        const s3 = new Step(Action.merge_define_temp_temp1_temp2);
+        const s3 = new Step(Action.merge_define_temp_temp1_temp2, listHead);
         s3.merge_temp = dummyHead.val;
         s3.merge_temp1 = head1?.val;
         s3.merge_temp2 = head2?.val;
         steps.push(s3);
 
         while (temp1 !== undefined && temp2 !== undefined) {
-            const s4 = new Step(Action.merge_meet_while_condition);
+            const s4 = new Step(Action.merge_meet_while_condition, listHead);
             s4.merge_temp = temp.val;
             s4.merge_temp1 = temp1.val;
             s4.merge_temp2 = temp2.val;
             steps.push(s4);
 
             if (temp1.val.data <= temp2.val.data) {
-                const s5 = new Step(Action.merge_while_temp1_less_than_temp2);
+                const s5 = new Step(Action.merge_while_temp1_less_than_temp2, listHead);
                 s5.merge_temp = temp.val;
                 s5.merge_temp1 = temp1.val;
                 s5.merge_temp2 = temp2.val;
                 steps.push(s5);
 
                 temp.next = temp1;
-                const s6 = new Step(Action.merge_while_temp_next_temp1);
+                const s6 = new Step(Action.merge_while_temp_next_temp1, listHead);
                 s6.merge_temp = temp.val;
                 s6.merge_temp1 = temp1.val;
                 s6.merge_temp2 = temp2.val;
                 steps.push(s6);
 
                 temp1 = temp1.next;
-                const s7 = new Step(Action.merge_while_temp1_temp1_next);
+                const s7 = new Step(Action.merge_while_temp1_temp1_next, listHead);
                 s7.merge_temp = temp.val;
                 s7.merge_temp1 = temp1?.val;
                 s7.merge_temp2 = temp2.val;
                 steps.push(s7);
             } else {
-                const s8 = new Step(Action.merge_while_temp1_large_than_temp2);
+                const s8 = new Step(Action.merge_while_temp1_large_than_temp2, listHead);
                 s8.merge_temp = temp.val;
                 s8.merge_temp1 = temp1?.val;
                 s8.merge_temp2 = temp2.val;
                 steps.push(s8);
 
                 temp.next = temp2;
-                const s9 = new Step(Action.merge_while_temp_next_temp2);
+                const s9 = new Step(Action.merge_while_temp_next_temp2, listHead);
                 s9.merge_temp = temp.val;
                 s9.merge_temp1 = temp1?.val;
                 s9.merge_temp2 = temp2.val;
                 steps.push(s9);
 
                 temp2 = temp2.next;
-                const s10 = new Step(Action.merge_while_temp2_temp2_next);
+                const s10 = new Step(Action.merge_while_temp2_temp2_next, listHead);
                 s10.merge_temp = temp.val;
                 s10.merge_temp1 = temp1?.val;
                 s10.merge_temp2 = temp2?.val;
                 steps.push(s10);
             }
             temp = temp.next;
-            const s11 = new Step(Action.merge_while_temp_temp_next);
+            const s11 = new Step(Action.merge_while_temp_temp_next, listHead);
             s11.merge_temp = temp.val;
             s11.merge_temp1 = temp1?.val;
             s11.merge_temp2 = temp2?.val;
@@ -210,32 +210,32 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         }
 
         if (temp1 !== undefined) {
-            const s12 = new Step(Action.merge_temp1_not_null);
+            const s12 = new Step(Action.merge_temp1_not_null, listHead);
             s12.merge_temp = temp.val;
             s12.merge_temp1 = temp1?.val;
             s12.merge_temp2 = temp2?.val;
             steps.push(s12);
 
             temp.next = temp1;
-            const s13 = new Step(Action.merge_temp_next_temp1);
+            const s13 = new Step(Action.merge_temp_next_temp1, listHead);
             s13.merge_temp = temp.val;
             s13.merge_temp1 = temp1?.val;
             s13.merge_temp2 = temp2?.val;
             steps.push(s13);
         } else if (temp2 !== undefined) {
-            const s14 = new Step(Action.merge_temp2_not_null);
+            const s14 = new Step(Action.merge_temp2_not_null, listHead);
             s14.merge_temp = temp.val;
             s14.merge_temp2 = temp2?.val;
             steps.push(s14);
 
             temp.next = temp2;
-            const s15 = new Step(Action.merge_temp_next_temp2);
+            const s15 = new Step(Action.merge_temp_next_temp2, listHead);
             s15.merge_temp = temp.val;
             s15.merge_temp2 = temp2?.val;
             steps.push(s15);
         }
 
-        const s16 = new Step(Action.merge_return_dummy_head_next);
+        const s16 = new Step(Action.merge_return_dummy_head_next, listHead);
         s16.merge_temp = temp.val;
         s16.merge_temp1 = temp1?.val;
         s16.merge_temp2 = temp2?.val;
@@ -245,35 +245,35 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
     }
 
     function sort(head: ListNode<LinkedListNode<number>> | undefined, tail: ListNode<LinkedListNode<number>> | undefined): ListNode<LinkedListNode<number>> | undefined {
-        const s1 = new Step(Action.sort_entry);
+        const s1 = new Step(Action.sort_entry, listHead);
         s1.sort_head = head?.val;
         s1.sort_tail = tail?.val;
         steps.push(s1);
 
         if (head === undefined) {
-            const s2 = new Step(Action.sort_head_equal_null);
+            const s2 = new Step(Action.sort_head_equal_null, listHead);
             s2.sort_tail = tail?.val;
             steps.push(s2);
 
-            const s3 = new Step(Action.sort_return_head);
+            const s3 = new Step(Action.sort_return_head, listHead);
             s3.sort_tail = tail?.val;
             steps.push(s3);
             return head;
         }
 
         if (head.next === tail) {
-            const s4 = new Step(Action.sort_head_next_equal_tail);
+            const s4 = new Step(Action.sort_head_next_equal_tail, listHead);
             s4.sort_head = head?.val;
             s4.sort_tail = tail?.val;
             steps.push(s4);
 
             head.next = undefined;
-            const s5 = new Step(Action.sort_head_next_null);
+            const s5 = new Step(Action.sort_head_next_null, listHead);
             s5.sort_head = head?.val;
             s5.sort_tail = tail?.val;
             steps.push(s5);
 
-            const s6 = new Step(Action.sort_return_head_two);
+            const s6 = new Step(Action.sort_return_head_two, listHead);
             s6.sort_head = head?.val;
             s6.sort_tail = tail?.val;
             steps.push(s6);
@@ -281,7 +281,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         }
 
         let slow: ListNode<LinkedListNode<number>> | undefined = head, fast: ListNode<LinkedListNode<number>> | undefined = head;
-        const s7 = new Step(Action.sort_define_slow_fast);
+        const s7 = new Step(Action.sort_define_slow_fast, listHead);
         s7.sort_head = head?.val;
         s7.sort_tail = tail?.val;
         s7.sort_slow = slow?.val;
@@ -289,7 +289,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         steps.push(s7);
 
         while (fast !== tail) {
-            const s8 = new Step(Action.sort_meet_while_condition);
+            const s8 = new Step(Action.sort_meet_while_condition, listHead);
             s8.sort_head = head?.val;
             s8.sort_tail = tail?.val;
             s8.sort_slow = slow?.val;
@@ -297,7 +297,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
             steps.push(s8);
 
             slow = slow?.next;
-            const s9 = new Step(Action.sort_while_slow_slow_next);
+            const s9 = new Step(Action.sort_while_slow_slow_next, listHead);
             s9.sort_head = head?.val;
             s9.sort_tail = tail?.val;
             s9.sort_slow = slow?.val;
@@ -305,7 +305,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
             steps.push(s9);
 
             fast = fast?.next;
-            const s10 = new Step(Action.sort_while_fast_fast_next);
+            const s10 = new Step(Action.sort_while_fast_fast_next, listHead);
             s10.sort_head = head?.val;
             s10.sort_tail = tail?.val;
             s10.sort_slow = slow?.val;
@@ -313,7 +313,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
             steps.push(s10);
 
             if (fast !== tail) {
-                const s11 = new Step(Action.sort_while_meet_fast_not_equal_tail);
+                const s11 = new Step(Action.sort_while_meet_fast_not_equal_tail, listHead);
                 s11.sort_head = head?.val;
                 s11.sort_tail = tail?.val;
                 s11.sort_slow = slow?.val;
@@ -321,7 +321,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
                 steps.push(s11);
 
                 fast = fast?.next;
-                const s12 = new Step(Action.sort_while_nest_fast_fast_next);
+                const s12 = new Step(Action.sort_while_nest_fast_fast_next, listHead);
                 s12.sort_head = head?.val;
                 s12.sort_tail = tail?.val;
                 s12.sort_slow = slow?.val;
@@ -331,7 +331,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         }
 
         const list1 = sort(head, slow);
-        const s13 = new Step(Action.sort_sort1);
+        const s13 = new Step(Action.sort_sort1, listHead);
         s13.sort_head = head?.val;
         s13.sort_tail = tail?.val;
         s13.sort_slow = slow?.val;
@@ -340,7 +340,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         steps.push(s13);
 
         const list2 = sort(slow, tail);
-        const s14 = new Step(Action.sort_sort2);
+        const s14 = new Step(Action.sort_sort2, listHead);
         s14.sort_head = head?.val;
         s14.sort_tail = tail?.val;
         s14.sort_slow = slow?.val;
@@ -349,7 +349,7 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
         s14.sort_list2 = list2?.val;
         steps.push(s14);
 
-        const s15 = new Step(Action.sort_return_merge);
+        const s15 = new Step(Action.sort_return_merge, listHead);
         s15.sort_head = head?.val;
         s15.sort_tail = tail?.val;
         s15.sort_slow = slow?.val;
@@ -361,17 +361,12 @@ export function buildSteps(head: LinkedListNode<number>, scene: THREE.Scene): St
     }
 
     function sortList(head: ListNode<LinkedListNode<number>> | undefined): ListNode<LinkedListNode<number>> | undefined {
-        const s1 = new Step(Action.stand_by);
-        s1.head = head?.val;
-        steps.push(s1);
-
-        const s2 = new Step(Action.sort_list_sort);
-        s2.head = head?.val;
-        steps.push(s2);
+        steps.push(new Step(Action.stand_by, listHead));
+        steps.push(new Step(Action.sort_list_sort, listHead));
         return sort(head, undefined);
     };
 
-    const proxyHead = buildProxyList(head);
+    const proxyHead = buildProxyList(listHead);
     sortList(proxyHead);
 
     return steps;
