@@ -71,7 +71,7 @@ const Play = () => {
                     await wait(0.08);
                     current = current.next;
                 }
-                const colors = [skinSecondaryColor, skinEnabledColor, skinSecondaryColor, skinEnabledColor, skinDefaultColor];
+                const colors = [skinSecondaryColor, skinEnabledColor, skinDefaultColor];
                 for (let i = 0; i < colors.length; i++) {
                     resetColor(head, colors[i]);
                     await wait(0.15);
