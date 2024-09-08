@@ -61,6 +61,8 @@ const Play = () => {
             sort_list2
         } = step;
 
+        enableColor(merge_dummyHead, skinSecondaryColor);
+        enableColor(merge_temp, skinSecondaryColor);
         resetColor(head, skinDefaultColor);
 
         switch (action) {
@@ -235,8 +237,8 @@ const Play = () => {
                 enableColor(sort_tail, skinEnabledColor);
                 break;
             }
-            case Action.sort_head_equal_null: return [23];
-            case Action.sort_return_head: return [24];
+            case Action.sort_head_equal_null: break;
+            case Action.sort_return_head: break;
             case Action.sort_head_next_equal_tail: {
                 enableColor(sort_head, skinEnabledColor);
                 enableColor(sort_tail, skinEnabledColor);
@@ -248,7 +250,10 @@ const Play = () => {
                 sort_head?.linkToNext?.hide();
                 break;
             }
-            case Action.sort_return_head_two: return [];
+            case Action.sort_return_head_two: {
+                enableColor(sort_head, skinEnabledColor);
+                break;
+            };
             case Action.sort_define_slow_fast: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
