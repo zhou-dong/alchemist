@@ -30,10 +30,10 @@ const enableColor = (node: LinkedListNode<number> | undefined, color: string) =>
     }
 }
 
-const resetColor = (node: LinkedListNode<number> | undefined) => {
+const resetColor = (node: LinkedListNode<number> | undefined, color: string) => {
     if (node) {
-        node.nodeSkin.color = skinDefaultColor;
-        resetColor(node.next);
+        node.nodeSkin.color = color;
+        resetColor(node.next, color);
     }
 }
 
@@ -48,8 +48,11 @@ const Play = () => {
             merge_head2,
             merge_dummyHead,
             merge_temp,
+            merge_temp_next,
             merge_temp1,
+            merge_temp1_next,
             merge_temp2,
+            merge_temp2_next,
             sort_head,
             sort_tail,
             sort_slow,
@@ -58,11 +61,21 @@ const Play = () => {
             sort_list2
         } = step;
 
-        resetColor(head);
+        resetColor(head, skinDefaultColor);
 
         switch (action) {
             case Action.stand_by: {
-                enableColor(head, skinEnabledColor);
+                let current: LinkedListNode<number> | undefined = head;
+                while (current) {
+                    enableColor(current, skinEnabledColor);
+                    await wait(0.08);
+                    current = current.next;
+                }
+                const colors = [skinSecondaryColor, skinEnabledColor, skinSecondaryColor, skinEnabledColor, skinDefaultColor];
+                for (let i = 0; i < colors.length; i++) {
+                    resetColor(head, colors[i]);
+                    await wait(0.15);
+                }
                 break;
             }
             case Action.merge_entry: {
@@ -86,13 +99,13 @@ const Play = () => {
                 break;
             }
             case Action.merge_meet_while_condition: {
-                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp, skinSecondaryColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
             }
             case Action.merge_while_temp1_less_than_temp2: {
-                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp, skinSecondaryColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
@@ -117,20 +130,21 @@ const Play = () => {
                 break;
             }
             case Action.merge_while_temp1_temp1_next: {
-                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp, skinSecondaryColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinSecondaryColor);
+                enableColor(merge_temp1_next, skinEnabledColor);
                 break;
             }
             case Action.merge_while_temp1_large_than_temp2: {
-                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp, skinSecondaryColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
             }
             case Action.merge_while_temp_next_temp2: {
                 enableColor(merge_temp, skinEnabledColor);
-                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp1, skinSecondaryColor);
                 enableColor(merge_temp2, skinEnabledColor);
 
                 if (merge_temp && merge_temp2) {
@@ -148,27 +162,29 @@ const Play = () => {
                 break;
             }
             case Action.merge_while_temp2_temp2_next: {
-                enableColor(merge_temp, skinEnabledColor);
-                enableColor(merge_temp1, skinEnabledColor);
-                enableColor(merge_temp2, skinEnabledColor);
+                enableColor(merge_temp, skinSecondaryColor);
+                enableColor(merge_temp1, skinSecondaryColor);
+                enableColor(merge_temp2, skinSecondaryColor);
+                enableColor(merge_temp2_next, skinEnabledColor);
                 break;
             }
             case Action.merge_while_temp_temp_next: {
+                enableColor(merge_temp1, skinSecondaryColor);
+                enableColor(merge_temp2, skinSecondaryColor);
                 enableColor(merge_temp, skinEnabledColor);
-                enableColor(merge_temp1, skinEnabledColor);
-                enableColor(merge_temp2, skinEnabledColor);
+                enableColor(merge_temp_next, skinEnabledColor);
                 break;
             }
             case Action.merge_temp1_not_null: {
-                enableColor(merge_temp, skinEnabledColor);
+                enableColor(merge_temp, skinSecondaryColor);
                 enableColor(merge_temp1, skinEnabledColor);
-                enableColor(merge_temp2, skinEnabledColor);
+                enableColor(merge_temp2, skinSecondaryColor);
                 break;
             }
             case Action.merge_temp_next_temp1: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
-                enableColor(merge_temp2, skinEnabledColor);
+                enableColor(merge_temp2, skinSecondaryColor);
 
                 if (merge_temp && merge_temp1) {
                     const { x, y, z, linkToNext } = merge_temp;
@@ -185,14 +201,14 @@ const Play = () => {
                 break;
             }
             case Action.merge_temp2_not_null: {
-                enableColor(merge_temp, skinEnabledColor);
-                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp, skinSecondaryColor);
+                enableColor(merge_temp1, skinSecondaryColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
             }
             case Action.merge_temp_next_temp2: {
                 enableColor(merge_temp, skinEnabledColor);
-                enableColor(merge_temp1, skinEnabledColor);
+                enableColor(merge_temp1, skinSecondaryColor);
                 enableColor(merge_temp2, skinEnabledColor);
 
                 if (merge_temp && merge_temp2) {
