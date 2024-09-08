@@ -37,6 +37,7 @@ export enum Action {
     sort_sort2,
     sort_return_merge,
     sort_list_sort,
+    return_sorted,
 }
 
 const getlinesToHighlight = (action: Action): number[] => {
@@ -74,6 +75,7 @@ const getlinesToHighlight = (action: Action): number[] => {
         case Action.sort_sort2: return [39];
         case Action.sort_return_merge: return [40];
         case Action.sort_list_sort: return [44];
+        case Action.return_sorted: return [44];
     }
 }
 
@@ -363,7 +365,9 @@ export function buildSteps(listHead: LinkedListNode<number>, scene: THREE.Scene)
     function sortList(head: ListNode<LinkedListNode<number>> | undefined): ListNode<LinkedListNode<number>> | undefined {
         steps.push(new Step(Action.stand_by, listHead));
         steps.push(new Step(Action.sort_list_sort, listHead));
-        return sort(head, undefined);
+        const sorted = sort(head, undefined);
+        steps.push(new Step(Action.return_sorted, listHead));
+        return sorted;
     };
 
     const proxyHead = buildProxyList(listHead);
