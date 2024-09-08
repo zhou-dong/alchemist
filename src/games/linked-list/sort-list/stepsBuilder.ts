@@ -88,8 +88,11 @@ export class Step {
     merge_head2?: LinkedListNode<number>;
     merge_dummyHead?: LinkedListNode<number>;
     merge_temp?: LinkedListNode<number>;
+    merge_temp_next?: LinkedListNode<number>;
     merge_temp1?: LinkedListNode<number>;
+    merge_temp1_next?: LinkedListNode<number>;
     merge_temp2?: LinkedListNode<number>;
+    merge_temp2_next?: LinkedListNode<number>;
 
     sort_head?: LinkedListNode<number>;
     sort_tail?: LinkedListNode<number>;
@@ -176,12 +179,13 @@ export function buildSteps(listHead: LinkedListNode<number>, scene: THREE.Scene)
                 s6.merge_temp2 = temp2.val;
                 steps.push(s6);
 
-                temp1 = temp1.next;
                 const s7 = new Step(Action.merge_while_temp1_temp1_next, listHead);
                 s7.merge_temp = temp.val;
                 s7.merge_temp1 = temp1?.val;
                 s7.merge_temp2 = temp2.val;
+                s7.merge_temp1_next = temp1?.next?.val;
                 steps.push(s7);
+                temp1 = temp1.next;
             } else {
                 const s8 = new Step(Action.merge_while_temp1_large_than_temp2, listHead);
                 s8.merge_temp = temp.val;
@@ -189,26 +193,29 @@ export function buildSteps(listHead: LinkedListNode<number>, scene: THREE.Scene)
                 s8.merge_temp2 = temp2.val;
                 steps.push(s8);
 
-                temp.next = temp2;
                 const s9 = new Step(Action.merge_while_temp_next_temp2, listHead);
                 s9.merge_temp = temp.val;
                 s9.merge_temp1 = temp1?.val;
                 s9.merge_temp2 = temp2.val;
                 steps.push(s9);
+                temp.next = temp2;
 
-                temp2 = temp2.next;
                 const s10 = new Step(Action.merge_while_temp2_temp2_next, listHead);
                 s10.merge_temp = temp.val;
                 s10.merge_temp1 = temp1?.val;
                 s10.merge_temp2 = temp2?.val;
+                s10.merge_temp2_next = temp2.next?.val
                 steps.push(s10);
+                temp2 = temp2.next;
             }
-            temp = temp.next;
+
             const s11 = new Step(Action.merge_while_temp_temp_next, listHead);
             s11.merge_temp = temp.val;
+            s11.merge_temp_next = temp.next.val;
             s11.merge_temp1 = temp1?.val;
             s11.merge_temp2 = temp2?.val;
             steps.push(s11);
+            temp = temp.next;
         }
 
         if (temp1 !== undefined) {
