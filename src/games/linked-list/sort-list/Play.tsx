@@ -253,7 +253,7 @@ const Play = () => {
             case Action.sort_return_head_two: {
                 enableColor(sort_head, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_define_slow_fast: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
