@@ -237,11 +237,11 @@ export function buildSteps(listHead: LinkedListNode<number>, scene: THREE.Scene)
             s14.merge_temp2 = temp2?.val;
             steps.push(s14);
 
-            temp.next = temp2;
             const s15 = new Step(Action.merge_temp_next_temp2, listHead);
             s15.merge_temp = temp.val;
             s15.merge_temp2 = temp2?.val;
             steps.push(s15);
+            temp.next = temp2;
         }
 
         const s16 = new Step(Action.merge_return_dummy_head_next, listHead);
