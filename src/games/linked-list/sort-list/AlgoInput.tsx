@@ -8,13 +8,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "./AlgoContext";
 import { State } from './AlgoState';
 import { clearScene } from "../../../commons/three";
-import { buildList, center, getTail, linkColor, linkLength } from "./styles";
+import { buildList, center, getTail, linkLength } from "./styles";
 import { buildSteps } from './stepsBuilder';
 import InputIcon from '@mui/icons-material/Input';
 import { safeRun } from '../../commons/utils';
-import { LinkedListNode } from '../../../data-structures/list/linked-list/node.three';
-import Position from '../../../data-structures/_commons/params/position.interface';
-import { SimpleLink } from '../../../data-structures/list/link.three';
 
 const buildInputs = (size: number): number[] => {
     const max = Math.max(20, size);
