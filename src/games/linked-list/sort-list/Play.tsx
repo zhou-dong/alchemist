@@ -38,13 +38,12 @@ const resetColor = (node: LinkedListNode<number> | undefined) => {
 }
 
 const Play = () => {
-    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode, scene } = useAlgoContext();
+    const { animate, cancelAnimate, state, setState, index, steps, setIndex, displayCode } = useAlgoContext();
 
     const execute = async (step: Step) => {
         const {
             action,
             head,
-            // dummyHead,
             merge_head1,
             merge_head2,
             merge_dummyHead,
