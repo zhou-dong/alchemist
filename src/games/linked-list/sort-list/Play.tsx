@@ -191,7 +191,7 @@ const Play = () => {
                         linkToNext.show();
                     }
                     await merge_temp1.move({ x: x + linkLength, y, z }, duration, () => {
-                        merge_temp1.linkToNext?.refresh();
+                        merge_temp.linkToNext?.refresh();
                         merge_temp1.linkToNext?.refresh();
                     })
                 }
