@@ -12,7 +12,7 @@ import MouseIcon from '@mui/icons-material/Mouse';
 import { safeRun } from '../../commons/utils';
 
 const skinEnabledColor = "blue";
-const skinSecondaryColor = "pink";
+const skinSecondaryColor = "orange";
 
 const MainPosition = styled("div")({
     position: "fixed",
@@ -59,19 +59,6 @@ const Play = () => {
         } = step;
 
         resetColor(head);
-        resetColor(merge_head1);
-        resetColor(merge_head2);
-        resetColor(merge_dummyHead);
-        resetColor(merge_temp);
-        resetColor(merge_temp1);
-        resetColor(merge_temp2);
-        resetColor(sort_head);
-        resetColor(sort_head);
-        resetColor(sort_tail);
-        resetColor(sort_slow);
-        resetColor(sort_fast);
-        resetColor(sort_list1);
-        resetColor(sort_list2);
 
         switch (action) {
             case Action.stand_by: {
