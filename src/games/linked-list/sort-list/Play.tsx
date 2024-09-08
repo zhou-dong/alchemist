@@ -77,12 +77,12 @@ const Play = () => {
             case Action.stand_by: {
                 enableColor(head, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_entry: {
                 enableColor(merge_head1, skinEnabledColor);
                 enableColor(merge_head2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_new_dummy_head: {
                 enableColor(merge_dummyHead, skinEnabledColor);
                 if (merge_dummyHead && merge_head1) {
@@ -91,25 +91,25 @@ const Play = () => {
                     await merge_dummyHead.move({ x: x - linkLength, y: y - radius * 3, z }, duration);
                 }
                 break;
-            };
+            }
             case Action.merge_define_temp_temp1_temp2: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_meet_while_condition: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_while_temp1_less_than_temp2: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_while_temp_next_temp1: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
@@ -128,19 +128,19 @@ const Play = () => {
                     })
                 }
                 break;
-            };
+            }
             case Action.merge_while_temp1_temp1_next: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinSecondaryColor);
                 break;
-            };
+            }
             case Action.merge_while_temp1_large_than_temp2: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_while_temp_next_temp2: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
@@ -159,25 +159,25 @@ const Play = () => {
                     })
                 }
                 break;
-            };
+            }
             case Action.merge_while_temp2_temp2_next: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_while_temp_temp_next: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_temp1_not_null: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_temp_next_temp1: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
@@ -196,13 +196,13 @@ const Play = () => {
                     })
                 }
                 break;
-            };
+            }
             case Action.merge_temp2_not_null: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
                 enableColor(merge_temp2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.merge_temp_next_temp2: {
                 enableColor(merge_temp, skinEnabledColor);
                 enableColor(merge_temp1, skinEnabledColor);
@@ -221,17 +221,17 @@ const Play = () => {
                     })
                 }
                 break;
-            };
+            }
             case Action.merge_return_dummy_head_next: {
                 merge_dummyHead?.linkToNext?.hide();
                 merge_dummyHead?.hide();
                 break;
-            };
+            }
             case Action.sort_entry: {
                 enableColor(sort_head, skinEnabledColor);
                 enableColor(sort_tail, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_head_equal_null: return [23];
             case Action.sort_return_head: return [24];
             case Action.sort_head_next_equal_tail: {
@@ -244,7 +244,7 @@ const Play = () => {
                 enableColor(sort_tail, skinEnabledColor);
                 sort_head?.linkToNext?.hide();
                 break;
-            };
+            }
             case Action.sort_return_head_two: return [];
             case Action.sort_define_slow_fast: {
                 enableColor(sort_head, skinSecondaryColor);
@@ -252,56 +252,56 @@ const Play = () => {
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_meet_while_condition: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_while_slow_slow_next: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_while_fast_fast_next: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_while_meet_fast_not_equal_tail: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_while_nest_fast_fast_next: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_sort1: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_sort2: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
                 enableColor(sort_slow, skinEnabledColor);
                 enableColor(sort_fast, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_return_merge: {
                 enableColor(sort_head, skinSecondaryColor);
                 enableColor(sort_tail, skinSecondaryColor);
@@ -310,11 +310,11 @@ const Play = () => {
                 enableColor(sort_list1, skinEnabledColor);
                 enableColor(sort_list2, skinEnabledColor);
                 break;
-            };
+            }
             case Action.sort_list_sort: {
                 enableColor(head, skinEnabledColor);
                 break;
-            };
+            }
         }
     }
 
