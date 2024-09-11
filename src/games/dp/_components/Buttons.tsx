@@ -1,14 +1,22 @@
-import { ButtonGroup, Button } from '@mui/material';
+import React from "react";
+import { ButtonGroup, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { BorderColor } from "@mui/icons-material";
 
-const StyledButton = styled(Button)(({ theme }) => ({
+const StyledButton = styled(ToggleButton)(({ theme }) => ({
     '&:hover': {
         cursor: 'pointer',
         backgroundColor: theme.palette.primary.light,
+        borderColor: theme.palette.primary.main,
         color: "#fff",
     },
-    minHeight: 55,
-    width: 85,
+    '&&.Mui-selected': {
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+        color: "#fff",
+    },
+    height: 55,
+    width: 70,
     fontSize: 20,
     color: "#000",
     fontWeight: "normal",
@@ -32,22 +40,39 @@ const cell = (
     key: number,
     data: number | string | boolean,
     style: React.CSSProperties,
+    setData: React.Dispatch<React.SetStateAction<string | number | boolean | undefined>>,
     { handleButtonClick }: Props
 ) => (
-    <StyledButton size="large" key={key} style={style} onClick={() => handleButtonClick(data)}>
+    <StyledButton
+        value={data}
+        size="large"
+        key={key}
+        style={style}
+        onClick={() => {
+            handleButtonClick(data);
+            setData(data);
+        }}
+    >
         {cellContent(data)}
     </StyledButton>
 );
 
 const Buttons = (props: Props) => {
+    const [data, setData] = React.useState<number | string | boolean>();
+
     const { buttons, buttonsStyles } = props;
     if (buttons.length !== buttonsStyles.length) {
         throw new Error('Alchemy Buttons errors: array-styles size dont match');
     }
     return (
-        <ButtonGroup size="large" key={0} sx={{ marginTop: "20px", borderColor: "gray" }}>
-            {buttons.map((data, index) => cell(index, data, buttonsStyles[index], { ...props }))}
-        </ButtonGroup>
+        <ToggleButtonGroup
+            value={data}
+            size="large"
+            key={0}
+            sx={{ marginTop: "40px", borderColor: "gray" }}
+        >
+            {buttons.map((data, index) => cell(index, data, buttonsStyles[index], setData, { ...props }))}
+        </ToggleButtonGroup>
     );
 };
 
