@@ -1,7 +1,6 @@
 import React from "react";
-import { ButtonGroup, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { BorderColor } from "@mui/icons-material";
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     '&:hover': {
