@@ -5,6 +5,7 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Logo from '../commons/Logo';
 import BusinessIcon from '@mui/icons-material/Business';
 import { green } from "@mui/material/colors";
+import Search from "./Search";
 
 const Main = () => {
 
@@ -50,22 +51,31 @@ const Main = () => {
                         </Typography>
                     </MaterialLink>
                 </Stack>
-                <MaterialLink
-                    component={RouterLink}
-                    sx={{
-                        textDecoration: 'none',
-                        fontWeight: "normal",
-                        display: 'flex',
-                        alignItems: 'center',
-                        color: "#fff",
-                    }}
-                    to="/pages/about-us"
+
+                <Stack
+                    direction="row"
+                    spacing={2}
                 >
-                    <BusinessIcon sx={{ marginRight: 1 }} />
-                    <Typography variant="body1">
-                        About Us
-                    </Typography>
-                </MaterialLink>
+                    <Search />
+
+                    <MaterialLink
+                        component={RouterLink}
+                        sx={{
+                            textDecoration: 'none',
+                            fontWeight: "normal",
+                            display: 'flex',
+                            alignItems: 'center',
+                            color: "#fff",
+                        }}
+                        to="/pages/about-us"
+                    >
+                        <BusinessIcon sx={{ marginRight: 1 }} />
+                        <Typography variant="body1">
+                            About Us
+                        </Typography>
+                    </MaterialLink>
+
+                </Stack>
             </Toolbar>
         </AppBar>
     )
