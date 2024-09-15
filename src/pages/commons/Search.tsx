@@ -1,47 +1,77 @@
 import * as React from 'react';
 import { useGames } from "../../games/commons/GamesContext";
 import TextField from '@mui/material/TextField';
-import { Autocomplete, Avatar, Box, InputAdornment, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import { Autocomplete, Avatar, Box, ListItem, ListItemAvatar, ListItemText, Paper, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
+interface CustomPaperProps {
+    width: string | number;
+}
+
+const CustomPaper = styled(Paper, {
+    shouldForwardProp: (prop) => prop !== 'width',
+})<CustomPaperProps>(({ theme, width }) => ({
+    width,
+    marginTop: theme.spacing(1),
+}));
+
 const Main = () => {
+
+    const defaultInputWidth = "120px";
+    const enabledInputWidth = "300px";
+
     const { games } = useGames();
-    const [isFocused, setIsFocused] = React.useState(false);
+    const [inputWidth, setInputWidth] = React.useState<number | string>(defaultInputWidth);
+
     return (
         <Autocomplete
+            PaperComponent={(props) => (
+                <CustomPaper {...props} width={inputWidth} />
+            )}
             autoHighlight
             options={games}
             getOptionLabel={(option) => option.name}
             sx={{
-
+                '& .MuiSvgIcon-root': {
+                    color: '#fff', // Change icon color
+                },
             }}
             renderInput={(params) =>
                 <Box
                     {...params}
-                    // sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: "center"
+                        justifyContent: "center",
                     }}
                 >
-                    <SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                    <SearchIcon />
                     <TextField
                         {...params}
                         label="Search..."
                         variant="outlined"
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
+                        onFocus={() => {
+                            setInputWidth(enabledInputWidth);
+                        }}
+                        onBlur={() => {
+                            setInputWidth(defaultInputWidth);
+                        }}
                         sx={{
                             transition: 'width 0.3s ease',
-                            width: isFocused ? '300px' : '150px', // Adjust widths as needed\
-                            // border: "1px solid #000",
+                            width: inputWidth,
                             borderRadius: "3%",
-                            // borderColor: "lightgray",
+                            borderColor: "lightgray",
                             '& .MuiOutlinedInput-root': {
                                 '& fieldset': {
                                     border: "none",
                                 },
+                            },
+                            '& .MuiInputBase-input': {
+                                color: '#fff', // Change text color
+                                fontWeight: 300
+                            },
+                            '& .MuiInputLabel-root': {
+                                color: '#fff', // Change label color
                             },
                         }}
                     />
