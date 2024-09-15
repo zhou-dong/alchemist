@@ -5,6 +5,7 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Logo from '../commons/Logo';
 import BusinessIcon from '@mui/icons-material/Business';
 import { green } from "@mui/material/colors";
+import Search from "./Search";
 
 const Main = () => {
 
@@ -49,7 +50,9 @@ const Main = () => {
                             Categories
                         </Typography>
                     </MaterialLink>
+                    <Search />
                 </Stack>
+
                 <MaterialLink
                     component={RouterLink}
                     sx={{
