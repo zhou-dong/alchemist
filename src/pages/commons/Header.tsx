@@ -50,32 +50,25 @@ const Main = () => {
                             Categories
                         </Typography>
                     </MaterialLink>
-                </Stack>
-
-                <Stack
-                    direction="row"
-                    spacing={2}
-                >
                     <Search />
-
-                    <MaterialLink
-                        component={RouterLink}
-                        sx={{
-                            textDecoration: 'none',
-                            fontWeight: "normal",
-                            display: 'flex',
-                            alignItems: 'center',
-                            color: "#fff",
-                        }}
-                        to="/pages/about-us"
-                    >
-                        <BusinessIcon sx={{ marginRight: 1 }} />
-                        <Typography variant="body1">
-                            About Us
-                        </Typography>
-                    </MaterialLink>
-
                 </Stack>
+
+                <MaterialLink
+                    component={RouterLink}
+                    sx={{
+                        textDecoration: 'none',
+                        fontWeight: "normal",
+                        display: 'flex',
+                        alignItems: 'center',
+                        color: "#fff",
+                    }}
+                    to="/pages/about-us"
+                >
+                    <BusinessIcon sx={{ marginRight: 1 }} />
+                    <Typography variant="body1">
+                        About Us
+                    </Typography>
+                </MaterialLink>
             </Toolbar>
         </AppBar>
     )
