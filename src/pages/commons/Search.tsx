@@ -3,6 +3,7 @@ import { useGames } from "../../games/commons/GamesContext";
 import TextField from '@mui/material/TextField';
 import { Autocomplete, Avatar, Box, ListItem, ListItemAvatar, ListItemText, Paper, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 
 interface CustomPaperProps {
     width: string | number;
@@ -17,6 +18,7 @@ const CustomPaper = styled(Paper, {
 
 const Main = () => {
 
+    const navigate = useNavigate();
     const defaultInputWidth = "120px";
     const enabledInputWidth = "300px";
 
@@ -81,6 +83,7 @@ const Main = () => {
             renderOption={(props, option) => (
                 <ListItem
                     {...props}
+                    onClick={() => navigate(option.path)}
                 >
                     <ListItemAvatar>
                         <Avatar src={option.img} />
