@@ -61,8 +61,6 @@ const Main = () => {
                         sx={{
                             transition: 'width 0.3s ease',
                             width: inputWidth,
-                            borderRadius: "3%",
-                            borderColor: "lightgray",
                             '& .MuiOutlinedInput-root': {
                                 '& fieldset': {
                                     border: "none",
