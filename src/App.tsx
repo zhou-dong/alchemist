@@ -253,6 +253,8 @@ import MiddleOfTeLinkedList from "./games/linked-list/middle-of-the-linked-list"
 import MiddleOfTeLinkedListInfo from "./games/linked-list/middle-of-the-linked-list/info";
 import DeleteNodeInALinkedList from "./games/linked-list/delete-node-in-a-linked-list";
 import DeleteNodeInALinkedListInfo from "./games/linked-list/delete-node-in-a-linked-list/info";
+import FindTheIndexOfTheFirstOccurrenceInAStringInfo from "./games/two-pointers/find-the-index-of-the-first-occurrence-in-a-string/info";
+import FindTheIndexOfTheFirstOccurrenceInAString from "./games/two-pointers/find-the-index-of-the-first-occurrence-in-a-string";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import AboutUs from './pages/about';
@@ -399,6 +401,7 @@ const App = () => (
         <Route path={LinkedListRandomNodeInfo.path} element={<LinkedListRandomNode renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={MiddleOfTeLinkedListInfo.path} element={<MiddleOfTeLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={DeleteNodeInALinkedListInfo.path} element={<DeleteNodeInALinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
+        <Route path={FindTheIndexOfTheFirstOccurrenceInAStringInfo.path} element={<FindTheIndexOfTheFirstOccurrenceInAString />} />
     </Routes>
 );
 
