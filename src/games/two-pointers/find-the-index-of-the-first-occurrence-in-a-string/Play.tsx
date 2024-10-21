@@ -108,7 +108,7 @@ const Main = () => {
                 alignItems="center"
                 justifyContent="center"
                 sx={{
-                    marginTop: "20px"
+                    marginTop: "40px"
                 }}
             >
                 <Introduction />
