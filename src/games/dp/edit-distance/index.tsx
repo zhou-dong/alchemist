@@ -116,7 +116,15 @@ const Main = () => {
             <ThemeProvider theme={theme}>
                 <Centered>
                     <div style={{ marginTop: "100px" }}></div>
-                    <Typography variant='body1' display="inline-flex" sx={{ verticalAlign: 'middle' }}>
+                    <Typography
+                        variant='h6'
+                        display="inline-flex"
+                        sx={{
+                            verticalAlign: 'middle',
+                            fontWeight: 300
+
+                        }}
+                    >
                         {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
                     </Typography>
                     <div style={{ marginTop: "25px" }}>
