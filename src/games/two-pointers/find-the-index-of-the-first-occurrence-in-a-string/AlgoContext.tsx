@@ -26,7 +26,7 @@ const AlgoContext = React.createContext<{
     setState: () => { },
     index: 0,
     setIndex: () => { },
-    displayCode: true,
+    displayCode: false,
     setDisplayCode: () => { },
     setHead: () => { },
     setDummyHead: () => { },
