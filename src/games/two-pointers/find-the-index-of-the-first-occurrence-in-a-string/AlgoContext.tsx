@@ -40,7 +40,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
-    const [displayCode, setDisplayCode] = React.useState(true);
+    const [displayCode, setDisplayCode] = React.useState(false);
 
     const [head, setHead] = React.useState<LinkedListNode<number | string>>();
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
