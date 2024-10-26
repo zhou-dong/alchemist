@@ -4,10 +4,11 @@ import { styled } from '@mui/material/styles';
 import { title } from '../contents';
 import Title from './Title';
 import { green } from '@mui/material/colors';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 const FloatText = styled(Typography)(({ theme }) => ({
     display: 'inline', // Ensure it works properly for inline text
-    animation: 'glow 1.5s infinite, rotate 4s linear infinite',
+    animation: 'glow 1.5s infinite, rotate 2s linear infinite',
     textShadow: "#ffcc00",
     '@keyframes float': {
         '0%': {
@@ -34,7 +35,6 @@ const FloatText = styled(Typography)(({ theme }) => ({
         },
     },
 }));
-
 
 const message = "Join us on a delightful journey as we explore how to find the index of the first occurrence of a substring in a string. Whether you're a newbie or a coding wizard, this guide is crafted just for you! 🚀";
 
@@ -83,6 +83,19 @@ const Main = () => (
                 {message}
             </Typography>
         </Paper>
+
+        <IconButton
+                    sx={{
+                        border: "2px solid lightgrey",
+                        width: 65,
+                        height: 65
+                    }}
+                    // disabled={activeStep === steps.length}
+                    color="primary"
+                    // onClick={handleNext}
+                >
+                    <NavigateNextIcon fontSize='large' />
+                </IconButton>
     </Stack>
 );
 
