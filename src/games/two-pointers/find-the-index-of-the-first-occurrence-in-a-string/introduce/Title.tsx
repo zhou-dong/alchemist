@@ -14,7 +14,7 @@ const Main = () => (
     >
         <Typography
             variant="h4"
-            sx={{ fontWeight: 340 }}
+            sx={{ fontWeight: 300 }}
         >
             {title}
         </Typography>
