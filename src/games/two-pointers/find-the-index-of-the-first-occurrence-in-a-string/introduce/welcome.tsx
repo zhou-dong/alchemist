@@ -62,7 +62,7 @@ const Main = () => (
             <FloatText variant='h3'>
                 🌟
             </FloatText>
-            <Typography variant='h4' display="inline" sx={{ fontWeight: 300 }}>
+            <Typography variant='h5' display="inline" sx={{ fontWeight: 300 }}>
                 Welcome to the String Search Adventure!
             </Typography>
         </Stack>
