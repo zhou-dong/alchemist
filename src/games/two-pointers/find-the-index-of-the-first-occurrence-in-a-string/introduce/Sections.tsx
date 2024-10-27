@@ -128,16 +128,8 @@ const AlgorithmExplorer = () => {
                         }}
                     >
                         <Box display="flex" alignItems="center" my={2} >
-                            <Avatar
-                                sx={{
-                                    backgroundColor: green[600],
-                                    marginRight: 1,
-                                    color: "#fff",
-                                    border: "1px solid gery",
-                                }}>
-                                {section.icon}
-                            </Avatar>
-                            <Divider
+
+                            {/* <Divider
                                 orientation="vertical"
                                 flexItem
                                 style={{
@@ -145,7 +137,18 @@ const AlgorithmExplorer = () => {
                                     borderRightWidth: "2px",
                                 }}
                                 variant='middle'
-                            />
+                            /> */}
+
+                            <Avatar
+                                sx={{
+                                    backgroundColor: green[600],
+                                    marginRight: 2,
+                                    color: "#fff",
+                                    border: "1px solid gery",
+                                }}>
+                                {section.icon}
+                            </Avatar>
+
                             <Box flexGrow={1}>
                                 <Typography
                                     variant="h6"
