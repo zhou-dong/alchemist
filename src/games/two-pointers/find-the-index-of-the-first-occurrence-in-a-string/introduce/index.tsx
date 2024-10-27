@@ -1,14 +1,14 @@
 import WelcomeOne from "./welcome_one";
 import Welcome from "./Welcome";
-import Title from "./Title";
+import Example from "./Sections";
 
 
 const Main = () => {
 
     return (
         <>
-            <Title />
             <Welcome />
+            <Example />
         </>
     )
 

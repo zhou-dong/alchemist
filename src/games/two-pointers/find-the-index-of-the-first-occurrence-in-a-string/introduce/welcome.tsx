@@ -1,102 +1,63 @@
-import React from 'react';
-import { Box, Button, ButtonGroup, Grid, IconButton, Paper, Stack, Step, StepContent, StepLabel, Stepper, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import { title } from '../contents';
-import Title from './Title';
-import { green } from '@mui/material/colors';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Stack, Typography } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
+import { title } from "../contents";
 
-const FloatText = styled(Typography)(({ theme }) => ({
-    display: 'inline', // Ensure it works properly for inline text
-    animation: 'glow 1.5s infinite, rotate 2s linear infinite',
-    textShadow: "#ffcc00",
-    '@keyframes float': {
-        '0%': {
-            transform: 'translateX(0)',
-        },
-        '50%': {
-            transform: 'translateX(15px)',
-        },
-        '100%': {
-            transform: 'translateX(0)',
-        },
-    },
-    '@keyframes glow': {
-        '0%': { textShadow: '0 0 5px #ffcc00' }, // Increased the blur
-        '50%': { textShadow: '0 0 20px #ffcc00, 0 0 50px #ffcc00, 0 0 100px #ffcc00' }, // Added more layers
-        '100%': { textShadow: '0 0 5px #ffcc00' }, // Increased the blur
-    },
-    '@keyframes rotate': {
-        '0%': {
-            transform: 'rotate(0deg)',
-        },
-        '100%': {
-            transform: 'rotate(360deg)',
-        },
-    },
-}));
+const Main = () => {
 
-const message = "Join us on a delightful journey as we explore how to find the index of the first occurrence of a substring in a string. Whether you're a newbie or a coding wizard, this guide is crafted just for you! 🚀";
-
-
-const Main = () => (
-    <Stack
-        direction="column"
-        sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-        }}
-        spacing={3}
-    >
-        <Stack
-            direction="row"
-            spacing={1}
-            sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+    return (
+        <div
+            style={{
+                textAlign: "center",
+                marginTop: "80px",
             }}
         >
-            <FloatText variant='h3'>
-                🌟
-            </FloatText>
-            <Typography variant='h5' display="inline" sx={{ fontWeight: 300 }}>
-                Welcome to the String Search Adventure!
-            </Typography>
-        </Stack>
-
-        <Paper
-            sx={{
-                width: "80%",
-                padding: "20px",
-                // backgroundColor: green[500]
-            }}>
             <Typography
-                variant='h6'
+                variant="h5"
                 sx={{
-                    // color: "#fff",
-                    fontWeight: 350
+                    fontWeight: 240,
                 }}
             >
-                {message}
+                {title}
             </Typography>
-        </Paper>
 
-        <IconButton
-                    sx={{
-                        border: "2px solid lightgrey",
-                        width: 65,
-                        height: 65
-                    }}
-                    // disabled={activeStep === steps.length}
+            <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                    marginTop: 2,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <Typography
+                    variant='h6'
+                    display="inline"
                     color="primary"
-                    // onClick={handleNext}
+                    sx={{
+                        fontWeight: 300,
+                    }}
                 >
-                    <NavigateNextIcon fontSize='large' />
-                </IconButton>
-    </Stack>
-);
+                    Welcome to the String Search Adventure!
+                </Typography>
+                <StarIcon
+                    fontSize="large"
+                    color="primary"
+                    sx={{
+                        animation: 'rotate 2.5s linear infinite',
+                        '@keyframes rotate': {
+                            '0%': {
+                                transform: 'rotate(0deg)',
+                            },
+                            '100%': {
+                                transform: 'rotate(360deg)',
+                            },
+                        },
+                    }}
+                />
+            </Stack>
+        </div>
+    );
+};
 
 export default Main;
