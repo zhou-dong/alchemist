@@ -130,14 +130,13 @@ const AlgorithmExplorer = () => {
                         <Box display="flex" alignItems="center" my={2}>
                             <Avatar
                                 sx={{
-                                    backgroundColor: green[600],
+                                    backgroundColor: "#fff",
                                     marginRight: 2,
-                                    color: "#fff",
-                                    border: "1px solid gery",
+                                    color: green[600],
+                                    border: "2px solid " + green[600],
                                 }}>
                                 {section.icon}
                             </Avatar>
-
                             <Box flexGrow={1}>
                                 <Typography
                                     variant="h6"
