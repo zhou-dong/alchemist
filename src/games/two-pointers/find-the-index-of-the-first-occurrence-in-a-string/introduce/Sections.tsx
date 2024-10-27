@@ -6,7 +6,6 @@ import {
     IconButton,
     Paper,
     Stack,
-    Divider,
     Avatar,
 } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -135,9 +134,9 @@ const AlgorithmExplorer = () => {
                         key={index}
                         style={{
                             transition: 'transform 1s ease, opacity 1s ease-in',
-                            transform: isVisible ? 'translateX(0)' : 'translateX(-100px)', // Adjust Y distance
+                            transform: isVisible ? 'translateX(0)' : 'translateX(-100px)',
                             opacity: isVisible ? 1 : 0,
-                            margin: '16px 0', // Spacing between sections
+                            margin: '16px 0',
                         }}
                     >
                         <Box display="flex" alignItems="center" my={2}>
