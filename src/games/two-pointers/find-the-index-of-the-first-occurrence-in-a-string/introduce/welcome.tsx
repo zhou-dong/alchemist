@@ -35,15 +35,15 @@ const Main = () => {
                     display="inline"
                     color="primary"
                     sx={{
-                        fontWeight: 300,
+                        // fontWeight: 300,
                     }}
                 >
                     Welcome to the String Search Adventure!
                 </Typography>
                 <StarIcon
                     fontSize="large"
-                    color="primary"
                     sx={{
+                        color: "gold",
                         animation: 'rotate 2.5s linear infinite',
                         '@keyframes rotate': {
                             '0%': {
