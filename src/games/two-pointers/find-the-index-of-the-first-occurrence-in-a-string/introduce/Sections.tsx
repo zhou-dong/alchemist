@@ -127,18 +127,7 @@ const AlgorithmExplorer = () => {
                             margin: '16px 0', // Spacing between sections
                         }}
                     >
-                        <Box display="flex" alignItems="center" my={2} >
-
-                            {/* <Divider
-                                orientation="vertical"
-                                flexItem
-                                style={{
-                                    margin: '0 8px',
-                                    borderRightWidth: "2px",
-                                }}
-                                variant='middle'
-                            /> */}
-
+                        <Box display="flex" alignItems="center" my={2}>
                             <Avatar
                                 sx={{
                                     backgroundColor: green[600],
