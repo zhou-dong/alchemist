@@ -38,9 +38,8 @@ const sectionsData = [
                 <Paper
                     variant="outlined"
                     sx={{
-                        borderLeft: "4px solid" + green[600],
+                        borderLeft: "4px solid grey",
                         padding: "10px 12px",
-                        // backgroundColor: green[50],
                     }}
                 >
                     <Typography gutterBottom>
@@ -53,9 +52,8 @@ const sectionsData = [
                 <Paper
                     variant="outlined"
                     sx={{
-                        borderLeft: "4px solid" + green[600],
+                        borderLeft: "4px solid grey",
                         padding: "10px 12px",
-                        // backgroundColor: green[50],
                     }}
                 >
                     <Typography gutterBottom>
