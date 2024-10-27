@@ -1,7 +1,6 @@
 import Welcome from "./Welcome";
 import Example from "./Sections";
 
-
 const Main = () => {
 
     return (
