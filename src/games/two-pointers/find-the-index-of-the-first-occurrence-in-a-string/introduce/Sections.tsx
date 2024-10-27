@@ -18,6 +18,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { green } from '@mui/material/colors';
+import { styled } from '@mui/system';
 
 const sectionsData = [
     {
@@ -97,6 +98,20 @@ const sectionsData = [
     },
 ];
 
+const Navigator = styled(IconButton)({
+    width: 60,
+    height: 60,
+    backgroundColor: green[500],
+    color: "#fff",
+    '&:hover': {
+        backgroundColor: green[600],
+    },
+    '&.Mui-disabled': {
+        backgroundColor: 'lightgray',
+        color: 'gray',
+    },
+});
+
 const AlgorithmExplorer = () => {
     const [currentSection, setCurrentSection] = useState(-1);
 
@@ -152,34 +167,20 @@ const AlgorithmExplorer = () => {
                 );
             })}
 
-            <Box textAlign="center" mt={2}>
-                <IconButton
-                    sx={{
-                        border: "2px solid lightgrey",
-                        width: 65,
-                        height: 65
-                    }}
-                    color="primary"
+            <Stack direction="row" spacing={3} textAlign="center" mt={4} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Navigator
                     onClick={handlePreviousSection}
                     disabled={currentSection < 0}
-                    style={{ marginRight: '10px' }}
                 >
                     <NavigateBeforeIcon fontSize='large' />
-                </IconButton>
-                <IconButton
-                    sx={{
-                        border: "2px solid lightgrey",
-                        width: 65,
-                        height: 65
-                    }}
-                    color="primary"
+                </Navigator>
+                <Navigator
                     onClick={handleNextSection}
                     disabled={currentSection === sectionsData.length}
                 >
                     {(currentSection === sectionsData.length - 1) ? <RocketLaunchIcon /> : <NavigateNextIcon fontSize='large' />}
-
-                </IconButton>
-            </Box>
+                </Navigator>
+            </Stack>
         </Container>
     );
 };
