@@ -53,8 +53,8 @@ const Main = () => {
             <Title />
             {statmentIndex < 0 && <Welcome />}
 
-            {statmentIndex >= -1 && <Divider variant="middle" />}
-            {statmentIndex >= -1 && <StatementsDisplayer statmentIndex={statmentIndex} statements={statements} />}
+            <Divider variant="middle" />
+            <StatementsDisplayer statmentIndex={statmentIndex} statements={statements} />
 
             <Stack
                 direction="row"
