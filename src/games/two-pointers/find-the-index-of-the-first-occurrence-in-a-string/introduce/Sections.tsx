@@ -24,6 +24,31 @@ const CodeContainer = styled(Paper)({
     padding: "10px 12px",
 });
 
+const Examples = () => (
+    <Grid container spacing={1}>
+        <Grid item sm={12} md={6}>
+            <CodeContainer variant="outlined">
+                <Typography gutterBottom>
+                    <strong>Input:</strong> <code>haystack = "hello"</code>, <code>needle = "ll"</code>
+                </Typography>
+                <Typography>
+                    <strong>Output:</strong> <code>2</code>
+                </Typography>
+            </CodeContainer>
+        </Grid>
+        <Grid item sm={12} md={6}>
+            <CodeContainer variant="outlined">
+                <Typography gutterBottom>
+                    <strong>Input:</strong> <code>haystack = "aaaaa"</code>, <code>needle = "bba"</code>
+                </Typography>
+                <Typography>
+                    <strong>Output:</strong> <code>-1</code>
+                </Typography>
+            </CodeContainer>
+        </Grid>
+    </Grid>
+);
+
 const sectionsData = [
     {
         icon: <DescriptionIcon />,
@@ -38,28 +63,7 @@ const sectionsData = [
         icon: <FormatListBulletedIcon />,
         title: 'Examples',
         content: (
-            <Grid container spacing={1}>
-                <Grid item sm={12} md={6}>
-                    <CodeContainer variant="outlined">
-                        <Typography gutterBottom>
-                            <strong>Input:</strong> <code>haystack = "hello"</code>, <code>needle = "ll"</code>
-                        </Typography>
-                        <Typography>
-                            <strong>Output:</strong> <code>2</code>
-                        </Typography>
-                    </CodeContainer>
-                </Grid>
-                <Grid item sm={12} md={6}>
-                    <CodeContainer variant="outlined">
-                        <Typography gutterBottom>
-                            <strong>Input:</strong> <code>haystack = "aaaaa"</code>, <code>needle = "bba"</code>
-                        </Typography>
-                        <Typography>
-                            <strong>Output:</strong> <code>-1</code>
-                        </Typography>
-                    </CodeContainer>
-                </Grid>
-            </Grid>
+            <Examples />
         ),
     },
     {
@@ -143,9 +147,9 @@ const AlgorithmExplorer = () => {
                         >
                             <Avatar
                                 sx={{
-                                    backgroundColor: index % 2 === 0 ? "#fff" : green[400],
+                                    backgroundColor: index % 2 === 0 ? green[400] : "#fff",
                                     marginRight: 2,
-                                    color: index % 2 === 0 ? green[600] : "#fff",
+                                    color: index % 2 === 0 ? "#fff" : green[600],
                                     border: "1px solid " + green[400],
                                 }}>
                                 {section.icon}
