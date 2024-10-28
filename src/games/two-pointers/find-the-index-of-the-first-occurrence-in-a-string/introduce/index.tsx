@@ -50,7 +50,7 @@ const Main = () => {
                 height: "100vh"
             }}
         >
-            <Title />
+            <Title displayStar={statmentIndex >= 0} />
             {statmentIndex < 0 && <Welcome />}
 
             <Divider variant="middle" />
