@@ -6,11 +6,19 @@ const Main = () => (
     <Container
         maxWidth="lg"
         sx={{
-            marginTop: "20px",
+            // marginTop: "20px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            height: "100vh"
         }}
     >
-        <Title />
-        <Divider variant="middle" />
+        <div>
+            <Title />
+            <Divider variant="middle" />
+        </div>
+
         <Sections />
     </Container>
 );
