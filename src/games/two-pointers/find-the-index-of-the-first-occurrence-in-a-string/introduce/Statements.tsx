@@ -42,7 +42,7 @@ export interface Statement {
     content: JSX.Element;
 }
 
-export const statments: Statement[] = [
+export const statements: Statement[] = [
     {
         icon: <DescriptionIcon />,
         title: 'Problem Statement',
