@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { Divider, Stack, Typography } from '@mui/material';
 import { green } from '@mui/material/colors';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 
@@ -28,20 +28,42 @@ const Icon = () => (
 
 const Welcome = () => (
     <Stack
-        direction="row"
+        direction="column"
+        spacing={4}
         sx={{
-            padding: '15px',
+            padding: '40px',
+            margin: '40px',
             borderRadius: '15px',
-            backgroundColor: green[600],
+            backgroundColor: green[400],
             boxShadow: 3,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            position: 'fixed', // Fixed positioning
+            top: '40%', // Center vertically
+            left: '50%', // Center horizontally
+            transform: 'translate(-50%, -50%)', // Adjust position to truly center
+            textAlign: 'center',
         }}
+        textAlign="center"
     >
-        <Icon />
-        <Typography variant="h4" sx={{ color: "#fff" }}>
-            Welcome to the String Search Adventure!
+        <Stack
+            direction="row"
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            <Typography variant="h4" sx={{ color: "#fff" }}>
+                Welcome to the String Search Adventure!
+            </Typography>
+            <Icon />
+        </Stack>
+
+        <Divider variant='middle' />
+
+        <Typography sx={{ color: "#fff" }}>
+            You will learn how to find the index of the first occurrence of a substring in a string using an efficient algorithm.
+
+            Whether you're a newbie or a coding wizard, this guide is crafted just for you! Let's dive in! 🚀
         </Typography>
     </Stack>
 );
