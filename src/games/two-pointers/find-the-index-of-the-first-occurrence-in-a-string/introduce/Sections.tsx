@@ -168,7 +168,17 @@ const AlgorithmExplorer = () => {
                 );
             })}
 
-            <Stack direction="row" spacing={3} textAlign="center" mt={4} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Stack
+                direction="row"
+                spacing={3}
+                textAlign="center"
+                mt={4}
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
                 <Navigator
                     onClick={handlePreviousSection}
                     disabled={currentSection < 0}
