@@ -6,7 +6,7 @@ const Icon = () => (
         sx={{
             fontSize: 60,
             color: "gold",
-            animation: 'bounce 1.5s ease infinite',
+            animation: 'wobble 1.5s ease infinite',
             '@keyframes wobble': {
                 '0%': { transform: 'rotate(0deg)' },
                 '15%': { transform: 'rotate(10deg)' },
