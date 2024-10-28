@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import {
-    Container,
     Typography,
     Box,
     IconButton,
     Paper,
     Stack,
     Avatar,
+    Grid,
 } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -18,6 +18,11 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { green } from '@mui/material/colors';
 import { styled } from '@mui/system';
+
+const CodeContainer = styled(Paper)({
+    borderLeft: "4px solid grey",
+    padding: "10px 12px",
+});
 
 const sectionsData = [
     {
@@ -33,36 +38,28 @@ const sectionsData = [
         icon: <FormatListBulletedIcon />,
         title: 'Examples',
         content: (
-            <Stack direction="column" spacing={1}>
-                <Paper
-                    variant="outlined"
-                    sx={{
-                        borderLeft: "4px solid grey",
-                        padding: "10px 12px",
-                    }}
-                >
-                    <Typography gutterBottom>
-                        <strong>Input:</strong> <code>haystack = "hello"</code>, <code>needle = "ll"</code>
-                    </Typography>
-                    <Typography>
-                        <strong>Output:</strong> <code>2</code>
-                    </Typography>
-                </Paper>
-                <Paper
-                    variant="outlined"
-                    sx={{
-                        borderLeft: "4px solid grey",
-                        padding: "10px 12px",
-                    }}
-                >
-                    <Typography gutterBottom>
-                        <strong>Input:</strong> <code>haystack = "aaaaa"</code>, <code>needle = "bba"</code>
-                    </Typography>
-                    <Typography>
-                        <strong>Output:</strong> <code>-1</code>
-                    </Typography>
-                </Paper>
-            </Stack>
+            <Grid container spacing={1}>
+                <Grid item sm={12} md={6}>
+                    <CodeContainer variant="outlined">
+                        <Typography gutterBottom>
+                            <strong>Input:</strong> <code>haystack = "hello"</code>, <code>needle = "ll"</code>
+                        </Typography>
+                        <Typography>
+                            <strong>Output:</strong> <code>2</code>
+                        </Typography>
+                    </CodeContainer>
+                </Grid>
+                <Grid item sm={12} md={6}>
+                    <CodeContainer variant="outlined">
+                        <Typography gutterBottom>
+                            <strong>Input:</strong> <code>haystack = "aaaaa"</code>, <code>needle = "bba"</code>
+                        </Typography>
+                        <Typography>
+                            <strong>Output:</strong> <code>-1</code>
+                        </Typography>
+                    </CodeContainer>
+                </Grid>
+            </Grid>
         ),
     },
     {
@@ -125,34 +122,37 @@ const AlgorithmExplorer = () => {
     };
 
     return (
-        <Container maxWidth="lg" sx={{ marginTop: 4 }}>
-
+        <Box>
             {sectionsData.map((section, index) => {
                 const isVisible = currentSection >= index;
                 return (
                     <Box
                         key={index}
-                        style={{
+                        sx={{
                             transition: 'transform 1s ease, opacity 1s ease-in',
                             transform: isVisible ? 'translateX(0)' : 'translateX(-100px)',
                             opacity: isVisible ? 1 : 0,
-                            margin: '16px 0',
+                            padding: "2px 6px",
+                            borderRadius: "4px",
                         }}
                     >
-                        <Box display="flex" alignItems="center" my={2}>
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            my={2}
+                        >
                             <Avatar
                                 sx={{
-                                    backgroundColor: "#fff",
+                                    backgroundColor: index % 2 === 0 ? "#fff" : green[400],
                                     marginRight: 2,
-                                    color: green[600],
-                                    border: "2px solid " + green[600],
+                                    color: index % 2 === 0 ? green[600] : "#fff",
+                                    border: "1px solid " + green[400],
                                 }}>
                                 {section.icon}
                             </Avatar>
                             <Box flexGrow={1}>
                                 <Typography
                                     variant="h6"
-                                    sx={{ fontWeight: 350 }}
                                     gutterBottom
                                 >
                                     {section.title}
@@ -178,7 +178,7 @@ const AlgorithmExplorer = () => {
                     {(currentSection === sectionsData.length - 1) ? <RocketLaunchIcon /> : <NavigateNextIcon fontSize='large' />}
                 </Navigator>
             </Stack>
-        </Container>
+        </Box>
     );
 };
 
