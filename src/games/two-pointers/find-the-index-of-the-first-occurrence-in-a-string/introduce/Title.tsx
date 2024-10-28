@@ -16,7 +16,7 @@ const TitleContent = () => (
     </Typography>
 );
 
-const Start = () => (
+const Star = () => (
     <StarIcon
         fontSize="large"
         sx={{
@@ -34,7 +34,12 @@ const Start = () => (
     />
 );
 
-const Main = () => (
+
+interface Props {
+    displayStar: boolean;
+}
+
+const Main = ({ displayStar }: Props) => (
     <Stack
         direction="row"
         spacing={1}
@@ -44,7 +49,7 @@ const Main = () => (
             alignItems: "center",
         }}
     >
-        <Start />
+        {displayStar && <Star />}
         <TitleContent />
     </Stack>
 );
