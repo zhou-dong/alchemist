@@ -1,12 +1,11 @@
-import { Divider, Stack, Typography } from '@mui/material';
-import { green } from '@mui/material/colors';
+import { Stack, Typography } from '@mui/material';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 
 const Icon = () => (
     <SentimentSatisfiedOutlinedIcon
         sx={{
             fontSize: 60,
-            color: 'yellow',
+            color: 'gold',
             animation: 'bounce 1.5s ease infinite',
             '@keyframes wobble': {
                 '0%': { transform: 'rotate(0deg)' },
@@ -34,12 +33,11 @@ const Welcome = () => (
             padding: '40px',
             margin: '40px',
             borderRadius: '15px',
-            backgroundColor: green[400],
-            boxShadow: 3,
-            position: 'fixed', // Fixed positioning
-            top: '40%', // Center vertically
-            left: '50%', // Center horizontally
-            transform: 'translate(-50%, -50%)', // Adjust position to truly center
+            boxShadow: 4,
+            position: 'fixed', 
+            top: '40%', 
+            left: '50%', 
+            transform: 'translate(-50%, -50%)',
             textAlign: 'center',
         }}
         textAlign="center"
@@ -52,15 +50,13 @@ const Welcome = () => (
                 justifyContent: "center",
             }}
         >
-            <Typography variant="h4" sx={{ color: "#fff" }}>
+            <Typography variant="h4" sx={{ color: "#000" }}>
                 Welcome to the String Search Adventure!
             </Typography>
             <Icon />
         </Stack>
 
-        <Divider variant='middle' />
-
-        <Typography sx={{ color: "#fff" }}>
+        <Typography sx={{ color: "#000" }}>
             You will learn how to find the index of the first occurrence of a substring in a string using an efficient algorithm.
 
             Whether you're a newbie or a coding wizard, this guide is crafted just for you! Let's dive in! 🚀
