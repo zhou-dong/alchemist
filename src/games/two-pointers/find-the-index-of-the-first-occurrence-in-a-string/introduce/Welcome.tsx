@@ -50,10 +50,10 @@ const Welcome = () => (
                 justifyContent: "center",
             }}
         >
+            <Icon />
             <Typography variant="h4" sx={{ color: "#000" }}>
                 Welcome to the String Search Adventure!
             </Typography>
-            <Icon />
         </Stack>
 
         <Typography sx={{ color: "#000" }}>
