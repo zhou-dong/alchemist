@@ -1,5 +1,5 @@
 import React from 'react';
-import Sections from "./StatementsDisplayer";
+import StatementsDisplayer from "./StatementsDisplayer";
 import Title from "./Title";
 import { Container, Divider, IconButton, Stack, styled } from "@mui/material";
 import Welcome from "./Welcome";
@@ -38,6 +38,7 @@ const Main = () => {
             setStatementIndex(statmentIndex + 1);
         }
     };
+
     return (
         <Container
             maxWidth="lg"
@@ -50,12 +51,10 @@ const Main = () => {
             }}
         >
             <Title />
-            <Welcome />
-            <Divider variant="middle" />
-            <Sections
-                statmentIndex={statmentIndex}
-                statements={statements}
-            />
+            {statmentIndex < 0 && <Welcome />}
+
+            {statmentIndex >= -1 && <Divider variant="middle" />}
+            {statmentIndex >= -1 && <StatementsDisplayer statmentIndex={statmentIndex} statements={statements} />}
 
             <Stack
                 direction="row"
