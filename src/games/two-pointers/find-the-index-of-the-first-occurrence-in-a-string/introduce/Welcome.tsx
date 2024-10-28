@@ -5,7 +5,7 @@ const Icon = () => (
     <SentimentSatisfiedOutlinedIcon
         sx={{
             fontSize: 60,
-            color: 'gold',
+            color: "gold",
             animation: 'bounce 1.5s ease infinite',
             '@keyframes wobble': {
                 '0%': { transform: 'rotate(0deg)' },
@@ -34,9 +34,9 @@ const Welcome = () => (
             margin: '40px',
             borderRadius: '15px',
             boxShadow: 4,
-            position: 'fixed', 
-            top: '40%', 
-            left: '50%', 
+            position: 'fixed',
+            top: '40%',
+            left: '50%',
             transform: 'translate(-50%, -50%)',
             textAlign: 'center',
         }}
