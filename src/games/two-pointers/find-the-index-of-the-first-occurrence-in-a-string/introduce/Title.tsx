@@ -10,7 +10,6 @@ const TitleContent = () => (
             fontWeight: 400,
             textAlign: "center",
         }}
-        color="primary"
     >
         {title}
     </Typography>
