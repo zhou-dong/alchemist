@@ -76,12 +76,14 @@ const Main = () => {
                 >
                     <NavigateBeforeIcon fontSize='large' />
                 </Navigator>
+
                 <Navigator
                     onClick={handleNextSection}
                     disabled={statmentIndex === statements.length - 1}
                 >
                     <NavigateNextIcon fontSize='large' />
                 </Navigator>
+
                 <Navigator
                     onClick={() => setDisplayIntroduce(false)}
                 >
