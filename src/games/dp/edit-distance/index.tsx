@@ -122,7 +122,6 @@ const Main = () => {
                         sx={{
                             verticalAlign: 'middle',
                             fontWeight: 300
-
                         }}
                     >
                         {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
