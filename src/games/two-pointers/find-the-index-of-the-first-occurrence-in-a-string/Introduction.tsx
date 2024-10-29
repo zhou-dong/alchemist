@@ -11,6 +11,8 @@ import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
 import { useAlgoContext } from './AlgoContext';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { green } from '@mui/material/colors';
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -59,7 +61,6 @@ const Code = () => {
 }
 
 const Input = () => {
-
     const name = "input";
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
@@ -102,18 +103,36 @@ const Input = () => {
     )
 }
 
-const Main = () => (
-    <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
-        <Input />
-        <Instruction
-            name="Description"
-            icon={<DescriptionOutlinedIcon fontSize="medium" />}
-            popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
-            anchorOrigin={anchorOrigin}
-            transformOrigin={transformOrigin}
-        />
-        <Code />
-    </MuiStack>
-);
+const Main = () => {
+    const { setDisplayIntroduce } = useAlgoContext();
+    return (
+        <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
+            <Input />
+            <Instruction
+                name="Description"
+                icon={<DescriptionOutlinedIcon fontSize="medium" />}
+                popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
+                anchorOrigin={anchorOrigin}
+                transformOrigin={transformOrigin}
+            />
+            <Code />
+            <LightTooltip title="Introduction" placement="right">
+                <ToggleButton
+                    onClick={() => setDisplayIntroduce(true)}
+                    aria-label="introduce"
+                    size="large"
+                    sx={{
+                        borderRadius: "50%",
+                        backgroundColor: green[500],
+                        border: "1px solid " + green[500],
+                    }}
+                    value="Introduction"
+                >
+                    <MenuBookIcon fontSize="medium" sx={{ color: "#fff" }} />
+                </ToggleButton>
+            </LightTooltip>
+        </MuiStack>
+    );
+};
 
 export default Main;
