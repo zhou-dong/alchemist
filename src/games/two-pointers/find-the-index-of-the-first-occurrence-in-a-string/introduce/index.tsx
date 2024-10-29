@@ -8,6 +8,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { green } from '@mui/material/colors';
+import { useAlgoContext } from '../AlgoContext';
 
 const Navigator = styled(IconButton)({
     width: 60,
@@ -24,6 +25,8 @@ const Navigator = styled(IconButton)({
 });
 
 const Main = () => {
+
+    const { setDisplayIntroduce } = useAlgoContext();
 
     const [statmentIndex, setStatementIndex] = React.useState(-1);
 
@@ -75,9 +78,14 @@ const Main = () => {
                 </Navigator>
                 <Navigator
                     onClick={handleNextSection}
-                    disabled={statmentIndex === statements.length}
+                    disabled={statmentIndex === statements.length - 1}
                 >
-                    {(statmentIndex === statements.length - 1) ? <RocketLaunchIcon /> : <NavigateNextIcon fontSize='large' />}
+                    <NavigateNextIcon fontSize='large' />
+                </Navigator>
+                <Navigator
+                    onClick={() => setDisplayIntroduce(false)}
+                >
+                    <RocketLaunchIcon />
                 </Navigator>
             </Stack>
         </Container>
