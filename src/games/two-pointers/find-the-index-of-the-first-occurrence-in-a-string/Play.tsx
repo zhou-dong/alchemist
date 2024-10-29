@@ -114,7 +114,7 @@ const Main = () => {
                 <Introduction />
 
                 <Typography
-                    variant='h6'
+                    variant='h5'
                     display="inline-flex"
                     sx={{
                         verticalAlign: 'middle',
