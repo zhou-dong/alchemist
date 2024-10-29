@@ -20,7 +20,9 @@ const AlgoContext = React.createContext<{
     prev?: LinkedListNode<number | string>,
     setPrev: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
     nextNext?: LinkedListNode<number | string>,
-    setNextNext: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>
+    setNextNext: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
+    displayIntroduce: boolean,
+    setDisplayIntroduce: React.Dispatch<React.SetStateAction<boolean>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -33,7 +35,9 @@ const AlgoContext = React.createContext<{
     setCurrent: () => { },
     setTemp: () => { },
     setPrev: () => { },
-    setNextNext: () => { }
+    setNextNext: () => { },
+    displayIntroduce: true,
+    setDisplayIntroduce: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -48,6 +52,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [temp, setTemp] = React.useState<LinkedListNode<number | string>>();
     const [prev, setPrev] = React.useState<LinkedListNode<number | string>>();
     const [nextNext, setNextNext] = React.useState<LinkedListNode<number | string>>();
+
+    const [displayIntroduce, setDisplayIntroduce] = React.useState(true);
 
     return (
         <AlgoContext.Provider value={{
@@ -68,7 +74,9 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             prev,
             setPrev,
             nextNext,
-            setNextNext
+            setNextNext,
+            displayIntroduce,
+            setDisplayIntroduce,
         }}>
             {children}
         </AlgoContext.Provider>
