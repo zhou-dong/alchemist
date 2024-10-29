@@ -19,7 +19,7 @@ const StyledButton = styled(ToggleButton)(({ theme }) => ({
     fontSize: 20,
     color: "#000",
     fontWeight: "normal",
-    borderRadius: "25%",
+    borderRadius: "8%",
 }));
 
 const booleanToString = (data: boolean): string => data ? 'TRUE' : 'FALSE';
