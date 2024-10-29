@@ -14,14 +14,12 @@ const StyledButton = styled(ToggleButton)(({ theme }) => ({
         borderColor: theme.palette.primary.main,
         color: "#fff",
     },
-    height: 70,
+    height: 60,
     width: 70,
     fontSize: 20,
     color: "#000",
     fontWeight: "normal",
-    padding: 0,
-    borderColor: "lightgray",
-    borderRadius: "50%",
+    borderRadius: "25%",
 }));
 
 const booleanToString = (data: boolean): string => data ? 'TRUE' : 'FALSE';
@@ -70,12 +68,12 @@ const Buttons = (props: Props) => {
         <ToggleButtonGroup
             value={data}
             size="large"
-            key={0}
-            sx={{ marginTop: "40px", borderColor: "gray" }}
+            sx={{
+                marginTop: "40px",
+                borderColor: "gray"
+            }}
         >
-            <>
-                {buttons.map((d, index) => cell(data, index, d, buttonsStyles[index], setData, { ...props }))}
-            </>
+            {buttons.map((d, index) => cell(data, index, d, buttonsStyles[index], setData, { ...props }))}
         </ToggleButtonGroup>
     );
 };
