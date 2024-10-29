@@ -2,7 +2,7 @@ import * as React from 'react';
 import ReactMarkdown from "react-markdown";
 import MuiStack from '@mui/material/Stack';
 import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Instruction from '../../../commons/Instruction';
 import { description } from "./contents";
@@ -38,7 +38,7 @@ const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
 
 const Code = () => {
     const { displayCode, setDisplayCode } = useAlgoContext();
-
+    const theme = useTheme();
     const handleToggle = () => {
         setDisplayCode(isOpen => !isOpen);
     }
@@ -49,7 +49,14 @@ const Code = () => {
                 onChange={handleToggle}
                 aria-label="code"
                 size="large"
-                sx={{ borderRadius: "50%" }}
+                sx={{
+                    borderRadius: "50%",
+                    // '&&.Mui-selected': {
+                    //     backgroundColor: theme.palette.info.light,
+                    //     borderColor: theme.palette.info.light,
+                    //     color: theme.palette.info.contrastText,
+                    // },
+                }}
                 value="code"
                 selected={displayCode}
                 color='info'
@@ -69,17 +76,17 @@ const Input = () => {
         anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
     }
 
-    const reference = React.useRef(null);
+    // const reference = React.useRef(null);
 
-    React.useEffect(() => {
-        setAnchorEl(reference.current);
-    }, [reference])
+    // React.useEffect(() => {
+    //     setAnchorEl(reference.current);
+    // }, [reference])
 
     return (
         <>
             <LightTooltip title={capitalize(name)} placement="right">
                 <ToggleButton
-                    ref={reference}
+                    // ref={reference}
                     onChange={handleToggle}
                     aria-label={name}
                     size="large"
@@ -105,6 +112,7 @@ const Input = () => {
 
 const Main = () => {
     const { setDisplayIntroduce } = useAlgoContext();
+    const theme = useTheme();
     return (
         <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
             <Input />
@@ -123,8 +131,9 @@ const Main = () => {
                     size="large"
                     sx={{
                         borderRadius: "50%",
-                        backgroundColor: green[500],
-                        border: "1px solid " + green[500],
+                        backgroundColor: theme.palette.primary.main,
+                        borderColor: theme.palette.primary.main,
+                        color: theme.palette.info.contrastText,
                     }}
                     value="Introduction"
                 >
