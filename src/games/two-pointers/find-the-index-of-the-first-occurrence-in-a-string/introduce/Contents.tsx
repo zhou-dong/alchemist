@@ -137,17 +137,17 @@ const DisplayContent: React.FC<{
     );
 
 interface Props {
-    statmentIndex: number;
-    statements: Content[];
+    contentIndex: number;
+    contents: Content[];
 }
 
-export const DisplayContents = ({ statmentIndex, statements }: Props) => (
+export const DisplayContents = ({ contentIndex, contents }: Props) => (
     <Box>
-        {statements.map((statement, index) => (
+        {contents.map((content, index) => (
             <DisplayContent
                 index={index}
-                isVisible={statmentIndex >= index}
-                statement={statement}
+                isVisible={contentIndex >= index}
+                statement={content}
             />
         ))}
     </Box>
