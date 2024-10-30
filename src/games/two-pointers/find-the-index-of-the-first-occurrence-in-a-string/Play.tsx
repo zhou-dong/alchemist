@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { title } from "./contents";
-import { Stack, Typography } from '@mui/material';
+import { Container, Divider, IconButton, Paper, Stack, Toolbar, Typography } from '@mui/material';
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
 import { errorStyle, helperStyle } from "../../dp/_commons/styles";
@@ -10,6 +10,54 @@ import { CheckCircleOutline } from '@mui/icons-material';
 import Introduction from './Introduction';
 import { useAlgoContext } from './AlgoContext';
 import Code from './Code';
+import { contents, DisplayContents } from './introduce/Contents';
+import Draggable from 'react-draggable';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
+import CloseIcon from '@mui/icons-material/Close';
+
+const Intro = () => {
+    const { setDisplayContents } = useAlgoContext();
+
+    return (
+        <Container
+            maxWidth="lg"
+            sx={{
+                position: "fixed",
+                top: '50%',
+                left: "50%",
+                transform: "translate(-50%,-50%)",
+                zIndex: 1,
+            }}
+        >
+            <Draggable>
+                <Paper
+                    elevation={4}
+                    style={{
+                        top: '33%',
+                        padding: "15px",
+                        borderRadius: '15px',
+                    }}
+                >
+                    <Toolbar variant='dense' sx={{ display: "flex" }}>
+                        <IconButton color='info'>
+                            <DragIndicatorIcon fontSize='medium' />
+                        </IconButton>
+                        <div style={{ flexGrow: 1 }}>
+                        </div>
+                        <IconButton onClick={() => setDisplayContents(false)}>
+                            <CloseIcon fontSize='medium' color='warning' />
+                        </IconButton>
+                    </Toolbar>
+
+                    <Divider variant='middle' />
+
+                    <DisplayContents contentIndex={contents.length - 1} contents={contents} />
+                </Paper>
+            </Draggable>
+        </Container>
+    );
+};
 
 const bases = 'ACGT';
 const random = (max: number) => Math.floor(Math.random() * max);
@@ -31,7 +79,7 @@ const buildData = () => {
 
 const Main = () => {
 
-    const { displayCode } = useAlgoContext();
+    const { displayCode, displayContents } = useAlgoContext();
 
     const [success, setSuccess] = React.useState(false);
     const [currentPoint, setCurrentPoint] = React.useState(startPoint);
@@ -102,6 +150,7 @@ const Main = () => {
 
     return (
         <>
+            {displayContents && <Intro />}
             <Introduction />
             <Stack
                 direction="column"

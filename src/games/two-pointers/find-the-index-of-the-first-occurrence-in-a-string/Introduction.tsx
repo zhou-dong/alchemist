@@ -1,18 +1,14 @@
 import * as React from 'react';
-import ReactMarkdown from "react-markdown";
 import MuiStack from '@mui/material/Stack';
 import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import Instruction from '../../../commons/Instruction';
-import { description } from "./contents";
 import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
 import { useAlgoContext } from './AlgoContext';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { green } from '@mui/material/colors';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
@@ -26,6 +22,7 @@ const StyledButton = styled(ToggleButton)(({ theme }) => ({
         borderColor: theme.palette.info.light,
         color: theme.palette.info.contrastText,
     },
+    zIndex: 10,
 }));
 
 const capitalize = (name: string): string => {
@@ -42,17 +39,9 @@ const transformOrigin: PopoverOrigin = {
     horizontal: 'left',
 };
 
-const StyledReactMarkdown = styled(ReactMarkdown)(() => ({
-    fontSize: "16px",
-    marginTop: 0,
-    paddingTop: 0,
-    paddingLeft: 10,
-    paddingRight: 10,
-}));
-
 const Code = () => {
     const { displayCode, setDisplayCode } = useAlgoContext();
-    const theme = useTheme();
+
     const handleToggle = () => {
         setDisplayCode(isOpen => !isOpen);
     }
@@ -70,7 +59,29 @@ const Code = () => {
             </StyledButton>
         </LightTooltip>
     );
-}
+};
+
+const Instruction = () => {
+    const { displayContents, setDisplayContents } = useAlgoContext();
+
+    const handleToggle = () => {
+        setDisplayContents(isOpen => !isOpen);
+    }
+
+    return (
+        <LightTooltip title="Instruction" placement="right">
+            <StyledButton
+                onChange={handleToggle}
+                aria-label="Instruction"
+                size="large"
+                value="Instruction"
+                selected={displayContents}
+            >
+                <DescriptionOutlinedIcon fontSize="medium" />
+            </StyledButton>
+        </LightTooltip>
+    );
+};
 
 const Input = () => {
 
@@ -122,13 +133,7 @@ const Main = () => {
     return (
         <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
             <Input />
-            <Instruction
-                name="Description"
-                icon={<DescriptionOutlinedIcon fontSize="medium" />}
-                popover={<StyledReactMarkdown>{description}</StyledReactMarkdown>}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
-            />
+            <Instruction />
             <Code />
             <LightTooltip title="Introduction" placement="right">
                 <ToggleButton
@@ -143,7 +148,7 @@ const Main = () => {
                     }}
                     value="Introduction"
                 >
-                    <MenuBookIcon fontSize="medium" sx={{ color: "#fff" }} />
+                    <KeyboardBackspaceIcon fontSize="medium" sx={{ color: "#fff" }} />
                 </ToggleButton>
             </LightTooltip>
         </MuiStack>

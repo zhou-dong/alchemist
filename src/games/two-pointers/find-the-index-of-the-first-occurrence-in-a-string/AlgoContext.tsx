@@ -23,6 +23,8 @@ const AlgoContext = React.createContext<{
     setNextNext: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
     displayIntroduce: boolean,
     setDisplayIntroduce: React.Dispatch<React.SetStateAction<boolean>>,
+    displayContents: boolean,
+    setDisplayContents: React.Dispatch<React.SetStateAction<boolean>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -38,6 +40,8 @@ const AlgoContext = React.createContext<{
     setNextNext: () => { },
     displayIntroduce: true,
     setDisplayIntroduce: () => { },
+    displayContents: false,
+    setDisplayContents: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -45,6 +49,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
     const [displayCode, setDisplayCode] = React.useState(false);
+    const [displayContents, setDisplayContents] = React.useState(false);
 
     const [head, setHead] = React.useState<LinkedListNode<number | string>>();
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
@@ -77,6 +82,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setNextNext,
             displayIntroduce,
             setDisplayIntroduce,
+            displayContents,
+            setDisplayContents,
         }}>
             {children}
         </AlgoContext.Provider>
