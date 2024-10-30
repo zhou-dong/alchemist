@@ -9,10 +9,8 @@ import Introduce from './introduce';
 
 const Game = () => {
     const { displayIntroduce } = useAlgoContext();
-
     return (
         <>
-            {/* <Header />  */}
             {displayIntroduce && <Introduce />}
             {!displayIntroduce && <Introduction />}
             {!displayIntroduce && <Play />}
@@ -20,17 +18,14 @@ const Game = () => {
     );
 }
 
-const Main = () => {
+const Main = () => (
+    <GameWrapper path={info.path}>
+        <ThemeProvider theme={theme}>
+            <AlgoContextProvider>
+                <Game />
+            </AlgoContextProvider>
+        </ThemeProvider>
+    </GameWrapper>
+);
 
-
-    return (
-        <GameWrapper path={info.path}>
-            <ThemeProvider theme={theme}>
-                <AlgoContextProvider>
-                    <Game />
-                </AlgoContextProvider>
-            </ThemeProvider>
-        </GameWrapper>
-    );
-}
 export default Main;
