@@ -56,7 +56,7 @@ const Main = () => {
             {statmentIndex < 0 && <Welcome />}
 
             <Divider variant="middle" />
-            <DisplayContents statmentIndex={statmentIndex} statements={contents} />
+            <DisplayContents contentIndex={statmentIndex} contents={contents} />
 
             <Stack
                 direction="row"
