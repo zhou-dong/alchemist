@@ -1,17 +1,17 @@
 import React from 'react';
 import { Typography, Box, Avatar } from '@mui/material';
 import { green } from '@mui/material/colors';
-import { Statement } from './Statements';
+import { Content } from './Contents';
 
 interface Props {
     statmentIndex: number;
-    statements: Statement[];
+    statements: Content[];
 }
 
-const DisplayStatement: React.FC<{
+const DisplayContent: React.FC<{
     index: number,
     isVisible: boolean,
-    statement: Statement
+    statement: Content
 }> = ({
     index,
     isVisible,
@@ -57,7 +57,7 @@ const DisplayStatement: React.FC<{
 const Main = ({ statmentIndex, statements }: Props) => (
     <Box>
         {statements.map((statement, index) => (
-            <DisplayStatement
+            <DisplayContent
                 index={index}
                 isVisible={statmentIndex >= index}
                 statement={statement}

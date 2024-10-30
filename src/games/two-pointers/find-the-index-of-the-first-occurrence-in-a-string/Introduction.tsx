@@ -6,13 +6,27 @@ import { styled, useTheme } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Instruction from '../../../commons/Instruction';
 import { description } from "./contents";
-// import AlgoInput from "./AlgoInput";
+import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
 import { useAlgoContext } from './AlgoContext';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { green } from '@mui/material/colors';
+
+const StyledButton = styled(ToggleButton)(({ theme }) => ({
+    borderRadius: "50%",
+    '&:hover': {
+        backgroundColor: theme.palette.info.light,
+        borderColor: theme.palette.info.light,
+        color: theme.palette.info.contrastText,
+    },
+    '&&.Mui-selected': {
+        backgroundColor: theme.palette.info.light,
+        borderColor: theme.palette.info.light,
+        color: theme.palette.info.contrastText,
+    },
+}));
 
 const capitalize = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -45,29 +59,21 @@ const Code = () => {
 
     return (
         <LightTooltip title="Code" placement="right">
-            <ToggleButton
+            <StyledButton
                 onChange={handleToggle}
                 aria-label="code"
                 size="large"
-                sx={{
-                    borderRadius: "50%",
-                    // '&&.Mui-selected': {
-                    //     backgroundColor: theme.palette.info.light,
-                    //     borderColor: theme.palette.info.light,
-                    //     color: theme.palette.info.contrastText,
-                    // },
-                }}
                 value="code"
                 selected={displayCode}
-                color='info'
             >
                 <CodeIcon fontSize="medium" />
-            </ToggleButton>
+            </StyledButton>
         </LightTooltip>
     );
 }
 
 const Input = () => {
+
     const name = "input";
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
@@ -76,7 +82,7 @@ const Input = () => {
         anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
     }
 
-    // const reference = React.useRef(null);
+    const reference = React.useRef(null);
 
     // React.useEffect(() => {
     //     setAnchorEl(reference.current);
@@ -85,8 +91,8 @@ const Input = () => {
     return (
         <>
             <LightTooltip title={capitalize(name)} placement="right">
-                <ToggleButton
-                    // ref={reference}
+                <StyledButton
+                    ref={reference}
                     onChange={handleToggle}
                     aria-label={name}
                     size="large"
@@ -95,7 +101,7 @@ const Input = () => {
                     selected={open}
                 >
                     <InputIcon fontSize="medium" />
-                </ToggleButton>
+                </StyledButton>
             </LightTooltip>
             <Popover
                 open={open}
@@ -104,7 +110,7 @@ const Input = () => {
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin}
             >
-                {/* <AlgoInput setAnchorEl={setAnchorEl} /> */}
+                <AlgoInput setAnchorEl={setAnchorEl} />
             </Popover>
         </>
     )

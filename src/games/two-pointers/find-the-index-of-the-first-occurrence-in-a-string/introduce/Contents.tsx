@@ -36,13 +36,13 @@ const Examples = () => (
     </Grid>
 );
 
-export interface Statement {
+export interface Content {
     icon: JSX.Element;
     title: string;
     content: JSX.Element;
 }
 
-export const statements: Statement[] = [
+export const contents: Content[] = [
     {
         icon: <DescriptionIcon />,
         title: 'Problem Statement',

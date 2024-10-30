@@ -3,7 +3,7 @@ import StatementsDisplayer from "./StatementsDisplayer";
 import Title from "./Title";
 import { Container, Divider, IconButton, Stack, styled } from "@mui/material";
 import Welcome from "./Welcome";
-import { statements } from './Statements';
+import { contents } from './Contents';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
@@ -37,7 +37,7 @@ const Main = () => {
     };
 
     const handleNextSection = () => {
-        if (statmentIndex < statements.length) {
+        if (statmentIndex < contents.length) {
             setStatementIndex(statmentIndex + 1);
         }
     };
@@ -57,7 +57,7 @@ const Main = () => {
             {statmentIndex < 0 && <Welcome />}
 
             <Divider variant="middle" />
-            <StatementsDisplayer statmentIndex={statmentIndex} statements={statements} />
+            <StatementsDisplayer statmentIndex={statmentIndex} statements={contents} />
 
             <Stack
                 direction="row"
@@ -79,7 +79,7 @@ const Main = () => {
 
                 <Navigator
                     onClick={handleNextSection}
-                    disabled={statmentIndex === statements.length - 1}
+                    disabled={statmentIndex === contents.length - 1}
                 >
                     <NavigateNextIcon fontSize='large' />
                 </Navigator>
