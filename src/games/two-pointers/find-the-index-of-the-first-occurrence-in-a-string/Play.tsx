@@ -102,17 +102,17 @@ const Main = () => {
 
     return (
         <>
+            <Introduction />
             <Stack
                 direction="column"
                 spacing={5}
-                alignItems="center"
-                justifyContent="center"
                 sx={{
-                    marginTop: "40px"
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    transform: "translate(0, 50%)",
                 }}
             >
-                <Introduction />
-
                 <Typography
                     variant='h5'
                     display="inline-flex"
@@ -124,12 +124,7 @@ const Main = () => {
                     {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
                 </Typography>
 
-                {/* <div style={{ marginTop: "25px" }}>
-                    <Refresh handleRefresh={handleRefresh} />
-                </div> */}
-
                 <Table table={table} tableStyles={tableStyles} />
-                <div style={{ marginTop: "20px" }} />
 
                 <Buttons
                     buttons={buttons}
