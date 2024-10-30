@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
-import { title } from "../contents";
+
+export const title = 'Find the Index of the First Occurrence in a String';
 
 const TitleContent = () => (
     <Typography

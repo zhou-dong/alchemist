@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { title } from "./contents";
+import { title } from "./introduce/Title";
 import { Container, Divider, IconButton, Paper, Stack, Toolbar, Typography } from '@mui/material';
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
