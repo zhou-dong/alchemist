@@ -1,9 +1,8 @@
 import React from 'react';
-import StatementsDisplayer from "./StatementsDisplayer";
 import Title from "./Title";
 import { Container, Divider, IconButton, Stack, styled } from "@mui/material";
 import Welcome from "./Welcome";
-import { contents } from './Contents';
+import { contents, DisplayContents } from './Contents';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
@@ -57,7 +56,7 @@ const Main = () => {
             {statmentIndex < 0 && <Welcome />}
 
             <Divider variant="middle" />
-            <StatementsDisplayer statmentIndex={statmentIndex} statements={contents} />
+            <DisplayContents statmentIndex={statmentIndex} statements={contents} />
 
             <Stack
                 direction="row"
