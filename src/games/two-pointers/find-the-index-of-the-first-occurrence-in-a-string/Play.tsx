@@ -13,7 +13,6 @@ import Code from './Code';
 import { contents, DisplayContents } from './introduce/Contents';
 import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Intro = () => {
@@ -170,7 +169,7 @@ const Main = () => {
                         fontWeight: 300,
                     }}
                 >
-                    {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
+                    {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title} <DragIndicatorIcon color="info" />
                 </Typography>
 
                 <Table
