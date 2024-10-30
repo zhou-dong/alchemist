@@ -50,7 +50,7 @@ const Main = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                height: "100vh"
+                height: "100vh",
             }}
         >
             <Title displayStar={statmentIndex >= 0} />
@@ -67,7 +67,7 @@ const Main = () => {
                 sx={{
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
                 }}
             >
                 <Navigator
