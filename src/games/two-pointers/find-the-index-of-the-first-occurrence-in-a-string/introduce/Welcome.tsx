@@ -28,16 +28,13 @@ const Icon = () => (
 const Welcome = () => (
     <Stack
         direction="column"
-        spacing={4}
+        spacing={2}
         sx={{
             padding: '40px',
-            margin: '40px',
             borderRadius: '15px',
             boxShadow: 4,
             position: 'fixed',
-            top: '40%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            top: '33%',
             textAlign: 'center',
         }}
         textAlign="center"
@@ -51,16 +48,19 @@ const Welcome = () => (
             }}
         >
             <Icon />
-            <Typography variant="h4" sx={{ color: "#000" }}>
+            <Typography variant="h4">
                 Welcome to the String Search Adventure!
             </Typography>
         </Stack>
 
-        <Typography sx={{ color: "#000" }}>
-            You will learn how to find the index of the first occurrence of a substring in a string using an efficient algorithm.
-
-            Whether you're a newbie or a coding wizard, this guide is crafted just for you! Let's dive in! 🚀
-        </Typography>
+        <div>
+            <Typography>
+                You will learn how to find the index of the first occurrence of a substring in a string using an efficient algorithm.
+            </Typography>
+            <Typography>
+                Whether you're a newbie or a coding wizard, this guide is crafted just for you! Let's dive in! 🚀
+            </Typography>
+        </div>
     </Stack>
 );
 
