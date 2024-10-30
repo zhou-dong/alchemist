@@ -110,7 +110,7 @@ const Main = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    transform: "translate(0, 50%)",
+                    height: "100vh",
                 }}
             >
                 <Typography
@@ -118,13 +118,16 @@ const Main = () => {
                     display="inline-flex"
                     sx={{
                         verticalAlign: 'middle',
-                        fontWeight: 300
+                        fontWeight: 300,
                     }}
                 >
                     {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
                 </Typography>
 
-                <Table table={table} tableStyles={tableStyles} />
+                <Table
+                    table={table}
+                    tableStyles={tableStyles}
+                />
 
                 <Buttons
                     buttons={buttons}
