@@ -9,6 +9,7 @@ import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
 import { useAlgoContext } from './AlgoContext';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
@@ -149,6 +150,23 @@ const Main = () => {
                     value="Introduction"
                 >
                     <KeyboardBackspaceIcon fontSize="medium" sx={{ color: "#fff" }} />
+                </ToggleButton>
+            </LightTooltip>
+
+            <LightTooltip title="Game" placement="right">
+                <ToggleButton
+                    onClick={() => setDisplayIntroduce(true)}
+                    aria-label="game"
+                    size="large"
+                    sx={{
+                        borderRadius: "50%",
+                        backgroundColor: theme.palette.primary.main,
+                        borderColor: theme.palette.primary.main,
+                        color: theme.palette.info.contrastText,
+                    }}
+                    value="Game"
+                >
+                    <SportsEsportsIcon fontSize="medium" sx={{ color: "#fff" }} />
                 </ToggleButton>
             </LightTooltip>
         </MuiStack>
