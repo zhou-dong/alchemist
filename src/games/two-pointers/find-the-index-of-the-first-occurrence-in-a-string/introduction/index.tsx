@@ -25,7 +25,7 @@ const Navigator = styled(IconButton)({
 
 const Main = () => {
 
-    const { setDisplayIntroduce } = useAlgoContext();
+    const { setDisplayIntroduction } = useAlgoContext();
 
     const [statmentIndex, setStatementIndex] = React.useState(-1);
 
@@ -84,7 +84,7 @@ const Main = () => {
                 </Navigator>
 
                 <Navigator
-                    onClick={() => setDisplayIntroduce(false)}
+                    onClick={() => setDisplayIntroduction(false)}
                 >
                     <RocketLaunchIcon />
                 </Navigator>

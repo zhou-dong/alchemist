@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { title } from "../introduce/Title";
+import { title } from "../introduction/Title";
 import { Stack, Typography } from '@mui/material';
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "../init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "../update";
@@ -8,9 +8,7 @@ import Table from '../../../dp/_components/Table';
 import Buttons from '../../../dp/_components/Buttons';
 import { CheckCircleOutline } from '@mui/icons-material';
 import { useAlgoContext } from '../AlgoContext';
-import Code from '../toolbox/CodeSolution';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import Overview from '../toolbox/Overview';
 
 const bases = 'ACGT';
 const random = (max: number) => Math.floor(Math.random() * max);

@@ -21,8 +21,8 @@ const AlgoContext = React.createContext<{
     setPrev: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
     nextNext?: LinkedListNode<number | string>,
     setNextNext: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    displayIntroduce: boolean,
-    setDisplayIntroduce: React.Dispatch<React.SetStateAction<boolean>>,
+    displayIntroduction: boolean,
+    setDisplayIntroduction: React.Dispatch<React.SetStateAction<boolean>>,
     displayOverview: boolean,
     setDisplayOverview: React.Dispatch<React.SetStateAction<boolean>>,
     displayGame: boolean,
@@ -40,8 +40,8 @@ const AlgoContext = React.createContext<{
     setTemp: () => { },
     setPrev: () => { },
     setNextNext: () => { },
-    displayIntroduce: true,
-    setDisplayIntroduce: () => { },
+    displayIntroduction: true,
+    setDisplayIntroduction: () => { },
     displayOverview: false,
     setDisplayOverview: () => { },
     displayGame: true,
@@ -53,7 +53,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
 
-    const [displayIntroduce, setDisplayIntroduce] = React.useState(true);
+    const [displayIntroduction, setDisplayIntroduction] = React.useState(true);
     const [displayCode, setDisplayCode] = React.useState(false);
     const [displayOverview, setDisplayOverview] = React.useState(false);
     const [displayGame, setDisplayGame] = React.useState(true);
@@ -85,8 +85,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setPrev,
             nextNext,
             setNextNext,
-            displayIntroduce,
-            setDisplayIntroduce,
+            displayIntroduction,
+            setDisplayIntroduction,
             displayOverview,
             setDisplayOverview,
             displayGame,

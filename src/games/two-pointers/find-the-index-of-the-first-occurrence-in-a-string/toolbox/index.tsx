@@ -149,13 +149,13 @@ const Game = () => {
 };
 
 const BackToWelcome = () => {
-    const { setDisplayIntroduce } = useAlgoContext();
+    const { setDisplayIntroduction } = useAlgoContext();
     const theme = useTheme();
 
     return (
         <LightTooltip title="Introduction" placement="right">
             <ToggleButton
-                onClick={() => setDisplayIntroduce(true)}
+                onClick={() => setDisplayIntroduction(true)}
                 aria-label="introduce"
                 size="large"
                 sx={{
