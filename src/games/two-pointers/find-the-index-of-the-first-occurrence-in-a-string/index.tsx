@@ -4,16 +4,16 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../../dp/_commons/theme';
 import { AlgoContextProvider, useAlgoContext } from "./AlgoContext";
 import Toolbox from "./toolbox";
-import Play from './game';
+import Game from './game';
 import Introduction from './introduction';
 
-const Game = () => {
+const Components = () => {
     const { displayIntroduction } = useAlgoContext();
     return (
         <>
             {displayIntroduction && <Introduction />}
             {!displayIntroduction && <Toolbox />}
-            {!displayIntroduction && <Play />}
+            {!displayIntroduction && <Game />}
         </>
     );
 }
@@ -22,7 +22,7 @@ const Main = () => (
     <GameWrapper path={info.path}>
         <ThemeProvider theme={theme}>
             <AlgoContextProvider>
-                <Game />
+                <Components />
             </AlgoContextProvider>
         </ThemeProvider>
     </GameWrapper>

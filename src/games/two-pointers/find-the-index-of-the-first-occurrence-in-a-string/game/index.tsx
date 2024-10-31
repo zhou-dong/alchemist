@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { title } from "../introduction/Title";
-import { IconButton, Paper, Stack, Toolbar, Typography } from '@mui/material';
+import { Container, IconButton, Paper, Stack, styled, Toolbar, Typography } from '@mui/material';
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "../init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "../update";
 import { errorStyle, helperStyle } from "../../../dp/_commons/styles";
@@ -34,7 +34,7 @@ const Header = () => {
     const { setDisplayGame } = useAlgoContext();
 
     return (
-        <Toolbar variant='dense' sx={{ display: "flex" }}>
+        <Toolbar variant='dense' sx={{ display: "flex", }}>
             <IconButton color='info'>
                 <DragIndicatorIcon fontSize='medium' />
             </IconButton>
@@ -46,9 +46,16 @@ const Header = () => {
     );
 };
 
+const Location = styled(Container)(({ theme }) => (({
+    position: "fixed",
+    top: '50%',
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+})));
+
 const Main = () => {
 
-    const { displayCode, displayOverview, displayGame } = useAlgoContext();
+    const { displayGame } = useAlgoContext();
 
     const [success, setSuccess] = React.useState(false);
     const [currentPoint, setCurrentPoint] = React.useState(startPoint);
@@ -125,7 +132,6 @@ const Main = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                // height: "100vh",
             }}
         >
             <Typography
@@ -136,7 +142,7 @@ const Main = () => {
                     fontWeight: 300,
                 }}
             >
-                {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title} <DragIndicatorIcon color="info" />
+                {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
             </Typography>
 
             <Table
@@ -155,12 +161,27 @@ const Main = () => {
     );
 
     return (
-        <Draggable>
-            <Paper>
-                {displayGame && <Header />}
-                {displayGame && <Body />}
-            </Paper>
-        </Draggable>
+        <>
+            {displayGame &&
+                <Location>
+                    <Container maxWidth="lg">
+                        <Draggable>
+                            <Paper
+                                elevation={4}
+                                sx={{
+                                    padding: "5%",
+                                    paddingBottom: "10%",
+                                    borderRadius: " 15px",
+                                }}
+                            >
+                                <Header />
+                                <Body />
+                            </Paper>
+                        </Draggable>
+                    </Container>
+                </Location>
+            }
+        </>
     );
 }
 
