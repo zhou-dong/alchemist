@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { title } from "../introduction/Title";
 import { Container, IconButton, Paper, Stack, styled, Toolbar, Typography } from '@mui/material';
-import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "../init";
-import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "../update";
+import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
+import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
 import { errorStyle, helperStyle } from "../../../dp/_commons/styles";
 import Table from '../../../dp/_components/Table';
 import Buttons from '../../../dp/_components/Buttons';

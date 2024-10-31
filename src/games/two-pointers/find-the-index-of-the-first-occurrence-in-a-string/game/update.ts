@@ -1,4 +1,4 @@
-import { Point } from "../../dp/_commons/point";
+import { Point } from "../../../dp/_commons/point";
 
 const isMatch = ({ row, col }: Point, r: number, c: number) => (row === r && col === c);
 

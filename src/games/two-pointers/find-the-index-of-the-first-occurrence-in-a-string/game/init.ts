@@ -1,6 +1,6 @@
 import createDPTable from './algo';
-import { Point } from "../../dp/_commons/point";
-import { helperStyle } from '../../dp/_commons/styles';
+import { Point } from "../../../dp/_commons/point";
+import { helperStyle } from '../../../dp/_commons/styles';
 
 const addHelperStyles = (styles: React.CSSProperties[][], point: Point): void => {
     for (let col = 0; col < styles[0].length && col <= point.col; col++) {
