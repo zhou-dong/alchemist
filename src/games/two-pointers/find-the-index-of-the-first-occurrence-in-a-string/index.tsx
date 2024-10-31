@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../../dp/_commons/theme';
 import { AlgoContextProvider, useAlgoContext } from "./AlgoContext";
 import Introduction from "./Introduction";
-import Play from './Play';
+import Play from './game/Play';
 import Introduce from './introduce';
 
 const Game = () => {

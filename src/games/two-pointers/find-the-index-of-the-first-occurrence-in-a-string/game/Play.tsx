@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { title } from "./introduce/Title";
+import { title } from "../introduce/Title";
 import { Container, Divider, IconButton, Paper, Stack, Toolbar, Typography } from '@mui/material';
-import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
-import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "./update";
-import { errorStyle, helperStyle } from "../../dp/_commons/styles";
-import Table from '../../dp/_components/Table';
-import Buttons from '../../dp/_components/Buttons';
+import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "../init";
+import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "../update";
+import { errorStyle, helperStyle } from "../../../dp/_commons/styles";
+import Table from '../../../dp/_components/Table';
+import Buttons from '../../../dp/_components/Buttons';
 import { CheckCircleOutline } from '@mui/icons-material';
-import Introduction from './Introduction';
-import { useAlgoContext } from './AlgoContext';
-import Code from './Code';
-import { contents, DisplayContents } from './introduce/Contents';
+import Introduction from '../Introduction';
+import { useAlgoContext } from '../AlgoContext';
+import Code from '../Code';
+import { contents, DisplayContents } from '../introduce/Contents';
 import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import CloseIcon from '@mui/icons-material/Close';
@@ -33,7 +33,6 @@ const Intro = () => {
                 <Paper
                     elevation={4}
                     style={{
-                        top: '33%',
                         padding: "15px",
                         borderRadius: '15px',
                     }}
