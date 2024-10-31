@@ -2,9 +2,10 @@ import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import Draggable from 'react-draggable';
-import CodeBlock, { languages } from '../../dp/_components/CodeBlock';
+import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
-import { useAlgoContext } from './AlgoContext';
+import CloseIcon from '@mui/icons-material/Close';
+import { useAlgoContext } from '../AlgoContext';
 
 const formula = `function strStr(haystack: string, needle: string): number {
 
@@ -23,16 +24,23 @@ const formula = `function strStr(haystack: string, needle: string): number {
 };`;
 
 const Head = () => {
+    const { setDisplayCode } = useAlgoContext();
+
     return (
         <Toolbar variant='dense' sx={{ display: "flex" }}>
-            <IconButton disabled>
-                <EmojiObjectsOutlinedIcon />
-            </IconButton>
-            <Stack sx={{ flexGrow: 1, alignItems: "center" }} spacing={2} direction="row">
-                <Typography>Solution</Typography>
-            </Stack>
             <IconButton color='info'>
                 <DragIndicatorIcon fontSize='medium' />
+            </IconButton>
+
+            <Stack sx={{ flexGrow: 1, alignItems: "center", justifyContent: "center" }} spacing={0} direction="row">
+                <IconButton disabled>
+                    <EmojiObjectsOutlinedIcon />
+                </IconButton>
+                <Typography>Solution (Typescript)</Typography>
+            </Stack>
+
+            <IconButton onClick={() => setDisplayCode(false)}>
+                <CloseIcon fontSize='medium' color='warning' />
             </IconButton>
         </Toolbar>
     );
@@ -55,12 +63,16 @@ const Body = () => {
     );
 }
 
-const MainPosition = styled("div")({
-    position: 'fixed', bottom: 200, right: 60
+const Location = styled("div")({
+    position: 'fixed',
+    top: '50%',
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    zIndex: 1,
 });
 
 const Main = () => (
-    <MainPosition>
+    <Location>
         <Draggable>
             <Paper elevation={8} sx={{ cursor: 'pointer' }}>
                 <Stack spacing={0}>
@@ -70,7 +82,7 @@ const Main = () => (
                 </Stack>
             </Paper>
         </Draggable>
-    </MainPosition >
+    </Location >
 );
 
 export default Main;

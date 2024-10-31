@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { title } from "../introduce/Title";
-import { Container, Divider, IconButton, Paper, Stack, Toolbar, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "../init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "../update";
 import { errorStyle, helperStyle } from "../../../dp/_commons/styles";
@@ -9,53 +9,9 @@ import Buttons from '../../../dp/_components/Buttons';
 import { CheckCircleOutline } from '@mui/icons-material';
 import Introduction from '../Introduction';
 import { useAlgoContext } from '../AlgoContext';
-import Code from '../Code';
-import { contents, DisplayContents } from '../introduce/Contents';
-import Draggable from 'react-draggable';
+import Code from '../toolbox/CodeSolution';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import CloseIcon from '@mui/icons-material/Close';
-
-const Intro = () => {
-    const { setDisplayContents } = useAlgoContext();
-
-    return (
-        <Container
-            maxWidth="lg"
-            sx={{
-                position: "fixed",
-                top: '50%',
-                left: "50%",
-                transform: "translate(-50%,-50%)",
-                zIndex: 1,
-            }}
-        >
-            <Draggable>
-                <Paper
-                    elevation={4}
-                    style={{
-                        padding: "15px",
-                        borderRadius: '15px',
-                    }}
-                >
-                    <Toolbar variant='dense' sx={{ display: "flex" }}>
-                        <IconButton color='info'>
-                            <DragIndicatorIcon fontSize='medium' />
-                        </IconButton>
-                        <div style={{ flexGrow: 1 }}>
-                        </div>
-                        <IconButton onClick={() => setDisplayContents(false)}>
-                            <CloseIcon fontSize='medium' color='warning' />
-                        </IconButton>
-                    </Toolbar>
-
-                    <Divider variant='middle' />
-
-                    <DisplayContents contentIndex={contents.length - 1} contents={contents} />
-                </Paper>
-            </Draggable>
-        </Container>
-    );
-};
+import Overview from '../toolbox/Overview';
 
 const bases = 'ACGT';
 const random = (max: number) => Math.floor(Math.random() * max);
@@ -148,7 +104,7 @@ const Main = () => {
 
     return (
         <>
-            {displayContents && <Intro />}
+            {displayContents && <Overview />}
             <Introduction />
             <Stack
                 direction="column"
