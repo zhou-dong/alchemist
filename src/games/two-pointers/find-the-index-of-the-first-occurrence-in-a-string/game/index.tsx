@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { title } from "../introduction/Title";
-import { Stack, Typography } from '@mui/material';
+import { IconButton, Paper, Stack, Toolbar, Typography } from '@mui/material';
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "../init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "../update";
 import { errorStyle, helperStyle } from "../../../dp/_commons/styles";
@@ -9,6 +9,8 @@ import Buttons from '../../../dp/_components/Buttons';
 import { CheckCircleOutline } from '@mui/icons-material';
 import { useAlgoContext } from '../AlgoContext';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import Draggable from 'react-draggable';
+import CloseIcon from '@mui/icons-material/Close';
 
 const bases = 'ACGT';
 const random = (max: number) => Math.floor(Math.random() * max);
@@ -28,9 +30,25 @@ const buildData = () => {
     return { buttons, buttonsStyles, table, tableStyles, comparedTable };
 }
 
+const Header = () => {
+    const { setDisplayGame } = useAlgoContext();
+
+    return (
+        <Toolbar variant='dense' sx={{ display: "flex" }}>
+            <IconButton color='info'>
+                <DragIndicatorIcon fontSize='medium' />
+            </IconButton>
+            <div style={{ flexGrow: 1 }} />
+            <IconButton onClick={() => setDisplayGame(false)}>
+                <CloseIcon fontSize='medium' color='warning' />
+            </IconButton>
+        </Toolbar>
+    );
+};
+
 const Main = () => {
 
-    const { displayCode, displayOverview } = useAlgoContext();
+    const { displayCode, displayOverview, displayGame } = useAlgoContext();
 
     const [success, setSuccess] = React.useState(false);
     const [currentPoint, setCurrentPoint] = React.useState(startPoint);
@@ -99,43 +117,50 @@ const Main = () => {
         setCurrentPoint(nextPoint);
     }
 
-    return (
-        <>
-            <Stack
-                direction="column"
-                spacing={5}
+    const Body = () => (
+        <Stack
+            direction="column"
+            spacing={5}
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // height: "100vh",
+            }}
+        >
+            <Typography
+                variant='h5'
+                display="inline-flex"
                 sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
+                    verticalAlign: 'middle',
+                    fontWeight: 300,
                 }}
             >
-                <Typography
-                    variant='h5'
-                    display="inline-flex"
-                    sx={{
-                        verticalAlign: 'middle',
-                        fontWeight: 300,
-                    }}
-                >
-                    {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title} <DragIndicatorIcon color="info" />
-                </Typography>
+                {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title} <DragIndicatorIcon color="info" />
+            </Typography>
 
-                <Table
-                    table={table}
-                    tableStyles={tableStyles}
-                />
+            <Table
+                table={table}
+                tableStyles={tableStyles}
+            />
 
-                <Buttons
-                    buttons={buttons}
-                    buttonsStyles={buttonsStyles}
-                    handleButtonClick={function (data: number | string | boolean) {
-                        handleClick(Number(data))
-                    }}
-                />
-            </Stack>
-        </>
+            <Buttons
+                buttons={buttons}
+                buttonsStyles={buttonsStyles}
+                handleButtonClick={function (data: number | string | boolean) {
+                    handleClick(Number(data))
+                }}
+            />
+        </Stack>
+    );
+
+    return (
+        <Draggable>
+            <Paper>
+                {displayGame && <Header />}
+                {displayGame && <Body />}
+            </Paper>
+        </Draggable>
     );
 }
 
