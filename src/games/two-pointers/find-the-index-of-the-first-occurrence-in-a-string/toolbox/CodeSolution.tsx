@@ -68,12 +68,13 @@ const Location = styled("div")({
     top: '50%',
     left: "50%",
     transform: "translate(-50%,-50%)",
+    zIndex: 2,
 });
 
 const Main = () => (
     <Location>
         <Draggable>
-            <Paper elevation={8} sx={{ cursor: 'pointer' }}>
+            <Paper elevation={8} sx={{ cursor: 'pointer', }}>
                 <Stack spacing={0}>
                     <Head />
                     <Divider variant='middle' />
