@@ -5,7 +5,7 @@ import Welcome from "./Welcome";
 import { contents, DisplayContents } from './Contents';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
 
@@ -86,7 +86,7 @@ const Main = () => {
                 <Navigator
                     onClick={() => setDisplayIntroduction(false)}
                 >
-                    <RocketLaunchIcon />
+                    <SportsEsportsOutlinedIcon />
                 </Navigator>
             </Stack>
         </Container>

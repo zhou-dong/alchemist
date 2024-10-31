@@ -11,6 +11,8 @@ import { useAlgoContext } from '../AlgoContext';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Draggable from 'react-draggable';
 import CloseIcon from '@mui/icons-material/Close';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const bases = 'ACGT';
 const random = (max: number) => Math.floor(Math.random() * max);
@@ -30,13 +32,16 @@ const buildData = () => {
     return { buttons, buttonsStyles, table, tableStyles, comparedTable };
 }
 
-const Header = () => {
+const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAction<boolean>> }> = ({ lock, setLock }) => {
     const { setDisplayGame } = useAlgoContext();
 
     return (
-        <Toolbar variant='dense' sx={{ display: "flex", }}>
-            <IconButton color='info'>
+        <Toolbar variant='dense' sx={{ display: "flex" }}>
+            <IconButton color='info' disabled={lock}>
                 <DragIndicatorIcon fontSize='medium' />
+            </IconButton>
+            <IconButton onClick={() => setLock(open => !open)}>
+                {lock ? <LockOutlinedIcon /> : <LockOpenOutlinedIcon />}
             </IconButton>
             <div style={{ flexGrow: 1 }} />
             <IconButton onClick={() => setDisplayGame(false)}>
@@ -160,21 +165,23 @@ const Main = () => {
         </Stack>
     );
 
+    const [lock, setLock] = React.useState(false);
+
     return (
         <>
             {displayGame &&
                 <Location>
                     <Container maxWidth="lg">
-                        <Draggable>
+                        <Draggable disabled={lock}>
                             <Paper
                                 elevation={4}
                                 sx={{
-                                    padding: "5%",
+                                    padding: "10px 0",
                                     paddingBottom: "10%",
                                     borderRadius: " 15px",
                                 }}
                             >
-                                <Header />
+                                <Header lock={lock} setLock={setLock} />
                                 <Body />
                             </Paper>
                         </Draggable>

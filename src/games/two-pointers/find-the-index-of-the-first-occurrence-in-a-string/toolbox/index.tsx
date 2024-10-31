@@ -160,13 +160,17 @@ const BackToWelcome = () => {
                 size="large"
                 sx={{
                     borderRadius: "50%",
-                    backgroundColor: theme.palette.primary.main,
+                    '&:hover': {
+                        backgroundColor: theme.palette.primary.main,
+                        borderColor: theme.palette.primary.main,
+                        color: theme.palette.info.contrastText,
+                    },
                     borderColor: theme.palette.primary.main,
-                    color: theme.palette.info.contrastText,
+                    color: theme.palette.primary.main,
                 }}
                 value="Introduction"
             >
-                <KeyboardBackspaceIcon fontSize="medium" sx={{ color: "#fff" }} />
+                <KeyboardBackspaceIcon fontSize="medium" />
             </ToggleButton>
         </LightTooltip>
     );

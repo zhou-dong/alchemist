@@ -48,9 +48,14 @@ export const contents: Content[] = [
         icon: <DescriptionIcon />,
         title: 'Problem Statement',
         content: (
-            <Typography>
-                This algorithm searches for the first occurrence of a substring (needle) within a larger string (haystack) and returns its index. If the substring is not found, it returns -1.
-            </Typography>
+            <>
+                <Typography>
+                    This algorithm searches for the first occurrence of a substring (needle) within a larger string (haystack) and returns its index. If the substring is not found, it returns -1.
+                </Typography>
+                <Typography>
+                    This process can be likened to 'finding a needle in a haystack' (大海捞针 in Chinese).
+                </Typography>
+            </>
         ),
     },
     {
@@ -145,6 +150,7 @@ export const DisplayContents = ({ contentIndex, contents }: Props) => (
     <Box>
         {contents.map((content, index) => (
             <DisplayContent
+                key={index}
                 index={index}
                 isVisible={contentIndex >= index}
                 statement={content}
