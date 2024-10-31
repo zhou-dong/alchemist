@@ -23,8 +23,10 @@ const AlgoContext = React.createContext<{
     setNextNext: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
     displayIntroduce: boolean,
     setDisplayIntroduce: React.Dispatch<React.SetStateAction<boolean>>,
-    displayContents: boolean,
-    setDisplayContents: React.Dispatch<React.SetStateAction<boolean>>,
+    displayOverview: boolean,
+    setDisplayOverview: React.Dispatch<React.SetStateAction<boolean>>,
+    displayGame: boolean,
+    setDisplayGame: React.Dispatch<React.SetStateAction<boolean>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -40,16 +42,21 @@ const AlgoContext = React.createContext<{
     setNextNext: () => { },
     displayIntroduce: true,
     setDisplayIntroduce: () => { },
-    displayContents: false,
-    setDisplayContents: () => { },
+    displayOverview: false,
+    setDisplayOverview: () => { },
+    displayGame: true,
+    setDisplayGame: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [state, setState] = React.useState(State.Typing);
     const [index, setIndex] = React.useState(0);
+
+    const [displayIntroduce, setDisplayIntroduce] = React.useState(true);
     const [displayCode, setDisplayCode] = React.useState(false);
-    const [displayContents, setDisplayContents] = React.useState(false);
+    const [displayOverview, setDisplayOverview] = React.useState(false);
+    const [displayGame, setDisplayGame] = React.useState(true);
 
     const [head, setHead] = React.useState<LinkedListNode<number | string>>();
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
@@ -57,8 +64,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [temp, setTemp] = React.useState<LinkedListNode<number | string>>();
     const [prev, setPrev] = React.useState<LinkedListNode<number | string>>();
     const [nextNext, setNextNext] = React.useState<LinkedListNode<number | string>>();
-
-    const [displayIntroduce, setDisplayIntroduce] = React.useState(true);
 
     return (
         <AlgoContext.Provider value={{
@@ -82,8 +87,10 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setNextNext,
             displayIntroduce,
             setDisplayIntroduce,
-            displayContents,
-            setDisplayContents,
+            displayOverview,
+            setDisplayOverview,
+            displayGame,
+            setDisplayGame,
         }}>
             {children}
         </AlgoContext.Provider>

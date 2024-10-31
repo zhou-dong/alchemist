@@ -7,7 +7,6 @@ import { errorStyle, helperStyle } from "../../../dp/_commons/styles";
 import Table from '../../../dp/_components/Table';
 import Buttons from '../../../dp/_components/Buttons';
 import { CheckCircleOutline } from '@mui/icons-material';
-import Introduction from '../Introduction';
 import { useAlgoContext } from '../AlgoContext';
 import Code from '../toolbox/CodeSolution';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
@@ -33,7 +32,7 @@ const buildData = () => {
 
 const Main = () => {
 
-    const { displayCode, displayContents } = useAlgoContext();
+    const { displayCode, displayOverview } = useAlgoContext();
 
     const [success, setSuccess] = React.useState(false);
     const [currentPoint, setCurrentPoint] = React.useState(startPoint);
@@ -104,8 +103,6 @@ const Main = () => {
 
     return (
         <>
-            {displayContents && <Overview />}
-            <Introduction />
             <Stack
                 direction="column"
                 spacing={5}
@@ -140,8 +137,6 @@ const Main = () => {
                     }}
                 />
             </Stack>
-
-            {displayCode && <Code />}
         </>
     );
 }

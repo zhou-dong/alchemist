@@ -3,7 +3,7 @@ import info from "./info";
 import { ThemeProvider } from '@mui/material';
 import theme from '../../dp/_commons/theme';
 import { AlgoContextProvider, useAlgoContext } from "./AlgoContext";
-import Introduction from "./Introduction";
+import Toolbox from "./toolbox";
 import Play from './game/Play';
 import Introduce from './introduce';
 
@@ -12,7 +12,7 @@ const Game = () => {
     return (
         <>
             {displayIntroduce && <Introduce />}
-            {!displayIntroduce && <Introduction />}
+            {!displayIntroduce && <Toolbox />}
             {!displayIntroduce && <Play />}
         </>
     );

@@ -19,7 +19,7 @@ const Location = styled(Container)(({ theme }) => (({
 })));
 
 const Header = () => {
-    const { setDisplayContents } = useAlgoContext();
+    const { setDisplayOverview } = useAlgoContext();
 
     return (
         <Toolbar variant='dense' sx={{ display: "flex" }}>
@@ -27,7 +27,7 @@ const Header = () => {
                 <DragIndicatorIcon fontSize='medium' />
             </IconButton>
             <div style={{ flexGrow: 1 }} />
-            <IconButton onClick={() => setDisplayContents(false)}>
+            <IconButton onClick={() => setDisplayOverview(false)}>
                 <CloseIcon fontSize='medium' color='warning' />
             </IconButton>
         </Toolbar>

@@ -4,12 +4,14 @@ import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import AlgoInput from "./AlgoInput";
-import LightTooltip from '../../../commons/LightTooltip';
+import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
-import { useAlgoContext } from './AlgoContext';
+import { useAlgoContext } from '../AlgoContext';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import Overview from './Overview';
+import CodeSolution from './CodeSolution';
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
@@ -63,10 +65,10 @@ const Code = () => {
 };
 
 const Instruction = () => {
-    const { displayContents, setDisplayContents } = useAlgoContext();
+    const { displayOverview, setDisplayOverview } = useAlgoContext();
 
     const handleToggle = () => {
-        setDisplayContents(isOpen => !isOpen);
+        setDisplayOverview(isOpen => !isOpen);
     }
 
     return (
@@ -76,7 +78,7 @@ const Instruction = () => {
                 aria-label="Instruction"
                 size="large"
                 value="Instruction"
-                selected={displayContents}
+                selected={displayOverview}
             >
                 <DescriptionOutlinedIcon fontSize="medium" />
             </StyledButton>
@@ -95,10 +97,6 @@ const Input = () => {
     }
 
     const reference = React.useRef(null);
-
-    // React.useEffect(() => {
-    //     setAnchorEl(reference.current);
-    // }, [reference])
 
     return (
         <>
@@ -128,42 +126,74 @@ const Input = () => {
     )
 }
 
-const Main = () => {
+const Game = () => {
+    const { displayGame, setDisplayGame } = useAlgoContext();
+
+    const handleToggle = () => {
+        setDisplayGame(isOpen => !isOpen);
+    }
+
+    return (
+        <LightTooltip title="Game" placement="right">
+            <StyledButton
+                onChange={handleToggle}
+                aria-label="game"
+                size="large"
+                value="Game"
+                selected={displayGame}
+            >
+                <SportsEsportsOutlinedIcon fontSize="medium" />
+            </StyledButton>
+        </LightTooltip>
+    );
+};
+
+const BackToWelcome = () => {
     const { setDisplayIntroduce } = useAlgoContext();
     const theme = useTheme();
-    return (
-        <MuiStack spacing={2} sx={{ position: 'fixed', top: 112, left: 40, zIndex: 1 }}>
-            <Input />
-            <Instruction />
-            <Code />
-            <LightTooltip title="Introduction" placement="right">
-                <ToggleButton
-                    onClick={() => setDisplayIntroduce(true)}
-                    aria-label="introduce"
-                    size="large"
-                    sx={{
-                        borderRadius: "50%",
-                        backgroundColor: theme.palette.primary.main,
-                        borderColor: theme.palette.primary.main,
-                        color: theme.palette.info.contrastText,
-                    }}
-                    value="Introduction"
-                >
-                    <KeyboardBackspaceIcon fontSize="medium" sx={{ color: "#fff" }} />
-                </ToggleButton>
-            </LightTooltip>
 
-            <LightTooltip title="Game" placement="right">
-                <StyledButton
-                    onClick={() => setDisplayIntroduce(true)}
-                    aria-label="game"
-                    size="large"
-                    value="Game"
-                >
-                    <SportsEsportsOutlinedIcon fontSize="medium" />
-                </StyledButton>
-            </LightTooltip>
-        </MuiStack>
+    return (
+        <LightTooltip title="Introduction" placement="right">
+            <ToggleButton
+                onClick={() => setDisplayIntroduce(true)}
+                aria-label="introduce"
+                size="large"
+                sx={{
+                    borderRadius: "50%",
+                    backgroundColor: theme.palette.primary.main,
+                    borderColor: theme.palette.primary.main,
+                    color: theme.palette.info.contrastText,
+                }}
+                value="Introduction"
+            >
+                <KeyboardBackspaceIcon fontSize="medium" sx={{ color: "#fff" }} />
+            </ToggleButton>
+        </LightTooltip>
+    );
+};
+
+const Main = () => {
+    const { displayCode, displayOverview } = useAlgoContext();
+
+    return (
+        <>
+            {displayOverview && <Overview />}
+            {displayCode && <CodeSolution />}
+            <MuiStack spacing={2}
+                sx={{
+                    position: 'fixed',
+                    top: 112,
+                    left: 40,
+                    zIndex: 1
+                }}
+            >
+                <Input />
+                <Instruction />
+                <Code />
+                <Game />
+                <BackToWelcome />
+            </MuiStack>
+        </>
     );
 };
 

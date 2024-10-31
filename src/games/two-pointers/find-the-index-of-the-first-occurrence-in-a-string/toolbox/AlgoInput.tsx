@@ -5,13 +5,13 @@ import Paper from '@mui/material/Paper';
 import { Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearIcon from '@mui/icons-material/Clear';
-import { useAlgoContext } from "./AlgoContext";
-import { State } from './AlgoState';
-import { clearScene } from "../../../commons/three";
+import { useAlgoContext } from "../AlgoContext";
+import { State } from '../AlgoState';
+import { clearScene } from "../../../../commons/three";
 import InputIcon from '@mui/icons-material/Input';
-import { SimpleLink } from '../../../data-structures/list/link.three';
-import Position from '../../../data-structures/_commons/params/position.interface';
-import { wait } from '../../../data-structures/_commons/utils';
+import { SimpleLink } from '../../../../data-structures/list/link.three';
+import Position from '../../../../data-structures/_commons/params/position.interface';
+import { wait } from '../../../../data-structures/_commons/utils';
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
