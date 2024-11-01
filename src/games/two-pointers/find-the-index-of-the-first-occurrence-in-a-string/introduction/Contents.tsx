@@ -2,10 +2,10 @@ import { Typography, Paper, Grid, Avatar } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import BuildIcon from '@mui/icons-material/Build';
-import GridViewIcon from '@mui/icons-material/GridView';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { Box, styled } from '@mui/system';
 import { green } from '@mui/material/colors';
+import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
 
 const CodeContainer = styled(Paper)({
     borderLeft: "4px solid grey",
@@ -84,7 +84,7 @@ export const contents: Content[] = [
         ),
     },
     {
-        icon: <GridViewIcon />,
+        icon: <VideoCameraBackIcon />,
         title: 'Visualization',
         content: (
             <Typography>
