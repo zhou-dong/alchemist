@@ -27,6 +27,8 @@ const AlgoContext = React.createContext<{
     setDisplayOverview: React.Dispatch<React.SetStateAction<boolean>>,
     displayGame: boolean,
     setDisplayGame: React.Dispatch<React.SetStateAction<boolean>>,
+    displayInput: boolean,
+    setDisplayInput: React.Dispatch<React.SetStateAction<boolean>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -46,6 +48,8 @@ const AlgoContext = React.createContext<{
     setDisplayOverview: () => { },
     displayGame: true,
     setDisplayGame: () => { },
+    displayInput: false,
+    setDisplayInput: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -57,6 +61,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [displayCode, setDisplayCode] = React.useState(false);
     const [displayOverview, setDisplayOverview] = React.useState(false);
     const [displayGame, setDisplayGame] = React.useState(true);
+    const [displayInput, setDisplayInput] = React.useState(false);
 
     const [head, setHead] = React.useState<LinkedListNode<number | string>>();
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
@@ -91,6 +96,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setDisplayOverview,
             displayGame,
             setDisplayGame,
+            displayInput,
+            setDisplayInput,
         }}>
             {children}
         </AlgoContext.Provider>
