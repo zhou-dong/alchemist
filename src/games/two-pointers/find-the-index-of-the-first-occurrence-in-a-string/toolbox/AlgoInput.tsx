@@ -2,7 +2,7 @@ import * as React from 'react';
 import OutputIcon from '@mui/icons-material/Output';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
-import { Divider, InputBase } from '@mui/material';
+import { Container, Divider, InputBase } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "../AlgoContext";
@@ -12,6 +12,7 @@ import InputIcon from '@mui/icons-material/Input';
 import { SimpleLink } from '../../../../data-structures/list/link.three';
 import Position from '../../../../data-structures/_commons/params/position.interface';
 import { wait } from '../../../../data-structures/_commons/utils';
+import styled from '@emotion/styled';
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;
@@ -41,8 +42,8 @@ interface Props {
 const Submit: React.FC<{
     list: string,
     pos: string,
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
-}> = ({ list, pos, setAnchorEl }) => {
+    // setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>
+}> = ({ list, pos, }) => {
 
     const disabled = !pos || !list || !list.length;
     const array: number[] = list.split(",").map(num => +num);
@@ -51,7 +52,7 @@ const Submit: React.FC<{
 
     const handleSubmit = async () => {
         setState(State.Typing);
-        setAnchorEl(null);
+        // setAnchorEl(null);
 
         setIndex(0);
 
@@ -70,7 +71,14 @@ const random = (max: number): number => {
     return Math.floor(Math.random() * max) + 1;
 }
 
-const Main = ({ setAnchorEl }: Props) => {
+const Location = styled(Container)(({ theme }) => (({
+    position: "fixed",
+    top: '50%',
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+})));
+
+const Main = () => {
 
     const maxLength = 11;
     const [list, setList] = React.useState(() => buildRandomList(maxLength).join(","));
@@ -138,7 +146,9 @@ const Main = ({ setAnchorEl }: Props) => {
                 <ClearIcon />
             </IconButton>
 
-            <Submit list={list} pos={pos} setAnchorEl={setAnchorEl} />
+            <Submit list={list} pos={pos}
+            // setAnchorEl={setAnchorEl} 
+            />
         </Paper>
     );
 }
