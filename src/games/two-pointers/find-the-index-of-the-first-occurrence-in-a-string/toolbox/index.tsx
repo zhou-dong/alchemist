@@ -1,6 +1,5 @@
-import * as React from 'react';
 import MuiStack from '@mui/material/Stack';
-import { Popover, PopoverOrigin, ToggleButton } from '@mui/material';
+import { ToggleButton } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import AlgoInput from "./AlgoInput";
@@ -27,20 +26,6 @@ const StyledButton = styled(ToggleButton)(({ theme }) => ({
     },
     zIndex: 10,
 }));
-
-const capitalize = (name: string): string => {
-    return name.charAt(0).toUpperCase() + name.slice(1);
-}
-
-const anchorOrigin: PopoverOrigin = {
-    vertical: 'center',
-    horizontal: 'right',
-};
-
-const transformOrigin: PopoverOrigin = {
-    vertical: 'center',
-    horizontal: 'left',
-};
 
 const Code = () => {
     const { displayCode, setDisplayCode } = useAlgoContext();
@@ -87,43 +72,25 @@ const Instruction = () => {
 };
 
 const Input = () => {
+    const { displayInput, setDisplayInput } = useAlgoContext();
 
-    const name = "input";
-    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-    const open = Boolean(anchorEl);
-
-    const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
-        anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
+    const handleToggle = () => {
+        setDisplayInput(open => !open);
     }
 
-    const reference = React.useRef(null);
-
     return (
-        <>
-            <LightTooltip title={capitalize(name)} placement="right">
-                <StyledButton
-                    ref={reference}
-                    onChange={handleToggle}
-                    aria-label={name}
-                    size="large"
-                    sx={{ borderRadius: "50%" }}
-                    value={name}
-                    selected={open}
-                >
-                    <InputIcon fontSize="medium" />
-                </StyledButton>
-            </LightTooltip>
-            <Popover
-                open={open}
-                anchorEl={anchorEl}
-                onClose={() => setAnchorEl(null)}
-                anchorOrigin={anchorOrigin}
-                transformOrigin={transformOrigin}
+        <LightTooltip title="Input" placement="right">
+            <StyledButton
+                onChange={handleToggle}
+                aria-label="input"
+                size="large"
+                value="input"
+                selected={displayInput}
             >
-                <AlgoInput setAnchorEl={setAnchorEl} />
-            </Popover>
-        </>
-    )
+                <InputIcon fontSize="medium" />
+            </StyledButton>
+        </LightTooltip>
+    );
 }
 
 const Game = () => {
@@ -148,7 +115,7 @@ const Game = () => {
     );
 };
 
-const BackToWelcome = () => {
+const BackToOverview = () => {
     const { setDisplayIntroduction } = useAlgoContext();
     const theme = useTheme();
 
@@ -177,12 +144,13 @@ const BackToWelcome = () => {
 };
 
 const Main = () => {
-    const { displayCode, displayOverview } = useAlgoContext();
+    const { displayCode, displayOverview, displayInput } = useAlgoContext();
 
     return (
         <>
             {displayOverview && <Overview />}
             {displayCode && <CodeSolution />}
+            {displayInput && <AlgoInput />}
             <MuiStack spacing={2}
                 sx={{
                     position: 'fixed',
@@ -195,7 +163,7 @@ const Main = () => {
                 <Instruction />
                 <Code />
                 <Game />
-                <BackToWelcome />
+                <BackToOverview />
             </MuiStack>
         </>
     );
