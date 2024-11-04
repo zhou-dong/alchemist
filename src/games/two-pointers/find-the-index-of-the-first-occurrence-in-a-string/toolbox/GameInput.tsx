@@ -62,7 +62,7 @@ const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAc
 
 export default function Main() {
 
-    const { haystack, setHaystack, needle, setNeedle, setDisplayGame, setDisplayInput, setTable, setTableStyle } = useAlgoContext();
+    const { haystack, setHaystack, needle, setNeedle, setDisplayGame, setDisplayInput, setTable, setTableStyle, setIndex } = useAlgoContext();
 
     const [haystackError, setHaystackError] = React.useState(false);
     const [haystackErrorMessage, setHaystackErrorMessage] = React.useState('');
@@ -94,6 +94,7 @@ export default function Main() {
         const tableStyle = createTableStyle(haystack, needle);
         setTable(table);
         setTableStyle(tableStyle);
+        setIndex(0);
 
         handleClear();
         setDisplayInput(false);
