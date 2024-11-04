@@ -168,27 +168,23 @@ const Main = () => {
     const [lock, setLock] = React.useState(false);
 
     return (
-        <>
-            {displayGame &&
-                <Location>
-                    <Container maxWidth="lg">
-                        <Draggable disabled={lock}>
-                            <Paper
-                                elevation={4}
-                                sx={{
-                                    padding: "10px 0",
-                                    paddingBottom: "10%",
-                                    borderRadius: " 15px",
-                                }}
-                            >
-                                <Header lock={lock} setLock={setLock} />
-                                <Body />
-                            </Paper>
-                        </Draggable>
-                    </Container>
-                </Location>
-            }
-        </>
+        <Location>
+            <Container maxWidth="lg">
+                <Draggable disabled={lock}>
+                    <Paper
+                        elevation={4}
+                        sx={{
+                            padding: "10px 0",
+                            paddingBottom: "10%",
+                            borderRadius: " 15px",
+                        }}
+                    >
+                        <Header lock={lock} setLock={setLock} />
+                        <Body />
+                    </Paper>
+                </Draggable>
+            </Container>
+        </Location>
     );
 }
 
