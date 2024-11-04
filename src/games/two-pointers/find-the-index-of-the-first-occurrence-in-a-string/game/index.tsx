@@ -2,7 +2,7 @@ import * as React from 'react';
 import { title } from "../introduction/Title";
 import { Container, IconButton, Paper, Stack, styled, Toolbar, Typography, useTheme } from '@mui/material';
 import Table from '../../../dp/_components/Table';
-import { CheckCircleOutline } from '@mui/icons-material';
+import CheckIcon from '@mui/icons-material/Check';
 import { useAlgoContext } from '../AlgoContext';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Draggable from 'react-draggable';
@@ -10,6 +10,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MouseIcon from '@mui/icons-material/Mouse';
+import { createHelperStyle } from './algo';
+import { State } from '../AlgoState';
 
 const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAction<boolean>> }> = ({ lock, setLock }) => {
     const { setDisplayGame } = useAlgoContext();
@@ -40,24 +42,28 @@ const Location = styled(Container)(({ theme }) => (({
 const Main = () => {
 
     const theme = useTheme();
-    const { table, setTable, tableStyle, steps, setSteps, index, setIndex } = useAlgoContext();
-
+    const { table, setTable, tableStyle, steps, index, setIndex, setTableStyle, haystack, needle, state, setState } = useAlgoContext();
 
     const [lock, setLock] = React.useState(false);
-    const [success, setSuccess] = React.useState(false);
 
     const handleClick = () => {
-        if (success) {
+        if (state === State.Finished) {
             return;
         }
-
-        console.log(index, steps);
-
         const step = steps[index];
-        const { row, col } = step;
+        const { row, col, action } = step;
         table[row + 2][col + 2] = "-";
         setTable(table);
+
+        const style = createHelperStyle(haystack, needle, step);
+        setTableStyle(style);
+
+        if (index === steps.length - 1) {
+            setState(State.Finished);
+        }
+
         setIndex(index + 1);
+
     }
 
     const Body = () => (
@@ -78,7 +84,7 @@ const Main = () => {
                     fontWeight: 300,
                 }}
             >
-                {success && <CheckCircleOutline sx={{ color: 'green' }} />}{title}
+                {title}
             </Typography>
 
             <Table
@@ -86,27 +92,31 @@ const Main = () => {
                 tableStyles={tableStyle}
             />
 
-            <IconButton onClick={handleClick} size='large' color='primary'
-
+            <IconButton
+                disabled={state !== State.Playing}
+                onClick={handleClick}
+                size='large'
+                color='primary'
                 sx={{
                     width: "50px",
                     height: "50px",
                     backgroundColor: theme.palette.primary.light,
-                    borderColor: theme.palette.primary.light,
                     color: "#fff",
                     '&:hover': {
                         backgroundColor: theme.palette.primary.main,
-                        borderColor: theme.palette.primary.main,
                         color: "#fff",
                     },
                     '&&.Mui-selected': {
                         backgroundColor: theme.palette.primary.dark,
-                        borderColor: theme.palette.primary.dark,
+                        color: "#fff",
+                    },
+                    '&&.Mui-disabled': {
+                        backgroundColor: "lightgray",
                         color: "#fff",
                     },
                 }}
             >
-                <MouseIcon />
+                {state === State.Finished ? <CheckIcon sx={{ color: 'green' }} /> : <MouseIcon />}
             </IconButton>
         </Stack>
     );

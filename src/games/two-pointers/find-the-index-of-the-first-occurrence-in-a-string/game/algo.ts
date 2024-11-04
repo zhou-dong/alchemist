@@ -1,11 +1,8 @@
-import helperColor from '@mui/material/colors/green';
-import helperColorSecondary from '@mui/material/colors/blue';
-import helperColorThird from '@mui/material/colors/yellow';
+import helperColor from '@mui/material/colors/blue';
+import helperColor2 from '@mui/material/colors/green';
 
-export const helperStyle: React.CSSProperties = { backgroundColor: helperColor[300] };
-export const helperStyleSecondary: React.CSSProperties = { backgroundColor: helperColorSecondary[100] };
-export const helperStyleThird: React.CSSProperties = { backgroundColor: helperColorThird[200] };
-export const errorStyle: React.CSSProperties = { background: "red" }
+const helperStyle: React.CSSProperties = { backgroundColor: helperColor[400], color: "#fff" };
+const helperStyle2: React.CSSProperties = { backgroundColor: helperColor2[400], color: "#fff" };
 
 export enum Action {
     Break,
@@ -83,20 +80,19 @@ export const createTable = (haystack: string, needle: string): (number | string)
     return table;
 };
 
-export const createTableStyle = (haystack: string, needle: string): (React.CSSProperties)[][] => {
+export const createTableStyle = (haystack: string, needle: string): React.CSSProperties[][] => {
     const rows = needle.length + 2;
     const cols = haystack.length + 2;
     const table = new Array(rows).fill(0).map(() => new Array(cols).fill({}));
-    // addHelperStyles(table, startPoint);
     return table;
 };
 
-export const addHelperStyles = (styles: React.CSSProperties[][], point: Location): void => {
-    for (let col = 0; col < styles[0].length && col <= point.col; col++) {
-        styles[0][col] = helperStyle;
+export const createHelperStyle = (haystack: string, needle: string, { row, col }: Location): React.CSSProperties[][] => {
+    const style: React.CSSProperties[][] = createTableStyle(haystack, needle);
+    for (let c = col, r = 2; c <= row + col; c++, r++) {
+        style[0][c + 2] = helperStyle;
+        style[r][0] = helperStyle;
+        style[r][col + 2] = helperStyle2;
     }
-
-    for (let row = 0; row < styles.length && row <= point.row; row++) {
-        styles[row][0] = helperStyle;
-    }
+    return style
 };
