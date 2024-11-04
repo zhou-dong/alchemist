@@ -118,7 +118,7 @@ export default function Main() {
 
     const handleAutoFill = () => {
         handleClear();
-        const { name, input } = getRandomTestCase();
+        const { input } = getRandomTestCase();
         const { haystack, needle } = input;
 
         setHaystack(haystack)
