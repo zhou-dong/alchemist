@@ -2,7 +2,6 @@ import MuiStack from '@mui/material/Stack';
 import { ToggleButton } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import AlgoInput from "./AlgoInput";
 import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
 import CodeIcon from '@mui/icons-material/Code';
@@ -12,6 +11,7 @@ import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined
 import Overview from './Overview';
 import CodeSolution from './CodeSolution';
 import GameInput from './GameInput';
+import Game from "../game";
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
@@ -94,7 +94,7 @@ const Input = () => {
     );
 }
 
-const Game = () => {
+const GameSign = () => {
     const { displayGame, setDisplayGame } = useAlgoContext();
 
     const handleToggle = () => {
@@ -145,14 +145,14 @@ const BackToOverview = () => {
 };
 
 const Main = () => {
-    const { displayCode, displayOverview, displayInput } = useAlgoContext();
+    const { displayCode, displayOverview, displayInput, displayGame } = useAlgoContext();
 
     return (
         <>
             {displayOverview && <Overview />}
             {displayCode && <CodeSolution />}
-            {/* {displayInput && <AlgoInput />} */}
             {displayInput && <GameInput />}
+            {displayGame && <Game />}
             <MuiStack spacing={2}
                 sx={{
                     position: 'fixed',
@@ -164,7 +164,7 @@ const Main = () => {
                 <Input />
                 <Instruction />
                 <Code />
-                <Game />
+                <GameSign />
                 <BackToOverview />
             </MuiStack>
         </>
