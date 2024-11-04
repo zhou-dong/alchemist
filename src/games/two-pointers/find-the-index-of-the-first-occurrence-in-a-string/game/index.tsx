@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { title } from "../introduction/Title";
-import { Container, IconButton, Paper, Stack, styled, Toolbar, Typography } from '@mui/material';
+import { Container, IconButton, Paper, Stack, styled, Toolbar, Typography, useTheme } from '@mui/material';
 import { addHelperStyles, createTableMatrix, createTableStyles, createButtons, createButtonsStyles, createComparedTable, startPoint } from "./init";
 import { errorStyle, helperStyle } from "../../../dp/_commons/styles";
 import Table from '../../../dp/_components/Table';
@@ -12,24 +12,7 @@ import Draggable from 'react-draggable';
 import CloseIcon from '@mui/icons-material/Close';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
-const bases = 'ACGT';
-const random = (max: number) => Math.floor(Math.random() * max);
-
-const createRandom = (): string => {
-    return Array(5).fill(bases.length).map(random).map(i => bases[i]).join('');
-}
-
-const buildData = () => {
-    const stringOne = createRandom();
-    const stringTwo = createRandom();
-    const table = createTableMatrix(stringOne, stringTwo);
-    const tableStyles = createTableStyles(stringOne, stringTwo);
-    const buttons = createButtons(stringOne, stringTwo);
-    const buttonsStyles = createButtonsStyles(stringOne, stringTwo);
-    const comparedTable = createComparedTable(stringOne, stringTwo);
-    return { buttons, buttonsStyles, table, tableStyles, comparedTable };
-}
+import MouseIcon from '@mui/icons-material/Mouse';
 
 const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAction<boolean>> }> = ({ lock, setLock }) => {
     const { setDisplayGame } = useAlgoContext();
@@ -59,57 +42,25 @@ const Location = styled(Container)(({ theme }) => (({
 
 const Main = () => {
 
-    const { table, tableStyle, steps, setSteps } = useAlgoContext();
+    const theme = useTheme();
+    const { table, setTable, tableStyle, steps, setSteps, index, setIndex } = useAlgoContext();
+
 
     const [lock, setLock] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
 
-    const data = buildData();
-    const [buttons, setButtons] = React.useState(data.buttons);
-    const [buttonsStyles, setButtonsStyles] = React.useState(data.buttonsStyles);
-    const handleClick = (value: number) => {
+    const handleClick = () => {
         if (success) {
             return;
         }
 
-        // if (nonCorrect(comparedTable, currentPoint, value)) {
-        //     setTable((t) => updateTable(t, currentPoint, value));
-        //     setTableStyles(tableStyles => {
-        //         tableStyles[currentPoint.row][currentPoint.col] = errorStyle;
-        //         return tableStyles;
-        //     })
-        //     return;
-        // }
+        console.log(index, steps);
 
-        // if (isLastCell(table, currentPoint)) {
-        //     setTable((t) => updateTable(t, currentPoint, value));
-
-        //     setTableStyles(() => {
-        //         const lastCell = getLastCell(table);
-        //         const newTableStyles = createNewTableStyles(tableStyles);
-        //         newTableStyles[lastCell.row][lastCell.col] = helperStyle;
-        //         return newTableStyles;
-        //     });
-
-        //     setSuccess(true);
-        //     return;
-        // }
-
-        // const nextPoint = getNextPoint(table, currentPoint);
-
-        // setTable((t) => {
-        //     const t1 = updateTable(t, currentPoint, value);
-        //     const t2 = updateTable(t1, nextPoint, "?");
-        //     return t2;
-        // })
-
-        // setTableStyles(() => {
-        //     // const newTableStyles = createNewTableStyles(tableStyles);
-        //     // addHelperStyles(newTableStyles, nextPoint)
-        //     // return newTableStyles;
-        // });
-
-        // setCurrentPoint(nextPoint);
+        const step = steps[index];
+        const { row, col } = step;
+        table[row + 2][col + 2] = "-";
+        setTable(table);
+        setIndex(index + 1);
     }
 
     const Body = () => (
@@ -138,13 +89,28 @@ const Main = () => {
                 tableStyles={tableStyle}
             />
 
-            <Buttons
-                buttons={buttons}
-                buttonsStyles={buttonsStyles}
-                handleButtonClick={function (data: number | string | boolean) {
-                    handleClick(Number(data))
+            <IconButton onClick={handleClick} size='large' color='primary'
+
+                sx={{
+                    width: "50px",
+                    height: "50px",
+                    backgroundColor: theme.palette.primary.light,
+                    borderColor: theme.palette.primary.light,
+                    color: "#fff",
+                    '&:hover': {
+                        backgroundColor: theme.palette.primary.main,
+                        borderColor: theme.palette.primary.main,
+                        color: "#fff",
+                    },
+                    '&&.Mui-selected': {
+                        backgroundColor: theme.palette.primary.dark,
+                        borderColor: theme.palette.primary.dark,
+                        color: "#fff",
+                    },
                 }}
-            />
+            >
+                <MouseIcon />
+            </IconButton>
         </Stack>
     );
 

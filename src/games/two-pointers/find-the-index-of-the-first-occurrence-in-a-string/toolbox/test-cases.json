@@ -32,22 +32,6 @@
         "output": -1
     },
     {
-        "name": "Empty Needle",
-        "input": {
-            "haystack": "example",
-            "needle": ""
-        },
-        "output": 0
-    },
-    {
-        "name": "Empty Haystack",
-        "input": {
-            "haystack": "",
-            "needle": "test"
-        },
-        "output": -1
-    },
-    {
         "name": "Needle Longer than Haystack",
         "input": {
             "haystack": "hi",

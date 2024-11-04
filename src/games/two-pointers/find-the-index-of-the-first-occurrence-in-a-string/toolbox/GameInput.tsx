@@ -20,7 +20,7 @@ import { ButtonGroup, Container, Divider, IconButton, Paper, Toolbar } from '@mu
 import { useAlgoContext } from '../AlgoContext';
 
 import testCases from "./test-cases.json";
-import { createTable, createTableStyle } from '../game/algo';
+import { buildSteps, createTable, createTableStyle } from '../game/algo';
 
 const getRandomTestCase = () => {
     const max = testCases.length;
@@ -62,7 +62,7 @@ const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAc
 
 export default function Main() {
 
-    const { haystack, setHaystack, needle, setNeedle, setDisplayGame, setDisplayInput, setTable, setTableStyle, setIndex } = useAlgoContext();
+    const { haystack, setHaystack, needle, setNeedle, setDisplayGame, setDisplayInput, setTable, setTableStyle, setIndex, setSteps } = useAlgoContext();
 
     const [haystackError, setHaystackError] = React.useState(false);
     const [haystackErrorMessage, setHaystackErrorMessage] = React.useState('');
@@ -91,9 +91,11 @@ export default function Main() {
 
         const table = createTable(haystack, needle);
         const tableStyle = createTableStyle(haystack, needle);
+        const steps = buildSteps(haystack, needle);
         setTable(table);
         setTableStyle(tableStyle);
         setIndex(0);
+        setSteps(steps);
 
         handleClear();
         setDisplayInput(false);

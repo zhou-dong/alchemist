@@ -1,7 +1,6 @@
 import helperColor from '@mui/material/colors/green';
 import helperColorSecondary from '@mui/material/colors/blue';
 import helperColorThird from '@mui/material/colors/yellow';
-// import React from 'react';
 
 export const helperStyle: React.CSSProperties = { backgroundColor: helperColor[300] };
 export const helperStyleSecondary: React.CSSProperties = { backgroundColor: helperColorSecondary[100] };
@@ -41,17 +40,21 @@ export const buildSteps = function strStr(haystack: string, needle: string): Ste
     for (let i = 0; i <= haystack.length - needle.length; i++) {
         for (let j = 0; j < needle.length; j++) {
             if (haystack.charAt(i + j) !== needle.charAt(j)) {
-                new Step(i, j, Action.Break);
+                const step = new Step(j, i, Action.Break);
+                steps.push(step);
                 break;
             }
             if (j === needle.length - 1) {
-                new Step(i, j, Action.return);
+                const step = new Step(j, i, Action.return);
+                steps.push(step);
                 return steps;
             }
-            new Step(i, j, Action.Next);
+            const step = new Step(j, i, Action.Next);
+            steps.push(step);
         }
     }
-    new Step(-1, -1, Action.DidNotFind);
+    const step = new Step(-1, -1, Action.DidNotFind);
+    steps.push(step);
     return steps;
 };
 
