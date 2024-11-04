@@ -11,6 +11,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import Overview from './Overview';
 import CodeSolution from './CodeSolution';
+import GameInput from './GameInput';
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
@@ -150,7 +151,8 @@ const Main = () => {
         <>
             {displayOverview && <Overview />}
             {displayCode && <CodeSolution />}
-            {displayInput && <AlgoInput />}
+            {/* {displayInput && <AlgoInput />} */}
+            {displayInput && <GameInput />}
             <MuiStack spacing={2}
                 sx={{
                     position: 'fixed',

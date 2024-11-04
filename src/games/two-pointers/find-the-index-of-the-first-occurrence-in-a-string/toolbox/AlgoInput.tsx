@@ -7,12 +7,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useAlgoContext } from "../AlgoContext";
 import { State } from '../AlgoState';
-import { clearScene } from "../../../../commons/three";
 import InputIcon from '@mui/icons-material/Input';
-import { SimpleLink } from '../../../../data-structures/list/link.three';
-import Position from '../../../../data-structures/_commons/params/position.interface';
-import { wait } from '../../../../data-structures/_commons/utils';
 import styled from '@emotion/styled';
+import testCases from "./test-cases.json";
 
 const buildRandomList = (length: number): number[] => {
     const max = 20;

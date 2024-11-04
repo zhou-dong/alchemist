@@ -29,6 +29,10 @@ const AlgoContext = React.createContext<{
     setDisplayGame: React.Dispatch<React.SetStateAction<boolean>>,
     displayInput: boolean,
     setDisplayInput: React.Dispatch<React.SetStateAction<boolean>>,
+    haystack: string,
+    setHaystack: React.Dispatch<React.SetStateAction<string>>,
+    needle: string,
+    setNeedle: React.Dispatch<React.SetStateAction<string>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -50,6 +54,10 @@ const AlgoContext = React.createContext<{
     setDisplayGame: () => { },
     displayInput: false,
     setDisplayInput: () => { },
+    haystack: "",
+    setHaystack: () => { },
+    needle: "",
+    setNeedle: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -62,6 +70,9 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [displayOverview, setDisplayOverview] = React.useState(false);
     const [displayGame, setDisplayGame] = React.useState(true);
     const [displayInput, setDisplayInput] = React.useState(false);
+
+    const [haystack, setHaystack] = React.useState("");
+    const [needle, setNeedle] = React.useState("");
 
     const [head, setHead] = React.useState<LinkedListNode<number | string>>();
     const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
@@ -98,6 +109,10 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setDisplayGame,
             displayInput,
             setDisplayInput,
+            haystack,
+            setHaystack,
+            needle,
+            setNeedle,
         }}>
             {children}
         </AlgoContext.Provider>
