@@ -64,7 +64,7 @@ const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAc
 
 export default function Main() {
 
-    const { haystack, setHaystack, needle, setNeedle } = useAlgoContext();
+    const { haystack, setHaystack, needle, setNeedle, setDisplayGame, setDisplayInput } = useAlgoContext();
 
     const [haystackError, setHaystackError] = React.useState(false);
     const [haystackErrorMessage, setHaystackErrorMessage] = React.useState('');
@@ -94,6 +94,9 @@ export default function Main() {
 
         // submit
 
+        handleClear();
+        setDisplayInput(false);
+        setDisplayGame(true);
     };
 
     const handleHaystackChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,10 +187,10 @@ export default function Main() {
                                 </FormControl>
 
                                 <div style={{ textAlign: "center" }}>
-                                    <ButtonGroup variant='contained' size='large'>
+                                    <ButtonGroup variant='contained' size='large' color='info'>
                                         <Button
                                             startIcon={<AutoFixHighIcon />}
-                                            sx={{ color: "#fff" }}
+                                            // sx={{ color: "#fff" }}
                                             onClick={handleAutoFill}
                                         >
                                             auto
@@ -195,7 +198,7 @@ export default function Main() {
 
                                         <Button
                                             startIcon={<ClearIcon />}
-                                            sx={{ color: "#fff" }}
+                                            // sx={{ color: "#fff" }}
                                             onClick={handleClear}
                                         >
                                             clear
@@ -203,7 +206,7 @@ export default function Main() {
 
                                         <Button
                                             startIcon={<OutputIcon />}
-                                            sx={{ color: "#fff" }}
+                                            // sx={{ color: "#fff" }}
                                             onClick={handleSubmit}
                                             disabled={haystack.length === 0 || needle.length === 0}
                                         >
