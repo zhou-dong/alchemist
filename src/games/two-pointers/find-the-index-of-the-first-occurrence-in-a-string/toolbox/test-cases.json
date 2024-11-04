@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Basic Match",
+        "input": {
+            "haystack": "example",
+            "needle": "amp"
+        },
+        "output": 2
+    },
+    {
+        "name": "Needle at the Start",
+        "input": {
+            "haystack": "coding",
+            "needle": "co"
+        },
+        "output": 0
+    },
+    {
+        "name": "Needle at the End",
+        "input": {
+            "haystack": "adventure",
+            "needle": "ure"
+        },
+        "output": 8
+    },
+    {
+        "name": "No Match",
+        "input": {
+            "haystack": "innovation",
+            "needle": "solution"
+        },
+        "output": -1
+    },
+    {
+        "name": "Needle Longer than Haystack",
+        "input": {
+            "haystack": "hi",
+            "needle": "hello"
+        },
+        "output": -1
+    },
+    {
+        "name": "Multiple Occurrences",
+        "input": {
+            "haystack": "banana",
+            "needle": "ana"
+        },
+        "output": 1
+    },
+    {
+        "name": "Case Sensitivity",
+        "input": {
+            "haystack": "Python",
+            "needle": "python"
+        },
+        "output": -1
+    },
+    {
+        "name": "Special Characters",
+        "input": {
+            "haystack": "hello_world!",
+            "needle": "_w"
+        },
+        "output": 5
+    },
+    {
+        "name": "Whitespace Handling",
+        "input": {
+            "haystack": "   hello there",
+            "needle": "there"
+        },
+        "output": 8
+    },
+    {
+        "name": "Needle at Index 1",
+        "input": {
+            "haystack": "mushroom",
+            "needle": "ush"
+        },
+        "output": 1
+    }
+]

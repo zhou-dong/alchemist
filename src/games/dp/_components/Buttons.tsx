@@ -14,13 +14,12 @@ const StyledButton = styled(ToggleButton)(({ theme }) => ({
         borderColor: theme.palette.primary.main,
         color: "#fff",
     },
-    height: 55,
+    height: 60,
     width: 70,
     fontSize: 20,
     color: "#000",
     fontWeight: "normal",
-    padding: 0,
-    borderColor: "lightgray",
+    borderRadius: "8%",
 }));
 
 const booleanToString = (data: boolean): string => data ? 'TRUE' : 'FALSE';
@@ -36,6 +35,7 @@ export interface Props {
 }
 
 const cell = (
+    selected: number | string | boolean | undefined,
     key: number,
     data: number | string | boolean,
     style: React.CSSProperties,
@@ -51,6 +51,7 @@ const cell = (
             handleButtonClick(data);
             setData(data);
         }}
+        selected={selected === data}
     >
         {cellContent(data)}
     </StyledButton>
@@ -67,10 +68,12 @@ const Buttons = (props: Props) => {
         <ToggleButtonGroup
             value={data}
             size="large"
-            key={0}
-            sx={{ marginTop: "40px", borderColor: "gray" }}
+            sx={{
+                marginTop: "40px",
+                borderColor: "gray"
+            }}
         >
-            {buttons.map((data, index) => cell(index, data, buttonsStyles[index], setData, { ...props }))}
+            {buttons.map((d, index) => cell(data, index, d, buttonsStyles[index], setData, { ...props }))}
         </ToggleButtonGroup>
     );
 };
