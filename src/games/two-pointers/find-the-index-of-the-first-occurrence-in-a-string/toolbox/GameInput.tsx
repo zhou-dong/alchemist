@@ -72,7 +72,6 @@ export default function Main() {
     const [lock, setLock] = React.useState(false);
 
     const handleSubmit = () => {
-
         if (haystack.trim().length === 0) {
             setHaystackError(true)
             setHaystackErrorMessage("Haystack can not be empty");
@@ -117,7 +116,6 @@ export default function Main() {
         setNeedle(e.currentTarget.value);
     };
 
-
     const handleAutoFill = () => {
         handleClear();
         const { input } = getRandomTestCase();
@@ -139,7 +137,6 @@ export default function Main() {
     return (
         <InitLocation>
             <Draggable disabled={lock}>
-
                 <Container maxWidth="sm">
                     <Paper elevation={4}>
                         <Header lock={lock} setLock={setLock} />
@@ -192,7 +189,6 @@ export default function Main() {
                                     <ButtonGroup variant='contained' size='large' color='info'>
                                         <Button
                                             startIcon={<AutoFixHighIcon />}
-                                            // sx={{ color: "#fff" }}
                                             onClick={handleAutoFill}
                                         >
                                             auto
@@ -200,7 +196,6 @@ export default function Main() {
 
                                         <Button
                                             startIcon={<ClearIcon />}
-                                            // sx={{ color: "#fff" }}
                                             onClick={handleClear}
                                         >
                                             clear
@@ -208,7 +203,6 @@ export default function Main() {
 
                                         <Button
                                             startIcon={<OutputIcon />}
-                                            // sx={{ color: "#fff" }}
                                             onClick={handleSubmit}
                                             disabled={haystack.length === 0 || needle.length === 0}
                                         >
