@@ -1,6 +1,6 @@
 import React from "react";
-import { LinkedListNode } from "../../../data-structures/list/linked-list/node.three";
 import { State } from "./AlgoState";
+import { Step } from "./game/algo";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -9,18 +9,6 @@ const AlgoContext = React.createContext<{
     setIndex: React.Dispatch<React.SetStateAction<number>>,
     displayCode: boolean,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    head?: LinkedListNode<number | string>,
-    setHead: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    dummyHead?: LinkedListNode<number | string>,
-    setDummyHead: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    current?: LinkedListNode<number | string>,
-    setCurrent: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    temp?: LinkedListNode<number | string>,
-    setTemp: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    prev?: LinkedListNode<number | string>,
-    setPrev: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
-    nextNext?: LinkedListNode<number | string>,
-    setNextNext: React.Dispatch<React.SetStateAction<LinkedListNode<number | string> | undefined>>,
     displayIntroduction: boolean,
     setDisplayIntroduction: React.Dispatch<React.SetStateAction<boolean>>,
     displayOverview: boolean,
@@ -33,6 +21,12 @@ const AlgoContext = React.createContext<{
     setHaystack: React.Dispatch<React.SetStateAction<string>>,
     needle: string,
     setNeedle: React.Dispatch<React.SetStateAction<string>>,
+    table: (string | number)[][],
+    setTable: React.Dispatch<React.SetStateAction<(string | number)[][]>>,
+    tableStyle: React.CSSProperties[][],
+    setTableStyle: React.Dispatch<React.SetStateAction<React.CSSProperties[][]>>,
+    steps: Step[],
+    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
 }>({
     state: State.Typing,
     setState: () => { },
@@ -40,12 +34,6 @@ const AlgoContext = React.createContext<{
     setIndex: () => { },
     displayCode: false,
     setDisplayCode: () => { },
-    setHead: () => { },
-    setDummyHead: () => { },
-    setCurrent: () => { },
-    setTemp: () => { },
-    setPrev: () => { },
-    setNextNext: () => { },
     displayIntroduction: true,
     setDisplayIntroduction: () => { },
     displayOverview: false,
@@ -58,6 +46,12 @@ const AlgoContext = React.createContext<{
     setHaystack: () => { },
     needle: "",
     setNeedle: () => { },
+    table: [],
+    setTable: () => { },
+    tableStyle: [],
+    setTableStyle: () => { },
+    steps: [],
+    setSteps: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -74,12 +68,9 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [haystack, setHaystack] = React.useState("");
     const [needle, setNeedle] = React.useState("");
 
-    const [head, setHead] = React.useState<LinkedListNode<number | string>>();
-    const [dummyHead, setDummyHead] = React.useState<LinkedListNode<number | string>>();
-    const [current, setCurrent] = React.useState<LinkedListNode<number | string>>();
-    const [temp, setTemp] = React.useState<LinkedListNode<number | string>>();
-    const [prev, setPrev] = React.useState<LinkedListNode<number | string>>();
-    const [nextNext, setNextNext] = React.useState<LinkedListNode<number | string>>();
+    const [table, setTable] = React.useState<(number | string)[][]>([]);
+    const [tableStyle, setTableStyle] = React.useState<(React.CSSProperties)[][]>([]);
+    const [steps, setSteps] = React.useState<Step[]>([]);
 
     return (
         <AlgoContext.Provider value={{
@@ -89,18 +80,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setIndex,
             displayCode,
             setDisplayCode,
-            head,
-            setHead,
-            dummyHead,
-            setDummyHead,
-            current,
-            setCurrent,
-            temp,
-            setTemp,
-            prev,
-            setPrev,
-            nextNext,
-            setNextNext,
             displayIntroduction,
             setDisplayIntroduction,
             displayOverview,
@@ -113,6 +92,12 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setHaystack,
             needle,
             setNeedle,
+            table,
+            setTable,
+            tableStyle,
+            setTableStyle,
+            steps,
+            setSteps
         }}>
             {children}
         </AlgoContext.Provider>

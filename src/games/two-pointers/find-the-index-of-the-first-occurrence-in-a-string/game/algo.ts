@@ -1,33 +1,99 @@
-const createDPTable = (stringOne: string, stringTwo: string): number[][] => {
-    const rows = stringTwo.length + 1;
-    const cols = stringOne.length + 1;
+import helperColor from '@mui/material/colors/green';
+import helperColorSecondary from '@mui/material/colors/blue';
+import helperColorThird from '@mui/material/colors/yellow';
+// import React from 'react';
 
-    const table = new Array(rows).fill(0).map(() => new Array(cols).fill(0));
+export const helperStyle: React.CSSProperties = { backgroundColor: helperColor[300] };
+export const helperStyleSecondary: React.CSSProperties = { backgroundColor: helperColorSecondary[100] };
+export const helperStyleThird: React.CSSProperties = { backgroundColor: helperColorThird[200] };
+export const errorStyle: React.CSSProperties = { background: "red" }
 
-    for (let col = 0; col < cols; col++) {
-        table[0][col] = col;
+export enum Action {
+    Break,
+    return,
+    Next,
+    DidNotFind,
+}
+
+export interface Location {
+    row: number;
+    col: number;
+}
+
+export class Step {
+    row: number;
+    col: number;
+    action: Action;
+
+    constructor(
+        row: number,
+        col: number,
+        action: Action,
+    ) {
+        this.row = row;
+        this.col = col;
+        this.action = action;
     }
+}
 
-    for (let row = 0; row < rows; row++) {
-        table[row][0] = row;
+export const buildSteps = function strStr(haystack: string, needle: string): Step[] {
+    const steps: Step[] = [];
+    for (let i = 0; i <= haystack.length - needle.length; i++) {
+        for (let j = 0; j < needle.length; j++) {
+            if (haystack.charAt(i + j) !== needle.charAt(j)) {
+                new Step(i, j, Action.Break);
+                break;
+            }
+            if (j === needle.length - 1) {
+                new Step(i, j, Action.return);
+                return steps;
+            }
+            new Step(i, j, Action.Next);
+        }
+    }
+    new Step(-1, -1, Action.DidNotFind);
+    return steps;
+};
+
+export const createTable = (haystack: string, needle: string): (number | string)[][] => {
+    const rows = needle.length + 2;
+    const cols = haystack.length + 2;
+
+    const table: (number | string)[][] = new Array(rows).fill(0).map(() => new Array(cols).fill(""));
+
+    for (let col = 1; col < cols; col++) {
+        table[1][col] = col - 1;
     }
 
     for (let row = 1; row < rows; row++) {
-        for (let col = 1; col < cols; col++) {
-            if (stringOne.charAt(col - 1) === stringTwo.charAt(row - 1)) {
-                table[row][col] = table[row - 1][col - 1];
-            } else {
-                const min = Math.min(
-                    table[row - 1][col - 1],
-                    table[row - 1][col],
-                    table[row][col - 1]
-                );
-                table[row][col] = min + 1;
-            }
-        }
+        table[row][1] = row - 1;
+    }
+
+    for (let col = 2; col < cols; col++) {
+        table[0][col] = haystack.charAt(col - 2);
+    }
+
+    for (let row = 2; row < rows; row++) {
+        table[row][0] = needle.charAt(row - 2);
     }
 
     return table;
 };
 
-export default createDPTable;
+export const createTableStyle = (haystack: string, needle: string): (React.CSSProperties)[][] => {
+    const rows = needle.length + 2;
+    const cols = haystack.length + 2;
+    const table = new Array(rows).fill(0).map(() => new Array(cols).fill({}));
+    // addHelperStyles(table, startPoint);
+    return table;
+};
+
+export const addHelperStyles = (styles: React.CSSProperties[][], point: Location): void => {
+    for (let col = 0; col < styles[0].length && col <= point.col; col++) {
+        styles[0][col] = helperStyle;
+    }
+
+    for (let row = 0; row < styles.length && row <= point.row; row++) {
+        styles[row][0] = helperStyle;
+    }
+};

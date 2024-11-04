@@ -1,4 +1,4 @@
-import createDPTable from './algo';
+import { createTable } from './algo';
 import { Point } from "../../../dp/_commons/point";
 import { helperStyle } from '../../../dp/_commons/styles';
 
@@ -42,7 +42,7 @@ const createComparedTable = (stringOne: string, stringTwo: string): (number | st
     const rows = stringTwo.length + 2;
     const cols = stringOne.length + 2;
 
-    const dpTable = createDPTable(stringOne, stringTwo);
+    const dpTable = createTable(stringOne, stringTwo);
     const tableMatrix = createTableMatrix(stringOne, stringTwo);
 
     for (let row = 1; row < rows; row++) {
@@ -62,11 +62,11 @@ const createTableStyles = (stringOne: string, stringTwo: string): (React.CSSProp
 };
 
 const createButtons = (stringOne: string, stringTwo: string): number[] => {
-    const dpTable = createDPTable(stringOne, stringTwo);
+    const dpTable = createTable(stringOne, stringTwo);
     const set = new Set<number>();
     for (let row = 1; row < dpTable.length; row++) {
         for (let col = 1; col < dpTable[row].length; col++) {
-            set.add(dpTable[row][col]);
+            // set.add(dpTable[row][col]);
         }
     }
     return Array.from(set).sort();
