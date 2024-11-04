@@ -4,14 +4,11 @@ import Button from '@mui/material/Button';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 
 import ClearIcon from '@mui/icons-material/Clear';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import InputIcon from '@mui/icons-material/Input';
 
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Draggable from 'react-draggable';
