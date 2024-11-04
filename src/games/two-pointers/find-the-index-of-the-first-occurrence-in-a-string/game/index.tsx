@@ -51,7 +51,7 @@ const Main = () => {
             return;
         }
         const step = steps[index];
-        const { row, col, action } = step;
+        const { row, col } = step;
         table[row + 2][col + 2] = "-";
         setTable(table);
 
