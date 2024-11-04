@@ -11,7 +11,7 @@ const Components = () => {
     const { displayIntroduction } = useAlgoContext();
     return (
         <>
-            {displayIntroduction ? <Introduction /> : <><Toolbox /><Game /></>}
+            {displayIntroduction ? <Introduction /> : <Toolbox />}
         </>
     );
 }
