@@ -4,7 +4,6 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../../dp/_commons/theme';
 import { AlgoContextProvider, useAlgoContext } from "./AlgoContext";
 import Toolbox from "./toolbox";
-import Game from './game';
 import Introduction from './introduction';
 
 const Components = () => {
