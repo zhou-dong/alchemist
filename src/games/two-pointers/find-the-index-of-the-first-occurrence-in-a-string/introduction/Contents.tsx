@@ -53,7 +53,7 @@ export const contents: Content[] = [
                     This algorithm searches for the first occurrence of a substring (needle) within a larger string (haystack) and returns its index. If the substring is not found, it returns -1.
                 </Typography>
                 <Typography>
-                    This process can be likened to 'finding a needle in a haystack' (大海捞针 or 大海撈針 in Chinese).
+                    This process can be likened to 'finding a needle in a haystack'. <span style={{ color: "#fff" }}>(大海捞针 or 大海撈針 in Chinese)</span>
                 </Typography>
             </>
         ),
