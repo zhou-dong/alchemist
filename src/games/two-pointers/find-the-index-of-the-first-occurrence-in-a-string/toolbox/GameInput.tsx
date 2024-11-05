@@ -63,8 +63,9 @@ const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAc
 
 export default function Main() {
 
-    // update local haystack, needle
-    const { haystack, setHaystack, needle, setNeedle, setDisplayGame, setDisplayInput, setTable, setTableStyle, setIndex, setSteps, setState } = useAlgoContext();
+    const [localHaystack, setLocalHaystack] = React.useState("");
+    const [localNeedle, setLocalNeedle] = React.useState("");
+    const { setHaystack, setNeedle, setDisplayGame, setDisplayInput, setTable, setTableStyle, setIndex, setSteps, setState } = useAlgoContext();
 
     const [haystackError, setHaystackError] = React.useState(false);
     const [haystackErrorMessage, setHaystackErrorMessage] = React.useState('');
@@ -74,26 +75,26 @@ export default function Main() {
     const [lock, setLock] = React.useState(false);
 
     const handleSubmit = () => {
-        if (haystack.trim().length === 0) {
+        if (localHaystack.trim().length === 0) {
             setHaystackError(true)
             setHaystackErrorMessage("Haystack can not be empty");
             return;
         }
-        if (needle.trim().length === 0) {
+        if (localNeedle.trim().length === 0) {
             setNeedleError(true);
             setNeedleErrorMessage("Needle can not be empty");
             return;
         }
-        if (needle.length > haystack.length) {
+        if (localNeedle.length > localHaystack.length) {
             setHaystackError(true)
             setHaystackErrorMessage("Haystack should longer than needle");
             setNeedleError(true);
             setNeedleErrorMessage("Haystack should longer than needle");
         }
 
-        const table = createTable(haystack, needle);
-        const tableStyle = createTableStyle(haystack, needle);
-        const steps = buildSteps(haystack, needle);
+        const table = createTable(localHaystack, localNeedle);
+        const tableStyle = createTableStyle(localHaystack, localNeedle);
+        const steps = buildSteps(localHaystack, localNeedle);
 
         setTable(table);
         setTableStyle(tableStyle);
@@ -101,9 +102,10 @@ export default function Main() {
         setSteps(steps);
         setState(State.Playing);
 
+        setHaystack(localHaystack);
+        setNeedle(localNeedle);
+
         handleClear();
-        setHaystack(haystack);
-        setNeedle(needle);
         setDisplayInput(false);
         setDisplayGame(true);
     };
@@ -113,7 +115,7 @@ export default function Main() {
             setHaystackError(false);
             setHaystackErrorMessage("");
         }
-        setHaystack(e.currentTarget.value);
+        setLocalHaystack(e.currentTarget.value);
     };
 
     const handleNeedleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,7 +123,7 @@ export default function Main() {
             setNeedleError(false);
             setNeedleErrorMessage("");
         }
-        setNeedle(e.currentTarget.value);
+        setLocalNeedle(e.currentTarget.value);
     };
 
     const handleAutoFill = () => {
@@ -129,15 +131,15 @@ export default function Main() {
         const { input } = getRandomTestCase();
         const { haystack, needle } = input;
 
-        setHaystack(haystack)
-        setNeedle(needle);
+        setLocalHaystack(haystack)
+        setLocalNeedle(needle);
     }
 
     const handleClear = () => {
-        setHaystack("");
+        setLocalHaystack("");
         setHaystackError(false);
         setHaystackErrorMessage("");
-        setNeedle("");
+        setLocalNeedle("");
         setNeedleError(false);
         setNeedleErrorMessage("");
     }
@@ -170,7 +172,7 @@ export default function Main() {
                                         type="s"
                                         name="haystack"
                                         placeholder="larger string"
-                                        value={haystack}
+                                        value={localHaystack}
                                         autoFocus
                                         required
                                         fullWidth
@@ -185,7 +187,7 @@ export default function Main() {
                                         helperText={needleErrorMessage}
                                         name="needle"
                                         placeholder="substring"
-                                        value={needle}
+                                        value={localNeedle}
                                         type="s"
                                         required
                                         fullWidth
@@ -212,7 +214,7 @@ export default function Main() {
                                         <Button
                                             startIcon={<OutputIcon />}
                                             onClick={handleSubmit}
-                                            disabled={haystack.length === 0 || needle.length === 0}
+                                            disabled={localHaystack.length === 0 || localNeedle.length === 0}
                                         >
                                             submit
                                         </Button>
