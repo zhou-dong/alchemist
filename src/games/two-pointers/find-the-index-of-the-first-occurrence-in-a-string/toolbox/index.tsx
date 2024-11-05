@@ -12,6 +12,9 @@ import Overview from './Overview';
 import CodeSolution from './CodeSolution';
 import GameInput from './GameInput';
 import Game from "../game";
+import testCases from "./test-cases.json";
+import { buildSteps, createTable, createTableStyle } from '../game/algo';
+import { State } from '../AlgoState';
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
@@ -95,10 +98,40 @@ const Input = () => {
 }
 
 const GameSign = () => {
-    const { displayGame, setDisplayGame } = useAlgoContext();
+    const { displayGame, setDisplayGame, table, setTable, setTableStyle, setIndex, setState, setSteps, setHaystack, setNeedle } = useAlgoContext();
+
+    const getRandomTestCase = () => {
+        const max = testCases.length;
+        const index = Math.floor(Math.random() * max);
+        return testCases[index];
+    }
+
+    const fillTable = () => {
+        const { input } = getRandomTestCase();
+        const { haystack, needle } = input;
+
+        const table = createTable(haystack, needle);
+        const tableStyle = createTableStyle(haystack, needle);
+        const steps = buildSteps(haystack, needle);
+
+        setTable(table);
+        setTableStyle(tableStyle);
+        setIndex(0);
+        setSteps(steps);
+        setState(State.Playing);
+
+        setHaystack(haystack);
+        setNeedle(needle);
+    }
 
     const handleToggle = () => {
-        setDisplayGame(isOpen => !isOpen);
+        setDisplayGame(isOpen => {
+            const open = !isOpen;
+            if (open && table.length === 0) {
+                fillTable();
+            }
+            return open;
+        });
     }
 
     return (
