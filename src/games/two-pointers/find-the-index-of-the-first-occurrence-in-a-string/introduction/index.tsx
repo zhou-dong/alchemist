@@ -8,6 +8,9 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
+import testCases from "../toolbox/test-cases.json";
+import { buildSteps, createTable, createTableStyle } from '../game/algo';
+import { State } from '../AlgoState';
 
 const Navigator = styled(IconButton)({
     width: 60,
@@ -25,7 +28,8 @@ const Navigator = styled(IconButton)({
 
 const Main = () => {
 
-    const { setDisplayIntroduction } = useAlgoContext();
+    const { setDisplayIntroduction, table, setTable, setTableStyle, setIndex, setState, setSteps, setHaystack, setNeedle } = useAlgoContext();
+
 
     const [statmentIndex, setStatementIndex] = React.useState(-1);
 
@@ -40,6 +44,37 @@ const Main = () => {
             setStatementIndex(statmentIndex + 1);
         }
     };
+
+    const getRandomTestCase = () => {
+        const max = testCases.length;
+        const index = Math.floor(Math.random() * max);
+        return testCases[index];
+    }
+
+    const fillTable = () => {
+        const { input } = getRandomTestCase();
+        const { haystack, needle } = input;
+
+        const table = createTable(haystack, needle);
+        const tableStyle = createTableStyle(haystack, needle);
+        const steps = buildSteps(haystack, needle);
+
+        setTable(table);
+        setTableStyle(tableStyle);
+        setIndex(0);
+        setSteps(steps);
+        setState(State.Playing);
+
+        setHaystack(haystack);
+        setNeedle(needle);
+    }
+
+    const handleGetIntoGame = () => {
+        if (table.length === 0) {
+            fillTable();
+        }
+        setDisplayIntroduction(false);
+    }
 
     return (
         <Container
@@ -84,7 +119,7 @@ const Main = () => {
                 </Navigator>
 
                 <Navigator
-                    onClick={() => setDisplayIntroduction(false)}
+                    onClick={handleGetIntoGame}
                 >
                     <SportsEsportsOutlinedIcon />
                 </Navigator>
