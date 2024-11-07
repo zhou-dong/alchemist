@@ -126,6 +126,7 @@ import LinkedListRandomNode from "./linked-list/linked-list-random-node/info";
 import MiddleOfTeLinkedList from "./linked-list/middle-of-the-linked-list/info";
 import DeleteNodeInALinkedList from "./linked-list/delete-node-in-a-linked-list/info";
 import FindTheIndexOfTheFirstOccurrenceInAString from "./two-pointers/find-the-index-of-the-first-occurrence-in-a-string/info";
+import LongestCommonPrefix from "./two-pointers/longest-common-prefix/info";
 
 const games: Game[] = [
     editDistance,
@@ -254,6 +255,7 @@ const games: Game[] = [
     MiddleOfTeLinkedList,
     DeleteNodeInALinkedList,
     FindTheIndexOfTheFirstOccurrenceInAString,
+    LongestCommonPrefix,
 ];
 
 games.reverse();

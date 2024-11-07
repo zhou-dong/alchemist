@@ -255,6 +255,8 @@ import DeleteNodeInALinkedList from "./games/linked-list/delete-node-in-a-linked
 import DeleteNodeInALinkedListInfo from "./games/linked-list/delete-node-in-a-linked-list/info";
 import FindTheIndexOfTheFirstOccurrenceInAStringInfo from "./games/two-pointers/find-the-index-of-the-first-occurrence-in-a-string/info";
 import FindTheIndexOfTheFirstOccurrenceInAString from "./games/two-pointers/find-the-index-of-the-first-occurrence-in-a-string";
+import LongestCommonPrefixInfo from "./games/two-pointers/longest-common-prefix/info";
+import LongestCommonPrefix from "./games/two-pointers/longest-common-prefix";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 import AboutUs from './pages/about';
@@ -402,6 +404,7 @@ const App = () => (
         <Route path={MiddleOfTeLinkedListInfo.path} element={<MiddleOfTeLinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={DeleteNodeInALinkedListInfo.path} element={<DeleteNodeInALinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={FindTheIndexOfTheFirstOccurrenceInAStringInfo.path} element={<FindTheIndexOfTheFirstOccurrenceInAString />} />
+        <Route path={LongestCommonPrefixInfo.path} element={<LongestCommonPrefix />} />
     </Routes>
 );
 
