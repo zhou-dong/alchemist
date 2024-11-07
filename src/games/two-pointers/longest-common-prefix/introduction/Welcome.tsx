@@ -1,12 +1,13 @@
 import { Stack, Typography } from '@mui/material';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
+import { green } from '@mui/material/colors';
 
 const Icon = () => (
     <SentimentSatisfiedOutlinedIcon
         sx={{
             fontSize: 60,
-            color: "gold",
-            animation: 'wobble 1.5s ease infinite',
+            color: green[400],
+            animation: 'bounce 1.5s ease-in-out infinite',
             '@keyframes wobble': {
                 '0%': { transform: 'rotate(0deg)' },
                 '15%': { transform: 'rotate(10deg)' },
@@ -53,14 +54,15 @@ const Welcome = () => (
             </Typography>
         </Stack>
 
-        <div>
-            <Typography>
-                You will learn how to find the index of the first occurrence of a substring in a string using an efficient algorithm.
-            </Typography>
-            <Typography>
-                Whether you're a newbie or a coding wizard, this guide is crafted just for you! Let's dive in! 🚀
-            </Typography>
-        </div>
+        <Typography>
+            Whether you're a beginner trying to understand the basic concepts of string manipulation or
+            an experienced developer looking for efficient algorithms, you're in the right place.
+        </Typography>
+
+        <Typography>
+            This problem has a wide range of applications, particularly in string matching,
+            file directory traversal, DNA sequence comparison, and more.
+        </Typography>
     </Stack>
 );
 
