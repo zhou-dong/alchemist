@@ -85,10 +85,9 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 
 const Location = styled("div")({
     position: 'fixed',
-    top: '50%',
+    top: '40%',
     left: "50%",
-    transform: "translate(-50%,-50%)",
-    zIndex: 12,
+    transform: "translate(-50%,-40%)",
 });
 
 const Main = () => {
