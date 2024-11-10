@@ -78,20 +78,15 @@ const Instruction = () => {
 };
 
 const Input = () => {
-    const { displayInput, setDisplayInput } = useAlgoContext();
-
-    const handleToggle = () => {
-        setDisplayInput(open => !open);
-    }
+    const { setState } = useAlgoContext();
 
     return (
         <LightTooltip title="Input" placement="right">
             <StyledButton
-                onChange={handleToggle}
+                onChange={() => setState(State.Input)}
                 aria-label="input"
                 size="large"
                 value="input"
-                selected={displayInput}
             >
                 <InputIcon fontSize="medium" />
             </StyledButton>
@@ -169,13 +164,12 @@ const BackToOverview = () => {
 };
 
 const Main = () => {
-    const { displayCode, displayOverview, displayInput, displayGame } = useAlgoContext();
+    const { displayCode, displayOverview, displayGame } = useAlgoContext();
 
     return (
         <>
             {displayOverview && <Overview />}
             {displayCode && <CodeSolution />}
-            {displayInput && <GameInput />}
             {displayGame && <Game />}
             <MuiStack spacing={2}
                 sx={{
@@ -185,11 +179,11 @@ const Main = () => {
                     zIndex: 1
                 }}
             >
-                <Input />
                 <Instruction />
                 <Code />
                 <GameSign />
                 <BackToOverview />
+                <Input />
             </MuiStack>
         </>
     );

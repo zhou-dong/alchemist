@@ -29,7 +29,7 @@ const Navigator = styled(IconButton)({
 
 const Main = () => {
 
-    const { setDisplayIntroduction, table, setTable, setTableStyle, setIndex, setState, setSteps, setHaystack, setNeedle } = useAlgoContext();
+    const { table, setTable, setTableStyle, setIndex, setState, setSteps, setHaystack, setNeedle } = useAlgoContext();
 
 
     const [statmentIndex, setStatementIndex] = React.useState(-1);
@@ -96,7 +96,6 @@ const Main = () => {
                     onClick={handleInputClick}
                 >
                     <InputIcon />
-                    {/* <SportsEsportsOutlinedIcon /> */}
                 </Navigator>
             </Stack>
         </Container>
