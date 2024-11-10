@@ -6,6 +6,7 @@ import { contents, DisplayContents } from './Contents';
 import InputIcon from '@mui/icons-material/Input';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
@@ -32,6 +33,10 @@ const Main = () => {
 
     const [statmentIndex, setStatementIndex] = React.useState(-1);
 
+    const handleFirstPageClick = () => {
+        setStatementIndex(-1);
+    }
+
     const handlePreviousSection = () => {
         if (statmentIndex >= 0) {
             setStatementIndex(statmentIndex - 1);
@@ -46,7 +51,7 @@ const Main = () => {
 
     const handleLastPageClick = () => {
         setStatementIndex(contents.length - 1);
-    }
+    };
 
     const handleInputClick = () => {
         setState(State.Input);
@@ -82,6 +87,12 @@ const Main = () => {
                         alignItems: "center",
                     }}
                 >
+                    <Navigator
+                        onClick={handleFirstPageClick}
+                        disabled={statmentIndex < 0}
+                    >
+                        <FirstPageIcon fontSize='large' />
+                    </Navigator>
                     <Navigator
                         onClick={handlePreviousSection}
                         disabled={statmentIndex < 0}
