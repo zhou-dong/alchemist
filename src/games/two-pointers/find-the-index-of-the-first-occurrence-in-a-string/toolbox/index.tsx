@@ -91,7 +91,7 @@ const Game: React.FC<{ current: State }> = ({ current }) => {
                 size="large"
                 value="Game"
                 selected={current === State.Playing}
-                disabled={table.length == 0}
+                disabled={table.length === 0}
             >
                 <SportsEsportsOutlinedIcon fontSize="medium" />
             </StyledButton>
