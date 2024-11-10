@@ -44,17 +44,24 @@ const Main = () => {
                 <ButtonGroup variant="contained" size="large">
                     <Button
                         startIcon={<SentimentSatisfiedAltOutlinedIcon />}
-                        sx={{ color: "#fff" }}
+                        sx={{
+                            color: "#fff",
+                            textTransform: 'none',
+                        }}
                         onClick={handleGoBack}
+
                     >
-                        Buck
+                        Back To Description
                     </Button>
                     <Button
                         endIcon={<SportsEsportsOutlinedIcon />}
-                        sx={{ color: "#fff" }}
+                        sx={{
+                            color: "#fff",
+                            textTransform: 'none',
+                        }}
                         onClick={handleGetIntoGame}
                     >
-                        Start
+                        Start Game
                     </Button>
                 </ButtonGroup>
 
