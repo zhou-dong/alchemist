@@ -8,6 +8,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import { useAlgoContext } from '../AlgoContext';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import Overview from './Overview';
 import CodeSolution from './CodeSolution';
 import GameInput from '../input/GameInput';
@@ -15,6 +16,7 @@ import Game from "../game";
 import testCases from "./test-cases.json";
 import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
@@ -150,29 +152,18 @@ const GameSign = () => {
 };
 
 const BackToOverview = () => {
-    const { setDisplayIntroduction } = useAlgoContext();
-    const theme = useTheme();
+    const { setState } = useAlgoContext();
 
     return (
-        <LightTooltip title="Introduction" placement="right">
-            <ToggleButton
-                onClick={() => setDisplayIntroduction(true)}
-                aria-label="introduce"
+        <LightTooltip title="Description" placement="right">
+            <StyledButton
+                onClick={() => setState(State.Description)}
+                aria-label="description"
                 size="large"
-                sx={{
-                    borderRadius: "50%",
-                    '&:hover': {
-                        backgroundColor: theme.palette.primary.main,
-                        borderColor: theme.palette.primary.main,
-                        color: theme.palette.info.contrastText,
-                    },
-                    borderColor: theme.palette.primary.main,
-                    color: theme.palette.primary.main,
-                }}
-                value="Introduction"
+                value="Description"
             >
-                <KeyboardBackspaceIcon fontSize="medium" />
-            </ToggleButton>
+                <TagFacesIcon fontSize="medium" />
+            </StyledButton>
         </LightTooltip>
     );
 };
