@@ -18,6 +18,12 @@ import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 
+
+interface ToolProps {
+    selected: boolean;
+    disabled: boolean;
+}
+
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
     '&:hover': {
