@@ -10,7 +10,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import Overview from './Overview';
 import CodeSolution from './CodeSolution';
-import GameInput from './GameInput';
+import GameInput from '../input/GameInput';
 import Game from "../game";
 import testCases from "./test-cases.json";
 import { buildSteps, createTable, createTableStyle } from '../game/algo';
@@ -76,10 +76,10 @@ const Instruction = () => {
 };
 
 const Input = () => {
-    const { displayInput, setDisplayInput } = useAlgoContext();
+    const { displayInput ,setState } = useAlgoContext();
 
     const handleToggle = () => {
-        setDisplayInput(open => !open);
+        setState(State.Input);
     }
 
     return (
@@ -89,7 +89,7 @@ const Input = () => {
                 aria-label="input"
                 size="large"
                 value="input"
-                selected={displayInput}
+                // selected={displayInput}
             >
                 <InputIcon fontSize="medium" />
             </StyledButton>
@@ -150,13 +150,13 @@ const GameSign = () => {
 };
 
 const BackToOverview = () => {
-    const { setDisplayIntroduction } = useAlgoContext();
+    const { setState } = useAlgoContext();
     const theme = useTheme();
 
     return (
         <LightTooltip title="Introduction" placement="right">
             <ToggleButton
-                onClick={() => setDisplayIntroduction(true)}
+                onClick={() => setState(State.Input)}
                 aria-label="introduce"
                 size="large"
                 sx={{
