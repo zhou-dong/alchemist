@@ -1,10 +1,19 @@
-import { Stack } from "@mui/material";
+import { Button, ButtonGroup, Stack } from "@mui/material";
+import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import Title from "../description/Title";
 import { useAlgoContext } from "../AlgoContext";
 import { State } from "../AlgoState";
+import GameInput from "./GameInput";
+import styled from "@emotion/styled";
 
-
-
+const Location = styled("div")({
+    position: 'fixed',
+    top: '50%',
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    zIndex: 12,
+});
 
 const Main = () => {
     const { setState } = useAlgoContext();
@@ -13,18 +22,46 @@ const Main = () => {
         setState(State.Description);
     }
 
-    return (
-        <>
-            input
+    const handleGetIntoGame = () => {
+        setState(State.Playing);
+    }
 
-            <Stack>
+    return (
+        <Location>
+            <Stack
+                spacing={4}
+                display="flex"
+                sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
 
                 <Title displayStar={true} />
+
+                <GameInput />
+
+                <ButtonGroup variant="contained">
+                    <Button
+                        startIcon={<SentimentSatisfiedAltOutlinedIcon />}
+                        sx={{ color: "#fff" }}
+                        onClick={handleGoBack}
+                    >
+                        Buck
+                    </Button>
+                    <Button
+                        endIcon={<SportsEsportsOutlinedIcon />}
+                        sx={{ color: "#fff" }}
+                        onClick={handleGetIntoGame}
+                    >
+                        Start
+                    </Button>
+                </ButtonGroup>
 
 
 
             </Stack>
-        </>
+        </Location>
     );
 }
 
