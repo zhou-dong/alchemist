@@ -37,7 +37,7 @@ const Main = () => {
                 }}
             >
 
-                <Title displayStar={true} />
+                <Title displayStar={false} />
 
                 <GameInput />
 
