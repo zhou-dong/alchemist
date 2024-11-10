@@ -76,7 +76,7 @@ const Instruction = () => {
 };
 
 const Input = () => {
-    const { displayInput ,setState } = useAlgoContext();
+    const { displayInput, setState } = useAlgoContext();
 
     const handleToggle = () => {
         setState(State.Input);
@@ -89,7 +89,7 @@ const Input = () => {
                 aria-label="input"
                 size="large"
                 value="input"
-                // selected={displayInput}
+            // selected={displayInput}
             >
                 <InputIcon fontSize="medium" />
             </StyledButton>
@@ -194,11 +194,10 @@ const Main = () => {
                     zIndex: 1
                 }}
             >
-                <Input />
                 <Instruction />
                 <Code />
                 <GameSign />
-                <BackToOverview />
+                <Input />
             </MuiStack>
         </>
     );
