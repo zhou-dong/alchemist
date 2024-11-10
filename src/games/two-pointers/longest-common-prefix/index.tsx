@@ -9,9 +9,9 @@ import { State } from './AlgoState';
 import Input from './input';
 
 const Components = () => {
-    const { displayIntroduction, state } = useAlgoContext();
+    const { state } = useAlgoContext();
 
-    const ge = () => {
+    const getComponent = () => {
         switch (state) {
             case State.Description: return <Description />;
             case State.Input: return <Input />;
@@ -20,16 +20,9 @@ const Components = () => {
         }
     }
 
-
-
-
-
-
     return (
         <>
-            {
-                ge()
-            }
+            {getComponent()}
         </>
     );
 }
