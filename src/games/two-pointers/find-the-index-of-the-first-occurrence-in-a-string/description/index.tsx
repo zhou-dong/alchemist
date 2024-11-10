@@ -33,6 +33,10 @@ const Main = () => {
 
     const [statmentIndex, setStatementIndex] = React.useState(-1);
 
+    React.useEffect(() => {
+        setStatementIndex(0);
+    }, []);
+
     const handleFirstPageClick = () => {
         setStatementIndex(-1);
     }
@@ -71,7 +75,6 @@ const Main = () => {
                 }}
             >
                 <Title displayStar={statmentIndex >= 0} />
-                {/* {statmentIndex < 0 && <Welcome />} */}
 
                 <Divider variant="middle" />
                 <DisplayContents contentIndex={statmentIndex} contents={contents} />
@@ -90,7 +93,7 @@ const Main = () => {
                     <Navigator
                         onClick={() => setState(State.Welcome)}
                     >
-                        <DescriptionOutlinedIcon fontSize='large' />
+                        <DescriptionOutlinedIcon fontSize='medium' />
                     </Navigator>
 
                     <Navigator
@@ -123,7 +126,7 @@ const Main = () => {
                     <Navigator
                         onClick={handleInputClick}
                     >
-                        <InputIcon fontSize='large' />
+                        <InputIcon fontSize='medium' />
                     </Navigator>
                 </Stack>
             </Container>
