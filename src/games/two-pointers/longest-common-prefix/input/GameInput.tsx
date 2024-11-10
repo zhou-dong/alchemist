@@ -40,8 +40,6 @@ export default function Main() {
     const [needleError, setNeedleError] = React.useState(false);
     const [needleErrorMessage, setNeedleErrorMessage] = React.useState('');
 
-    const [lock, setLock] = React.useState(false);
-
     const handleSubmit = () => {
         if (localHaystack.trim().length === 0) {
             setHaystackError(true)

@@ -11,7 +11,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
 import { State } from '../AlgoState';
-import Toolbox from '../toolbox';
+import Toolbox, { Tool } from '../toolbox';
 
 const Navigator = styled(IconButton)({
     width: 60,
@@ -59,7 +59,7 @@ const Main = () => {
 
     return (
         <>
-            <Toolbox />
+            <Toolbox current={Tool.Description} />
             <Container
                 maxWidth="lg"
                 sx={{

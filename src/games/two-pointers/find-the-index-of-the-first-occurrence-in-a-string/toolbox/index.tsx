@@ -1,81 +1,47 @@
 import MuiStack from '@mui/material/Stack';
 import { ToggleButton } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
-import CodeIcon from '@mui/icons-material/Code';
 import { useAlgoContext } from '../AlgoContext';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import Overview from './Overview';
-import CodeSolution from './CodeSolution';
-import GameInput from '../input/GameInput';
-import Game from "../game";
-import testCases from "./test-cases.json";
-import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
-import TagFacesIcon from '@mui/icons-material/TagFaces';
+import React from 'react';
 
-interface ToolProps {
-    ready: boolean;
-    selected: boolean;
-    disabled: boolean;
+export enum Tool {
+    Description,
+    Input,
+    Gaming
 }
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
+    color: theme.palette.primary.light,
     '&:hover': {
-        backgroundColor: theme.palette.info.light,
-        borderColor: theme.palette.info.light,
-        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.primary.light,
+        borderColor: theme.palette.primary.light,
+        color: "#fff",
     },
     '&&.Mui-selected': {
-        backgroundColor: theme.palette.info.light,
-        borderColor: theme.palette.info.light,
-        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+        color: "#fff",
     },
     zIndex: 10,
 }));
 
-const Code = () => {
-    const { displayCode, setDisplayCode } = useAlgoContext();
-
-    const handleToggle = () => {
-        setDisplayCode(isOpen => !isOpen);
-    }
+const Description: React.FC<{ current: Tool }> = ({ current }) => {
+    const { setState } = useAlgoContext();
 
     return (
-        <LightTooltip title="Code" placement="right">
+        <LightTooltip title="Description" placement="right">
             <StyledButton
-                onChange={handleToggle}
-                aria-label="code"
+                onChange={() => setState(State.Description)}
+                aria-label="Description"
                 size="large"
-                value="code"
-                selected={displayCode}
-            >
-                <CodeIcon fontSize="medium" />
-            </StyledButton>
-        </LightTooltip>
-    );
-};
-
-const Instruction = () => {
-    const { displayOverview, setDisplayOverview } = useAlgoContext();
-
-    const handleToggle = () => {
-        setDisplayOverview(isOpen => !isOpen);
-    }
-
-    return (
-        <LightTooltip title="Instruction" placement="right">
-            <StyledButton
-                onChange={handleToggle}
-                aria-label="Instruction"
-                size="large"
-                value="Instruction"
-                selected={displayOverview}
+                value="Description"
+                selected={current === Tool.Description}
             >
                 <DescriptionOutlinedIcon fontSize="medium" />
             </StyledButton>
@@ -83,7 +49,7 @@ const Instruction = () => {
     );
 };
 
-const Input = () => {
+const Input: React.FC<{ current: Tool }> = ({ current }) => {
     const { setState } = useAlgoContext();
 
     return (
@@ -93,6 +59,7 @@ const Input = () => {
                 aria-label="input"
                 size="large"
                 value="input"
+                selected={current === Tool.Input}
             >
                 <InputIcon fontSize="medium" />
             </StyledButton>
@@ -100,51 +67,18 @@ const Input = () => {
     );
 }
 
-const GameSign = () => {
-    const { displayGame, setDisplayGame, table, setTable, setTableStyle, setIndex, setState, setSteps, setHaystack, setNeedle } = useAlgoContext();
-
-    const getRandomTestCase = () => {
-        const max = testCases.length;
-        const index = Math.floor(Math.random() * max);
-        return testCases[index];
-    }
-
-    const fillTable = () => {
-        const { input } = getRandomTestCase();
-        const { haystack, needle } = input;
-
-        const table = createTable(haystack, needle);
-        const tableStyle = createTableStyle(haystack, needle);
-        const steps = buildSteps(haystack, needle);
-
-        setTable(table);
-        setTableStyle(tableStyle);
-        setIndex(0);
-        setSteps(steps);
-        setState(State.Playing);
-
-        setHaystack(haystack);
-        setNeedle(needle);
-    }
-
-    const handleToggle = () => {
-        setDisplayGame(isOpen => {
-            const open = !isOpen;
-            if (open && table.length === 0) {
-                fillTable();
-            }
-            return open;
-        });
-    }
+const Game: React.FC<{ current: Tool }> = ({ current }) => {
+    const { setState, table } = useAlgoContext();
 
     return (
         <LightTooltip title="Game" placement="right">
             <StyledButton
-                onChange={handleToggle}
+                onChange={() => setState(State.Playing)}
                 aria-label="game"
                 size="large"
                 value="Game"
-                selected={displayGame}
+                selected={current === Tool.Gaming}
+                disabled={table.length == 0}
             >
                 <SportsEsportsOutlinedIcon fontSize="medium" />
             </StyledButton>
@@ -152,47 +86,23 @@ const GameSign = () => {
     );
 };
 
-const BackToOverview = () => {
-    const { setState } = useAlgoContext();
+interface Props {
+    current: Tool;
+}
 
-    return (
-        <LightTooltip title="Description" placement="right">
-            <StyledButton
-                onClick={() => setState(State.Description)}
-                aria-label="description"
-                size="large"
-                value="Description"
-            >
-                <TagFacesIcon fontSize="medium" />
-            </StyledButton>
-        </LightTooltip>
-    );
-};
-
-const Main = () => {
-    const { displayCode, displayOverview, displayGame } = useAlgoContext();
-
-    return (
-        <>
-            {displayOverview && <Overview />}
-            {displayCode && <CodeSolution />}
-            {displayGame && <Game />}
-            <MuiStack spacing={2}
-                sx={{
-                    position: 'fixed',
-                    top: 112,
-                    left: 40,
-                    zIndex: 1
-                }}
-            >
-                <Instruction />
-                <Code />
-                <GameSign />
-                <BackToOverview />
-                <Input />
-            </MuiStack>
-        </>
-    );
-};
+const Main = ({ current }: Props) => (
+    <MuiStack spacing={2}
+        sx={{
+            position: 'fixed',
+            top: 112,
+            left: 40,
+            zIndex: 1
+        }}
+    >
+        <Description current={current} />
+        <Input current={current} />
+        <Game current={current} />
+    </MuiStack>
+);
 
 export default Main;

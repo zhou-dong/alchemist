@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MouseIcon from '@mui/icons-material/Mouse';
 import { createHelperStyle } from './algo';
 import { State } from '../AlgoState';
+import Toolbox, { Tool } from '../toolbox';
 
 const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAction<boolean>> }> = ({ lock, setLock }) => {
     const { setDisplayGame } = useAlgoContext();
@@ -122,23 +123,26 @@ const Main = () => {
     );
 
     return (
-        <Location>
-            <Container maxWidth="lg">
-                <Draggable disabled={lock}>
-                    <Paper
-                        elevation={4}
-                        sx={{
-                            padding: "10px 0",
-                            paddingBottom: "10%",
-                            borderRadius: " 15px",
-                        }}
-                    >
-                        <Header lock={lock} setLock={setLock} />
-                        <Body />
-                    </Paper>
-                </Draggable>
-            </Container>
-        </Location>
+        <>
+            <Toolbox current={Tool.Gaming} />
+            <Location>
+                <Container maxWidth="lg">
+                    <Draggable disabled={lock}>
+                        <Paper
+                            elevation={4}
+                            sx={{
+                                padding: "10px 0",
+                                paddingBottom: "10%",
+                                borderRadius: " 15px",
+                            }}
+                        >
+                            <Header lock={lock} setLock={setLock} />
+                            <Body />
+                        </Paper>
+                    </Draggable>
+                </Container>
+            </Location>
+        </>
     );
 }
 

@@ -5,7 +5,7 @@ const Icon = () => (
     <SentimentSatisfiedOutlinedIcon
         sx={{
             fontSize: 60,
-            color: "gold",
+            color: "lightgreen",
             animation: 'wobble 1.5s ease infinite',
             '@keyframes wobble': {
                 '0%': { transform: 'rotate(0deg)' },
