@@ -3,7 +3,8 @@ import Title from "../description/Title";
 import GameInput from "./GameInput";
 import { Stack, useTheme } from "@mui/material";
 import { useAlgoContext } from "../AlgoContext";
-import Toolbox, { Tool } from "../toolbox";
+import Toolbox from "../toolbox";
+import { State } from "../AlgoState";
 
 const Location = styled("div")({
     position: 'fixed',
@@ -17,7 +18,7 @@ const Main = () => {
 
     return (
         <>
-            <Toolbox current={Tool.Input} />
+            <Toolbox current={State.Input} />
             <Location>
                 <Stack
                     spacing={4}

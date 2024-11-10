@@ -1,5 +1,10 @@
-import { Stack, Typography } from '@mui/material';
+import { IconButton, Stack, styled, Typography } from '@mui/material';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import Toolbox from '../toolbox';
+import { State } from '../AlgoState';
+import Title from '../description/Title';
+import { useAlgoContext } from '../AlgoContext';
 
 const Icon = () => (
     <SentimentSatisfiedOutlinedIcon
@@ -33,8 +38,6 @@ const Welcome = () => (
             padding: '40px',
             borderRadius: '15px',
             boxShadow: 4,
-            position: 'fixed',
-            top: '33%',
             textAlign: 'center',
         }}
         textAlign="center"
@@ -64,4 +67,54 @@ const Welcome = () => (
     </Stack>
 );
 
-export default Welcome;
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+    width: 60,
+    height: 60,
+    border: "1px solid lightgray",
+    color: theme.palette.primary.main,
+    '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+        color: "#fff",
+    },
+    '&.Mui-disabled': {
+        backgroundColor: 'lightgray',
+        color: 'gray',
+    },
+}));
+
+const Location = styled("div")({
+    position: 'fixed',
+    top: '50%',
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    zIndex: 12,
+});
+
+const Main = () => {
+    const { setState } = useAlgoContext();
+    return (
+        <>
+            <Toolbox current={State.Welcome} />
+            <Location>
+                <Stack
+                    spacing={4}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Title displayStar={false} />
+                    <Welcome />
+                    <div></div>
+                    <StyledIconButton onClick={() => setState(State.Description)}>
+                        <NavigateNextIcon fontSize='large' />
+                    </StyledIconButton>
+                </Stack>
+            </Location>
+        </>
+    );
+}
+
+export default Main;

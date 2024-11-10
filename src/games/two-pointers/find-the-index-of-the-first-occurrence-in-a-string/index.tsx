@@ -7,12 +7,14 @@ import Description from './description';
 import { State } from './AlgoState';
 import Input from './input';
 import Game from './game';
+import Welcome from './welcome';
 
 const Component = () => {
     const { state } = useAlgoContext();
 
     const getComponent = () => {
         switch (state) {
+            case State.Welcome: return <Welcome />;
             case State.Description: return <Description />;
             case State.Input: return <Input />;
             case State.Playing: return <Game />

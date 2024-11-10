@@ -1,17 +1,17 @@
 import React from 'react';
 import Title from "./Title";
 import { Container, Divider, IconButton, Stack, styled } from "@mui/material";
-import Welcome from "./Welcome";
 import { contents, DisplayContents } from './Contents';
 import InputIcon from '@mui/icons-material/Input';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
 import { State } from '../AlgoState';
-import Toolbox, { Tool } from '../toolbox';
+import Toolbox from '../toolbox';
 
 const Navigator = styled(IconButton)({
     width: 60,
@@ -59,7 +59,7 @@ const Main = () => {
 
     return (
         <>
-            <Toolbox current={Tool.Description} />
+            <Toolbox current={State.Description} />
             <Container
                 maxWidth="lg"
                 sx={{
@@ -71,7 +71,7 @@ const Main = () => {
                 }}
             >
                 <Title displayStar={statmentIndex >= 0} />
-                {statmentIndex < 0 && <Welcome />}
+                {/* {statmentIndex < 0 && <Welcome />} */}
 
                 <Divider variant="middle" />
                 <DisplayContents contentIndex={statmentIndex} contents={contents} />
@@ -87,6 +87,12 @@ const Main = () => {
                         alignItems: "center",
                     }}
                 >
+                    <Navigator
+                        onClick={() => setState(State.Welcome)}
+                    >
+                        <DescriptionOutlinedIcon fontSize='large' />
+                    </Navigator>
+
                     <Navigator
                         onClick={handleFirstPageClick}
                         disabled={statmentIndex < 0}
@@ -114,11 +120,10 @@ const Main = () => {
                         <LastPageIcon fontSize='large' />
                     </Navigator>
 
-
                     <Navigator
                         onClick={handleInputClick}
                     >
-                        <InputIcon />
+                        <InputIcon fontSize='large' />
                     </Navigator>
                 </Stack>
             </Container>

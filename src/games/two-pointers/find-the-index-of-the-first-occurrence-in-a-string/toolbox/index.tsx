@@ -6,14 +6,9 @@ import LightTooltip from '../../../../commons/LightTooltip';
 import InputIcon from '@mui/icons-material/Input';
 import { useAlgoContext } from '../AlgoContext';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import { State } from '../AlgoState';
 import React from 'react';
-
-export enum Tool {
-    Description,
-    Input,
-    Gaming
-}
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
@@ -31,17 +26,35 @@ const StyledButton = styled(ToggleButton)(({ theme }) => ({
     zIndex: 10,
 }));
 
-const Description: React.FC<{ current: Tool }> = ({ current }) => {
+const Welcome: React.FC<{ current: State }> = ({ current }) => {
+    const { setState } = useAlgoContext();
+
+    return (
+        <LightTooltip title="Welcome" placement="right">
+            <StyledButton
+                onClick={() => setState(State.Welcome)}
+                aria-label="Welcome"
+                size="large"
+                value="Welcome"
+                selected={current === State.Welcome}
+            >
+                <SentimentSatisfiedAltIcon fontSize="medium" />
+            </StyledButton>
+        </LightTooltip>
+    );
+};
+
+const Description: React.FC<{ current: State }> = ({ current }) => {
     const { setState } = useAlgoContext();
 
     return (
         <LightTooltip title="Description" placement="right">
             <StyledButton
-                onChange={() => setState(State.Description)}
+                onClick={() => setState(State.Description)}
                 aria-label="Description"
                 size="large"
                 value="Description"
-                selected={current === Tool.Description}
+                selected={current === State.Description}
             >
                 <DescriptionOutlinedIcon fontSize="medium" />
             </StyledButton>
@@ -49,17 +62,17 @@ const Description: React.FC<{ current: Tool }> = ({ current }) => {
     );
 };
 
-const Input: React.FC<{ current: Tool }> = ({ current }) => {
+const Input: React.FC<{ current: State }> = ({ current }) => {
     const { setState } = useAlgoContext();
 
     return (
         <LightTooltip title="Input" placement="right">
             <StyledButton
-                onChange={() => setState(State.Input)}
+                onClick={() => setState(State.Input)}
                 aria-label="input"
                 size="large"
                 value="input"
-                selected={current === Tool.Input}
+                selected={current === State.Input}
             >
                 <InputIcon fontSize="medium" />
             </StyledButton>
@@ -67,17 +80,17 @@ const Input: React.FC<{ current: Tool }> = ({ current }) => {
     );
 }
 
-const Game: React.FC<{ current: Tool }> = ({ current }) => {
+const Game: React.FC<{ current: State }> = ({ current }) => {
     const { setState, table } = useAlgoContext();
 
     return (
         <LightTooltip title="Game" placement="right">
             <StyledButton
-                onChange={() => setState(State.Playing)}
+                onClick={() => setState(State.Playing)}
                 aria-label="game"
                 size="large"
                 value="Game"
-                selected={current === Tool.Gaming}
+                selected={current === State.Playing}
                 disabled={table.length == 0}
             >
                 <SportsEsportsOutlinedIcon fontSize="medium" />
@@ -87,7 +100,7 @@ const Game: React.FC<{ current: Tool }> = ({ current }) => {
 };
 
 interface Props {
-    current: Tool;
+    current: State;
 }
 
 const Main = ({ current }: Props) => (
@@ -99,6 +112,7 @@ const Main = ({ current }: Props) => (
             zIndex: 1
         }}
     >
+        <Welcome current={current} />
         <Description current={current} />
         <Input current={current} />
         <Game current={current} />
