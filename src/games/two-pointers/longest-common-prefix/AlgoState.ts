@@ -1,5 +1,6 @@
 export enum State {
-    Typing,
+    Description,
+    Input,
     Playing,
     Finished
 }

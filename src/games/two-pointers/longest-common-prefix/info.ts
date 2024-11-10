@@ -1,4 +1,4 @@
-import { title } from "./introduction/Title";
+import { title } from "./description/Title";
 import { Game } from "../../commons/game";
 import Category from "../../commons/segments/category";
 import Difficulty from "../../commons/segments/difficulty";

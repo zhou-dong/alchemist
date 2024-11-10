@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { title } from "../introduction/Title";
+import { title } from "../description/Title";
 import { Container, IconButton, Paper, Stack, styled, Toolbar, Typography, useTheme } from '@mui/material';
 import Table from '../../../dp/_components/Table';
 import CheckIcon from '@mui/icons-material/Check';

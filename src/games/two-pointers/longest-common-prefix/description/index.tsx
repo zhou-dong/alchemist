@@ -6,6 +6,7 @@ import { contents, DisplayContents } from './Contents';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import InputIcon from '@mui/icons-material/Input';
 import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
 import testCases from "../toolbox/test-cases.json";
@@ -121,7 +122,8 @@ const Main = () => {
                 <Navigator
                     onClick={handleGetIntoGame}
                 >
-                    <SportsEsportsOutlinedIcon />
+                    <InputIcon />
+                    {/* <SportsEsportsOutlinedIcon /> */}
                 </Navigator>
             </Stack>
         </Container>

@@ -28,7 +28,7 @@ const AlgoContext = React.createContext<{
     steps: Step[],
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
 }>({
-    state: State.Typing,
+    state: State.Description,
     setState: () => { },
     index: 0,
     setIndex: () => { },
@@ -56,7 +56,7 @@ const AlgoContext = React.createContext<{
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const [state, setState] = React.useState(State.Typing);
+    const [state, setState] = React.useState(State.Description);
     const [index, setIndex] = React.useState(0);
 
     const [displayIntroduction, setDisplayIntroduction] = React.useState(true);

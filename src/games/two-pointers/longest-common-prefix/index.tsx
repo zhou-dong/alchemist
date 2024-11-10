@@ -4,13 +4,32 @@ import { ThemeProvider } from '@mui/material';
 import theme from '../../dp/_commons/theme';
 import { AlgoContextProvider, useAlgoContext } from "./AlgoContext";
 import Toolbox from "./toolbox";
-import Introduction from './introduction';
+import Description from './description';
+import { State } from './AlgoState';
+import Input from './input';
 
 const Components = () => {
-    const { displayIntroduction } = useAlgoContext();
+    const { displayIntroduction, state } = useAlgoContext();
+
+    const ge = () => {
+        switch (state) {
+            case State.Description: return <Description />;
+            case State.Input: return <Input />;
+            case State.Playing: return <Toolbox />;
+            case State.Finished: return <Toolbox />;
+        }
+    }
+
+
+
+
+
+
     return (
         <>
-            {displayIntroduction ? <Introduction /> : <Toolbox />}
+            {
+                ge()
+            }
         </>
     );
 }
