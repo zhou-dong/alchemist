@@ -67,7 +67,7 @@ export const contents: Content[] = [
     },
     {
         icon: <BuildIcon />,
-        title: 'How It Works',
+        title: 'Algorithm Approach',
         content: (
             <Typography>
                 The algorithm checks for the substring <code>needle</code> starting from the beginning of <code>haystack</code> and compares it character by character. When it finds a match, it returns the starting index of the match. If no match is found by the end of the string, it returns -1.
