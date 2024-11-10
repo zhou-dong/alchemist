@@ -8,24 +8,25 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
 import { State } from '../AlgoState';
 import Toolbox from '../toolbox';
 
-const Navigator = styled(IconButton)({
+const Navigator = styled(IconButton)(({ theme }) => ({
     width: 60,
     height: 60,
-    backgroundColor: green[500],
-    color: "#fff",
+    border: "1px solid lightgray",
+    color: theme.palette.primary.main,
     '&:hover': {
-        backgroundColor: green[600],
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+        color: "#fff",
     },
     '&.Mui-disabled': {
         backgroundColor: 'lightgray',
         color: 'gray',
     },
-});
+}));
 
 const Main = () => {
 
