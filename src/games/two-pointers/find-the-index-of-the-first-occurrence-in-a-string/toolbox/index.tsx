@@ -18,8 +18,8 @@ import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 
-
 interface ToolProps {
+    ready: boolean;
     selected: boolean;
     disabled: boolean;
 }
