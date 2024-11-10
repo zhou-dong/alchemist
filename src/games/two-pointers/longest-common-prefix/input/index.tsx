@@ -41,7 +41,7 @@ const Main = () => {
 
                 <GameInput />
 
-                <ButtonGroup variant="contained">
+                <ButtonGroup variant="contained" size="large">
                     <Button
                         startIcon={<SentimentSatisfiedAltOutlinedIcon />}
                         sx={{ color: "#fff" }}
