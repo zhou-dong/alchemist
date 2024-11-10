@@ -5,12 +5,9 @@ import Welcome from "./Welcome";
 import { contents, DisplayContents } from './Contents';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import InputIcon from '@mui/icons-material/Input';
 import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
-import testCases from "../toolbox/test-cases.json";
-import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
 
 const Navigator = styled(IconButton)({
@@ -29,8 +26,7 @@ const Navigator = styled(IconButton)({
 
 const Main = () => {
 
-    const { setDisplayIntroduction, table, setTable, setTableStyle, setIndex, setState, setSteps, setHaystack, setNeedle } = useAlgoContext();
-
+    const { setState } = useAlgoContext();
 
     const [statmentIndex, setStatementIndex] = React.useState(-1);
 
@@ -46,35 +42,8 @@ const Main = () => {
         }
     };
 
-    const getRandomTestCase = () => {
-        const max = testCases.length;
-        const index = Math.floor(Math.random() * max);
-        return testCases[index];
-    }
-
-    const fillTable = () => {
-        const { input } = getRandomTestCase();
-        const { haystack, needle } = input;
-
-        const table = createTable(haystack, needle);
-        const tableStyle = createTableStyle(haystack, needle);
-        const steps = buildSteps(haystack, needle);
-
-        setTable(table);
-        setTableStyle(tableStyle);
-        setIndex(0);
-        setSteps(steps);
-        setState(State.Playing);
-
-        setHaystack(haystack);
-        setNeedle(needle);
-    }
-
-    const handleGetIntoGame = () => {
-        if (table.length === 0) {
-            fillTable();
-        }
-        setDisplayIntroduction(false);
+    const handleDisplayInput = () => {
+        setState(State.Input);
     }
 
     return (
@@ -120,10 +89,9 @@ const Main = () => {
                 </Navigator>
 
                 <Navigator
-                    onClick={handleGetIntoGame}
+                    onClick={handleDisplayInput}
                 >
                     <InputIcon />
-                    {/* <SportsEsportsOutlinedIcon /> */}
                 </Navigator>
             </Stack>
         </Container>
