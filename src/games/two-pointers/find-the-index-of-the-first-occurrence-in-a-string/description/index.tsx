@@ -3,6 +3,7 @@ import Title from "./Title";
 import { Container, Divider, IconButton, Stack, styled } from "@mui/material";
 import Welcome from "./Welcome";
 import { contents, DisplayContents } from './Contents';
+import InputIcon from '@mui/icons-material/Input';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
@@ -45,36 +46,9 @@ const Main = () => {
         }
     };
 
-    const getRandomTestCase = () => {
-        const max = testCases.length;
-        const index = Math.floor(Math.random() * max);
-        return testCases[index];
-    }
-
-    const fillTable = () => {
-        const { input } = getRandomTestCase();
-        const { haystack, needle } = input;
-
-        const table = createTable(haystack, needle);
-        const tableStyle = createTableStyle(haystack, needle);
-        const steps = buildSteps(haystack, needle);
-
-        setTable(table);
-        setTableStyle(tableStyle);
-        setIndex(0);
-        setSteps(steps);
-        setState(State.Playing);
-
-        setHaystack(haystack);
-        setNeedle(needle);
-    }
-
-    const handleGetIntoGame = () => {
-        if (table.length === 0) {
-            fillTable();
-        }
-        setDisplayIntroduction(false);
-    }
+    const handleInputClick = () => {
+        setState(State.Input);
+    };
 
     return (
         <Container
@@ -119,9 +93,10 @@ const Main = () => {
                 </Navigator>
 
                 <Navigator
-                    onClick={handleGetIntoGame}
+                    onClick={handleInputClick}
                 >
-                    <SportsEsportsOutlinedIcon />
+                    <InputIcon />
+                    {/* <SportsEsportsOutlinedIcon /> */}
                 </Navigator>
             </Stack>
         </Container>

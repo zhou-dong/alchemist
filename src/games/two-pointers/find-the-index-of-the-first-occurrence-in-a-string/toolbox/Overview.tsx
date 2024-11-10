@@ -7,7 +7,7 @@ import Divider from "@mui/material/Divider";
 import Draggable from 'react-draggable';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import CloseIcon from '@mui/icons-material/Close';
-import { contents, DisplayContents } from '../introduction/Contents';
+import { contents, DisplayContents } from '../description/Contents';
 import { styled } from "@mui/material";
 
 const Location = styled(Container)(({ theme }) => (({

@@ -64,9 +64,6 @@ const Main = () => {
                         Start Game
                     </Button>
                 </ButtonGroup>
-
-
-
             </Stack>
         </Location>
     );

@@ -10,7 +10,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import Overview from './Overview';
 import CodeSolution from './CodeSolution';
-import GameInput from './GameInput';
+import GameInput from '../input/GameInput';
 import Game from "../game";
 import testCases from "./test-cases.json";
 import { buildSteps, createTable, createTableStyle } from '../game/algo';
