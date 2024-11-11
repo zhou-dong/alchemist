@@ -126,7 +126,6 @@ const Main = () => {
                         backgroundColor: "lightgray",
                         color: "#fff",
                     },
-                    zIndex: 11
                 }}
             >
                 {state === State.Finished ? <CheckIcon /> : <MouseIcon />}
