@@ -22,7 +22,7 @@ const Header: React.FC<{
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
 }> = ({ lock, setLock, displayCode, setDisplayCode }) => (
     <Toolbar variant='dense' sx={{ display: "flex" }}>
-        <IconButton color='info' disabled={lock}>
+        <IconButton color='primary' disabled={lock}>
             <DragIndicatorIcon fontSize='medium' />
         </IconButton>
         <IconButton onClick={() => setLock(open => !open)}>
@@ -76,7 +76,6 @@ const Main = () => {
         }
 
         setIndex(index + 1);
-
     }
 
     const Body = () => (
