@@ -7,16 +7,21 @@ import TextField from '@mui/material/TextField';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 
-import ClearIcon from '@mui/icons-material/Clear';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 import OutputIcon from '@mui/icons-material/Output';
-import { ButtonGroup, Container, Paper } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, ButtonGroup, Container, Paper } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 
 import testCases from "./test-cases.json";
 import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
+
+import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
+import LooksTwoOutlinedIcon from '@mui/icons-material/LooksTwoOutlined';
+import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
+import Looks4OutlinedIcon from '@mui/icons-material/Looks4Outlined';
+import { Solution } from "../game/solution";
 
 const getRandomTestCase = () => {
     const max = testCases.length;
@@ -37,8 +42,6 @@ export default function Main() {
 
     const [haystackError, setHaystackError] = React.useState(false);
     const [haystackErrorMessage, setHaystackErrorMessage] = React.useState('');
-    const [needleError, setNeedleError] = React.useState(false);
-    const [needleErrorMessage, setNeedleErrorMessage] = React.useState('');
 
     const handleSubmit = () => {
         if (localHaystack.trim().length === 0) {
@@ -46,16 +49,9 @@ export default function Main() {
             setHaystackErrorMessage("Haystack can not be empty");
             return;
         }
-        if (localNeedle.trim().length === 0) {
-            setNeedleError(true);
-            setNeedleErrorMessage("Needle can not be empty");
-            return;
-        }
         if (localNeedle.length > localHaystack.length) {
             setHaystackError(true)
             setHaystackErrorMessage("Haystack should longer than needle");
-            setNeedleError(true);
-            setNeedleErrorMessage("Haystack should longer than needle");
         }
 
         const table = createTable(localHaystack, localNeedle);
@@ -84,14 +80,6 @@ export default function Main() {
         setLocalHaystack(e.currentTarget.value);
     };
 
-    const handleNeedleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (needleError) {
-            setNeedleError(false);
-            setNeedleErrorMessage("");
-        }
-        setLocalNeedle(e.currentTarget.value);
-    };
-
     const handleAutoFill = () => {
         handleClear();
         const { input } = getRandomTestCase();
@@ -106,12 +94,16 @@ export default function Main() {
         setHaystackError(false);
         setHaystackErrorMessage("");
         setLocalNeedle("");
-        setNeedleError(false);
-        setNeedleErrorMessage("");
     }
 
+    const [value, setValue] = React.useState('recents');
+
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue);
+    };
+
     return (
-        <Container maxWidth="sm">
+        <Container>
             <Paper elevation={4}>
                 <Card variant="outlined">
                     <Box
@@ -126,51 +118,60 @@ export default function Main() {
                         }}
                     >
                         <FormControl>
-                            <FormLabel htmlFor="haystack">Haystack</FormLabel>
+                            <FormLabel htmlFor="haystack">String</FormLabel>
                             <TextField
                                 onChange={handleHaystackChange}
                                 error={haystackError}
                                 helperText={haystackErrorMessage}
                                 type="s"
-                                name="haystack"
-                                placeholder="larger string"
+                                name="string"
+                                placeholder="input string"
                                 value={localHaystack}
                                 autoFocus
                                 required
                                 fullWidth
-                                color={haystackError ? 'error' : 'info'}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel htmlFor="needle">Needle</FormLabel>
-                            <TextField
-                                onChange={handleNeedleChange}
-                                error={needleError}
-                                helperText={needleErrorMessage}
-                                name="needle"
-                                placeholder="substring"
-                                value={localNeedle}
-                                type="s"
-                                required
-                                fullWidth
-                                color={needleError ? 'error' : 'info'}
+                                color={haystackError ? 'error' : 'primary'}
                             />
                         </FormControl>
 
+                        <FormControl>
+                            <FormLabel htmlFor="needle">Solution</FormLabel>
+                            <BottomNavigation
+                                showLabels
+                                sx={{}}
+                                value={value}
+                                onChange={handleChange}
+                            >
+                                <BottomNavigationAction
+                                    label="Horizontal Scanning"
+                                    value={Solution.HorizontalScanning}
+                                    icon={<LooksOneOutlinedIcon />}
+                                />
+                                <BottomNavigationAction
+                                    label="Vertical Scanning "
+                                    value={Solution.VerticalScanning}
+                                    icon={<LooksTwoOutlinedIcon />}
+                                />
+                                <BottomNavigationAction
+                                    label="Divide and Conquer"
+                                    value={Solution.DivideAndConquer}
+                                    icon={<Looks3OutlinedIcon />}
+                                />
+                                <BottomNavigationAction
+                                    label="Binary Search"
+                                    value={Solution.BinarySearch}
+                                    icon={<Looks4OutlinedIcon />}
+                                />
+                            </BottomNavigation>
+                        </FormControl>
+
                         <div style={{ textAlign: "center" }}>
-                            <ButtonGroup variant='contained' size='large' color='info'>
+                            <ButtonGroup variant='contained' size='large' color='primary'>
                                 <Button
                                     startIcon={<AutoFixHighIcon />}
                                     onClick={handleAutoFill}
                                 >
                                     auto
-                                </Button>
-
-                                <Button
-                                    startIcon={<ClearIcon />}
-                                    onClick={handleClear}
-                                >
-                                    clear
                                 </Button>
 
                                 <Button
