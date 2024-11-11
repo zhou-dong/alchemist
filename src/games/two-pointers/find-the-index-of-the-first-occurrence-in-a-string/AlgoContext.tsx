@@ -18,7 +18,7 @@ const AlgoContext = React.createContext<{
     steps: Step[],
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
 }>({
-    state: State.Description,
+    state: State.Welcome,
     setState: () => { },
     index: 0,
     setIndex: () => { },
@@ -36,7 +36,7 @@ const AlgoContext = React.createContext<{
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
-    const [state, setState] = React.useState(State.Description);
+    const [state, setState] = React.useState(State.Welcome);
     const [index, setIndex] = React.useState(0);
 
     const [haystack, setHaystack] = React.useState("");
