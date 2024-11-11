@@ -57,28 +57,28 @@ const VerticalScanning = `function longestCommonPrefix(strs: string[]): string {
 
 const formula = HorizontalScanning;
 
-const Head = () => {
-    const { setDisplayCode } = useAlgoContext();
-
-    return (
-        <Toolbar variant='dense' sx={{ display: "flex" }}>
-            <IconButton color='info'>
-                <DragIndicatorIcon fontSize='medium' />
-            </IconButton>
-
-            <Stack sx={{ flexGrow: 1, alignItems: "center", justifyContent: "center" }} spacing={0} direction="row">
-                <IconButton disabled>
-                    <EmojiObjectsOutlinedIcon />
-                </IconButton>
-                <Typography>Solution (Typescript)</Typography>
-            </Stack>
-
-            <IconButton onClick={() => setDisplayCode(false)}>
-                <CloseIcon fontSize='medium' color='warning' />
-            </IconButton>
-        </Toolbar>
-    );
+interface Props {
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
 }
+
+const Head = ({ setDisplayCode }: Props) => (
+    <Toolbar variant='dense' sx={{ display: "flex" }}>
+        <IconButton color='primary'>
+            <DragIndicatorIcon fontSize='medium' />
+        </IconButton>
+
+        <Stack sx={{ flexGrow: 1, alignItems: "center", justifyContent: "center" }} spacing={0} direction="row">
+            <IconButton disabled>
+                <EmojiObjectsOutlinedIcon />
+            </IconButton>
+            <Typography>Solution (Typescript)</Typography>
+        </Stack>
+
+        <IconButton onClick={() => setDisplayCode(false)}>
+            <CloseIcon fontSize='medium' color='warning' />
+        </IconButton>
+    </Toolbar>
+);
 
 const Body = () => {
     const { index } = useAlgoContext();
@@ -105,12 +105,12 @@ const Location = styled("div")({
     zIndex: 2,
 });
 
-const Main = () => (
+const Main = ({ setDisplayCode }: Props) => (
     <Location>
         <Draggable>
             <Paper elevation={8} sx={{ cursor: 'pointer', }}>
                 <Stack spacing={0}>
-                    <Head />
+                    <Head setDisplayCode={setDisplayCode} />
                     <Divider variant='middle' />
                     <Body />
                 </Stack>
