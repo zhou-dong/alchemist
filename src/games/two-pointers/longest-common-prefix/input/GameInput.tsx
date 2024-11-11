@@ -14,7 +14,7 @@ import OutputIcon from '@mui/icons-material/Output';
 import { ButtonGroup, Container, Paper } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 
-import testCases from "../toolbox/test-cases.json";
+import testCases from "./test-cases.json";
 import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
 
