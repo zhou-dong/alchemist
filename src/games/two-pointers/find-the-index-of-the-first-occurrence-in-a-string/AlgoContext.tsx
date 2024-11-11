@@ -7,12 +7,6 @@ const AlgoContext = React.createContext<{
     setState: React.Dispatch<React.SetStateAction<State>>,
     index: number,
     setIndex: React.Dispatch<React.SetStateAction<number>>,
-    displayCode: boolean,
-    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
-    displayOverview: boolean,
-    setDisplayOverview: React.Dispatch<React.SetStateAction<boolean>>,
-    displayGame: boolean,
-    setDisplayGame: React.Dispatch<React.SetStateAction<boolean>>,
     haystack: string,
     setHaystack: React.Dispatch<React.SetStateAction<string>>,
     needle: string,
@@ -28,12 +22,6 @@ const AlgoContext = React.createContext<{
     setState: () => { },
     index: 0,
     setIndex: () => { },
-    displayCode: false,
-    setDisplayCode: () => { },
-    displayOverview: false,
-    setDisplayOverview: () => { },
-    displayGame: true,
-    setDisplayGame: () => { },
     haystack: "",
     setHaystack: () => { },
     needle: "",
@@ -51,10 +39,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [state, setState] = React.useState(State.Description);
     const [index, setIndex] = React.useState(0);
 
-    const [displayCode, setDisplayCode] = React.useState(false);
-    const [displayOverview, setDisplayOverview] = React.useState(false);
-    const [displayGame, setDisplayGame] = React.useState(true);
-
     const [haystack, setHaystack] = React.useState("");
     const [needle, setNeedle] = React.useState("");
 
@@ -68,12 +52,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setState,
             index,
             setIndex,
-            displayCode,
-            setDisplayCode,
-            displayOverview,
-            setDisplayOverview,
-            displayGame,
-            setDisplayGame,
             haystack,
             setHaystack,
             needle,

@@ -26,7 +26,7 @@ export default function Main() {
 
     const [localHaystack, setLocalHaystack] = React.useState("");
     const [localNeedle, setLocalNeedle] = React.useState("");
-    const { setHaystack, setNeedle, setDisplayGame, setTable, setTableStyle, setIndex, setSteps, setState } = useAlgoContext();
+    const { setHaystack, setNeedle, setTable, setTableStyle, setIndex, setSteps, setState } = useAlgoContext();
 
     const [haystackError, setHaystackError] = React.useState(false);
     const [haystackErrorMessage, setHaystackErrorMessage] = React.useState('');
@@ -65,7 +65,6 @@ export default function Main() {
         setNeedle(localNeedle);
 
         handleClear();
-        setDisplayGame(true);
     };
 
     const handleHaystackChange = (e: React.ChangeEvent<HTMLInputElement>) => {

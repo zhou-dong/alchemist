@@ -1,37 +1,48 @@
 import * as React from 'react';
 import { title } from "../description/Title";
-import { Container, IconButton, Paper, Stack, styled, Toolbar, Typography, useTheme } from '@mui/material';
+import { Container, IconButton, Paper, Stack, styled, ToggleButton, Toolbar, Typography, useTheme } from '@mui/material';
 import Table from '../../../dp/_components/Table';
 import CheckIcon from '@mui/icons-material/Check';
 import { useAlgoContext } from '../AlgoContext';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Draggable from 'react-draggable';
-import CloseIcon from '@mui/icons-material/Close';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CodeIcon from '@mui/icons-material/Code';
 import MouseIcon from '@mui/icons-material/Mouse';
 import { createHelperStyle } from './algo';
 import { State } from '../AlgoState';
 import Toolbox from '../toolbox';
+import CodeSolution from './CodeSolution';
 
-const Header: React.FC<{ lock: boolean, setLock: React.Dispatch<React.SetStateAction<boolean>> }> = ({ lock, setLock }) => {
-    const { setDisplayGame } = useAlgoContext();
-
-    return (
-        <Toolbar variant='dense' sx={{ display: "flex" }}>
-            <IconButton color='info' disabled={lock}>
-                <DragIndicatorIcon fontSize='medium' />
-            </IconButton>
-            <IconButton onClick={() => setLock(open => !open)}>
-                {lock ? <LockOutlinedIcon /> : <LockOpenOutlinedIcon />}
-            </IconButton>
-            <div style={{ flexGrow: 1 }} />
-            <IconButton onClick={() => setDisplayGame(false)}>
-                <CloseIcon fontSize='medium' color='warning' />
-            </IconButton>
-        </Toolbar>
-    );
-};
+const Header: React.FC<{
+    lock: boolean,
+    setLock: React.Dispatch<React.SetStateAction<boolean>>,
+    displayCode: boolean,
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>,
+}> = ({ lock, setLock, displayCode, setDisplayCode }) => (
+    <Toolbar variant='dense' sx={{ display: "flex" }}>
+        <IconButton color='info' disabled={lock}>
+            <DragIndicatorIcon fontSize='medium' />
+        </IconButton>
+        <IconButton onClick={() => setLock(open => !open)}>
+            {lock ? <LockOutlinedIcon /> : <LockOpenOutlinedIcon />}
+        </IconButton>
+        <ToggleButton
+            value={displayCode}
+            selected={displayCode}
+            onClick={() => setDisplayCode(open => !open)}
+            size='small'
+            sx={{
+                border: "none",
+                borderRadius: "50%",
+            }}
+        >
+            <CodeIcon />
+        </ToggleButton>
+        <div style={{ flexGrow: 1 }} />
+    </Toolbar>
+);
 
 const Location = styled(Container)(({ theme }) => (({
     position: "fixed",
@@ -41,6 +52,7 @@ const Location = styled(Container)(({ theme }) => (({
 })));
 
 const Main = () => {
+    const [displayCode, setDisplayCode] = React.useState(false);
 
     const theme = useTheme();
     const { table, setTable, tableStyle, steps, index, setIndex, setTableStyle, haystack, needle, state, setState } = useAlgoContext();
@@ -136,12 +148,18 @@ const Main = () => {
                                 borderRadius: " 15px",
                             }}
                         >
-                            <Header lock={lock} setLock={setLock} />
+                            <Header
+                                lock={lock}
+                                setLock={setLock}
+                                displayCode={displayCode}
+                                setDisplayCode={setDisplayCode}
+                            />
                             <Body />
                         </Paper>
                     </Draggable>
                 </Container>
             </Location>
+            {displayCode && <CodeSolution setDisplayCode={setDisplayCode} />}
         </>
     );
 }
