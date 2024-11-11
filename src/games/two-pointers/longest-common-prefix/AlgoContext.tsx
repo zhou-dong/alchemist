@@ -1,6 +1,7 @@
 import React from "react";
 import { State } from "./AlgoState";
 import { Step } from "./game/algo";
+import { Solution } from "./game/solution";
 
 const AlgoContext = React.createContext<{
     state: State,
@@ -27,6 +28,10 @@ const AlgoContext = React.createContext<{
     setTableStyle: React.Dispatch<React.SetStateAction<React.CSSProperties[][]>>,
     steps: Step[],
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
+    strs: string[],
+    setStrs: React.Dispatch<React.SetStateAction<string[]>>,
+    solution?: Solution,
+    setSolution: React.Dispatch<React.SetStateAction<Solution | undefined>>,
 }>({
     state: State.Welcome,
     setState: () => { },
@@ -52,6 +57,9 @@ const AlgoContext = React.createContext<{
     setTableStyle: () => { },
     steps: [],
     setSteps: () => { },
+    strs: [],
+    setStrs: () => { },
+    setSolution: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -71,6 +79,9 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [table, setTable] = React.useState<(number | string)[][]>([]);
     const [tableStyle, setTableStyle] = React.useState<(React.CSSProperties)[][]>([]);
     const [steps, setSteps] = React.useState<Step[]>([]);
+
+    const [strs, setStrs] = React.useState<string[]>([]);
+    const [solution, setSolution] = React.useState<Solution>();
 
     return (
         <AlgoContext.Provider value={{
@@ -97,7 +108,11 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             tableStyle,
             setTableStyle,
             steps,
-            setSteps
+            setSteps,
+            strs,
+            setStrs,
+            solution,
+            setSolution,
         }}>
             {children}
         </AlgoContext.Provider>
