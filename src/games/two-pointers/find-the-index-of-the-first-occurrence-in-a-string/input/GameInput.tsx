@@ -129,7 +129,7 @@ export default function Main() {
                             autoFocus
                             required
                             fullWidth
-                            color={haystackError ? 'error' : 'info'}
+                            color={haystackError ? 'error' : 'primary'}
                         />
                     </FormControl>
                     <FormControl>
@@ -144,7 +144,7 @@ export default function Main() {
                             type="s"
                             required
                             fullWidth
-                            color={needleError ? 'error' : 'info'}
+                            color={needleError ? 'error' : 'primary'}
                         />
                     </FormControl>
 
