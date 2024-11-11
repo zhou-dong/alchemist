@@ -38,10 +38,10 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     const [state, setState] = React.useState(State.Welcome);
     const [index, setIndex] = React.useState(0);
+    const [steps, setSteps] = React.useState<Step[]>([]);
 
     const [table, setTable] = React.useState<(number | string)[][]>([]);
     const [tableStyle, setTableStyle] = React.useState<(React.CSSProperties)[][]>([]);
-    const [steps, setSteps] = React.useState<Step[]>([]);
 
     const [strs, setStrs] = React.useState<string[]>([]);
     const [solution, setSolution] = React.useState<Solution>();
