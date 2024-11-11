@@ -49,7 +49,7 @@ const Head = ({ setDisplayCode }: Props) => (
 const Body = () => {
     const { index } = useAlgoContext();
     const steps: any[] = [];
-    const step = steps[index]//steps[index - 1];
+    const step = steps[index];
     const linesToHighlight = step?.linesToHighlight || [];
 
     return (
