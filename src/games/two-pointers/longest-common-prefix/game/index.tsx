@@ -55,7 +55,7 @@ const Main = () => {
     const [displayCode, setDisplayCode] = React.useState(false);
 
     const theme = useTheme();
-    const { table, setTable, tableStyle, steps, index, setIndex, setTableStyle, haystack, needle, state, setState } = useAlgoContext();
+    const { table, setTable, tableStyle, steps, index, setIndex, setTableStyle, state, setState } = useAlgoContext();
 
     const [lock, setLock] = React.useState(false);
 
@@ -68,8 +68,8 @@ const Main = () => {
         table[row + 2][col + 2] = "-";
         setTable(table);
 
-        const style = createHelperStyle(haystack, needle, step);
-        setTableStyle(style);
+        // const style = createHelperStyle(haystack, needle, step);
+        // setTableStyle(style);
 
         if (index === steps.length - 1) {
             setState(State.Finished);
