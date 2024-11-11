@@ -8,6 +8,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import { useAlgoContext } from '../AlgoContext';
 import { State } from '../AlgoState';
 import Toolbox from '../toolbox';
@@ -94,7 +95,7 @@ const Main = () => {
                     <Navigator
                         onClick={() => setState(State.Welcome)}
                     >
-                        <DescriptionOutlinedIcon fontSize='medium' />
+                        <SentimentSatisfiedOutlinedIcon fontSize='medium' />
                     </Navigator>
 
                     <Navigator
