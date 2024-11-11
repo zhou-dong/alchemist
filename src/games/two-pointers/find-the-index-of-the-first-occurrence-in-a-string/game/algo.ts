@@ -1,6 +1,6 @@
 import helperColor from '@mui/material/colors/green';
 
-const helperStyle: React.CSSProperties = { backgroundColor: helperColor[300] };
+const helperStyle: React.CSSProperties = { backgroundColor: helperColor[400] };
 const helperStyle2: React.CSSProperties = { backgroundColor: helperColor[500], color: "#fff" };
 
 export enum Action {
