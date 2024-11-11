@@ -1,6 +1,6 @@
 export enum Solution {
-    HorizontalScanning,
-    VerticalScanning,
-    DivideAndConquer,
-    BinarySearch
+    HorizontalScanning = "Horizontal Scanning",
+    VerticalScanning = "Vertical Scanning",
+    DivideAndConquer = "Divide and Conquer",
+    BinarySearch = "Binary Search"
 }
