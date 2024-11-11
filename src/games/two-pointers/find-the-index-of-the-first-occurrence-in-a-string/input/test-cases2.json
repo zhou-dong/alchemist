@@ -1,0 +1,122 @@
+[
+    {
+        "name": "Test Case 1",
+        "input": {
+            "haystack": "hello",
+            "needle": "ell"
+        },
+        "output": 1
+    },
+    {
+        "name": "Test Case 2",
+        "input": {
+            "haystack": "abcdef",
+            "needle": "bc"
+        },
+        "output": 1
+    },
+    {
+        "name": "Test Case 3",
+        "input": {
+            "haystack": "world",
+            "needle": "wor"
+        },
+        "output": 0
+    },
+    {
+        "name": "Test Case 4",
+        "input": {
+            "haystack": "apple",
+            "needle": "p"
+        },
+        "output": 1
+    },
+    {
+        "name": "Test Case 5",
+        "input": {
+            "haystack": "aaaaa",
+            "needle": "aa"
+        },
+        "output": 0
+    },
+    {
+        "name": "Test Case 6",
+        "input": {
+            "haystack": "abcabcabc",
+            "needle": "abc"
+        },
+        "output": 0
+    },
+    {
+        "name": "Test Case 7",
+        "input": {
+            "haystack": "abcdef",
+            "needle": "f"
+        },
+        "output": 5
+    },
+    {
+        "name": "Test Case 8",
+        "input": {
+            "haystack": "hello",
+            "needle": "z"
+        },
+        "output": -1
+    },
+    {
+        "name": "Test Case 9",
+        "input": {
+            "haystack": "abcdef",
+            "needle": "gh"
+        },
+        "output": -1
+    },
+    {
+        "name": "Test Case 10",
+        "input": {
+            "haystack": "Hello",
+            "needle": "hello"
+        },
+        "output": -1
+    },
+    {
+        "name": "Test Case 11",
+        "input": {
+            "haystack": "OpenAI",
+            "needle": "open"
+        },
+        "output": -1
+    },
+    {
+        "name": "Test Case 12",
+        "input": {
+            "haystack": "test",
+            "needle": "t"
+        },
+        "output": 0
+    },
+    {
+        "name": "Test Case 13",
+        "input": {
+            "haystack": "racecar",
+            "needle": "r"
+        },
+        "output": 0
+    },
+    {
+        "name": "Test Case 14",
+        "input": {
+            "haystack": "tesd",
+            "needle": "test"
+        },
+        "output": -1
+    },
+    {
+        "name": "Test Case 15",
+        "input": {
+            "haystack": "hello",
+            "needle": "halo"
+        },
+        "output": 0
+    }
+]

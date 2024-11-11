@@ -12,11 +12,14 @@ import OutputIcon from '@mui/icons-material/Output';
 import { ButtonGroup, Container, Paper, Typography } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 
-import testCases from "./test-cases.json";
+import testCases1 from "./test-cases.json";
+import testCases2 from "./test-cases2.json"
+
 import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
 
 const getRandomTestCase = () => {
+    const testCases = testCases1.concat(testCases2);
     const max = testCases.length;
     const index = Math.floor(Math.random() * max);
     return testCases[index];
