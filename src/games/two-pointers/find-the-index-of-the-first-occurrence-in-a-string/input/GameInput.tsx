@@ -8,7 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 import OutputIcon from '@mui/icons-material/Output';
-import { Container, Divider, IconButton, Paper, Stack, styled, Typography } from '@mui/material';
+import { Container, IconButton, Paper, Stack, styled, Typography } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 
 import testCases1 from "./test-cases.json";
@@ -174,8 +174,6 @@ export default function Main() {
                             color={needleError ? 'error' : 'primary'}
                         />
                     </FormControl>
-
-                    <Divider />
 
                     <Stack
                         direction="row"
