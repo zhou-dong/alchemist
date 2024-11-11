@@ -29,7 +29,7 @@ interface Props {
 
 const Head = ({ setDisplayCode }: Props) => (
     <Toolbar variant='dense' sx={{ display: "flex" }}>
-        <IconButton color='info'>
+        <IconButton color='primary'>
             <DragIndicatorIcon fontSize='medium' />
         </IconButton>
 
