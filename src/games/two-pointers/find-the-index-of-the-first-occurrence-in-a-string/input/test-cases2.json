@@ -42,7 +42,7 @@
     {
         "name": "Test Case 6",
         "input": {
-            "haystack": "abcabcabc",
+            "haystack": "abdabdabc",
             "needle": "abc"
         },
         "output": 0
