@@ -94,5 +94,4 @@ const Main = ({ current }: Props) => {
     );
 }
 
-
 export default Main;
