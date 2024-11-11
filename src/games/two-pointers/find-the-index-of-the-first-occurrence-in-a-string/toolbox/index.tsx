@@ -47,42 +47,6 @@ const Tool: React.FC<{
     </LightTooltip>
 );
 
-const Description: React.FC<{ current: State }> = ({ current }) => {
-    const { setState } = useAlgoContext();
-
-    return (
-        <LightTooltip title="Description" placement="right">
-            <StyledButton
-                onClick={() => setState(State.Description)}
-                aria-label="Description"
-                size="large"
-                value="Description"
-                selected={current === State.Description}
-            >
-                <DescriptionOutlinedIcon fontSize="medium" />
-            </StyledButton>
-        </LightTooltip>
-    );
-};
-
-const Input: React.FC<{ current: State }> = ({ current }) => {
-    const { setState } = useAlgoContext();
-
-    return (
-        <LightTooltip title="Input" placement="right">
-            <StyledButton
-                onClick={() => setState(State.Input)}
-                aria-label="input"
-                size="large"
-                value="input"
-                selected={current === State.Input}
-            >
-                <InputIcon fontSize="medium" />
-            </StyledButton>
-        </LightTooltip>
-    );
-}
-
 interface Props {
     current: State;
 }
