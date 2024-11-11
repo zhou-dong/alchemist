@@ -45,7 +45,7 @@ const Main = () => {
     const theme = useTheme();
     const { table, setTable, tableStyle, steps, index, setIndex, setTableStyle, haystack, needle, state, setState } = useAlgoContext();
 
-    const [lock, setLock] = React.useState(false);
+    const [lock, setLock] = React.useState(true);
 
     const handleClick = () => {
         if (state === State.Finished) {
