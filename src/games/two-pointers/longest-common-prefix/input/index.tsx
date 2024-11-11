@@ -1,72 +1,38 @@
-import { Button, ButtonGroup, Stack } from "@mui/material";
-import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
-import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
-import Title from "../description/Title";
-import { useAlgoContext } from "../AlgoContext";
-import { State } from "../AlgoState";
-import GameInput from "./GameInput";
 import styled from "@emotion/styled";
+import Title from "../description/Title";
+import GameInput from "./GameInput";
+import { Stack } from "@mui/material";
+import Toolbox from "../toolbox";
+import { State } from "../AlgoState";
 
 const Location = styled("div")({
     position: 'fixed',
-    top: '50%',
+    top: '40%',
     left: "50%",
     transform: "translate(-50%,-50%)",
     zIndex: 12,
 });
 
 const Main = () => {
-    const { setState } = useAlgoContext();
-
-    const handleGoBack = () => {
-        setState(State.Description);
-    }
-
-    const handleGetIntoGame = () => {
-        setState(State.Playing);
-    }
 
     return (
-        <Location>
-            <Stack
-                spacing={4}
-                display="flex"
-                sx={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
-
-                <Title displayStar={false} />
-
-                <GameInput />
-
-                <ButtonGroup variant="contained" size="large">
-                    <Button
-                        startIcon={<SentimentSatisfiedAltOutlinedIcon />}
-                        sx={{
-                            color: "#fff",
-                            textTransform: 'none',
-                        }}
-                        onClick={handleGoBack}
-
-                    >
-                        Back To Description
-                    </Button>
-                    <Button
-                        endIcon={<SportsEsportsOutlinedIcon />}
-                        sx={{
-                            color: "#fff",
-                            textTransform: 'none',
-                        }}
-                        onClick={handleGetIntoGame}
-                    >
-                        Start Game
-                    </Button>
-                </ButtonGroup>
-            </Stack>
-        </Location>
+        <>
+            <Toolbox current={State.Input} />
+            <Location>
+                <Stack
+                    spacing={4}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Title displayStar={false} />
+                    <GameInput />
+                </Stack>
+            </Location>
+        </>
     );
-}
+};
 
 export default Main;
