@@ -9,7 +9,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 import OutputIcon from '@mui/icons-material/Output';
-import { ButtonGroup, Container, Paper } from '@mui/material';
+import { ButtonGroup, Container, Paper, Typography } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 
 import testCases from "../toolbox/test-cases.json";
@@ -115,6 +115,7 @@ export default function Main() {
                         gap: 2,
                     }}
                 >
+                    <Typography variant='h5'>Input</Typography>
                     <FormControl>
                         <FormLabel htmlFor="haystack">Haystack</FormLabel>
                         <TextField
@@ -155,14 +156,6 @@ export default function Main() {
                                 onClick={handleAutoFill}
                             >
                                 auto
-                            </Button>
-
-                            <Button
-                                sx={{ color: "#fff" }}
-                                startIcon={<ClearIcon />}
-                                onClick={handleClear}
-                            >
-                                clear
                             </Button>
 
                             <Button
