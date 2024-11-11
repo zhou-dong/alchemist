@@ -129,7 +129,7 @@ const Main = () => {
                     zIndex: 11
                 }}
             >
-                {state === State.Finished ? <CheckIcon sx={{ color: 'green' }} /> : <MouseIcon />}
+                {state === State.Finished ? <CheckIcon /> : <MouseIcon />}
             </IconButton>
         </Stack>
     );
