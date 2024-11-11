@@ -8,7 +8,7 @@ import { State } from "../AlgoState";
 
 const Location = styled("div")({
     position: 'fixed',
-    top: '50%',
+    top: '40%',
     left: "50%",
     transform: "translate(-50%,-50%)",
     zIndex: 12,
