@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
-import { BottomNavigation, BottomNavigationAction, Divider, IconButton, InputBase, List, ListItem, Paper, Stack, Typography } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Divider, IconButton, InputBase, List, ListItem, Paper, Stack } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 
 import testCases from "./test-cases.json";
@@ -192,7 +192,7 @@ export default function Main() {
     const handleClear = () => {
         setLocalSolution(undefined);
         setLocalStrings([]);
-    }
+    };
 
     return (
         <Paper elevation={4}>
@@ -248,6 +248,7 @@ export default function Main() {
                     >
                         <StyledButton
                             disabled={!localSolution || localStrings.length === 0}
+                            onClick={handleSubmit}
                         >
                             <OutputIcon />
                         </StyledButton>
