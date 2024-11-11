@@ -65,9 +65,9 @@ const Body = () => {
 
 const Location = styled("div")({
     position: 'fixed',
-    top: '50%',
+    bottom: '10%',
     left: "50%",
-    transform: "translate(-50%,-50%)",
+    transform: "translate(-50%,0)",
 });
 
 const Main = ({ setDisplayCode }: Props) => (
