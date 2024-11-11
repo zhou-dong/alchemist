@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 import Title from "../description/Title";
 import GameInput from "./GameInput";
-import { Stack, useTheme } from "@mui/material";
-import { useAlgoContext } from "../AlgoContext";
+import { Stack } from "@mui/material";
 import Toolbox from "../toolbox";
 import { State } from "../AlgoState";
 
