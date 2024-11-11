@@ -39,9 +39,6 @@ const Welcome = () => (
             padding: '40px',
             borderRadius: '15px',
             boxShadow: 4,
-            position: 'fixed',
-            top: '33%',
-            textAlign: 'center',
         }}
         textAlign="center"
     >
