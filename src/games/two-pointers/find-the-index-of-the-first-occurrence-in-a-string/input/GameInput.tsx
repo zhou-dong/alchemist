@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -9,7 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 
 import OutputIcon from '@mui/icons-material/Output';
-import { ButtonGroup, Container, Paper, Typography } from '@mui/material';
+import { Container, Divider, IconButton, Paper, Stack, styled, Typography } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 
 import testCases1 from "./test-cases.json";
@@ -17,6 +16,22 @@ import testCases2 from "./test-cases2.json"
 
 import { buildSteps, createTable, createTableStyle } from '../game/algo';
 import { State } from '../AlgoState';
+
+const StyledButton = styled(IconButton)(({ theme }) => ({
+    width: 60,
+    height: 60,
+    border: "1px solid lightgray",
+    color: theme.palette.primary.main,
+    '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+        color: "#fff",
+    },
+    '&.Mui-disabled': {
+        backgroundColor: 'lightgray',
+        color: 'gray',
+    },
+}));
 
 const getRandomTestCase = () => {
     const testCases = testCases1.concat(testCases2);
@@ -35,6 +50,24 @@ export default function Main() {
     const [haystackErrorMessage, setHaystackErrorMessage] = React.useState('');
     const [needleError, setNeedleError] = React.useState(false);
     const [needleErrorMessage, setNeedleErrorMessage] = React.useState('');
+
+    const handleAutoFill = () => {
+        handleClear();
+        const { input } = getRandomTestCase();
+        const { haystack, needle } = input;
+
+        setLocalHaystack(haystack)
+        setLocalNeedle(needle);
+    }
+
+    React.useEffect(() => {
+        handleClear();
+        const { input } = getRandomTestCase();
+        const { haystack, needle } = input;
+
+        setLocalHaystack(haystack)
+        setLocalNeedle(needle);
+    }, [])
 
     const handleSubmit = () => {
         if (localHaystack.trim().length === 0) {
@@ -85,15 +118,6 @@ export default function Main() {
         }
         setLocalNeedle(e.currentTarget.value);
     };
-
-    const handleAutoFill = () => {
-        handleClear();
-        const { input } = getRandomTestCase();
-        const { haystack, needle } = input;
-
-        setLocalHaystack(haystack)
-        setLocalNeedle(needle);
-    }
 
     const handleClear = () => {
         setLocalHaystack("");
@@ -151,26 +175,36 @@ export default function Main() {
                         />
                     </FormControl>
 
-                    <div style={{ textAlign: "center" }}>
-                        <ButtonGroup variant='contained' size='large' color='primary'>
-                            <Button
-                                sx={{ color: "#fff" }}
-                                startIcon={<AutoFixHighIcon />}
-                                onClick={handleAutoFill}
-                            >
-                                auto
-                            </Button>
+                    <Divider />
 
-                            <Button
-                                sx={{ color: "#fff" }}
-                                startIcon={<OutputIcon />}
-                                onClick={handleSubmit}
-                                disabled={localHaystack.length === 0 || localNeedle.length === 0}
-                            >
-                                submit
-                            </Button>
-                        </ButtonGroup>
-                    </div>
+                    <Stack
+                        direction="row"
+                        spacing={2}
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        <StyledButton
+                            onClick={handleAutoFill}
+                        >
+                            <AutoFixHighIcon />
+                        </StyledButton>
+
+                        <StyledButton
+                            onClick={handleClear}
+                        >
+                            <ClearIcon />
+                        </StyledButton>
+
+                        <StyledButton
+                            onClick={handleSubmit}
+                            disabled={localHaystack.length === 0 || localNeedle.length === 0}
+                        >
+                            <OutputIcon />
+                        </StyledButton>
+                    </Stack>
                 </Box>
             </Paper>
         </Container>
