@@ -23,7 +23,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import InputIcon from '@mui/icons-material/Input';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UploadIcon from '@mui/icons-material/Upload';
-import { Solution } from '../game/solution';
+import { getRandomeSolution, Solution } from '../game/solution';
 
 const StyledButton = styled(IconButton)(({ theme }) => ({
     width: 60,
@@ -54,7 +54,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 const SelectSolution: React.FC<{
     localSolution: Solution | undefined,
-    setLocalSolution: React.Dispatch<React.SetStateAction<Solution | undefined>>,
+    setLocalSolution: React.Dispatch<React.SetStateAction<Solution>>,
 }> = ({
     localSolution,
     setLocalSolution,
@@ -173,8 +173,8 @@ const AddString: React.FC<{ setLocalStrings: React.Dispatch<React.SetStateAction
 
 export default function Main() {
 
-    const [localSolution, setLocalSolution] = React.useState<Solution>();
-    const [localStrings, setLocalStrings] = React.useState<string[]>([]);
+    const [localSolution, setLocalSolution] = React.useState<Solution>(getRandomeSolution());
+    const [localStrings, setLocalStrings] = React.useState<string[]>(getRandomTestCase().input);
 
     const { setState } = useAlgoContext();
 
@@ -190,7 +190,6 @@ export default function Main() {
     };
 
     const handleClear = () => {
-        setLocalSolution(undefined);
         setLocalStrings([]);
     };
 
