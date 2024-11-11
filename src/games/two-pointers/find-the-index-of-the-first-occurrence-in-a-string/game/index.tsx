@@ -144,7 +144,7 @@ const Main = () => {
                             elevation={4}
                             sx={{
                                 padding: "10px 0",
-                                paddingBottom: "10%",
+                                paddingBottom: "30px",
                                 borderRadius: " 15px",
                             }}
                         >
