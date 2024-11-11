@@ -8,6 +8,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import { useAlgoContext } from '../AlgoContext';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import Overview from './Overview';
 import CodeSolution from './CodeSolution';
 import GameInput from '../input/GameInput';
@@ -18,18 +19,37 @@ import { State } from '../AlgoState';
 
 const StyledButton = styled(ToggleButton)(({ theme }) => ({
     borderRadius: "50%",
+    color: theme.palette.primary.light,
     '&:hover': {
-        backgroundColor: theme.palette.info.light,
-        borderColor: theme.palette.info.light,
-        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.primary.light,
+        borderColor: theme.palette.primary.light,
+        color: "#fff",
     },
     '&&.Mui-selected': {
-        backgroundColor: theme.palette.info.light,
-        borderColor: theme.palette.info.light,
-        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+        color: "#fff",
     },
     zIndex: 10,
 }));
+
+const Welcome: React.FC<{ current: State }> = ({ current }) => {
+    const { setState } = useAlgoContext();
+
+    return (
+        <LightTooltip title="Welcome" placement="right">
+            <StyledButton
+                onClick={() => setState(State.Welcome)}
+                aria-label="Welcome"
+                size="large"
+                value="Welcome"
+                selected={current === State.Welcome}
+            >
+                <SentimentSatisfiedAltIcon fontSize="medium" />
+            </StyledButton>
+        </LightTooltip>
+    );
+};
 
 const Code = () => {
     const { displayCode, setDisplayCode } = useAlgoContext();
@@ -177,30 +197,25 @@ const BackToOverview = () => {
     );
 };
 
-const Main = () => {
-    const { displayCode, displayOverview, displayInput, displayGame } = useAlgoContext();
+interface Props {
+    current: State;
+}
 
-    return (
-        <>
-            {displayOverview && <Overview />}
-            {displayCode && <CodeSolution />}
-            {displayInput && <GameInput />}
-            {displayGame && <Game />}
-            <MuiStack spacing={2}
-                sx={{
-                    position: 'fixed',
-                    top: 112,
-                    left: 40,
-                    zIndex: 1
-                }}
-            >
-                <Instruction />
-                <Code />
-                <GameSign />
-                <Input />
-            </MuiStack>
-        </>
-    );
-};
+const Main = ({ current }: Props) => (
+    <MuiStack spacing={2}
+        sx={{
+            position: 'fixed',
+            top: 112,
+            left: 40,
+            zIndex: 1
+        }}
+    >
+        <Welcome current={current} />
+        <Instruction />
+        <Code />
+        <GameSign />
+        <Input />
+    </MuiStack>
+);
 
 export default Main;

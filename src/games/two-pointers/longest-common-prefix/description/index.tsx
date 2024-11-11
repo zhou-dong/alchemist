@@ -1,7 +1,6 @@
 import React from 'react';
 import Title from "./Title";
 import { Container, Divider, IconButton, Stack, styled } from "@mui/material";
-import Welcome from "./Welcome";
 import { contents, DisplayContents } from './Contents';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
@@ -58,7 +57,6 @@ const Main = () => {
             }}
         >
             <Title displayStar={statmentIndex >= 0} />
-            {statmentIndex < 0 && <Welcome />}
 
             <Divider variant="middle" />
             <DisplayContents contentIndex={statmentIndex} contents={contents} />

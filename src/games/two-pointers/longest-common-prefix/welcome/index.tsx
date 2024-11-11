@@ -1,6 +1,11 @@
-import { Stack, Typography } from '@mui/material';
+import { IconButton, Stack, styled, Typography } from '@mui/material';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import { green } from '@mui/material/colors';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useAlgoContext } from '../AlgoContext';
+import Title from '../description/Title';
+import Toolbox from '../toolbox';
+import { State } from '../AlgoState';
 
 const Icon = () => (
     <SentimentSatisfiedOutlinedIcon
@@ -66,4 +71,53 @@ const Welcome = () => (
     </Stack>
 );
 
-export default Welcome;
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+    width: 60,
+    height: 60,
+    border: "1px solid lightgray",
+    color: theme.palette.primary.main,
+    '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
+        color: "#fff",
+    },
+    '&.Mui-disabled': {
+        backgroundColor: 'lightgray',
+        color: 'gray',
+    },
+}));
+
+const Location = styled("div")({
+    position: 'fixed',
+    top: '40%',
+    left: "50%",
+    transform: "translate(-50%,-40%)",
+});
+
+const Main = () => {
+    const { setState } = useAlgoContext();
+    return (
+        <>
+            <Toolbox current={State.Welcome} />
+            <Location>
+                <Stack
+                    spacing={4}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Title displayStar={false} />
+                    <Welcome />
+                    <div></div>
+                    <StyledIconButton onClick={() => setState(State.Description)}>
+                        <NavigateNextIcon fontSize='large' />
+                    </StyledIconButton>
+                </Stack>
+            </Location>
+        </>
+    );
+}
+
+export default Main;
