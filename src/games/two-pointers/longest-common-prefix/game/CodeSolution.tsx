@@ -22,7 +22,7 @@ const HorizontalScanning = `function longestCommonPrefix(strs: string[]): string
     }
 
     return prefix;
-};
+}
 
 function lcp(str1: string, str2: string): string {
     let index = 0;
