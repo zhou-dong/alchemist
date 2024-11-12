@@ -2,13 +2,13 @@ import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import Draggable from 'react-draggable';
-import CodeBlock, { languages } from '../../../../dp/_components/CodeBlock';
+import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAlgoContext } from '../../AlgoContext';
+import { useAlgoContext } from '../AlgoContext';
 import React from 'react';
 
-const Head: React.FC<{ setDisplayCode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ setDisplayCode }) => (
+const Head: React.FC<{ setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>, title: string }> = ({ setDisplayCode, title }) => (
     <Toolbar variant='dense' sx={{ display: "flex" }}>
         <IconButton color='primary'>
             <DragIndicatorIcon fontSize='medium' />
@@ -18,7 +18,7 @@ const Head: React.FC<{ setDisplayCode: React.Dispatch<React.SetStateAction<boole
             <IconButton disabled>
                 <EmojiObjectsOutlinedIcon />
             </IconButton>
-            <Typography>Solution (Typescript)</Typography>
+            <Typography>{title}</Typography>
         </Stack>
 
         <IconButton onClick={() => setDisplayCode(false)}>
@@ -53,15 +53,16 @@ const Location = styled("div")({
 
 interface Props {
     solution: string;
+    title: string,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Main = ({ solution, setDisplayCode }: Props) => (
+const Main = ({ solution, setDisplayCode, title }: Props) => (
     <Location>
         <Draggable>
             <Paper elevation={8} sx={{ cursor: 'pointer', }}>
                 <Stack spacing={0}>
-                    <Head setDisplayCode={setDisplayCode} />
+                    <Head setDisplayCode={setDisplayCode} title={title} />
                     <Divider variant='middle' />
                     <Body solution={solution} />
                 </Stack>

@@ -13,7 +13,7 @@ import MouseIcon from '@mui/icons-material/Mouse';
 import { createHelperStyle } from './algo';
 import { State } from '../AlgoState';
 import Toolbox from '../toolbox';
-import CodeSolution from './CodeSolution';
+import CodeSolution from './Code';
 
 const Header: React.FC<{
     lock: boolean,
@@ -159,7 +159,7 @@ const Main = () => {
                     </Draggable>
                 </Container>
             </Location>
-            {displayCode && <CodeSolution setDisplayCode={setDisplayCode} />}
+            {displayCode && <CodeSolution setDisplayCode={setDisplayCode} solution='123' title="Solution (Typescript)" />}
         </>
     );
 }
