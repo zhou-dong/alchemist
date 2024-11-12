@@ -13,26 +13,23 @@ const Location = styled("div")({
     zIndex: 12,
 });
 
-const Main = () => {
-
-    return (
-        <>
-            <Toolbox current={State.Input} />
-            <Location>
-                <Stack
-                    spacing={4}
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <Title displayStar={false} />
-                    <GameInput />
-                </Stack>
-            </Location>
-        </>
-    );
-};
+const Main = () => (
+    <>
+        <Toolbox current={State.Input} />
+        <Location>
+            <Stack
+                spacing={4}
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <Title displayStar={false} />
+                <GameInput />
+            </Stack>
+        </Location>
+    </>
+);
 
 export default Main;
