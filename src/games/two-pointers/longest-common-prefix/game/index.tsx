@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { title } from "../description/Title";
-import { Container, IconButton, Paper, Stack, styled, ToggleButton, Toolbar, Typography, useTheme } from '@mui/material';
-import Table from '../../../dp/_components/Table';
-import CheckIcon from '@mui/icons-material/Check';
+import { Container, IconButton, Paper, styled, ToggleButton, Toolbar } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Draggable from 'react-draggable';
 import CodeIcon from '@mui/icons-material/Code';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import MouseIcon from '@mui/icons-material/Mouse';
-import { createHelperStyle } from './algo';
 import { State } from '../AlgoState';
 import Toolbox from '../toolbox';
 import CodeSolution from './Code';
+import { Solution } from './solution';
+import HorizontalScanning from './horizontal-scanning';
+import VerticalScanning from './vertical-scanning';
+import DivideAndConquer from './divide-and-conquer';
+import BinarySearch from './binary-search';
 
 const Header: React.FC<{
     lock: boolean,
@@ -44,98 +44,26 @@ const Header: React.FC<{
     </Toolbar>
 );
 
-const Location = styled(Container)(({ theme }) => (({
+const Location = styled(Container)(({ }) => (({
     position: "fixed",
     top: '50%',
     left: "50%",
     transform: "translate(-50%,-50%)",
 })));
 
+const getGame = (solution: Solution) => {
+    switch (solution) {
+        case Solution.HorizontalScanning: return <HorizontalScanning />;
+        case Solution.VerticalScanning: return <VerticalScanning />;
+        case Solution.DivideAndConquer: return <DivideAndConquer />;
+        case Solution.BinarySearch: return <BinarySearch />;
+    }
+}
+
 const Main = () => {
     const [displayCode, setDisplayCode] = React.useState(false);
-
-    const theme = useTheme();
-    const { table, setTable, tableStyle, steps, index, setIndex, setTableStyle, state, setState } = useAlgoContext();
-
+    const { solution } = useAlgoContext();
     const [lock, setLock] = React.useState(false);
-
-    const handleClick = () => {
-        if (state === State.Finished) {
-            return;
-        }
-        const step = steps[index];
-        const { row, col } = step;
-        table[row + 2][col + 2] = "-";
-        setTable(table);
-
-        // const style = createHelperStyle(haystack, needle, step);
-        // setTableStyle(style);
-
-        if (index === steps.length - 1) {
-            setState(State.Finished);
-        }
-
-        setIndex(index + 1);
-
-    }
-
-    const Body = () => (
-        <Stack
-            direction="column"
-            spacing={5}
-            sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-            }}
-        >
-            <Typography
-                variant='h5'
-                display="inline-flex"
-                sx={{
-                    verticalAlign: 'middle',
-                    fontWeight: 300,
-                }}
-            >
-                {title}
-            </Typography>
-
-            <Table
-                table={table}
-                tableStyles={tableStyle}
-            />
-
-            <IconButton
-                disabled={state !== State.Playing}
-                onClick={handleClick}
-                size='large'
-                color='primary'
-                sx={{
-                    width: "50px",
-                    height: "50px",
-                    border: "1px solid " + theme.palette.primary.light,
-                    backgroundColor: "#fff",
-                    color: theme.palette.primary.light,
-                    '&:hover': {
-                        borderColor: theme.palette.primary.main,
-                        backgroundColor: theme.palette.primary.main,
-                        color: "#fff",
-                    },
-                    '&&.Mui-selected': {
-                        borderColor: theme.palette.primary.dark,
-                        backgroundColor: theme.palette.primary.dark,
-                        color: "#fff",
-                    },
-                    '&&.Mui-disabled': {
-                        backgroundColor: "lightgray",
-                        color: "#fff",
-                    },
-                }}
-            >
-                {state === State.Finished ? <CheckIcon sx={{ color: 'green' }} /> : <MouseIcon />}
-            </IconButton>
-        </Stack>
-    );
 
     return (
         <>
@@ -157,7 +85,7 @@ const Main = () => {
                                 displayCode={displayCode}
                                 setDisplayCode={setDisplayCode}
                             />
-                            <Body />
+                            {getGame(solution)}
                         </Paper>
                     </Draggable>
                 </Container>
