@@ -24,6 +24,7 @@ import InputIcon from '@mui/icons-material/Input';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UploadIcon from '@mui/icons-material/Upload';
 import { getRandomeSolution, Solution } from '../game/solution';
+import { buildSteps as buildHorizontalScanningSteps } from '../game/horizontal-scanning/algo';
 
 const StyledButton = styled(IconButton)(({ theme }) => ({
     width: 60,
@@ -176,7 +177,7 @@ export default function Main() {
     const [localSolution, setLocalSolution] = React.useState<Solution>(getRandomeSolution());
     const [localStrings, setLocalStrings] = React.useState<string[]>(getRandomTestCase().input);
 
-    const { setState, setSolution } = useAlgoContext();
+    const { setState, setSolution, setIndex, setHorizontalScanningSteps } = useAlgoContext();
 
     const handleDeleteItem = (i: number) => {
         localStrings.splice(i, 1);
@@ -184,7 +185,22 @@ export default function Main() {
     }
 
     const handleSubmit = () => {
+        setIndex(0);
         setSolution(localSolution);
+
+        switch (localSolution) {
+            case Solution.HorizontalScanning:
+                const steps = buildHorizontalScanningSteps(localStrings);
+                setHorizontalScanningSteps(steps);
+                break;
+            case Solution.VerticalScanning:
+                break;
+            case Solution.DivideAndConquer:
+                break;
+            case Solution.BinarySearch:
+                break;
+        }
+
         setState(State.Playing);
         handleClear();
     };
