@@ -426,7 +426,9 @@
         "input": [
             "tiger",
             "tinker",
-            "tip"
+            "tip",
+            "tiktok",
+            "ting"
         ],
         "expected_output": "ti"
     },
