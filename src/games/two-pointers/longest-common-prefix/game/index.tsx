@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, IconButton, Paper, styled, ToggleButton, Toolbar } from '@mui/material';
+import { Container, IconButton, Paper, Stack, styled, ToggleButton, Toolbar, Typography } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Draggable from 'react-draggable';
@@ -14,6 +14,7 @@ import HorizontalScanning from './horizontal-scanning';
 import VerticalScanning from './vertical-scanning';
 import DivideAndConquer from './divide-and-conquer';
 import BinarySearch from './binary-search';
+import { title } from "../description/Title";
 
 const Header: React.FC<{
     lock: boolean,
@@ -58,7 +59,7 @@ const getGame = (solution: Solution) => {
         case Solution.DivideAndConquer: return <DivideAndConquer />;
         case Solution.BinarySearch: return <BinarySearch />;
     }
-}
+};
 
 const Main = () => {
     const [displayCode, setDisplayCode] = React.useState(false);
@@ -85,7 +86,29 @@ const Main = () => {
                                 displayCode={displayCode}
                                 setDisplayCode={setDisplayCode}
                             />
-                            {getGame(solution)}
+
+                            <Stack
+                                direction="column"
+                                spacing={5}
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Typography
+                                    variant='h5'
+                                    display="inline-flex"
+                                    sx={{
+                                        verticalAlign: 'middle',
+                                        fontWeight: 300,
+                                    }}
+                                >
+                                    {title}
+                                </Typography>
+
+                                {getGame(solution)}
+                            </Stack>
                         </Paper>
                     </Draggable>
                 </Container>
@@ -93,6 +116,6 @@ const Main = () => {
             {displayCode && <CodeSolution setDisplayCode={setDisplayCode} />}
         </>
     );
-}
+};
 
 export default Main;

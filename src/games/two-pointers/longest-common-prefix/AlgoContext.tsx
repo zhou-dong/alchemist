@@ -1,6 +1,7 @@
 import React from "react";
 import { State } from "./AlgoState";
 import { Step } from "./game/algo";
+import { Step as HorizontalScanningStep } from "./game/horizontal-scanning/algo";
 import { Solution } from "./game/solution";
 
 const AlgoContext = React.createContext<{
@@ -20,6 +21,8 @@ const AlgoContext = React.createContext<{
     setSolution: React.Dispatch<React.SetStateAction<Solution>>,
     linesToHighlights: number[][],
     setLinesToHighlights: React.Dispatch<React.SetStateAction<number[][]>>,
+    horizontalScanningSteps: HorizontalScanningStep[],
+    setHorizontalScanningSteps: React.Dispatch<React.SetStateAction<HorizontalScanningStep[]>>,
 }>({
     state: State.Welcome,
     setState: () => { },
@@ -37,13 +40,23 @@ const AlgoContext = React.createContext<{
     setSolution: () => { },
     linesToHighlights: [],
     setLinesToHighlights: () => { },
+    horizontalScanningSteps: [],
+    setHorizontalScanningSteps: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
+
+    // case Solution.HorizontalScanning: return <HorizontalScanning />;
+    // case Solution.VerticalScanning: return <VerticalScanning />;
+    // case Solution.DivideAndConquer: return <DivideAndConquer />;
+    // case Solution.BinarySearch: return <BinarySearch />;
+
     const [state, setState] = React.useState(State.Welcome);
     const [index, setIndex] = React.useState(0);
     const [steps, setSteps] = React.useState<Step[]>([]);
+
+    const [horizontalScanningSteps, setHorizontalScanningSteps] = React.useState<HorizontalScanningStep[]>([]);
 
     const [table, setTable] = React.useState<(number | string)[][]>([]);
     const [tableStyle, setTableStyle] = React.useState<(React.CSSProperties)[][]>([]);
@@ -71,6 +84,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setSolution,
             linesToHighlights,
             setLinesToHighlights,
+            horizontalScanningSteps,
+            setHorizontalScanningSteps,
         }}>
             {children}
         </AlgoContext.Provider>
