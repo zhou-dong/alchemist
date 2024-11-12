@@ -113,13 +113,16 @@ const Main = () => {
                 sx={{
                     width: "50px",
                     height: "50px",
-                    backgroundColor: theme.palette.primary.light,
-                    color: "#fff",
+                    border: "1px solid " + theme.palette.primary.light,
+                    backgroundColor: "#fff",
+                    color: theme.palette.primary.light,
                     '&:hover': {
+                        borderColor: theme.palette.primary.main,
                         backgroundColor: theme.palette.primary.main,
                         color: "#fff",
                     },
                     '&&.Mui-selected': {
+                        borderColor: theme.palette.primary.dark,
                         backgroundColor: theme.palette.primary.dark,
                         color: "#fff",
                     },
