@@ -2,6 +2,7 @@
 
 const Main = () => (
     <>
+        vertical scanning
     </>
 );
 

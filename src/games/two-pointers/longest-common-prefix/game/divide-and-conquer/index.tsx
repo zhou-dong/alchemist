@@ -2,6 +2,7 @@
 
 const Main = () => (
     <>
+        divide and conquer
     </>
 );
 
