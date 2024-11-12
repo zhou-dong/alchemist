@@ -13,14 +13,12 @@ const HorizontalScanning = `function longestCommonPrefix(strs: string[]): string
     }
 
     let prefix = strs[0];
-
     for (let i = 1; i < strs.length; i++) {
         prefix = lcp(prefix, strs[i]);
         if (prefix.length === 0) {
             return "";
         }
     }
-
     return prefix;
 }
 
