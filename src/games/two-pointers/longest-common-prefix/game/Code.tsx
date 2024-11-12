@@ -18,7 +18,6 @@ const Head: React.FC<{
 }> = ({ lock, setLock, setDisplayCode }) => {
     const { solution } = useAlgoContext();
     const title = solution + " Solution (Typescript)";
-
     return (
         <Toolbar variant='dense' sx={{ display: "flex" }}>
             <IconButton color='primary' disabled={lock}>
@@ -47,13 +46,11 @@ const getCodeSolution = (solution: Solution): string => {
         case Solution.DivideAndConquer: return DivideAndConquerSolution;
         case Solution.BinarySearch: return BinarySearchSolution;
     }
-}
+};
 
 const Body = () => {
-    const { index, steps, solution } = useAlgoContext();
-    const step = steps[index];
-    const linesToHighlight: number[] = [];//step?.linesToHighlight || [];
-
+    const { index, solution, linesToHighlights } = useAlgoContext();
+    const linesToHighlight: number[] = linesToHighlights[index] || [];
     let codeSolution = getCodeSolution(solution);
     return (
         <CodeBlock
@@ -64,7 +61,7 @@ const Body = () => {
             wrapLines={true}
         />
     );
-}
+};
 
 const Location = styled("div")({
     position: 'fixed',

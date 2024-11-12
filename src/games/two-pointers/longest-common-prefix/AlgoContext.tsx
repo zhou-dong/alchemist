@@ -18,6 +18,8 @@ const AlgoContext = React.createContext<{
     setStrs: React.Dispatch<React.SetStateAction<string[]>>,
     solution: Solution,
     setSolution: React.Dispatch<React.SetStateAction<Solution>>,
+    linesToHighlights: number[][],
+    setLinesToHighlights: React.Dispatch<React.SetStateAction<number[][]>>,
 }>({
     state: State.Welcome,
     setState: () => { },
@@ -33,6 +35,8 @@ const AlgoContext = React.createContext<{
     setStrs: () => { },
     solution: Solution.HorizontalScanning,
     setSolution: () => { },
+    linesToHighlights: [],
+    setLinesToHighlights: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -46,6 +50,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     const [strs, setStrs] = React.useState<string[]>([]);
     const [solution, setSolution] = React.useState<Solution>(Solution.HorizontalScanning);
+
+    const [linesToHighlights, setLinesToHighlights] = React.useState<number[][]>([]);
 
     return (
         <AlgoContext.Provider value={{
@@ -63,6 +69,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setStrs,
             solution,
             setSolution,
+            linesToHighlights,
+            setLinesToHighlights,
         }}>
             {children}
         </AlgoContext.Provider>
