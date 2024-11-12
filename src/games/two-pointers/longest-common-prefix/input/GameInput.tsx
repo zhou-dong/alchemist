@@ -176,7 +176,7 @@ export default function Main() {
     const [localSolution, setLocalSolution] = React.useState<Solution>(getRandomeSolution());
     const [localStrings, setLocalStrings] = React.useState<string[]>(getRandomTestCase().input);
 
-    const { setState } = useAlgoContext();
+    const { setState, setSolution } = useAlgoContext();
 
     const handleDeleteItem = (i: number) => {
         localStrings.splice(i, 1);
@@ -184,7 +184,7 @@ export default function Main() {
     }
 
     const handleSubmit = () => {
-
+        setSolution(localSolution);
         setState(State.Playing);
         handleClear();
     };
