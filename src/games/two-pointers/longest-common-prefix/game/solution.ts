@@ -16,3 +16,53 @@ export const getRandomeSolution = () => {
     const index = Math.floor(Math.random() * solutions.length);
     return solutions[index];
 }
+
+export const HorizontalScanningSolution = `function longestCommonPrefix(strs: string[]): string {
+    if (strs.length === 0) {
+        return "";
+    }
+
+    let prefix = strs[0];
+    for (let i = 1; i < strs.length; i++) {
+        prefix = lcp(prefix, strs[i]);
+        if (prefix.length === 0) {
+            return "";
+        }
+    }
+    return prefix;
+}
+
+function lcp(str1: string, str2: string): string {
+    let index = 0;
+    while (
+        index < str1.length &&
+        index < str2.length &&
+        str1.charAt(index) === str2.charAt(index)
+    ) {
+        index++;
+    }
+    return str1.substring(0, index);
+}`;
+
+export const VerticalScanningSolution = `function longestCommonPrefix(strs: string[]): string {
+    if (strs.length === 0) {
+        return "";
+    }
+
+    let prefix = "";
+    for (let i = 0; i < strs[0].length; i++) {
+        for (let j = 0; j < strs.length; j++) {
+            if (strs[0].charAt(i) !== strs[j].charAt(i)) {
+                return prefix;
+            }
+        }
+        prefix += strs[0].charAt(i);
+    }
+    return prefix;
+};`
+
+export const DivideAndConquerSolution = `
+`;
+
+export const BinarySearchSolution = `
+`;

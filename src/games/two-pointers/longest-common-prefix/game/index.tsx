@@ -159,7 +159,7 @@ const Main = () => {
                     </Draggable>
                 </Container>
             </Location>
-            {displayCode && <CodeSolution setDisplayCode={setDisplayCode} solution='123' title="Solution (Typescript)" />}
+            {displayCode && <CodeSolution setDisplayCode={setDisplayCode} />}
         </>
     );
 }

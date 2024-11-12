@@ -16,8 +16,8 @@ const AlgoContext = React.createContext<{
     setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     strs: string[],
     setStrs: React.Dispatch<React.SetStateAction<string[]>>,
-    solution?: Solution,
-    setSolution: React.Dispatch<React.SetStateAction<Solution | undefined>>,
+    solution: Solution,
+    setSolution: React.Dispatch<React.SetStateAction<Solution>>,
 }>({
     state: State.Welcome,
     setState: () => { },
@@ -31,6 +31,7 @@ const AlgoContext = React.createContext<{
     setSteps: () => { },
     strs: [],
     setStrs: () => { },
+    solution: Solution.HorizontalScanning,
     setSolution: () => { },
 });
 
@@ -44,7 +45,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [tableStyle, setTableStyle] = React.useState<(React.CSSProperties)[][]>([]);
 
     const [strs, setStrs] = React.useState<string[]>([]);
-    const [solution, setSolution] = React.useState<Solution>();
+    const [solution, setSolution] = React.useState<Solution>(Solution.HorizontalScanning);
 
     return (
         <AlgoContext.Provider value={{

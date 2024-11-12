@@ -7,34 +7,57 @@ import EmojiObjectsOutlinedIcon from '@mui/icons-material/EmojiObjectsOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAlgoContext } from '../AlgoContext';
 import React from 'react';
+import { BinarySearchSolution, DivideAndConquerSolution, HorizontalScanningSolution, Solution, VerticalScanningSolution } from './solution';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 
-const Head: React.FC<{ setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>, title: string }> = ({ setDisplayCode, title }) => (
-    <Toolbar variant='dense' sx={{ display: "flex" }}>
-        <IconButton color='primary'>
-            <DragIndicatorIcon fontSize='medium' />
-        </IconButton>
+const Head: React.FC<{
+    lock: boolean,
+    setLock: React.Dispatch<React.SetStateAction<boolean>>,
+    setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>
+}> = ({ lock, setLock, setDisplayCode }) => {
+    const { solution } = useAlgoContext();
+    const title = solution + " Solution (Typescript)";
 
-        <Stack sx={{ flexGrow: 1, alignItems: "center", justifyContent: "center" }} spacing={0} direction="row">
-            <IconButton disabled>
-                <EmojiObjectsOutlinedIcon />
+    return (
+        <Toolbar variant='dense' sx={{ display: "flex" }}>
+            <IconButton color='primary' disabled={lock}>
+                <DragIndicatorIcon fontSize='medium' />
             </IconButton>
-            <Typography>{title}</Typography>
-        </Stack>
+            <IconButton onClick={() => setLock(open => !open)}>
+                {lock ? <LockOutlinedIcon /> : <LockOpenOutlinedIcon />}
+            </IconButton>
 
-        <IconButton onClick={() => setDisplayCode(false)}>
-            <CloseIcon fontSize='medium' color='warning' />
-        </IconButton>
-    </Toolbar>
-);
+            <Stack sx={{ flexGrow: 1, alignItems: "center", justifyContent: "center" }} spacing={0} direction="row">
+                <EmojiObjectsOutlinedIcon color='primary' />
+                <Typography>{title}</Typography>
+            </Stack>
 
-const Body: React.FC<{ solution: string }> = ({ solution }) => {
-    const { index, steps } = useAlgoContext();
+            <IconButton onClick={() => setDisplayCode(false)}>
+                <CloseIcon fontSize='medium' color='warning' />
+            </IconButton>
+        </Toolbar>
+    );
+};
+
+const getCodeSolution = (solution: Solution): string => {
+    switch (solution) {
+        case Solution.HorizontalScanning: return HorizontalScanningSolution;
+        case Solution.VerticalScanning: return VerticalScanningSolution;
+        case Solution.DivideAndConquer: return DivideAndConquerSolution;
+        case Solution.BinarySearch: return BinarySearchSolution;
+    }
+}
+
+const Body = () => {
+    const { index, steps, solution } = useAlgoContext();
     const step = steps[index];
     const linesToHighlight: number[] = [];//step?.linesToHighlight || [];
 
+    let codeSolution = getCodeSolution(solution);
     return (
         <CodeBlock
-            code={solution}
+            code={codeSolution}
             language={languages.Typescript}
             showLineNumbers={true}
             linesToHighlight={linesToHighlight}
@@ -52,23 +75,28 @@ const Location = styled("div")({
 });
 
 interface Props {
-    solution: string;
-    title: string,
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Main = ({ solution, setDisplayCode, title }: Props) => (
-    <Location>
-        <Draggable>
-            <Paper elevation={8} sx={{ cursor: 'pointer', }}>
-                <Stack spacing={0}>
-                    <Head setDisplayCode={setDisplayCode} title={title} />
-                    <Divider variant='middle' />
-                    <Body solution={solution} />
-                </Stack>
-            </Paper>
-        </Draggable>
-    </Location >
-);
+const Main = ({ setDisplayCode }: Props) => {
+    const [lock, setLock] = React.useState(false);
+    return (
+        <Location>
+            <Draggable disabled={lock}>
+                <Paper elevation={8} sx={{ cursor: 'pointer', }}>
+                    <Stack spacing={0}>
+                        <Head
+                            lock={lock}
+                            setLock={setLock}
+                            setDisplayCode={setDisplayCode}
+                        />
+                        <Divider variant='middle' />
+                        <Body />
+                    </Stack>
+                </Paper>
+            </Draggable>
+        </Location >
+    );
+};
 
 export default Main;
