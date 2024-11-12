@@ -25,6 +25,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import UploadIcon from '@mui/icons-material/Upload';
 import { getRandomeSolution, Solution } from '../game/solution';
 import { buildSteps as buildHorizontalScanningSteps } from '../game/horizontal-scanning/algo';
+import { buildSteps as buildVerticalScanningSteps } from '../game/vertical-scanning/algo';
+import { buildSteps as buildDivideAndConquerSteps } from '../game/divide-and-conquer/algo';
+import { buildSteps as buildBinarySearchSteps } from '../game/binary-search/algo';
 
 const StyledButton = styled(IconButton)(({ theme }) => ({
     width: 60,
@@ -177,7 +180,15 @@ export default function Main() {
     const [localSolution, setLocalSolution] = React.useState<Solution>(getRandomeSolution());
     const [localStrings, setLocalStrings] = React.useState<string[]>(getRandomTestCase().input);
 
-    const { setState, setSolution, setIndex, setHorizontalScanningSteps } = useAlgoContext();
+    const {
+        setState,
+        setSolution,
+        setIndex,
+        setHorizontalScanningSteps,
+        setVerticalScanningSteps,
+        setDivideAndConquerSteps,
+        setBinarySearchSteps,
+    } = useAlgoContext();
 
     const handleDeleteItem = (i: number) => {
         localStrings.splice(i, 1);
@@ -190,14 +201,16 @@ export default function Main() {
 
         switch (localSolution) {
             case Solution.HorizontalScanning:
-                const steps = buildHorizontalScanningSteps(localStrings);
-                setHorizontalScanningSteps(steps);
+                setHorizontalScanningSteps(buildHorizontalScanningSteps(localStrings));
                 break;
             case Solution.VerticalScanning:
+                setVerticalScanningSteps(buildVerticalScanningSteps(localStrings));
                 break;
             case Solution.DivideAndConquer:
+                setDivideAndConquerSteps(buildDivideAndConquerSteps(localStrings));
                 break;
             case Solution.BinarySearch:
+                setBinarySearchSteps(buildBinarySearchSteps(localStrings))
                 break;
         }
 
