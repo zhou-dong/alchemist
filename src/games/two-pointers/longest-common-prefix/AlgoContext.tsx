@@ -2,6 +2,7 @@ import React from "react";
 import { State } from "./AlgoState";
 import { Step } from "./game/algo";
 import { Step as HorizontalScanningStep } from "./game/horizontal-scanning/algo";
+import { Step as VerticalScanningSteps } from "./game/vertical-scanning/algo";
 import { Solution } from "./game/solution";
 
 const AlgoContext = React.createContext<{
@@ -23,6 +24,8 @@ const AlgoContext = React.createContext<{
     setLinesToHighlights: React.Dispatch<React.SetStateAction<number[][]>>,
     horizontalScanningSteps: HorizontalScanningStep[],
     setHorizontalScanningSteps: React.Dispatch<React.SetStateAction<HorizontalScanningStep[]>>,
+    verticalScanningSteps: VerticalScanningSteps[],
+    setVerticalScanningSteps: React.Dispatch<React.SetStateAction<VerticalScanningSteps[]>>,
 }>({
     state: State.Welcome,
     setState: () => { },
@@ -42,6 +45,8 @@ const AlgoContext = React.createContext<{
     setLinesToHighlights: () => { },
     horizontalScanningSteps: [],
     setHorizontalScanningSteps: () => { },
+    verticalScanningSteps: [],
+    setVerticalScanningSteps: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -57,6 +62,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [steps, setSteps] = React.useState<Step[]>([]);
 
     const [horizontalScanningSteps, setHorizontalScanningSteps] = React.useState<HorizontalScanningStep[]>([]);
+    const [verticalScanningSteps, setVerticalScanningSteps] = React.useState<VerticalScanningSteps[]>([]);
 
     const [table, setTable] = React.useState<(number | string)[][]>([]);
     const [tableStyle, setTableStyle] = React.useState<(React.CSSProperties)[][]>([]);
@@ -86,6 +92,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setLinesToHighlights,
             horizontalScanningSteps,
             setHorizontalScanningSteps,
+            verticalScanningSteps,
+            setVerticalScanningSteps,
         }}>
             {children}
         </AlgoContext.Provider>
