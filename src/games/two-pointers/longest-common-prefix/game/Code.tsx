@@ -49,21 +49,18 @@ const getCodeSolution = (solution: Solution): string => {
 };
 
 const Body = () => {
-    const { index, solution, horizontalScanningSteps } = useAlgoContext();
-    let linesToHighlights: number[][] = [];
+    const { index, solution, horizontalScanningSteps, verticalScanningSteps, divideAndConquerSteps, binarySearchSteps } = useAlgoContext();
 
-    switch (solution) {
-        case Solution.HorizontalScanning:
-            linesToHighlights = horizontalScanningSteps.map(step => step.linesToHighlight);
-            break;
-        case Solution.VerticalScanning:
-            break;
-        case Solution.DivideAndConquer:
-            break;
-        case Solution.BinarySearch:
-            break;
+    const getLinesToHighlights = () => {
+        switch (solution) {
+            case Solution.HorizontalScanning: return horizontalScanningSteps.map(step => step.linesToHighlight);
+            case Solution.VerticalScanning: return verticalScanningSteps.map(step => step.linesToHighlight);
+            case Solution.DivideAndConquer: return divideAndConquerSteps.map(step => step.linesToHighlight);
+            case Solution.BinarySearch: return binarySearchSteps.map(step => step.linesToHighlight);
+        }
     }
 
+    const linesToHighlights: number[][] = getLinesToHighlights();
     const codeSolution = getCodeSolution(solution);
     const linesToHighlight = linesToHighlights[index] || [];
     return (
