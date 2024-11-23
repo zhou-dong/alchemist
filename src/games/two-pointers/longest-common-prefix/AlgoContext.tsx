@@ -67,7 +67,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     const [horizontalScanningSteps, setHorizontalScanningSteps] = React.useState<HorizontalScanningStep[]>([]);
     const [verticalScanningSteps, setVerticalScanningSteps] = React.useState<VerticalScanningStep[]>([]);
-
     const [divideAndConquerSteps, setDivideAndConquerSteps] = React.useState<DivideAndConquerStep[]>([]);
     const [binarySearchSteps, setBinarySearchSteps] = React.useState<BinarySearchStep[]>([]);
 
