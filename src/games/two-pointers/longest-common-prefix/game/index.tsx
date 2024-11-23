@@ -64,7 +64,7 @@ const getGame = (solution: Solution) => {
 const Main = () => {
     const [displayCode, setDisplayCode] = React.useState(false);
     const { solution } = useAlgoContext();
-    const [lock, setLock] = React.useState(false);
+    const [lock, setLock] = React.useState(true);
 
     return (
         <>
