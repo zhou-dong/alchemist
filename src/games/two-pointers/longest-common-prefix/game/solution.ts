@@ -90,5 +90,36 @@ function lcp(str1: string, str2: string): string {
     return str1.substring(0, index);
 }`;
 
-export const BinarySearchSolution = `
-`;
+export const BinarySearchSolution = `function longestCommonPrefix(strs: string[]): string {
+    if (strs.length === 0) {
+        return "";
+    }
+
+    const minLength = strs.reduce(
+        (accumulator, current) => Math.min(accumulator, current.length),
+        strs[0].length
+    );
+
+    let low = 0, high = minLength;
+    while (low < high) {
+        const mid = low + Math.floor((high - low + 1) / 2);
+        if (isCommonPrefix(strs, mid)) {
+            low = mid;
+        } else {
+            high = mid - 1;
+        }
+    }
+
+    return strs[0].substring(0, low);
+}
+
+function isCommonPrefix(strs: string[], length: number): boolean {
+    for (let i = 1; i < strs.length; i++) {
+        for (let j = 0; j < length; j++) {
+            if (strs[0].charAt(j) !== strs[i].charAt(j)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}`;
