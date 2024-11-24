@@ -61,8 +61,34 @@ export const VerticalScanningSolution = `function longestCommonPrefix(strs: stri
     return prefix;
 };`
 
-export const DivideAndConquerSolution = `
-`;
+export const DivideAndConquerSolution = `function longestCommonPrefix(strs: string[]): string {
+    if (strs.length === 0) {
+        return "";
+    }
+    return divideAndConquer(strs, 0, strs.length - 1);
+}
+
+function divideAndConquer(strs: string[], start: number, end: number): string {
+    if (start === end) {
+        return strs[start];
+    }
+    const mid = start + Math.floor((end - start) / 2);
+    const lcpLeft = divideAndConquer(strs, start, mid);
+    const lcpRight = divideAndConquer(strs, mid + 1, end);
+    return lcp(lcpLeft, lcpRight);
+}
+
+function lcp(str1: string, str2: string): string {
+    let index = 0;
+    while (
+        index < str1.length &&
+        index < str2.length &&
+        str1.charAt(index) === str2.charAt(index)
+    ) {
+        index++;
+    }
+    return str1.substring(0, index);
+}`;
 
 export const BinarySearchSolution = `
 `;
