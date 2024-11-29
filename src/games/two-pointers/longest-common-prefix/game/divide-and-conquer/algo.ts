@@ -90,31 +90,62 @@ export const buildSteps = (input: string[]): Step[] => {
             return "";
         }
 
-        pushToStep(Action.ReturnEmptyWithEmptyInput);
-        return divideAndConquer(strs, 0, strs.length - 1);
+        pushToStep(Action.BeginImplementation);
+        const result = divideAndConquer(strs, 0, strs.length - 1);
+        pushToStep(Action.ReturnLongestCommonPrefix);
+        return result;
     }
 
     function divideAndConquer(strs: string[], start: number, end: number): string {
+        pushToStep(Action.BeginDivideAndConquer);
+
+        pushToStep(Action.CompareStartWithEnd);
         if (start === end) {
+            pushToStep(Action.ReturnDivideAndConquerBecauseStartEqualEnd);
             return strs[start];
         }
+
         const mid = start + Math.floor((end - start) / 2);
+        pushToStep(Action.CalculateMid);
+
+        pushToStep(Action.ComputeLcpLeft);
         const lcpLeft = divideAndConquer(strs, start, mid);
+        pushToStep(Action.ReturnLcpLeft);
+
+        pushToStep(Action.ComputeLcpRight);
         const lcpRight = divideAndConquer(strs, mid + 1, end);
-        return lcp(lcpLeft, lcpRight);
+        pushToStep(Action.ReturnLcpRight);
+
+        pushToStep(Action.DivideAndConquerBeginLcp);
+        const result = lcp(lcpLeft, lcpRight);
+
+        pushToStep(Action.DivideAndConquerReturnLcp);
+        return result;
     }
 
     function lcp(str1: string, str2: string): string {
+        pushToStep(Action.BeginLcp);
+
         let index = 0;
+        pushToStep(Action.DefineIndex);
+
+        pushToStep(Action.BeginForCheckWhile);
         while (
             index < str1.length &&
             index < str2.length &&
             str1.charAt(index) === str2.charAt(index)
         ) {
             index++;
+            pushToStep(Action.IndexPlusPlus);
+
+            pushToStep(Action.BeginForCheckWhile);
         }
-        return str1.substring(0, index);
+
+        const result = str1.substring(0, index);
+        pushToStep(Action.LcpReturnSubstring);
+        return result;
     }
 
+    longestCommonPrefix(input);
     return steps;
 }
