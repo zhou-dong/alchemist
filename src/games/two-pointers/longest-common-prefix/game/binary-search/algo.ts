@@ -127,5 +127,6 @@ export const buildSteps = (input: string[]): Step[] => {
         return true;
     }
 
+    longestCommonPrefix(input);
     return steps;
 }
