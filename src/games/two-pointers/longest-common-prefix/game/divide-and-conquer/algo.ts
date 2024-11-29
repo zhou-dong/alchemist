@@ -88,52 +88,52 @@ export const buildSteps = (input: string[]): Step[] => {
     }
 
     function divideAndConquer(strs: string[], start: number, end: number): string {
-        pushToStep({ ...baseStep, action: Action.BeginDivideAndConquer });
+        pushToStep({ ...baseStep, action: Action.BeginDivideAndConquer, start, end });
 
-        pushToStep({ ...baseStep, action: Action.CompareStartWithEnd });
+        pushToStep({ ...baseStep, action: Action.CompareStartWithEnd, start, end });
         if (start === end) {
-            pushToStep({ ...baseStep, action: Action.ReturnDivideAndConquerBecauseStartEqualEnd });
+            pushToStep({ ...baseStep, action: Action.ReturnDivideAndConquerBecauseStartEqualEnd, start, end });
             return strs[start];
         }
 
         const mid = start + Math.floor((end - start) / 2);
-        pushToStep({ ...baseStep, action: Action.CalculateMid });
+        pushToStep({ ...baseStep, action: Action.CalculateMid, start, end, mid });
 
-        pushToStep({ ...baseStep, action: Action.ComputeLcpLeft });
+        pushToStep({ ...baseStep, action: Action.ComputeLcpLeft, start, end, mid });
         const lcpLeft = divideAndConquer(strs, start, mid);
-        pushToStep({ ...baseStep, action: Action.ReturnLcpLeft });
+        pushToStep({ ...baseStep, action: Action.ReturnLcpLeft, start, end, mid, lcpLeft });
 
-        pushToStep({ ...baseStep, action: Action.ComputeLcpRight });
+        pushToStep({ ...baseStep, action: Action.ComputeLcpRight, start, end, mid, lcpLeft });
         const lcpRight = divideAndConquer(strs, mid + 1, end);
-        pushToStep({ ...baseStep, action: Action.ReturnLcpRight });
+        pushToStep({ ...baseStep, action: Action.ReturnLcpRight, start, end, mid, lcpLeft, lcpRight });
 
-        pushToStep({ ...baseStep, action: Action.DivideAndConquerBeginLcp });
+        pushToStep({ ...baseStep, action: Action.DivideAndConquerBeginLcp, start, end, mid, lcpLeft, lcpRight });
         const result = lcp(lcpLeft, lcpRight);
 
-        pushToStep({ ...baseStep, action: Action.DivideAndConquerReturnLcp });
+        pushToStep({ ...baseStep, action: Action.DivideAndConquerReturnLcp, start, end, mid, lcpLeft, lcpRight, lcp: result });
         return result;
     }
 
     function lcp(str1: string, str2: string): string {
-        pushToStep({ ...baseStep, action: Action.BeginLcp });
+        pushToStep({ ...baseStep, action: Action.BeginLcp, str1, str2 });
 
         let index = 0;
-        pushToStep({ ...baseStep, action: Action.DefineIndex });
+        pushToStep({ ...baseStep, action: Action.DefineIndex, str1, str2, index });
 
-        pushToStep({ ...baseStep, action: Action.BeginForCheckWhile });
+        pushToStep({ ...baseStep, action: Action.BeginForCheckWhile, str1, str2, index });
         while (
             index < str1.length &&
             index < str2.length &&
             str1.charAt(index) === str2.charAt(index)
         ) {
             index++;
-            pushToStep({ ...baseStep, action: Action.IndexPlusPlus });
+            pushToStep({ ...baseStep, action: Action.IndexPlusPlus, str1, str2, index });
 
-            pushToStep({ ...baseStep, action: Action.BeginForCheckWhile });
+            pushToStep({ ...baseStep, action: Action.BeginForCheckWhile, str1, str2, index });
         }
 
         const result = str1.substring(0, index);
-        pushToStep({ ...baseStep, action: Action.LcpReturnSubstring });
+        pushToStep({ ...baseStep, action: Action.LcpReturnSubstring, str1, str2, index, lcp: result });
         return result;
     }
 
