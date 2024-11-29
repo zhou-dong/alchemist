@@ -22,7 +22,8 @@ import OutputIcon from '@mui/icons-material/Output';
 import ClearIcon from '@mui/icons-material/Clear';
 import InputIcon from '@mui/icons-material/Input';
 import DeleteIcon from '@mui/icons-material/Delete';
-import UploadIcon from '@mui/icons-material/Upload';
+import DownloadIcon from '@mui/icons-material/Download';
+
 import { getRandomeSolution, Solution } from '../game/solution';
 import { buildSteps as buildHorizontalScanningSteps } from '../game/horizontal-scanning/algo';
 import { buildSteps as buildVerticalScanningSteps } from '../game/vertical-scanning/algo';
@@ -131,6 +132,9 @@ const AddString: React.FC<{ setLocalStrings: React.Dispatch<React.SetStateAction
                 p: '2px 4px',
                 display: 'flex',
                 alignItems: "center",
+                borderTop: "none",
+                borderLeft: "none",
+                borderRight: "none",
             }}
         >
             <IconButton
@@ -169,7 +173,7 @@ const AddString: React.FC<{ setLocalStrings: React.Dispatch<React.SetStateAction
                 disabled={!value.length}
                 onClick={handleSubmit}
             >
-                <UploadIcon />
+                <DownloadIcon />
             </IconButton>
         </Paper>
     );
@@ -238,7 +242,9 @@ export default function Main() {
                 >
                     <FormControl>
                         <FormLabel htmlFor="needle">String</FormLabel>
+
                         <Paper variant='outlined' sx={{ padding: "10px" }}>
+                            <AddString setLocalStrings={setLocalStrings} />
                             <List dense={false}>
                                 {
                                     localStrings.map((localString, i) =>
@@ -259,7 +265,6 @@ export default function Main() {
                                     )
                                 }
                             </List>
-                            <AddString setLocalStrings={setLocalStrings} />
                         </Paper>
                     </FormControl>
 
