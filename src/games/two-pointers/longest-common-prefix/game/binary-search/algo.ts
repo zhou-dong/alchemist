@@ -80,28 +80,50 @@ export const buildSteps = (input: string[]): Step[] => {
             (accumulator, current) => Math.min(accumulator, current.length),
             strs[0].length
         );
+        pushToStep({ ...baseStep, action: Action.CalculateMinLength, minLength });
 
         let low = 0, high = minLength;
+        pushToStep({ ...baseStep, action: Action.DefineLowAndHigh, minLength, low, high });
+
+        pushToStep({ ...baseStep, action: Action.CheckWhileCondition, minLength, low, high });
         while (low < high) {
             const mid = low + Math.floor((high - low + 1) / 2);
-            if (isCommonPrefix(strs, mid)) {
+            pushToStep({ ...baseStep, action: Action.CalculateMid, minLength, low, high, mid });
+
+            pushToStep({ ...baseStep, action: Action.BeginIsCommonPrefix, minLength, low, high, mid });
+            const isPrefix = isCommonPrefix(strs, mid);
+            pushToStep({ ...baseStep, action: Action.ResultIsCommonPrefix, minLength, low, high, mid, isCommonPrefix: isPrefix });
+            if (isPrefix) {
                 low = mid;
+                pushToStep({ ...baseStep, action: Action.UpdateLowToMid, minLength, low, high, mid, isCommonPrefix: isPrefix });
             } else {
                 high = mid - 1;
+                pushToStep({ ...baseStep, action: Action.UpdateHighToMidMinus1, minLength, low, high, mid, isCommonPrefix: isPrefix });
             }
         }
 
+        pushToStep({ ...baseStep, action: Action.ReturnLongestCommonPrefix, minLength, low, high });
         return strs[0].substring(0, low);
     }
 
     function isCommonPrefix(strs: string[], length: number): boolean {
+        pushToStep({ ...baseStep, action: Action.ReadyIsCommonPrefix, length });
+
+        pushToStep({ ...baseStep, action: Action.CheckOuterForLoop, length });
         for (let i = 1; i < strs.length; i++) {
+            pushToStep({ ...baseStep, action: Action.CheckInnerForLoop, length, i });
             for (let j = 0; j < length; j++) {
+                pushToStep({ ...baseStep, action: Action.Compare2Chars, length, i, j });
                 if (strs[0].charAt(j) !== strs[i].charAt(j)) {
+                    pushToStep({ ...baseStep, action: Action.IsCommonPrefixReturnFalse, length, i, j });
                     return false;
                 }
+                pushToStep({ ...baseStep, action: Action.CheckInnerForLoop, length, i });
             }
+            pushToStep({ ...baseStep, action: Action.CheckOuterForLoop, length, i });
         }
+
+        pushToStep({ ...baseStep, action: Action.IsCommonPrefixReturnTrue, length, });
         return true;
     }
 
