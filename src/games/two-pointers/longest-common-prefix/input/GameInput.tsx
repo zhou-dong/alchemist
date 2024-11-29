@@ -133,6 +133,15 @@ const AddString: React.FC<{ setLocalStrings: React.Dispatch<React.SetStateAction
                 alignItems: "center",
             }}
         >
+            <IconButton
+                onClick={handleAutoFill}
+                color='primary'
+            >
+                <AutoFixHighIcon />
+            </IconButton>
+
+            <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
+
             <InputIcon sx={{ color: "gray" }} />
 
             <InputBase
@@ -161,15 +170,6 @@ const AddString: React.FC<{ setLocalStrings: React.Dispatch<React.SetStateAction
                 onClick={handleSubmit}
             >
                 <UploadIcon />
-            </IconButton>
-
-            <Divider sx={{ height: 28, m: 0.5, marginRight: 2 }} orientation="vertical" />
-
-            <IconButton
-                onClick={handleAutoFill}
-                color='primary'
-            >
-                <AutoFixHighIcon />
             </IconButton>
         </Paper>
     );
