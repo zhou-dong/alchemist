@@ -10,7 +10,8 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import { BottomNavigation, BottomNavigationAction, Divider, IconButton, InputBase, List, ListItem, Paper, Stack } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 
-import testCases from "./test-cases.json";
+import testCases1 from "./test-cases-1.json";
+import testCases2 from "./test-cases-2.json";
 import { State } from '../AlgoState';
 
 import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
@@ -47,6 +48,7 @@ const StyledButton = styled(IconButton)(({ theme }) => ({
 }));
 
 const getRandomTestCase = () => {
+    const testCases = [...testCases1, ...testCases2];
     const max = testCases.length;
     const index = Math.floor(Math.random() * max);
     return testCases[index];
