@@ -1,4 +1,3 @@
-import { styled } from '@mui/system';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { Divider, IconButton, Paper, Stack, Toolbar, Typography } from "@mui/material";
 import Draggable from 'react-draggable';
@@ -62,7 +61,7 @@ const Body = () => {
 
     const linesToHighlights: number[][] = getLinesToHighlights();
     const codeSolution = getCodeSolution(solution);
-    const linesToHighlight = linesToHighlights[index] || [];
+    const linesToHighlight = linesToHighlights[index - 1] || [];
     return (
         <CodeBlock
             code={codeSolution}
@@ -74,14 +73,6 @@ const Body = () => {
     );
 };
 
-const Location = styled("div")({
-    position: 'fixed',
-    top: '50%',
-    left: "50%",
-    transform: "translate(-50%,-50%)",
-    zIndex: 2,
-});
-
 interface Props {
     setDisplayCode: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -89,7 +80,6 @@ interface Props {
 const Main = ({ setDisplayCode }: Props) => {
     const [lock, setLock] = React.useState(false);
     return (
-        // <Location>
         <Draggable disabled={lock}>
             <Paper elevation={8} sx={{ cursor: 'pointer', }}>
                 <Stack spacing={0}>
@@ -103,7 +93,6 @@ const Main = ({ setDisplayCode }: Props) => {
                 </Stack>
             </Paper>
         </Draggable>
-        // </Location >
     );
 };
 
