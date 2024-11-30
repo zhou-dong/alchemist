@@ -7,6 +7,7 @@ import Table from '../../../../dp/_components/Table';
 import green from '@mui/material/colors/green';
 import grey from '@mui/material/colors/grey';
 import React from 'react';
+import { Action } from './algo';
 
 const buildTable = (input: string[]): (string | number)[][] => {
     const maxLength: number = input.reduce((accumulator, current) => Math.max(accumulator, current.length), 0);
@@ -46,7 +47,7 @@ const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][]
     return styles;
 }
 
-const updateTableStyles = (original: React.CSSProperties[][], charIndex: number, stringIndex: number): React.CSSProperties[][] => {
+const updateTableStyles = (original: React.CSSProperties[][], action: Action, charIndex?: number, stringIndex?: number): React.CSSProperties[][] => {
 
     const styles: React.CSSProperties[][] = original.map(row => row.map(style => Object.assign({}, style)));
 
@@ -57,19 +58,26 @@ const updateTableStyles = (original: React.CSSProperties[][], charIndex: number,
         styles[0][col] = defaultStyle;
     }
 
-    for (let col = 1; col < styles[0]?.length || 0; col++) {
-        if (col === charIndex + 1) {
-            styles[0][col] = enabledStyle;
+    if (charIndex !== undefined) {
+        for (let col = 1; col < styles[0]?.length || 0; col++) {
+            if (col === charIndex + 1) {
+                styles[0][col] = enabledStyle;
+            }
         }
     }
 
-    for (let row = 1; row < styles.length; row++) {
-        if (row === stringIndex + 1) {
-            styles[row][0] = enabledStyle;
+    if (stringIndex !== undefined) {
+        for (let row = 1; row < styles.length; row++) {
+            if (row === stringIndex + 1) {
+                styles[row][0] = enabledStyle;
+            }
         }
+
     }
 
-    styles[stringIndex + 1][charIndex + 1] = enabledStyle;
+    if (charIndex !== undefined && stringIndex !== undefined && action !== Action.DefineOrCheckInnerForLoop) {
+        styles[stringIndex + 1][charIndex + 1] = enabledStyle;
+    }
 
     return styles;
 }
@@ -78,7 +86,7 @@ const Main = () => {
 
     const { state, setState, verticalScanningSteps, index, setIndex, input } = useAlgoContext();
 
-    const table = React.useMemo(() => buildTable(input), [input]);
+    const table = buildTable(input);
 
     const [styles, setStyles] = React.useState<React.CSSProperties[][]>(() => buildTableStyles(table));
 
@@ -89,11 +97,8 @@ const Main = () => {
             return;
         }
 
-        const { charIndex, stringIndex } = step;
-
-        if (charIndex !== undefined && stringIndex !== undefined) {
-            setStyles(s => updateTableStyles(s, charIndex, stringIndex));
-        }
+        const { action, charIndex, stringIndex } = step;
+        setStyles(s => updateTableStyles(s, action, charIndex, stringIndex));
 
         if (index === verticalScanningSteps.length - 1) {
             setState(State.Finished);
