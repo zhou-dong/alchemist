@@ -32,15 +32,15 @@ export interface Step {
     readonly linesToHighlight: number[];
     readonly input: string[];
     readonly prefix?: string;
-    readonly stringIndex?: number;
     readonly charIndex?: number;
+    readonly stringIndex?: number;
 }
 
 export const buildSteps = (input: string[]): Step[] => {
 
     const steps: Step[] = [];
 
-    function pushToStep(action: Action, prefix?: string, stringIndex?: number, charIndex?: number) {
+    function pushToStep(action: Action, prefix?: string, charIndex?: number, stringIndex?: number,) {
         const linesToHighlight: number[] = getlinesToHighlight(action);
         steps.push({ action, linesToHighlight, input, prefix, stringIndex, charIndex });
     }
