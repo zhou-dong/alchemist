@@ -1,0 +1,312 @@
+[
+    {
+        "input": [
+            "doghouse",
+            "dogma",
+            "doggy",
+            "dogged",
+            "dog"
+        ],
+        "expected_output": "dog"
+    },
+    {
+        "input": [
+            "tiger",
+            "tigerly",
+            "tights",
+            "ticket",
+            "time"
+        ],
+        "expected_output": "ti"
+    },
+    {
+        "input": [
+            "orange",
+            "or",
+            "oranges",
+            "oreo",
+            "orchid"
+        ],
+        "expected_output": "or"
+    },
+    {
+        "input": [
+            "zebra",
+            "zenith",
+            "zero",
+            "zealous",
+            "zelda"
+        ],
+        "expected_output": "ze"
+    },
+    {
+        "input": [
+            "apple",
+            "banana",
+            "cherry",
+            "date",
+            "elderberry"
+        ],
+        "expected_output": ""
+    },
+    {
+        "input": [
+            "abcdef",
+            "abc",
+            "abcd",
+            "ab",
+            "a"
+        ],
+        "expected_output": "a"
+    },
+    {
+        "input": [
+            "happy",
+            "happiness",
+            "happen",
+            "hap",
+            "haptic"
+        ],
+        "expected_output": "hap"
+    },
+    {
+        "input": [
+            "blue",
+            "bluetooth",
+            "blues",
+            "blunder",
+            "blow"
+        ],
+        "expected_output": "blu"
+    },
+    {
+        "input": [
+            "fire",
+            "fireplace",
+            "firefly",
+            "fired",
+            "firestorm"
+        ],
+        "expected_output": "fire"
+    },
+    {
+        "input": [
+            "java",
+            "javac",
+            "javelin",
+            "japanese",
+            "jay"
+        ],
+        "expected_output": "jav"
+    },
+    {
+        "input": [
+            "",
+            "empty",
+            "em",
+            "emerald",
+            "empathy"
+        ],
+        "expected_output": ""
+    },
+    {
+        "input": [
+            "bike",
+            "bicycle",
+            "biker",
+            "biking",
+            "bikingadventure"
+        ],
+        "expected_output": "bike"
+    },
+    {
+        "input": [
+            "kingdom",
+            "king",
+            "kings",
+            "kingfisher",
+            "kingdoms"
+        ],
+        "expected_output": "king"
+    },
+    {
+        "input": [
+            "chocolate",
+            "choco",
+            "chocolates",
+            "chock",
+            "chisel"
+        ],
+        "expected_output": "cho"
+    },
+    {
+        "input": [
+            "genetic",
+            "generation",
+            "genesis",
+            "geneticist",
+            "genital"
+        ],
+        "expected_output": "gen"
+    },
+    {
+        "input": [
+            "test",
+            "tests",
+            "tested",
+            "testify",
+            "testament"
+        ],
+        "expected_output": "test"
+    },
+    {
+        "input": [
+            "longest",
+            "longer",
+            "long",
+            "longshot",
+            "longing"
+        ],
+        "expected_output": "long"
+    },
+    {
+        "input": [
+            "computer",
+            "comprehend",
+            "compose",
+            "complex",
+            "comet"
+        ],
+        "expected_output": "com"
+    },
+    {
+        "input": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e"
+        ],
+        "expected_output": ""
+    },
+    {
+        "input": [
+            "lion",
+            "lions",
+            "lily",
+            "limbo",
+            "literature"
+        ],
+        "expected_output": "l"
+    },
+    {
+        "input": [
+            "super",
+            "superior",
+            "superstar",
+            "superman",
+            "supernova"
+        ],
+        "expected_output": "super"
+    },
+    {
+        "input": [
+            "fast",
+            "fastest",
+            "faster",
+            "fatigue",
+            "fashion"
+        ],
+        "expected_output": "fa"
+    },
+    {
+        "input": [
+            "kitten",
+            "kite",
+            "kit",
+            "kittenish",
+            "kitchen"
+        ],
+        "expected_output": "kit"
+    },
+    {
+        "input": [
+            "beach",
+            "beachfront",
+            "beachcomber",
+            "beacon",
+            "bear"
+        ],
+        "expected_output": "be"
+    },
+    {
+        "input": [
+            "mountain",
+            "mount",
+            "mountainous",
+            "mountainpeak",
+            "mountaineer"
+        ],
+        "expected_output": "mount"
+    },
+    {
+        "input": [
+            "light",
+            "lighthouse",
+            "lights",
+            "lit",
+            "literature"
+        ],
+        "expected_output": "lit"
+    },
+    {
+        "input": [
+            "air",
+            "airplane",
+            "airport",
+            "aircraft",
+            "airline"
+        ],
+        "expected_output": "air"
+    },
+    {
+        "input": [
+            "keyboard",
+            "keynote",
+            "keychain",
+            "key",
+            "keyring"
+        ],
+        "expected_output": "key"
+    },
+    {
+        "input": [
+            "integrate",
+            "integration",
+            "integral",
+            "integrated",
+            "integrity"
+        ],
+        "expected_output": "inte"
+    },
+    {
+        "input": [
+            "sun",
+            "sundown",
+            "sunglasses",
+            "sunrise",
+            "sundae"
+        ],
+        "expected_output": "sun"
+    },
+    {
+        "input": [
+            "rainbow",
+            "rain",
+            "rainstorm",
+            "raining",
+            "raindrop"
+        ],
+        "expected_output": "rain"
+    }
+]
