@@ -121,20 +121,22 @@ const Main = () => {
     }
 
     const DisplayPrefix = () => (
-        <>
+        <div style={{ marginBottom: "10px" }}>
             <TextField
                 size='small'
                 disabled
                 label="prefix"
                 value={prefix || " "}
             />
-        </>
+        </div>
     )
 
     return (
         <>
-            {prefix !== undefined && DisplayPrefix()}
-            <Table table={table} tableStyles={styles} />
+            <div style={{ width: "100%", }}>
+                {prefix !== undefined && DisplayPrefix()}
+                <Table table={table} tableStyles={styles} />
+            </div>
             <StyledButton
                 disabled={state !== State.Playing}
                 onClick={handleClick}
