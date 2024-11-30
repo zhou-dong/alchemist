@@ -30,6 +30,8 @@ const buildTable = (input: string[]): (string | number)[][] => {
         }
     }
 
+    console.log("build table")
+
     return table;
 }
 
@@ -43,6 +45,9 @@ const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][]
     for (let col = 0; col < table[0]?.length || 0; col++) {
         styles[0][col] = defaultStyle;
     }
+
+    console.log("checking...");
+
     return styles;
 }
 
@@ -81,7 +86,9 @@ const updateTableStyles = (original: React.CSSProperties[][], charIndex: number,
 const Main = () => {
 
     const { state, setState, verticalScanningSteps, index, setIndex, input } = useAlgoContext();
-    const table = buildTable(input);
+
+    const table = React.useMemo(() => buildTable(input), [input]);
+
     const [styles, setStyles] = React.useState<React.CSSProperties[][]>(() => buildTableStyles(table));
 
     const handleClick = () => {
