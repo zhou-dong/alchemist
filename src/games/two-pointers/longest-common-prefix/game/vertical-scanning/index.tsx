@@ -5,6 +5,7 @@ import { State } from '../../AlgoState';
 import { StyledButton } from '../Component';
 import Table from '../../../../dp/_components/Table';
 import green from '@mui/material/colors/green';
+import grey from '@mui/material/colors/grey';
 
 const buildTable = (input: string[]): (string | number)[][] => {
     const maxLength: number = input.reduce((accumulator, current) => Math.max(accumulator, current.length), 0);
@@ -32,7 +33,7 @@ const buildTable = (input: string[]): (string | number)[][] => {
 }
 
 const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][] => {
-    const base: React.CSSProperties = {};
+    const base: React.CSSProperties = { backgroundColor: grey[200], color: "#000",  };
     const styles = table.map(row => row.map(col => base));
 
     for (let row = 0; row < table.length; row++) {
