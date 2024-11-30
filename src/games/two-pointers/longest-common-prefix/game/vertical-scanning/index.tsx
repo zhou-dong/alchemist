@@ -116,8 +116,7 @@ const Main = () => {
                 size='small'
                 disabled
                 label="prefix"
-                defaultValue=" "
-                value={prefix}
+                value={prefix || " "}
             />
         </>
     )
