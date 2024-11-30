@@ -57,22 +57,22 @@ export const buildSteps = (input: string[]): Step[] => {
         pushToStep(Action.DefinePrefix);
         let prefix = "";
 
-        pushToStep(Action.DefineOrCheckOutterForLoop, prefix);
+        pushToStep(Action.DefineOrCheckOutterForLoop, prefix, 0);
         for (let i = 0; i < strs[0].length; i++) {
-            pushToStep(Action.DefineOrCheckInnerForLoop, prefix, i);
+            pushToStep(Action.DefineOrCheckInnerForLoop, prefix, i, 0);
             for (let j = 0; j < strs.length; j++) {
                 pushToStep(Action.CompareTwoChars, prefix, i, j);
                 if (strs[0].charAt(i) !== strs[j].charAt(i)) {
                     pushToStep(Action.ReturnPrefixInForLoop, prefix, i, j);
                     return prefix;
                 }
-                pushToStep(Action.DefineOrCheckInnerForLoop, prefix, i, j);
+                pushToStep(Action.DefineOrCheckInnerForLoop, prefix, i, j + 1);
             }
 
             prefix += strs[0].charAt(i);
             pushToStep(Action.AppendToPrefix, prefix, i);
 
-            pushToStep(Action.DefineOrCheckOutterForLoop, prefix, i);
+            pushToStep(Action.DefineOrCheckOutterForLoop, prefix, i + 1);
         }
 
         pushToStep(Action.ReturnPrefix, prefix);
