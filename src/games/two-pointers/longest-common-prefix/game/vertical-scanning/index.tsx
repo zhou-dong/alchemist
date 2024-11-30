@@ -30,8 +30,6 @@ const buildTable = (input: string[]): (string | number)[][] => {
         }
     }
 
-    console.log("build table")
-
     return table;
 }
 
@@ -45,9 +43,6 @@ const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][]
     for (let col = 0; col < table[0]?.length || 0; col++) {
         styles[0][col] = defaultStyle;
     }
-
-    console.log("checking...");
-
     return styles;
 }
 
@@ -63,7 +58,7 @@ const updateTableStyles = (original: React.CSSProperties[][], charIndex: number,
     }
 
     for (let col = 1; col < styles[0]?.length || 0; col++) {
-        if (col <= charIndex + 1) {
+        if (col === charIndex + 1) {
             styles[0][col] = enabledStyle;
         }
     }
@@ -75,10 +70,6 @@ const updateTableStyles = (original: React.CSSProperties[][], charIndex: number,
     }
 
     styles[stringIndex + 1][charIndex + 1] = enabledStyle;
-
-    styles[0][0] = enabledStyle;
-
-    console.log("hello world...", styles[0][0]);
 
     return styles;
 }
