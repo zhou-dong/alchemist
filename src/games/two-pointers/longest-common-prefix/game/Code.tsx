@@ -89,21 +89,21 @@ interface Props {
 const Main = ({ setDisplayCode }: Props) => {
     const [lock, setLock] = React.useState(false);
     return (
-        <Location>
-            <Draggable disabled={lock}>
-                <Paper elevation={8} sx={{ cursor: 'pointer', }}>
-                    <Stack spacing={0}>
-                        <Head
-                            lock={lock}
-                            setLock={setLock}
-                            setDisplayCode={setDisplayCode}
-                        />
-                        <Divider variant='middle' />
-                        <Body />
-                    </Stack>
-                </Paper>
-            </Draggable>
-        </Location >
+        // <Location>
+        <Draggable disabled={lock}>
+            <Paper elevation={8} sx={{ cursor: 'pointer', }}>
+                <Stack spacing={0}>
+                    <Head
+                        lock={lock}
+                        setLock={setLock}
+                        setDisplayCode={setDisplayCode}
+                    />
+                    <Divider variant='middle' />
+                    <Body />
+                </Stack>
+            </Paper>
+        </Draggable>
+        // </Location >
     );
 };
 
