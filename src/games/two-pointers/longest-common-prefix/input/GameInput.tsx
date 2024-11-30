@@ -194,6 +194,7 @@ export default function Main() {
         setVerticalScanningSteps,
         setDivideAndConquerSteps,
         setBinarySearchSteps,
+        setInput,
     } = useAlgoContext();
 
     const handleDeleteItem = (i: number) => {
@@ -220,6 +221,7 @@ export default function Main() {
                 break;
         }
 
+        setInput(localStrings);
         setState(State.Playing);
         handleClear();
     };
