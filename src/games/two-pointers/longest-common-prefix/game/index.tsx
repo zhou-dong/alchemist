@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, IconButton, Paper, Stack, styled, ToggleButton, Toolbar, Typography } from '@mui/material';
+import { Grid, IconButton, Paper, Stack, styled, ToggleButton, Toolbar, Typography } from '@mui/material';
 import { useAlgoContext } from '../AlgoContext';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Draggable from 'react-draggable';
@@ -45,11 +45,12 @@ const Header: React.FC<{
     </Toolbar>
 );
 
-const Location = styled(Container)(({ }) => (({
+const Location = styled("div")(({ }) => (({
     position: "fixed",
     top: '50%',
     left: "50%",
     transform: "translate(-50%,-50%)",
+    width: "90%",
 })));
 
 const getGame = (solution: Solution) => {
@@ -62,58 +63,83 @@ const getGame = (solution: Solution) => {
 };
 
 const Main = () => {
-    const [displayCode, setDisplayCode] = React.useState(false);
+    const [displayCode, setDisplayCode] = React.useState(true);
     const { solution } = useAlgoContext();
     const [lock, setLock] = React.useState(true);
+
+    const Game = () => (
+        <Draggable disabled={lock}>
+            <Paper
+                elevation={4}
+                sx={{
+                    padding: "10px",
+                }}
+            >
+                <Header
+                    lock={lock}
+                    setLock={setLock}
+                    displayCode={displayCode}
+                    setDisplayCode={setDisplayCode}
+                />
+
+                <Stack
+                    direction="column"
+                    spacing={5}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Typography
+                        variant='h5'
+                        display="inline-flex"
+                        sx={{
+                            verticalAlign: 'middle',
+                            fontWeight: 300,
+                        }}
+                    >
+                        {title}
+                    </Typography>
+
+                    {getGame(solution)}
+                </Stack>
+            </Paper>
+        </Draggable>
+    );
 
     return (
         <>
             <Toolbox current={State.Playing} />
             <Location>
-                <Container maxWidth="lg">
-                    <Draggable disabled={lock}>
-                        <Paper
-                            elevation={4}
-                            sx={{
-                                padding: "10px 0",
-                                paddingBottom: "30px",
-                                borderRadius: " 15px",
-                            }}
-                        >
-                            <Header
-                                lock={lock}
-                                setLock={setLock}
-                                displayCode={displayCode}
-                                setDisplayCode={setDisplayCode}
-                            />
+                <Grid container>
+                    <Grid
+                        item
+                        md={12}
+                        lg={6}
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                        }}
+                    >
+                        {displayCode && <CodeSolution setDisplayCode={setDisplayCode} />}
+                    </Grid>
 
-                            <Stack
-                                direction="column"
-                                spacing={5}
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <Typography
-                                    variant='h5'
-                                    display="inline-flex"
-                                    sx={{
-                                        verticalAlign: 'middle',
-                                        fontWeight: 300,
-                                    }}
-                                >
-                                    {title}
-                                </Typography>
-
-                                {getGame(solution)}
-                            </Stack>
-                        </Paper>
-                    </Draggable>
-                </Container>
+                    <Grid
+                        item
+                        xs={12}
+                        md={12}
+                        lg={6}
+                        sx={{
+                            width: "100%",
+                        }}
+                    >
+                        <Game />
+                    </Grid>
+                </Grid>
             </Location>
-            {displayCode && <CodeSolution setDisplayCode={setDisplayCode} />}
         </>
     );
 };
