@@ -1,0 +1,162 @@
+[
+    {
+        "input": [
+            "flower",
+            "flow",
+            "flight",
+            "flame",
+            "flex"
+        ],
+        "expected_output": "fl"
+    },
+    {
+        "input": [
+            "apple",
+            "apple",
+            "apple",
+            "apple",
+            "apple"
+        ],
+        "expected_output": "apple"
+    },
+    {
+        "input": [
+            "dog",
+            "racecar",
+            "car",
+            "apple",
+            "banana"
+        ],
+        "expected_output": ""
+    },
+    {
+        "input": [
+            "cat",
+            "car",
+            "cab",
+            "catch",
+            "calf"
+        ],
+        "expected_output": "ca"
+    },
+    {
+        "input": [
+            "interview",
+            "internet",
+            "internal",
+            "internalize",
+            "inter"
+        ],
+        "expected_output": "inter"
+    },
+    {
+        "input": [
+            "",
+            "hello",
+            "hi",
+            "high",
+            "hip"
+        ],
+        "expected_output": ""
+    },
+    {
+        "input": [
+            "case",
+            "caseSensitive",
+            "caseStudy",
+            "casedesign",
+            "casetools"
+        ],
+        "expected_output": "case"
+    },
+    {
+        "input": [
+            "universal",
+            "universe",
+            "unification",
+            "unit",
+            "unicorn"
+        ],
+        "expected_output": "uni"
+    },
+    {
+        "input": [
+            "abcd",
+            "efgh",
+            "ijkl",
+            "mnop",
+            "qrst"
+        ],
+        "expected_output": ""
+    },
+    {
+        "input": [
+            "!hello",
+            "!help",
+            "!hero",
+            "!helicopter",
+            "!height"
+        ],
+        "expected_output": "!he"
+    },
+    {
+        "input": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+        ],
+        "expected_output": "a"
+    },
+    {
+        "input": [
+            "sunshine",
+            "sundown",
+            "sunflower",
+            "sun",
+            "sunlight"
+        ],
+        "expected_output": "sun"
+    },
+    {
+        "input": [
+            "battery",
+            "button",
+            "ball",
+            "bull",
+            "banana",
+            "bar"
+        ],
+        "expected_output": "b"
+    },
+    {
+        "input": [
+            "file123",
+            "file456",
+            "file789",
+            "fileabc",
+            "filexyz"
+        ],
+        "expected_output": "file"
+    },
+    {
+        "input": [
+            "abc123",
+            "abc456",
+            "abc789",
+            "abc000"
+        ],
+        "expected_output": "abc"
+    },
+    {
+        "input": [
+            "javaScript",
+            "java",
+            "javaworld",
+            "javaprogram",
+            "javabuilder"
+        ],
+        "expected_output": "Java"
+    }
+]
