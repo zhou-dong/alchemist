@@ -6,6 +6,8 @@ import { StyledButton } from '../Component';
 import Table from '../../../../dp/_components/Table';
 import green from '@mui/material/colors/green';
 import grey from '@mui/material/colors/grey';
+import blue from '@mui/material/colors/blue';
+
 import React from 'react';
 import { Action } from './algo';
 import { TextField } from '@mui/material';
@@ -35,8 +37,16 @@ const buildTable = (input: string[]): (string | number)[][] => {
     return table;
 }
 
-const defaultStyle: React.CSSProperties = { borderColor: "#fff", backgroundColor: grey[300], color: "#000", };
-const enabledStyle: React.CSSProperties = { borderColor: "#fff", backgroundColor: green[400], color: "#fff", };
+const defaultStyle: React.CSSProperties = {
+    borderColor: "#fff",
+    backgroundColor: grey[200],
+    color: grey[800],
+};
+const enabledStyle: React.CSSProperties = {
+    borderColor: "#fff",
+    backgroundColor: green[400],
+    color: "#fff",
+};
 const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][] => {
     const styles = table.map(row => row.map(_ => defaultStyle));
     for (let row = 0; row < table.length; row++) {
