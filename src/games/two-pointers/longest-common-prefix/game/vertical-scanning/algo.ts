@@ -54,8 +54,8 @@ export const buildSteps = (input: string[]): Step[] => {
             return "";
         }
 
-        pushToStep(Action.DefinePrefix);
         let prefix = "";
+        pushToStep(Action.DefinePrefix, prefix);
 
         pushToStep(Action.DefineOrCheckOutterForLoop, prefix, 0);
         for (let i = 0; i < strs[0].length; i++) {
