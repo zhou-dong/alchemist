@@ -32,6 +32,8 @@ const AlgoContext = React.createContext<{
     setDivideAndConquerSteps: React.Dispatch<React.SetStateAction<DivideAndConquerStep[]>>,
     binarySearchSteps: BinarySearchStep[],
     setBinarySearchSteps: React.Dispatch<React.SetStateAction<BinarySearchStep[]>>,
+    input: string[],
+    setInput: React.Dispatch<React.SetStateAction<string[]>>,
 }>({
     state: State.Welcome,
     setState: () => { },
@@ -57,6 +59,8 @@ const AlgoContext = React.createContext<{
     setDivideAndConquerSteps: () => { },
     binarySearchSteps: [],
     setBinarySearchSteps: () => { },
+    input: [],
+    setInput: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -65,6 +69,7 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [index, setIndex] = React.useState(0);
     const [steps, setSteps] = React.useState<Step[]>([]);
 
+    const [input, setInput] = React.useState<string[]>([]);
     const [horizontalScanningSteps, setHorizontalScanningSteps] = React.useState<HorizontalScanningStep[]>([]);
     const [verticalScanningSteps, setVerticalScanningSteps] = React.useState<VerticalScanningStep[]>([]);
     const [divideAndConquerSteps, setDivideAndConquerSteps] = React.useState<DivideAndConquerStep[]>([]);
@@ -104,6 +109,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setDivideAndConquerSteps,
             binarySearchSteps,
             setBinarySearchSteps,
+            input,
+            setInput,
         }}>
             {children}
         </AlgoContext.Provider>
