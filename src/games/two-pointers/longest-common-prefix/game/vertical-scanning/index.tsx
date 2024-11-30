@@ -8,6 +8,7 @@ import green from '@mui/material/colors/green';
 import grey from '@mui/material/colors/grey';
 import React from 'react';
 import { Action } from './algo';
+import { TextField } from '@mui/material';
 
 const buildTable = (input: string[]): (string | number)[][] => {
     const maxLength: number = input.reduce((accumulator, current) => Math.max(accumulator, current.length), 0);
@@ -34,7 +35,7 @@ const buildTable = (input: string[]): (string | number)[][] => {
     return table;
 }
 
-const defaultStyle: React.CSSProperties = { borderColor: "#fff", backgroundColor: grey[400], color: "#000", };
+const defaultStyle: React.CSSProperties = { borderColor: "#fff", backgroundColor: grey[300], color: "#000", };
 const enabledStyle: React.CSSProperties = { borderColor: "#fff", backgroundColor: green[400], color: "#fff", };
 const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][] => {
     const styles = table.map(row => row.map(_ => defaultStyle));
@@ -89,6 +90,7 @@ const Main = () => {
     const table = buildTable(input);
 
     const [styles, setStyles] = React.useState<React.CSSProperties[][]>(() => buildTableStyles(table));
+    const [prefix, setPrefix] = React.useState<string>();
 
     const handleClick = () => {
         const step = verticalScanningSteps[index];
@@ -97,8 +99,9 @@ const Main = () => {
             return;
         }
 
-        const { action, charIndex, stringIndex } = step;
+        const { action, charIndex, stringIndex, prefix } = step;
         setStyles(s => updateTableStyles(s, action, charIndex, stringIndex));
+        setPrefix(prefix);
 
         if (index === verticalScanningSteps.length - 1) {
             setState(State.Finished);
@@ -107,8 +110,21 @@ const Main = () => {
         setIndex(i => i + 1);
     }
 
+    const DisplayPrefix = () => (
+        <>
+            <TextField
+                size='small'
+                disabled
+                label="prefix"
+                defaultValue=" "
+                value={prefix}
+            />
+        </>
+    )
+
     return (
         <>
+            {prefix !== undefined && DisplayPrefix()}
             <Table table={table} tableStyles={styles} />
             <StyledButton
                 disabled={state !== State.Playing}
