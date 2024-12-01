@@ -6,7 +6,6 @@ import { StyledButton } from '../Component';
 import Table from '../../../../dp/_components/Table';
 import green from '@mui/material/colors/green';
 import grey from '@mui/material/colors/grey';
-import blue from '@mui/material/colors/blue';
 
 import React from 'react';
 import { Action } from './algo';
