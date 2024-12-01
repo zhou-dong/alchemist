@@ -1,6 +1,5 @@
 import React from "react";
 import { State } from "./AlgoState";
-import { Step } from "./game/algo";
 import { Step as HorizontalScanningStep } from "./game/horizontal-scanning/algo";
 import { Step as VerticalScanningStep } from "./game/vertical-scanning/algo";
 import { Step as DivideAndConquerStep } from "./game/divide-and-conquer/algo";
@@ -16,8 +15,6 @@ const AlgoContext = React.createContext<{
     setTable: React.Dispatch<React.SetStateAction<(string | number)[][]>>,
     tableStyle: React.CSSProperties[][],
     setTableStyle: React.Dispatch<React.SetStateAction<React.CSSProperties[][]>>,
-    steps: Step[],
-    setSteps: React.Dispatch<React.SetStateAction<Step[]>>,
     strs: string[],
     setStrs: React.Dispatch<React.SetStateAction<string[]>>,
     solution: Solution,
@@ -43,8 +40,6 @@ const AlgoContext = React.createContext<{
     setTable: () => { },
     tableStyle: [],
     setTableStyle: () => { },
-    steps: [],
-    setSteps: () => { },
     strs: [],
     setStrs: () => { },
     solution: Solution.HorizontalScanning,
@@ -67,7 +62,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
     const [state, setState] = React.useState(State.Welcome);
     const [index, setIndex] = React.useState(0);
-    const [steps, setSteps] = React.useState<Step[]>([]);
 
     const [input, setInput] = React.useState<string[]>([]);
     const [horizontalScanningSteps, setHorizontalScanningSteps] = React.useState<HorizontalScanningStep[]>([]);
@@ -93,8 +87,6 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             setTable,
             tableStyle,
             setTableStyle,
-            steps,
-            setSteps,
             strs,
             setStrs,
             solution,
