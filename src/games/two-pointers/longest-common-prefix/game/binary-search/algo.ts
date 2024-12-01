@@ -51,7 +51,8 @@ export interface Step {
     readonly high?: number;
     readonly mid?: number;
     readonly isCommonPrefix?: boolean;
-    readonly length?: number;
+    readonly start?: number,
+    readonly end?: number
     readonly i?: number;
     readonly j?: number;
 }
@@ -91,7 +92,7 @@ export const buildSteps = (input: string[]): Step[] => {
             pushToStep({ ...baseStep, action: Action.CalculateMid, minLength, low, high, mid });
 
             pushToStep({ ...baseStep, action: Action.BeginIsCommonPrefix, minLength, low, high, mid });
-            const isPrefix = isCommonPrefix(strs, mid);
+            const isPrefix = isCommonPrefix(strs, low, mid);
             pushToStep({ ...baseStep, action: Action.ResultIsCommonPrefix, minLength, low, high, mid, isCommonPrefix: isPrefix });
             if (isPrefix) {
                 low = mid;
@@ -106,24 +107,24 @@ export const buildSteps = (input: string[]): Step[] => {
         return strs[0].substring(0, low);
     }
 
-    function isCommonPrefix(strs: string[], length: number): boolean {
-        pushToStep({ ...baseStep, action: Action.ReadyIsCommonPrefix, length });
+    function isCommonPrefix(strs: string[], start: number, end: number): boolean {
+        pushToStep({ ...baseStep, action: Action.ReadyIsCommonPrefix, start, end });
 
-        pushToStep({ ...baseStep, action: Action.CheckOuterForLoop, length });
+        pushToStep({ ...baseStep, action: Action.CheckOuterForLoop, start, end });
         for (let i = 1; i < strs.length; i++) {
-            pushToStep({ ...baseStep, action: Action.CheckInnerForLoop, length, i });
-            for (let j = 0; j < length; j++) {
-                pushToStep({ ...baseStep, action: Action.Compare2Chars, length, i, j });
+            pushToStep({ ...baseStep, action: Action.CheckInnerForLoop, start, end });
+            for (let j = start; j < end; j++) {
+                pushToStep({ ...baseStep, action: Action.Compare2Chars, start, end });
                 if (strs[0].charAt(j) !== strs[i].charAt(j)) {
-                    pushToStep({ ...baseStep, action: Action.IsCommonPrefixReturnFalse, length, i, j });
+                    pushToStep({ ...baseStep, action: Action.IsCommonPrefixReturnFalse, start, end, i, j });
                     return false;
                 }
-                pushToStep({ ...baseStep, action: Action.CheckInnerForLoop, length, i });
+                pushToStep({ ...baseStep, action: Action.CheckInnerForLoop, start, end, i });
             }
-            pushToStep({ ...baseStep, action: Action.CheckOuterForLoop, length, i });
+            pushToStep({ ...baseStep, action: Action.CheckOuterForLoop, start, end, i });
         }
 
-        pushToStep({ ...baseStep, action: Action.IsCommonPrefixReturnTrue, length, });
+        pushToStep({ ...baseStep, action: Action.IsCommonPrefixReturnTrue, start, end, });
         return true;
     }
 
