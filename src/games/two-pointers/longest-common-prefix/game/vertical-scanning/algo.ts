@@ -21,7 +21,6 @@ const getlinesToHighlight = (action: Action): number[] => {
         case Action.DefineOrCheckInnerForLoop: return [8];
         case Action.CompareTwoChars: return [9];
         case Action.ReturnPrefixInForLoop: return [10];
-        case Action.ReturnPrefix: return [13];
         case Action.AppendToPrefix: return [13];
         case Action.ReturnPrefix: return [15];
     }
