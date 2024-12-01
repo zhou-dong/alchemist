@@ -132,8 +132,8 @@ const Main = () => {
     const DisplayPrefix = () => (
         <div style={{ marginBottom: "10px" }}>
             <TextField
+                focused
                 size='small'
-                disabled
                 label="prefix"
                 value={prefix || " "}
             />
