@@ -34,7 +34,7 @@ const buildTable = (input: string[]): (string | number)[][] => {
     }
 
     return table;
-}
+};
 
 const indexStyle: React.CSSProperties = {
     borderColor: "#fff",
@@ -66,7 +66,7 @@ const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][]
         styles[0][col] = indexStyle;
     }
     return styles;
-}
+};
 
 const updateTableStyles = (original: React.CSSProperties[][], action: Action, charIndex?: number, stringIndex?: number): React.CSSProperties[][] => {
 
@@ -128,7 +128,7 @@ const Main = () => {
         }
 
         setIndex(i => i + 1);
-    }
+    };
 
     const DisplayPrefix = () => (
         <div style={{ marginBottom: "10px" }}>
@@ -139,7 +139,7 @@ const Main = () => {
                 value={prefix || " "}
             />
         </div>
-    )
+    );
 
     return (
         <>
