@@ -74,6 +74,7 @@ const Main = () => {
                 <Grid container>
                     <Grid
                         item
+                        xs={12}
                         md={12}
                         lg={6}
                         sx={{
@@ -92,6 +93,9 @@ const Main = () => {
                         md={12}
                         lg={6}
                         sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                             width: "100%",
                         }}
                     >
@@ -100,6 +104,7 @@ const Main = () => {
                                 elevation={4}
                                 sx={{
                                     padding: "10px",
+                                    width: "100%",
                                 }}
                             >
                                 <Header
