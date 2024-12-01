@@ -103,7 +103,7 @@ export const BinarySearchSolution = `function longestCommonPrefix(strs: string[]
     let low = 0, high = minLength;
     while (low < high) {
         const mid = low + Math.floor((high - low + 1) / 2);
-        if (isCommonPrefix(strs, mid)) {
+        if (isCommonPrefix(strs, low, mid)) {
             low = mid;
         } else {
             high = mid - 1;
@@ -113,9 +113,9 @@ export const BinarySearchSolution = `function longestCommonPrefix(strs: string[]
     return strs[0].substring(0, low);
 }
 
-function isCommonPrefix(strs: string[], length: number): boolean {
+function isCommonPrefix(strs: string[], start: number, end: number): boolean {
     for (let i = 1; i < strs.length; i++) {
-        for (let j = 0; j < length; j++) {
+        for (let j = start; j < end; j++) {
             if (strs[0].charAt(j) !== strs[i].charAt(j)) {
                 return false;
             }
