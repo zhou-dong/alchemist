@@ -4,7 +4,7 @@ import MouseIcon from '@mui/icons-material/Mouse';
 import { State } from '../../AlgoState';
 import { StyledButton } from '../Component';
 import Table from '../../../../dp/_components/Table';
-import green from '@mui/material/colors/green';
+import blue from '@mui/material/colors/blue';
 import grey from '@mui/material/colors/grey';
 
 import React from 'react';
@@ -36,23 +36,34 @@ const buildTable = (input: string[]): (string | number)[][] => {
     return table;
 }
 
+const indexStyle: React.CSSProperties = {
+    borderColor: "#fff",
+    backgroundColor: "#f1f1f1",
+    color: grey[600],
+    fontWeight: 600,
+};
+
 const defaultStyle: React.CSSProperties = {
     borderColor: "#fff",
-    backgroundColor: grey[200],
-    color: grey[800],
+    backgroundColor: blue[200],
+    color: "#fff",
+    fontWeight: 500,
 };
+
 const enabledStyle: React.CSSProperties = {
     borderColor: "#fff",
-    backgroundColor: green[400],
+    backgroundColor: "#4CAF50",
     color: "#fff",
+    fontWeight: 500,
 };
+
 const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][] => {
     const styles = table.map(row => row.map(_ => defaultStyle));
     for (let row = 0; row < table.length; row++) {
-        styles[row][0] = defaultStyle;
+        styles[row][0] = indexStyle;
     }
     for (let col = 0; col < table[0]?.length || 0; col++) {
-        styles[0][col] = defaultStyle;
+        styles[0][col] = indexStyle;
     }
     return styles;
 }
@@ -62,10 +73,11 @@ const updateTableStyles = (original: React.CSSProperties[][], action: Action, ch
     const styles: React.CSSProperties[][] = original.map(row => row.map(style => Object.assign({}, style)));
 
     for (let row = 0; row < styles.length; row++) {
-        styles[row][0] = defaultStyle;
+        styles[row][0] = indexStyle;
     }
+
     for (let col = 0; col < styles[0]?.length || 0; col++) {
-        styles[0][col] = defaultStyle;
+        styles[0][col] = indexStyle;
     }
 
     if (charIndex !== undefined) {
@@ -82,7 +94,6 @@ const updateTableStyles = (original: React.CSSProperties[][], action: Action, ch
                 styles[row][0] = enabledStyle;
             }
         }
-
     }
 
     if (charIndex !== undefined && stringIndex !== undefined && action !== Action.DefineOrCheckInnerForLoop) {
