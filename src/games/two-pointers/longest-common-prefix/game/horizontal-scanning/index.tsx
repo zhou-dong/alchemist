@@ -67,9 +67,16 @@ const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][]
     return styles;
 };
 
-const updateTableStyles = (original: React.CSSProperties[][], step: Step,): React.CSSProperties[][] => {
+const updateTableStyles = (original: React.CSSProperties[][], input: string[], { action, }: Step,): React.CSSProperties[][] => {
     const styles: React.CSSProperties[][] = original.map(row => row.map(style => Object.assign({}, style)));
 
+    for (let row = 0; row < styles.length; row++) {
+        styles[row][0] = indexStyle;
+    }
+
+    for (let col = 0; col < styles[0]?.length || 0; col++) {
+        styles[0][col] = indexStyle;
+    }
 
     return styles;
 };
@@ -90,7 +97,7 @@ const Main = () => {
             return;
         }
 
-        setStyles(s => updateTableStyles(s, step));
+        setStyles(s => updateTableStyles(s, input, step));
         setPrefix(step.prefix);
 
         if (index === horizontalScanningSteps.length - 1) {
