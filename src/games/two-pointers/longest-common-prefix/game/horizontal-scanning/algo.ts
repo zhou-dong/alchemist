@@ -43,15 +43,16 @@ export interface Step {
     readonly prefix?: string;
     readonly current?: string;
     readonly index?: number;
+    readonly stringIndex?: number;
 }
 
 export const buildSteps = (input: string[]): Step[] => {
 
     const steps: Step[] = [];
 
-    function pushToStep(action: Action, prefix?: string, current?: string, index?: number) {
+    function pushToStep(action: Action, prefix?: string, current?: string, stringIndex?: number, index?: number) {
         const linesToHighlight: number[] = getlinesToHighlight(action);
-        steps.push({ action, linesToHighlight, input, prefix, current, index });
+        steps.push({ action, linesToHighlight, input, prefix, current, stringIndex, index });
     }
 
     pushToStep(Action.Standby);
@@ -66,10 +67,10 @@ export const buildSteps = (input: string[]): Step[] => {
         let prefix = strs[0];
         pushToStep(Action.DefinePrefix, prefix, strs[0]);
 
-        pushToStep(Action.DefineOrCheckForLoop, prefix, strs[0]);
+        pushToStep(Action.DefineOrCheckForLoop, prefix, strs[0], 1);
         for (let i = 1; i < strs.length; i++) {
             pushToStep(Action.ComputePrefix, prefix, strs[i], i);
-            prefix = lcp(prefix, strs[i]);
+            prefix = lcp(prefix, strs[i], i);
             pushToStep(Action.UpdatePrefix, prefix, strs[i], i);
 
             pushToStep(Action.CheckPrefixLength, prefix, strs[i], i);
@@ -83,24 +84,24 @@ export const buildSteps = (input: string[]): Step[] => {
         return prefix;
     }
 
-    function lcp(str1: string, str2: string): string {
-        pushToStep(Action.BeginLcp, str1, str2);
+    function lcp(str1: string, str2: string, stringIndex: number): string {
+        pushToStep(Action.BeginLcp, str1, str2, stringIndex);
         let index = 0;
-        pushToStep(Action.DefineIndex, str1, str2, index);
+        pushToStep(Action.DefineIndex, str1, str2, stringIndex, index);
 
-        pushToStep(Action.CheckWhile, str1, str2, index);
+        pushToStep(Action.CheckWhile, str1, str2, stringIndex, index);
         while (
             index < str1.length &&
             index < str2.length &&
             str1.charAt(index) === str2.charAt(index)
         ) {
             index++;
-            pushToStep(Action.IndexPlusPlus, str1, str2, index);
-            pushToStep(Action.CheckWhile, str1, str2, index);
+            pushToStep(Action.IndexPlusPlus, str1, str2, stringIndex, index);
+            pushToStep(Action.CheckWhile, str1, str2, stringIndex, index);
         }
 
         const prefix = str1.substring(0, index);
-        pushToStep(Action.ReturnLcp, prefix, str2, index);
+        pushToStep(Action.ReturnLcp, prefix, str2, stringIndex, index);
         return prefix;
     }
 
