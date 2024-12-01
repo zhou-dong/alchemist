@@ -86,7 +86,7 @@ const updateTableStyles = (table: (string | number)[][], step: Step): React.CSSP
         }
     }
 
-    if (stringIndex !== undefined) {
+    if (stringIndex !== undefined && stringIndex + 1 < table.length) {
         styles[stringIndex + 1][0] = enabledStyle;
     }
 
