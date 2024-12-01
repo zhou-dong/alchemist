@@ -245,7 +245,7 @@ export default function Main() {
                     }}
                 >
                     <FormControl>
-                        <FormLabel htmlFor="needle">String</FormLabel>
+                        <FormLabel htmlFor="needle">Strings</FormLabel>
 
                         <Paper variant='outlined' sx={{ padding: "10px" }}>
                             <AddString setLocalStrings={setLocalStrings} />
