@@ -69,7 +69,6 @@ const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][]
 };
 
 const updateTableStyles = (original: React.CSSProperties[][], action: Action, charIndex?: number, stringIndex?: number): React.CSSProperties[][] => {
-
     const styles: React.CSSProperties[][] = original.map(row => row.map(style => Object.assign({}, style)));
 
     for (let row = 0; row < styles.length; row++) {
