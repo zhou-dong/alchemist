@@ -67,8 +67,12 @@ const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][]
     return styles;
 };
 
-const updateTableStyles = (original: React.CSSProperties[][], input: string[], { action, }: Step,): React.CSSProperties[][] => {
-    const styles: React.CSSProperties[][] = original.map(row => row.map(style => Object.assign({}, style)));
+const updateTableStyles = (
+    table: (string | number)[][],
+    input: string[],
+    { action, prefix, current, index, stringIndex }: Step
+): React.CSSProperties[][] => {
+    const styles: React.CSSProperties[][] = buildTableStyles(table);
 
     for (let row = 0; row < styles.length; row++) {
         styles[row][0] = indexStyle;
@@ -76,6 +80,27 @@ const updateTableStyles = (original: React.CSSProperties[][], input: string[], {
 
     for (let col = 0; col < styles[0]?.length || 0; col++) {
         styles[0][col] = indexStyle;
+    }
+
+    if (prefix) {
+        styles[1][0] = enabledStyle;
+        for (let col = 0; col < prefix.length; col++) {
+            styles[1][col + 1] = enabledStyle;
+        }
+    }
+
+    if (stringIndex !== undefined) {
+        styles[stringIndex + 1][0] = enabledStyle;
+    }
+
+    if (index !== undefined) {
+        styles[0][index + 1] = enabledStyle;
+    }
+
+    if (stringIndex !== undefined && index !== undefined) {
+        for (let col = 0; col < index; col++) {
+            styles[stringIndex + 1][col + 1] = enabledStyle;
+        }
     }
 
     return styles;
@@ -97,7 +122,7 @@ const Main = () => {
             return;
         }
 
-        setStyles(s => updateTableStyles(s, input, step));
+        setStyles(_ => updateTableStyles(table, input, step));
         setPrefix(step.prefix);
 
         if (index === horizontalScanningSteps.length - 1) {
