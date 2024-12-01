@@ -5,6 +5,10 @@ import { State } from '../../AlgoState';
 import { StyledButton } from '../Component';
 import blue from '@mui/material/colors/blue';
 import grey from '@mui/material/colors/grey';
+import React from 'react';
+import { TextField } from '@mui/material';
+import Table from '../../../../dp/_components/Table';
+import { Step } from './algo';
 
 const indexStyle: React.CSSProperties = {
     borderColor: "#fff",
@@ -63,16 +67,56 @@ const buildTableStyles = (table: (string | number)[][]): React.CSSProperties[][]
     return styles;
 };
 
+const updateTableStyles = (original: React.CSSProperties[][], step: Step,): React.CSSProperties[][] => {
+    const styles: React.CSSProperties[][] = original.map(row => row.map(style => Object.assign({}, style)));
+
+
+    return styles;
+};
+
 const Main = () => {
 
-    const { state, setState, horizontalScanningSteps, index, setIndex } = useAlgoContext();
+    const { state, setState, horizontalScanningSteps, index, setIndex, input } = useAlgoContext();
+
+    const table = buildTable(input);
+
+    const [styles, setStyles] = React.useState<React.CSSProperties[][]>(() => buildTableStyles(table));
+    const [prefix, setPrefix] = React.useState<string>();
 
     const handleClick = () => {
+        const step = horizontalScanningSteps[index];
+        if (!step) {
+            setState(State.Finished);
+            return;
+        }
+
+        setStyles(s => updateTableStyles(s, step));
+        setPrefix(step.prefix);
+
+        if (index === horizontalScanningSteps.length - 1) {
+            setState(State.Finished);
+        }
+
         setIndex(i => i + 1);
     }
 
+    const DisplayPrefix = () => (
+        <div style={{ marginBottom: "10px" }}>
+            <TextField
+                size='small'
+                disabled
+                label="prefix"
+                value={prefix || " "}
+            />
+        </div>
+    );
+
     return (
         <>
+            <div style={{ width: "100%", }}>
+                {prefix !== undefined && DisplayPrefix()}
+                <Table table={table} tableStyles={styles} />
+            </div>
             <StyledButton
                 disabled={state !== State.Playing}
                 onClick={handleClick}
