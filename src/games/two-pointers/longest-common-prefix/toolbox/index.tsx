@@ -52,7 +52,7 @@ interface Props {
 }
 
 const Main = ({ current }: Props) => {
-    const { setState, steps } = useAlgoContext();
+    const { setState, index } = useAlgoContext();
 
     return (
         <MuiStack spacing={2}
@@ -88,7 +88,7 @@ const Main = ({ current }: Props) => {
                 name="Game"
                 content={<SportsEsportsOutlinedIcon fontSize="medium" />}
                 selected={current === State.Playing}
-                disabled={steps.length === 0}
+                disabled={index <= 0}
                 onClick={() => setState(State.Playing)}
             />
         </MuiStack>
