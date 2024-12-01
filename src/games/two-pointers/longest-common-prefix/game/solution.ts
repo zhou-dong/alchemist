@@ -65,16 +65,16 @@ export const DivideAndConquerSolution = `function longestCommonPrefix(strs: stri
     if (strs.length === 0) {
         return "";
     }
-    return divideAndConquer(strs, 0, strs.length - 1);
+    return recurse(strs, 0, strs.length - 1);
 }
 
-function divideAndConquer(strs: string[], start: number, end: number): string {
+function recurse(strs: string[], start: number, end: number): string {
     if (start === end) {
         return strs[start];
     }
     const mid = start + Math.floor((end - start) / 2);
-    const lcpLeft = divideAndConquer(strs, start, mid);
-    const lcpRight = divideAndConquer(strs, mid + 1, end);
+    const lcpLeft = recurse(strs, start, mid);
+    const lcpRight = recurse(strs, mid + 1, end);
     return lcp(lcpLeft, lcpRight);
 }
 
