@@ -78,6 +78,7 @@ export const buildSteps = (input: string[]): Step[] => {
                 pushToStep(Action.ReturnEmptyWithPrefixEmpty, prefix, strs[i], i);
                 return "";
             }
+            pushToStep(Action.DefineOrCheckForLoop, prefix, strs[0], i + 1);
         }
 
         pushToStep(Action.ReturnPrefix, prefix);
@@ -100,9 +101,9 @@ export const buildSteps = (input: string[]): Step[] => {
             pushToStep(Action.CheckWhile, str1, str2, stringIndex, index);
         }
 
-        const prefix = str1.substring(0, index);
-        pushToStep(Action.ReturnLcp, prefix, str2, stringIndex, index);
-        return prefix;
+        const result = str1.substring(0, index);
+        pushToStep(Action.ReturnLcp, str1, str2, stringIndex, index);
+        return result;
     }
 
     longestCommonPrefix(input);
