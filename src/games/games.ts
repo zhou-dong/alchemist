@@ -258,6 +258,6 @@ const games: Game[] = [
     LongestCommonPrefix,
 ];
 
-games.reverse();
+// games.reverse();
 
 export { games };
