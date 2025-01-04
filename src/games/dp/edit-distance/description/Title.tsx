@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import StarIcon from '@mui/icons-material/Star';
+import { CheckCircleOutline } from '@mui/icons-material';
 import { title } from "../contents";
 
 const TitleContent = () => (
@@ -15,30 +15,12 @@ const TitleContent = () => (
     </Typography>
 );
 
-const Star = () => (
-    <StarIcon
-        fontSize="large"
-        sx={{
-            color: "gold",
-            animation: 'rotate 2.5s linear infinite',
-            '@keyframes rotate': {
-                '0%': {
-                    transform: 'rotate(0deg)',
-                },
-                '100%': {
-                    transform: 'rotate(360deg)',
-                },
-            },
-        }}
-    />
-);
-
-
 interface Props {
-    displayStar: boolean;
+    icon: JSX.Element;
+    success?: boolean;
 }
 
-const Main = ({ displayStar }: Props) => (
+const Main = ({ icon, success }: Props) => (
     <Stack
         direction="row"
         spacing={1}
@@ -48,8 +30,9 @@ const Main = ({ displayStar }: Props) => (
             alignItems: "center",
         }}
     >
-        {displayStar && <Star />}
+        {icon}
         <TitleContent />
+        {success && <CheckCircleOutline sx={{ color: 'green' }} />}
     </Stack>
 );
 

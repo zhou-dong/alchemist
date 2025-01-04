@@ -1,16 +1,16 @@
 import { IconButton, Stack, styled, Typography } from '@mui/material';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import { green } from '@mui/material/colors';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useAlgoContext } from '../AlgoContext';
 import Title from '../description/Title';
 import Toolbox from '../toolbox';
 import { State } from '../AlgoState';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
-const Icon = () => (
+const Wobble = () => (
     <SentimentSatisfiedOutlinedIcon
+        fontSize="large"
         sx={{
-            fontSize: 60,
             color: green[400],
             animation: 'wobble 1.5s ease infinite',
             '@keyframes wobble': {
@@ -37,26 +37,15 @@ const Welcome = () => (
         spacing={2}
         sx={{
             padding: '40px',
-            borderRadius: '15px',
+            borderRadius: '5px',
             boxShadow: 4,
         }}
         textAlign="center"
     >
-        <Stack
-            direction="row"
-            sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-            }}
-        >
-            <Icon />
-            <Typography variant="h5">
-                Welcome to Algorithm Learning Adventure!
-            </Typography>
-        </Stack>
-
         <Typography>
+            <b>
+                Welcome! &nbsp;
+            </b>
             Here, you'll learn how the Edit Distance (Levenshtein Distance) algorithm works using <b>dynamic programming</b>.
         </Typography>
 
@@ -90,14 +79,7 @@ const Location = styled("div")({
 });
 
 const Main = () => {
-    const { state, setState } = useAlgoContext();
-
-    const handleClick = () => {
-
-        console.log(state, "state");
-
-        setState(State.Description);
-    }
+    const { setState } = useAlgoContext();
 
     return (
         <>
@@ -111,11 +93,11 @@ const Main = () => {
                         alignItems: "center",
                     }}
                 >
-                    <Title displayStar={false} />
+                    <Title icon={<Wobble />} />
                     <Welcome />
                     <div></div>
-                    <StyledIconButton onClick={handleClick}>
-                        <NavigateNextIcon fontSize='large' />
+                    <StyledIconButton onClick={() => setState(State.Description)}>
+                        <DescriptionOutlinedIcon />
                     </StyledIconButton>
                 </Stack>
             </Location>

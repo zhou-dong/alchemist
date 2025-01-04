@@ -7,6 +7,7 @@ import InputIcon from '@mui/icons-material/Input';
 import { useAlgoContext } from "../AlgoContext";
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
+import CodeIcon from '@mui/icons-material/Code';
 import { State } from '../AlgoState';
 import React from 'react';
 
@@ -52,7 +53,7 @@ interface Props {
 }
 
 const Main = ({ current }: Props) => {
-    const { setState } = useAlgoContext();
+    const { setState, comparedTable } = useAlgoContext();
 
     return (
         <MuiStack spacing={2}
@@ -78,6 +79,13 @@ const Main = ({ current }: Props) => {
                 onClick={() => setState(State.Description)}
             />
             <Tool
+                name="Code"
+                content={<CodeIcon fontSize="medium" />}
+                selected={current === State.DisplayCode}
+                disabled={false}
+                onClick={() => setState(State.DisplayCode)}
+            />
+            <Tool
                 name="Input"
                 content={<InputIcon fontSize="medium" />}
                 selected={current === State.Input}
@@ -88,7 +96,7 @@ const Main = ({ current }: Props) => {
                 name="Game"
                 content={<SportsEsportsOutlinedIcon fontSize="medium" />}
                 selected={current === State.Playing}
-                disabled={false}
+                disabled={comparedTable.length === 0}
                 onClick={() => setState(State.Playing)}
             />
         </MuiStack>

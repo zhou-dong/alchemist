@@ -1,11 +1,11 @@
-import { Typography, Paper, Grid, Avatar } from '@mui/material';
+import { Typography, Paper, Avatar, Stack } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import BuildIcon from '@mui/icons-material/Build';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { Box, styled } from '@mui/system';
 import { green } from '@mui/material/colors';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
+import WbIncandescentIcon from '@mui/icons-material/WbIncandescent';
 
 const CodeContainer = styled(Paper)({
     borderLeft: "4px solid grey",
@@ -13,28 +13,28 @@ const CodeContainer = styled(Paper)({
 });
 
 const Examples = () => (
-    <Grid container spacing={1}>
-        <Grid item sm={12} md={6}>
-            <CodeContainer variant="outlined">
+    <CodeContainer variant="outlined">
+        <Typography gutterBottom>
+            The distance between kitten and sitting is 3. A minimal edit script that transforms the former into the latter is:
+        </Typography>
+        <ol>
+            <li>
                 <Typography gutterBottom>
-                    <strong>Input:</strong> <code>haystack = "hello"</code>, <code>needle = "ll"</code>
+                    kitten → sitten (substitution of 's' for 'k')
                 </Typography>
-                <Typography>
-                    <strong>Output:</strong> <code>2</code>
-                </Typography>
-            </CodeContainer>
-        </Grid>
-        <Grid item sm={12} md={6}>
-            <CodeContainer variant="outlined">
+            </li>
+            <li>
                 <Typography gutterBottom>
-                    <strong>Input:</strong> <code>haystack = "aaaaa"</code>, <code>needle = "bba"</code>
+                    sitten → sittin (substitution of 'i' for 'e')
                 </Typography>
+            </li>
+            <li>
                 <Typography>
-                    <strong>Output:</strong> <code>-1</code>
+                    sittin → sitting (insertion of 'g' at the end)
                 </Typography>
-            </CodeContainer>
-        </Grid>
-    </Grid>
+            </li>
+        </ol>
+    </CodeContainer>
 );
 
 export interface Content {
@@ -50,47 +50,64 @@ export const contents: Content[] = [
         content: (
             <>
                 <Typography>
-                    This algorithm searches for the first occurrence of a substring (needle) within a larger string (haystack) and returns its index. If the substring is not found, it returns -1.
+                    Edit Distance (or Levenshtein Distance) measures the minimum number of operations required to transform one string into another. The allowed operations are:
                 </Typography>
-                <Typography>
-                    This process can be likened to 'finding a needle in a haystack'. <span style={{ color: "#fff" }}>(大海捞针 or 大海撈針 in Chinese)</span>
-                </Typography>
+                <ul>
+                    <li>
+                        <Typography>Insertion of a character</Typography>
+                    </li>
+                    <li>
+                        <Typography>Deletion of a character</Typography>
+                    </li>
+                    <li>
+                        <Typography>Substitution of one character for another</Typography>
+                    </li>
+                </ul>
             </>
         ),
     },
     {
+        icon: <WbIncandescentIcon />,
+        title: 'Usage',
+        content: (
+            <Typography>
+                This algorithm is often used in applications such as spell checking, DNA sequence comparison, and natural language processing, where determining the similarity between two sequences is important.
+            </Typography>
+        ),
+    },
+    {
         icon: <FormatListBulletedIcon />,
-        title: 'Examples',
+        title: 'Example',
         content: (
             <Examples />
         ),
     },
     {
-        icon: <BuildIcon />,
+        icon: <VideoCameraBackIcon />,
         title: 'Algorithm Approach',
         content: (
-            <Typography>
-                The algorithm checks for the substring <code>needle</code> starting from the beginning of <code>haystack</code> and compares it character by character. When it finds a match, it returns the starting index of the match. If no match is found by the end of the string, it returns -1.
-            </Typography>
+            <Stack direction="column" spacing={1}>
+                <Typography>
+                    To make the algorithm more intuitive, we will visualize it using a 2-dimensional array (table).
+                </Typography>
+                <Typography>
+                    We will build a matrix where each cell represents the minimum number of operations needed to convert a substring of one string into a substring of another. The idea is to break the problem down into smaller subproblems and solve them efficiently.
+                </Typography>
+            </Stack>
         ),
     },
     {
         icon: <QueryStatsIcon />,
-        title: 'Time Complexity',
+        title: 'Time and Space Complexity',
         content: (
-            <Typography>
-                The worst-case time complexity of this algorithm is O(n * m), where n is the length of <code>haystack</code> and m is the length of <code>needle</code>.
-            </Typography>
-        ),
-    },
-    {
-        icon: <VideoCameraBackIcon />,
-        title: 'Visualization',
-        content: (
-            <Typography>
-                To make the algorithm more intuitive, we will visualize it using a 2-dimensional array (table). The rows represent the characters in the <code>haystack</code>, while the columns represent the characters in the <code>needle</code>.
-                Let’s code and rock! 🎸
-            </Typography>
+            <Stack direction="column" spacing={1}>
+                <Typography>
+                    The time complexity is O(m * n), where m and n are the lengths of the two input strings. This is because we are filling an (m + 1) x (n + 1) matrix.
+                </Typography>
+                <Typography>
+                    The space complexity is also O(m * n). Optimizations can reduce the space complexity to O(min(m, n)) using space-efficient techniques.
+                </Typography>
+            </Stack>
         ),
     },
 ];
@@ -117,7 +134,7 @@ const DisplayContent: React.FC<{
             <Box
                 display="flex"
                 alignItems="center"
-                my={2}
+                my={1}
             >
                 <Avatar
                     sx={{

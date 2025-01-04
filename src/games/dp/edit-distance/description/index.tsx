@@ -2,12 +2,14 @@ import React from 'react';
 import Title from "./Title";
 import { Container, Divider, IconButton, Stack, styled } from "@mui/material";
 import { contents, DisplayContents } from './Contents';
-import InputIcon from '@mui/icons-material/Input';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
+import CodeIcon from '@mui/icons-material/Code';
+import StarIcon from '@mui/icons-material/Star';
+import { green } from '@mui/material/colors';
 import { useAlgoContext } from '../AlgoContext';
 import { State } from '../AlgoState';
 import Toolbox from '../toolbox';
@@ -27,6 +29,24 @@ const Navigator = styled(IconButton)(({ theme }) => ({
         color: 'gray',
     },
 }));
+
+const Star = () => (
+    <StarIcon
+        fontSize="large"
+        sx={{
+            color: green[400],
+            animation: 'rotate 2.5s linear infinite',
+            '@keyframes rotate': {
+                '0%': {
+                    transform: 'rotate(0deg)',
+                },
+                '100%': {
+                    transform: 'rotate(360deg)',
+                },
+            },
+        }}
+    />
+);
 
 const Main = () => {
 
@@ -58,10 +78,6 @@ const Main = () => {
         setStatementIndex(contents.length - 1);
     };
 
-    const handleInputClick = () => {
-        setState(State.Input);
-    };
-
     return (
         <>
             <Toolbox current={State.Description} />
@@ -75,8 +91,7 @@ const Main = () => {
                     height: "100vh",
                 }}
             >
-                <Title displayStar={statmentIndex >= 0} />
-
+                <Title icon={<Star />} />
                 <Divider variant="middle" />
                 <DisplayContents contentIndex={statmentIndex} contents={contents} />
 
@@ -125,9 +140,9 @@ const Main = () => {
                     </Navigator>
 
                     <Navigator
-                        onClick={handleInputClick}
+                        onClick={() => setState(State.DisplayCode)}
                     >
-                        <InputIcon fontSize='medium' />
+                        <CodeIcon fontSize='medium' />
                     </Navigator>
                 </Stack>
             </Container>

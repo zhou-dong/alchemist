@@ -4,21 +4,21 @@ import theme from '../_commons/theme';
 import info from "./info";
 import Game from './Game';
 import Welcome from "./welcome";
-import { useAlgoContext } from "./AlgoContext";
+import { AlgoContextProvider, useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";
 import Description from "./description";
+import Input from "./input";
+import Code from "./code";
 
 const Component = () => {
     const { state } = useAlgoContext();
 
     const getComponent = () => {
-
-        console.log("state", state);
-
         switch (state) {
             case State.Welcome: return <Welcome />
             case State.Description: return <Description />;
-            case State.Input: return <>input</>;
+            case State.DisplayCode: return <Code />;
+            case State.Input: return <Input />;
             case State.Playing: return <Game />;
             case State.Finished: return <Game />;
         }
@@ -35,7 +35,9 @@ const Component = () => {
 const Main = () => (
     <GameWrapper path={info.path}>
         <ThemeProvider theme={theme}>
-            <Component />
+            <AlgoContextProvider>
+                <Component />
+            </AlgoContextProvider>
         </ThemeProvider>
     </GameWrapper>
 );
