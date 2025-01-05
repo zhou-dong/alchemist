@@ -6,6 +6,7 @@ export enum languages {
     Typescript = 'typescript',
     Javascript = 'javascript',
     Markdown = 'markdown',
+    Java = 'java',
 }
 
 interface Props {

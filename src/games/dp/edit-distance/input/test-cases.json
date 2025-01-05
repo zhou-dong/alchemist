@@ -1,0 +1,107 @@
+[
+    {
+        "test_case_id": 1,
+        "input": {
+            "str1": "apple",
+            "str2": "pple"
+        }
+    },
+    {
+        "test_case_id": 2,
+        "input": {
+            "str1": "bat",
+            "str2": "boat"
+        }
+    },
+    {
+        "test_case_id": 3,
+        "input": {
+            "str1": "cat",
+            "str2": "bat"
+        }
+    },
+    {
+        "test_case_id": 4,
+        "input": {
+            "str1": "kitten",
+            "str2": "sitting"
+        }
+    },
+    {
+        "test_case_id": 5,
+        "input": {
+            "str1": "flaw",
+            "str2": "lawn"
+        }
+    },
+    {
+        "test_case_id": 6,
+        "input": {
+            "str1": "sitting",
+            "str2": "kitten"
+        }
+    },
+    {
+        "test_case_id": 7,
+        "input": {
+            "str1": "example",
+            "str2": "example"
+        }
+    },
+    {
+        "test_case_id": 8,
+        "input": {
+            "str1": "hello",
+            "str2": "Hello"
+        }
+    },
+    {
+        "test_case_id": 9,
+        "input": {
+            "str1": "",
+            "str2": "hello"
+        }
+    },
+    {
+        "test_case_id": 10,
+        "input": {
+            "str1": "abcdef",
+            "str2": "xyzabc"
+        }
+    },
+    {
+        "test_case_id": 11,
+        "input": {
+            "str1": "kittenisawesome",
+            "str2": "sittingisawesome"
+        }
+    },
+    {
+        "test_case_id": 12,
+        "input": {
+            "str1": "aaaab",
+            "str2": "bbbbb"
+        }
+    },
+    {
+        "test_case_id": 13,
+        "input": {
+            "str1": "kitten",
+            "str2": "sitting"
+        }
+    },
+    {
+        "test_case_id": 14,
+        "input": {
+            "str1": "abc",
+            "str2": "cba"
+        }
+    },
+    {
+        "test_case_id": 15,
+        "input": {
+            "str1": "12345",
+            "str2": "54321"
+        }
+    }
+]

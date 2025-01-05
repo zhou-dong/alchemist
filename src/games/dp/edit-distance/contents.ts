@@ -12,6 +12,41 @@ if (char1 === char2) {
     table[row][col] = min + 1;
 }`;
 
+export const code = `class Solution {
+
+    public int minDistance(String word1, String word2) {
+
+        int rows = word1.length() + 1;
+        int cols = word2.length() + 1;
+
+        int table[][] = new int[rows][cols];
+
+        for (int col = 1; col < cols; col++) {
+            table[0][col] = col;
+        }
+
+        for (int row = 1; row < rows; row++) {
+            table[row][0] = row;
+        }
+
+        for (int row = 1; row < rows; row++) {
+            for (int col = 1; col < cols; col++) {
+                if (word1.charAt(row - 1) == word2.charAt(col - 1)) {
+                    table[row][col] = table[row - 1][col - 1];
+                } else {
+                    table[row][col] = min(table[row - 1][col - 1], table[row - 1][col], table[row][col - 1]) + 1;
+                }
+            }
+        }
+
+        return table[rows - 1][cols - 1];
+    }
+
+    private int min(int a, int b, int c) {
+        return Math.min(a, Math.min(b, c));
+    }
+}`;
+
 export const description = `
 In computational linguistics and computer science, edit distance is a 
 way of quantifying how dissimilar two strings (e.g., words) are to 
