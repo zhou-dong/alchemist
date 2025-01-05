@@ -7,7 +7,7 @@ const TitleContent = () => (
         variant="h5"
         component="h1"
         sx={{
-            fontWeight: 400,
+            fontWeight: 300,
             textAlign: "center",
         }}
     >
@@ -16,7 +16,7 @@ const TitleContent = () => (
 );
 
 interface Props {
-    icon: JSX.Element;
+    icon?: JSX.Element;
     success?: boolean;
 }
 
@@ -30,7 +30,7 @@ const Main = ({ icon, success }: Props) => (
             alignItems: "center",
         }}
     >
-        {icon}
+        {icon && icon}
         <TitleContent />
         {success && <CheckCircleOutline sx={{ color: 'green' }} />}
     </Stack>

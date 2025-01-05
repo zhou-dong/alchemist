@@ -24,6 +24,10 @@ const AlgoContext = React.createContext<{
     setCurrent: React.Dispatch<React.SetStateAction<Point>>,
     success: boolean,
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>,
+    steps: number,
+    setSteps: React.Dispatch<React.SetStateAction<number>>,
+    errors: number,
+    setErrors: React.Dispatch<React.SetStateAction<number>>,
 }>({
     state: State.Welcome,
     setState: () => { },
@@ -45,6 +49,10 @@ const AlgoContext = React.createContext<{
     setCurrent: () => { },
     success: false,
     setSuccess: () => { },
+    steps: 0,
+    setSteps: () => { },
+    errors: 0,
+    setErrors: () => { },
 });
 
 export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -63,6 +71,8 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [comparedTable, setComparedTable] = React.useState<(number | string)[][]>([]);
     const [current, setCurrent] = React.useState<Point>(startPoint);
     const [success, setSuccess] = React.useState(false);
+    const [steps, setSteps] = React.useState(0);
+    const [errors, setErrors] = React.useState(0);
 
     return (
         <AlgoContext.Provider value={{
@@ -85,7 +95,11 @@ export const AlgoContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             current,
             setCurrent,
             success,
-            setSuccess
+            setSuccess,
+            steps,
+            setSteps,
+            errors,
+            setErrors,
         }}>
             {children}
         </AlgoContext.Provider>

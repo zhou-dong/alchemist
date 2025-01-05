@@ -2,7 +2,7 @@ import GameWrapper from "../../commons/GameWrapper";
 import { ThemeProvider } from '@mui/material';
 import theme from '../_commons/theme';
 import info from "./info";
-import Game from './Game';
+import Game from './game';
 import Welcome from "./welcome";
 import { AlgoContextProvider, useAlgoContext } from "./AlgoContext";
 import { State } from "./AlgoState";

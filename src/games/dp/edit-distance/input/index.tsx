@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import Title from "../description/Title";
 import GameInput from "./GameInput";
 import { Stack } from "@mui/material";
-import InputIcon from '@mui/icons-material/Input';
 import Toolbox from "../toolbox";
 import { State } from "../AlgoState";
 
@@ -28,7 +27,7 @@ const Main = () => {
                         alignItems: "center",
                     }}
                 >
-                    <Title icon={<InputIcon />} />
+                    <Title />
                     <GameInput />
                 </Stack>
             </Location>

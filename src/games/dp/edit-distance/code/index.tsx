@@ -1,7 +1,6 @@
 import { State } from "../AlgoState";
 import Toolbox from "../toolbox";
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
-import CodeIcon from '@mui/icons-material/Code';
 import { code } from "../contents";
 import Container from "@mui/material/Container";
 import { Divider, IconButton, Paper, Stack, styled, Toolbar, Typography } from "@mui/material";
@@ -72,7 +71,7 @@ const Main = () => (
                 height: "100vh",
             }}
         >
-            <Title icon={<CodeIcon />} />
+            <Title />
             <div style={{ marginBottom: "20px" }} />
             <Paper elevation={4}>
                 <Stack spacing={0}>

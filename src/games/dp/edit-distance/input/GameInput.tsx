@@ -66,6 +66,8 @@ export default function Main() {
         setButtonsStyles,
         setComparedTable,
         setCurrent,
+        setSteps,
+        setErrors,
     } = useAlgoContext();
 
     const [haystackError, setHaystackError] = React.useState(false);
@@ -116,6 +118,9 @@ export default function Main() {
         setCurrent(startPoint);
 
         setSuccess(false);
+        setSteps(0);
+        setErrors(0);
+
         setState(State.Playing);
 
         setString1(localString1);
