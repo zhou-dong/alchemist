@@ -2,60 +2,51 @@ import { State } from "../AlgoState";
 import Toolbox from "../toolbox";
 import CodeBlock, { languages } from '../../../dp/_components/CodeBlock';
 import CodeIcon from '@mui/icons-material/Code';
-import { formula } from "../contents";
+import { code } from "../contents";
 import Container from "@mui/material/Container";
 import { Divider, IconButton, Paper, Stack, styled, Toolbar, Typography } from "@mui/material";
 import InputIcon from '@mui/icons-material/Input';
+import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import { useAlgoContext } from "../AlgoContext";
 import Title from "../description/Title";
 
-const Head = () => (
-    <Toolbar
-        variant='dense'
-        sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "left"
-        }}
-    >
-        <Typography>Core Code (Typescript)</Typography>
-    </Toolbar>
-);
-
-const Body = () => (
-    <div style={{ padding: "0 20px", }}>
-        <CodeBlock
-            code={formula}
-            language={languages.Typescript}
-            showLineNumbers={false}
-            linesToHighlight={[]}
-            wrapLines={false}
-        />
-    </div>
-);
-
-const Next = () => {
+const Head = () => {
     const { setState } = useAlgoContext();
     return (
         <Toolbar
-            variant='dense'
+            // variant='dense'
             sx={{
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "10px",
             }}
         >
+
+            <Stack sx={{ flexGrow: 1, alignItems: "center", justifyContent: "left" }} spacing={0} direction="row">
+                <IconButton>
+                    <LocalCafeIcon />
+                </IconButton>
+                <Typography>Java</Typography>
+            </Stack>
+
             <StyledIconButton onClick={() => setState(State.Input)}>
                 <InputIcon fontSize='medium' />
             </StyledIconButton>
         </Toolbar>
     );
-}
+};
+
+const Body = () => (
+    <div style={{ padding: "0 20px", }}>
+        <CodeBlock
+            code={code}
+            language={languages.Java}
+            showLineNumbers={true}
+            linesToHighlight={[]}
+            wrapLines={true}
+        />
+    </div>
+);
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
-    width: 60,
-    height: 60,
     border: "1px solid lightgray",
     color: theme.palette.primary.main,
     '&:hover': {
@@ -90,7 +81,6 @@ const Main = () => (
                     <Divider variant='middle' />
                     <Body />
                     <Divider variant='middle' />
-                    <Next />
                 </Stack>
             </Paper>
         </Container>
