@@ -1,5 +1,4 @@
-import React from 'react';
-import { IconButton, Stack, styled } from '@mui/material';
+import { Stack } from '@mui/material';
 import { addHelperStyles } from "../init";
 import { updateTable, nonCorrect, isLastCell, createNewTableStyles, getLastCell, getNextPoint } from "../update";
 import { errorStyle, helperStyle } from "../../_commons/styles";
@@ -11,19 +10,9 @@ import Title from '../description/Title';
 import Steps from '../../_components/Steps';
 import Errors from '../../_components/Errors';
 import { useAlgoContext } from '../AlgoContext';
-import Formula from './Formula';
-import CodeIcon from '@mui/icons-material/Code';
-
-const Location = styled(Stack)({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: 'fixed',
-    top: '45%',
-    left: "50%",
-    transform: "translate(-50%,-50%)",
-    width: "100%",
-});
+import Formula from '../../_components/Formula';
+import { formula, title } from '../contents';
+import { Centered } from '../../_components/Centered';
 
 const Main = () => {
 
@@ -44,8 +33,6 @@ const Main = () => {
         errors,
         setErrors,
     } = useAlgoContext();
-
-    const [displayFormula, setDisplayFormula] = React.useState(false);
 
     const handleClick = (value: number) => {
         if (success) {
@@ -95,40 +82,32 @@ const Main = () => {
         setCurrent(nextPoint);
     }
 
-    const handleDisplayFormulaClick = () => {
-        setDisplayFormula(display => !display);
-    }
-
     return (
         <>
             <Toolbox current={State.Playing} />
 
-            <Location spacing={5}>
+            <Centered>
+                <div style={{ marginTop: "100px" }} />
+                <Title success={success} />
 
-                <Title
-                    success={success}
-                />
+                <div style={{ marginTop: "25px" }} />
+                <Stack
+                    spacing={1}
+                    direction="row"
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Steps steps={steps} />
+                    <Errors errors={errors} />
+                    <Formula title={title} formula={formula} />
+                </Stack>
 
-                <div style={{
-                    width: "100%",
-                    margin: 'auto',
-                    textAlign: 'center'
-                }}>
-                    <Stack
-                        spacing={1}
-                        direction="row"
-                        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-                    >
-                        <Steps steps={steps} />
-                        <Errors errors={errors} />
-                        <IconButton onClick={handleDisplayFormulaClick}>
-                            <CodeIcon fontSize='medium' color={displayFormula ? "success" : "inherit"} />
-                        </IconButton>
-                    </Stack>
+                <Table table={table} tableStyles={tableStyle} />
 
-                    <Table table={table} tableStyles={tableStyle} />
-                </div>
-
+                <div style={{ marginTop: "20px" }} />
                 <Buttons
                     buttons={buttons}
                     buttonsStyles={buttonsStyles}
@@ -136,9 +115,7 @@ const Main = () => {
                         handleClick(Number(data))
                     }}
                 />
-
-                {displayFormula && <Formula setDisplayFormula={setDisplayFormula} />}
-            </Location>
+            </Centered>
         </>
     );
 }
