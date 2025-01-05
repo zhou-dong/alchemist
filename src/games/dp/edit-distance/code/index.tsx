@@ -37,9 +37,9 @@ const Body = () => (
         <CodeBlock
             code={code}
             language={languages.Java}
-            showLineNumbers={true}
+            showLineNumbers={false}
             linesToHighlight={[]}
-            wrapLines={true}
+            wrapLines={false}
         />
     </div>
 );
