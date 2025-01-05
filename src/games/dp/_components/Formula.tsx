@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IconButton, Tooltip, Typography } from '@mui/material';
+import { Divider, IconButton, Tooltip, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -39,6 +39,7 @@ const Main = (props: Props) => {
                 <DialogContent>
                     <CodeBlock code={props.formula} language={languages.Javascript} />
                 </DialogContent>
+                <Divider variant='middle' />
                 <DialogActions>
                     <Button onClick={handleCloseFormular}>CLOSE</Button>
                 </DialogActions>
