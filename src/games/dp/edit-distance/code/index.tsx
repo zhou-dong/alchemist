@@ -14,7 +14,6 @@ const Head = () => {
     const { setState } = useAlgoContext();
     return (
         <Toolbar
-            // variant='dense'
             sx={{
                 display: "flex",
             }}
