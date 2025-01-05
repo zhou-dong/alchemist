@@ -42,10 +42,15 @@ const Welcome = () => (
         }}
         textAlign="center"
     >
+        <Stack
+            direction="row"
+            spacing={0}
+            sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+            <Wobble />
+            <Typography>Welcome!</Typography>
+        </Stack>
         <Typography>
-            <b>
-                Welcome! &nbsp;
-            </b>
             Here, you'll learn how the Edit Distance (Levenshtein Distance) algorithm works using <b>dynamic programming</b>.
         </Typography>
 
@@ -93,7 +98,7 @@ const Main = () => {
                         alignItems: "center",
                     }}
                 >
-                    <Title icon={<Wobble />} />
+                    <Title />
                     <Welcome />
                     <div></div>
                     <StyledIconButton onClick={() => setState(State.Description)}>
