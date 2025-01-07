@@ -10,7 +10,8 @@ const info: Game = {
     categories: [Category.DynamicProgramming],
     companies: [Company.Google],
     difficulty: Difficulty.Hard,
-    img: "/img/edit_distance.png"
+    img: "/img/edit_distance.png",
+    leetcodeId: 72,
 }
 
 export default info;
