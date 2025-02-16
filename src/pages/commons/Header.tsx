@@ -43,11 +43,11 @@ const Main = () => {
                             alignItems: 'center',
                             color: "#fff",
                         }}
-                        to="/pages/categories"
+                        to="/pages/games"
                     >
                         <CategoryOutlinedIcon sx={{ marginRight: 1 }} />
                         <Typography variant="body1">
-                            Categories
+                            Games
                         </Typography>
                     </MaterialLink>
                     <Search />
