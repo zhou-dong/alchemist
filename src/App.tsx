@@ -2,6 +2,10 @@ import { Route, Routes } from 'react-router-dom';
 
 import Games from './pages/games';
 import Roadmap from "./pages/roadmap";
+import AboutUs from './pages/about';
+
+import Categories from "./pages/categories";
+import CategoryTree from "./pages/categories/tree/index";
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import BubbleSortAnimationInfo from "./games/sorting/bubble-sort/info";
@@ -259,7 +263,7 @@ import LongestCommonPrefixInfo from "./games/two-pointers/longest-common-prefix/
 import LongestCommonPrefix from "./games/two-pointers/longest-common-prefix";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
-import AboutUs from './pages/about';
+
 
 const renderer = createRenderer();
 const camera = createCamera();
@@ -272,6 +276,10 @@ const App = () => (
         <Route path="pages/games" element={<Games />} />
         <Route path="pages/roadmap" element={<Roadmap />} />
         <Route path="pages/about-us" element={<AboutUs />} />
+
+        <Route path="pages/categories" element={<Categories />} />
+        <Route path="pages/categories/tree" element={<CategoryTree />} />
+
         <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={InsertionSortAnimationInfo.path} element={<InsertionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
