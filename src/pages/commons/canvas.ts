@@ -13,3 +13,8 @@ export const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingC
 
     context.scale(scale, scale);
 }
+
+export const resetCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, width: number, height: number) => {
+    clearCanvas(canvas, context);
+    scaleCanvas(canvas, context, width, height);
+}

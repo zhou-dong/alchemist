@@ -1,15 +1,20 @@
 import { green } from '@mui/material/colors';
 import { grey } from '@mui/material/colors';
 
-import { Category } from "../roadmap/layouts/category";
-
 export interface Circle {
     x: number;
     y: number;
     radius: number;
 }
 
-export interface CategoryCircle extends Category, Circle { };
+export interface Content<T> {
+    value: T
+    text: string;
+    emoji: string;
+    selected: boolean;
+}
+
+export interface ContentCircle<T> extends Content<T>, Circle { };
 
 export function isOverlap(a: Circle, b: Circle): boolean {
     const dx = a.x - b.x;
@@ -25,9 +30,9 @@ export function isInsideCircle(x: number, y: number, circle: Circle): boolean {
     return distance <= circle.radius;
 }
 
-export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: CategoryCircle) => {
+export const drawCircle = <T,>(context: CanvasRenderingContext2D, categoryCircle: ContentCircle<T>) => {
 
-    const { x, y, radius, emoji, categoryType, selected } = categoryCircle;
+    const { x, y, radius, emoji, text, selected } = categoryCircle;
 
     const backgroundColor = selected ? green[300] : "#fff";
     const textColor = selected ? "#000" : "#000";
@@ -55,7 +60,7 @@ export const drawCircle = (context: CanvasRenderingContext2D, categoryCircle: Ca
     context.fillText(emoji, x, y - radius / 4);
 
     context.font = `${fontWeight} 16px "Roboto"`;
-    context.fillText(categoryType, x, y + radius / 5); // TODO
+    context.fillText(text, x, y + radius / 5); // TODO
 }
 
 export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle2: Circle): void {

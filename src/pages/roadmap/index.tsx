@@ -3,14 +3,15 @@ import Footer from '../commons/Footer';
 import { Box, Grid, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import { connections } from './layouts/category';
-import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from '../commons/circle';
+import { ContentCircle, Circle, drawArrow, drawCircle, isInsideCircle } from '../commons/circle';
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
 import Divider from '@mui/material/Divider';
 import Algorithms from "../commons/List";
 import Slogan from './Slogan';
 import { useGames } from '../../games/commons/GamesContext';
 import Header from '../commons/Header';
-import { clearCanvas, scaleCanvas } from '../commons/canvas';
+import { resetCanvas } from '../commons/canvas';
+import Category from '../../games/commons/segments/category';
 
 const updateSegments = <T,>(segments: T[], segment: T, selected: boolean): T[] => {
     const set = new Set(segments);
@@ -18,8 +19,8 @@ const updateSegments = <T,>(segments: T[], segment: T, selected: boolean): T[] =
     return Array.from(set);
 }
 
-const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[]) => {
-    const map = new Map(circles.map(circle => [circle.categoryType, circle]));
+const drawCircles = (context: CanvasRenderingContext2D, circles: ContentCircle<Category>[]) => {
+    const map = new Map(circles.map(circle => [circle.value, circle]));
 
     circles.forEach(categoryCircle => {
         drawCircle(context, categoryCircle);
@@ -39,7 +40,7 @@ let containerHeight = 0;
 const footerHeight = 64;
 const mainPadding = 10;
 
-let circles: CategoryCircle[] = [];
+let circles: ContentCircle<Category>[] = [];
 let dragTarget: Circle | null = null;
 let isDragging = false;
 let dragStartTime: number | null = null;
@@ -63,8 +64,7 @@ const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> =
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (canvas && context) {
-            scaleCanvas(canvas, context, width, height);
-            clearCanvas(canvas, context);
+            resetCanvas(canvas, context, width, height);
             drawCircles(context, circles);
         }
     }
@@ -104,9 +104,9 @@ const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> =
             }
         }
 
-        const handleClick = (circle: CategoryCircle) => {
+        const handleClick = (circle: ContentCircle<Category>) => {
             circle.selected = !circle.selected;
-            setCategories(items => updateSegments(items, circle.categoryType, circle.selected));
+            setCategories(items => updateSegments(items, circle.value, circle.selected));
             drawCanvas(containerWidth, containerHeight);
         }
 
