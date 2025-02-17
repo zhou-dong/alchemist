@@ -10,27 +10,12 @@ import Algorithms from "../commons/List";
 import Slogan from './Slogan';
 import { useGames } from '../../games/commons/GamesContext';
 import Header from '../commons/Header';
+import { clearCanvas, scaleCanvas } from '../commons/canvas';
 
 const updateSegments = <T,>(segments: T[], segment: T, selected: boolean): T[] => {
     const set = new Set(segments);
     selected ? set.add(segment) : set.delete(segment);
     return Array.from(set);
-}
-
-const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, width: number, height: number) => {
-    const scale = window.devicePixelRatio || 1;
-
-    canvas.width = width * scale;
-    canvas.height = height * scale;
-
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-
-    context.scale(scale, scale);
-}
-
-const clearCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
-    context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[]) => {
