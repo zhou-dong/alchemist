@@ -1,7 +1,7 @@
 import { green } from '@mui/material/colors';
 import { grey } from '@mui/material/colors';
 
-import { Category } from "./category";
+import { Category } from "../roadmap/layouts/category";
 
 export interface Circle {
     x: number;

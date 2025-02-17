@@ -3,7 +3,7 @@ import Footer from '../commons/Footer';
 import { Box, Grid, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import { connections } from './layouts/category';
-import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
+import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from '../commons/circle';
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
 import Divider from '@mui/material/Divider';
 import Algorithms from "../commons/List";

@@ -1,6 +1,6 @@
 import CategoryType from "../../../games/commons/segments/category";
 import { Category, categoryMap } from "./category";
-import { CategoryCircle } from "./circle";
+import { CategoryCircle } from "../../commons/circle";
 
 const buildCategoryCircle = (radius: number, categoryType: CategoryType, x: number, y: number) => {
     const category: Category = categoryMap.get(categoryType)!;
