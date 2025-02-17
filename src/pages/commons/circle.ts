@@ -108,3 +108,89 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     ctx.closePath();
     ctx.fill();
 }
+
+/**
+ * To differentiate between a drag and a click, you can use a combination of mouse events and a time threshold. 
+ * The idea is to record the mouse down and mouse up events and calculate the time difference and distance moved. 
+ * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
+*/
+export class Dragger<T> {
+
+    dragTarget: Circle | null = null;
+    isDragging = false;
+    dragStartTime: number | null = null;
+    dragStartX: number | null = null;
+    dragStartY: number | null = null;
+    clickThresholdTime = 200; // milliseconds
+    clickThresholdDistance = 5; // pixels
+    drawCanvas: (width: number, height: number) => void;
+    handleClick: (circle: ContentCircle<T>) => void;
+
+    constructor(
+        drawCanvas: (width: number, height: number) => void,
+        handleClick: (circle: ContentCircle<T>) => void,
+    ) {
+        this.drawCanvas = drawCanvas;
+        this.handleClick = handleClick;
+    }
+
+    public handleMouseDown(e: MouseEvent, circles: ContentCircle<T>[]): void {
+        const { offsetX, offsetY } = e;
+        this.dragStartX = offsetX;
+        this.dragStartY = offsetY;
+        this.dragStartTime = new Date().getTime();
+        this.isDragging = false;
+
+        for (const circle of circles) {
+            if (isInsideCircle(offsetX, offsetY, circle)) {
+                this.dragTarget = circle;
+                break;
+            }
+        }
+    }
+
+    public handleMouseMove(
+        e: MouseEvent,
+        containerWidth: number,
+        containerHeight: number,
+    ): void {
+        if (!this.dragTarget) {
+            return;
+        }
+        const { offsetX, offsetY } = e;
+
+        const dx = Math.abs(offsetX - (this.dragStartX ?? 0));
+        const dy = Math.abs(offsetY - (this.dragStartY ?? 0));
+
+        if (dx > this.clickThresholdDistance || dy > this.clickThresholdDistance) {
+            this.isDragging = true;
+        }
+
+        if (this.isDragging) {
+            this.dragTarget.x = offsetX;
+            this.dragTarget.y = offsetY;
+            this.drawCanvas(containerWidth, containerHeight);
+        }
+    }
+
+    public handleMouseUp(e: MouseEvent, circles: ContentCircle<T>[]): void {
+        const { offsetX, offsetY } = e;
+        const endTime = new Date().getTime();
+
+        if (this.dragTarget && !this.isDragging && endTime - (this.dragStartTime ?? 0) < this.clickThresholdTime) {
+            for (const circle of circles) {
+                if (isInsideCircle(offsetX, offsetY, circle)) {
+                    this.handleClick(circle);
+                    break;
+                }
+            }
+        }
+
+        this.dragTarget = null;
+        this.isDragging = false;
+        this.dragStartTime = null;
+        this.dragStartX = null;
+        this.dragStartY = null;
+    }
+
+}
