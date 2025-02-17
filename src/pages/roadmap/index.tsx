@@ -3,7 +3,7 @@ import Footer from '../commons/Footer';
 import { Box, Grid, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import { connections } from './layouts/category';
-import { ContentCircle, Circle, drawArrow, drawCircle, isInsideCircle } from '../commons/circle';
+import { ContentCircle, Circle, drawArrow, drawCircle, isInsideCircle, Dragger } from '../commons/circle';
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
 import Divider from '@mui/material/Divider';
 import Algorithms from "../commons/List";
@@ -41,13 +41,6 @@ const footerHeight = 64;
 const mainPadding = 10;
 
 let circles: ContentCircle<Category>[] = [];
-let dragTarget: Circle | null = null;
-let isDragging = false;
-let dragStartTime: number | null = null;
-let dragStartX: number | null = null;
-let dragStartY: number | null = null;
-const clickThresholdTime = 200; // milliseconds
-const clickThresholdDistance = 5; // pixels
 
 /**
  * To differentiate between a drag and a click, you can use a combination of mouse events and a time threshold. 
@@ -69,78 +62,26 @@ const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> =
         }
     }
 
+    const handleClick = (circle: ContentCircle<Category>) => {
+        circle.selected = !circle.selected;
+        setCategories(items => updateSegments(items, circle.value, circle.selected));
+        drawCanvas(containerWidth, containerHeight);
+    }
+
+    const draggable = new Dragger<Category>(drawCanvas, handleClick);
+
     React.useEffect(() => {
-        function handleMouseDown(e: MouseEvent): void {
-            const { offsetX, offsetY } = e;
-            dragStartX = offsetX;
-            dragStartY = offsetY;
-            dragStartTime = new Date().getTime();
-            isDragging = false;
-            for (const circle of circles) {
-                if (isInsideCircle(offsetX, offsetY, circle)) {
-                    dragTarget = circle;
-                    break;
-                }
-            }
-        }
-
-        function handleMouseMove(e: MouseEvent): void {
-            if (!dragTarget) {
-                return;
-            }
-            const { offsetX, offsetY } = e;
-
-            const dx = Math.abs(offsetX - (dragStartX ?? 0));
-            const dy = Math.abs(offsetY - (dragStartY ?? 0));
-
-            if (dx > clickThresholdDistance || dy > clickThresholdDistance) {
-                isDragging = true;
-            }
-
-            if (isDragging) {
-                dragTarget.x = offsetX;
-                dragTarget.y = offsetY;
-                drawCanvas(containerWidth, containerHeight);
-            }
-        }
-
-        const handleClick = (circle: ContentCircle<Category>) => {
-            circle.selected = !circle.selected;
-            setCategories(items => updateSegments(items, circle.value, circle.selected));
-            drawCanvas(containerWidth, containerHeight);
-        }
-
-        function handleMouseUp(e: MouseEvent): void {
-            const { offsetX, offsetY } = e;
-            const endTime = new Date().getTime();
-
-            if (dragTarget && !isDragging && endTime - (dragStartTime ?? 0) < clickThresholdTime) {
-                for (const circle of circles) {
-                    if (isInsideCircle(offsetX, offsetY, circle)) {
-                        handleClick(circle);
-                        break;
-                    }
-                }
-            }
-
-            dragTarget = null;
-            isDragging = false;
-            dragStartTime = null;
-            dragStartX = null;
-            dragStartY = null;
-        }
-
         const canvas = canvasRef.current;
         if (canvas) {
-            canvas.addEventListener('mousedown', (e) => handleMouseDown(e));
-            canvas.addEventListener('mousemove', (e) => handleMouseMove(e));
-            canvas.addEventListener('mouseup', (e) => handleMouseUp(e));
+            canvas.addEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
+            canvas.addEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
+            canvas.addEventListener('mouseup', (e) => draggable.handleMouseUp(e, circles));
         }
         return () => {
             if (canvas) {
-                canvas.removeEventListener('mousedown', (e) => handleMouseDown(e));
-                canvas.removeEventListener('mousemove', (e) => handleMouseMove(e));
-                canvas.removeEventListener('mouseup', (e) => handleMouseUp(e));
+                canvas.removeEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
+                canvas.removeEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
+                canvas.removeEventListener('mouseup', (e) => draggable.handleMouseUp(e, circles));
             }
         };
     }, [canvasRef, setCategories]);
