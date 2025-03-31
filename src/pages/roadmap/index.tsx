@@ -160,7 +160,8 @@ const Main = () => {
                 <Slogan />
                 <Divider />
                 <Grid
-                    container spacing={1}
+                    container
+                    spacing={1}
                     style={{
                         paddingTop: mainPadding + "px",
                         paddingRight: "20px",
