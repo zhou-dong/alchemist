@@ -159,10 +159,13 @@ const Main = () => {
                 <Header />
                 <Slogan />
                 <Divider />
-                <Grid container spacing={1} style={{
-                    paddingTop: mainPadding + "px",
-                    paddingRight: "20px",
-                }}>
+                <Grid
+                    container spacing={1}
+                    style={{
+                        paddingTop: mainPadding + "px",
+                        paddingRight: "20px",
+                    }}
+                >
                     <Grid item xs={12} md={12} lg={7} xl={6.5} >
                         <Roadmap algoContainerRef={algoContainerRef} />
                     </Grid>
