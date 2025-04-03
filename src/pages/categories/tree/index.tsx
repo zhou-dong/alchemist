@@ -71,7 +71,9 @@ const Roadmap = () => {
     return (
         <div
             ref={containerRef}
-            style={{ flex: 1 }}
+            style={{
+                flex: 1
+            }}
         >
             <canvas
                 ref={canvasRef}
