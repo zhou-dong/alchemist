@@ -85,20 +85,18 @@ const Roadmap = () => {
     );
 };
 
-const Main = () => {
-    return (
-        <ThemeProvider theme={theme}>
-            <Box
-                display="flex"
-                flexDirection="column"
-                minHeight="100vh"
-            >
-                <Header />
-                <Roadmap />
-                <Footer />
-            </Box>
-        </ ThemeProvider>
-    );
-};
+const Main = () => (
+    <ThemeProvider theme={theme}>
+        <Box
+            display="flex"
+            flexDirection="column"
+            minHeight="100vh"
+        >
+            <Header />
+            <Roadmap />
+            <Footer />
+        </Box>
+    </ ThemeProvider>
+);
 
 export default Main;
