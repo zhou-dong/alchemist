@@ -4,20 +4,20 @@ import theme from '../../../commons/theme';
 import Header from '../../commons/Header';
 import Footer from '../../commons/Footer';
 import { Circle, ContentCircle, drawArrow, drawCircle, isInsideCircle } from '../../commons/circle';
-import { Step } from './Steps';
+import { steps } from './Steps';
 import { resetCanvas } from '../../commons/canvas';
 
-let circles: ContentCircle<Step>[] = [];
+let circles: ContentCircle<string>[] = [];
 
 /**
  * To differentiate between a drag and a click, you can use a combination of mouse events and a time threshold. 
  * The idea is to record the mouse down and mouse up events and calculate the time difference and distance moved. 
  * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
 */
-const drawCircles = (context: CanvasRenderingContext2D, circles: ContentCircle<Step>[]) => {
-    let previous: ContentCircle<Step> | undefined = undefined;
+const drawCircles = (context: CanvasRenderingContext2D, circles: ContentCircle<string>[]) => {
+    let previous: ContentCircle<string> | undefined = undefined;
 
-    circles.forEach(circle => {
+    steps.forEach(circle => {
         drawCircle(context, circle);
         const current = circle;
         if (previous) {
@@ -37,7 +37,7 @@ const Roadmap = () => {
         const context = canvas?.getContext("2d");
         if (canvas && context) {
             resetCanvas(canvas, context, width, height);
-            // drawCircles(context, circles);
+            drawCircles(context, circles);
         }
     }
 

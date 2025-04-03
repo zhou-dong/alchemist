@@ -1,8 +1,11 @@
-import { Content } from "../../commons/circle";
+import { ContentCircle } from "../../commons/circle";
 
-export interface Step extends Content<string> { }
+interface Step extends ContentCircle<string> { }
 
 const base: Step = {
+    x: 0,
+    y: 0,
+    radius: 0,
     value: "",
     text: "",
     emoji: "",
@@ -50,3 +53,13 @@ export const AdvancedTopics: Step = {
     text: "Advanced Topics",
     emoji: "🚀",
 }
+
+export const steps = [
+    BasicsOfTrees,
+    TreeTraversals,
+    BST,
+    LCA,
+    TreeHeightDiameterAndBalancing,
+    BinaryTreeRepresentation,
+    AdvancedTopics,
+]
