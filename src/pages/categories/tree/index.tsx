@@ -4,7 +4,7 @@ import theme from '../../../commons/theme';
 import Header from '../../commons/Header';
 import Footer from '../../commons/Footer';
 import { Circle, ContentCircle, drawArrow, drawCircle, isInsideCircle } from '../../commons/circle';
-import { steps } from './Steps';
+import { steps } from './Steps_';
 import { resetCanvas } from '../../commons/canvas';
 
 let circles: ContentCircle<string>[] = [];
