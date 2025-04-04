@@ -3,14 +3,14 @@ import { Box, ThemeProvider } from '@mui/material';
 import theme from '../../../commons/theme';
 import Header from '../../commons/Header';
 import Footer from '../../commons/Footer';
-import { Circle, ContentCircle, drawArrow, drawCircle, isInsideCircle } from '../../commons/circle';
+import { ContentCircle, drawArrow, drawCircle, isInsideCircle } from '../../commons/circle';
 import { steps } from './steps';
 import { resetCanvas } from '../../commons/canvas';
 
 steps.forEach((step, index) => {
-    step.radius = 5;
-    step.x = 100;
-    step.y = 100 * (index + 1);
+    step.radius = 50;
+    step.x = 150;
+    step.y = 70 + 150 * index;
 });
 
 /**
@@ -19,15 +19,13 @@ steps.forEach((step, index) => {
  * If the time is short and the distance is small, it is considered a click. Otherwise, it is considered a drag.
 */
 const drawCircles = (context: CanvasRenderingContext2D) => {
-    let previous: ContentCircle<string> | undefined = undefined;
+    let previous: ContentCircle<string> = steps[0];
+    drawCircle(context, previous);
 
-    steps.forEach(circle => {
-        drawCircle(context, circle);
-        const current = circle;
-        if (previous) {
-            drawArrow(context, previous, current);
-            previous = current;
-        }
+    steps.slice(1).forEach(current => {
+        drawCircle(context, current);
+        drawArrow(context, previous, current);
+        previous = current;
     });
 }
 
@@ -49,9 +47,7 @@ const Roadmap = () => {
         const container = containerRef.current;
         const canvas = canvasRef.current;
 
-        if (!container || !canvas) {
-            return;
-        }
+        if (!container || !canvas) return;
 
         const refreshCanvas = () => {
             const { width, height } = container.getBoundingClientRect();
@@ -60,9 +56,7 @@ const Roadmap = () => {
 
         refreshCanvas();
 
-        const resizeObserver = new ResizeObserver(() => {
-            refreshCanvas();
-        });
+        const resizeObserver = new ResizeObserver(() => refreshCanvas());
 
         resizeObserver.observe(container);
 
