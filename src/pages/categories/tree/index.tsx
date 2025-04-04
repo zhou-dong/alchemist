@@ -61,7 +61,7 @@ const Roadmap = () => {
         resizeObserver.observe(container);
 
         return () => {
-            resizeObserver.unobserve(canvas);
+            resizeObserver.unobserve(container);
         };
 
     }, [canvasRef, containerRef]);
