@@ -25,13 +25,13 @@ const drawCircles = (context: CanvasRenderingContext2D) => {
 
 const resizeCircles = (height: number) => {
     const marginTop = 10;
-    const radius: number = (height - 2 * marginTop) / steps.length / 2 / 2;
+    const radius: number = (height - 2 * marginTop) / steps.length / 2;
     const x = radius * 2;
 
     steps.forEach((step, index) => {
         step.radius = radius;
         step.x = x;
-        step.y = marginTop + radius + radius * 4 * index;
+        step.y = marginTop + radius + radius * 2.5 * index;
     });
 
 }
