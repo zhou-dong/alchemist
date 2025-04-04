@@ -7,12 +7,6 @@ import { ContentCircle, drawArrow, drawCircle, isInsideCircle } from '../../comm
 import { steps } from './steps';
 import { resetCanvas } from '../../commons/canvas';
 
-steps.forEach((step, index) => {
-    step.radius = 50;
-    step.x = 150;
-    step.y = 70 + 150 * index;
-});
-
 /**
  * To differentiate between a drag and a click, you can use a combination of mouse events and a time threshold. 
  * The idea is to record the mouse down and mouse up events and calculate the time difference and distance moved. 
@@ -29,6 +23,19 @@ const drawCircles = (context: CanvasRenderingContext2D) => {
     });
 }
 
+const resizeCircles = (height: number) => {
+    const marginTop = 10;
+    const radius: number = (height - 2 * marginTop) / steps.length / 2 / 2;
+    const x = radius * 2;
+
+    steps.forEach((step, index) => {
+        step.radius = radius;
+        step.x = x;
+        step.y = marginTop + radius + radius * 4 * index;
+    });
+
+}
+
 const Roadmap = () => {
 
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -39,6 +46,7 @@ const Roadmap = () => {
         const context = canvas?.getContext("2d");
         if (canvas && context) {
             resetCanvas(canvas, context, width, height);
+            resizeCircles(height);
             drawCircles(context);
         }
     }
