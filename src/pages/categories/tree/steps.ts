@@ -26,13 +26,15 @@ export const TreeTraversals: Step = {
 
 export const BST: Step = {
     ...base,
-    text: "Binary Search Tree",
+    value: "Binary Search Tree",
+    text: "BST",
     emoji: "📊"
 }
 
 export const LCA: Step = {
     ...base,
-    text: "Lowest Common Ancestor",
+    value: "Lowest Common Ancestor",
+    text: "LCA",
     emoji: "🔗"
 }
 
