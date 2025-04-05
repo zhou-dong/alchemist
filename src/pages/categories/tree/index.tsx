@@ -3,7 +3,7 @@ import { Box, ThemeProvider } from '@mui/material';
 import theme from '../../../commons/theme';
 import Header from '../../commons/Header';
 import Footer, { footerHeight } from '../../commons/Footer';
-import { ContentCircle, doubleLineResize, Dragger, drawArrow, drawCircle } from '../../commons/circle';
+import { ContentCircle, doubleLineResize, Dragger, drawArrow, drawCircle, horizontalLinearResize } from '../../commons/circle';
 import { steps } from './steps';
 import { resetCanvas } from '../../commons/canvas';
 
@@ -69,8 +69,9 @@ const Roadmap = () => {
             const { width, top } = container.getBoundingClientRect();
             const height = window.innerHeight - top - footerHeight;
 
+            horizontalLinearResize(steps, width)
             // linearResize(steps, height);
-            doubleLineResize(steps, height);
+            // doubleLineResize(steps, height);
             drawCanvas(width, height);
 
             canvasWidth = width;
