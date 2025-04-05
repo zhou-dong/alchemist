@@ -19,6 +19,8 @@ const Email = () => (
     </Stack>
 );
 
+export const footerHeight = 64;
+
 export default function Footer() {
     return (
         <Toolbar
