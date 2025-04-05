@@ -194,3 +194,13 @@ export class Dragger<T> {
     }
 
 }
+
+export function linearResize(circles: Circle[], length: number) {
+    const radius = length / (2.5 * circles.length + 0.5);
+
+    circles.forEach((circle, index) => {
+        circle.radius = radius;
+        circle.x = radius * 2;
+        circle.y = 1.5 * radius + radius * 2.5 * index;
+    });
+}
