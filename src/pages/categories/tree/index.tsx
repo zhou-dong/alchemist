@@ -81,7 +81,7 @@ const Roadmap = () => {
             const { width, top } = container.getBoundingClientRect();
             const height = window.innerHeight - top - footerHeight;
 
-            horizontalLinearResize(steps, width)
+            horizontalLinearResize(steps, width);
             // linearResize(steps, height);
             // doubleLineResize(steps, height);
             drawCanvas(width, height);
