@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Footer from '../commons/Footer';
+import Footer, { footerHeight } from '../commons/Footer';
 import { Box, Grid, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import { connections } from './layouts/category';
@@ -37,7 +37,6 @@ const drawCircles = (context: CanvasRenderingContext2D, circles: ContentCircle<C
 
 let containerWidth = 0;
 let containerHeight = 0;
-const footerHeight = 64;
 const mainPadding = 10;
 
 let circles: ContentCircle<Category>[] = [];
