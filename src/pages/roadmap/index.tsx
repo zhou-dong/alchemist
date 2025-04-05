@@ -61,27 +61,27 @@ const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> =
         }
     }
 
-    const handleClick = (circle: ContentCircle<Category>) => {
-        circle.selected = !circle.selected;
-        setCategories(items => updateSegments(items, circle.value, circle.selected));
-        drawCanvas(containerWidth, containerHeight);
-    }
-
-    const draggable = new Dragger<Category>(drawCanvas, handleClick);
-
     React.useEffect(() => {
         const canvas = canvasRef.current;
-        if (canvas) {
-            canvas.addEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
-            canvas.addEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
-            canvas.addEventListener('mouseup', (e) => draggable.handleMouseUp(e, circles));
+
+        if (!canvas) return;
+
+        const handleClick = (circle: ContentCircle<Category>) => {
+            circle.selected = !circle.selected;
+            setCategories(items => updateSegments(items, circle.value, circle.selected));
+            drawCanvas(containerWidth, containerHeight);
         }
+
+        const draggable = new Dragger<Category>(drawCanvas, handleClick);
+
+        canvas.addEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
+        canvas.addEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
+        canvas.addEventListener('mouseup', (e) => draggable.handleMouseUp(e, circles));
+
         return () => {
-            if (canvas) {
-                canvas.removeEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
-                canvas.removeEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
-                canvas.removeEventListener('mouseup', (e) => draggable.handleMouseUp(e, circles));
-            }
+            canvas.removeEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
+            canvas.removeEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
+            canvas.removeEventListener('mouseup', (e) => draggable.handleMouseUp(e, circles));
         };
     }, [canvasRef, setCategories]);
 
