@@ -3,7 +3,7 @@ import { Box, ThemeProvider } from '@mui/material';
 import theme from '../../../commons/theme';
 import Header from '../../commons/Header';
 import Footer, { footerHeight } from '../../commons/Footer';
-import { ContentCircle, Dragger, drawArrow, drawCircle } from '../../commons/circle';
+import { ContentCircle, Dragger, drawArrow, drawCircle, linearResize } from '../../commons/circle';
 import { steps } from './steps';
 import { resetCanvas } from '../../commons/canvas';
 
@@ -18,16 +18,6 @@ const drawCircles = (context: CanvasRenderingContext2D) => {
         drawCircle(context, current);
         drawArrow(context, previous, current);
         previous = current;
-    });
-}
-
-const resizeCircles = (height: number) => {
-    const radius = height / (2.5 * steps.length + 0.5);
-
-    steps.forEach((step, index) => {
-        step.radius = radius;
-        step.x = radius * 2;
-        step.y = 1.5 * radius + radius * 2.5 * index;
     });
 }
 
@@ -79,7 +69,7 @@ const Roadmap = () => {
             const { width, top } = container.getBoundingClientRect();
             const height = window.innerHeight - top - footerHeight;
 
-            resizeCircles(height);
+            linearResize(steps, height);
             drawCanvas(width, height);
 
             canvasWidth = width;
