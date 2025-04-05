@@ -61,18 +61,18 @@ const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> =
         }
     }
 
+    const handleClick = (circle: ContentCircle<Category>) => {
+        circle.selected = !circle.selected;
+        setCategories(items => updateSegments(items, circle.value, circle.selected));
+        drawCanvas(containerWidth, containerHeight);
+    }
+
+    const draggable = new Dragger<Category>(drawCanvas, handleClick);
+
     React.useEffect(() => {
         const canvas = canvasRef.current;
 
         if (!canvas) return;
-
-        const handleClick = (circle: ContentCircle<Category>) => {
-            circle.selected = !circle.selected;
-            setCategories(items => updateSegments(items, circle.value, circle.selected));
-            drawCanvas(containerWidth, containerHeight);
-        }
-
-        const draggable = new Dragger<Category>(drawCanvas, handleClick);
 
         canvas.addEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
         canvas.addEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
