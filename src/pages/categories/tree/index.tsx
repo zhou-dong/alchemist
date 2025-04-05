@@ -6,6 +6,7 @@ import Footer, { footerHeight } from '../../commons/Footer';
 import { ContentCircle, Dragger, drawArrow, drawCircle, horizontalLinearResize } from '../../commons/circle';
 import { steps } from './steps';
 import { resetCanvas } from '../../commons/canvas';
+import { main } from "./basics";
 
 let canvasWidth = 0;
 let canvasHeight = 0;
@@ -32,6 +33,8 @@ const Roadmap = () => {
         if (canvas && context) {
             resetCanvas(canvas, context, width, height);
             drawCircles(context);
+
+            main(context, 50, width / 6, 80);
         }
     }
 
