@@ -65,12 +65,6 @@ const LCA: Step = {
     emoji: "👥"
 }
 
-const BinaryTreeRepresentation: Step = {
-    ...base,
-    text: "Binary Tree Representation",
-    emoji: "🗂",
-}
-
 const AdvancedTopics: Step = {
     ...base,
     text: "Advanced Topics",
@@ -86,6 +80,5 @@ export const steps = [
     TreeDiameter,
     TreeBalancing,
     LCA,
-    // BinaryTreeRepresentation,
     AdvancedTopics,
 ]
