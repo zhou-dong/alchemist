@@ -3,7 +3,7 @@ import { Box, ThemeProvider } from '@mui/material';
 import theme from '../../../commons/theme';
 import Header from '../../commons/Header';
 import Footer, { footerHeight } from '../../commons/Footer';
-import { ContentCircle, doubleLineResize, Dragger, drawArrow, drawCircle, horizontalLinearResize } from '../../commons/circle';
+import { ContentCircle, Dragger, drawArrow, drawCircle, horizontalLinearResize } from '../../commons/circle';
 import { steps } from './steps';
 import { resetCanvas } from '../../commons/canvas';
 
@@ -37,6 +37,15 @@ const Roadmap = () => {
 
     const handleClick = (circle: ContentCircle<string>) => {
         circle.selected = !circle.selected;
+
+        if (circle.selected) {
+            steps.forEach(step => {
+                if (step !== circle) {
+                    step.selected = false;
+                }
+            });
+        }
+
         // setCategories(items => updateSegments(items, circle.value, circle.selected));
         drawCanvas(canvasWidth, canvasHeight);
     }
