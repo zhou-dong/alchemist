@@ -45,18 +45,18 @@ const Roadmap = () => {
         }
     }
 
-    const handleClick = (circle: ContentCircle<string>) => {
-        circle.selected = !circle.selected;
-        // setCategories(items => updateSegments(items, circle.value, circle.selected));
-        drawCanvas(canvasWidth, canvasHeight);
-    }
-
-    const draggable = new Dragger<string>(drawCanvas, handleClick);
-
     React.useEffect(() => {
         const canvas = canvasRef.current;
 
         if (!canvas) return;
+
+        const handleClick = (circle: ContentCircle<string>) => {
+            circle.selected = !circle.selected;
+            // setCategories(items => updateSegments(items, circle.value, circle.selected));
+            drawCanvas(canvasWidth, canvasHeight);
+        }
+
+        const draggable = new Dragger<string>(drawCanvas, handleClick);
 
         canvas.addEventListener('mousedown', (e) => draggable.handleMouseDown(e, steps));
         canvas.addEventListener('mousemove', (e) => draggable.handleMouseMove(e, canvasWidth, canvasHeight));
@@ -67,7 +67,7 @@ const Roadmap = () => {
             canvas.removeEventListener('mousemove', (e) => draggable.handleMouseMove(e, canvasWidth, canvasHeight));
             canvas.removeEventListener('mouseup', (e) => draggable.handleMouseUp(e, steps));
         };
-    }, [canvasRef, draggable]);
+    }, [canvasRef]);
 
     React.useEffect(() => {
         const container = containerRef.current;
