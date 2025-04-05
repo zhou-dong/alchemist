@@ -14,27 +14,30 @@ const base: Step = {
 
 const BasicsOfTrees: Step = {
     ...base,
-    text: "Basic of Trees",
+    value: "Basic of Trees",
+    text: "Tree Basics",
     emoji: "🌳",
 }
 
 const BinaryTree: Step = {
     ...base,
+    value: "Tree Traversals",
     text: "Binary Tree",
-    emoji: "🌳",
+    emoji: "🌲",
 }
 
 const TreeTraversals: Step = {
     ...base,
-    text: "Tree Traversals",
-    emoji: "🔍",
+    value: "Tree Traversals",
+    text: "Traversals",
+    emoji: "🧭",
 }
 
 const BST: Step = {
     ...base,
     value: "Binary Search Tree",
     text: "BST",
-    emoji: "📊"
+    emoji: "🔍"
 }
 
 const TreeHeight: Step = {
@@ -46,20 +49,20 @@ const TreeHeight: Step = {
 const TreeDiameter: Step = {
     ...base,
     text: "Tree Diameter",
-    emoji: "📏",
+    emoji: "📐",
 }
 
 const TreeBalancing: Step = {
     ...base,
-    text: "Tree Balancing",
-    emoji: "📏",
+    text: "Tree Balance",
+    emoji: "⚖️",
 }
 
 const LCA: Step = {
     ...base,
     value: "Lowest Common Ancestor",
     text: "LCA",
-    emoji: "🔗"
+    emoji: "👥"
 }
 
 const BinaryTreeRepresentation: Step = {
@@ -83,6 +86,6 @@ export const steps = [
     TreeDiameter,
     TreeBalancing,
     LCA,
-    BinaryTreeRepresentation,
+    // BinaryTreeRepresentation,
     AdvancedTopics,
 ]
