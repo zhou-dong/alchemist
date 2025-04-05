@@ -204,3 +204,21 @@ export function linearResize(circles: Circle[], length: number) {
         circle.y = 1.5 * radius + radius * 2.5 * index;
     });
 }
+
+export function doubleLineResize(circles: Circle[], length: number) {
+    const n = Math.floor(circles.length / 2) + 1;
+
+    const evenRadius = length / (3 * n - 0.5);
+    const oddRadius = length / (3 * n + 1);
+    const radius = (circles.length % 2 === 0) ? evenRadius : oddRadius;
+
+    circles.forEach((circle, index) => {
+        circle.radius = radius;
+        if (index % 2 === 0) {
+            circle.x = 2 * radius;
+        } else {
+            circle.x = 4.5 * radius;
+        }
+        circle.y = 2 * radius + 1.5 * index * radius;
+    });
+}
