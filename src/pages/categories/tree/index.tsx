@@ -24,16 +24,13 @@ const drawCircles = (context: CanvasRenderingContext2D) => {
 }
 
 const resizeCircles = (height: number) => {
-    const marginTop = 10;
-    const radius: number = (height - 2 * marginTop) / steps.length / 2;
-    const x = radius * 2;
+    const radius = height / (2.5 * steps.length + 0.5);
 
     steps.forEach((step, index) => {
         step.radius = radius;
-        step.x = x;
-        step.y = marginTop + radius + radius * 2.5 * index;
+        step.x = radius * 2;
+        step.y = 1.5 * radius + radius * 2.5 * index;
     });
-
 }
 
 const Roadmap = () => {
@@ -45,6 +42,9 @@ const Roadmap = () => {
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (canvas && context) {
+
+            console.log("resize", width, height, window.innerHeight);
+
             resetCanvas(canvas, context, width, height);
             resizeCircles(height);
             drawCircles(context);
@@ -85,7 +85,7 @@ const Roadmap = () => {
                 ref={canvasRef}
                 style={{
                     display: "block",
-                    backgroundColor: "lightblue"
+                    // backgroundColor: "lightblue"
                 }}
             >
             </canvas>
