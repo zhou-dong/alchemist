@@ -40,7 +40,7 @@ const setPosition = (radius: number, adjustX: number, adjustY: number) => {
     });
 
     tree.forEach(node => {
-        node.x += adjustX;
+        node.x = node.x + adjustX;
         node.y += adjustY;
     });
 }
