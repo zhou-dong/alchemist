@@ -81,7 +81,7 @@ const Roadmap = () => {
             const height = window.innerHeight - top - footerHeight;
 
             horizontalLinearResize(steps, width);
-            setBasicTreePosition(50, width, 100);
+            setBasicTreePosition(width, height);
             drawCanvas(width, height);
 
             canvasWidth = width;
