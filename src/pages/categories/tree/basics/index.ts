@@ -22,8 +22,18 @@ const tree = [
     buildNode(),
 ];
 
-const setPosition = (radius: number, adjustX: number, adjustY: number) => {
+export const setBasicTreePosition = (radius: number, width: number, adjustY: number) => {
+
+    const adjustX: number = width / 2;
+
     tree.forEach((node, index) => {
+
+        // reset to 0 to make sure will not over calculation.
+        if (index === 0) {
+            node.x = 0;
+            node.y = 0;
+        }
+
         node.radius = radius;
         const left = tree[2 * index + 1];
         const right = tree[2 * index + 2];
@@ -45,8 +55,7 @@ const setPosition = (radius: number, adjustX: number, adjustY: number) => {
     });
 }
 
-export const main = (context: CanvasRenderingContext2D, radius: number, adjustX: number, adjustY: number) => {
-    setPosition(radius, adjustX, adjustY);
+export const drawTreeBasics = (context: CanvasRenderingContext2D) => {
 
     tree.forEach(node => {
         drawCircle(context, node);
