@@ -34,7 +34,8 @@ const Roadmap = () => {
             resetCanvas(canvas, context, width, height);
             drawCircles(context);
 
-            main(context, 50, width / 6, 80);
+            // main(context, 50, width / 6, 80);
+            main(context, 50, 150, 0);
         }
     }
 
@@ -82,8 +83,6 @@ const Roadmap = () => {
             const height = window.innerHeight - top - footerHeight;
 
             horizontalLinearResize(steps, width);
-            // linearResize(steps, height);
-            // doubleLineResize(steps, height);
             drawCanvas(width, height);
 
             canvasWidth = width;
