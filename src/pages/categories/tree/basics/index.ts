@@ -22,12 +22,12 @@ const tree = [
     buildNode(),
 ];
 
-export const setBasicTreePosition = (radius: number, width: number, adjustY: number) => {
-
+export const setBasicTreePosition = (width: number, height: number) => {
+    const radius = height / 16;
     const adjustX: number = width / 2;
+    const adjustY: number = 5 * radius;
 
     tree.forEach((node, index) => {
-
         // reset to 0 to make sure will not over calculation.
         if (index === 0) {
             node.x = 0;
@@ -50,7 +50,7 @@ export const setBasicTreePosition = (radius: number, width: number, adjustY: num
     });
 
     tree.forEach(node => {
-        node.x = node.x + adjustX;
+        node.x += adjustX;
         node.y += adjustY;
     });
 }
