@@ -7,6 +7,7 @@ import { ContentCircle, Dragger, drawArrow, drawCircle, horizontalLinearResize }
 import { steps } from './steps';
 import { resetCanvas } from '../../commons/canvas';
 import { drawTreeBasics, setBasicTreePosition } from "./basics";
+import Intro from './intro';
 
 let canvasWidth = 0;
 let canvasHeight = 0;
@@ -126,7 +127,8 @@ const Main = () => (
             minHeight="100vh"
         >
             <Header />
-            <Roadmap />
+            {/* <Roadmap /> */}
+            <Intro />
             <Footer />
         </Box>
     </ ThemeProvider>
