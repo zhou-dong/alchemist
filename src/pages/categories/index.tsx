@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Box, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import Header from '../commons/Header';
@@ -12,7 +13,7 @@ const Main = () => {
                 minHeight="100vh"
             >
                 <Header />
-                categories
+                <Link to="/pages/categories/tree">Tree</Link>
                 <Footer />
             </Box>
         </ ThemeProvider>
