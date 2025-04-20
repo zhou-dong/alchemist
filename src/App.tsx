@@ -265,7 +265,6 @@ import LongestCommonPrefix from "./games/two-pointers/longest-common-prefix";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
 
-
 const renderer = createRenderer();
 const camera = createCamera();
 
