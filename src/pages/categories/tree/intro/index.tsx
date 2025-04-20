@@ -1,6 +1,8 @@
 import { Box, Button, Card, Grid, ThemeProvider, Typography } from "@mui/material";
 import { grey } from '@mui/material/colors';
 import React from "react";
+import { useNavigate } from 'react-router-dom';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
 import Footer, { footerHeight } from "../../../commons/Footer";
@@ -63,50 +65,62 @@ const Tree = () => {
     );
 }
 
-const Introduction = () => (
-    <Box
-        sx={{
-            mx: 'auto',
-            my: 6,
-            p: 4,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-        }}
-    >
-        <Typography variant="h3" align="center" gutterBottom>
-            🌳 Tree
-        </Typography>
+const Introduction = () => {
+    const navigate = useNavigate();
 
-        <Card
-            variant="outlined"
+    return (
+        <Box
             sx={{
-                p: 3,
-                border: "0px",
-                backgroundColor: grey[100],
+                mx: 'auto',
+                my: 6,
+                p: 4,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
             }}
         >
-            <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
-                <span style={{ color: 'green' }}>A tree is a special data structure used to represent hierarchical relationships.</span>
-                &nbsp;At the top, there’s a single starting point called the
-                <span style={{ color: 'green' }}> root</span>, and from there, branches grow to form <span style={{ color: 'green' }}>nodes</span>.
+            <Typography variant="h3" align="center" gutterBottom>
+                🌳 Tree
             </Typography>
 
-            <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
-                Each <span style={{ color: 'green' }}>node</span> can have <span style={{ color: 'green' }}>child nodes</span>, and the connections between them are called
-                <span style={{ color: 'green' }}> edges</span>. Nodes with no children are called <span style={{ color: 'green' }}>leaf nodes</span>.
-            </Typography>
+            <Card
+                variant="outlined"
+                sx={{
+                    p: 3,
+                    border: "0px",
+                    backgroundColor: grey[100],
+                }}
+            >
+                <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
+                    <span style={{ color: 'green' }}>A tree is a special data structure used to represent hierarchical relationships.</span>
+                    &nbsp;At the top, there’s a single starting point called the
+                    <span style={{ color: 'green' }}> root</span>, and from there, branches grow to form <span style={{ color: 'green' }}>nodes</span>.
+                </Typography>
 
-            <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
-                <span style={{ color: 'green' }}>A tree has no cycles</span> — you can never go back to a node by following the edges.
-                This makes it a kind of <span style={{ color: 'green' }}>directed acyclic graph (DAG)</span>, where each node flows in one direction, from parent to children.
-            </Typography>
-        </Card>
+                <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
+                    Each <span style={{ color: 'green' }}>node</span> can have <span style={{ color: 'green' }}>child nodes</span>, and the connections between them are called
+                    <span style={{ color: 'green' }}> edges</span>. Nodes with no children are called <span style={{ color: 'green' }}>leaf nodes</span>.
+                </Typography>
 
-        <Button sx={{ color: "#fff" }} size="large" variant="contained">Next</Button>
-    </Box>
-);
+                <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
+                    <span style={{ color: 'green' }}>A tree has no cycles</span> — you can never go back to a node by following the edges.
+                    This makes it a kind of <span style={{ color: 'green' }}>directed acyclic graph (DAG)</span>, where each node flows in one direction, from parent to children.
+                </Typography>
+            </Card>
+
+            <Button
+                startIcon={<SportsEsportsIcon />}
+                sx={{ color: "#fff" }}
+                size="large"
+                variant="contained"
+                onClick={() => navigate("/pages/categories/tree/challenges")}
+            >
+                Next
+            </Button>
+        </Box>
+    );
+};
 
 const Layout = () => (
     <Grid
