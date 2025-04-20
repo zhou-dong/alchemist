@@ -1,12 +1,11 @@
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, Grid, ThemeProvider, Typography } from "@mui/material";
 import { grey } from '@mui/material/colors';
 import React from "react";
 import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
-import { footerHeight } from "../../../commons/Footer";
-
-let canvasWidth = 0;
-let canvasHeight = 0;
+import Footer, { footerHeight } from "../../../commons/Footer";
+import theme from "../../../../commons/theme";
+import Header from "../../../commons/Header";
 
 const Tree = () => {
 
@@ -34,9 +33,6 @@ const Tree = () => {
 
             setBasicTreePosition(width, height);
             drawCanvas(width, height);
-
-            canvasWidth = width;
-            canvasHeight = height;
         }
 
         refreshCanvas();
@@ -112,7 +108,7 @@ const Introduction = () => (
     </Box>
 );
 
-const Main = () => (
+const Layout = () => (
     <Grid
         container
         sx={{
@@ -141,6 +137,20 @@ const Main = () => (
             <Tree />
         </Grid>
     </Grid>
+);
+
+const Main = () => (
+    <ThemeProvider theme={theme}>
+        <Box
+            display="flex"
+            flexDirection="column"
+            minHeight="100vh"
+        >
+            <Header />
+            <Layout />
+            <Footer />
+        </Box>
+    </ ThemeProvider>
 );
 
 export default Main;
