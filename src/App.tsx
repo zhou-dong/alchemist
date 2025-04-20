@@ -6,6 +6,7 @@ import AboutUs from './pages/about';
 
 import Categories from "./pages/categories";
 import CategoryTree from "./pages/categories/tree/index";
+import CategoryTreeIntro from "./pages/categories/tree/intro";
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import BubbleSortAnimationInfo from "./games/sorting/bubble-sort/info";
@@ -278,7 +279,8 @@ const App = () => (
         <Route path="pages/about-us" element={<AboutUs />} />
 
         <Route path="pages/categories" element={<Categories />} />
-        <Route path="pages/categories/tree" element={<CategoryTree />} />
+        <Route path="pages/categories/tree" element={<CategoryTreeIntro />} />
+        <Route path="pages/categories/tree/challenges" element={<CategoryTree />} />
 
         <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />

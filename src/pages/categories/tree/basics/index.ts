@@ -64,11 +64,9 @@ export const setBasicTreePosition = (width: number, height: number) => {
 }
 
 export const drawTreeBasics = (context: CanvasRenderingContext2D) => {
-
     tree.forEach(node => {
         drawCircle(context, node);
     });
-
     tree.forEach((node, index) => {
         const left = tree[2 * index + 1];
         const right = tree[2 * index + 2];
