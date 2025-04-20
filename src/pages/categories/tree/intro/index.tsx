@@ -1,4 +1,5 @@
-import { Box, Card, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import { grey } from '@mui/material/colors';
 import React from "react";
 import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
@@ -72,6 +73,10 @@ const Introduction = () => (
             mx: 'auto',
             my: 6,
             p: 4,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
         }}
     >
         <Typography variant="h3" align="center" gutterBottom>
@@ -83,7 +88,7 @@ const Introduction = () => (
             sx={{
                 p: 3,
                 border: "0px",
-                backgroundColor: "lightgray",
+                backgroundColor: grey[100],
             }}
         >
             <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
@@ -97,11 +102,13 @@ const Introduction = () => (
                 <span style={{ color: 'green' }}> edges</span>. Nodes with no children are called <span style={{ color: 'green' }}>leaf nodes</span>.
             </Typography>
 
-            <Typography align="center" variant="body1" fontSize={22} gutterBottom>
+            <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
                 <span style={{ color: 'green' }}>A tree has no cycles</span> — you can never go back to a node by following the edges.
                 This makes it a kind of <span style={{ color: 'green' }}>directed acyclic graph (DAG)</span>, where each node flows in one direction, from parent to children.
             </Typography>
         </Card>
+
+        <Button sx={{ color: "#fff" }} size="large" variant="contained">Next</Button>
     </Box>
 );
 
@@ -120,7 +127,8 @@ const Main = () => (
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "lightgray",
+                flexDirection: "column",
+                backgroundColor: grey[100],
             }}
         >
             <Introduction />
