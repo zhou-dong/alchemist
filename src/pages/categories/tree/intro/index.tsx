@@ -83,7 +83,6 @@ const Introduction = () => (
             sx={{
                 p: 3,
                 border: "0px",
-                color: "gray",
                 backgroundColor: "lightgray",
             }}
         >
