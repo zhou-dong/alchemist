@@ -39,7 +39,6 @@ export const setBasicTreePosition = (width: number, height: number) => {
     const adjustY: number = height / 2 - 4 * radius;
 
     tree.forEach((node, index) => {
-
         if (!node) return;
 
         // reset to 0 to make sure will not over calculation.
