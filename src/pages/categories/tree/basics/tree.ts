@@ -7,7 +7,7 @@ const base: Node = {
     y: 0,
     radius: 0,
     value: "",
-    text: "root",
+    text: "",
     emoji: "",
     selected: false,
 }
