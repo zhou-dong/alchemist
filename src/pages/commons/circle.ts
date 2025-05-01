@@ -53,7 +53,7 @@ export const drawCircle = <T,>(context: CanvasRenderingContext2D, categoryCircle
     context.shadowOffsetX = 0;
     context.shadowOffsetY = 0;
 
-    context.font = '400 20px "Roboto"';
+    context.font = `${fontWeight} 16px "Roboto"`;
     context.fillStyle = textColor;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
