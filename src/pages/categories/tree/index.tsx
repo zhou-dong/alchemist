@@ -33,7 +33,7 @@ const Roadmap = () => {
         if (canvas && context) {
             resetCanvas(canvas, context, width, height);
             drawCircles(context);
-            drawTreeBasics(context);
+            // drawTreeBasics(context);
         }
     }
 
