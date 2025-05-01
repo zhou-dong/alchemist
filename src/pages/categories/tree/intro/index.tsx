@@ -114,7 +114,7 @@ const Introduction = () => {
                 sx={{ color: "#fff" }}
                 size="large"
                 variant="contained"
-                onClick={() => navigate("/pages/categories/tree/challenges")}
+                onClick={() => navigate("/pages/categories/tree/basics")}
             >
                 Next
             </Button>

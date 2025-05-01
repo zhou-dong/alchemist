@@ -6,7 +6,7 @@ import Footer, { footerHeight } from '../../commons/Footer';
 import { ContentCircle, Dragger, drawArrow, drawCircle, horizontalLinearResize } from '../../commons/circle';
 import { steps } from './steps';
 import { resetCanvas } from '../../commons/canvas';
-import { drawTreeBasics, setBasicTreePosition } from "./basics";
+import { drawTreeBasics, setBasicTreePosition } from "./basics/backup";
 
 let canvasWidth = 0;
 let canvasHeight = 0;
