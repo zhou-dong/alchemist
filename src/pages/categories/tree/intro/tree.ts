@@ -24,7 +24,7 @@ const tree = [
     buildNode(),
 ];
 
-tree.forEach((node, index) => {
+tree.forEach((node) => {
     if (node) {
         node.selected = true;
     }
