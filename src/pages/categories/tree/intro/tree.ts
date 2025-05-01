@@ -79,8 +79,10 @@ export const drawTreeBasics = (context: CanvasRenderingContext2D) => {
 
     tree.forEach((node, index) => {
         if (!node) return;
+
         const left = tree[2 * index + 1];
         const right = tree[2 * index + 2];
+
         if (left) {
             drawArrow(context, node, left);
         }
