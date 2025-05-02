@@ -1,12 +1,30 @@
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
-import { Box } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import { Box, Typography } from "@mui/material";
 import { grey } from '@mui/material/colors';
 import theme from "../../../../commons/theme";
 import Footer, { footerHeight } from "../../../commons/Footer";
 import Header from "../../../commons/Header";
 import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
+
+const MessagePosition = styled('div')({
+    position: "fixed",
+    bottom: "20%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+});
+
+const Game = () => {
+    return (
+        <MessagePosition>
+            <Typography variant="h4">
+                Let's warm up with some basic tree concepts.
+            </Typography>
+        </MessagePosition>
+    );
+}
 
 const Main = () => {
 
@@ -73,6 +91,7 @@ const Index = () => (
         >
             <Header />
             <Main />
+            <Game />
             <Footer />
         </Box>
     </ ThemeProvider>
