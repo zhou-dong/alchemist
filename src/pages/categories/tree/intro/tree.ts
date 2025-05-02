@@ -25,9 +25,8 @@ const tree = [
 ];
 
 tree.forEach((node) => {
-    if (node) {
-        node.selected = true;
-    }
+    if (!node) return;
+    node.selected = true;
 });
 
 export const setBasicTreePosition = (width: number, height: number) => {
