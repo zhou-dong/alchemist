@@ -10,8 +10,8 @@ import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
 
 const MessagePosition = styled('div')({
-    position: "fixed",
-    bottom: "20%",
+    position: "absolute",
+    bottom: "15%",
     left: "50%",
     transform: "translate(-50%, -50%)",
 });
@@ -19,7 +19,12 @@ const MessagePosition = styled('div')({
 const Game = () => {
     return (
         <MessagePosition>
-            <Typography variant="h4">
+            <Typography
+                variant="h4"
+                sx={{
+                    fontWeight: 300
+                }}
+            >
                 Let's warm up with some basic tree concepts.
             </Typography>
         </MessagePosition>
