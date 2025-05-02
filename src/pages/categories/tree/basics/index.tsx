@@ -1,14 +1,26 @@
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
 import { Box } from "@mui/material";
+import { grey } from '@mui/material/colors';
 import theme from "../../../../commons/theme";
 import Footer, { footerHeight } from "../../../commons/Footer";
 import Header from "../../../commons/Header";
+import { drawTreeBasics, setBasicTreePosition } from "./tree";
+import { resetCanvas } from "../../../commons/canvas";
 
 const Main = () => {
 
     const containerRef = React.useRef<HTMLDivElement>(null);
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
+    function drawCanvas(width: number, height: number): void {
+        const canvas = canvasRef.current;
+        const context = canvas?.getContext("2d");
+        if (canvas && context) {
+            resetCanvas(canvas, context, width, height);
+            drawTreeBasics(context);
+        }
+    }
 
     React.useEffect(() => {
         const container = containerRef.current;
@@ -20,8 +32,8 @@ const Main = () => {
             const { width, top } = container.getBoundingClientRect();
             const height = window.innerHeight - top - footerHeight;
 
-            // setBasicTreePosition(width, height);
-            // drawCanvas(width, height);
+            setBasicTreePosition(width, height);
+            drawCanvas(width, height);
         }
 
         refreshCanvas();
@@ -43,7 +55,10 @@ const Main = () => {
         >
             <canvas
                 ref={canvasRef}
-                style={{ display: "block" }}
+                style={{
+                    display: "block",
+                    backgroundColor: grey[50],
+                }}
             />
         </div>
     );
