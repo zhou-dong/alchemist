@@ -20,22 +20,29 @@ const tree = [
     buildNode(),
     buildNode(),
     buildNode(),
+    null,
+    buildNode(),
 ];
 
 tree.forEach((node, index) => {
-    node.emoji = index + 1 + "";
-
-    if (index % 2) {
-        node.selected = true;
-    }
+    if (!node) return;
+    // node.emoji = index + 1 + "";
+    // node.selected = true;
+    // if (index % 2) {
+    //     node.selected = true;
+    // }
 });
 
 export const setBasicTreePosition = (width: number, height: number) => {
-    const radius = height / 16;
+    const r1 = height / 16;
+    const r2 = width / 16;
+    const radius = Math.min(r1, r2);
+
     const adjustX: number = width / 2;
-    const adjustY: number = 5 * radius;
+    const adjustY: number = height / 2 - 4 * radius;
 
     tree.forEach((node, index) => {
+        if (!node) return;
         // reset to 0 to make sure will not over calculation.
         if (index === 0) {
             node.x = 0;
@@ -58,6 +65,7 @@ export const setBasicTreePosition = (width: number, height: number) => {
     });
 
     tree.forEach(node => {
+        if (!node) return;
         node.x += adjustX;
         node.y += adjustY;
     });
@@ -65,12 +73,16 @@ export const setBasicTreePosition = (width: number, height: number) => {
 
 export const drawTreeBasics = (context: CanvasRenderingContext2D) => {
     tree.forEach(node => {
+        if (!node) return;
         drawCircle(context, node);
     });
 
     tree.forEach((node, index) => {
+        if (!node) return;
+
         const left = tree[2 * index + 1];
         const right = tree[2 * index + 2];
+
         if (left) {
             drawArrow(context, node, left);
         }
