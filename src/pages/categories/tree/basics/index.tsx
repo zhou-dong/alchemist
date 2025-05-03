@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
 import { styled } from '@mui/material/styles';
-import { Box, Chip, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, Chip, Grid, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { grey } from '@mui/material/colors';
 import { green } from '@mui/material/colors';
 import theme from "../../../../commons/theme";
@@ -64,44 +64,64 @@ const FindRoot: React.FC<{
     }
 
     return (
-        <>
-            <Typography
-                variant="h5"
-                sx={{
-                    fontWeight: 300,
-                    textAlign: "center",
-                }}
-            >
-                Let's warm up with some basic tree concepts. What is the root of a tree?
-            </Typography>
+        <Stack
+            spacing={5}
+        >
+            <div>
+                <Typography variant="h4" align="center">
+                    🌱 Tree Basics
+                </Typography>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        fontWeight: 300,
+                        textAlign: "center",
+                    }}
+                >
+                    Let's warm up with some basic tree concepts.
+                </Typography>
+            </div>
 
-            <Stack
-                direction="row"
-                spacing={2}
-            >
-                {
-                    treeNodes
-                        .filter(node => node !== null)
-                        .map((node, i) =>
-                            <ToggleButton
-                                key={i}
-                                value={node?.value}
-                                sx={{
-                                    width: "55px",
-                                    height: "55px",
-                                    fontSize: "30px",
-                                    fontWeight: 200,
-                                    borderRadius: "50%",
-                                }}
-                                onChange={handleClick}
-                                selected={root === node?.value}
-                            >
-                                {node?.text}
-                            </ToggleButton>
-                        )
-                }
-            </Stack>
-        </>
+            <div>
+                <Typography
+                    variant="h5"
+                    align="center"
+                    sx={{
+                        fontWeight: 300,
+                    }}
+                    gutterBottom
+                >
+                    What is the root of this tree?
+                </Typography>
+
+                <Stack
+                    direction="row"
+                    spacing={1}
+                >
+                    {
+                        treeNodes
+                            .filter(node => node !== null)
+                            .map((node, i) =>
+                                <ToggleButton
+                                    key={i}
+                                    value={node?.value}
+                                    sx={{
+                                        width: "55px",
+                                        height: "55px",
+                                        fontSize: "30px",
+                                        fontWeight: 200,
+                                        borderRadius: "50%",
+                                    }}
+                                    onChange={handleClick}
+                                    selected={root === node?.value}
+                                >
+                                    {node?.text}
+                                </ToggleButton>
+                            )
+                    }
+                </Stack>
+            </div>
+        </Stack>
     );
 }
 
@@ -118,7 +138,7 @@ const Game: React.FC<{
     </QuestionPosition>
 );
 
-const Main: React.FC<{
+const Tree: React.FC<{
     containerRef: React.RefObject<HTMLDivElement>,
     canvasRef: React.RefObject<HTMLCanvasElement>
 }> = ({ containerRef, canvasRef }) => {
@@ -157,23 +177,55 @@ const Main: React.FC<{
     );
 }
 
-const Index = () => {
+const Main = () => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
     return (
-        <ThemeProvider theme={theme}>
-            <Box
-                display="flex"
-                flexDirection="column"
-                minHeight="100vh"
+        <Grid
+            container
+            sx={{
+                flex: 1,
+            }}
+        >
+            <Grid
+                item
+                xs={12}
+                md={6}
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    backgroundColor: grey[100],
+                }}
             >
-                <Header />
-                <Main containerRef={containerRef} canvasRef={canvasRef} />
-                <Game containerRef={containerRef} canvasRef={canvasRef} />
-                <Footer />
-            </Box>
-        </ ThemeProvider>
+                {/* <Game containerRef={containerRef} canvasRef={canvasRef} /> */}
+                <FindRoot containerRef={containerRef} canvasRef={canvasRef} />
+            </Grid>
+            <Grid
+                item
+                xs={12}
+                md={6}
+            >
+                <Tree containerRef={containerRef} canvasRef={canvasRef} />
+            </Grid>
+        </Grid>
     );
-}
+};
+
+const Index = () => (
+    <ThemeProvider theme={theme}>
+        <Box
+            display="flex"
+            flexDirection="column"
+            minHeight="100vh"
+        >
+            <Header />
+            <Main />
+            <Footer />
+        </Box>
+    </ ThemeProvider>
+);
 
 export default Index;
