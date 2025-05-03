@@ -122,7 +122,7 @@ const Introduction = () => {
     );
 };
 
-const Layout = () => (
+const Main = () => (
     <Grid
         container
         sx={{
@@ -153,7 +153,7 @@ const Layout = () => (
     </Grid>
 );
 
-const Main = () => (
+const Index = () => (
     <ThemeProvider theme={theme}>
         <Box
             display="flex"
@@ -161,10 +161,10 @@ const Main = () => (
             minHeight="100vh"
         >
             <Header />
-            <Layout />
+            <Main />
             <Footer />
         </Box>
     </ ThemeProvider>
 );
 
-export default Main;
+export default Index;
