@@ -56,7 +56,6 @@ const Roadmap = () => {
 
     React.useEffect(() => {
         const canvas = canvasRef.current;
-
         if (!canvas) return;
 
         canvas.addEventListener('mousedown', (e) => draggable.handleMouseDown(e, steps));

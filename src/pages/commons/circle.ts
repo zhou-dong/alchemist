@@ -109,6 +109,10 @@ export function drawArrow(ctx: CanvasRenderingContext2D, circle1: Circle, circle
     ctx.fill();
 }
 
+export class ClickCircle<T> {
+
+}
+
 /**
  * To differentiate between a drag and a click, you can use a combination of mouse events and a time threshold. 
  * The idea is to record the mouse down and mouse up events and calculate the time difference and distance moved. 

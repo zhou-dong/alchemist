@@ -12,21 +12,22 @@ const base: Node = {
     selected: false,
 }
 
-const buildNode = (): Node => ({ ...base });
+const buildNode = (text: number, value: string): Node => ({ ...base, text: text + "", value });
 
-const tree = [
-    buildNode(),
-    buildNode(),
-    buildNode(),
-    buildNode(),
-    buildNode(),
+export const treeNodes = [
+    buildNode(1, "root"),
+    buildNode(2, "node"),
+    buildNode(3, "node"),
+    buildNode(4, "leaf"),
+    buildNode(5, "leaf"),
     null,
-    buildNode(),
+    buildNode(6, "leaf"),
 ];
 
-tree.forEach((node, index) => {
+treeNodes.forEach((node, index) => {
     if (!node) return;
     // node.emoji = index + 1 + "";
+    // node.text = index + "";
     // node.selected = true;
     // if (index % 2) {
     //     node.selected = true;
@@ -41,7 +42,7 @@ export const setBasicTreePosition = (width: number, height: number) => {
     const adjustX: number = width / 2;
     const adjustY: number = height / 2 - 4 * radius;
 
-    tree.forEach((node, index) => {
+    treeNodes.forEach((node, index) => {
         if (!node) return;
         // reset to 0 to make sure will not over calculation.
         if (index === 0) {
@@ -50,8 +51,8 @@ export const setBasicTreePosition = (width: number, height: number) => {
         }
 
         node.radius = radius;
-        const left = tree[2 * index + 1];
-        const right = tree[2 * index + 2];
+        const left = treeNodes[2 * index + 1];
+        const right = treeNodes[2 * index + 2];
 
         if (left) {
             left.x = node.x - 2 * radius;
@@ -64,7 +65,7 @@ export const setBasicTreePosition = (width: number, height: number) => {
         }
     });
 
-    tree.forEach(node => {
+    treeNodes.forEach(node => {
         if (!node) return;
         node.x += adjustX;
         node.y += adjustY;
@@ -72,16 +73,16 @@ export const setBasicTreePosition = (width: number, height: number) => {
 }
 
 export const drawTreeBasics = (context: CanvasRenderingContext2D) => {
-    tree.forEach(node => {
+    treeNodes.forEach(node => {
         if (!node) return;
         drawCircle(context, node);
     });
 
-    tree.forEach((node, index) => {
+    treeNodes.forEach((node, index) => {
         if (!node) return;
 
-        const left = tree[2 * index + 1];
-        const right = tree[2 * index + 2];
+        const left = treeNodes[2 * index + 1];
+        const right = treeNodes[2 * index + 2];
 
         if (left) {
             drawArrow(context, node, left);
