@@ -61,7 +61,21 @@ const FindRoot: React.FC<{
                 })
             refreshCanvas(containerRef, canvasRef);
         };
+
+        if (value === "leaf") {
+            treeNodes
+                .filter(node => node?.value === "leaf")
+                .forEach(node => {
+                    if (node) {
+                        node.selected = true;
+                        node.emoji = "leaf";
+                    }
+                })
+            refreshCanvas(containerRef, canvasRef);
+        }
     }
+
+
 
     return (
         <Stack
@@ -114,6 +128,7 @@ const FindRoot: React.FC<{
                                     }}
                                     onChange={handleClick}
                                     selected={root === node?.value}
+                                    color="primary"
                                 >
                                     {node?.text}
                                 </ToggleButton>
