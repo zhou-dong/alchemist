@@ -1,15 +1,19 @@
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
 import { styled } from '@mui/material/styles';
-import { Box, Chip, Grid, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import { grey } from '@mui/material/colors';
-import { green } from '@mui/material/colors';
+import { Box, Button, Grid, IconButton, Stack, ToggleButton, Typography } from "@mui/material";
+import { grey, green, pink } from '@mui/material/colors';
 import theme from "../../../../commons/theme";
 import Footer, { footerHeight } from "../../../commons/Footer";
 import Header from "../../../commons/Header";
 import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
 import { treeNodes } from "./tree";
+
+interface Props {
+    containerRef: React.RefObject<HTMLDivElement>;
+    canvasRef: React.RefObject<HTMLCanvasElement>;
+}
 
 function refreshCanvas(
     containerRef: React.RefObject<HTMLDivElement>,
@@ -41,60 +45,79 @@ const QuestionPosition = styled(Stack)({
     flexDirection: "column",
 });
 
-const FindRoot: React.FC<{
-    containerRef: React.RefObject<HTMLDivElement>,
-    canvasRef: React.RefObject<HTMLCanvasElement>
-}> = ({ containerRef, canvasRef }) => {
+const Basics = () => (
+    <div>
+        <Typography variant="h4" align="center">
+            🌱 Tree Basics
+        </Typography>
+        <Typography
+            variant="h6"
+            sx={{
+                fontWeight: 300,
+                textAlign: "center",
+            }}
+        >
+            Let's warm up with some basic tree concepts.
+        </Typography>
+    </div>
+);
 
-    const [root, setRoot] = React.useState<string>();
-
-    const handleClick = (event: React.MouseEvent, value: string | null) => {
-        if (value === "root") {
-            setRoot(value);
-            treeNodes
-                .filter(node => node?.value === "root")
-                .forEach(node => {
-                    if (node) {
-                        node.selected = true;
-                        node.emoji = "root";
-                    }
-                })
-            refreshCanvas(containerRef, canvasRef);
-        };
-
-        if (value === "leaf") {
-            treeNodes
-                .filter(node => node?.value === "leaf")
-                .forEach(node => {
-                    if (node) {
-                        node.selected = true;
-                        node.emoji = "leaf";
-                    }
-                })
-            refreshCanvas(containerRef, canvasRef);
-        }
-    }
+const FindLeafs = ({ containerRef, canvasRef }: Props) => {
 
 
 
     return (
-        <Stack
-            spacing={5}
-        >
-            <div>
-                <Typography variant="h4" align="center">
-                    🌱 Tree Basics
-                </Typography>
+        <>
+            <Stack spacing={5}>
+                <Basics />
                 <Typography
-                    variant="h6"
+                    variant="h5"
+                    align="center"
                     sx={{
                         fontWeight: 300,
-                        textAlign: "center",
                     }}
+                    gutterBottom
                 >
-                    Let's warm up with some basic tree concepts.
+                    what are the leaf nodes?
                 </Typography>
-            </div>
+            </Stack>
+        </>
+    );
+};
+
+const FindRoot = ({ containerRef, canvasRef }: Props) => {
+
+    const [rootIndicator, setRootIndicator] = React.useState<string>();
+    const [errorIndicator, setErrorIndicator] = React.useState<number>();
+
+    const enableRootNode = () => {
+        treeNodes
+            .filter(node => node?.value === "root")
+            .forEach(node => {
+                if (node) {
+                    node.selected = true;
+                    node.emoji = "root";
+                }
+            });
+    }
+
+    const handleClick = (i: number, value: string | null | undefined) => {
+        if (rootIndicator) {
+            return;
+        }
+        setErrorIndicator(undefined);
+        if (value === "root") {
+            setRootIndicator(value);
+            enableRootNode();
+            refreshCanvas(containerRef, canvasRef);
+        } else {
+            setErrorIndicator(i);
+        };
+    }
+
+    return (
+        <Stack spacing={5}>
+            <Basics />
 
             <div>
                 <Typography
@@ -111,6 +134,8 @@ const FindRoot: React.FC<{
                 <Stack
                     direction="row"
                     spacing={1}
+                    display="flex"
+                    justifyContent="center"
                 >
                     {
                         treeNodes
@@ -120,15 +145,29 @@ const FindRoot: React.FC<{
                                     key={i}
                                     value={node?.value}
                                     sx={{
-                                        width: "55px",
-                                        height: "55px",
-                                        fontSize: "30px",
-                                        fontWeight: 200,
+                                        width: "50px",
+                                        height: "50px",
+                                        minWidth: "50px",
+                                        minHeight: "50px",
                                         borderRadius: "50%",
+                                        textTransform: 'none',
+                                        backgroundColor: (errorIndicator === i) ? pink[400] : "#fff",
+                                        color: (errorIndicator === i) ? "#fff" : "#000",
+                                        "&.Mui-selected": {
+                                            backgroundColor: green[400],
+                                            color: "#fff",
+                                            '&:hover, &.Mui-focusVisible': {
+                                                backgroundColor: green[400],
+                                            },
+                                        },
+                                        '&:hover, &.Mui-focusVisible': {
+                                            color: "#000",
+                                        },
+                                        fontSize: "25px",
+                                        fontWeight: 200,
                                     }}
-                                    onChange={handleClick}
-                                    selected={root === node?.value}
-                                    color="primary"
+                                    selected={rootIndicator === node?.value}
+                                    onClick={() => handleClick(i, node?.value)}
                                 >
                                     {node?.text}
                                 </ToggleButton>
@@ -153,10 +192,7 @@ const Game: React.FC<{
     </QuestionPosition>
 );
 
-const Tree: React.FC<{
-    containerRef: React.RefObject<HTMLDivElement>,
-    canvasRef: React.RefObject<HTMLCanvasElement>
-}> = ({ containerRef, canvasRef }) => {
+const Tree = ({ containerRef, canvasRef }: Props) => {
 
     React.useEffect(() => {
         const container = containerRef.current;
@@ -212,7 +248,7 @@ const Main = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection: "column",
-                    backgroundColor: grey[100],
+                    // backgroundColor: grey[100],
                 }}
             >
                 {/* <Game containerRef={containerRef} canvasRef={canvasRef} /> */}
