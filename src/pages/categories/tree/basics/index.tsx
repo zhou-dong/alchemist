@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
 import { styled } from '@mui/material/styles';
-import { Box, Button, Grid, IconButton, Stack, ToggleButton, Typography } from "@mui/material";
+import { Box, Grid, Stack, ToggleButton, Typography } from "@mui/material";
 import { grey, green, pink } from '@mui/material/colors';
 import theme from "../../../../commons/theme";
 import Footer, { footerHeight } from "../../../commons/Footer";
@@ -20,7 +20,7 @@ function refreshCanvas(
     canvasRef: React.RefObject<HTMLCanvasElement>,
 ): void {
 
-    const container = containerRef.current
+    const container = containerRef.current;
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
 
@@ -34,15 +34,31 @@ function refreshCanvas(
     drawTreeBasics(context);
 }
 
-const QuestionPosition = styled(Stack)({
-    position: "absolute",
-    bottom: "15%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+const StyledButtonGroup = styled(Stack)({
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
+    flexDirection: "row",
+});
+
+const StyledButton = styled(ToggleButton)({
+    width: "50px",
+    height: "50px",
+    minWidth: "50px",
+    minHeight: "50px",
+    borderRadius: "50%",
+    textTransform: 'none',
+    '&:hover, &.Mui-focusVisible': {
+        color: "#000",
+    },
+    "&.Mui-selected": {
+        backgroundColor: green[400],
+        color: "#fff",
+        '&:hover, &.Mui-focusVisible': {
+            backgroundColor: green[400],
+        },
+    },
+    fontSize: "25px",
+    fontWeight: 200,
 });
 
 const Basics = () => (
@@ -64,22 +80,26 @@ const Basics = () => (
 
 const FindLeafs = ({ containerRef, canvasRef }: Props) => {
 
+    const [errorIndicator, setErrorIndicator] = React.useState<number>();
+
 
 
     return (
         <>
             <Stack spacing={5}>
                 <Basics />
-                <Typography
-                    variant="h5"
-                    align="center"
-                    sx={{
-                        fontWeight: 300,
-                    }}
-                    gutterBottom
-                >
-                    what are the leaf nodes?
-                </Typography>
+                <div>
+                    <Typography
+                        variant="h5"
+                        align="center"
+                        sx={{
+                            fontWeight: 300,
+                        }}
+                        gutterBottom
+                    >
+                        What are the leaf nodes?
+                    </Typography>
+                </div>
             </Stack>
         </>
     );
@@ -131,65 +151,37 @@ const FindRoot = ({ containerRef, canvasRef }: Props) => {
                     What is the root of this tree?
                 </Typography>
 
-                <Stack
-                    direction="row"
-                    spacing={1}
-                    display="flex"
-                    justifyContent="center"
-                >
+                <StyledButtonGroup spacing={1}>
                     {
                         treeNodes
                             .filter(node => node !== null)
                             .map((node, i) =>
-                                <ToggleButton
+                                <StyledButton
                                     key={i}
                                     value={node?.value}
                                     sx={{
-                                        width: "50px",
-                                        height: "50px",
-                                        minWidth: "50px",
-                                        minHeight: "50px",
-                                        borderRadius: "50%",
-                                        textTransform: 'none',
                                         backgroundColor: (errorIndicator === i) ? pink[400] : "#fff",
                                         color: (errorIndicator === i) ? "#fff" : "#000",
-                                        "&.Mui-selected": {
-                                            backgroundColor: green[400],
-                                            color: "#fff",
-                                            '&:hover, &.Mui-focusVisible': {
-                                                backgroundColor: green[400],
-                                            },
-                                        },
-                                        '&:hover, &.Mui-focusVisible': {
-                                            color: "#000",
-                                        },
-                                        fontSize: "25px",
-                                        fontWeight: 200,
                                     }}
+                                    disabled={rootIndicator !== undefined && rootIndicator !== node?.value}
                                     selected={rootIndicator === node?.value}
                                     onClick={() => handleClick(i, node?.value)}
                                 >
                                     {node?.text}
-                                </ToggleButton>
+                                </StyledButton>
                             )
                     }
-                </Stack>
+                </StyledButtonGroup>
             </div>
         </Stack>
     );
 }
 
-const Game: React.FC<{
-    containerRef: React.RefObject<HTMLDivElement>,
-    canvasRef: React.RefObject<HTMLCanvasElement>
-}> = ({ containerRef, canvasRef }) => (
-    <QuestionPosition
-        spacing={2}
-    >
-
-
+const Game = ({ containerRef, canvasRef }: Props) => (
+    <>
         <FindRoot containerRef={containerRef} canvasRef={canvasRef} />
-    </QuestionPosition>
+        <FindLeafs containerRef={containerRef} canvasRef={canvasRef} />
+    </>
 );
 
 const Tree = ({ containerRef, canvasRef }: Props) => {
@@ -251,8 +243,8 @@ const Main = () => {
                     // backgroundColor: grey[100],
                 }}
             >
-                {/* <Game containerRef={containerRef} canvasRef={canvasRef} /> */}
-                <FindRoot containerRef={containerRef} canvasRef={canvasRef} />
+                <Game containerRef={containerRef} canvasRef={canvasRef} />
+                {/* <FindRoot containerRef={containerRef} canvasRef={canvasRef} /> */}
             </Grid>
             <Grid
                 item
