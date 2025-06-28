@@ -10,9 +10,15 @@ import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
 import { treeNodes } from "./tree";
 
+enum Step {
+    FIND_ROOT,
+    FIND_LEAFS,
+}
+
 interface Props {
     containerRef: React.RefObject<HTMLDivElement>;
     canvasRef: React.RefObject<HTMLCanvasElement>;
+    setStep: React.Dispatch<React.SetStateAction<Step>>;
 }
 
 function refreshCanvas(
@@ -33,12 +39,6 @@ function refreshCanvas(
     resetCanvas(canvas, context, width, height);
     drawTreeBasics(context);
 }
-
-const StyledButtonGroup = styled(Stack)({
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "row",
-});
 
 const StyledButton = styled(ToggleButton)({
     width: "50px",
@@ -80,6 +80,7 @@ const Basics = () => (
 
 const FindLeafs = ({ containerRef, canvasRef }: Props) => {
 
+    const [selected, setSelected] = React.useState<number[]>([]);
     const [errorIndicator, setErrorIndicator] = React.useState<number>();
 
 
@@ -88,6 +89,7 @@ const FindLeafs = ({ containerRef, canvasRef }: Props) => {
         <>
             <Stack spacing={5}>
                 <Basics />
+
                 <div>
                     <Typography
                         variant="h5"
@@ -99,13 +101,41 @@ const FindLeafs = ({ containerRef, canvasRef }: Props) => {
                     >
                         What are the leaf nodes?
                     </Typography>
+
+                    <Stack
+                        direction="row"
+                        spacing={1}
+                        justifyContent="center"
+                    >
+                        {
+                            treeNodes
+                                .filter(node => node !== null)
+                                .map((node, i) =>
+                                    <StyledButton
+                                        key={i}
+                                        value={node?.value}
+                                        sx={{
+                                            backgroundColor: (errorIndicator === i) ? pink[400] : "#fff",
+                                            color: (errorIndicator === i) ? "#fff" : "#000",
+                                        }}
+                                        disabled={i === 0}
+                                        selected={selected.indexOf(i) >= 0}
+                                    // onClick={() => handleClick(i, node?.value)}
+                                    >
+                                        {node?.text}
+                                    </StyledButton>
+                                )
+                        }
+                    </Stack>
                 </div>
             </Stack>
         </>
     );
 };
 
-const FindRoot = ({ containerRef, canvasRef }: Props) => {
+const FindRoot = ({ containerRef, canvasRef, setStep }: Props) => {
+
+    const delay = 2000;
 
     const [rootIndicator, setRootIndicator] = React.useState<string>();
     const [errorIndicator, setErrorIndicator] = React.useState<number>();
@@ -130,13 +160,19 @@ const FindRoot = ({ containerRef, canvasRef }: Props) => {
             setRootIndicator(value);
             enableRootNode();
             refreshCanvas(containerRef, canvasRef);
+            setTimeout(() => setStep(Step.FIND_LEAFS), delay);
         } else {
             setErrorIndicator(i);
         };
     }
 
     return (
-        <Stack spacing={5}>
+        <Stack
+            spacing={5}
+            style={{
+                transition: "opacity 2.5s ease-in-out"
+            }}
+        >
             <Basics />
 
             <div>
@@ -151,7 +187,11 @@ const FindRoot = ({ containerRef, canvasRef }: Props) => {
                     What is the root of this tree?
                 </Typography>
 
-                <StyledButtonGroup spacing={1}>
+                <Stack
+                    direction="row"
+                    spacing={1}
+                    justifyContent="center"
+                >
                     {
                         treeNodes
                             .filter(node => node !== null)
@@ -171,20 +211,35 @@ const FindRoot = ({ containerRef, canvasRef }: Props) => {
                                 </StyledButton>
                             )
                     }
-                </StyledButtonGroup>
+                </Stack>
             </div>
-        </Stack>
+        </Stack >
     );
 }
 
-const Game = ({ containerRef, canvasRef }: Props) => (
-    <>
-        <FindRoot containerRef={containerRef} canvasRef={canvasRef} />
-        <FindLeafs containerRef={containerRef} canvasRef={canvasRef} />
-    </>
-);
+const Game: React.FC<{
+    containerRef: React.RefObject<HTMLDivElement>,
+    canvasRef: React.RefObject<HTMLCanvasElement>,
+    step: Step,
+    setStep: React.Dispatch<React.SetStateAction<Step>>,
+}> = ({
+    containerRef,
+    canvasRef,
+    step,
+    setStep
+}) => {
+        return (
+            <>
+                {step === Step.FIND_ROOT && <FindRoot containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
+                {step === Step.FIND_LEAFS && <FindLeafs containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
+            </>
+        );
+    }
 
-const Tree = ({ containerRef, canvasRef }: Props) => {
+const Tree: React.FC<{
+    containerRef: React.RefObject<HTMLDivElement>,
+    canvasRef: React.RefObject<HTMLCanvasElement>
+}> = ({ containerRef, canvasRef }) => {
 
     React.useEffect(() => {
         const container = containerRef.current;
@@ -223,6 +278,7 @@ const Tree = ({ containerRef, canvasRef }: Props) => {
 const Main = () => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
+    const [step, setStep] = React.useState<Step>(Step.FIND_ROOT);
 
     return (
         <Grid
@@ -240,11 +296,9 @@ const Main = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection: "column",
-                    // backgroundColor: grey[100],
                 }}
             >
-                <Game containerRef={containerRef} canvasRef={canvasRef} />
-                {/* <FindRoot containerRef={containerRef} canvasRef={canvasRef} /> */}
+                <Game containerRef={containerRef} canvasRef={canvasRef} step={step} setStep={setStep} />
             </Grid>
             <Grid
                 item
