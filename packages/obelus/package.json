@@ -1,9 +1,23 @@
 {
     "name": "obelus",
-    "version": "0.0.1",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "version": "0.0.1-SNAPSHOT",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
     "scripts": {
-        "build": "tsc"
+        "build": "tsc",
+        "release": "npm publish --access public"
+    },
+    "dependencies": {
+        "zod": "^3.25.67"
     }
 }
