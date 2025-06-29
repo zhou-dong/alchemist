@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AnimationCommand } from './animations';
+import { AnimationCommand, MOVE_TO_COMMAND, ROTATE_COMMAND, SCALE_COMMAND, WAIT_UNTIL_COMMAND } from './animations';
 
 export const moveToParamsSchema = z.object({
     x: z.number(),
@@ -19,19 +19,19 @@ export const waitUntilParamsSchema = z.object({
 });
 
 export function isMoveToCommand(cmd: AnimationCommand): boolean {
-    return cmd.kind === 'moveTo' && moveToParamsSchema.safeParse(cmd.params).success;
+    return cmd.kind === MOVE_TO_COMMAND && moveToParamsSchema.safeParse(cmd.params).success;
 }
 
 export function isRotateCommand(cmd: AnimationCommand): boolean {
-    return cmd.kind === 'rotate' && rotateParamsSchema.safeParse(cmd.params).success;
+    return cmd.kind === ROTATE_COMMAND && rotateParamsSchema.safeParse(cmd.params).success;
 }
 
 export function isScaleCommand(cmd: AnimationCommand): boolean {
-    return cmd.kind === 'scale' && scaleParamsSchema.safeParse(cmd.params).success;
+    return cmd.kind === SCALE_COMMAND && scaleParamsSchema.safeParse(cmd.params).success;
 }
 
 export function isWaitUntilCommand(cmd: AnimationCommand): boolean {
-    return cmd.kind === 'waitUntil' && waitUntilParamsSchema.safeParse(cmd.params).success;
+    return cmd.kind === WAIT_UNTIL_COMMAND && waitUntilParamsSchema.safeParse(cmd.params).success;
 }
 
 // Fallback generic runtime check
