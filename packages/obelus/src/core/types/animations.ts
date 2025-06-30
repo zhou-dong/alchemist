@@ -1,9 +1,9 @@
-export const MOVE_TO_COMMAND = 'moveTo';
-export const FADE_IN_COMMAND = 'fadeIn';
-export const FADE_OUT_COMMAND = 'fadeOut';
-export const ROTATE_COMMAND = 'rotate';
-export const SCALE_COMMAND = 'scale';
-export const WAIT_UNTIL_COMMAND = 'waitUntil';
+export const MOVE_TO_COMMAND = 'moveTo' as const;
+export const FADE_IN_COMMAND = 'fadeIn' as const;
+export const FADE_OUT_COMMAND = 'fadeOut' as const;
+export const ROTATE_COMMAND = 'rotate' as const;
+export const SCALE_COMMAND = 'scale' as const;
+export const WAIT_UNTIL_COMMAND = 'waitUntil' as const;
 
 export const animationLeafKinds = [
     MOVE_TO_COMMAND,
@@ -14,8 +14,8 @@ export const animationLeafKinds = [
     WAIT_UNTIL_COMMAND
 ] as const;
 
-export const SEQUENCE_COMMAND = "sequence";
-export const PARALLEL_COMMAND = "parallel";
+export const SEQUENCE_COMMAND = "sequence" as const;
+export const PARALLEL_COMMAND = "parallel" as const;
 
 export const animationGroupKinds = [
     SEQUENCE_COMMAND,
