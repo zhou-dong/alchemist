@@ -16,8 +16,5 @@
     "scripts": {
         "build": "tsc",
         "release": "npm publish --access public"
-    },
-    "dependencies": {
-        "zod": "^3.25.67"
     }
 }
