@@ -1,12 +1,11 @@
 import { AnimateEvent, WaitEvent } from "../types/events";
-import { AnimateProps } from "../types/events/animateProps";
 
 export function at(time: number) {
     return {
         animate: (
             target: string,
             targetProps: Record<string, any>,
-            animateProps?: AnimateProps
+            animateProps?: Record<string, any>
         ): AnimateEvent => ({
             type: 'animate',
             time,
