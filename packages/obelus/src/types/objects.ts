@@ -27,6 +27,12 @@ export type LineObject = BaseObject & LineProps & {
     type: 'line';
 };
 
+export type GroupObject = BaseObject & {
+    type: 'group';
+    children: string[];
+};
+
 export type SceneObject =
     | CircleObject
-    | LineObject;
+    | LineObject
+    | GroupObject;
