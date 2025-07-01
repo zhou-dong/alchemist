@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { renderScene } from '../engine/renderScene';
 import { playScene } from '../engine/playScene';
 import { Scene } from '../dsl/scene';
-import { circle } from '../dsl/objects';
+import { circle, group, line } from '../dsl/objects';
 import { at } from '../dsl/events';
 
 // 1. Setup Three.js scene
@@ -36,10 +36,16 @@ const scene: Scene = {
             center: { x: 0, y: 0, z: 0 },
             radius: 20,
             visual: { color: '#00f' }
-        })
+        }),
+        line('line1', {
+            start: { x: 0, y: 0, z: 0 },
+            end: { x: 50, y: 50, z: 0 }
+        }),
+        group('group1', ['circle1', 'line1'])
     ],
     timeline: [
-        at(0).animate('circle1', { position: { x: 100 } }, { duration: 1 })
+        at(0).animate('circle1', { position: { x: 10 } }, { duration: 2 }),
+        at(1).animate('group1', { position: { y: 50 } }, { duration: 1 })
     ]
 };
 
