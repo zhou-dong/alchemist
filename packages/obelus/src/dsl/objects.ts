@@ -1,5 +1,4 @@
-import { CircleObject, CircleProps } from "../types/objects";
-import { LineProps, LineObject } from '../types/objects/lineObject';
+import { CircleObject, CircleProps, LineObject, LineProps } from "../types/objects";
 
 export function circle(id: string, props: CircleProps): CircleObject {
     return { id, type: 'circle', ...props };
