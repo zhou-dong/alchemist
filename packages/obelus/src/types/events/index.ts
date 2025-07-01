@@ -1,4 +1,4 @@
-import { AnimateConfig } from "./AnimateConfig";
+import { AnimateConfig } from "./animateConfig";
 
 export type AnimateEvent = {
     type: 'animate';
