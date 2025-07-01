@@ -1,5 +1,3 @@
-import { AnimateProps } from "./animateProps";
-
 type EventObject = {
     type: string;
     time: number;
