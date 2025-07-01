@@ -3,7 +3,7 @@ type BaseObject = {
     type: string;
 };
 
-export type Position = {
+type Position = {
     x: number;
     y: number;
     z: number;
