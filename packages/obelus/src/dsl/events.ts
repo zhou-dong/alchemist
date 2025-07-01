@@ -1,4 +1,4 @@
-import { AnimateEvent, TimelineEvent, WaitEvent } from "../types/events";
+import { AnimateEvent, WaitEvent } from "../types/events";
 import { AnimateProps } from "../types/events/animateProps";
 
 export function at(time: number) {
