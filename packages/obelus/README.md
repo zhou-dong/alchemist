@@ -65,3 +65,17 @@ npm run dev
 ```bash
 npm install --save-dev vite
 ```
+
+```javascript
+scene(
+  objects: [
+    circle('circle1', { center: { x: 0, y: 0, z: 0 }, radius: 10, color: '#f00' }),
+    line('line1', { start: { x: 0, y: 0, z: 0 }, end: { x: 50, y: 50, z: 0 } }),
+    group('group1', ['circle1', 'line1'])
+  ],
+  timeline: [
+    at(0).animate('circle1', { position: { x: 100 } }, { duration: 1 }),
+    at(1).animate('group1', { position: { y: 50 } }, { duration: 1 })
+  ]
+)
+```
