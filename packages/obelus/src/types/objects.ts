@@ -14,7 +14,7 @@ export type CircleProps = {
     center: Position;
 };
 
-export type CircleObject = BaseObject & {
+export type CircleObject = BaseObject & CircleProps & {
     type: 'circle';
 };
 
@@ -23,7 +23,7 @@ export type LineProps = {
     end: Position;
 }
 
-export type LineObject = BaseObject & {
+export type LineObject = BaseObject & LineProps & {
     type: 'line';
 };
 
