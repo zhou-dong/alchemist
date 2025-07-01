@@ -1,8 +1,11 @@
 import { Position } from './props/position';
-import { BaseProps } from './props/baseProps'
+import { BaseObject } from './props/baseObject';
 
-export type CircleObject = BaseProps & {
-    type: 'circle';
+export type CircleProps = {
     radius: number;
     center: Position;
+};
+
+export type CircleObject = BaseObject & {
+    type: 'circle';
 };
