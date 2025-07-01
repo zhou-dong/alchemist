@@ -39,4 +39,8 @@ export type ParallelEvent = EventObject & GroupEventProps & {
     type: 'parallel';
 };
 
-export type TimelineEvent = AnimateEvent | WaitEvent | SequenceEvent | ParallelEvent;
+export type TimelineEvent =
+    | AnimateEvent
+    | WaitEvent
+    | SequenceEvent
+    | ParallelEvent;
