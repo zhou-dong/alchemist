@@ -1,7 +1,9 @@
-import { LineObject } from "./lineObject";
-
 import { Position } from './props/position';
-import { BaseObject } from './props/baseObject';
+
+type BaseObject = {
+    id: string;
+    type: string;
+};
 
 export type CircleProps = {
     radius: number;
@@ -10,6 +12,15 @@ export type CircleProps = {
 
 export type CircleObject = BaseObject & {
     type: 'circle';
+};
+
+export type LineProps = {
+    start: Position;
+    end: Position;
+}
+
+export type LineObject = BaseObject & {
+    type: 'line';
 };
 
 export type SceneObject =
