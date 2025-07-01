@@ -12,7 +12,6 @@ export type CircleObject = BaseObject & {
     type: 'circle';
 };
 
-
 export type SceneObject =
     | CircleObject
     | LineObject;
