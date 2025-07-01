@@ -3,11 +3,13 @@ type BaseEvent = {
     time: number;
 }
 
+export type AnimateProps = { duration: number } & Record<string, any>;
+
 export type AnimateEvent = BaseEvent & {
     type: 'animate';
     target: string;
     targetProps: Record<string, any>;
-    animateProps?: Record<string, any>;
+    animateProps: AnimateProps;
 };
 
 export type WaitEvent = BaseEvent & {
