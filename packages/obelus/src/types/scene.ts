@@ -1,5 +1,5 @@
 import { TimelineEvent } from "./events";
-import { AnimateConfig } from "./events/AnimateConfig";
+import { AnimateConfig } from "./events/animateConfig";
 import { SceneObject } from "./objects";
 
 export type Scene = {
