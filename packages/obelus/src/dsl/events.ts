@@ -1,17 +1,26 @@
-import { AnimateEvent, AnimateEventProps, GroupEventProps, ParallelEvent, SequenceEvent, WaitEvent, WaitEventProps } from "../types/events";
+import { AnimateEvent, AnimateEventProps, GroupEventProps, ParallelEvent, SequenceEvent, TimelineEvent, WaitEvent, WaitEventProps } from "../types/events";
 
-export function animate(props: AnimateEventProps): AnimateEvent {
-    return { ...props, type: 'animate' };
+function animate(time: number, props: AnimateEventProps): AnimateEvent {
+    return { ...props, type: 'animate', time };
 }
 
-export function wait(props: WaitEventProps): WaitEvent {
-    return { ...props, type: 'wait' };
+function wait(time: number, props: WaitEventProps): WaitEvent {
+    return { ...props, type: 'wait', time };
 }
 
-export function sequence(props: GroupEventProps): SequenceEvent {
-    return { ...props, type: 'sequence' };
+function sequence(time: number, props: GroupEventProps): SequenceEvent {
+    return { ...props, type: 'sequence', time };
 }
 
-export function parallel(props: GroupEventProps): ParallelEvent {
-    return { ...props, type: 'parallel' };
+function parallel(time: number, props: GroupEventProps): ParallelEvent {
+    return { ...props, type: 'parallel', time };
+}
+
+export function at(time: number) {
+    return {
+        animate: (props: AnimateEventProps): AnimateEvent => animate(time, props),
+        wait: (props: WaitEventProps): WaitEvent => wait(time, props),
+        sequence: (props: GroupEventProps): SequenceEvent => sequence(time, props),
+        parallel: (props: GroupEventProps): ParallelEvent => parallel(time, props)
+    }
 }
