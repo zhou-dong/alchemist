@@ -12,6 +12,7 @@ type Position = {
 export type CircleProps = {
     radius: number;
     center: Position;
+    visual?: Record<string, any>;
 };
 
 export type CircleObject = BaseObject & CircleProps & {
@@ -21,6 +22,7 @@ export type CircleObject = BaseObject & CircleProps & {
 export type LineProps = {
     start: Position;
     end: Position;
+    visual?: Record<string, any>;
 }
 
 export type LineObject = BaseObject & LineProps & {
