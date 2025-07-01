@@ -1,4 +1,4 @@
-import { AnimateEvent, AnimateEventProps, GroupEventProps, ParallelEvent, SequenceEvent, TimelineEvent, WaitEvent, WaitEventProps } from "../types/events";
+import { AnimateEvent, AnimateEventProps, GroupEventProps, ParallelEvent, SequenceEvent, WaitEvent, WaitEventProps } from "../types/events";
 
 function animate(time: number, props: AnimateEventProps): AnimateEvent {
     return { ...props, type: 'animate', time };
