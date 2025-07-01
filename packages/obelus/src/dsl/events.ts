@@ -1,4 +1,4 @@
-import { AnimateEvent, AnimateProps, WaitEvent } from "../types/events";
+import { AnimateEvent, AnimateProps } from "../types/events";
 
 export function at(time: number) {
     return {
@@ -12,13 +12,6 @@ export function at(time: number) {
             target,
             targetProps,
             animateProps
-        }),
-        wait: (
-            duration: number
-        ): WaitEvent => ({
-            type: 'wait',
-            time,
-            duration
         })
     }
 }
