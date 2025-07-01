@@ -23,7 +23,7 @@ export type LineProps = {
     start: Position;
     end: Position;
     visual?: Record<string, any>;
-}
+};
 
 export type LineObject = BaseObject & LineProps & {
     type: 'line';
