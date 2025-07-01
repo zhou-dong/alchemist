@@ -1,4 +1,4 @@
-import { AnimateEvent, AnimateProps } from "../types/events";
+import { AnimateProps, TimelineEvent } from "../types/events";
 
 export function at(time: number) {
     return {
@@ -6,8 +6,7 @@ export function at(time: number) {
             target: string,
             targetProps: Record<string, any>,
             animateProps: AnimateProps
-        ): AnimateEvent => ({
-            type: 'animate',
+        ): TimelineEvent => ({
             time,
             target,
             targetProps,
