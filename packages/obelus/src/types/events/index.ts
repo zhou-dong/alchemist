@@ -1,42 +1,22 @@
-import { AnimateConfig } from "./animateConfig";
+import { AnimateProps } from "./animateProps";
 
 type EventObject = {
     type: string;
     time: number;
 }
 
-export type AnimateEventProps = {
+export type AnimateEvent = EventObject & {
+    type: 'animate';
     target: string;
     targetProps: Record<string, any>;
-    animateConfig?: AnimateConfig;
+    animateProps?: AnimateProps;
 };
 
-export type AnimateEvent = EventObject & AnimateEventProps & {
-    type: 'animate';
-};
-
-export type WaitEventProps = {
-    duration: number;
-};
-
-export type WaitEvent = EventObject & WaitEventProps & {
+export type WaitEvent = EventObject & {
     type: 'wait';
-};
-
-export type GroupEventProps = {
-    events: TimelineEvent[];
-};
-
-export type SequenceEvent = EventObject & GroupEventProps & {
-    type: 'sequence';
-};
-
-export type ParallelEvent = EventObject & GroupEventProps & {
-    type: 'parallel';
+    duration: number;
 };
 
 export type TimelineEvent =
     | AnimateEvent
-    | WaitEvent
-    | SequenceEvent
-    | ParallelEvent;
+    | WaitEvent;
