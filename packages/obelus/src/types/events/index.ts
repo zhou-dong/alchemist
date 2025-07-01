@@ -9,7 +9,7 @@ export type AnimateEvent = EventObject & {
     type: 'animate';
     target: string;
     targetProps: Record<string, any>;
-    animateProps?: AnimateProps;
+    animateProps?: Record<string, any>;
 };
 
 export type WaitEvent = EventObject & {
