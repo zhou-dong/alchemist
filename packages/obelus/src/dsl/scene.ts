@@ -1,6 +1,6 @@
-import { TimelineEvent } from "./events";
-import { AnimateConfig } from "./events/animateConfig";
-import { SceneObject } from "./objects";
+import { TimelineEvent } from "../types/events";
+import { AnimateConfig } from "../types/events/animateConfig";
+import { SceneObject } from "../types/objects";
 
 export type Scene = {
     objects: SceneObject[];
