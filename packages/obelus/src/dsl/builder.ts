@@ -1,10 +1,10 @@
-import { AnimationGroupCommand, AnimationGroupCommandKind, AnimationLeafCommand, AnimationLeafCommandKind } from "../core/types/animations";
+import { AnimationCommand, AnimationGroupCommand, AnimationGroupCommandKind, AnimationLeafCommand, AnimationLeafCommandKind } from "../core/types/animations";
 import { AnimatableShape, ShapeKind } from "../core/types/shapes";
 
 import type { DSLBuilder } from './types';
 
 function createBuilder(kind: ShapeKind, props: Record<string, any>): DSLBuilder {
-    const animations: AnimatableShape['animations'] = [];
+    const animations: AnimationCommand[] = [];
 
     const api: DSLBuilder = {
         moveTo(params) {

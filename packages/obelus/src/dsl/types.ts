@@ -14,11 +14,11 @@ export interface DSLBuilder {
     build(): AnimatableShape;
 }
 
-export interface DSLShapeFactory {
-    circle(props: { radius: number }): DSLBuilder;
-    rectangle(props: { width: number; height: number }): DSLBuilder;
-    text(content: string): DSLBuilder;
-    line(props: { x1: number; y1: number; z1?: number; x2: number; y2: number; z2?: number }): DSLBuilder;
-    box(props: { width: number; height: number; depth: number }): DSLBuilder;
-    sphere(props: { radius: number }): DSLBuilder;
-}
+// export interface DSLShapeFactory {
+//     circle(props: { radius: number }): DSLBuilder;
+//     rectangle(props: { width: number; height: number }): DSLBuilder;
+//     text(content: string): DSLBuilder;
+//     line(props: { x1: number; y1: number; z1?: number; x2: number; y2: number; z2?: number }): DSLBuilder;
+//     box(props: { width: number; height: number; depth: number }): DSLBuilder;
+//     sphere(props: { radius: number }): DSLBuilder;
+// }
