@@ -1,0 +1,15 @@
+# Source & build junk
+src/
+tests/
+*.test.ts
+*.spec.ts
+coverage/
+.vscode/
+.idea/
+tsconfig.json
+vitest.config.ts
+tsconfig.*.json
+*.log
+
+# Anything not needed for runtime
+README.draft.md
