@@ -1,1 +1,17 @@
-/node_modules
+# Node
+node_modules/
+dist/
+temp/
+*.log
+*.tsbuildinfo
+
+# Test output
+coverage/
+
+# Editor files
+.vscode/
+.idea/
+
+# MacOS/Linux
+.DS_Store
+*.swp
