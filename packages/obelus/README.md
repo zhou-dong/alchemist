@@ -24,7 +24,7 @@ npm install obelus
 ## 🔧 Example — Timeline DSL
 
 ```ts
-import { circle } from './shared/objects/dsl/circle';
+import { circle } from './objects/dsl/circle';
 import { at } from './timeline/dsl';
 import { TimelineScene } from './timeline/scene';
 
@@ -48,7 +48,7 @@ const scene: TimelineScene = {
 ## 🪜 Example — Step DSL
 
 ```ts
-import { circle } from './shared/objects/dsl/circle';
+import { circle } from './objects/dsl/circle';
 import { animate, wait, sequence } from './step/dsl';
 import { StepScene } from './step/scene';
 
