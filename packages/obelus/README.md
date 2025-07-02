@@ -68,11 +68,11 @@ npm install --save-dev vite
 
 🎬 1. TimelineScene DSL Example
 ```javascript
-import { Scene } from '../timeline/scene';
+import { TimelineScene } from '../timeline/scene';
 import { circle } from '../core/objects/circle';
 import { at } from '../timeline/dsl';
 
-export const bouncingBall: Scene = {
+export const bouncingBall: TimelineScene = {
   objects: [
     circle('ball', {
       center: { x: 0, y: 0, z: 0 },
@@ -127,23 +127,24 @@ const camera = new THREE.OrthographicCamera
 
 ```md
 /src
-├── /shared
-│   ├── /types              # Base types: Position, Props, etc.
-│   ├── /objects            # Shared objects: circle, line, group
+├── /objects
+│   ├── /dsl
+│   │   └── objects.ts        # DSL builders: circle(), line(), group()
+│   └── objects.ts            # Union: SceneObject, base object types
 
 ├── /timeline
-│   ├── scene.ts            # TimelineScene definition
-│   ├── event.ts            # TimelineEvent type
-│   ├── dsl.ts              # at(time).animate(...)
-│   ├── player.ts           # playTimelineScene()
+│   ├── scene.ts              # TimelineScene structure (timeline + objects)
+│   ├── events.ts             # TimelineEvent type
+│   ├── /dsl
+│   │   └── events.ts         # at(time).animate(...) builder
 
 ├── /step
-│   ├── scene.ts            # StepScene definition
-│   ├── event.ts            # StepEvent types (animate, wait, etc.)
-│   ├── dsl.ts              # sequence(), wait(), animate()
-│   ├── player.ts           # playStepScene()
+│   ├── scene.ts              # StepScene structure (steps + objects)
+│   ├── events.ts             # StepEvent types: animate, wait, sequence, parallel
+│   ├── /dsl
+│   │   └── events.ts         # animate(), wait(), sequence(), parallel()
 
-├── /io                 # importScene(), exportScene()
+├── /io       
 
 /tests
 ├── /shared
