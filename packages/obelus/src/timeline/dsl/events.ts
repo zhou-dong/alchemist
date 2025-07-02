@@ -1,4 +1,5 @@
-import { AnimateProps, TimelineEvent } from "../events";
+import { AnimateProps } from "../../events";
+import { TimelineEvent } from "../events";
 
 export function at(time: number) {
     return {
