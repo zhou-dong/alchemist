@@ -17,8 +17,7 @@
         "build": "tsc",
         "release": "npm publish --access public"
     },
-    "dependencies": {
-        "gsap": "^3.13.0",
-        "three": "^0.178.0"
+    "devDependencies": {
+        "vitest": "^3.2.4"
     }
 }
