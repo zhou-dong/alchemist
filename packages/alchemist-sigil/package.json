@@ -1,9 +1,10 @@
 {
   "name": "alchemist-sigil",
-  "version": "1.0.0",
+  "version": "1.0.0-SNAPSHOT",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "release": "npm publish --access public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
