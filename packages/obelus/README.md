@@ -26,7 +26,7 @@ npm install obelus
 ```ts
 import { circle } from './shared/objects/dsl/circle';
 import { at } from './timeline/dsl';
-import { Scene } from './timeline/scene';
+import { TimelineScene } from './timeline/scene';
 
 const scene: TimelineScene = {
   objects: [
