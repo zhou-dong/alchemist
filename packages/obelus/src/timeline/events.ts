@@ -1,5 +1,5 @@
-import { AnimatableEvent } from "../events";
+import { AnimateEvent } from "../events";
 
-export type TimelineEvent = AnimatableEvent & {
+export type TimelineEvent = AnimateEvent & {
     time: number;
 };
