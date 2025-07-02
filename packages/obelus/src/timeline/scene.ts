@@ -1,7 +1,7 @@
 import { TimelineEvent } from "./events";
 import { SceneObject } from "../objects/objects";
 
-export type Scene = {
+export type TimelineScene = {
     objects: SceneObject[];
     timeline: TimelineEvent[];
 };
