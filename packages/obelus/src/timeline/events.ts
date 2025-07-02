@@ -1,8 +1,5 @@
-export type AnimateProps = { duration: number } & Record<string, any>;
+import { AnimatableEvent } from "../events";
 
-export type TimelineEvent = {
+export type TimelineEvent = AnimatableEvent & {
     time: number;
-    target: string;
-    targetProps: Record<string, any>;
-    animateProps: AnimateProps;
 };
