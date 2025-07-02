@@ -10,8 +10,8 @@ type Position = {
 };
 
 export type CircleProps = {
-    radius: number;
     center: Position;
+    radius: number;
     visual?: Record<string, any>;
 };
 
