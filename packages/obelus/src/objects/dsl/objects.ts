@@ -1,4 +1,4 @@
-import { CircleObject, CircleProps, GroupObject, LineObject, LineProps } from "../shared/objects/objects";
+import { CircleObject, CircleProps, GroupObject, LineObject, LineProps } from "../objects";
 
 export function circle(id: string, props: CircleProps): CircleObject {
     return { id, type: 'circle', ...props };
