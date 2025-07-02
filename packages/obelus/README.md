@@ -127,11 +127,9 @@ const camera = new THREE.OrthographicCamera
 
 ```md
 /src
-├── /core
+├── /shared
 │   ├── /types              # Base types: Position, Props, etc.
 │   ├── /objects            # Shared objects: circle, line, group
-│   ├── /engine             # renderScene(), createSceneContext()
-│   ├── /io                 # importScene(), exportScene()
 
 ├── /timeline
 │   ├── scene.ts            # TimelineScene definition
@@ -145,10 +143,8 @@ const camera = new THREE.OrthographicCamera
 │   ├── dsl.ts              # sequence(), wait(), animate()
 │   ├── player.ts           # playStepScene()
 
-README.md                   # DSL usage examples
-```
+├── /io                 # importScene(), exportScene()
 
-```md
 /tests
 ├── /core
 │   ├── renderScene.test.ts
@@ -161,4 +157,7 @@ README.md                   # DSL usage examples
 ├── /step
 │   ├── stepPlayer.test.ts
 │   ├── stepDsl.test.ts
+
+├── /io                 # importScene(), exportScene()
+README.md                   # DSL usage examples
 ```
