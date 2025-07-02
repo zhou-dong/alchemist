@@ -1,10 +1,10 @@
-import { AnimateEvent, AnimateProps } from "../events";
+import { AnimateEvent } from "../events";
 
 export type StepEvent =
     | AnimateStepEvent
     | WaitStepEvent
-    | SequenceEvent
-    | ParallelEvent;
+    | SequenceStepsEvent
+    | ParallelStepsEvent;
 
 export type AnimateStepEvent = AnimateEvent & {
     type: 'animate';
@@ -15,12 +15,12 @@ export type WaitStepEvent = {
     duration: number;
 };
 
-export type SequenceEvent = {
+export type SequenceStepsEvent = {
     type: 'sequence';
     steps: StepEvent[];
 };
 
-export type ParallelEvent = {
+export type ParallelStepsEvent = {
     type: 'parallel';
     steps: StepEvent[];
 };
