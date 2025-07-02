@@ -146,7 +146,7 @@ const camera = new THREE.OrthographicCamera
 ├── /io                 # importScene(), exportScene()
 
 /tests
-├── /core
+├── /shared
 │   ├── renderScene.test.ts
 │   ├── importExport.test.ts
 
