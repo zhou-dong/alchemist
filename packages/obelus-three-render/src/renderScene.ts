@@ -1,4 +1,3 @@
-// File: /dsl-three-render/src/renderScene.ts
 import {
     Object3D,
     Mesh,
@@ -11,7 +10,27 @@ import {
     Vector3
 } from 'three';
 
-import { SceneObject, CircleObject, LineObject, GroupObject } from 'obelus';
+import { SceneObject, CircleObject, LineObject, GroupObject } from '../../obelus';
+
+function buildThreeCircle(circleObject: CircleObject) {
+    const { center, radius, visual } = circleObject;
+    const geometry = new CircleGeometry(radius, ...visual?.geometry);
+    const material = new MeshBasicMaterial({ ...visual?.material });
+    const mesh = new Mesh(geometry, material);
+    const { x, y, z } = center;
+    mesh.position.set(x, y, z);
+    return mesh;
+};
+
+function buildThreeLine(lineObject: LineObject) {
+    const { start, end, visual } = lineObject;
+    const geometry = new BufferGeometry().setFromPoints([
+        new Vector3(start.x, start.y, start.z),
+        new Vector3(end.x, end.y, end.z)
+    ]);
+    const material = new LineBasicMaterial({ ...visual?.material });
+    return new Line(geometry, material);
+};
 
 export type SceneContext = {
     objectMap: Record<string, Object3D>;
@@ -27,29 +46,13 @@ export function renderScene(objects: SceneObject[]): RenderResult {
 
     // First pass: create individual objects
     for (const obj of objects) {
-        if (obj.type === 'circle') {
-            const { center, radius, visual } = (obj as CircleObject).props;
-            const geometry = new CircleGeometry(radius, visual?.extra?.segments ?? 32);
-            const material = new MeshBasicMaterial({
-                color: visual?.color ?? 0xffffff,
-                wireframe: visual?.wireframe ?? false,
-                ...visual?.materialOptions
-            });
-            const mesh = new Mesh(geometry, material);
-            mesh.position.set(center.x, center.y, center.z);
-            objectMap[obj.id] = mesh;
-        } else if (obj.type === 'line') {
-            const { start, end, color, lineWidth } = (obj as LineObject).props;
-            const geometry = new BufferGeometry().setFromPoints([
-                new Vector3(start.x, start.y, start.z),
-                new Vector3(end.x, end.y, end.z)
-            ]);
-            const material = new LineBasicMaterial({
-                color: color ?? 0xffffff,
-                linewidth: lineWidth ?? 1
-            });
-            const line = new Line(geometry, material);
-            objectMap[obj.id] = line;
+        switch (obj.type) {
+            case 'circle':
+                objectMap[obj.id] = buildThreeCircle(obj as CircleObject);
+                break;
+            case 'line':
+                objectMap[obj.id] = buildThreeLine(obj as LineObject);
+                break;
         }
     }
 
