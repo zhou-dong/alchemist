@@ -1,4 +1,5 @@
 // scene objects
+export * from './objects/objects';
 export * from './objects/dsl/objects';
 
 // Timeline Scene
