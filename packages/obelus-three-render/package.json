@@ -13,6 +13,9 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "obelus": "^0.0.2"
+  },
   "devDependencies": {
     "typescript": "^5.8.3"
   }
