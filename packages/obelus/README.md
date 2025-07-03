@@ -12,7 +12,6 @@ A modular, type-safe animation domain-specific language (DSL) written in TypeScr
 
 ---
 
-
 ## 📦 Installation
 
 ```bash
