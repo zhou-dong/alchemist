@@ -1,10 +1,20 @@
 {
   "name": "obelus-gsap-player",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.0.1-SNAPSHOT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest run --coverage",
+    "release": "npm publish --access public"
   },
   "keywords": [],
   "author": "",
