@@ -2,7 +2,7 @@ import { AnimateStepEvent, StepEvent, WaitStepEvent } from "../../../obelus/dist
 
 type Callback = (...args: any[]) => void | null;
 
-export type StepScenePlayerProps = {
+type StepScenePlayerProps = {
     events: StepEvent[];
     objectMap: Record<string, any>;
     onStart: Callback;
@@ -14,12 +14,7 @@ export type PlayableStep = {
     play: () => Promise<void>;
 };
 
-export function StepScenePlayer(
-    events: StepEvent[],
-    objectMap: Record<string, any>,
-    onStart: Callback,
-    onComplete: Callback,
-): PlayableStep[] {
+export function StepScenePlayer({ events, objectMap, onStart, onComplete }: StepScenePlayerProps): PlayableStep[] {
     const result: PlayableStep[] = [];
     flattenSteps(events, objectMap, result, onStart, onComplete);
     return result;
@@ -52,7 +47,7 @@ function flattenSteps(
             case 'parallel':
                 out.push({
                     raw: event.steps,
-                    play: () => Promise.all(event.steps.map(e => runParallerStep(e, objectMap, onStart, onComplete))).then(() => { });
+                    play: () => Promise.all(event.steps.map(e => runParallerStep(e, objectMap, onStart, onComplete))).then(() => { })
                 });
                 break;
         }
