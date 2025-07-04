@@ -73,7 +73,7 @@ export function useThreeRenderer({
     const start = () => {
         if (!rendererRef.current) return;
 
-        console.log('staring')
+        console.log('staring');
 
         if (frameRef.current === null) {
 
