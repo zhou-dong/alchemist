@@ -66,8 +66,7 @@ function App() {
 
   const { canvasRef, scene, startAnimation, stopAnimation } = useThreeRenderer();
 
-  const { objectMap, rootObjects, } = renderScene(timelineScene.objects);
-  rootObjects.forEach((o) => scene.add(o));
+  const objectMap = renderScene(timelineScene.objects, scene);
 
   const tl = TimelineScenePlayer({ objectMap, events: timelineScene.timeline, onStart: startAnimation, onComplete: stopAnimation })
   tl.play();
