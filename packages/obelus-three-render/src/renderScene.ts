@@ -13,9 +13,9 @@ import {
 import { SceneObject, CircleObject, LineObject, GroupObject } from '../../obelus';
 
 function buildThreeCircle(circleObject: CircleObject) {
-    const { center, radius, visual } = circleObject;
+    const { center, radius, color, extra } = circleObject;
     const geometry = new CircleGeometry(radius, 32);
-    const material = new MeshBasicMaterial({ ...visual?.material });
+    const material = new MeshBasicMaterial({ ...extra?.material, color });
     const mesh = new Mesh(geometry, material);
     const { x, y, z } = center;
     mesh.position.set(x, y, z);
@@ -23,12 +23,12 @@ function buildThreeCircle(circleObject: CircleObject) {
 };
 
 function buildThreeLine(lineObject: LineObject) {
-    const { start, end, visual } = lineObject;
+    const { start, end, extra } = lineObject;
     const geometry = new BufferGeometry().setFromPoints([
         new Vector3(start.x, start.y, start.z),
         new Vector3(end.x, end.y, end.z)
     ]);
-    const material = new LineBasicMaterial({ ...visual?.material });
+    const material = new LineBasicMaterial({ ...extra?.material });
     return new Line(geometry, material);
 };
 

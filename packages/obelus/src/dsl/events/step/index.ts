@@ -1,5 +1,5 @@
-import { AnimateProps } from "../../events";
-import { AnimateStepEvent, ParallelStepsEvent, SequenceStepsEvent, StepEvent, WaitStepEvent } from "../events";
+import { AnimateProps } from "../../../core/events/shared/animateEvent";
+import { AnimateStepEvent, WaitStepEvent, StepEvent, SequenceStepsEvent, ParallelStepsEvent } from "../../../core/events/step";
 
 export const animate = (
     target: string,

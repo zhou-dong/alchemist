@@ -19,8 +19,5 @@
         "test:watch": "vitest --watch",
         "test:coverage": "vitest run --coverage",
         "release": "npm publish --access public"
-    },
-    "devDependencies": {
-        "vitest": "^3.2.4"
     }
 }

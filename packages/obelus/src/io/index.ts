@@ -1,5 +1,5 @@
-import { StepScene } from "../dsl/scenes/step";
-import { TimelineScene } from "../dsl/scenes/timeline";
+import { StepScene } from "../core/scenes/step";
+import { TimelineScene } from "../core/scenes/timeline";
 
 function importScene<T>(json: string): T {
     try {

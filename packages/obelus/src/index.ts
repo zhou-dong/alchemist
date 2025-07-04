@@ -1,18 +1,16 @@
-// scene objects
-export * from './objects/objects';
-export * from './objects/dsl/objects';
+// objects
+export * from './core/objects';
+export * from './dsl/objects';
 
-// Timeline Scene
-// Timeline Scene Event
-export * from './timeline/dsl/events';
-export * from './timeline/events';
-export * from './timeline/scene';
+// events
+export * from './core/events/timeline';
+export * from './core/events/step';
+export * from './dsl/events/timeline';
+export * from './dsl/events/step';
 
-// Step Scene
-// Step Scene Event
-export * from './step/dsl/events';
-export * from './step/events';
-export * from './step/scene';
+// scenes
+export * from './core/scenes/timeline';
+export * from './core/scenes/step';
 
 // Export Scene to Json
 // Import Scene from Json
