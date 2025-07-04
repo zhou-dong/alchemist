@@ -32,7 +32,7 @@ const scene: TimelineScene = {
     circle('ball', {
       center: { x: 0, y: 0, z: 0 },
       radius: 20,
-      visual: { color: '#f00' }
+      color: '#f00'
     })
   ],
   timeline: [
@@ -56,7 +56,7 @@ const scene: StepScene = {
     circle('circle1', {
       center: { x: 0, y: 0, z: 0 },
       radius: 10,
-      visual: { color: '#00f' }
+      color: '#00f'
     })
   ],
   steps: [
