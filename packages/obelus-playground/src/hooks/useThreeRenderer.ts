@@ -30,7 +30,7 @@ function createWebGLRenderer(
     canvas: HTMLCanvasElement,
     {
         alpha = true,
-        antialias = true
+        antialias = true,
     } = {}
 ): THREE.WebGLRenderer {
     const renderer = new THREE.WebGLRenderer({ canvas, alpha, antialias });
@@ -43,7 +43,7 @@ export function useThreeRenderer({
     width = window.innerWidth,
     height = window.innerHeight,
     alpha = true,
-    antialias = true
+    antialias = true,
 } = {}) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -52,24 +52,46 @@ export function useThreeRenderer({
     const camera = createOrthographicCamera(width, height);
     const scene = new THREE.Scene();
 
+    const animate = () => {
+        frameRef.current = requestAnimationFrame(animate);
+
+        if (frameRef.current % 10 === 0) {
+            // console.log('animat...', frameRef.current);
+            // console.log('objects', scene.children.map(ch => [ch.id, ch.uuid]));
+            console.log('position', scene.children.map(ch => ({ ...ch.position }))[0]);
+        }
+
+        rendererRef.current?.render(scene, camera);
+    };
+
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         rendererRef.current = createWebGLRenderer(width, height, canvas);
-    }, [width, height, alpha, antialias]);
+    }, [width, height, alpha, antialias, canvasRef]);
 
     const start = () => {
         if (!rendererRef.current) return;
-        const animate = () => {
-            frameRef.current = requestAnimationFrame(animate);
-            rendererRef.current?.render(scene, camera);
+
+        console.log('staring')
+
+        if (frameRef.current === null) {
+
+            console.log('started');
+            animate();
         };
-        animate();
     };
 
     const stop = () => {
-        if (frameRef.current) {
+
+        console.log('stop...');
+
+        if (frameRef.current !== null) {
+
             cancelAnimationFrame(frameRef.current);
+
+            console.log('stopped', frameRef.current);
+
             frameRef.current = null;
         }
     };
