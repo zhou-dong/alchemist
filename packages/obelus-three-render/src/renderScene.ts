@@ -7,7 +7,8 @@ import {
     LineBasicMaterial,
     BufferGeometry,
     CircleGeometry,
-    Vector3
+    Vector3,
+    Scene
 } from 'three';
 
 import { SceneObject, CircleObject, LineObject, GroupObject } from '../../obelus';
@@ -32,15 +33,7 @@ function buildThreeLine(lineObject: LineObject) {
     return new Line(geometry, material);
 };
 
-export type SceneContext = {
-    objectMap: Record<string, Object3D>;
-};
-
-export type RenderResult = SceneContext & {
-    rootObjects: Object3D[];
-};
-
-export function renderScene(objects: SceneObject[]): RenderResult {
+export function renderScene(objects: SceneObject[], scene: Scene): Record<string, Object3D> {
     const objectMap: Record<string, Object3D> = {};
     const groupedIds = new Set<string>();
 
@@ -73,11 +66,12 @@ export function renderScene(objects: SceneObject[]): RenderResult {
         }
     }
 
-    // Determine root objects
-    const rootObjects = objects
+    // only add root level objects
+    objects
         .filter((o) => !groupedIds.has(o.id))
         .map((o) => objectMap[o.id])
-        .filter((o): o is Object3D => !!o);
+        .filter((o): o is Object3D => !!o)
+        .map(rootObject => scene.add(rootObject));
 
-    return { objectMap, rootObjects };
+    return objectMap;
 }
