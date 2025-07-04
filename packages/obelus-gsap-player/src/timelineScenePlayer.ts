@@ -29,6 +29,8 @@ function animateNestedProps(
     }
 };
 
+type Callback = (...args: any[]) => void | null;
+
 export type TimelineScenePlayerProps = {
     events: TimelineEvent[];
     objectMap: Record<string, any>;
@@ -36,7 +38,6 @@ export type TimelineScenePlayerProps = {
     onComplete: Callback;
 }
 
-type Callback = (...args: any[]) => void | null;
 export function TimelineScenePlayer({ events, objectMap, onStart, onComplete }: TimelineScenePlayerProps): gsap.core.Timeline {
 
     const timeline = gsap.timeline({ onStart, onComplete });
