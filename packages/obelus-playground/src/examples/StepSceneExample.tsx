@@ -71,23 +71,24 @@ export function StepSceneExample() {
 
   const objectMap = renderScene(stepScene.objects, scene);
 
-  const steps = StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
-
+  const steps = React.useMemo(() => {
+    return StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
+  }, [])
 
   return (
     <>
       <button
         onClick={() => {
-          steps[index].play()
+          if (index >= steps.length) {
+            steps[index].play()
+          } else {
+            steps[index].play()
+          }
+
+          const next = (index + 1) % steps.length;
+          setIndex(next);
         }}
       >play
-      </button>
-      <button
-        onClick={() => {
-          setIndex(i => i + 1);
-        }}
-      >
-        next
       </button>
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', backgroundColor: 'lightgreen' }} />
     </>
