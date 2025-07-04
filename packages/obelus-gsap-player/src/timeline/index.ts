@@ -31,7 +31,7 @@ function animateNestedProps(
 
 type Callback = (...args: any[]) => void | null;
 
-export type TimelineScenePlayerProps = {
+type TimelineScenePlayerProps = {
     events: TimelineEvent[];
     objectMap: Record<string, any>;
     onStart: Callback;
