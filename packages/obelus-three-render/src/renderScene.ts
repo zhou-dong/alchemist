@@ -14,7 +14,7 @@ import { SceneObject, CircleObject, LineObject, GroupObject } from '../../obelus
 
 function buildThreeCircle(circleObject: CircleObject) {
     const { center, radius, visual } = circleObject;
-    const geometry = new CircleGeometry(radius, ...visual?.geometry);
+    const geometry = new CircleGeometry(radius, 32);
     const material = new MeshBasicMaterial({ ...visual?.material });
     const mesh = new Mesh(geometry, material);
     const { x, y, z } = center;
