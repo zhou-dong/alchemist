@@ -1,8 +1,8 @@
 import { useThreeRenderer } from '../hooks/useThreeRenderer';
 import type { StepScene } from '../../../obelus/dist';
-import { circle, at, animate } from '../../../obelus/dist';
+import { circle, animate } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
-import { StepScenePlayer, TimelineScenePlayer } from '../../../obelus-gsap-player/dist';
+import { StepScenePlayer } from '../../../obelus-gsap-player/dist';
 import React from 'react';
 
 const center = { x: 0, y: 0, z: 0 };
