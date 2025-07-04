@@ -5,6 +5,18 @@ import { renderScene } from '../../../obelus-three-render/dist';
 import { StepScenePlayer } from '../../../obelus-gsap-player/dist';
 import React from 'react';
 
+const buttonStyle = {
+  bottom: '20px',    // Positions the button 20px from the bottom
+  right: '20px',     // Positions the button 20px from the right
+  backgroundColor: '#007bff',
+  color: 'white',
+  padding: '10px 20px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  zIndex: '1000',    // Ensure the button is on top
+};
+
 const center = { x: 0, y: 0, z: 0 };
 const radius = 80;
 
@@ -75,20 +87,24 @@ export function StepSceneExample() {
     return StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
   }, [])
 
+  const nextClick = () => {
+    if (index >= steps.length) {
+      steps[index].play()
+    } else {
+      steps[index].play()
+    }
+
+    const next = (index + 1) % steps.length;
+    setIndex(next);
+  }
+
   return (
     <>
       <button
-        onClick={() => {
-          if (index >= steps.length) {
-            steps[index].play()
-          } else {
-            steps[index].play()
-          }
-
-          const next = (index + 1) % steps.length;
-          setIndex(next);
-        }}
-      >play
+        onClick={nextClick}
+        style={{ ...buttonStyle, position: 'fixed' }}
+      >
+        play
       </button>
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', backgroundColor: 'lightgreen' }} />
     </>
