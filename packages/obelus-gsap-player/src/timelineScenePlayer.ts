@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { TimelineEvent } from '../../obelus';
+import { TimelineEvent } from '../../obelus/dist';
 
 function animateNestedProps(
     target: any,
