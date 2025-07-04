@@ -47,15 +47,15 @@ export function useThreeRenderer({
 } = {}) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-    const frameRef = useRef<number | null>(null);
+    const animationFrameRef = useRef<number | null>(null);
 
     const camera = createOrthographicCamera(width, height);
     const scene = new THREE.Scene();
 
     const animate = () => {
-        frameRef.current = requestAnimationFrame(animate);
+        animationFrameRef.current = requestAnimationFrame(animate);
 
-        if (frameRef.current % 10 === 0) {
+        if (animationFrameRef.current % 10 === 0) {
             // console.log('animat...', frameRef.current);
             // console.log('objects', scene.children.map(ch => [ch.id, ch.uuid]));
             console.log('position', scene.children.map(ch => ({ ...ch.position }))[0]);
@@ -66,41 +66,27 @@ export function useThreeRenderer({
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (canvas === null) return;
         rendererRef.current = createWebGLRenderer(width, height, canvas);
     }, [width, height, alpha, antialias, canvasRef]);
 
-    const start = () => {
-        if (!rendererRef.current) return;
-
-        console.log('staring');
-
-        if (frameRef.current === null) {
-
-            console.log('started');
-            animate();
-        };
+    const startAnimation = () => {
+        const animationFrame = animationFrameRef.current;
+        if (animationFrame !== null) return;
+        animate();
     };
 
-    const stop = () => {
-
-        console.log('stop...');
-
-        if (frameRef.current !== null) {
-
-            cancelAnimationFrame(frameRef.current);
-
-            console.log('stopped', frameRef.current);
-
-            frameRef.current = null;
-        }
+    const stopAnimation = () => {
+        const animationFrame = animationFrameRef.current;
+        if (animationFrame === null) return;
+        cancelAnimationFrame(animationFrame);
+        animationFrameRef.current = null;
     };
 
     return {
         canvasRef,
         scene,
-        camera,
-        start,
-        stop
+        startAnimation,
+        stopAnimation
     };
 };
