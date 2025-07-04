@@ -12,42 +12,42 @@ const timelineScene: TimelineScene = {
     circle('circle1', {
       center,
       radius,
-      visual: { color: 'cyan' }
+      color: 'cyan'
     }),
     circle('circle2', {
       center,
       radius,
-      visual: { material: { color: 'green' } }
+      color: 'green'
     }),
     circle('circle3', {
       center,
       radius,
-      visual: { material: { color: 'lightblue' } }
+      color: 'lightblue'
     }),
     circle('circle4', {
       center,
       radius,
-      visual: { material: { color: 'yellow' } }
+      color: 'yellow'
     }),
     circle('circle5', {
       center,
       radius,
-      visual: { material: { color: 'purple' } }
+      color: 'purple'
     }),
     circle('circle6', {
       center,
       radius,
-      visual: { material: { color: 'blue' } }
+      color: 'blue'
     }),
     circle('circle7', {
       center,
       radius,
-      visual: { material: { color: 'red' } }
+      color: 'red'
     }),
     circle('circle8', {
       center,
       radius,
-      visual: { material: { color: 'orange' } }
+      color: 'orange'
     }),
   ],
   timeline: [
