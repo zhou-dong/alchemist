@@ -12,7 +12,6 @@ type Position = {
 export type CircleProps = {
     center: Position;
     radius: number;
-    color?: string;
     extra?: Record<string, any>;
 };
 
