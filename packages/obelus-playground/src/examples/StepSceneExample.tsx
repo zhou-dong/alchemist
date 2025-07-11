@@ -25,27 +25,27 @@ const stepScene: StepScene = {
     circle('circle1', {
       center,
       radius,
-      color: 'cyan'
+      color: 'blue' // cyan
     }),
     circle('circle2', {
       center,
       radius,
-      color: 'green'
+      color: 'blue' // green
     }),
     circle('circle3', {
       center,
       radius,
-      color: 'lightblue'
+      color: 'blue' // lightblue
     }),
     circle('circle4', {
       center,
       radius,
-      color: 'yellow'
+      color: 'blue' // yellow
     }),
     circle('circle5', {
       center,
       radius,
-      color: 'purple'
+      color: 'blue' // purple
     }),
     circle('circle6', {
       center,
@@ -55,12 +55,17 @@ const stepScene: StepScene = {
     circle('circle7', {
       center,
       radius,
-      color: 'red'
+      color: 'blue' // red
     }),
     circle('circle8', {
       center,
       radius,
-      color: 'orange'
+      color: 'blue' // orange
+    }),
+    circle('circle9', {
+      center,
+      radius,
+      color: 'blue'
     }),
   ],
   steps: [
