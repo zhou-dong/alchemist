@@ -1,6 +1,6 @@
 import { useThreeRenderer } from '../hooks/useThreeRenderer';
 import type { StepScene } from '../../../obelus/dist';
-import { circle, animate } from '../../../obelus/dist';
+import { circle, animate, line } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
 import { StepScenePlayer } from '../../../obelus-gsap-player/dist';
 import React from 'react';
@@ -67,8 +67,13 @@ const stepScene: StepScene = {
       radius,
       color: 'blue'
     }),
+    line('line1', {
+      start: { x: 0, y: 0, z: 0 },
+      end: { x: 5, y: 5, z: 0 }
+    })
   ],
   steps: [
+    animate('line1', { start: { x: -200, y: 200 } }, { duration: 1 }),
     animate('circle1', { position: { y: 200 } }, { duration: 1 }),
     animate('circle2', { position: { x: 200, y: 200 } }, { duration: 1 }),
     animate('circle3', { position: { x: 200 } }, { duration: 1 }),
@@ -90,13 +95,13 @@ export function StepSceneExample() {
 
   const steps = React.useMemo(() => {
     return StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
-  }, [])
+  }, []);
 
   const nextClick = () => {
     if (index >= steps.length) {
-      steps[index].play()
+      steps[index].play();
     } else {
-      steps[index].play()
+      steps[index].play();
     }
 
     const next = (index + 1) % steps.length;
