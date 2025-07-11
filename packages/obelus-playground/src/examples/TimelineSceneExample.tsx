@@ -51,14 +51,14 @@ const timelineScene: TimelineScene = {
     }),
   ],
   timeline: [
-    at(0.2).animate('circle1', { position: { y: 200 } }, { duration: 1 }),
+    at(0.1).animate('circle1', { position: { y: 200 } }, { duration: 1 }),
     at(0.2).animate('circle2', { position: { x: 200, y: 200 } }, { duration: 1 }),
-    at(0.2).animate('circle3', { position: { x: 200 } }, { duration: 1 }),
-    at(0.2).animate('circle4', { position: { x: 200, y: -200 } }, { duration: 1 }),
-    at(0.2).animate('circle5', { position: { y: -200 } }, { duration: 1 }),
-    at(0.2).animate('circle6', { position: { x: -200, y: -200 } }, { duration: 1 }),
-    at(0.2).animate('circle7', { position: { x: -200 } }, { duration: 1 }),
-    at(0.2).animate('circle8', { position: { x: -200, y: 200 } }, { duration: 1 }),
+    at(0.3).animate('circle3', { position: { x: 200 } }, { duration: 1 }),
+    at(0.4).animate('circle4', { position: { x: 200, y: -200 } }, { duration: 1 }),
+    at(0.5).animate('circle5', { position: { y: -200 } }, { duration: 1 }),
+    at(0.6).animate('circle6', { position: { x: -200, y: -200 } }, { duration: 1 }),
+    at(0.7).animate('circle7', { position: { x: -200 } }, { duration: 1 }),
+    at(0.8).animate('circle8', { position: { x: -200, y: 200 } }, { duration: 1 }),
   ]
 };
 
