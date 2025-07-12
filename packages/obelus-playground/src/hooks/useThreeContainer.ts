@@ -1,9 +1,8 @@
-import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 export function useThreeContainer(renderer: THREE.WebGLRenderer) {
-    const containerRef = React.useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if (containerRef.current !== null) {
