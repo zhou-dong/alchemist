@@ -1,9 +1,12 @@
-import { useThreeRenderer } from '../hooks/useThreeRenderer';
+import { createOrthographicCamera, createWebGLRenderer, useThreeContainer } from '../hooks/threeUtils';
 import type { StepScene } from '../../../obelus/dist';
 import { circle, animate, line } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
 import { StepScenePlayer } from '../../../obelus-gsap-player/dist';
 import React from 'react';
+import * as THREE from 'three';
+import { useThreeAnimation } from '../hooks/useThreeAnimation';
+import { useThreeAutoResize } from '../hooks/useThreeAutoResize';
 
 const buttonStyle = {
   bottom: '20px',    // Positions the button 20px from the bottom
@@ -17,63 +20,66 @@ const buttonStyle = {
   zIndex: '1000',    // Ensure the button is on top
 };
 
+const extra = { material: { color: "blue" } };
+
 const center = { x: 0, y: 0, z: 0 };
-const radius = 80;
+const radius = 20;
 
 const stepScene: StepScene = {
   objects: [
     circle('circle1', {
-      center,
+      center: { x: -400, y: 0, z: 0 },
       radius,
-      color: 'blue' // cyan
+      extra // cyan
     }),
     circle('circle2', {
-      center,
+      center: { x: -300, y: 0, z: 0 },
       radius,
-      color: 'blue' // green
+      extra // green
     }),
     circle('circle3', {
-      center,
+      center: { x: -200, y: 0, z: 0 },
       radius,
-      color: 'blue' // lightblue
+      extra // lightblue
     }),
     circle('circle4', {
-      center,
+      center: { x: -100, y: 0, z: 0 },
       radius,
-      color: 'blue' // yellow
+      extra // yellow
     }),
     circle('circle5', {
-      center,
+      center: { x: 0, y: 0, z: 0 },
       radius,
-      color: 'blue' // purple
+      extra // purple
     }),
     circle('circle6', {
-      center,
+      center: { x: 100, y: 0, z: 0 },
       radius,
-      color: 'blue'
+      extra
     }),
     circle('circle7', {
-      center,
+      center: { x: 200, y: 0, z: 0 },
       radius,
-      color: 'blue' // red
+      extra // red
     }),
     circle('circle8', {
-      center,
+      center: { x: 300, y: 0, z: 0 },
       radius,
-      color: 'blue' // orange
+      extra // orange
     }),
     circle('circle9', {
-      center,
+      center: { x: 400, y: 0, z: 0 },
       radius,
-      color: 'blue'
+      extra
     }),
     line('line1', {
       start: { x: 0, y: 0, z: 0 },
-      end: { x: 5, y: 5, z: 0 }
+      end: { x: 1200, y: 0, z: 0 },
+      extra
     })
   ],
   steps: [
-    animate('line1', { start: { x: -200, y: 200 } }, { duration: 1 }),
+    animate('line1', { position: { x: -1200, y: 200 } }, { duration: 1 }),
     animate('circle1', { position: { y: 200 } }, { duration: 1 }),
     animate('circle2', { position: { x: 200, y: 200 } }, { duration: 1 }),
     animate('circle3', { position: { x: 200 } }, { duration: 1 }),
@@ -85,11 +91,19 @@ const stepScene: StepScene = {
   ]
 };
 
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const renderer = createWebGLRenderer(window.innerWidth, window.innerHeight);
+
 export function StepSceneExample() {
 
   const [index, setIndex] = React.useState(0);
-
-  const { canvasRef, scene, startAnimation, stopAnimation } = useThreeRenderer();
+  const scene = new THREE.Scene();
+  const camera = createOrthographicCamera(width, height);
+  const { containerRef } = useThreeContainer(renderer);
+  const { startAnimation, stopAnimation, renderAnimationOnce } = useThreeAnimation(renderer, scene, camera);
+  useThreeAutoResize(containerRef, renderer, scene, camera);
 
   const objectMap = renderScene(stepScene.objects, scene);
 
@@ -108,6 +122,7 @@ export function StepSceneExample() {
     setIndex(next);
   }
 
+  renderAnimationOnce();
   return (
     <>
       <button
@@ -116,7 +131,7 @@ export function StepSceneExample() {
       >
         play
       </button>
-      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', backgroundColor: 'lightgreen' }} />
+      <div ref={containerRef} style={{ width: '100vw', height: '100vh', backgroundColor: 'lightblue' }} />
     </>
   )
 }
