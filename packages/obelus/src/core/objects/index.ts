@@ -34,7 +34,18 @@ export type GroupObject = BaseObject & {
     children: string[];
 };
 
+export type LatexProps = {
+    position: Position;
+    expression: string;
+    extra?: Record<string, any>;
+};
+
+export type LatexObject = BaseObject & LatexProps & {
+    type: 'latex';
+};
+
 export type SceneObject =
     | CircleObject
     | LineObject
-    | GroupObject;
+    | GroupObject
+    | LatexObject;
