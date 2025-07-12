@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { useDebouncedElementResize } from './useDebouncedElementResize';
 
-export function useThreeResize(
+export function useThreeAutoResize(
     containerRef: React.RefObject<HTMLElement | null>,
     delay: number = 300,
     renderer: THREE.WebGLRenderer,
