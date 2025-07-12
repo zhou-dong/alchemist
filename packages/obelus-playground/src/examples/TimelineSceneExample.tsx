@@ -1,4 +1,4 @@
-import { useThreeRenderer } from '../hooks/useThreeRenderer';
+import { useThreeScene } from '../hooks/useThreeScene';
 import type { TimelineScene } from '../../../obelus/dist';
 import { circle, at } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
@@ -12,42 +12,34 @@ const timelineScene: TimelineScene = {
     circle('circle1', {
       center,
       radius,
-      color: 'cyan'
     }),
     circle('circle2', {
       center,
       radius,
-      color: 'green'
     }),
     circle('circle3', {
       center,
       radius,
-      color: 'lightblue'
     }),
     circle('circle4', {
       center,
       radius,
-      color: 'yellow'
     }),
     circle('circle5', {
       center,
       radius,
-      color: 'purple'
     }),
     circle('circle6', {
       center,
       radius,
-      color: 'blue'
     }),
     circle('circle7', {
       center,
       radius,
-      color: 'red'
     }),
     circle('circle8', {
       center,
       radius,
-      color: 'orange'
     }),
   ],
   timeline: [
@@ -64,7 +56,7 @@ const timelineScene: TimelineScene = {
 
 export function TimelineSceneExample() {
 
-  const { canvasRef, scene, startAnimation, stopAnimation } = useThreeRenderer();
+  const { canvasRef, scene, startAnimation, stopAnimation } = useThreeScene();
 
   const objectMap = renderScene(timelineScene.objects, scene);
 

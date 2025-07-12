@@ -1,58 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import * as THREE from 'three';
 
-function createOrthographicCamera(
-    width: number,
-    height: number,
-    {
-        near = 0.1,
-        far = 1000,
-        z = 500,
-        zoom = 1,
-    } = {}
-): THREE.OrthographicCamera {
-    const left = -width / 2;
-    const right = width / 2;
-    const top = height / 2;
-    const bottom = -height / 2;
-
-    const camera = new THREE.OrthographicCamera(left, right, top, bottom, near, far);
-    camera.position.z = z;
-    camera.zoom = zoom;
-    camera.updateProjectionMatrix();
-
-    return camera;
-};
-
-function createWebGLRenderer(
-    width: number,
-    height: number,
-    canvas: HTMLCanvasElement,
-    {
-        alpha = true,
-        antialias = true,
-    } = {}
-): THREE.WebGLRenderer {
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha, antialias });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    return renderer;
-};
-
-export function useThreeRenderer({
-    width = window.innerWidth,
-    height = window.innerHeight,
-    alpha = true,
-    antialias = true,
-} = {}) {
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+export function useThreeRenderer(
+    scene: THREE.Scene,
+    camera: THREE.Camera,
+    rendererRef: React.RefObject<THREE.WebGLRenderer | null>
+) {
     const animationFrameRef = useRef<number | null>(null);
 
-    const camera = createOrthographicCamera(width, height);
-    const scene = new THREE.Scene();
-
-    const animate = () => {
+    const animate = useCallback(() => {
         animationFrameRef.current = requestAnimationFrame(animate);
 
         if (animationFrameRef.current % 10 === 0) {
@@ -62,31 +18,26 @@ export function useThreeRenderer({
         }
 
         rendererRef.current?.render(scene, camera);
-    };
+    }, [scene, camera, rendererRef]);
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (canvas === null) return;
-        rendererRef.current = createWebGLRenderer(width, height, canvas);
-    }, [width, height, alpha, antialias, canvasRef]);
+    const startAnimation = useCallback(() => {
+        if (animationFrameRef.current === null) {
+            animate();
+        }
+    }, [animate]);
 
-    const startAnimation = () => {
-        const animationFrame = animationFrameRef.current;
-        if (animationFrame !== null) return;
-        animate();
-    };
+    const stopAnimation = useCallback(() => {
+        if (animationFrameRef.current !== null) {
+            cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = null;
+        }
+    }, []);
 
-    const stopAnimation = () => {
-        const animationFrame = animationFrameRef.current;
-        if (animationFrame === null) return;
-        cancelAnimationFrame(animationFrame);
-        animationFrameRef.current = null;
-    };
+    const renderAnimationOnce = useCallback(() => {
+        rendererRef.current?.render(scene, camera);
+    }, [scene, camera, rendererRef]);
 
-    return {
-        canvasRef,
-        scene,
-        startAnimation,
-        stopAnimation
-    };
-};
+    useEffect(() => stop, [stop]);
+
+    return { startAnimation, stopAnimation, renderAnimationOnce };
+}
