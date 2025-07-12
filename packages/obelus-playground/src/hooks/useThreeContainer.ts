@@ -10,7 +10,5 @@ export function useThreeContainer(renderer: THREE.WebGLRenderer) {
         }
     }, [containerRef]);
 
-    return {
-        containerRef,
-    };
+    return { containerRef };
 };
