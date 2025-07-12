@@ -24,4 +24,4 @@ export function useThreeAutoResize(
 
     useDebouncedElementResize(containerRef, resize, delay);
 
-}
+};
