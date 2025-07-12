@@ -2,9 +2,9 @@ import { useRef, useCallback, useEffect } from 'react';
 import * as THREE from 'three';
 
 export function useThreeAnimation(
+    renderer: THREE.Renderer,
     scene: THREE.Scene,
     camera: THREE.Camera,
-    renderer: THREE.Renderer
 ) {
     const animationFrameRef = useRef<number | null>(null);
 
