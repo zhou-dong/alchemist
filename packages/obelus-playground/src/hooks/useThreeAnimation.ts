@@ -4,14 +4,14 @@ import * as THREE from 'three';
 export function useThreeAnimation(
     scene: THREE.Scene,
     camera: THREE.Camera,
-    rendererRef: React.RefObject<THREE.WebGLRenderer | null>
+    renderer: THREE.Renderer
 ) {
     const animationFrameRef = useRef<number | null>(null);
 
     const animate = useCallback(() => {
+        renderer.render(scene, camera);
         animationFrameRef.current = requestAnimationFrame(animate);
-        rendererRef.current?.render(scene, camera);
-    }, [scene, camera, rendererRef]);
+    }, [scene, camera, renderer]);
 
     const startAnimation = useCallback(() => {
         if (animationFrameRef.current === null) {
@@ -27,10 +27,14 @@ export function useThreeAnimation(
     }, []);
 
     const renderAnimationOnce = useCallback(() => {
-        rendererRef.current?.render(scene, camera);
-    }, [scene, camera, rendererRef]);
+        renderer.render(scene, camera);
+    }, [scene, camera, renderer]);
 
-    useEffect(() => stop, [stop]);
+    useEffect(() => stopAnimation, [stopAnimation]);
 
-    return { startAnimation, stopAnimation, renderAnimationOnce };
+    return {
+        startAnimation,
+        stopAnimation,
+        renderAnimationOnce
+    };
 }
