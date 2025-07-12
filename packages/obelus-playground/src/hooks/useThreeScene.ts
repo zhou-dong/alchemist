@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { useThreeRenderer } from './useThreeRenderer';
 
 function createOrthographicCamera(
     width: number,
@@ -52,8 +51,6 @@ export function useThreeScene({
     const camera = createOrthographicCamera(width, height);
     const scene = new THREE.Scene();
 
-    const { startAnimation, stopAnimation, renderAnimationOnce } = useThreeRenderer(scene, camera, rendererRef)
-
     useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas === null) return;
@@ -64,8 +61,7 @@ export function useThreeScene({
     return {
         canvasRef,
         scene,
-        startAnimation,
-        stopAnimation,
-        renderAnimationOnce
+        camera,
+        rendererRef,
     };
 };
