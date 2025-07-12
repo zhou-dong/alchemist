@@ -3,10 +3,10 @@ import { useDebouncedElementResize } from './useDebouncedElementResize';
 
 export function useThreeAutoResize(
     containerRef: React.RefObject<HTMLElement | null>,
-    delay: number = 300,
     renderer: THREE.WebGLRenderer,
     scene: THREE.Scene,
-    camera: THREE.Camera
+    camera: THREE.Camera,
+    delay: number = 300,
 ) {
 
     const resize = (size: { width: number; height: number }) => {
