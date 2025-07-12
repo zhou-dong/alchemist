@@ -27,7 +27,7 @@ export function useDebouncedElementResize(
             }, delay);
         };
 
-        // Initial resize
+        // Trigger once immediately
         handleResize();
 
         const observer = new ResizeObserver(handleResize);
