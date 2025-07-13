@@ -27,9 +27,7 @@ export async function latexToSvgString(
     await window.MathJax.startup.promise;
 
     // Render LaTeX to SVG using MathJax
-    const display = true; // or false for inline
-    const svgWrapper = window.MathJax.tex2svg(latex, { display });
-
+    const svgWrapper = window.MathJax.tex2svg(latex, { display: true });
     const svg = svgWrapper.querySelector('svg');
 
     if (!svg) {
@@ -71,7 +69,7 @@ function createSprite(
     const sprite = new THREE.Sprite(material);
 
     if (height) {
-        const aspect = image.naturalWidth / image.naturalHeight; // e.g., 119 / 23 ≈ 5.17
+        const aspect = image.naturalWidth / image.naturalHeight;
         const width = height * aspect;
         sprite.scale.set(width, height, 1); // Maintain aspect ratio!
     }
