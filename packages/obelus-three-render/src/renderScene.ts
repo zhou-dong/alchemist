@@ -11,14 +11,15 @@ import {
     Scene
 } from 'three';
 
-import { SceneObject, CircleObject, LineObject, GroupObject } from '../../obelus';
+import { SceneObject, CircleObject, LineObject, GroupObject, LatexObject } from '../../obelus';
+import { buildLatex } from './latexBuilder';
 
 function buildThreeCircle(circleObject: CircleObject) {
-    const { center, radius, extra } = circleObject;
+    const { position, radius, extra } = circleObject;
     const geometry = new CircleGeometry(radius, 32);
     const material = new MeshBasicMaterial({ ...extra?.material });
     const mesh = new Mesh(geometry, material);
-    const { x, y, z } = center;
+    const { x, y, z } = position;
     mesh.position.set(x, y, z);
     return mesh;
 };
@@ -45,6 +46,13 @@ export function renderScene(objects: SceneObject[], scene: Scene): Record<string
                 break;
             case 'line':
                 objectMap[obj.id] = buildThreeLine(obj as LineObject);
+                break;
+            case 'latex':
+                buildLatex(obj as LatexObject).then(threeObj => {
+                    if (threeObj) {
+                        objectMap[obj.id] = threeObj;
+                    }
+                });
                 break;
         }
     }
