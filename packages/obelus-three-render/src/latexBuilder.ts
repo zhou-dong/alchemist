@@ -1,25 +1,42 @@
-import katex from "katex";
 import * as THREE from 'three';
 
-// Render LaTeX to KaTeX SVG (in-memory)
-function renderLatexToSvg(
-    latex: string,
-    style?: Partial<CSSStyleDeclaration>
-): SVGSVGElement {
-
-    const container = document.createElement('span');
-    Object.assign(container.style, style ?? {});
-
-    katex.render(latex, container, {
-        output: 'html', // includes inline SVG
-        throwOnError: false,
-        displayMode: true,
-    });
-
-    const svg = container.querySelector('svg');
-    if (!svg) {
-        throw new Error('Failed to render LaTeX to SVG.');
+// Use the global MathJax via CDN
+// place the MathJax setup in your index.html
+declare global {
+    interface Window {
+        MathJax: {
+            tex2svg: (latex: string, options?: { display?: boolean }) => HTMLElement;
+            startup: {
+                promise: Promise<void>;
+            };
+        };
     }
+}
+
+// Render LaTeX to KaTeX SVG (in-memory)
+export async function latexToSvgString(
+    latex: string,
+    style?: Partial<CSSStyleDeclaration>,
+): Promise<SVGSVGElement> {
+    // Ensure MathJax is available
+    if (typeof window.MathJax === 'undefined') {
+        throw new Error('MathJax is not loaded. Did you include it in index.html via CDN?');
+    }
+
+    // Wait for MathJax to finish loading
+    await window.MathJax.startup.promise;
+
+    // Render LaTeX to SVG using MathJax
+    const display = true; // or false for inline
+    const svgWrapper = window.MathJax.tex2svg(latex, { display });
+
+    const svg = svgWrapper.querySelector('svg');
+
+    if (!svg) {
+        throw new Error('Failed to render SVG from LaTeX.');
+    }
+
+    Object.assign(svg.style, style ?? {});
 
     return svg;
 }
@@ -45,7 +62,7 @@ function loadImage(svgUrl: string): Promise<HTMLImageElement> {
 function createSprite(
     image: HTMLImageElement,
     position: { x: number, y: number, z: number },
-    scale?: [number, number],
+    height?: number,
 ): THREE.Sprite {
     const texture = new THREE.Texture(image);
     texture.needsUpdate = true;
@@ -53,8 +70,10 @@ function createSprite(
     const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
     const sprite = new THREE.Sprite(material);
 
-    if (scale) {
-        sprite.scale.set(scale[0], scale[1], 1);
+    if (height) {
+        const aspect = image.naturalWidth / image.naturalHeight; // e.g., 119 / 23 ≈ 5.17
+        const width = height * aspect;
+        sprite.scale.set(width, height, 1); // Maintain aspect ratio!
     }
 
     const { x, y, z } = position;
@@ -72,12 +91,12 @@ export async function createLatexSprite(
     latex: string,
     position: { x: number, y: number, z: number },
     style?: Partial<CSSStyleDeclaration>,
-    scale?: [number, number]
+    height?: number
 ): Promise<THREE.Sprite> {
-    const svg = renderLatexToSvg(latex, style);
+    const svg = await latexToSvgString(latex, style);
     const svgUrl = convertSvgToBlobUrl(svg);
     const imgage = await loadImage(svgUrl);
-    const sprite = createSprite(imgage, position, scale);
+    const sprite = createSprite(imgage, position, height);
     cleanUp(svgUrl);
     return sprite;
 }
