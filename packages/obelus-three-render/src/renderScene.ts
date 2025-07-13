@@ -50,7 +50,7 @@ export async function renderScene(objects: SceneObject[], scene: Scene): Promise
             case 'latex':
                 const latexObject = (obj as LatexObject)
                 const { expression, position, extra } = latexObject;
-                const sprite = await createLatexSprite(expression, position, extra?.style, extra?.scale);
+                const sprite = await createLatexSprite(expression, position, extra?.style, extra?.height);
                 objectMap[obj.id] = sprite;
                 break;
         }
