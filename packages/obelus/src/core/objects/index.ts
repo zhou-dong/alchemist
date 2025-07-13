@@ -10,7 +10,7 @@ type Position = {
 };
 
 export type CircleProps = {
-    center: Position;
+    position: Position;
     radius: number;
     extra?: Record<string, any>;
 };
