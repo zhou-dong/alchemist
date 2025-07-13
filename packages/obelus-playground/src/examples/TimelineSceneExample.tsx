@@ -1,44 +1,47 @@
-import { useThreeScene } from '../hooks/useThreeScene';
+import { createOrthographicCamera, createWebGLRenderer } from './threeUtils';
 import type { TimelineScene } from '../../../obelus/dist';
 import { circle, at } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
 import { TimelineScenePlayer } from '../../../obelus-gsap-player/dist';
+import { useThreeAnimation } from '../hooks/useThreeAnimation';
+import * as THREE from 'three';
+import React from 'react';
 
-const center = { x: 0, y: 0, z: 0 };
+const position = { x: 0, y: 0, z: 0 };
 const radius = 80;
 
 const timelineScene: TimelineScene = {
   objects: [
     circle('circle1', {
-      center,
+      position,
       radius,
     }),
     circle('circle2', {
-      center,
+      position,
       radius,
     }),
     circle('circle3', {
-      center,
+      position,
       radius,
     }),
     circle('circle4', {
-      center,
+      position,
       radius,
     }),
     circle('circle5', {
-      center,
+      position,
       radius,
     }),
     circle('circle6', {
-      center,
+      position,
       radius,
     }),
     circle('circle7', {
-      center,
+      position,
       radius,
     }),
     circle('circle8', {
-      center,
+      position,
       radius,
     }),
   ],
@@ -56,9 +59,20 @@ const timelineScene: TimelineScene = {
 
 export function TimelineSceneExample() {
 
-  const { canvasRef, scene, startAnimation, stopAnimation } = useThreeScene();
+  const scene = new THREE.Scene();
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const renderer = createWebGLRenderer(width, height)
+
+  const camera = createOrthographicCamera(width, height);
+
+  const { startAnimation, stopAnimation, renderAnimationOnce } = useThreeAnimation(renderer, scene, camera);
 
   const objectMap = renderScene(timelineScene.objects, scene);
+
+  renderAnimationOnce()
 
   const tl = TimelineScenePlayer({ objectMap, events: timelineScene.timeline, onStart: startAnimation, onComplete: stopAnimation })
   tl.play();
@@ -71,7 +85,8 @@ export function TimelineSceneExample() {
         }}
       >play
       </button>
-      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', backgroundColor: 'lightgreen' }} />
+      {/* <canvas ref={canvasRef} style={{ width: '100%', height: '100%', backgroundColor: 'lightgreen' }} /> */}
+      <div ref={containerRef} />
     </>
   )
 }
