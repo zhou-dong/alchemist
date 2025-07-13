@@ -8,6 +8,7 @@ import * as THREE from 'three';
 import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../hooks/useThreeAutoResize';
 import { useThreeContainer } from '../hooks/useThreeContainer';
+import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
 
 const buttonStyle = {
   bottom: '20px',    // Positions the button 20px from the bottom
@@ -87,7 +88,7 @@ const stepScene: StepScene = {
       position: { x: 0, y: -100, z: 0 },
       extra: {
         style: { color: "green", fontSize: '28px' },
-        height: 60
+        height: 260
       }
     })
   ],
@@ -114,60 +115,22 @@ const renderer = createWebGLRenderer(window.innerWidth, window.innerHeight);
 const scene = new THREE.Scene();
 const camera = createOrthographicCamera(width, height);
 
-function clearScene(scene: THREE.Scene) {
-  while (scene.children.length > 0) {
-    const obj = scene.children[0];
-    scene.remove(obj);
-
-    // Optional: Dispose of resources
-    if ((obj as any).geometry) {
-      (obj as any).geometry.dispose();
-    }
-    if ((obj as any).material) {
-      const material = (obj as any).material;
-      if (Array.isArray(material)) {
-        material.forEach(m => m.dispose());
-      } else {
-        material.dispose();
-      }
-    }
-    if ((obj as any).texture) {
-      (obj as any).texture.dispose();
-    }
-  }
-}
-
 export function StepSceneExample() {
 
+  const [steps, setSteps] = React.useState<PlayableStep[]>([]);
   const [disabled, setDisabled] = React.useState(false);
   const [index, setIndex] = React.useState(0);
 
   const { containerRef } = useThreeContainer(renderer);
   const { startAnimation, stopAnimation } = useThreeAnimation(renderer, scene, camera);
   useThreeAutoResize(containerRef, renderer, scene, camera);
-
-  const [steps, setSteps] = React.useState<PlayableStep[]>([]);
-
-  React.useEffect(() => {
-    const buildSteps = async () => {
-
-      clearScene(scene);
-      console.log("clear secne...");
-
-      const objectMap = await renderScene(stepScene.objects, scene);
-      const s = StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation });
-      setSteps(s);
-
-      console.log("scene children:")
-
-      console.log(objectMap);
-    }
-    buildSteps();
-  }, []);
+  useRunAsyncOnce(async () => {
+    const objectMap = await renderScene(stepScene.objects, scene);
+    const steps = StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation });
+    setSteps(steps);
+  });
 
   const nextClick = async () => {
-
-    console.log("click....");
 
     setDisabled(true);
     await steps[index].play();
