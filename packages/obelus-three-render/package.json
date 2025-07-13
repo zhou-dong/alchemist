@@ -24,12 +24,10 @@
     "dist"
   ],
   "dependencies": {
-    "katex": "^0.16.22",
     "obelus": "file:../oblelus",
     "three": "^0.178.0"
   },
   "devDependencies": {
-    "@types/katex": "^0.16.7",
     "typescript": "^5.8.3"
   }
 }
