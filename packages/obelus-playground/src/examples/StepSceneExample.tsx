@@ -1,8 +1,8 @@
 import { createOrthographicCamera, createWebGLRenderer } from './threeUtils';
 import type { StepScene } from '../../../obelus/dist';
-import { circle, animate, line, group } from '../../../obelus/dist';
+import { circle, animate, line, group, latex } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
-import { StepScenePlayer } from '../../../obelus-gsap-player/dist';
+import { StepScenePlayer, type PlayableStep } from '../../../obelus-gsap-player/dist';
 import React from 'react';
 import * as THREE from 'three';
 import { useThreeAnimation } from '../hooks/useThreeAnimation';
@@ -25,6 +25,9 @@ const extra = { material: { color: "#fff" } };
 
 const position = { x: 0, y: 0, z: 0 };
 const radius = 10;
+
+const latexExpression = '\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}';
+// const latexExpression = 'E = mc^2';
 
 const stepScene: StepScene = {
   objects: [
@@ -78,20 +81,22 @@ const stepScene: StepScene = {
       end: { x: 1200, y: 0, z: 0 },
       extra
     }),
-    group('group1', ["circle1", "circle2"])
-    // latex("latex1", {
-    //   expression: "\\frac{1}{\\sqrt{2\\pi}} e^{-x^2/2}",
-    //   position: { x: 0, y: -100, z: 0 },
-    //   extra: { color: "green", fontSize: 100 }
-    // })
+    group('group1', ["circle1", "circle2"]),
+    latex("latex1", {
+      expression: latexExpression,
+      position: { x: 0, y: -100, z: 0 },
+      extra: {
+        style: { color: "green", fontSize: '28px' },
+        height: 60
+      }
+    })
   ],
   steps: [
     animate('circle1', { position: { y: 200 } }, { duration: 1 }),
     animate('circle2', { position: { x: 200, y: 200 } }, { duration: 1 }),
     animate('group1', { position: { y: -400 } }, { duration: 1 }),
     animate('line1', { position: { x: -200, y: 200 } }, { duration: 1 }),
-    // animate('latex1', { position: { x: 200, y: -200 } }, { duration: 1 }),
-
+    animate('latex1', { position: { x: 200, y: -200 } }, { duration: 1 }),
     animate('circle3', { position: { x: 200 } }, { duration: 1 }),
     animate('circle4', { position: { x: 200, y: -200 } }, { duration: 1 }),
     animate('circle5', { position: { y: -200 } }, { duration: 1 }),
@@ -108,7 +113,29 @@ const height = window.innerHeight;
 const renderer = createWebGLRenderer(window.innerWidth, window.innerHeight);
 const scene = new THREE.Scene();
 const camera = createOrthographicCamera(width, height);
-const objectMap = renderScene(stepScene.objects, scene);
+
+function clearScene(scene: THREE.Scene) {
+  while (scene.children.length > 0) {
+    const obj = scene.children[0];
+    scene.remove(obj);
+
+    // Optional: Dispose of resources
+    if ((obj as any).geometry) {
+      (obj as any).geometry.dispose();
+    }
+    if ((obj as any).material) {
+      const material = (obj as any).material;
+      if (Array.isArray(material)) {
+        material.forEach(m => m.dispose());
+      } else {
+        material.dispose();
+      }
+    }
+    if ((obj as any).texture) {
+      (obj as any).texture.dispose();
+    }
+  }
+}
 
 export function StepSceneExample() {
 
@@ -119,10 +146,24 @@ export function StepSceneExample() {
   const { startAnimation, stopAnimation } = useThreeAnimation(renderer, scene, camera);
   useThreeAutoResize(containerRef, renderer, scene, camera);
 
-  const steps = React.useMemo(
-    () => StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation }),
-    []
-  );
+  const [steps, setSteps] = React.useState<PlayableStep[]>([]);
+
+  React.useEffect(() => {
+    const buildSteps = async () => {
+
+      clearScene(scene);
+      console.log("clear secne...");
+
+      const objectMap = await renderScene(stepScene.objects, scene);
+      const s = StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation });
+      setSteps(s);
+
+      console.log("scene children:")
+
+      console.log(objectMap);
+    }
+    buildSteps();
+  }, []);
 
   const nextClick = async () => {
 
