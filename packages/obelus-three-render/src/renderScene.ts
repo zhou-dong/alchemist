@@ -12,7 +12,7 @@ import {
 } from 'three';
 
 import { SceneObject, CircleObject, LineObject, GroupObject, LatexObject } from '../../obelus';
-import { buildLatex } from './latexBuilder';
+import { createLatexSprite } from "./latexBuilder";
 
 function buildThreeCircle(circleObject: CircleObject) {
     const { position, radius, extra } = circleObject;
@@ -34,7 +34,7 @@ function buildThreeLine(lineObject: LineObject) {
     return new Line(geometry, material);
 };
 
-export function renderScene(objects: SceneObject[], scene: Scene): Record<string, Object3D> {
+export async function renderScene(objects: SceneObject[], scene: Scene): Promise<Record<string, Object3D>> {
     const objectMap: Record<string, Object3D> = {};
     const groupedIds = new Set<string>();
 
@@ -48,11 +48,10 @@ export function renderScene(objects: SceneObject[], scene: Scene): Record<string
                 objectMap[obj.id] = buildThreeLine(obj as LineObject);
                 break;
             case 'latex':
-                buildLatex(obj as LatexObject).then(threeObj => {
-                    if (threeObj) {
-                        objectMap[obj.id] = threeObj;
-                    }
-                });
+                const latexObject = (obj as LatexObject)
+                const { expression, position, extra } = latexObject;
+                const sprite = await createLatexSprite(expression, position, extra?.style, extra?.scale);
+                objectMap[obj.id] = sprite;
                 break;
         }
     }
