@@ -27,9 +27,6 @@ export function useDebouncedElementResize(
             }, delay);
         };
 
-        // Trigger once immediately
-        handleResize();
-
         const observer = new ResizeObserver(handleResize);
         observer.observe(container);
 
@@ -41,4 +38,4 @@ export function useDebouncedElementResize(
         };
     }, [containerRef, onResize, delay]);
 
-}
+};
