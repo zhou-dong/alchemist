@@ -9,6 +9,8 @@ import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../hooks/useThreeAutoResize';
 import { useThreeContainer } from '../hooks/useThreeContainer';
 import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
+import { BETA_DISTRIBUTION_LATEX, EXPECTED_KTH_ORDER_STATISTIC_LATEX_FORMULA, KMV_ESTIMATION_LATEX_FORMULA, THETA_EXPECTATION_DEFINITION, THETA_EXTIMATION_STEPS_LATEX_FORMULA, THETA_ESTIMATION_LATEX_FORMULA, INFER_THETA_STEPS } from '../sketches/theta/math-behind-kmv/constants';
+import { betaDistributionToExpectedKthValueFormulas } from '../sketches/theta/math-behind-kmv/beta-distribution';
 
 const buttonStyle = {
   bottom: '20px',    // Positions the button 20px from the bottom
@@ -22,73 +24,140 @@ const buttonStyle = {
   zIndex: '1000',    // Ensure the button is on top
 };
 
-const extra = { material: { color: "#fff" } };
+const extra = { material: { color: "#000" } };
 
-const position = { x: 0, y: 0, z: 0 };
+const position = { x: 0, y: -500, z: 0 };
 const radius = 10;
 
 const latexExpression = '\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}';
 // const latexExpression = 'E = mc^2';
 
+const template = `θ = 0.3306
+\\quad \\Rightarrow \\quad
+\\hat{n} = \\frac{3}{0.3306} ≈ 9.1
+\\quad \\Rightarrow \\quad
+\\text{Unbiased: } \\left( \\frac{3}{0.3306} \\right) - 1 ≈ 8.1`
+
+const expression2 = `n + 1 = \\frac{k}{ \\mathbb{E}[X_{(k)}] } \\Rightarrow n = \\frac{k}{ \\mathbb{E}[X_{(k)}] } - 1 \\Rightarrow \\frac{k}{ \\theta } - 1`;
+
+const s = 'n \\approx \\frac{k}{ \\theta } - 1';
+
+const d = latex("e", {
+  expression: `\\mathbb{E}[X_{(k)}] = \\frac{k}{n + 1} = \\frac{1}{1 + 1} = \\frac{1}{2} = 0.5`,
+  position: { x: 0, y: 200, z: 0 },
+  extra: {
+    style: { color: "#000", fontSize: '28px' },
+    height: 50
+  }
+})
+
+const d2 = latex("e1", {
+  expression: expression2,
+  position: { x: 0, y: 100, z: 0 },
+  extra: {
+    style: { color: "#000", fontSize: '28px' },
+    height: 50
+  }
+})
+
+const e3 = `n \\approx ( \\frac{k}{ \\mathbb{E}[X_{(k)}] }  - 1 )`;
+
+INFER_THETA_STEPS.map(step => {
+
+})
+
+const formulas = betaDistributionToExpectedKthValueFormulas.map(({ formula, height, x }, index) => {
+
+  return latex("betaDistributionToExpectedKthValueStep_" + index, {
+    expression: formula,
+    position: { x, y: -80 * index + 320, z: 0 },
+    extra: {
+      style: { color: "green", fontSize: '28px' },
+      height: height
+    }
+  })
+
+
+})
+
+const d3 = latex("e3", {
+  expression: KMV_ESTIMATION_LATEX_FORMULA,
+  position: { x: 0, y: -100, z: 0 },
+  extra: {
+    style: { color: "purple", fontSize: '28px' },
+    height: 50
+  }
+})
+
+const d4 = latex("e4", {
+  expression: template,
+  position: { x: 0, y: -300, z: 0 },
+  extra: {
+    style: { color: "red", fontSize: '28px' },
+    height: 50
+  }
+})
+
+const d5 = latex("e5", {
+  expression: THETA_EXTIMATION_STEPS_LATEX_FORMULA,
+  position: { x: 0, y: -200, z: 0 },
+  extra: {
+    style: { color: "blue", fontSize: '28px' },
+    height: 50
+  }
+})
+
+const d6 = latex("e6", {
+  expression: BETA_DISTRIBUTION_LATEX,
+  position: { x: 0, y: -400, z: 0 },
+  extra: {
+    style: { color: "green", fontSize: '28px' },
+    height: 50
+  }
+})
+
 const stepScene: StepScene = {
   objects: [
-    circle('circle1', {
-      position,
-      radius,
-      extra // cyan
-    }),
-    circle('circle2', {
-      position,
-      radius,
-      extra // green
-    }),
-    circle('circle3', {
-      position,
-      radius,
-      extra // lightblue
-    }),
-    circle('circle4', {
-      position,
-      radius,
-      extra // yellow
-    }),
-    circle('circle5', {
-      position,
-      radius,
-      extra // purple
-    }),
-    circle('circle6', {
-      position,
-      radius,
-      extra
-    }),
-    circle('circle7', {
-      position,
-      radius,
-      extra // red
-    }),
-    circle('circle8', {
-      position,
-      radius,
-      extra // orange
-    }),
-    circle('circle9', {
-      position,
-      radius,
-      extra
-    }),
+    // d,
+    // d2,
+    // d3,
+    // d4,
+    // d5,
+    // d6,
+    ...formulas,
     line('line1', {
-      start: { x: 0, y: 0, z: 0 },
-      end: { x: 1200, y: 0, z: 0 },
+      start: { x: -400, y: 0, z: 0 },
+      end: { x: 400, y: 0, z: 0 },
       extra
     }),
     group('group1', ["circle1", "circle2"]),
     latex("latex1", {
-      expression: latexExpression,
-      position: { x: 0, y: -100, z: 0 },
+      expression: "0",
+      position: { x: -400, y: -20, z: 0 },
       extra: {
-        style: { color: "green", fontSize: '28px' },
-        height: 260
+        style: { color: "gray", fontSize: '28px' },
+        height: 20
+      }
+    }),
+    latex("latex2", {
+      expression: "1",
+      position: { x: 400, y: -20, z: 0 },
+      extra: {
+        style: { color: "gray", fontSize: '28px' },
+        height: 20
+      }
+    }),
+    circle('circle1', {
+      position: { x: 0, y: 0, z: 0 },
+      radius: 3,
+      extra: { material: { color: "gray" } },
+    }),
+    latex("latex3", {
+      expression: "0.5",
+      position: { x: 0, y: -20, z: 0 },
+      extra: {
+        style: { color: "#000", fontSize: '28px' },
+        height: 20
       }
     })
   ],
@@ -150,7 +219,7 @@ export function StepSceneExample() {
       >
         play
       </button>
-      <div ref={containerRef} style={{ width: '100vw', height: '100vh', backgroundColor: 'lightblue' }} />
+      <div ref={containerRef} style={{ width: '100vw', height: '100vh', backgroundColor: '#fff' }} />
     </>
   )
 }
