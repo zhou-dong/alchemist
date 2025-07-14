@@ -3,22 +3,6 @@ export const KMV_ESTIMATION_LATEX_FORMULA = 'n \\approx \\frac{k}{\\mathbb{E}[X_
 
 export const THETA_EXPECTATION_DEFINITION = '\\theta = \\mathbb{E}[X_{(k)}]';
 
-export const BETA_DISTRIBUTION_LATEX = `
-X_{(k)} \\sim \\text{Beta}(k, n - k + 1)
-
-\\quad \\Rightarrow \\quad
-
-X_{(k)} \\sim \\text{Beta}(\\alpha = k, \\beta = n - k + 1)
-
-\\quad \\Rightarrow \\quad
-
-\\mathbb{E}[\\text{Beta}(\\alpha, \\beta)] = \\frac{\\alpha}{\\alpha + \\beta}
-
-\\quad \\Rightarrow \\quad
-
-\\mathbb{E}[X_{(k)}] = \\frac{k}{k + (n - k + 1)} = \\frac{k}{n + 1}
-`;
-
 export const THETA_ESTIMATION_LATEX_FORMULA = 'n = \\frac{k}{\\theta} - 1';
 export const THETA_EXTIMATION_STEPS_LATEX_FORMULA = `
 E = mc^2
