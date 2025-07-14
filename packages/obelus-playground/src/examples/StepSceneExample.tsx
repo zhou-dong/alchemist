@@ -9,7 +9,7 @@ import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../hooks/useThreeAutoResize';
 import { useThreeContainer } from '../hooks/useThreeContainer';
 import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
-import { BETA_DISTRIBUTION_LATEX, EXPECTED_KTH_ORDER_STATISTIC_LATEX_FORMULA, KMV_ESTIMATION_LATEX_FORMULA, THETA_EXPECTATION_DEFINITION, THETA_EXTIMATION_STEPS_LATEX_FORMULA, THETA_ESTIMATION_LATEX_FORMULA, INFER_THETA_STEPS } from '../sketches/theta/math-behind-kmv/constants';
+import { EXPECTED_KTH_ORDER_STATISTIC_LATEX_FORMULA, KMV_ESTIMATION_LATEX_FORMULA, THETA_EXPECTATION_DEFINITION, THETA_EXTIMATION_STEPS_LATEX_FORMULA, THETA_ESTIMATION_LATEX_FORMULA, INFER_THETA_STEPS } from '../sketches/theta/math-behind-kmv/constants';
 import { betaDistributionToExpectedKthValueFormulas } from '../sketches/theta/math-behind-kmv/beta-distribution';
 
 const buttonStyle = {
@@ -70,15 +70,22 @@ const formulas = betaDistributionToExpectedKthValueFormulas.map(({ formula, heig
 
   return latex("betaDistributionToExpectedKthValueStep_" + index, {
     expression: formula,
-    position: { x, y: -80 * index + 320, z: 0 },
+    position: { x, y: -1000, z: 0 },
     extra: {
-      style: { color: "green", fontSize: '28px' },
+      style: { color: "blue", fontSize: '28px' },
       height: height
     }
   })
 
 
-})
+});
+
+const steps = betaDistributionToExpectedKthValueFormulas.map(({ }, index) => {
+
+  return animate("betaDistributionToExpectedKthValueStep_" + index, { position: { y: -100 * index + 200 } }, { duration: 1 })
+
+
+});
 
 const d3 = latex("e3", {
   expression: KMV_ESTIMATION_LATEX_FORMULA,
@@ -108,7 +115,7 @@ const d5 = latex("e5", {
 })
 
 const d6 = latex("e6", {
-  expression: BETA_DISTRIBUTION_LATEX,
+  expression: "",
   position: { x: 0, y: -400, z: 0 },
   extra: {
     style: { color: "green", fontSize: '28px' },
@@ -125,43 +132,44 @@ const stepScene: StepScene = {
     // d5,
     // d6,
     ...formulas,
-    line('line1', {
-      start: { x: -400, y: 0, z: 0 },
-      end: { x: 400, y: 0, z: 0 },
-      extra
-    }),
-    group('group1', ["circle1", "circle2"]),
-    latex("latex1", {
-      expression: "0",
-      position: { x: -400, y: -20, z: 0 },
-      extra: {
-        style: { color: "gray", fontSize: '28px' },
-        height: 20
-      }
-    }),
-    latex("latex2", {
-      expression: "1",
-      position: { x: 400, y: -20, z: 0 },
-      extra: {
-        style: { color: "gray", fontSize: '28px' },
-        height: 20
-      }
-    }),
-    circle('circle1', {
-      position: { x: 0, y: 0, z: 0 },
-      radius: 3,
-      extra: { material: { color: "gray" } },
-    }),
-    latex("latex3", {
-      expression: "0.5",
-      position: { x: 0, y: -20, z: 0 },
-      extra: {
-        style: { color: "#000", fontSize: '28px' },
-        height: 20
-      }
-    })
+    // line('line1', {
+    //   start: { x: -400, y: 0, z: 0 },
+    //   end: { x: 400, y: 0, z: 0 },
+    //   extra
+    // }),
+    // group('group1', ["circle1", "circle2"]),
+    // latex("latex1", {
+    //   expression: "0",
+    //   position: { x: -400, y: -20, z: 0 },
+    //   extra: {
+    //     style: { color: "gray", fontSize: '28px' },
+    //     height: 20
+    //   }
+    // }),
+    // latex("latex2", {
+    //   expression: "1",
+    //   position: { x: 400, y: -20, z: 0 },
+    //   extra: {
+    //     style: { color: "gray", fontSize: '28px' },
+    //     height: 20
+    //   }
+    // }),
+    // circle('circle1', {
+    //   position: { x: 0, y: 0, z: 0 },
+    //   radius: 3,
+    //   extra: { material: { color: "gray" } },
+    // }),
+    // latex("latex3", {
+    //   expression: "0.5",
+    //   position: { x: 0, y: -20, z: 0 },
+    //   extra: {
+    //     style: { color: "#000", fontSize: '28px' },
+    //     height: 20
+    //   }
+    // })
   ],
   steps: [
+    ...steps,
     animate('circle1', { position: { y: 200 } }, { duration: 1 }),
     animate('circle2', { position: { x: 200, y: 200 } }, { duration: 1 }),
     animate('group1', { position: { y: -400 } }, { duration: 1 }),
