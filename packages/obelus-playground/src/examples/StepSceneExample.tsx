@@ -8,7 +8,8 @@ import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../hooks/useThreeAutoResize';
 import { useThreeContainer } from '../hooks/useThreeContainer';
 import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
-import { alignX, stepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/kmv-estimate-steps-scene';
+import { stepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/kmv-estimate-steps-scene';
+import { alignX } from '../sketches/theta/interfaces/utils';
 
 const buttonStyle = {
   bottom: '20px',    // Positions the button 20px from the bottom
