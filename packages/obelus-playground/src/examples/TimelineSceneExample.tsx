@@ -3,9 +3,8 @@ import { circle, at } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
 import { TimelineScenePlayer } from '../../../obelus-gsap-player/dist';
 import { useThreeAnimation } from '../hooks/useThreeAnimation';
-import * as THREE from 'three';
 import React from 'react';
-import { createOrthographicCamera, createWebGLRenderer, type UseThreeProps } from '../hooks/useThree';
+import { type UseThreeProps } from '../hooks/useThree';
 
 const position = { x: 0, y: 0, z: 0 };
 const radius = 80;
