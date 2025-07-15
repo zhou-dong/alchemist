@@ -8,6 +8,7 @@ import { useThreeContainer } from '../hooks/useThreeContainer';
 import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
 import { stepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/kmv-estimate-steps-scene';
 import { alignX } from '../sketches/theta/interfaces/utils';
+import type { UseThreeProps } from '../hooks/useThree';
 
 const buttonStyle = {
   bottom: '20px',    // Positions the button 20px from the bottom
@@ -21,13 +22,7 @@ const buttonStyle = {
 let stepScene: StepScene = kmvEstimateStepScene;
 // stepScene: stepScene = betaDistributionToKthValue;
 
-interface Props {
-  renderer: THREE.WebGLRenderer;
-  scene: THREE.Scene;
-  camera: THREE.Camera;
-}
-
-export function StepSceneExample({ renderer, scene, camera }: Props) {
+export function StepSceneExample({ renderer, scene, camera }: UseThreeProps) {
 
   const [steps, setSteps] = React.useState<PlayableStep[]>([]);
   const [disabled, setDisabled] = React.useState(false);
