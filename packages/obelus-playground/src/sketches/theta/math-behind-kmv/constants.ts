@@ -8,8 +8,14 @@ export const THETA_EXTIMATION_STEPS_LATEX_FORMULA = `
 E = mc^2
 `;
 
+const STEP_0 = `
+\\mathbb{E}[X_{(k)}] = \\frac{k}{n + 1}
+
+\\mathbb{E}[X_{(k)}] = \\theta
+`;
 
 const STEP_1 = `
+\\quad \\Rightarrow \\quad
 \\theta = \\frac{k}{n + 1}
 `;
 
@@ -44,5 +50,6 @@ n = \\frac{k}{\\theta} - 1
 `;
 
 export const INFER_THETA_STEPS = [
+    STEP_0,
     STEP_1, STEP_2, STEP_3, STEP_4, STEP_5, STEP_6, STEP_7
 ];
