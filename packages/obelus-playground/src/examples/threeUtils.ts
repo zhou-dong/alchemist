@@ -36,3 +36,14 @@ export function createWebGLRenderer(
     renderer.setPixelRatio(window.devicePixelRatio);
     return renderer;
 };
+
+export function initThree() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const renderer = createWebGLRenderer(window.innerWidth, window.innerHeight);
+    const scene = new THREE.Scene();
+    const camera = createOrthographicCamera(width, height);
+
+    return { renderer, scene, camera };
+};
