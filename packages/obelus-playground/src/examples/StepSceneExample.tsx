@@ -1,4 +1,3 @@
-import { initThree } from './threeUtils';
 import type { StepScene } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
 import { StepScenePlayer, type PlayableStep } from '../../../obelus-gsap-player/dist';
@@ -22,9 +21,13 @@ const buttonStyle = {
 let stepScene: StepScene = kmvEstimateStepScene;
 // stepScene: stepScene = betaDistributionToKthValue;
 
-const { renderer, scene, camera } = initThree()
+interface Props {
+  renderer: THREE.WebGLRenderer;
+  scene: THREE.Scene;
+  camera: THREE.Camera;
+}
 
-export function StepSceneExample() {
+export function StepSceneExample({ renderer, scene, camera }: Props) {
 
   const [steps, setSteps] = React.useState<PlayableStep[]>([]);
   const [disabled, setDisabled] = React.useState(false);
@@ -33,11 +36,13 @@ export function StepSceneExample() {
   const { containerRef } = useThreeContainer(renderer);
   const { startAnimation, stopAnimation } = useThreeAnimation(renderer, scene, camera);
   useThreeAutoResize(containerRef, renderer, scene, camera);
+
   useRunAsyncOnce(async () => {
     const objectMap = await renderScene(stepScene.objects, scene);
     alignX(objectMap);
-    const steps = StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation });
-    setSteps(steps);
+    setSteps(
+      StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
+    );
   });
 
   const nextClick = async () => {

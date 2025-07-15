@@ -1,4 +1,3 @@
-import { createOrthographicCamera, createWebGLRenderer } from './threeUtils';
 import type { TimelineScene } from '../../../obelus/dist';
 import { circle, at } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
@@ -6,6 +5,7 @@ import { TimelineScenePlayer } from '../../../obelus-gsap-player/dist';
 import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import * as THREE from 'three';
 import React from 'react';
+import { createOrthographicCamera, createWebGLRenderer } from '../hooks/useThree';
 
 const position = { x: 0, y: 0, z: 0 };
 const radius = 80;

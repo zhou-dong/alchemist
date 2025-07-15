@@ -6,7 +6,7 @@ const color = "blue";
 const fontSize = "28px";
 
 const lineHeight = 80;
-const yAlign = -1000;
+const yAlign = -150;
 
 const { yAxis, yInit } = alignY(lineHeight, kmvEstimationFormulas.length, yAlign);
 const keyPrefix = "kmvEstimate_";
