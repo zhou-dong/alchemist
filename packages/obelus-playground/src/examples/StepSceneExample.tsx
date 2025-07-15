@@ -9,21 +9,20 @@ import { useThreeAutoResize } from '../hooks/useThreeAutoResize';
 import { useThreeContainer } from '../hooks/useThreeContainer';
 import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
 import { stepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/kmv-estimate-steps-scene';
+import { stepScene as betaDistributionToKthValue } from "../sketches/theta/math-behind-kmv/beta-distribution-to-kth-value-scene";
 import { alignX } from '../sketches/theta/interfaces/utils';
 
 const buttonStyle = {
   bottom: '20px',    // Positions the button 20px from the bottom
   right: '20px',     // Positions the button 20px from the right
-  // backgroundColor: '#007bff',
-  color: 'white',
-  padding: '10px 20px',
-  border: 'none',
+  backgroundColor: '#007bff',
   borderRadius: '5px',
   cursor: 'pointer',
   zIndex: '1000',    // Ensure the button is on top
 };
 
-const stepScene: StepScene = kmvEstimateStepScene;
+let stepScene: StepScene = kmvEstimateStepScene;
+stepScene: stepScene = betaDistributionToKthValue;
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -49,13 +48,13 @@ export function StepSceneExample() {
   });
 
   const nextClick = async () => {
-
     setDisabled(true);
     await steps[index].play();
-    setDisabled(false);
 
-    const next = (index + 1) % steps.length;
-    setIndex(next);
+    if (index === steps.length - 1) return;
+
+    setIndex(index + 1);
+    setDisabled(false);
   }
 
   // renderAnimationOnce();
