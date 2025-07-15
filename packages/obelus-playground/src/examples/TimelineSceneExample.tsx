@@ -5,7 +5,7 @@ import { TimelineScenePlayer } from '../../../obelus-gsap-player/dist';
 import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import * as THREE from 'three';
 import React from 'react';
-import { createOrthographicCamera, createWebGLRenderer } from '../hooks/useThree';
+import { createOrthographicCamera, createWebGLRenderer, type UseThreeProps } from '../hooks/useThree';
 
 const position = { x: 0, y: 0, z: 0 };
 const radius = 80;
@@ -57,16 +57,9 @@ const timelineScene: TimelineScene = {
   ]
 };
 
-export function TimelineSceneExample() {
-
-  const scene = new THREE.Scene();
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+export function TimelineSceneExample({ renderer, scene, camera }: UseThreeProps) {
 
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const renderer = createWebGLRenderer(width, height)
-
-  const camera = createOrthographicCamera(width, height);
 
   const { startAnimation, stopAnimation, renderAnimationOnce } = useThreeAnimation(renderer, scene, camera);
 
