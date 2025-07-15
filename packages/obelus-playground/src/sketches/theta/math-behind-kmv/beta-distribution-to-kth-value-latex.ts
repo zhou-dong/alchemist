@@ -25,13 +25,12 @@ const STEP_5 = `
 type Step = {
     formula: string;
     height: number;
-    x: number;
 }
 
 export const betaDistributionToExpectedKthValueFormulas: Step[] = [
-    { formula: STEP_1, height: 25, x: 0 },
-    { formula: STEP_2, height: 25, x: 15 },
-    { formula: STEP_3, height: 50, x: -33 },
-    { formula: STEP_4, height: 50, x: -30 },
-    { formula: STEP_5, height: 50, x: -71 },
+    { formula: STEP_1, height: 25 },
+    { formula: STEP_2, height: 25 },
+    { formula: STEP_3, height: 50 },
+    { formula: STEP_4, height: 50 },
+    { formula: STEP_5, height: 50 },
 ];
