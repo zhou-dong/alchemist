@@ -1,15 +1,13 @@
-import { createOrthographicCamera, createWebGLRenderer } from './threeUtils';
+import { initThree } from './threeUtils';
 import type { StepScene } from '../../../obelus/dist';
 import { renderScene } from '../../../obelus-three-render/dist';
 import { StepScenePlayer, type PlayableStep } from '../../../obelus-gsap-player/dist';
 import React from 'react';
-import * as THREE from 'three';
 import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../hooks/useThreeAutoResize';
 import { useThreeContainer } from '../hooks/useThreeContainer';
 import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
 import { stepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/kmv-estimate-steps-scene';
-import { stepScene as betaDistributionToKthValue } from "../sketches/theta/math-behind-kmv/beta-distribution-to-kth-value-scene";
 import { alignX } from '../sketches/theta/interfaces/utils';
 
 const buttonStyle = {
@@ -22,14 +20,9 @@ const buttonStyle = {
 };
 
 let stepScene: StepScene = kmvEstimateStepScene;
-stepScene: stepScene = betaDistributionToKthValue;
+// stepScene: stepScene = betaDistributionToKthValue;
 
-const width = window.innerWidth;
-const height = window.innerHeight;
-
-const renderer = createWebGLRenderer(window.innerWidth, window.innerHeight);
-const scene = new THREE.Scene();
-const camera = createOrthographicCamera(width, height);
+const { renderer, scene, camera } = initThree()
 
 export function StepSceneExample() {
 
@@ -57,7 +50,6 @@ export function StepSceneExample() {
     setDisabled(false);
   }
 
-  // renderAnimationOnce();
   return (
     <>
       <button
