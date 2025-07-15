@@ -70,7 +70,7 @@ const formulas = betaDistributionToExpectedKthValueFormulas.map(({ formula, heig
 
   return latex("betaDistributionToExpectedKthValueStep_" + index, {
     expression: formula,
-    position: { x, y: -1000, z: 0 },
+    position: { x, y: -800, z: 0 },
     extra: {
       style: { color: "blue", fontSize: '28px' },
       height: height
