@@ -47,3 +47,9 @@ export function useThree() {
 
     return { renderer, scene, camera };
 };
+
+export interface UseThreeProps {
+    renderer: THREE.WebGLRenderer;
+    scene: THREE.Scene;
+    camera: THREE.Camera;
+};
