@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { Typography, Stack } from '@mui/material';
 import { useState } from 'react';
 import StepperToggleFab from '../stepper/ProgressStepperToggleFab';
@@ -37,12 +38,19 @@ function OrderStatisticsPageContent() {
     );
 }
 
-export default function OrderStatisticsPage() {
+export default function OrderStatisticsPage({
+    renderer,
+    scene,
+    camera,
+}: {
+    renderer: THREE.WebGLRenderer;
+    scene: THREE.Scene;
+    camera: THREE.Camera;
+}) {
     return (
         <>
             <GoToWelcome />
             <OrderStatisticsPageContent />
         </>
-
     );
 }
