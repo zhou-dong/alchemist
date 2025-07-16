@@ -5,6 +5,9 @@ import { useThree } from './hooks/useThree';
 import OrderStatisticsPage from './sketches/theta/order-statistics';
 import WelcomePage from './sketches/theta/WelcomePage';
 import ThemeToggleFab from './ThemeToggleFab';
+import { useState } from 'react';
+import ProgressStepperWrapper from './sketches/theta/ProgressStepperWrapper';
+import StepperToggleFab from './sketches/theta/ProgressStepperToggleFab';
 
 const { renderer, camera } = useThree();
 const StepScene = () => {
@@ -25,15 +28,22 @@ const displayScene = "timeline";
 
 function App() {
 
+  const [showStepper, setShowStepper] = useState(true);
+
   return (
     <>
+      {showStepper && <ProgressStepperWrapper />}
       <Routes>
         <Route path="/sketches/theta" element={<WelcomePage />} />
         <Route path="/sketches/theta/order-statistics" element={<OrderStatisticsPage />} />
       </Routes>
       <ThemeToggleFab />
+      <StepperToggleFab
+        visible={showStepper}
+        onToggle={() => setShowStepper((prev) => !prev)}
+      />
     </>
   )
-}
+};
 
 export default App
