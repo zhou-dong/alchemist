@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 
 const Location = styled(Box)(({ }) => ({
     position: 'fixed',
-    top: 100, // adjust depending on header height
+    top: 120, // adjust depending on header height
     left: 0,
     right: 0,
     zIndex: 1100,
