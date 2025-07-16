@@ -1,56 +1,20 @@
-import * as THREE from 'three';
-import { Typography, Stack } from '@mui/material';
-import { useState } from 'react';
-import StepperToggleFab from '../stepper/ProgressStepperToggleFab';
-import ProgressStepper from '../stepper/ProgressStepper';
-import GoToWelcome from '../welcome/GoToWelcome';
+import type { UseThreeProps } from '../../../hooks/useThree';
+import { WrapperProvider } from '../wrapper/WrapperProvider';
 
-function OrderStatisticsPageContent() {
-    const [showStepper, setShowStepper] = useState(true);
+function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) {
+
 
     return (
         <>
-            {showStepper && <ProgressStepper activeStep={0} />}
-            <Stack sx={{
-                position: 'fixed',
-                top: 10,
-                display: 'flex',
-                justifyContent: 'center', // center horizontally
-                alignItems: 'center',     // center vertically,
-                px: 2,
-                py: 4,
-                width: '100vw',
-            }}>
-                <Typography
-                    variant="h4"
-                    gutterBottom
-                >
-                    Order Statistics
-                </Typography>
-                <div />
-            </Stack>
 
-            <StepperToggleFab
-                visible={showStepper}
-                onToggle={() => setShowStepper((prev) => !prev)}
-            />
         </>
     );
 }
 
-export default function OrderStatisticsPage({
-    renderer,
-    scene,
-    camera,
-}: {
-    renderer: THREE.WebGLRenderer;
-    scene: THREE.Scene;
-    camera: THREE.Camera;
-}) {
+export default function OrderStatisticsPage({ renderer, scene, camera }: UseThreeProps) {
     return (
-        <>
-            <GoToWelcome />
-            <OrderStatisticsPageContent />
-        </>
+        <WrapperProvider title="Order Statistics" activeStep={0}>
+            <OrderStatisticsPageContent renderer={renderer} scene={scene} camera={camera} />
+        </WrapperProvider>
     );
 }
