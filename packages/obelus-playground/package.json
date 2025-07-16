@@ -13,6 +13,10 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/inter": "^5.2.6",
+    "@mui/material": "^7.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

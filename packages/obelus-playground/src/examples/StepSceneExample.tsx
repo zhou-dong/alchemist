@@ -9,15 +9,7 @@ import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
 import { stepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/kmv-estimate-steps-scene';
 import { alignX } from '../sketches/theta/interfaces/utils';
 import type { UseThreeProps } from '../hooks/useThree';
-
-const buttonStyle = {
-  bottom: '20px',    // Positions the button 20px from the bottom
-  right: '20px',     // Positions the button 20px from the right
-  backgroundColor: '#007bff',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  zIndex: '1000',    // Ensure the button is on top
-};
+import { Button } from '@mui/material';
 
 let stepScene: StepScene = kmvEstimateStepScene;
 // stepScene: stepScene = betaDistributionToKthValue;
@@ -52,13 +44,14 @@ export function StepSceneExample({ renderer, scene, camera }: UseThreeProps) {
 
   return (
     <>
-      <button
+      <Button
+        variant='contained'
         onClick={nextClick}
-        style={{ ...buttonStyle, position: 'fixed' }}
+        sx={{ position: 'fixed', bottom: '20px', right: '20px', }}
         disabled={disabled}
       >
         play
-      </button>
+      </Button>
       <div ref={containerRef} style={{ width: '100vw', height: '100vh', backgroundColor: '#fff' }} />
     </>
   )
