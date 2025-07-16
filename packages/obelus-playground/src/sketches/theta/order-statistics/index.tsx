@@ -2,6 +2,7 @@ import { Typography, Stack } from '@mui/material';
 import { useState } from 'react';
 import StepperToggleFab from '../stepper/ProgressStepperToggleFab';
 import ProgressStepper from '../stepper/ProgressStepper';
+import GoToWelcome from '../GoToWelcome';
 
 function OrderStatisticsPageContent() {
     const [showStepper, setShowStepper] = useState(true);
@@ -38,6 +39,10 @@ function OrderStatisticsPageContent() {
 
 export default function OrderStatisticsPage() {
     return (
-        <OrderStatisticsPageContent />
+        <>
+            <GoToWelcome />
+            <OrderStatisticsPageContent />
+        </>
+
     );
 }
