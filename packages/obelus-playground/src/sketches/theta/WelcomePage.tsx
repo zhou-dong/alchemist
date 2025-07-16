@@ -1,11 +1,15 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import * as BarChart from '@mui/icons-material/BarChart';
 import * as Psychology from '@mui/icons-material/Psychology';
+import { useNavigate } from 'react-router-dom';
 
 const BarChartIcon = BarChart.default as unknown as React.ElementType;
 const PsychologyIcon = Psychology.default as unknown as React.ElementType;
 
 export default function WelcomePage() {
+
+    const navigate = useNavigate();
+
     return (
         <Box
             sx={{
@@ -51,6 +55,7 @@ export default function WelcomePage() {
                         borderRadius: 3,
                         boxShadow: 3,
                     }}
+                    onClick={() => navigate('/sketches/theta/order-statistics')}
                 >
                     Dive In
                 </Button>
