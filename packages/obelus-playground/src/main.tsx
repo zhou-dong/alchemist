@@ -1,13 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
 import { ColorModeProvider } from './ColorModeContext.tsx';
+import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ColorModeProvider>
-      <App />
-    </ColorModeProvider>
+    <BrowserRouter>
+      <ColorModeProvider>
+        <App />
+      </ColorModeProvider>
+    </BrowserRouter>
   </StrictMode>,
 );

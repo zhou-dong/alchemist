@@ -1,6 +1,8 @@
 import { StepSceneExample } from './examples/StepSceneExample';
 import { TimelineSceneExample } from './examples/TimelineSceneExample';
 import { useThree } from './hooks/useThree';
+import WelcomePage from './sketches/theta/WelcomePage';
+import ThemeToggleFab from './ThemeToggleFab';
 
 const { renderer, camera } = useThree();
 const StepScene = () => {
@@ -23,7 +25,8 @@ function App() {
 
   return (
     <>
-      {(displayScene !== "timeline") ? <TimelineScene /> : <StepScene />}
+      <WelcomePage />
+      <ThemeToggleFab />
     </>
   )
 }
