@@ -1,17 +1,17 @@
 import { animate, latex, type StepScene } from "../../../../../obelus/dist";
 import { alignY } from "../interfaces/utils";
-import { kmvEstimationFormulas } from "./kmv-estimate-steps-latex";
+import { orderStatisticsToKmvFormulas } from "./order-statistics-to-kmv-latex";
 
-const color = "blue";
+const color = "#000";
 const fontSize = "28px";
 
 const lineHeight = 80;
-const yAlign = -150;
+const yAlign = -1000;
 
-const { yAxis, yInit } = alignY(lineHeight, kmvEstimationFormulas.length, yAlign);
+const { yAxis, yInit } = alignY(lineHeight, orderStatisticsToKmvFormulas.length, yAlign);
 const keyPrefix = "kmvEstimate_";
 
-const objects = kmvEstimationFormulas.map(({ formula, height }, index) =>
+const objects = orderStatisticsToKmvFormulas.map(({ formula, height }, index) =>
     latex(keyPrefix + index, {
         expression: formula,
         position: { x: 0, y: yInit[index], z: 0 },
@@ -22,7 +22,7 @@ const objects = kmvEstimationFormulas.map(({ formula, height }, index) =>
     })
 );
 
-const steps = kmvEstimationFormulas.map(({ }, index) =>
+const steps = orderStatisticsToKmvFormulas.map(({ }, index) =>
     animate(
         keyPrefix + index,
         { position: { y: yAxis[index] } },
@@ -30,4 +30,4 @@ const steps = kmvEstimationFormulas.map(({ }, index) =>
     )
 );
 
-export const stepScene: StepScene = { objects, steps };
+export const dslStepScene: StepScene = { objects, steps };

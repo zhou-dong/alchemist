@@ -10,6 +10,7 @@ const Title = ({ title }: { title: string }) => (
         top: 30,
         width: '100vw',
         textAlign: 'center',
+        zIndex: 100,
     }}>
         <Typography variant="h4" gutterBottom>
             {title}

@@ -6,7 +6,7 @@ import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../hooks/useThreeAutoResize';
 import { useThreeContainer } from '../hooks/useThreeContainer';
 import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
-import { stepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/kmv-estimate-steps-scene';
+import { dslStepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/order-statistics-to-kmv-dsl';
 import { alignX } from '../sketches/theta/interfaces/utils';
 import type { UseThreeProps } from '../hooks/useThree';
 import { Button } from '@mui/material';

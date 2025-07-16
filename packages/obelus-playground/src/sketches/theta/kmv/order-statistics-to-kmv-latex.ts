@@ -1,9 +1,9 @@
 const STEP_1 = `
-\\mathbb{E}[X_{(k)}] = \\frac{k}{n + 1}
+\\mathbb{E}[X_{(k)}] = \\frac{k}{n + 1} \\quad \\quad \\text{Order Statistics}
 `;
 
 const STEP_2 = `
-\\mathbb{E}[X_{(k)}] = \\theta
+\\mathbb{E}[X_{(k)}] = \\theta \\quad \\quad \\quad \\quad \\quad \\text{Theta}
 `;
 
 const STEP_3 = `
@@ -46,7 +46,7 @@ type Step = {
     height: number;
 }
 
-export const kmvEstimationFormulas: Step[] = [
+export const orderStatisticsToKmvFormulas: Step[] = [
     { formula: STEP_1, height: 50 },
     { formula: STEP_2, height: 25 },
     { formula: STEP_3, height: 50 },
