@@ -2,7 +2,7 @@ import { Typography, Stack } from '@mui/material';
 import { useState } from 'react';
 import StepperToggleFab from '../stepper/ProgressStepperToggleFab';
 import ProgressStepper from '../stepper/ProgressStepper';
-import GoToWelcome from '../GoToWelcome';
+import GoToWelcome from '../welcome/GoToWelcome';
 
 function OrderStatisticsPageContent() {
     const [showStepper, setShowStepper] = useState(true);

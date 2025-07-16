@@ -3,7 +3,7 @@ import { StepSceneExample } from './examples/StepSceneExample';
 import { TimelineSceneExample } from './examples/TimelineSceneExample';
 import { useThree } from './hooks/useThree';
 import OrderStatisticsPage from './sketches/theta/order-statistics';
-import WelcomePage from './sketches/theta/WelcomePage';
+import WelcomePage from './sketches/theta/welcome/WelcomePage';
 import ThemeToggleFab from './ThemeToggleFab';
 
 const { renderer, camera } = useThree();
