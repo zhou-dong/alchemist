@@ -27,7 +27,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/sketches/theta" element={<WelcomePage />} />
+        <Route path="/sketches/theta/welcome" element={<WelcomePage />} />
         <Route path="/sketches/theta/order-statistics" element={<OrderStatisticsPage />} />
       </Routes>
       <ThemeToggleFab />
