@@ -1,9 +1,14 @@
 import { Typography, Stack } from '@mui/material';
-import ProgressStepper from '../ProgressStepper';
+import { useState } from 'react';
+import StepperToggleFab from '../stepper/ProgressStepperToggleFab';
+import ProgressStepper from '../stepper/ProgressStepper';
 
-export default function OrderStatisticsPage() {
+function OrderStatisticsPageContent() {
+    const [showStepper, setShowStepper] = useState(true);
+
     return (
         <>
+            {showStepper && <ProgressStepper activeStep={0} />}
             <Stack sx={{
                 position: 'fixed',
                 top: 10,
@@ -21,9 +26,18 @@ export default function OrderStatisticsPage() {
                     Order Statistics
                 </Typography>
                 <div />
-                {/* <ProgressStepper activeStep={2} /> */}
             </Stack>
 
+            <StepperToggleFab
+                visible={showStepper}
+                onToggle={() => setShowStepper((prev) => !prev)}
+            />
         </>
+    );
+}
+
+export default function OrderStatisticsPage() {
+    return (
+        <OrderStatisticsPageContent />
     );
 }
