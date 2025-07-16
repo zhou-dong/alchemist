@@ -1,5 +1,5 @@
 import React from 'react';
-import { animate, circle, line, type StepScene } from '../../../../../obelus/dist';
+import { animate, circle, group, latex, line, type StepScene } from '../../../../../obelus/dist';
 import type { UseThreeProps } from '../../../hooks/useThree';
 import { WrapperProvider } from '../wrapper/WrapperProvider';
 import { StepScenePlayer, type PlayableStep } from '../../../../../obelus-gsap-player/dist';
@@ -8,34 +8,62 @@ import { useThreeAnimation } from '../../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
 import { renderScene } from '../../../../../obelus-three-render/dist';
-import { alignX } from '../interfaces/utils';
 import { Button } from '@mui/material';
 
-const radius = 10;
+const color = "#fff";
+const fontSize = "28px";
+
+const radius = 6;
 
 const xAxis = line("xAxis", {
-    start: { x: -100, y: 0, z: 0 },
-    end: { x: 100, y: 0, z: 0 },
+    start: { x: -400, y: 0, z: 0 },
+    end: { x: 400, y: 0, z: 0 },
 });
 
-const zeroCircle = circle("zero", {
+const pointCircle5 = circle("point_5", {
     radius,
-    position: { x: -100, y: 0, z: 0 },
+    position: { x: 0, y: 0, z: 0 },
 });
 
-const oneCircle = circle('one', {
-    radius,
-    position: { x: 200, y: 0, z: 0 },
+const zero = latex('zero', {
+    expression: '0',
+    position: { x: -400, y: -15, z: 0 },
+    extra: {
+        style: { color, fontSize },
+        height: 15,
+    }
+});
+
+const one = latex('one', {
+    expression: '1',
+    position: { x: 400, y: -15, z: 0 },
+    extra: {
+        style: { color, fontSize },
+        height: 15,
+    }
+});
+
+const point5 = latex('point5', {
+    expression: '\\frac{1}{2}',
+    position: { x: 0, y: -800, z: 0 },
+    extra: {
+        style: { color, fontSize },
+        height: 40,
+    }
 });
 
 const stepScene: StepScene = {
     objects: [
         xAxis,
-        zeroCircle,
-        oneCircle,
+        zero,
+        one,
+        pointCircle5,
+        point5,
+        group("group1", ["xAxis", "zero", "one", "point5", 'point_5'])
     ],
     steps: [
-        animate("zero", { position: { x: 200, y: 100 } }, { duration: 1 }),
+        animate("point5", { position: { y: -40 } }, { duration: 1 }),
+        animate("group1", { position: { y: 400 } }, { duration: 1 }),
     ],
 };
 
