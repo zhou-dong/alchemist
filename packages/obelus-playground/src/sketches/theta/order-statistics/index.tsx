@@ -1,15 +1,29 @@
-// OrderStatisticsPage.tsx
-import { Box, Typography, Container } from '@mui/material';
+import { Typography, Stack } from '@mui/material';
+import ProgressStepper from '../ProgressStepper';
 
 export default function OrderStatisticsPage() {
     return (
-        <Container sx={{ py: 8 }}>
-            <Typography variant="h4" gutterBottom>
-                📈 Order Statistics
-            </Typography>
-            <Typography variant="body1">
-                Welcome to the next step in your journey through the math behind Theta Sketch!
-            </Typography>
-        </Container>
+        <>
+            <Stack sx={{
+                position: 'fixed',
+                top: 10,
+                display: 'flex',
+                justifyContent: 'center', // center horizontally
+                alignItems: 'center',     // center vertically,
+                px: 2,
+                py: 4,
+                width: '100vw',
+            }}>
+                <Typography
+                    variant="h4"
+                    gutterBottom
+                >
+                    Order Statistics
+                </Typography>
+                <div />
+                {/* <ProgressStepper activeStep={2} /> */}
+            </Stack>
+
+        </>
     );
 }
