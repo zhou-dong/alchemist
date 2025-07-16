@@ -1,6 +1,8 @@
+import { Routes, Route } from 'react-router-dom';
 import { StepSceneExample } from './examples/StepSceneExample';
 import { TimelineSceneExample } from './examples/TimelineSceneExample';
 import { useThree } from './hooks/useThree';
+import OrderStatisticsPage from './sketches/theta/order-statistics';
 import WelcomePage from './sketches/theta/WelcomePage';
 import ThemeToggleFab from './ThemeToggleFab';
 
@@ -25,7 +27,10 @@ function App() {
 
   return (
     <>
-      <WelcomePage />
+      <Routes>
+        <Route path="/sketches/theta" element={<WelcomePage />} />
+        <Route path="/sketches/theta/order-statistics" element={<OrderStatisticsPage />} />
+      </Routes>
       <ThemeToggleFab />
     </>
   )
