@@ -1,4 +1,4 @@
-import { TimelineEvent } from "../core/timelineEvent";
+import { TimelineEvent } from "../types/timelineEvent";
 
 type AnimateFn<T> = (target: string, props: T) => TimelineEvent<T>;
 

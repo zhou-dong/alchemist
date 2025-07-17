@@ -1,4 +1,4 @@
-import { AnimateStepEvent, WaitStepEvent, StepEvent, SequenceStepsEvent, ParallelStepsEvent } from "../core/stepEvents";
+import { AnimateStepEvent, WaitStepEvent, StepEvent, SequenceStepsEvent, ParallelStepsEvent } from "../types/stepEvents";
 
 export function animate<T>(target: string, props: T): AnimateStepEvent<T> {
     return { type: 'animate', target, props };
