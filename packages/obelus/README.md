@@ -5,10 +5,8 @@ A modular, type-safe animation domain-specific language (DSL) written in TypeScr
 ## ✨ Key Features
 
 - 💡 Builder-style DSL (`at(0).animate(...)`, `sequence([...])`)
-- 🧱 Scene object model (circle, line, group)
 - 🕒 Timeline-based and step-based animation modes
 - 📦 Pure TypeScript — framework-agnostic
-- 🧪 Built for testability, exportability, and future rendering engines
 
 ---
 
@@ -23,21 +21,14 @@ npm install obelus
 ## 🔧 Example — Timeline DSL
 
 ```ts
-import { circle } from './objects/dsl/circle';
-import { at } from './timeline/dsl';
-import { TimelineScene } from './timeline/scene';
-
-const scene: TimelineScene = {
+const scene: TimelineScene<T, S> = {
   objects: [
-    circle('ball', {
-      center: { x: 0, y: 0, z: 0 },
-      radius: 20,
-      color: '#f00'
-    })
+    animatable('id1', {} as T),
+    animatable('id2', {} as T)
   ],
   timeline: [
-    at(0).animate('ball', { position: { y: -50 } }, { duration: 0.5 }),
-    at(1).animate('ball', { position: { y: 0 } }, { duration: 0.5 })
+    at(0).animate('id1', {}: S),
+    at(1).animate('id2', {}: S)
   ]
 };
 ```
@@ -47,60 +38,25 @@ const scene: TimelineScene = {
 ## 🪜 Example — Step DSL
 
 ```ts
-import { circle } from './objects/dsl/circle';
-import { animate, wait, sequence } from './step/dsl';
-import { StepScene } from './step/scene';
-
-const scene: StepScene = {
+const scene: StepScene<T, S> = {
   objects: [
-    circle('circle1', {
-      center: { x: 0, y: 0, z: 0 },
-      radius: 10,
-      color: '#00f'
-    })
+    animatable('id1', {} as T),
+    animatable('id2', {} as T)
   ],
   steps: [
     sequence([
-      animate('circle1', { position: { x: 100 } }, { duration: 1 }),
+      animate('id1', {}: S),
       wait(0.5),
-      animate('circle1', { position: { y: 50 } }, { duration: 1 })
+      animate('id2', {}: S),
     ])
   ]
 };
 ```
 
----
+##  What is Obelus?
 
-## 📤 Import/Export
-
-```ts
-import { importScene, exportScene } from './io';
-
-const json = exportScene(scene);
-const restored = importScene<Scene>(json);
-```
-
----
-
-## 🧪 Testing
-
-Project uses [Vitest](https://vitest.dev) for testing.
-
-```bash
-npm run test
-```
-
----
-
-## 📚 Roadmap
-- [x] Timeline DSL + runner
-- [x] Step-based DSL + runner
-- [x] Scene object model (shared)
-- [x] Scene import/export
-- [ ] Render + play engine packages (external)
-- [ ] GUI timeline editor (future)
-
----
-
-## License
-[MIT](./LICENSE)
+Obelus is a framework-agnostic animation DSL that lets you:
+- Define animations declaratively
+- Use any rendering framework (Three.js, Canvas, React, etc.)
+- Use any animation library (GSAP, Framer Motion, etc.)
+- Compose complex animations from simple primitives
