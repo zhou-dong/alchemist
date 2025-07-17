@@ -1,4 +1,4 @@
-export type Animatable<T> = {
+export type AnimatableObject<T> = {
     id: string;
     target: T;
 };

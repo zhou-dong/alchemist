@@ -1,6 +1,6 @@
-import { Animatable, AnimatableGroup } from "../types/animatable";
+import { AnimatableObject, AnimatableGroup } from "../types/animatable";
 
-export function animatable<T>(id: string, target: T): Animatable<T> {
+export function animatable<T>(id: string, target: T): AnimatableObject<T> {
     return { id, target };
 };
 
