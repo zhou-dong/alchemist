@@ -1,1 +1,1 @@
-export * from './renderScene';
+export * from './latexBuilder';

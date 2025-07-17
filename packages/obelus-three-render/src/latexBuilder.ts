@@ -13,8 +13,7 @@ declare global {
     }
 }
 
-// Render LaTeX to KaTeX SVG (in-memory)
-export async function latexToSvgString(
+async function latexToSvgString(
     latex: string,
     style?: Partial<CSSStyleDeclaration>,
 ): Promise<SVGSVGElement> {
