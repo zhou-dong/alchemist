@@ -1,7 +1,7 @@
 import { Animatable } from './animatable';
 import { StepEvent } from './stepEvents';
 
-export type StepScene<T, S> = {
+export type StepScene<T> = {
     objects: Animatable<T>[];
-    steps: StepEvent<S>[];
+    steps: StepEvent[];
 };

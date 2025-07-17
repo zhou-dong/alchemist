@@ -24,11 +24,11 @@ npm install obelus
 const scene: TimelineScene<T, S> = {
   objects: [
     animatable('id1', {} as T),
-    animatable('id2', {} as T)
+    animatable('id2', {} as T),
   ],
   timeline: [
-    at(0).animate('id1', {}: S),
-    at(1).animate('id2', {}: S)
+    at(0).animate('id1', {...targetProps}, {...animateProps}),
+    at(1).animate('id2', {...targetProps}, {...animateProps}),
   ]
 };
 ```
@@ -41,13 +41,13 @@ const scene: TimelineScene<T, S> = {
 const scene: StepScene<T, S> = {
   objects: [
     animatable('id1', {} as T),
-    animatable('id2', {} as T)
+    animatable('id2', {} as T),
   ],
   steps: [
     sequence([
-      animate('id1', {}: S),
+      animate('id1', {...targetProps}, {...animateProps}),
       wait(0.5),
-      animate('id2', {}: S),
+      animate('id2', {...targetProps}, {...animateProps}),
     ])
   ]
 };

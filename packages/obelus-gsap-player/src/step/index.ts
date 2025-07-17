@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { AnimateStepEvent, StepEvent, WaitStepEvent } from "../../../obelus/dist";
+import { type AnimateStepEvent, type StepEvent, type WaitStepEvent } from "obelus";
 
 type Callback = (...args: any[]) => void | null;
 

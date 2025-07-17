@@ -1,17 +1,17 @@
 import { AnimateStepEvent, WaitStepEvent, StepEvent, SequenceStepsEvent, ParallelStepsEvent } from "../types/stepEvents";
 
-export function animate<T>(target: string, props: T): AnimateStepEvent<T> {
-    return { type: 'animate', target, props };
+export function animate(target: string, targetProps: Record<string, any>, animateProps: Record<string, any>): AnimateStepEvent {
+    return { type: 'animate', target, targetProps, animateProps };
 };
 
 export function wait(duration: number): WaitStepEvent {
     return { type: 'wait', duration };
 };
 
-export function sequence<T>(steps: StepEvent<T>[]): SequenceStepsEvent<T> {
+export function sequence(steps: StepEvent[]): SequenceStepsEvent {
     return { type: 'sequence', steps };
 };
 
-export function parallel<T>(steps: StepEvent<T>[]): ParallelStepsEvent<T> {
+export function parallel(steps: StepEvent[]): ParallelStepsEvent {
     return { type: 'parallel', steps };
 };

@@ -1,7 +1,7 @@
 import { Animatable } from "./animatable";
 import { TimelineEvent } from "./timelineEvent";
 
-export type TimelineScene<T, S> = {
+export type TimelineScene<T> = {
     objects: Animatable<T>[];
-    timeline: TimelineEvent<S>[];
+    timeline: TimelineEvent[];
 };

@@ -1,5 +1,5 @@
 import { AnimateEvent } from "./animateEvent";
 
-export type TimelineEvent<T> = AnimateEvent<T> & {
+export type TimelineEvent = AnimateEvent & {
     time: number;
 };

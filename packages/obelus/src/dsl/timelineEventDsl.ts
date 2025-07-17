@@ -1,8 +1,8 @@
 import { TimelineEvent } from "../types/timelineEvent";
 
-type AnimateFn<T> = (target: string, props: T) => TimelineEvent<T>;
+type AnimateFn = (target: string, targetProps: Record<string, any>, animateProps: Record<string, any>) => TimelineEvent;
 
-export function at<T>(time: number): { animate: AnimateFn<T> } {
-    const animate: AnimateFn<T> = (target, props) => ({ time, target, props });
+export function at(time: number): { animate: AnimateFn } {
+    const animate: AnimateFn = (target, targetProps, animateProps) => ({ time, target, targetProps, animateProps });
     return { animate };
 };

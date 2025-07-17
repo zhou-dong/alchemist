@@ -1,4 +1,5 @@
-export type AnimateEvent<T> = {
+export type AnimateEvent = {
     target: string;
-    props: T;
+    targetProps: Record<string, any>;
+    animateProps: Record<string, any>;
 };
