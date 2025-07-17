@@ -1,5 +1,5 @@
 export type AnimateEvent = {
-    target: string;
+    targetId: string;
     targetProps: Record<string, any>;
     animateProps: Record<string, any>;
 };

@@ -1,4 +1,10 @@
 export type Animatable<T> = {
     id: string;
-    object: T;
+    target: T;
+};
+
+export type AnimatableGroup = {
+    id: string;
+    type: 'group';
+    children: string[];
 };
