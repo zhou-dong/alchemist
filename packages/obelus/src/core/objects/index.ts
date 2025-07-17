@@ -34,6 +34,7 @@ export type GroupObject = BaseObject & {
     children: string[];
 };
 
+
 export type LatexProps = {
     position: Position;
     expression: string;
