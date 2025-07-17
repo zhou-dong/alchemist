@@ -8,3 +8,7 @@ export type AnimatableGroup = {
     type: 'group';
     children: string[];
 };
+
+export type Animatable<T> =
+    | AnimatableObject<T>
+    | AnimatableGroup;

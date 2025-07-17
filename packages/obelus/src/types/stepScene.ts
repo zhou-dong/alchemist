@@ -1,7 +1,7 @@
-import { AnimatableObject, AnimatableGroup } from './animatable';
+import { Animatable } from './animatable';
 import { StepEvent } from './stepEvents';
 
 export type StepScene<T> = {
-    objects: (AnimatableObject<T> | AnimatableGroup)[];
+    objects: Animatable<T>[];
     steps: StepEvent[];
 };
