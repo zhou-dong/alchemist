@@ -34,7 +34,7 @@ export function WrapperProvider({
     activeStep: number;
     children: React.ReactNode;
 }) {
-    const [showStepper, setShowStepper] = useState(true);
+    const [showStepper, setShowStepper] = useState(false);
 
     return (
         <WrapperContext.Provider value={{ activeStep, title }}>
