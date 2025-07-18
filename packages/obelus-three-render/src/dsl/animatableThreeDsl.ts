@@ -2,7 +2,8 @@ import { type AnimatableObject } from "obelus";
 import * as THREE from "three";
 import { createLatexSprite } from "../components/latexBuilder";
 import { buildCylinderLine } from "../components/cylinderLineBuilder";
-import { buildXAxis } from "../components/xAxisBuilder";
+import { buildAxis, AxisOptions } from "../components/axisBuilder";
+import { buildAxisScale, AxisScaleLabelOptions } from "../components/axisScaleBuilder";
 
 export function animatable(id: string, target: THREE.Object3D): AnimatableObject<THREE.Object3D> {
     return { id, target, type: 'object' };
@@ -27,26 +28,27 @@ export async function latex(id: string, text: string, height: number, style?: Pa
     return { id, target: sprite, type: 'object' };
 };
 
-export function xAxis(
-    id: string,
-    options: {
-        start: { x: number, y: number, z: number };
-        end: { x: number, y: number, z: number };
-        dotCount: number;
-        lineWidth?: number;
-        lineMaterial?: THREE.Material;
-        dotRadius?: number;
-        dotMaterial?: THREE.Material;
-    }
-): AnimatableObject<THREE.Group> {
-    const { start, end, dotCount } = options;
+export function axis(id: string, options: AxisOptions): AnimatableObject<THREE.Group> {
+    const group = buildAxis(options);
+    return { id, target: group, type: 'object' };
+};
 
-    const lineWidth: number = options.lineWidth ?? 3;
-    const lineMaterial: THREE.Material = options.lineMaterial || new THREE.MeshBasicMaterial({ color: "hotpink" });
-    const dotRadius: number = options.dotRadius ?? 4;
-    const dotMaterial: THREE.Material = options.dotMaterial || new THREE.MeshBasicMaterial({ color: "#333" });
+export type ScaleAxisOptions = AxisOptions & {
+    scale: {
+        min: AxisScaleLabelOptions;
+        max: AxisScaleLabelOptions;
+    };
+};
 
-    const group = buildXAxis({ start, end, dotCount, lineWidth, lineMaterial, dotRadius, dotMaterial });
+export function scaleAxis(id: string, options: ScaleAxisOptions): AnimatableObject<THREE.Group> {
+    const group = buildAxis(options);
+    const { scale, position } = options;
+
+    const min = buildAxisScale(scale.min, position.start);
+    const max = buildAxisScale(scale.max, position.end);
+
+    group.add(min);
+    group.add(max);
 
     return { id, target: group, type: 'object' };
-} 
+};
