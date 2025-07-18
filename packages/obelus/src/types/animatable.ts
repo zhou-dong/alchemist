@@ -1,4 +1,5 @@
 export type AnimatableObject<T> = {
+    type: 'object';
     id: string;
     target: T;
 };
