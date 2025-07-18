@@ -1,8 +1,16 @@
 import * as THREE from "three";
 
-export function buildCylinderLine(start: THREE.Vector3, end: THREE.Vector3, width: number, material: THREE.Material): THREE.Mesh {
+export function buildCylinderLine(
+    start: { x: number, y: number, z: number },
+    end: { x: number, y: number, z: number },
+    width: number,
+    material: THREE.Material
+): THREE.Mesh {
+    const startVector = new THREE.Vector3(start.x, start.y, start.z);
+    const endVector = new THREE.Vector3(end.x, end.y, end.z);
+
     // Calculate direction and length
-    const direction = new THREE.Vector3().subVectors(end, start);
+    const direction = new THREE.Vector3().subVectors(endVector, startVector);
     const length = direction.length();
 
     // Create cylinder geometry and mesh
@@ -10,7 +18,7 @@ export function buildCylinderLine(start: THREE.Vector3, end: THREE.Vector3, widt
     const mesh = new THREE.Mesh(geometry, material);
 
     // Position at midpoint
-    mesh.position.copy(start).add(direction.clone().multiplyScalar(0.5));
+    mesh.position.copy(startVector).add(direction.clone().multiplyScalar(0.5));
 
     // Normalize direction for rotation
     direction.normalize();
