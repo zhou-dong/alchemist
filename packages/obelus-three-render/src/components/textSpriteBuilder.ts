@@ -6,7 +6,6 @@ import '@fontsource/inter/500.css'; // Medium weight
 import '@fontsource/inter/600.css'; // Semi-bold weight
 import '@fontsource/inter/700.css'; // Bold weight
 
-// Create a simple text sprite approach using HTML canvas with Inter font
 export interface TextSpriteOptions {
     text: string;
     fontSize: number;
@@ -55,4 +54,4 @@ export function createInterTextSprite(options: TextSpriteOptions): THREE.Sprite 
     sprite.scale.set(textWidth / scaleDown, textHeight / scaleDown, 1); // Use scaleDown parameter
 
     return sprite;
-};
+}
