@@ -1,1 +1,3 @@
-export * from './latexBuilder';
+export * from './dsl/animatableThreeDsl';
+export * from './types/stepSceneThree';
+export * from './types/timelineSceneThree';
