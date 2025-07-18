@@ -1,9 +1,9 @@
 import { type AnimatableObject } from "obelus";
 import * as THREE from "three";
-import { createLatexSprite } from "../components/latexBuilder";
-import { buildCylinderLine } from "../components/cylinderLineBuilder";
-import { buildAxis, AxisOptions } from "../components/axisBuilder";
-import { buildAxisScale, AxisScaleLabelOptions } from "../components/axisScaleBuilder";
+import { createLatexSprite } from "../builders/latexBuilder";
+import { buildCylinderLine } from "../builders/cylinderLineBuilder";
+import { buildAxis, AxisOptions } from "../builders/axisBuilder";
+import { buildAxisScale, AxisScaleLabelOptions } from "../builders/axisScaleBuilder";
 
 export function animatable(id: string, target: THREE.Object3D): AnimatableObject<THREE.Object3D> {
     return { id, target, type: 'object' };
@@ -43,12 +43,12 @@ export type ScaleAxisOptions = AxisOptions & {
 export function scaleAxis(id: string, options: ScaleAxisOptions): AnimatableObject<THREE.Group> {
     const group = buildAxis(options);
     const { scale, position } = options;
-    
+
     const minSprite = buildAxisScale(scale.min, position.start);
     const maxSprite = buildAxisScale(scale.max, position.end);
-    
+
     group.add(minSprite);
     group.add(maxSprite);
-    
+
     return { id, target: group, type: 'object' };
 };
