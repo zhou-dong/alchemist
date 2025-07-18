@@ -1,5 +1,5 @@
 import React from 'react';
-import { animate, circle, group, latex, line, type StepScene } from '../../../../../obelus/dist';
+import { animate, group, } from 'obelus';
 import type { UseThreeProps } from '../../../hooks/useThree';
 import { WrapperProvider } from '../wrapper/WrapperProvider';
 import { StepScenePlayer, type PlayableStep } from '../../../../../obelus-gsap-player/dist';
@@ -7,68 +7,16 @@ import { useThreeContainer } from '../../../hooks/useThreeContainer';
 import { useThreeAnimation } from '../../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
-import { renderScene } from '../../../../../obelus-three-render/dist';
+import { type StepSceneThree, latex, line, circle, render } from 'obelus-three-render';
 import { Button } from '@mui/material';
+import * as THREE from 'three';
 
 const color = "#fff";
 const fontSize = "28px";
 
 const radius = 6;
 
-const xAxis = line("xAxis", {
-    start: { x: -400, y: 0, z: 0 },
-    end: { x: 400, y: 0, z: 0 },
-});
-
-const pointCircle5 = circle("point_5", {
-    radius,
-    position: { x: 0, y: 0, z: 0 },
-});
-
-const zero = latex('zero', {
-    expression: '0',
-    position: { x: -400, y: -15, z: 0 },
-    extra: {
-        style: { color, fontSize },
-        height: 15,
-    }
-});
-
-const one = latex('one', {
-    expression: '1',
-    position: { x: 400, y: -15, z: 0 },
-    extra: {
-        style: { color, fontSize },
-        height: 15,
-    }
-});
-
-const point5 = latex('point5', {
-    expression: '\\frac{1}{2}',
-    position: { x: 0, y: -800, z: 0 },
-    extra: {
-        style: { color, fontSize },
-        height: 40,
-    }
-});
-
-const stepScene: StepScene = {
-    objects: [
-        xAxis,
-        zero,
-        one,
-        pointCircle5,
-        point5,
-        group("group1", ["xAxis", "zero", "one", "point5", 'point_5'])
-    ],
-    steps: [
-        animate("point5", { position: { y: -40 } }, { duration: 1 }),
-        animate("group1", { position: { y: 400 } }, { duration: 1 }),
-    ],
-};
-
 function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) {
-
 
     const [steps, setSteps] = React.useState<PlayableStep[]>([]);
     const [disabled, setDisabled] = React.useState(false);
@@ -79,10 +27,33 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) 
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     useRunAsyncOnce(async () => {
-        const objectMap = await renderScene(stepScene.objects, scene);
+
+        const start = new (THREE as any).Vector3(-400, 0, 0);
+        const end = new (THREE as any).Vector3(400, 0, 0);
+
+        const zero = await latex('zero', '0', 15, { color, fontSize });
+        const one = await latex('one', '1', 15, { color, fontSize });
+        const point5 = await latex('point5', '\\frac{1}{2}', 50, { color, fontSize });
+
+        const stepScene: StepSceneThree = {
+            objects: [
+                line("xAxis", [start, end], new (THREE as any).LineBasicMaterial({ color: "hotpink", linewidth: 5 })),
+                zero,
+                one,
+                circle("point_5", new (THREE as any).CircleGeometry(radius, 32), new (THREE as any).MeshBasicMaterial({ color: "red" })),
+                point5,
+                group("group1", ["xAxis", "zero", "one", "point5", 'point_5'])
+            ],
+            steps: [
+                animate("point5", { position: { y: -40 } }, { duration: 1 }),
+                animate("group1", { position: { y: 400 } }, { duration: 1 }),
+            ],
+        };
+
+        const record = render(stepScene.objects, scene as any);
         // alignX(objectMap);
         setSteps(
-            StepScenePlayer({ objectMap, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
+            StepScenePlayer({ objectMap: record, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
         );
     });
 
