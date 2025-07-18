@@ -43,9 +43,9 @@ export function TimelineScenePlayer({ events, objectMap, onStart, onComplete }: 
     const timeline = gsap.timeline({ onStart, onComplete });
 
     for (const event of events) {
-        const target = objectMap[event.target];
+        const target = objectMap[event.targetId];
         if (!target) {
-            console.warn(`Target '${event.target}' not found.`);
+            console.warn(`Target '${event.targetId}' not found.`);
             continue;
         }
         animateNestedProps(target, event.targetProps, event.animateProps, event.time, timeline);
