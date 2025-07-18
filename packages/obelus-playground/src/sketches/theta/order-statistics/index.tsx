@@ -7,7 +7,7 @@ import { useThreeContainer } from '../../../hooks/useThreeContainer';
 import { useThreeAnimation } from '../../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
-import { type StepSceneThree, latex, cylinderLine, circle, render, axis, scaleAxis } from 'obelus-three-render';
+import { type StepSceneThree, latex, cylinderLine, circle, render, scaleAxisWithStyle as axis } from 'obelus-three-render';
 import { Button } from '@mui/material';
 import * as THREE from 'three';
 
@@ -16,7 +16,6 @@ const fontSize = "28px";
 
 const radius = 6;
 const material = new THREE.MeshBasicMaterial({ color: "hotpink" }); // TODO: use material from obelus-three-render
-
 
 
 function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) {
@@ -40,29 +39,11 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) 
 
         const stepScene: StepSceneThree = {
             objects: [
-                scaleAxis("xAxis_1", {
-                    position: {
-                        start: { x: -400, y: 0, z: 0 },
-                        end: { x: 400, y: 0, z: 0 },
-                    },
-                    scale: {
-                        min: { value: 0, fontSize: 24, color: color, offset: { x: 0, y: 0, z: 0 }, scaleDown: 0.1, padding: 10 },
-                        max: { value: 1, fontSize: 24, color: color, offset: { x: 0, y: 0, z: 0 }, scaleDown: 0.1, padding: 10 },
-                    },
-                    dotCount: 3,
-                    lineWidth: 3,
-                    lineMaterial: (new THREE.LineBasicMaterial({ color: "hotpink" }) as any),
-                    dotRadius: 4,
-                    dotMaterial: (new THREE.MeshBasicMaterial({ color: "hotpink" }) as any),
-                }),
-                // zero,
-                // one,
-                circle("point_5", new (THREE as any).CircleGeometry(radius, 32), new (THREE as any).MeshBasicMaterial({ color: "red" })),
-                point5,
-                group("group1", ["xAxis_1", "point5", 'point_5'])
+                axis("axis_1", { startX: -400, endX: 400, }),
+                group("group1", ["axis_1", "point5", 'point_5'])
             ],
             steps: [
-                animate("xAxis_1", { position: { y: -40 } }, { duration: 1 }),
+                animate("axis_1", { position: { y: -40 } }, { duration: 1 }),
                 animate("group1", { position: { y: 400 } }, { duration: 1 }),
             ],
         };
