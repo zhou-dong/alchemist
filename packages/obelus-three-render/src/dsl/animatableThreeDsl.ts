@@ -43,7 +43,12 @@ export type ScaleAxisOptions = AxisOptions & {
 export function scaleAxis(id: string, options: ScaleAxisOptions): AnimatableObject<THREE.Group> {
     const group = buildAxis(options);
     const { scale, position } = options;
-    group.add(buildAxisScale(scale.min, position.start));
-    group.add(buildAxisScale(scale.max, position.end));
+    
+    const minSprite = buildAxisScale(scale.min, position.start);
+    const maxSprite = buildAxisScale(scale.max, position.end);
+    
+    group.add(minSprite);
+    group.add(maxSprite);
+    
     return { id, target: group, type: 'object' };
 };

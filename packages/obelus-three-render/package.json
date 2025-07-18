@@ -24,7 +24,6 @@
     "dist"
   ],
   "dependencies": {
-    "@fontsource/inter": "^5.2.6",
     "obelus": "file:../obelus",
     "three": "^0.178.0"
   },

@@ -7,14 +7,17 @@ import { useThreeContainer } from '../../../hooks/useThreeContainer';
 import { useThreeAnimation } from '../../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
-import { type StepSceneThree, latex, line, circle, render } from 'obelus-three-render';
+import { type StepSceneThree, latex, cylinderLine, circle, render, axis, scaleAxis } from 'obelus-three-render';
 import { Button } from '@mui/material';
 import * as THREE from 'three';
 
-const color = "#fff";
+const color = "#ffffff";
 const fontSize = "28px";
 
 const radius = 6;
+const material = new THREE.MeshBasicMaterial({ color: "hotpink" }); // TODO: use material from obelus-three-render
+
+
 
 function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) {
 
@@ -28,24 +31,38 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) 
 
     useRunAsyncOnce(async () => {
 
-        const start = new (THREE as any).Vector3(-400, 0, 0);
-        const end = new (THREE as any).Vector3(400, 0, 0);
-
-        const zero = await latex('zero', '0', 15, { color, fontSize });
-        const one = await latex('one', '1', 15, { color, fontSize });
+        // const zero = await latex('zero', '0', 15, { color, fontSize });
+        // zero.target.position.set(-400, -20, 0);
+        // const one = await latex('one', '1', 15, { color, fontSize });
+        // one.target.position.set(400, -20, 0);
         const point5 = await latex('point5', '\\frac{1}{2}', 50, { color, fontSize });
+        point5.target.position.set(0, 0, 0);
 
         const stepScene: StepSceneThree = {
             objects: [
-                line("xAxis", [start, end], new (THREE as any).LineBasicMaterial({ color: "hotpink", linewidth: 5 })),
-                zero,
-                one,
+                scaleAxis("xAxis_1", {
+                    position: {
+                        start: { x: -400, y: 0, z: 0 },
+                        end: { x: 400, y: 0, z: 0 },
+                    },
+                    scale: {
+                        min: { value: 0, fontSize: 24, color: color, offset: { x: 0, y: 0, z: 0 }, scaleDown: 0.1, padding: 10 },
+                        max: { value: 1, fontSize: 24, color: color, offset: { x: 0, y: 0, z: 0 }, scaleDown: 0.1, padding: 10 },
+                    },
+                    dotCount: 3,
+                    lineWidth: 3,
+                    lineMaterial: (new THREE.LineBasicMaterial({ color: "hotpink" }) as any),
+                    dotRadius: 4,
+                    dotMaterial: (new THREE.MeshBasicMaterial({ color: "hotpink" }) as any),
+                }),
+                // zero,
+                // one,
                 circle("point_5", new (THREE as any).CircleGeometry(radius, 32), new (THREE as any).MeshBasicMaterial({ color: "red" })),
                 point5,
-                group("group1", ["xAxis", "zero", "one", "point5", 'point_5'])
+                group("group1", ["xAxis_1", "point5", 'point_5'])
             ],
             steps: [
-                animate("point5", { position: { y: -40 } }, { duration: 1 }),
+                animate("xAxis_1", { position: { y: -40 } }, { duration: 1 }),
                 animate("group1", { position: { y: 400 } }, { duration: 1 }),
             ],
         };

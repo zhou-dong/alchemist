@@ -1,11 +1,5 @@
 import * as THREE from "three";
 
-// Import Inter font from Fontsource
-import '@fontsource/inter/400.css'; // Regular weight
-import '@fontsource/inter/500.css'; // Medium weight
-import '@fontsource/inter/600.css'; // Semi-bold weight
-import '@fontsource/inter/700.css'; // Bold weight
-
 export interface TextSpriteOptions {
     text: string;
     fontSize: number;
@@ -22,8 +16,12 @@ export function createInterTextSprite(options: TextSpriteOptions): THREE.Sprite 
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
 
-    // Set canvas size
-    context.font = `${fontSize}px Inter, sans-serif`;
+    // Enable font smoothing
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+
+    // Set canvas size with Inter font priority
+    context.font = `${fontSize}px 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif`;
     const textMetrics = context.measureText(text);
     const textWidth = textMetrics.width;
     const textHeight = fontSize;
@@ -31,14 +29,22 @@ export function createInterTextSprite(options: TextSpriteOptions): THREE.Sprite 
     canvas.width = textWidth + padding * 2;
     canvas.height = textHeight + padding * 2;
 
-    // Set up context
-    context.font = `${fontSize}px Inter, sans-serif`;
+    // Set up context with Inter font priority and smoothing
+    context.font = `${fontSize}px 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif`;
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+
+    // Use transparent background
     context.fillStyle = backgroundColor;
     context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Ensure color is applied correctly
     context.fillStyle = color;
     context.textBaseline = 'middle';
     context.textAlign = 'center';
     context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+    console.log('Text drawn with color:', context.fillStyle);
 
     // Create texture and sprite
     const texture = new THREE.CanvasTexture(canvas);
@@ -51,7 +57,7 @@ export function createInterTextSprite(options: TextSpriteOptions): THREE.Sprite 
     });
 
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(textWidth / scaleDown, textHeight / scaleDown, 1); // Use scaleDown parameter
+    sprite.scale.set(textWidth / scaleDown, textHeight / scaleDown, 1);
 
     return sprite;
 }

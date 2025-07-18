@@ -1,13 +1,13 @@
 import React from 'react';
 import type { UseThreeProps } from '../../../hooks/useThree';
 import { WrapperProvider } from '../wrapper/WrapperProvider';
-import { dslStepScene } from './order-statistics-to-kmv-dsl';
+// import { dslStepScene } from './order-statistics-to-kmv-dsl';
 import { StepScenePlayer, type PlayableStep } from '../../../../../obelus-gsap-player/dist';
 import { useThreeContainer } from '../../../hooks/useThreeContainer';
 import { useThreeAnimation } from '../../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
-import { renderScene } from '../../../../../obelus-three-render/dist';
+// import { renderScene } from '../../../../../obelus-three-render/dist';
 import { alignX } from '../interfaces/utils';
 import { Button } from '@mui/material';
 
@@ -18,15 +18,15 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) 
     const [index, setIndex] = React.useState(0);
 
     const { containerRef } = useThreeContainer(renderer);
-    const { startAnimation, stopAnimation } = useThreeAnimation(renderer, scene, camera);
+    // const { startAnimation, stopAnimation } = useThreeAnimation(renderer, scene, camera);
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     useRunAsyncOnce(async () => {
-        const objectMap = await renderScene(dslStepScene.objects, scene);
-        alignX(objectMap);
-        setSteps(
-            StepScenePlayer({ objectMap, events: dslStepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
-        );
+        // const objectMap = await renderScene(dslStepScene.objects, scene);
+        // alignX(objectMap);
+        // setSteps(
+        //     StepScenePlayer({ objectMap, events: dslStepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
+        // );
     });
 
     const nextClick = async () => {

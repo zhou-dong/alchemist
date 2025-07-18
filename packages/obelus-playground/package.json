@@ -15,7 +15,6 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@fontsource/inter": "^5.2.6",
     "@mui/material": "^7.2.0",
     "obelus": "file:../obelus",
     "obelus-gsap-player": "file:../obelus-gsap-player",

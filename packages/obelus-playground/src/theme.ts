@@ -1,5 +1,3 @@
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/600.css';
 import { type PaletteMode } from '@mui/material';
 import { type ThemeOptions } from '@mui/material/styles';
 
@@ -17,7 +15,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
             }),
     },
     typography: {
-        fontFamily: `'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif`,
+        fontFamily: `'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif`,
         button: {
             textTransform: 'none',
         },
