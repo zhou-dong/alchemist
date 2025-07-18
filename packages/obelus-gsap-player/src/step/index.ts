@@ -121,9 +121,9 @@ async function animateStep(
     onStart: Callback,
     onComplete: Callback,
 ): Promise<void> {
-    const target = objectMap[event.target];
+    const target = objectMap[event.targetId];
     if (!target) {
-        return Promise.reject(new Error(`Target '${event.target}' not found.`));
+        return Promise.reject(new Error(`Target '${event.targetId}' not found.`));
     }
 
     const events: (() => Promise<void>)[] = [];
