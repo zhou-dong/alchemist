@@ -1,1 +1,0 @@
-import { type StepSceneThree, latex, cylinderLine, circle, render, axis, scaleAxis } from 'obelus-three-render';
