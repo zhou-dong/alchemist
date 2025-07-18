@@ -30,6 +30,8 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) 
 
     useRunAsyncOnce(async () => {
 
+        const height = window.innerHeight / 2 - 120;
+
         // const zero = await latex('zero', '0', 15, { color, fontSize });
         // zero.target.position.set(-400, -20, 0);
         // const one = await latex('one', '1', 15, { color, fontSize });
@@ -43,7 +45,7 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) 
                 group("group1", ["axis_1", "point5", 'point_5'])
             ],
             steps: [
-                animate("axis_1", { position: { y: -40 } }, { duration: 1 }),
+                animate("axis_1", { position: { y: height } }, { duration: 1 }),
                 animate("group1", { position: { y: 400 } }, { duration: 1 }),
             ],
         };
