@@ -1,4 +1,4 @@
-import type { StepScene } from '../../../obelus/dist';
+import type { StepScene } from 'obelus';
 import { renderScene } from '../../../obelus-three-render/dist';
 import { StepScenePlayer, type PlayableStep } from '../../../obelus-gsap-player/dist';
 import React from 'react';
