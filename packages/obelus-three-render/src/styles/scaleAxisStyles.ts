@@ -99,7 +99,7 @@ export function scaleAxisWithStyle(id: string, props: ScaleAxisStyleProps) {
     const dotCount = props.dotCount || 3;
     const scaleDown = props.scaleDown || 0.3;
     const selectedStyle = scaleAxisStyles[style];
-    const scaleOffsetY = props.scaleOffsetY || -20;
+    const scaleOffsetY = props.scaleOffsetY || -25;
 
     return scaleAxis(id, {
         position: { start, end },
