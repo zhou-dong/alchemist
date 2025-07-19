@@ -45,6 +45,9 @@ function createCss3dRenderer(
 ) {
     const renderer = new CSS3DRenderer();
     renderer.setSize(width, height);
+    renderer.domElement.style.position = 'absolute';
+    renderer.domElement.style.top = '0';
+    renderer.domElement.style.pointerEvents = 'none';
     return renderer;
 };
 
