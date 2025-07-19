@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 import { Routes, Route } from 'react-router-dom';
-import { useThree } from './hooks/useThree';
+import { useDualRenderer } from './hooks/useThree';
 import OrderStatisticsPage from './sketches/theta/order-statistics';
 import WelcomePage from './sketches/theta/welcome/WelcomePage';
 import ThemeToggleFab from './ThemeToggleFab';
 import KmvPage from './sketches/theta/kmv';
 
-const { renderer, camera } = useThree();
+const { renderer, camera } = useDualRenderer();
 
 function App() {
   return (
