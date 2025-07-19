@@ -1,4 +1,4 @@
-export const defaultCss3dLatexStyle: Partial<CSSStyleDeclaration> = {
+export const defaultLatexStyle: Partial<CSSStyleDeclaration> = {
     fontSize: '18px',
     color: '#ffffff',
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
