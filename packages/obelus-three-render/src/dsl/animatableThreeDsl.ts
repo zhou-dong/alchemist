@@ -4,6 +4,7 @@ import { createLatexSprite } from "../builders/latexBuilder";
 import { buildCylinderLine } from "../builders/cylinderLineBuilder";
 import { buildAxis, AxisOptions } from "../builders/axisBuilder";
 import { buildAxisScale, AxisScaleLabelOptions } from "../builders/axisScaleBuilder";
+import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 
 export function animatable(id: string, target: THREE.Object3D): AnimatableObject<THREE.Object3D> {
     return { id, target, type: 'object' };
@@ -51,4 +52,11 @@ export function scaleAxis(id: string, options: ScaleAxisOptions): AnimatableObje
     group.add(maxSprite);
 
     return { id, target: group, type: 'object' };
+};
+
+export function css3dText(id: string, text: string, style: Partial<CSSStyleDeclaration>): AnimatableObject<CSS3DObject> {
+    const element = document.createElement('div');
+    element.textContent = text;
+    Object.assign(element.style, style);
+    return { id, target: new CSS3DObject(element), type: 'object' };
 };
