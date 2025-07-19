@@ -18,7 +18,7 @@ export function line(id: string, start: THREE.Vector3, end: THREE.Vector3, width
     return { id, target: mesh, type: 'object' };
 };
 
-export function latex(id: string, text: string, position: THREE.Vector3, style: Partial<CSSStyleDeclaration> = {}): AnimatableObject<CSS3DObject> {
+export function latex(id: string, text: string, position: { x: number, y: number, z: number }, style: Partial<CSSStyleDeclaration> = {}): AnimatableObject<CSS3DObject> {
     const element = buildCss3dLatex(text, style);
     element.position.set(position.x, position.y, position.z);
     return { id, target: element, type: 'object' };
