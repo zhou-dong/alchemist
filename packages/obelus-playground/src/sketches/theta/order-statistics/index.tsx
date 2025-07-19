@@ -35,6 +35,7 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseDualRenderer
         const point5 = await latex('point5', '\\frac{1}{2}', 50, { color, fontSize });
         point5.target.position.set(0, 0, 0);
 
+        // create a virsual group (axis and scale into one group)
         const stepScene: StepSceneThree = {
             objects: [
                 ...axis("axis_1", { startX: -400, endX: 400, startY: 0, endY: 0, }),
