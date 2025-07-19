@@ -7,10 +7,11 @@ export interface TextSpriteOptions {
     backgroundColor: string;
     scaleDown: number;
     padding: number;
+    fontWeight?: string; // Add font weight support
 }
 
 export function createInterTextSprite(options: TextSpriteOptions): THREE.Sprite {
-    const { text, fontSize, color, backgroundColor, scaleDown, padding } = options;
+    const { text, fontSize, color, backgroundColor, scaleDown, padding, fontWeight = 'normal' } = options;
 
     // Create canvas for text rendering
     const canvas = document.createElement('canvas');
@@ -20,8 +21,8 @@ export function createInterTextSprite(options: TextSpriteOptions): THREE.Sprite 
     context.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = 'high';
 
-    // Set canvas size with Inter font priority
-    context.font = `${fontSize}px 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif`;
+    // Set canvas size with Inter font priority and font weight
+    context.font = `${fontWeight} ${fontSize}px 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif`;
     const textMetrics = context.measureText(text);
     const textWidth = textMetrics.width;
     const textHeight = fontSize;
@@ -29,8 +30,8 @@ export function createInterTextSprite(options: TextSpriteOptions): THREE.Sprite 
     canvas.width = textWidth + padding * 2;
     canvas.height = textHeight + padding * 2;
 
-    // Set up context with Inter font priority and smoothing
-    context.font = `${fontSize}px 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif`;
+    // Set up context with Inter font priority, font weight, and smoothing
+    context.font = `${fontWeight} ${fontSize}px 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif`;
     context.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = 'high';
 
