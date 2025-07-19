@@ -1,14 +1,5 @@
 import * as THREE from "three";
 import { AxisOptions } from "../builders/axisBuilder";
-import { ScaleProps } from "../dsl/animatableThreeDsl";
-
-const defaultScaleStyle: Partial<CSSStyleDeclaration> = {
-    fontSize: '16px',
-    color: '#ffffff',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    fontWeight: 'normal',
-    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-};
 
 export const defaultAxisOptions: AxisOptions = {
     position: {
@@ -22,9 +13,15 @@ export const defaultAxisOptions: AxisOptions = {
     dotRadius: 0.1
 };
 
-export const defaultScaleProps: ScaleProps = {
+export const defaultScaleProps = {
     min: '0',
     max: '1',
-    scaleStyle: defaultScaleStyle,
+    scaleStyle: {
+        fontSize: '16px',
+        color: '#ffffff',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        fontWeight: 'normal',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+    },
     scaleOffset: new THREE.Vector3(0, 0, 0)
 };
