@@ -45,8 +45,6 @@ export function createInterTextSprite(options: TextSpriteOptions): THREE.Sprite 
     context.textAlign = 'center';
     context.fillText(text, canvas.width / 2, canvas.height / 2);
 
-    console.log('Text drawn with color:', context.fillStyle);
-
     // Create texture and sprite
     const texture = new THREE.CanvasTexture(canvas);
     texture.needsUpdate = true;
