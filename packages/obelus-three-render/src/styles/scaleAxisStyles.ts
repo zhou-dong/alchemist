@@ -15,7 +15,6 @@ export const scaleAxisStyles = {
         scale: {
             fontSize: 16,
             color: "#ffffff",
-            scaleDown: 0.1,
             padding: 8
         }
     },
@@ -61,12 +60,12 @@ export const scaleAxisStyles = {
 
     // Hot pink style (matching your current theme)
     hotpink: {
-        lineWidth: 3,
+        lineWidth: 2,
         lineMaterial: new THREE.LineBasicMaterial({ color: "#ff69b4" }),
         dotRadius: 4,
         dotMaterial: new THREE.MeshBasicMaterial({ color: "#ff69b4" }),
         scale: {
-            fontSize: '88px',
+            fontSize: '20px',
             color: "deeppink",
             padding: 10
         }
@@ -105,14 +104,11 @@ export function scaleAxisWithStyle(
     const dotCount = props.dotCount || 3;
     const selectedStyle = scaleAxisStyles[style];
     const scaleOffsetY = props.scaleOffsetY || -25;
+    const scaleStyle = selectedStyle.scale || scaleAxisStyles.hotpink.scale;
 
     const textOffset: { x: number, y: number, z: number } = { x: 0, y: scaleOffsetY, z: 0 }
 
-    Object.assign(textStyle, {
-        fontSize: '88px',
-        color: "deeppink",
-        padding: 10
-    });
+    Object.assign(textStyle, scaleStyle);
 
     const axisOptions = {
         position: { start, end },
