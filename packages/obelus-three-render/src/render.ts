@@ -21,6 +21,7 @@ export function render(objects: Animatable<Object3D | CSS3DObject>[], scene: Dua
             children
                 .map((childId) => record[childId])
                 .filter(child => !!child)
+                .filter((child) => child instanceof THREE.Object3D)
                 .forEach((child) => group.add(child));
             record[id] = group;
         });
@@ -29,6 +30,10 @@ export function render(objects: Animatable<Object3D | CSS3DObject>[], scene: Dua
         objects
             .filter((o) => o.type === 'group')
             .flatMap((o) => o.children)
+            .filter((childId) => {
+                const child = record[childId];
+                return child instanceof THREE.Object3D;
+            })
     );
 
     // only add root level objects

@@ -66,7 +66,7 @@ export const scaleAxisStyles = {
         dotRadius: 4,
         dotMaterial: new THREE.MeshBasicMaterial({ color: "#ff69b4" }),
         scale: {
-            fontSize: 18,
+            fontSize: '88px',
             color: "deeppink",
             padding: 10
         }
@@ -85,7 +85,6 @@ export type ScaleAxisStyleProps = {
     max?: number,
     style?: keyof typeof scaleAxisStyles;
     dotCount?: number;
-    scaleDown?: number;
     scaleOffsetY?: number;
 }
 
@@ -108,6 +107,12 @@ export function scaleAxisWithStyle(
     const scaleOffsetY = props.scaleOffsetY || -25;
 
     const textOffset: { x: number, y: number, z: number } = { x: 0, y: scaleOffsetY, z: 0 }
+
+    Object.assign(textStyle, {
+        fontSize: '88px',
+        color: "deeppink",
+        padding: 10
+    });
 
     const axisOptions = {
         position: { start, end },

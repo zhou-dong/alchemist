@@ -37,15 +37,20 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseDualRenderer
 
         const stepScene: StepSceneThree = {
             objects: [
-                ...axis("axis_1", { startX: -400, endX: 400, startY: 0, endY: 0, scaleDown: 0.1 }),
-                ...axis("axis_2", { startX: -400, endX: 400, startY: 0 - 100, endY: 0 - 100, scaleDown: 0.1 }),
-                ...axis("axis_3", { startX: -400, endX: 400, startY: 0 - 200, endY: 0 - 200, scaleDown: 0.1 }),
-                ...axis("axis_4", { startX: -400, endX: 400, startY: 0 - 300, endY: 0 - 300, scaleDown: 0.1 }),
-                ...axis("axis_5", { startX: -400, endX: 400, startY: 0 - 400, endY: 0 - 400, scaleDown: 0.1 }),
-                group("group1", ["axis_1", "axis_2", "axis_3", "axis_4", "axis_5"])
+                ...axis("axis_1", { startX: -400, endX: 400, startY: 0, endY: 0, }),
+                ...axis("axis_2", { startX: -400, endX: 400, startY: 0 - 100, endY: 0 - 100, }),
+                ...axis("axis_3", { startX: -400, endX: 400, startY: 0 - 200, endY: 0 - 200, }),
+                ...axis("axis_4", { startX: -400, endX: 400, startY: 0 - 300, endY: 0 - 300, }),
+                ...axis("axis_5", { startX: -400, endX: 400, startY: 0 - 400, endY: 0 - 400, }),
+                group("group1", [
+                    "axis_1", "axis_1_min", "axis_1_max",
+                    "axis_2", "axis_2_min", "axis_2_max",
+                    "axis_3", "axis_3_min", "axis_3_max",
+                    "axis_4", "axis_4_min", "axis_4_max",
+                    "axis_5", "axis_5_min", "axis_5_max"
+                ])
             ],
             steps: [
-                animate("axis_1", { position: { y: height } }, { duration: 1 }),
                 animate("group1", { position: { y: 100 } }, { duration: 1 }),
             ],
         };
