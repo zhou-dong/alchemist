@@ -1,10 +1,12 @@
 import { type Animatable } from "obelus";
 import { type Object3D } from "three";
 import * as THREE from "three";
+import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { DualScene } from "./dual";
 
-export function render(objects: Animatable<Object3D>[], scene: THREE.Scene): Record<string, Object3D> {
+export function render(objects: Animatable<Object3D | CSS3DObject>[], scene: DualScene): Record<string, Object3D | CSS3DObject> {
 
-    const record: Record<string, Object3D> = {};
+    const record: Record<string, Object3D | CSS3DObject> = {};
 
     // add objects to record
     objects
@@ -34,7 +36,13 @@ export function render(objects: Animatable<Object3D>[], scene: THREE.Scene): Rec
         .filter((o) => !children.has(o.id))
         .map((o) => record[o.id])
         .filter((o): o is Object3D => !!o)
-        .map(rootObject => scene.add(rootObject));
+        .forEach(rootObject => {
+            if (rootObject instanceof CSS3DObject) {
+                scene.css3dScene.add(rootObject);
+            } else {
+                scene.threeScene.add(rootObject);
+            }
+        });
 
     return record;
 }
