@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { DualRenderer } from 'obelus-three-render';
 
-export function useThreeContainer(renderer: THREE.WebGLRenderer) {
+export function useThreeContainer(dualRenderer: DualRenderer) {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if (containerRef.current !== null) {
-            containerRef.current.appendChild(renderer.domElement);
+            containerRef.current.appendChild(dualRenderer.webglRenderer.domElement);
+            containerRef.current.appendChild(dualRenderer.css3dRenderer.domElement);
         }
     }, [containerRef]);
 
