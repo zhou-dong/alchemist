@@ -1,5 +1,8 @@
 import * as THREE from "three";
-import { scaleAxis, type ScaleAxisOptions } from "../dsl/animatableThreeDsl";
+import { scaleAxis } from "../dsl/animatableThreeDsl";
+import { AnimatableObject } from "obelus";
+import { CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { type CSS3DTextStyle } from "./css3dTextStyles";
 
 // Default style presets for scaleAxis
 export const scaleAxisStyles = {
@@ -78,8 +81,8 @@ export type ScaleAxisStyleProps = {
     endX?: number,
     endY?: number,
     endZ?: number,
-    minValue?: number,
-    maxValue?: number,
+    min?: number,
+    max?: number,
     style?: keyof typeof scaleAxisStyles;
     dotCount?: number;
     scaleDown?: number;
@@ -87,44 +90,33 @@ export type ScaleAxisStyleProps = {
 }
 
 // Helper function to create scaleAxis with default styles
-export function scaleAxisWithStyle(id: string, props: ScaleAxisStyleProps) {
+export function scaleAxisWithStyle(
+    id: string,
+    props: ScaleAxisStyleProps,
+    textStyle: CSS3DTextStyle = {},
+): AnimatableObject<THREE.Group | CSS3DObject>[] {
     const { startX, startY, startZ, endX, endY, endZ } = props;
 
     const start = { x: startX || 0, y: startY || 0, z: startZ || 0 };
     const end = { x: endX || 0, y: endY || 0, z: endZ || 0 };
 
     const style = props.style || 'hotpink';
-    const minValue = props.minValue || 0;
-    const maxValue = props.maxValue || 1;
+    const minValue = props.min || 0;
+    const maxValue = props.max || 1;
     const dotCount = props.dotCount || 3;
-    const scaleDown = props.scaleDown || 0.3;
     const selectedStyle = scaleAxisStyles[style];
     const scaleOffsetY = props.scaleOffsetY || -25;
 
-    return scaleAxis(id, {
+    const textOffset: { x: number, y: number, z: number } = { x: 0, y: scaleOffsetY, z: 0 }
+
+    const axisOptions = {
         position: { start, end },
         dotCount,
         lineWidth: selectedStyle.lineWidth,
         lineMaterial: selectedStyle.lineMaterial,
         dotRadius: selectedStyle.dotRadius,
-        dotMaterial: selectedStyle.dotMaterial,
-        scale: {
-            min: {
-                value: minValue,
-                fontSize: selectedStyle.scale.fontSize,
-                color: selectedStyle.scale.color,
-                offset: { x: 0, y: scaleOffsetY, z: 0 },
-                scaleDown,
-                padding: selectedStyle.scale.padding
-            },
-            max: {
-                value: maxValue,
-                fontSize: selectedStyle.scale.fontSize,
-                color: selectedStyle.scale.color,
-                offset: { x: 0, y: scaleOffsetY, z: 0 },
-                scaleDown,
-                padding: selectedStyle.scale.padding
-            }
-        }
-    });
+        dotMaterial: selectedStyle.dotMaterial
+    }
+
+    return scaleAxis(id, axisOptions, minValue, maxValue, textStyle, textOffset);
 }

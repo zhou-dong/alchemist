@@ -1,6 +1,6 @@
 import React from 'react';
 import { animate, group, } from 'obelus';
-import type { UseThreeProps } from '../../../hooks/useThree';
+import type { UseDualRendererProps } from '../../../hooks/useThree';
 import { WrapperProvider } from '../wrapper/WrapperProvider';
 import { StepScenePlayer, type PlayableStep } from '../../../../../obelus-gsap-player/dist';
 import { useThreeContainer } from '../../../hooks/useThreeContainer';
@@ -9,16 +9,12 @@ import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
 import { type StepSceneThree, latex, circle, render, scaleAxisWithStyle as axis } from 'obelus-three-render';
 import { Button } from '@mui/material';
-import * as THREE from 'three';
 
 const color = "#ffffff";
 const fontSize = "28px";
 
-const radius = 6;
-const material = new THREE.MeshBasicMaterial({ color: "hotpink" }); // TODO: use material from obelus-three-render
 
-
-function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) {
+function OrderStatisticsPageContent({ renderer, scene, camera }: UseDualRendererProps) {
 
     const [steps, setSteps] = React.useState<PlayableStep[]>([]);
     const [disabled, setDisabled] = React.useState(false);
@@ -41,11 +37,11 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) 
 
         const stepScene: StepSceneThree = {
             objects: [
-                axis("axis_1", { startX: -400, endX: 400, startY: 0, endY: 0 }),
-                axis("axis_2", { startX: -400, endX: 400, startY: 0 - 100, endY: 0 - 100 }),
-                axis("axis_3", { startX: -400, endX: 400, startY: 0 - 200, endY: 0 - 200 }),
-                axis("axis_4", { startX: -400, endX: 400, startY: 0 - 300, endY: 0 - 300 }),
-                axis("axis_5", { startX: -400, endX: 400, startY: 0 - 400, endY: 0 - 400 }),
+                ...axis("axis_1", { startX: -400, endX: 400, startY: 0, endY: 0, scaleDown: 0.1 }),
+                ...axis("axis_2", { startX: -400, endX: 400, startY: 0 - 100, endY: 0 - 100, scaleDown: 0.1 }),
+                ...axis("axis_3", { startX: -400, endX: 400, startY: 0 - 200, endY: 0 - 200, scaleDown: 0.1 }),
+                ...axis("axis_4", { startX: -400, endX: 400, startY: 0 - 300, endY: 0 - 300, scaleDown: 0.1 }),
+                ...axis("axis_5", { startX: -400, endX: 400, startY: 0 - 400, endY: 0 - 400, scaleDown: 0.1 }),
                 group("group1", ["axis_1", "axis_2", "axis_3", "axis_4", "axis_5"])
             ],
             steps: [
