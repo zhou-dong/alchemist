@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { DualRenderer, DualScene } from 'obelus-three-render';
 
 export function createOrthographicCamera(
     width: number,
@@ -23,7 +25,7 @@ export function createOrthographicCamera(
     return camera;
 };
 
-export function createWebGLRenderer(
+function createWebglRenderer(
     width: number,
     height: number,
     {
@@ -37,19 +39,35 @@ export function createWebGLRenderer(
     return renderer;
 };
 
-export function useThree() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    const renderer = createWebGLRenderer(window.innerWidth, window.innerHeight);
-    const scene = new THREE.Scene();
-    const camera = createOrthographicCamera(width, height);
-
-    return { renderer, scene, camera };
+function createCss3dRenderer(
+    width: number,
+    height: number,
+) {
+    const renderer = new CSS3DRenderer();
+    renderer.setSize(width, height);
+    return renderer;
 };
 
-export interface UseThreeProps {
-    renderer: THREE.WebGLRenderer;
-    scene: THREE.Scene;
+export function createDualRenderer(
+    width: number,
+    height: number,
+) {
+    const webglRenderer = createWebglRenderer(width, height);
+    const css3dRenderer = createCss3dRenderer(width, height);
+    return new DualRenderer(webglRenderer as any, css3dRenderer as any);
+};
+
+export function useDualRenderer(
+    width: number = window.innerWidth,
+    height: number = window.innerHeight,
+) {
+    const renderer = createDualRenderer(width, height);
+    const camera = createOrthographicCamera(width, height);
+    return { renderer, camera };
+};
+
+export interface UseDualRendererProps {
+    renderer: DualRenderer;
+    scene: DualScene;
     camera: THREE.Camera;
 };
