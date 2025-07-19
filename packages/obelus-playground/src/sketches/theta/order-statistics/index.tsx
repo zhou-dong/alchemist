@@ -7,7 +7,7 @@ import { useThreeContainer } from '../../../hooks/useThreeContainer';
 import { useThreeAnimation } from '../../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
-import { type StepSceneThree, latex, circle, render, scaleAxisWithStyle as axis, scaleAxisChildren as axisChildren, css3dLatex } from 'obelus-three-render';
+import { type StepSceneThree, circle, render, scaleAxis as axis, scaleAxisChildren as axisChildren, latex } from 'obelus-three-render';
 import { Button } from '@mui/material';
 
 const color = "#ffffff";
@@ -49,7 +49,7 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseDualRenderer
                 ...axis("axis_3", { startX: -400, endX: 400, startY: 0 - 200, endY: 0 - 200, }),
                 ...axis("axis_4", { startX: -400, endX: 400, startY: 0 - 300, endY: 0 - 300, }),
                 ...axis("axis_5", { startX: -400, endX: 400, startY: 0 - 400, endY: 0 - 400, }),
-                css3dLatex("latex_1", "\\frac{1}{3}", { color: "red", fontSize: "28px" }),
+                latex("latex_1", "\\frac{1}{3}", { color: "red", fontSize: "28px" }),
                 group("group1", [...axis1Children, ...axis2Children, ...axis3Children, ...axis4Children, ...axis5Children])
             ],
             steps: [
