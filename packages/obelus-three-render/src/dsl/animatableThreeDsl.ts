@@ -33,6 +33,14 @@ export function axis(id: string, options: AxisOptions): AnimatableObject<THREE.G
     return { id, target: group, type: 'object' };
 };
 
+export function scaleAxisChildren(id: string): string[] {
+    return [
+        id,
+        id + '_min',
+        id + '_max'
+    ];
+}
+
 export function scaleAxis(
     id: string,
     axisOptions: AxisOptions,
