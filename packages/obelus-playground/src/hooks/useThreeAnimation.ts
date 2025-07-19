@@ -36,6 +36,6 @@ export function useThreeAnimation(
     return {
         startAnimation,
         stopAnimation,
-        renderAnimationOnce
+        renderAnimationOnce,
     };
 }
