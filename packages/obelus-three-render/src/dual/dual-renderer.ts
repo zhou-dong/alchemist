@@ -13,6 +13,14 @@ export class DualRenderer {
         this._css3dRenderer = css3dRenderer;
     }
 
+    get webglRenderer() {
+        return this._webglRenderer;
+    }
+
+    get css3dRenderer() {
+        return this._css3dRenderer;
+    }
+
     render(threeScene: THREE.Scene, css3dScene: THREE.Scene, camera: THREE.Camera) {
         this._webglRenderer.render(threeScene, camera);
         this._css3dRenderer.render(css3dScene, camera);
