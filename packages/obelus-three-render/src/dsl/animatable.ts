@@ -64,8 +64,6 @@ export function text(
 };
 
 export type AxisProps = {
-    start: Partial<Position>;
-    end: Partial<Position>;
     dotCount?: number;
     lineWidth?: number;
     lineMaterial: THREE.Material;
@@ -73,10 +71,8 @@ export type AxisProps = {
     dotMaterial: THREE.Material;
 };
 
-export function axis(id: string, props: AxisProps): Animatable<THREE.Group> {
-    const start = getPosition(props.start);
-    const end = getPosition(props.end);
+export function axis(id: string, start: Partial<Position>, end: Partial<Position>, props: AxisProps): Animatable<THREE.Group> {
     const { dotCount = 3, lineWidth = 1, lineMaterial, dotRadius = 4, dotMaterial } = props;
-    const target = Axis(start, end, dotCount, lineWidth, lineMaterial, dotRadius, dotMaterial);
+    const target = Axis(getPosition(start), getPosition(end), dotCount, lineWidth, lineMaterial, dotRadius, dotMaterial);
     return { id, target };
 };
