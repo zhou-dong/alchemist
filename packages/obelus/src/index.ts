@@ -1,6 +1,5 @@
 // objects
 export * from './types/animatable';
-export * from './dsl/animatableDsl';
 
 // events
 export * from './types/timelineEvent';
