@@ -1,6 +1,6 @@
 import { CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer';
 
-export function buildCss3dLatex(
+export function Latex(
     latex: string,
     style: Partial<CSSStyleDeclaration>
 ): CSS3DObject {

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export function buildCylinderLine(
+export function Line(
     start: { x: number, y: number, z: number },
     end: { x: number, y: number, z: number },
     width: number,

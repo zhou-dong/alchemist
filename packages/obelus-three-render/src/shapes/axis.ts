@@ -1,23 +1,20 @@
 import * as THREE from "three";
-import { buildCylinderLine } from "./cylinderLineBuilder";
-
-export type AxisProps = {
-    start: { x: number, y: number, z: number };
-    end: { x: number, y: number, z: number };
-    dotCount: number;
-    lineWidth: number;
-    lineMaterial: THREE.Material;
-    dotRadius: number;
-    dotMaterial: THREE.Material;
-};
-
+import { Line } from "./line";
 // Generic axis creation function
-export function buildAxis({ start, end, dotCount, lineWidth, lineMaterial, dotMaterial, dotRadius }: AxisProps): THREE.Group {
+export function Axis(
+    start: { x: number, y: number, z: number },
+    end: { x: number, y: number, z: number },
+    dotCount: number,
+    lineWidth: number,
+    lineMaterial: THREE.Material,
+    dotRadius: number,
+    dotMaterial: THREE.Material
+): THREE.Group {
     const group = new THREE.Group();
 
     const startPoint = new THREE.Vector3(start.x, start.y, start.z);
     const endPoint = new THREE.Vector3(end.x, end.y, end.z);
-    const line = buildCylinderLine(start, end, lineWidth, lineMaterial);
+    const line = Line(start, end, lineWidth, lineMaterial);
     group.add(line);
 
     // Create dots along the axis
