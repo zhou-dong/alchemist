@@ -1,19 +1,21 @@
 import * as THREE from "three";
 import { AxisProps } from "../dsl/animatable";
 
-export const lineStyles: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({ color: 'hotpink' });
+export const lineStyle: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({ color: 'hotpink' });
 
-export const axisStyles: AxisProps = {
+export const axisStyle: AxisProps = {
     dotCount: 3,
     lineWidth: 2,
-    lineMaterial: lineStyles,
+    lineMaterial: lineStyle,
     dotMaterial: new THREE.MeshBasicMaterial({ color: 'cyan' }),
     dotRadius: 4
 }
 
-export const textStyles: Partial<CSSStyleDeclaration> = {
+export const textStyle: Partial<CSSStyleDeclaration> = {
     color: 'cyan',
     fontSize: '16px',
     fontWeight: 'normal',
     fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
 }
+
+export const ringStyle: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: 'cyan' });
