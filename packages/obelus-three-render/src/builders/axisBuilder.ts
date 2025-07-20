@@ -1,13 +1,9 @@
 import * as THREE from "three";
 import { buildCylinderLine } from "./cylinderLineBuilder";
 
-export type AxisPosition = {
+export type AxisProps = {
     start: { x: number, y: number, z: number };
     end: { x: number, y: number, z: number };
-};
-
-export type AxisOptions = {
-    position: AxisPosition;
     dotCount: number;
     lineWidth: number;
     lineMaterial: THREE.Material;
@@ -16,18 +12,8 @@ export type AxisOptions = {
 };
 
 // Generic axis creation function
-export function buildAxis(options: AxisOptions): THREE.Group {
-    const {
-        position,
-        dotCount,
-        lineWidth,
-        lineMaterial,
-        dotMaterial,
-        dotRadius
-    } = options;
-
+export function buildAxis({ start, end, dotCount, lineWidth, lineMaterial, dotMaterial, dotRadius }: AxisProps): THREE.Group {
     const group = new THREE.Group();
-    const { start, end } = position;
 
     const startPoint = new THREE.Vector3(start.x, start.y, start.z);
     const endPoint = new THREE.Vector3(end.x, end.y, end.z);
@@ -48,4 +34,3 @@ export function buildAxis(options: AxisOptions): THREE.Group {
 
     return group;
 }
-
