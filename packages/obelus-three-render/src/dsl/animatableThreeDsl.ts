@@ -13,7 +13,7 @@ export function circle(id: string, geometry: THREE.CircleGeometry, material: THR
     return { id, target: new THREE.Mesh(geometry, material), type: 'object' };
 };
 
-export function line(id: string, start: THREE.Vector3, end: THREE.Vector3, width: number, material: THREE.Material): AnimatableObject<THREE.Mesh> {
+export function line(id: string, start: { x: number, y: number, z: number }, end: { x: number, y: number, z: number }, width: number, material: THREE.Material): AnimatableObject<THREE.Mesh> {
     const mesh = buildCylinderLine(start, end, width, material);
     return { id, target: mesh, type: 'object' };
 };
@@ -24,7 +24,7 @@ export function latex(id: string, text: string, position: { x: number, y: number
     return { id, target: element, type: 'object' };
 };
 
-export function text(id: string, text: string, position: THREE.Vector3, style: Partial<CSSStyleDeclaration> = {}): AnimatableObject<CSS3DObject> {
+export function text(id: string, text: string, position: { x: number, y: number, z: number }, style: Partial<CSSStyleDeclaration> = {}): AnimatableObject<CSS3DObject> {
     const element = document.createElement('div');
     element.textContent = text;
     Object.assign(element.style, style);
@@ -46,7 +46,7 @@ interface ScaleProps {
     min: string;
     max: string;
     scaleStyle: Partial<CSSStyleDeclaration>;
-    scaleOffset: THREE.Vector3;
+    scaleOffset: { x: number, y: number, z: number };
 }
 
 export function scaleAxis(id: string, axisOptions: AxisOptions, scaleProps: ScaleProps): AnimatableObject<THREE.Group | CSS3DObject>[] {
@@ -57,6 +57,6 @@ export function scaleAxis(id: string, axisOptions: AxisOptions, scaleProps: Scal
     return [baseLine, minText, maxText];
 };
 
-function createPosition(position: THREE.Vector3, textOffset: THREE.Vector3): THREE.Vector3 {
-    return new THREE.Vector3(position.x + textOffset.x, position.y + textOffset.y, position.z + textOffset.z);
+function createPosition(position: { x: number, y: number, z: number }, textOffset: { x: number, y: number, z: number }): { x: number, y: number, z: number } {
+    return { x: position.x + textOffset.x, y: position.y + textOffset.y, z: position.z + textOffset.z };
 };

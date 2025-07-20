@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { buildCylinderLine } from "./cylinderLineBuilder";
 
 export type AxisPosition = {
-    start: THREE.Vector3;
-    end: THREE.Vector3;
+    start: { x: number, y: number, z: number };
+    end: { x: number, y: number, z: number };
 };
 
 export type AxisOptions = {

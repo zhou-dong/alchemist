@@ -7,7 +7,7 @@ import { useThreeContainer } from '../../../hooks/useThreeContainer';
 import { useThreeAnimation } from '../../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
-import { type StepSceneThree, circle, render, scaleAxis as axis, scaleAxisChildren as axisChildren, latex } from 'obelus-three-render';
+import { type StepSceneThree, circle, render, scaleAxis as axis, scaleAxisChildren as axisChildren, latex, hotpinkAxis, defaultScaleProps } from 'obelus-three-render';
 import { Button } from '@mui/material';
 
 const color = "#ffffff";
@@ -28,29 +28,14 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseDualRenderer
 
         const height = window.innerHeight / 2 - 120;
 
-        // const zero = await latex('zero', '0', 15, { color, fontSize });
-        // zero.target.position.set(-400, -20, 0);
-        // const one = await latex('one', '1', 15, { color, fontSize });
-        // one.target.position.set(400, -20, 0);
-        const point5 = await latex('point5', '\\frac{1}{2}', 50, { color, fontSize });
-        point5.target.position.set(0, 0, 0);
 
-        // create a virsual group (axis and scale into one group)
         const axis1Children = axisChildren("axis_1");
-        const axis2Children = axisChildren("axis_2");
-        const axis3Children = axisChildren("axis_3");
-        const axis4Children = axisChildren("axis_4");
-        const axis5Children = axisChildren("axis_5");
 
         const stepScene: StepSceneThree = {
             objects: [
-                ...axis("axis_1", { startX: -400, endX: 400, startY: 0, endY: 0, }),
-                ...axis("axis_2", { startX: -400, endX: 400, startY: 0 - 100, endY: 0 - 100, }),
-                ...axis("axis_3", { startX: -400, endX: 400, startY: 0 - 200, endY: 0 - 200, }),
-                ...axis("axis_4", { startX: -400, endX: 400, startY: 0 - 300, endY: 0 - 300, }),
-                ...axis("axis_5", { startX: -400, endX: 400, startY: 0 - 400, endY: 0 - 400, }),
-                latex("latex_1", "\\frac{1}{3}", { color: "red", fontSize: "28px" }),
-                group("group1", [...axis1Children, ...axis2Children, ...axis3Children, ...axis4Children, ...axis5Children])
+                ...axis("axis_1", hotpinkAxis({ x: -400, }, { x: 400, }), defaultScaleProps({ y: -20, })),
+                latex("latex_1", "\\frac{1}{2}", { x: 0, y: -35, z: 0 }, { color: "hotpink", fontSize: "20px" }),
+                group("group1", [...axis1Children, "latex_1"]),
             ],
             steps: [
                 animate("group1", { position: { y: 100 } }, { duration: 1 }),
