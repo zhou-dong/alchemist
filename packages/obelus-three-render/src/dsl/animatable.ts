@@ -63,6 +63,20 @@ export function text(
     return { id, target: css3dObject };
 };
 
+export function ring(
+    id: string,
+    radius: number,
+    width: number,
+    position: Partial<Position>,
+    material: THREE.Material
+): Animatable<THREE.Mesh> {
+    const geometry = new THREE.RingGeometry(radius, radius + width, 32);
+    const mesh = new THREE.Mesh(geometry, material);
+    const { x, y, z } = getPosition(position);
+    mesh.position.set(x, y, z);
+    return { id, target: mesh };
+};
+
 export type AxisProps = {
     dotCount?: number;
     lineWidth?: number;
@@ -71,7 +85,12 @@ export type AxisProps = {
     dotMaterial: THREE.Material;
 };
 
-export function axis(id: string, start: Partial<Position>, end: Partial<Position>, props: AxisProps): Animatable<THREE.Group> {
+export function axis(
+    id: string,
+    start: Partial<Position>,
+    end: Partial<Position>,
+    props: AxisProps
+): Animatable<THREE.Group> {
     const { dotCount = 3, lineWidth = 1, lineMaterial, dotRadius = 4, dotMaterial } = props;
     const target = Axis(getPosition(start), getPosition(end), dotCount, lineWidth, lineMaterial, dotRadius, dotMaterial);
     return { id, target };
