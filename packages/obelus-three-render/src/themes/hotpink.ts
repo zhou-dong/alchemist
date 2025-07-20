@@ -12,7 +12,7 @@ export const axisStyles: AxisProps = {
 }
 
 export const textStyles: Partial<CSSStyleDeclaration> = {
-    color: 'hotpink',
+    color: 'cyan',
     fontSize: '16px',
     fontWeight: 'normal',
     fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
