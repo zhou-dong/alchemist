@@ -1,5 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { animate, parallel, } from 'obelus';
+import * as PlayArrow from '@mui/icons-material/PlayArrow';
+import * as ArrowForward from '@mui/icons-material/ArrowForward';
 import { type UseDualRendererProps } from '../../hooks/useThree';
 import { WrapperProvider } from './wrapper/WrapperProvider';
 import { StepScenePlayer, type PlayableStep } from '../../../../obelus-gsap-player/dist';
@@ -8,6 +11,9 @@ import { useThreeAnimation } from '../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../hooks/useThreeAutoResize';
 import { type StepSceneThree, render, axis, latex, axisStyle, textStyle, ringStyle, ring, text, DualScene } from 'obelus-three-render';
 import { Button } from '@mui/material';
+
+const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
+const ArrowForwardIcon = ArrowForward.default as unknown as React.ElementType;
 
 const y = 0 - window.innerHeight / 2 - 30;
 const axisStart = () => ({ x: -500, y, z: 0, });
@@ -210,9 +216,18 @@ let hasInitialized = false;
 const scene = new DualScene();
 const record = render(stepScene.objects, scene as any);
 let steps: PlayableStep[] = [];
-let index = 0;
+let index = -1;
 
-function OrderStatisticsPageContent({ renderer, camera }: UseDualRendererProps) {
+function OrderStatisticsPageContent({
+    useDualRendererProps,
+    setShowStepper,
+}: {
+    useDualRendererProps: UseDualRendererProps;
+    setShowStepper: React.Dispatch<React.SetStateAction<boolean>>
+
+}) {
+    const navigate = useNavigate();
+    const { renderer, camera } = useDualRendererProps;
 
     const [disabled, setDisabled] = React.useState(false);
 
@@ -221,21 +236,35 @@ function OrderStatisticsPageContent({ renderer, camera }: UseDualRendererProps) 
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     React.useEffect(() => {
+        if (index > -1) {
+            setShowStepper(false);
+            return;
+        }
+
         if (hasInitialized) return;
         hasInitialized = true;
         steps = StepScenePlayer({ objectMap: record, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation });
     }, []);
 
-    const nextClick = async () => {
+    const onClick = async () => {
+        if (index === -1) {
+            setShowStepper(false);
+            index = 0;
+            return;
+        }
+
+        if (index === steps.length) {
+            navigate('/sketches/theta/kmv');
+            return;
+        }
+
         setDisabled(true);
         await steps[index].play();
 
-        if (index === steps.length - 1) return;
 
         index = index + 1;
         setDisabled(false);
     };
-
 
     return (
         <>
@@ -249,20 +278,23 @@ function OrderStatisticsPageContent({ renderer, camera }: UseDualRendererProps) 
                     transform: 'translateX(-50%)',
                     zIndex: 1300,
                 }}
-                onClick={nextClick}
+                startIcon={index === steps.length - 1 ? <ArrowForwardIcon /> : <PlayArrowIcon />}
+                onClick={onClick}
                 disabled={disabled}
             >
-                play
+                {index === -1 ? "Start" : index === steps.length - 1 ? "KMV" : "Next"}
             </Button>
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );
 }
 
-export default function OrderStatisticsPage({ renderer, scene, camera }: UseDualRendererProps) {
+export default function OrderStatisticsPage(useDualRendererProps: UseDualRendererProps) {
+    const [showStepper, setShowStepper] = React.useState(true);
+
     return (
-        <WrapperProvider title="Order Statistics" activeStep={0}>
-            <OrderStatisticsPageContent renderer={renderer} scene={scene} camera={camera} />
+        <WrapperProvider title="Order Statistics" activeStep={0} showStepper={showStepper} setShowStepper={setShowStepper}>
+            <OrderStatisticsPageContent useDualRendererProps={useDualRendererProps} setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
 }

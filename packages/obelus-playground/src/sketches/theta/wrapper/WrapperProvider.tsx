@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import GoToWelcome from './GoToWelcome';
 import ProgressStepper from '../stepper/ProgressStepper';
 import StepperToggleFab from '../stepper/ProgressStepperToggleFab';
@@ -21,6 +21,8 @@ const Title = ({ title }: { title: string }) => (
 type WrapperContextType = {
     activeStep: number;
     title: string;
+    showStepper: boolean;
+    setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const WrapperContext = createContext<WrapperContextType | undefined>(undefined);
@@ -29,15 +31,17 @@ export function WrapperProvider({
     title,
     activeStep,
     children,
+    showStepper,
+    setShowStepper,
 }: {
     title: string;
     activeStep: number;
     children: React.ReactNode;
+    showStepper: boolean;
+    setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-    const [showStepper, setShowStepper] = useState(false);
-
     return (
-        <WrapperContext.Provider value={{ activeStep, title }}>
+        <WrapperContext.Provider value={{ activeStep, title, showStepper, setShowStepper }}>
             {children}
             {showStepper && <ProgressStepper activeStep={activeStep} />}
             <Title title={title} />
@@ -48,4 +52,12 @@ export function WrapperProvider({
             />
         </WrapperContext.Provider>
     );
+}
+
+export function useWrapper() {
+    const context = useContext(WrapperContext);
+    if (!context) {
+        throw new Error('useWrapper must be used within a WrapperProvider');
+    }
+    return context;
 }
