@@ -214,8 +214,6 @@ const stepScene: StepSceneThree = {
     ],
 };
 
-let hasInitialized = false;
-
 const renderer = createDualRenderer();
 const scene = new DualScene();
 const camera = createOrthographicCamera();
@@ -248,9 +246,6 @@ function OrderStatisticsPageContent({
             setShowStepper(false);
             return;
         }
-
-        if (hasInitialized) return;
-        hasInitialized = true;
 
         return () => {
             animationController.stopAnimation();
