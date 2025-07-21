@@ -1,12 +1,12 @@
-const STEP_1 = `
-\\mathbb{E}[X_{(k)}] = \\frac{k}{n + 1} \\quad \\quad \\text{Order Statistics}
+const ORRDER_STATISTICS_FORMULA = `
+\\mathbb{E}[X_{(k)}] = \\frac{k}{n + 1}
 `;
 
-const STEP_2 = `
-\\mathbb{E}[X_{(k)}] = \\theta \\quad \\quad \\quad \\quad \\quad \\text{Theta}
+const THETA_DEFINITION = `
+\\mathbb{E}[X_{(k)}] = \\theta
 `;
 
-const STEP_3 = `
+const THETA_EQUATION = `
 \\Rightarrow \\quad
 \\theta = \\frac{k}{n + 1}
 `;
@@ -36,24 +36,20 @@ const STEP_8 = `
 n + 1 - 1= \\frac{k}{\\theta} - 1
 
 `;
-const STEP_9 = `
+
+const KMV_FORMULA = `
 \\Rightarrow \\quad
 n = \\frac{k}{\\theta} - 1
 `;
 
-type Step = {
-    formula: string;
-    height: number;
-}
-
-export const orderStatisticsToKmvFormulas: Step[] = [
-    { formula: STEP_1, height: 50 },
-    { formula: STEP_2, height: 25 },
-    { formula: STEP_3, height: 50 },
-    { formula: STEP_4, height: 50 },
-    { formula: STEP_5, height: 25 },
-    { formula: STEP_6, height: 50 },
-    { formula: STEP_7, height: 50 },
-    { formula: STEP_8, height: 50 },
-    { formula: STEP_9, height: 50 },
+export const ORDER_STATISTICS_TO_KMV_FORMULAS = [
+    ORRDER_STATISTICS_FORMULA,
+    THETA_DEFINITION,
+    THETA_EQUATION,
+    STEP_4,
+    STEP_5,
+    STEP_6,
+    STEP_7,
+    STEP_8,
+    KMV_FORMULA,
 ];
