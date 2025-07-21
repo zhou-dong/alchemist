@@ -6,7 +6,7 @@ import * as ArrowForward from '@mui/icons-material/ArrowForward';
 import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
 import { createDualRenderer, createOrthographicCamera } from '../../utils/threeUtils';
 import { WrapperProvider } from './wrapper/WrapperProvider';
-import { StepScenePlayer, type PlayableStep } from '../../../../obelus-gsap-player/dist';
+import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../hooks/useThreeAutoResize';
 import { type StepSceneThree, render, axis, latex, axisStyle, textStyle, ringStyle, ring, text, DualScene } from 'obelus-three-render';
@@ -220,12 +220,12 @@ const camera = createOrthographicCamera();
 const animationController = new AnimationController(renderer, scene, camera);
 
 const record = render(stepScene.objects, scene as any);
-let steps: PlayableStep[] = StepScenePlayer({
-    objectMap: record,
-    events: stepScene.steps,
-    onStart: animationController.startAnimation,
-    onComplete: animationController.stopAnimation
-});
+let steps: PlayableStep[] = buildPlayerSteps(
+    stepScene.steps,
+    record,
+    animationController.startAnimation,
+    animationController.stopAnimation
+);
 
 let index = -1;
 
