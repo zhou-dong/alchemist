@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { animate, parallel, } from 'obelus';
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as ArrowForward from '@mui/icons-material/ArrowForward';
-import { type UseDualRendererProps } from '../../hooks/useThree';
+import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
+import { type DualRendererProps } from '../../hooks/useThree';
 import { WrapperProvider } from './wrapper/WrapperProvider';
 import { StepScenePlayer, type PlayableStep } from '../../../../obelus-gsap-player/dist';
 import { useThreeContainer } from '../../hooks/useThreeContainer';
@@ -14,6 +15,7 @@ import { Button } from '@mui/material';
 
 const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
 const ArrowForwardIcon = ArrowForward.default as unknown as React.ElementType;
+const RocketLaunchIcon = RocketLaunch.default as unknown as React.ElementType;
 
 const y = 0 - window.innerHeight / 2 - 30;
 const axisStart = () => ({ x: -500, y, z: 0, });
@@ -219,15 +221,15 @@ let steps: PlayableStep[] = [];
 let index = -1;
 
 function OrderStatisticsPageContent({
-    useDualRendererProps,
+    dualRendererProps,
     setShowStepper,
 }: {
-    useDualRendererProps: UseDualRendererProps;
+    dualRendererProps: DualRendererProps;
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>
 
 }) {
     const navigate = useNavigate();
-    const { renderer, camera } = useDualRendererProps;
+    const { renderer, camera } = dualRendererProps;
 
     const [disabled, setDisabled] = React.useState(false);
 
@@ -278,23 +280,23 @@ function OrderStatisticsPageContent({
                     transform: 'translateX(-50%)',
                     zIndex: 1300,
                 }}
-                startIcon={index === steps.length - 1 ? <ArrowForwardIcon /> : <PlayArrowIcon />}
+                startIcon={index === -1 ? <RocketLaunchIcon /> : index === steps.length ? <ArrowForwardIcon /> : <PlayArrowIcon />}
                 onClick={onClick}
                 disabled={disabled}
             >
-                {index === -1 ? "Start" : index === steps.length - 1 ? "KMV" : "Next"}
+                {index === -1 ? "Start" : index === steps.length ? "KMV" : "Next"}
             </Button>
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );
 }
 
-export default function OrderStatisticsPage(useDualRendererProps: UseDualRendererProps) {
+export default function OrderStatisticsPage(useDualRendererProps: DualRendererProps) {
     const [showStepper, setShowStepper] = React.useState(true);
 
     return (
         <WrapperProvider title="Order Statistics" activeStep={0} showStepper={showStepper} setShowStepper={setShowStepper}>
-            <OrderStatisticsPageContent useDualRendererProps={useDualRendererProps} setShowStepper={setShowStepper} />
+            <OrderStatisticsPageContent dualRendererProps={useDualRendererProps} setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
 }

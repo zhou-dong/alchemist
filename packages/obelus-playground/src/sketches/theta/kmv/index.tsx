@@ -1,5 +1,5 @@
 import React from 'react';
-import type { UseThreeProps } from '../../../hooks/useThree';
+import type { DualRendererProps } from '../../../hooks/useThree';
 import { WrapperProvider } from '../wrapper/WrapperProvider';
 // import { dslStepScene } from './order-statistics-to-kmv-dsl';
 import { StepScenePlayer, type PlayableStep } from '../../../../../obelus-gsap-player/dist';
@@ -10,8 +10,19 @@ import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
 // import { renderScene } from '../../../../../obelus-three-render/dist';
 import { alignX } from '../interfaces/utils';
 import { Button } from '@mui/material';
+import { DualScene } from 'obelus-three-render';
 
-function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) {
+const scene = new DualScene();
+
+function KmvPageContent(
+    {
+        dualRendererProps,
+        setShowStepper,
+    }: {
+        dualRendererProps: DualRendererProps;
+        setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
+    }) {
+    const { renderer, camera } = dualRendererProps;
 
     const [steps, setSteps] = React.useState<PlayableStep[]>([]);
     const [disabled, setDisabled] = React.useState(false);
@@ -61,10 +72,12 @@ function OrderStatisticsPageContent({ renderer, scene, camera }: UseThreeProps) 
     );
 }
 
-export default function KmvPage({ renderer, scene, camera }: UseThreeProps) {
+export default function KmvPage(dualRendererProps: DualRendererProps) {
+    const [showStepper, setShowStepper] = React.useState(true);
+
     return (
-        <WrapperProvider title="k Minimum Value (KMV)" activeStep={1}>
-            <OrderStatisticsPageContent renderer={renderer} scene={scene} camera={camera} />
+        <WrapperProvider title="k Minimum Value (KMV)" activeStep={1} showStepper={showStepper} setShowStepper={setShowStepper}>
+            <KmvPageContent dualRendererProps={dualRendererProps} setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
 }

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { DualRenderer, DualScene } from 'obelus-three-render';
+import { DualRenderer } from 'obelus-three-render';
 
 export function createOrthographicCamera(
     width: number,
@@ -69,8 +69,7 @@ export function useDualRenderer(
     return { renderer, camera };
 };
 
-export interface UseDualRendererProps {
+export interface DualRendererProps {
     renderer: DualRenderer;
-    scene: DualScene;
     camera: THREE.Camera;
 };
