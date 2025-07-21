@@ -3,8 +3,8 @@ import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { DualRenderer } from 'obelus-three-render';
 
 export function createOrthographicCamera(
-    width: number,
-    height: number,
+    width: number = window.innerWidth,
+    height: number = window.innerHeight,
     {
         near = 0.1,
         far = 1000,
@@ -52,8 +52,8 @@ function createCss3dRenderer(
 };
 
 export function createDualRenderer(
-    width: number,
-    height: number,
+    width: number = window.innerWidth,
+    height: number = window.innerHeight,
 ) {
     const webglRenderer = createWebglRenderer(width, height);
     const css3dRenderer = createCss3dRenderer(width, height);
@@ -67,9 +67,4 @@ export function useDualRenderer(
     const renderer = createDualRenderer(width, height);
     const camera = createOrthographicCamera(width, height);
     return { renderer, camera };
-};
-
-export interface DualRendererProps {
-    renderer: DualRenderer;
-    camera: THREE.Camera;
 };
