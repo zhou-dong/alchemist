@@ -4,7 +4,7 @@ import { animate, parallel, } from 'obelus';
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as ArrowForward from '@mui/icons-material/ArrowForward';
 import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
-import { type DualRendererProps } from '../../hooks/useThree';
+import { createDualRenderer, createOrthographicCamera } from '../../hooks/useThree';
 import { WrapperProvider } from './wrapper/WrapperProvider';
 import { StepScenePlayer, type PlayableStep } from '../../../../obelus-gsap-player/dist';
 import { useThreeContainer } from '../../hooks/useThreeContainer';
@@ -215,21 +215,21 @@ const stepScene: StepSceneThree = {
 };
 
 let hasInitialized = false;
+
+const renderer = createDualRenderer();
 const scene = new DualScene();
+const camera = createOrthographicCamera();
+
 const record = render(stepScene.objects, scene as any);
 let steps: PlayableStep[] = [];
 let index = -1;
 
 function OrderStatisticsPageContent({
-    dualRendererProps,
     setShowStepper,
 }: {
-    dualRendererProps: DualRendererProps;
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>
-
 }) {
     const navigate = useNavigate();
-    const { renderer, camera } = dualRendererProps;
 
     const [disabled, setDisabled] = React.useState(false);
 
@@ -291,12 +291,12 @@ function OrderStatisticsPageContent({
     );
 }
 
-export default function OrderStatisticsPage(useDualRendererProps: DualRendererProps) {
+export default function OrderStatisticsPage() {
     const [showStepper, setShowStepper] = React.useState(true);
 
     return (
         <WrapperProvider title="Order Statistics" activeStep={0} showStepper={showStepper} setShowStepper={setShowStepper}>
-            <OrderStatisticsPageContent dualRendererProps={useDualRendererProps} setShowStepper={setShowStepper} />
+            <OrderStatisticsPageContent setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
 }
