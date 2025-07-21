@@ -1,21 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { animate, parallel, } from 'obelus';
-import * as PlayArrow from '@mui/icons-material/PlayArrow';
-import * as ArrowForward from '@mui/icons-material/ArrowForward';
-import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
 import { createDualRenderer, createOrthographicCamera } from '../../utils/threeUtils';
 import { WrapperProvider } from './wrapper/WrapperProvider';
 import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../hooks/useThreeAutoResize';
 import { type StepSceneThree, render, axis, latex, axisStyle, textStyle, ringStyle, ring, text, DualScene } from 'obelus-three-render';
-import { Button } from '@mui/material';
 import { AnimationController } from '../../utils/animation-controller';
-
-const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
-const ArrowForwardIcon = ArrowForward.default as unknown as React.ElementType;
-const RocketLaunchIcon = RocketLaunch.default as unknown as React.ElementType;
+import PlayButton from './components/PlayButton';
 
 const y = 0 - window.innerHeight / 2 - 30;
 const axisStart = () => ({ x: -500, y, z: 0, });
@@ -273,22 +266,7 @@ function OrderStatisticsPageContent({
 
     return (
         <>
-            <Button
-                variant='contained'
-                size="large"
-                sx={{
-                    position: 'fixed',
-                    bottom: 50,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 1300,
-                }}
-                startIcon={index === -1 ? <RocketLaunchIcon /> : index === steps.length ? <ArrowForwardIcon /> : <PlayArrowIcon />}
-                onClick={onClick}
-                disabled={disabled}
-            >
-                {index === -1 ? "Start" : index === steps.length ? "KMV" : "Next"}
-            </Button>
+            <PlayButton index={index} steps={steps} disabled={disabled} nextPage="KMV" onClick={onClick} />
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );
