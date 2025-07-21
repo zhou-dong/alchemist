@@ -11,15 +11,17 @@ import PlayButton from '../components/PlayButton';
 import { AnimationController } from '../../../utils/animation-controller';
 import { ORDER_STATISTICS_TO_KMV_FORMULAS } from './order-statistics-to-kmv-latex';
 
+const globalMargin = 30;
+
 const latexes = ORDER_STATISTICS_TO_KMV_FORMULAS.map((formula, index) => {
-    const y = 0 - window.innerHeight / 2 - 30;
+    const y = 0 - window.innerHeight / 2 - globalMargin;
     return latex(`formula_${index}`, formula, { y }, textStyle);
 });
 
 const displayLatexesSteps = latexes.map((_, index) => {
     const margin = window.innerHeight / 4;
     const lineHeight = window.innerHeight / 2 / latexes.length;
-    return animate(`formula_${index}`, { position: { y: `+=${window.innerHeight - margin - (index * lineHeight)}` } }, { duration: 1 });
+    return animate(`formula_${index}`, { position: { y: `+=${window.innerHeight - margin - (index * lineHeight) + globalMargin}` } }, { duration: 1 });
 });
 
 const moveLatexesToLeftSteps = latexes.map((_, index) => {
