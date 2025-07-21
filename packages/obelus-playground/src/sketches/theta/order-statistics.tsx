@@ -251,6 +251,10 @@ function OrderStatisticsPageContent({
 
         if (hasInitialized) return;
         hasInitialized = true;
+
+        return () => {
+            animationController.stopAnimation();
+        };
     }, []);
 
     const onClick = async () => {
