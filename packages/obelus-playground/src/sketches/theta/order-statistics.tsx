@@ -267,7 +267,6 @@ function OrderStatisticsPageContent({
         setDisabled(true);
         await steps[index].play();
 
-
         index = index + 1;
         setDisabled(false);
     };
