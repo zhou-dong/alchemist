@@ -8,10 +8,10 @@ import { createDualRenderer, createOrthographicCamera } from '../../utils/threeU
 import { WrapperProvider } from './wrapper/WrapperProvider';
 import { StepScenePlayer, type PlayableStep } from '../../../../obelus-gsap-player/dist';
 import { useThreeContainer } from '../../hooks/useThreeContainer';
-import { useThreeAnimation } from '../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../hooks/useThreeAutoResize';
 import { type StepSceneThree, render, axis, latex, axisStyle, textStyle, ringStyle, ring, text, DualScene } from 'obelus-three-render';
 import { Button } from '@mui/material';
+import { AnimationController } from '../../utils/animation-controller';
 
 const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
 const ArrowForwardIcon = ArrowForward.default as unknown as React.ElementType;
@@ -219,9 +219,16 @@ let hasInitialized = false;
 const renderer = createDualRenderer();
 const scene = new DualScene();
 const camera = createOrthographicCamera();
+const animationController = new AnimationController(renderer, scene, camera);
 
 const record = render(stepScene.objects, scene as any);
-let steps: PlayableStep[] = [];
+let steps: PlayableStep[] = StepScenePlayer({
+    objectMap: record,
+    events: stepScene.steps,
+    onStart: animationController.startAnimation,
+    onComplete: animationController.stopAnimation
+});
+
 let index = -1;
 
 function OrderStatisticsPageContent({
@@ -234,7 +241,6 @@ function OrderStatisticsPageContent({
     const [disabled, setDisabled] = React.useState(false);
 
     const { containerRef } = useThreeContainer(renderer);
-    const { startAnimation, stopAnimation } = useThreeAnimation(renderer, scene, camera);
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     React.useEffect(() => {
@@ -245,7 +251,6 @@ function OrderStatisticsPageContent({
 
         if (hasInitialized) return;
         hasInitialized = true;
-        steps = StepScenePlayer({ objectMap: record, events: stepScene.steps, onStart: startAnimation, onComplete: stopAnimation });
     }, []);
 
     const onClick = async () => {
