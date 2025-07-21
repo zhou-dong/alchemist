@@ -16,31 +16,32 @@ export class AnimationController {
         this.renderer = renderer;
         this.scene = scene;
         this.camera = camera;
+        this.animationFrameId = null;
     }
 
-    private render() {
+    private render = () => {
         this.renderer.render(this.scene.threeScene, this.scene.css3dScene, this.camera as any);
     }
 
-    private animate() {
+    private animate = () => {
         this.render();
         this.animationFrameId = requestAnimationFrame(this.animate);
     }
 
-    startAnimation() {
+    startAnimation = () => {
         if (this.animationFrameId === null) {
             this.animate();
         }
     }
 
-    stopAnimation() {
+    stopAnimation = () => {
         if (this.animationFrameId !== null) {
             cancelAnimationFrame(this.animationFrameId);
             this.animationFrameId = null;
         }
     }
 
-    renderAnimationOnce() {
+    renderAnimationOnce = () => {
         this.render();
     }
 
