@@ -4,7 +4,7 @@ import { animate, parallel, } from 'obelus';
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as ArrowForward from '@mui/icons-material/ArrowForward';
 import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
-import { createDualRenderer, createOrthographicCamera } from '../../hooks/useThree';
+import { createDualRenderer, createOrthographicCamera } from '../../utils/threeUtils';
 import { WrapperProvider } from './wrapper/WrapperProvider';
 import { StepScenePlayer, type PlayableStep } from '../../../../obelus-gsap-player/dist';
 import { useThreeContainer } from '../../hooks/useThreeContainer';

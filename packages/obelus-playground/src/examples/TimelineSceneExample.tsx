@@ -4,7 +4,7 @@ import { renderScene } from '../../../obelus-three-render/dist';
 import { TimelineScenePlayer } from '../../../obelus-gsap-player/dist';
 import { useThreeAnimation } from '../hooks/useThreeAnimation';
 import React from 'react';
-import { type UseThreeProps } from '../hooks/useThree';
+import { type UseThreeProps } from '../utils/threeUtils';
 
 const position = { x: 0, y: 0, z: 0 };
 const radius = 80;

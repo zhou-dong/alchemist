@@ -8,7 +8,7 @@ import { useThreeContainer } from '../hooks/useThreeContainer';
 import { useRunAsyncOnce } from '../hooks/useRunAsyncOnce';
 import { dslStepScene as kmvEstimateStepScene } from '../sketches/theta/kmv/order-statistics-to-kmv-dsl';
 import { alignX } from '../sketches/theta/interfaces/utils';
-import type { UseThreeProps } from '../hooks/useThree';
+import type { UseThreeProps } from '../utils/threeUtils';
 import { Button } from '@mui/material';
 
 let stepScene: StepScene = kmvEstimateStepScene;
