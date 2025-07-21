@@ -15,3 +15,5 @@ coverage/
 # MacOS/Linux
 .DS_Store
 *.swp
+.target
+target/
