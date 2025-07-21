@@ -1,83 +1,114 @@
 import React from 'react';
-import type { DualRendererProps } from '../../../hooks/useThree';
+import { useNavigate } from 'react-router-dom';
+import { animate, parallel, } from 'obelus';
+import { createDualRenderer, createOrthographicCamera } from '../../../utils/threeUtils';
 import { WrapperProvider } from '../wrapper/WrapperProvider';
-// import { dslStepScene } from './order-statistics-to-kmv-dsl';
-import { StepScenePlayer, type PlayableStep } from '../../../../../obelus-gsap-player/dist';
+import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../hooks/useThreeContainer';
-import { useThreeAnimation } from '../../../hooks/useThreeAnimation';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
-import { useRunAsyncOnce } from '../../../hooks/useRunAsyncOnce';
-// import { renderScene } from '../../../../../obelus-three-render/dist';
-import { alignX } from '../interfaces/utils';
-import { Button } from '@mui/material';
-import { DualScene } from 'obelus-three-render';
+import { DualScene, textStyle, latex, type StepSceneThree, render } from 'obelus-three-render';
+import PlayButton from '../components/PlayButton';
+import { AnimationController } from '../../../utils/animation-controller';
+import { ORDER_STATISTICS_TO_KMV_FORMULAS } from './order-statistics-to-kmv-latex';
 
+const latexes = ORDER_STATISTICS_TO_KMV_FORMULAS.map((formula, index) => {
+    const y = 0 - window.innerHeight / 2 - 30;
+    return latex(`formula_${index}`, formula, { y }, textStyle);
+});
+
+const displayLatexesSteps = latexes.map((_, index) => {
+    const margin = window.innerHeight / 4;
+    const lineHeight = window.innerHeight / 2 / latexes.length;
+    return animate(`formula_${index}`, { position: { y: `+=${window.innerHeight - margin - (index * lineHeight)}` } }, { duration: 1 });
+});
+
+const moveLatexesToLeftSteps = latexes.map((_, index) => {
+    const distance = window.innerWidth / 4;
+    return animate(`formula_${index}`, { position: { x: `-=${distance}` } }, { duration: 1 });
+});
+
+const stepScene: StepSceneThree = {
+    objects: [
+        ...latexes,
+    ],
+    steps: [
+        ...displayLatexesSteps,
+        parallel(moveLatexesToLeftSteps),
+    ],
+}
+
+const renderer = createDualRenderer();
+const camera = createOrthographicCamera();
 const scene = new DualScene();
+const animationController = new AnimationController(renderer, scene, camera);
+
+const record = render(stepScene.objects, scene as any);
+let steps: PlayableStep[] = buildPlayerSteps(
+    stepScene.steps,
+    record,
+    animationController.startAnimation,
+    animationController.stopAnimation
+);
+
+let index = -1;
 
 function KmvPageContent(
     {
-        dualRendererProps,
         setShowStepper,
     }: {
-        dualRendererProps: DualRendererProps;
         setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
-    }) {
-    const { renderer, camera } = dualRendererProps;
-
-    const [steps, setSteps] = React.useState<PlayableStep[]>([]);
+    }
+) {
+    const navigate = useNavigate();
     const [disabled, setDisabled] = React.useState(false);
-    const [index, setIndex] = React.useState(0);
 
     const { containerRef } = useThreeContainer(renderer);
-    // const { startAnimation, stopAnimation } = useThreeAnimation(renderer, scene, camera);
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
-    useRunAsyncOnce(async () => {
-        // const objectMap = await renderScene(dslStepScene.objects, scene);
-        // alignX(objectMap);
-        // setSteps(
-        //     StepScenePlayer({ objectMap, events: dslStepScene.steps, onStart: startAnimation, onComplete: stopAnimation })
-        // );
-    });
+    React.useEffect(() => {
+        if (index > -1) {
+            setShowStepper(false);
+            return;
+        }
 
-    const nextClick = async () => {
+        return () => {
+            animationController.stopAnimation();
+        };
+    }, []);
+
+    const onClick = async () => {
+        if (index === -1) {
+            setShowStepper(false);
+            index = 0;
+            return;
+        }
+
+        if (index === steps.length) {
+            navigate('/sketches/theta/theta-sketch');
+            return;
+        }
+
         setDisabled(true);
         await steps[index].play();
 
-        if (index === steps.length - 1) return;
-
-        setIndex(index + 1);
+        index = index + 1;
         setDisabled(false);
     };
 
     return (
         <>
-            <Button
-                variant='contained'
-                size="large"
-                sx={{
-                    position: 'fixed',
-                    bottom: 50,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 1300,
-                }}
-                onClick={nextClick}
-                disabled={disabled}
-            >
-                play
-            </Button>
+            <PlayButton index={index} steps={steps} disabled={disabled} nextPage="Theta Sketch" onClick={onClick} />
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );
 }
 
-export default function KmvPage(dualRendererProps: DualRendererProps) {
+export default function KmvPage() {
     const [showStepper, setShowStepper] = React.useState(true);
 
     return (
         <WrapperProvider title="k Minimum Value (KMV)" activeStep={1} showStepper={showStepper} setShowStepper={setShowStepper}>
-            <KmvPageContent dualRendererProps={dualRendererProps} setShowStepper={setShowStepper} />
+            <KmvPageContent setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
 }
