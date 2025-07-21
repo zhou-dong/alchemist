@@ -3,19 +3,17 @@ import { type AnimateStepEvent, type StepEvent, type WaitStepEvent } from "obelu
 
 type Callback = (...args: any[]) => void | null;
 
-type StepScenePlayerProps = {
-    events: StepEvent[];
-    objectMap: Record<string, any>;
-    onStart: Callback;
-    onComplete: Callback;
-};
-
 export type PlayableStep = {
     raw: StepEvent[];
     play: () => Promise<void>;
 };
 
-export function StepScenePlayer({ events, objectMap, onStart, onComplete }: StepScenePlayerProps): PlayableStep[] {
+export function buildPlayerSteps(
+    events: StepEvent[],
+    objectMap: Record<string, any>,
+    onStart: Callback,
+    onComplete: Callback,
+): PlayableStep[] {
     const result: PlayableStep[] = [];
     flattenSteps(events, objectMap, result, onStart, onComplete);
     return result;
