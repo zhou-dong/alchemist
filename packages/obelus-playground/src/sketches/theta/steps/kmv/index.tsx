@@ -80,8 +80,7 @@ const stepScene: StepSceneThree = {
     ],
     steps: [
         ...displayLatexesSteps,
-        parallel(moveLatexesToLeftSteps),
-        parallel(moveAxisSteps()),
+        parallel([...moveLatexesToLeftSteps, ...moveAxisSteps()]),
         ...moveMarks(),
     ],
 }
