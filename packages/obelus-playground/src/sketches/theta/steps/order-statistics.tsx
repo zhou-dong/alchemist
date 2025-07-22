@@ -201,7 +201,7 @@ const stepScene: StepSceneThree = {
             animate("axis_3_k_3_ring_2_k", { position: { y: `+=${computeAxisXDistance(4, 3) - 21}` } }, { duration: 1 }),
         ]),
 
-        animate("order_statistics_expression", { position: { y: `+=${computeAxisXDistance(4, 1) + 60}` } }, { duration: 1 }),
+        animate("order_statistics_expression", { position: { y: `+=${computeAxisXDistance(4, 1) + 80}` } }, { duration: 1 }),
 
         animate("beta_distribution_expected_value_expression", { position: { y: `+=${computeAxisXDistance(4, 4) + 60}` } }, { duration: 1 }),
     ],
