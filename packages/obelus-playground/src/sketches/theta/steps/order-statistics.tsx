@@ -11,8 +11,8 @@ import { AnimationController } from '../../../utils/animation-controller';
 import PlayButton from '../components/PlayButton';
 
 const y = 0 - window.innerHeight / 2 - 30;
-const axisStart = () => ({ x: -500, y, z: 0, });
-const axisEnd = () => ({ x: 500, y, z: 0, });
+const axisStart = () => ({ x: 0 - window.innerWidth / 4, y, z: 0, });
+const axisEnd = () => ({ x: window.innerWidth / 4, y, z: 0, });
 
 const scaleYAdjector = -35;
 const scale0 = () => {
