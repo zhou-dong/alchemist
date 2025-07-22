@@ -6,22 +6,20 @@ import { WrapperProvider } from '../wrapper/WrapperProvider';
 import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
-import { DualScene, textStyle, latex, type StepSceneThree, render } from 'obelus-three-render';
+import { DualScene, textStyle, latex, type StepSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
 import PlayButton from '../components/PlayButton';
 import { AnimationController } from '../../../utils/animation-controller';
 import { ORDER_STATISTICS_TO_KMV_FORMULAS } from './order-statistics-to-kmv-latex';
 
-const globalMargin = 30;
-
 const latexes = ORDER_STATISTICS_TO_KMV_FORMULAS.map((formula, index) => {
-    const y = 0 - window.innerHeight / 2 - globalMargin;
+    const top = window.innerHeight / 4 - window.innerHeight;
+    const lineHeight: number = window.innerHeight / 2 / ORDER_STATISTICS_TO_KMV_FORMULAS.length;
+    const y = top - (index * lineHeight);
     return latex(`formula_${index}`, formula, { y }, textStyle);
 });
 
 const displayLatexesSteps = latexes.map((_, index) => {
-    const margin = window.innerHeight / 4;
-    const lineHeight = window.innerHeight / 2 / latexes.length;
-    return animate(`formula_${index}`, { position: { y: `+=${window.innerHeight - margin - (index * lineHeight) + globalMargin}` } }, { duration: 1 });
+    return animate(`formula_${index}`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 });
 });
 
 const moveLatexesToLeftSteps = latexes.map((_, index) => {
@@ -29,13 +27,62 @@ const moveLatexesToLeftSteps = latexes.map((_, index) => {
     return animate(`formula_${index}`, { position: { x: `-=${distance}` } }, { duration: 1 });
 });
 
+const ONE_THIRD_N_LATEX = `
+n = \\frac{k}{\\theta} - 1
+= \\frac{1}{\\frac{1}{3}} - 1
+= 1 \\times {\\frac{3}{1}} - 1
+= 3 - 1
+= 2
+`;
+
+const TWO_THIRDS_N_LATEX = `
+n = \\frac{k}{\\theta} - 1
+= \\frac{2}{\\frac{2}{3}} - 1
+= 2 \\times {\\frac{3}{2}} - 1
+= 3 - 1
+= 2
+`;
+
+const buildAxis = () => {
+    const y = window.innerHeight / 16 * 3 - window.innerHeight;
+    const start = { x: 0, y: y, z: 0, };
+    const end = { x: window.innerWidth / 8 * 3, y: y, z: 0, };
+    const axisLine = axis("axis", start, end, { ...axisStyle, dotCount: 4 });
+    const axisStart = text("axis_start", "0", { ...start, y: y - 15 }, textStyle);
+    const axisEnd = text("axis_end", "1", { ...end, y: y - 15 }, textStyle);
+
+    const oneThird = latex("one_third", "\\frac{1}{3}", { ...start, x: window.innerWidth / 8, y: y - 35 }, textStyle);
+    const oneThirdK = latex("one_third_k", "k = 1", { ...start, x: window.innerWidth / 8, y: y - 80 }, textStyle);
+    const oneThirdTheta = latex("one_third_theta", "\\theta = \\frac{1}{3}", { ...start, x: window.innerWidth / 8, y: y - 120 }, textStyle);
+    const oneThirdN = latex("one_third_n", ONE_THIRD_N_LATEX, { ...start, x: window.innerWidth / 16 * 3, y: y - 200 }, textStyle);
+
+    const twoThirds = latex("two_thirds", "\\frac{2}{3}", { ...start, x: window.innerWidth / 8 * 2, y: y - 35 }, textStyle);
+    const twoThirdsK = latex("two_thirds_k", "k = 2", { ...start, x: window.innerWidth / 8 * 2, y: y - 80 }, textStyle);
+    const twoThirdsTheta = latex("two_thirds_theta", "\\theta = \\frac{2}{3}", { ...start, x: window.innerWidth / 8 * 2, y: y - 120 }, textStyle);
+    const twoThirdsN = latex("two_thirds_n", TWO_THIRDS_N_LATEX, { ...start, x: window.innerWidth / 16 * 3, y: y - 280 }, textStyle);
+    return [axisLine, axisStart, axisEnd, oneThird, twoThirds, oneThirdK, oneThirdTheta, oneThirdN, twoThirdsK, twoThirdsTheta, twoThirdsN];
+}
+
+const moveAxisSteps = () => {
+    const ids = ["axis", "axis_start", "axis_end", "one_third", "two_thirds"];
+    return ids.map(id => animate(id, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }));
+};
+
+const moveMarks = () => {
+    const ids = ["one_third_k", "one_third_theta", "one_third_n", "two_thirds_k", "two_thirds_theta", "two_thirds_n"];
+    return ids.map(id => animate(id, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }));
+};
+
 const stepScene: StepSceneThree = {
     objects: [
         ...latexes,
+        ...buildAxis(),
     ],
     steps: [
         ...displayLatexesSteps,
         parallel(moveLatexesToLeftSteps),
+        parallel(moveAxisSteps()),
+        ...moveMarks(),
     ],
 }
 
