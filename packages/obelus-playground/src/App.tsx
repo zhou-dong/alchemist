@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import OrderStatisticsPage from './sketches/theta/order-statistics';
-import WelcomePage from './sketches/theta/welcome/WelcomePage';
+import OrderStatisticsPage from './sketches/theta/steps/order-statistics';
+import WelcomePage from './sketches/theta/components/welcome/WelcomePage';
 import ThemeToggleFab from './ThemeToggleFab';
-import KmvPage from './sketches/theta/kmv';
+import KmvPage from './sketches/theta/steps/kmv';
 
 function App() {
   return (

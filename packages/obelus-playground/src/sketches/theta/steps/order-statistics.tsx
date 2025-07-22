@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { animate, parallel, } from 'obelus';
-import { createDualRenderer, createOrthographicCamera } from '../../utils/threeUtils';
-import { WrapperProvider } from './wrapper/WrapperProvider';
+import { createDualRenderer, createOrthographicCamera } from '../../../utils/threeUtils';
+import { WrapperProvider } from '../components/wrapper/WrapperProvider';
 import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
-import { useThreeContainer } from '../../hooks/useThreeContainer';
-import { useThreeAutoResize } from '../../hooks/useThreeAutoResize';
+import { useThreeContainer } from '../../../hooks/useThreeContainer';
+import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { type StepSceneThree, render, axis, latex, axisStyle, textStyle, ringStyle, ring, text, DualScene } from 'obelus-three-render';
-import { AnimationController } from '../../utils/animation-controller';
-import PlayButton from './components/PlayButton';
+import { AnimationController } from '../../../utils/animation-controller';
+import PlayButton from '../components/PlayButton';
 
 const y = 0 - window.innerHeight / 2 - 30;
 const axisStart = () => ({ x: -500, y, z: 0, });

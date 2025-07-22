@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { animate, parallel, } from 'obelus';
-import { createDualRenderer, createOrthographicCamera } from '../../../utils/threeUtils';
-import { WrapperProvider } from '../wrapper/WrapperProvider';
+import { createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
+import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
 import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
-import { useThreeContainer } from '../../../hooks/useThreeContainer';
-import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
+import { useThreeContainer } from '../../../../hooks/useThreeContainer';
+import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
 import { DualScene, textStyle, latex, type StepSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
-import PlayButton from '../components/PlayButton';
-import { AnimationController } from '../../../utils/animation-controller';
+import PlayButton from '../../components/PlayButton';
+import { AnimationController } from '../../../../utils/animation-controller';
 import { ORDER_STATISTICS_TO_KMV_FORMULAS } from './order-statistics-to-kmv-latex';
 
 const latexes = ORDER_STATISTICS_TO_KMV_FORMULAS.map((formula, index) => {
@@ -156,7 +156,7 @@ export default function KmvPage() {
     const [showStepper, setShowStepper] = React.useState(true);
 
     return (
-        <WrapperProvider title="k Minimum Value (KMV)" activeStep={1} showStepper={showStepper} setShowStepper={setShowStepper}>
+        <WrapperProvider title="K Minimum Value (KMV)" activeStep={1} showStepper={showStepper} setShowStepper={setShowStepper}>
             <KmvPageContent setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
