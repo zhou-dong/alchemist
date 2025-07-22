@@ -10,12 +10,78 @@ import { DualScene, textStyle, latex, type StepSceneThree, render, axisStyle, ax
 import PlayButton from '../../components/PlayButton';
 import { AnimationController } from '../../../../utils/animation-controller';
 
+const stepScene: StepSceneThree = {
+    objects: [
+
+    ],
+    steps: [
+
+    ],
+}
+
+
+const renderer = createDualRenderer();
+const camera = createOrthographicCamera();
+const scene = new DualScene();
+const animationController = new AnimationController(renderer, scene, camera);
+
+const record = render(stepScene.objects, scene as any);
+let steps: PlayableStep[] = buildPlayerSteps(
+    stepScene.steps,
+    record,
+    animationController.startAnimation,
+    animationController.stopAnimation
+);
+
+let index = -1;
+
 function ThetaSketchPageContent({
     setShowStepper,
 }: {
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-    return <div>Theta Sketch</div>;
+    const navigate = useNavigate();
+    const [disabled, setDisabled] = React.useState(false);
+
+    const { containerRef } = useThreeContainer(renderer);
+    useThreeAutoResize(containerRef, renderer, scene, camera);
+
+    React.useEffect(() => {
+        if (index > -1) {
+            setShowStepper(false);
+            return;
+        }
+
+        return () => {
+            animationController.stopAnimation();
+        };
+    }, []);
+
+    const onClick = async () => {
+        if (index === -1) {
+            setShowStepper(false);
+            index = 0;
+            return;
+        }
+
+        if (index === steps.length) {
+            navigate('/sketches/theta/set-operations');
+            return;
+        }
+
+        setDisabled(true);
+        await steps[index].play();
+
+        index = index + 1;
+        setDisabled(false);
+    };
+
+    return (
+        <>
+            <PlayButton index={index} steps={steps} disabled={disabled} nextPage="Set Operations" onClick={onClick} />
+            <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
+        </>
+    );
 }
 
 export default function ThetaSketchPage() {
