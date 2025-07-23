@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { TimelineEvent } from '../../../obelus/dist';
+import { type TimelineEvent } from 'obelus';
 
 function animateNestedProps(
     target: any,
@@ -31,14 +31,12 @@ function animateNestedProps(
 
 type Callback = (...args: any[]) => void | null;
 
-type TimelineScenePlayerProps = {
-    events: TimelineEvent[];
-    objectMap: Record<string, any>;
-    onStart: Callback;
-    onComplete: Callback;
-}
-
-export function buildTimeline({ events, objectMap, onStart, onComplete }: TimelineScenePlayerProps): gsap.core.Timeline {
+export function buildAnimateTimeline(
+    events: TimelineEvent[],
+    objectMap: Record<string, any>,
+    onStart: Callback,
+    onComplete: Callback,
+): gsap.core.Timeline {
 
     const timeline = gsap.timeline({ onStart, onComplete });
 
