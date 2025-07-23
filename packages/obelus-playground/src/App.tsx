@@ -3,6 +3,7 @@ import ThemeToggleFab from './ThemeToggleFab';
 import WelcomePage from './sketches/theta/components/welcome/WelcomePage';
 import OrderStatisticsPage from './sketches/theta/steps/order-statistics';
 import KthSmallestEstimationPage from './sketches/theta/steps/kth-smallest-estimation';
+import KmvPage from './sketches/theta/steps/kmv';
 import ThetaSketchPage from './sketches/theta/steps/theta-sketch';
 
 function App() {
@@ -12,6 +13,8 @@ function App() {
         <Route path="/sketches/theta/welcome" element={<WelcomePage />} />
         <Route path="/sketches/theta/order-statistics" element={<OrderStatisticsPage />} />
         <Route path="/sketches/theta/kth-smallest-estimation" element={<KthSmallestEstimationPage />} />
+        <Route path="/sketches/theta/kmv" element={<KmvPage />} />
+        {/* <Route path="/sketches/theta/set-operations" element={<SetOperationsPage />} /> */}
         <Route path="/sketches/theta/theta-sketch" element={<ThetaSketchPage />} />
       </Routes>
       <ThemeToggleFab />

@@ -14,8 +14,9 @@ const Location = styled(Box)(({ }) => ({
 const steps = [
     'Order Statistics',
     'K-th Smallest Estimation',
-    'Theta Sketch',
+    'KMV',
     'Set Operations',
+    'Theta Sketch',
 ];
 
 export default function ProgressStepper({ activeStep }: { activeStep: number }) {
