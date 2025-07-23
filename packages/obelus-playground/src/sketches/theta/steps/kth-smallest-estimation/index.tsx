@@ -132,7 +132,7 @@ function KmvPageContent(
         }
 
         if (index === steps.length) {
-            navigate('/sketches/theta/theta-sketch');
+            navigate('/sketches/theta/kmv');
             return;
         }
 
