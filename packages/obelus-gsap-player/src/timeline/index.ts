@@ -38,7 +38,7 @@ type TimelineScenePlayerProps = {
     onComplete: Callback;
 }
 
-export function TimelineScenePlayer({ events, objectMap, onStart, onComplete }: TimelineScenePlayerProps): gsap.core.Timeline {
+export function buildTimeline({ events, objectMap, onStart, onComplete }: TimelineScenePlayerProps): gsap.core.Timeline {
 
     const timeline = gsap.timeline({ onStart, onComplete });
 
