@@ -6,7 +6,7 @@ export default function KthSmallestEstimation() {
 
             <Paper elevation={2} sx={{ p: 4, mt: 4, width: '100%' }}>
 
-                <Typography variant="h5" gutterBottom align="center">
+                <Typography variant="h5" gutterBottom align="center" color="primary">
                     K-th Smallest Estimation
                 </Typography>
 
@@ -15,7 +15,7 @@ export default function KthSmallestEstimation() {
                 <Stack spacing={4}>
                     {/* Requirements Section */}
                     <Box>
-                        <Typography variant="h6" gutterBottom color="primary" sx={{ mb: 2 }}>
+                        <Typography variant="h6" gutterBottom color="secondary" sx={{ mb: 2 }}>
                             Requirements
                         </Typography>
 
