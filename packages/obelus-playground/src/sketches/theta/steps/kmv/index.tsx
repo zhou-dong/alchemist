@@ -8,7 +8,7 @@ import { useThreeContainer } from '../../../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
 import { DualScene, textStyle, latex, type StepSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
 import { AnimationController } from '../../../../utils/animation-controller';
-import KstToKmv from './KstToKmv';
+import KseToKmv from './KseToKmv';
 import PlayButton from '../../components/PlayButton';
 
 const stepScene: StepSceneThree = {
@@ -81,7 +81,7 @@ function ThetaSketchPageContent({
 
     return (
         <>
-            {displayIntroduction && <KstToKmv setDisabled={setDisabled} setDisplayIntroduction={setDisplayIntroduction} />}
+            {displayIntroduction && <KseToKmv setDisabled={setDisabled} setDisplayIntroduction={setDisplayIntroduction} />}
             <PlayButton index={index} steps={steps} disabled={disabled} nextPage="Set Operations" onClick={onClick} />
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>

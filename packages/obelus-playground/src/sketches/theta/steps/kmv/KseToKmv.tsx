@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Typography, BottomNavigation, BottomNavigationAction, Container, Divider, Paper } from '@mui/material';
-import KthSmallestEstimation from './Kst';
+import KthSmallestEstimation from './Kse';
 import KmvImplementation from './Kmv';
 
 import * as RocketLaunch from '@mui/icons-material/RocketLaunch';

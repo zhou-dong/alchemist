@@ -145,7 +145,7 @@ function KmvPageContent(
 
     return (
         <>
-            <PlayButton index={index} steps={steps} disabled={disabled} nextPage="Theta Sketch" onClick={onClick} />
+            <PlayButton index={index} steps={steps} disabled={disabled} nextPage="KMV" onClick={onClick} />
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );
