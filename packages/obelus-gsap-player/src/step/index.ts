@@ -8,7 +8,7 @@ export type PlayableStep = {
     play: () => Promise<void>;
 };
 
-export function buildPlayerSteps(
+export function buildAnimateSteps(
     events: StepEvent[],
     objectMap: Record<string, any>,
     onStart: Callback,

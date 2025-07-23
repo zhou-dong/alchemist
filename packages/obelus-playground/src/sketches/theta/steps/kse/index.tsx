@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { animate, parallel, } from 'obelus';
 import { createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
-import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
+import { buildAnimateSteps, type PlayableStep } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
 import { DualScene, textStyle, latex, type StepSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
@@ -91,7 +91,7 @@ const scene = new DualScene();
 const animationController = new AnimationController(renderer, scene, camera);
 
 const record = render(stepScene.objects, scene as any);
-let steps: PlayableStep[] = buildPlayerSteps(
+let steps: PlayableStep[] = buildAnimateSteps(
     stepScene.steps,
     record,
     animationController.startAnimation,
