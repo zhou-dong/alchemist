@@ -42,7 +42,7 @@ export default function WelcomePage() {
                     sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                 >
                     <PsychologyIcon fontSize="inherit" sx={{ color: 'secondary.main' }} />
-                    The Road to Theta Sketch: A Journey Through Order Statistics, K-th Smallest Estimation, KMV, and Beyond
+                    The Road to Theta Sketch: A Journey Through Order Statistics, K-th Smallest Estimation, Theta Sketch, and Beyond
                 </Typography>
 
                 <Button
