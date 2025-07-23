@@ -1,22 +1,33 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { animate, parallel, } from 'obelus';
+import { at } from 'obelus';
 import { createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
 import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
-import { DualScene, textStyle, latex, type StepSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
+import { DualScene, textStyle, latex, type TimelineSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
 import { AnimationController } from '../../../../utils/animation-controller';
 import KseToKmv from './KseToKmv';
 import PlayButton from '../../components/PlayButton';
 
-const stepScene: StepSceneThree = {
+const axisWidth = window.innerWidth / 2;
+
+const buildAxis = () => {
+    const start = { x: -axisWidth / 2 };
+    const end = { x: axisWidth / 2 };
+    const axisLine = axis("axis", start, end, { ...axisStyle, dotCount: 2 });
+    const axisStart = text("axis_start", "0", { ...start, y: -15 }, textStyle);
+    const axisEnd = text("axis_end", "1", { ...end, y: -15 }, textStyle);
+    return [axisLine, axisStart, axisEnd];
+}
+
+const stepScene: TimelineSceneThree = {
     objects: [
-
+        ...buildAxis(),
     ],
-    steps: [
-
+    timeline: [
+        // at(0.1).animate('circle1', { position: { y: 200 } }, { duration: 1 }),
     ],
 }
 
@@ -27,7 +38,7 @@ const animationController = new AnimationController(renderer, scene, camera);
 
 const record = render(stepScene.objects, scene as any);
 let steps: PlayableStep[] = buildPlayerSteps(
-    stepScene.steps,
+    [], //stepScene.steps,
     record,
     animationController.startAnimation,
     animationController.stopAnimation
