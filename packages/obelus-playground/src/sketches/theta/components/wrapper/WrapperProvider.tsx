@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import GoToWelcome from './GoToWelcome';
 import ProgressStepper from '../stepper/ProgressStepper';
 import StepperToggleFab from '../stepper/ProgressStepperToggleFab';
