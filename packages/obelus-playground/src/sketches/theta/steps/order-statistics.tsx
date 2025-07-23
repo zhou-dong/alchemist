@@ -253,7 +253,7 @@ function OrderStatisticsPageContent({
         }
 
         if (index === steps.length) {
-            navigate('/sketches/theta/kmv');
+            navigate('/sketches/theta/kst');
             return;
         }
 

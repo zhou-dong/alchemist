@@ -6,7 +6,7 @@ export default function KthSmallestEstimation() {
 
             <Typography variant="body1" sx={{ lineHeight: 1.7, fontSize: '1.1rem' }}>
                 The K-th Smallest Estimation is a technique for estimating the total distinct count in a data stream.
-                It is based on the assumption that the hash values are uniformly distributed in the interval (0,1).
+                If we want to use it in the big data world, we need to make sure it follows the requirements below.
             </Typography>
 
             {/* Requirements Section */}

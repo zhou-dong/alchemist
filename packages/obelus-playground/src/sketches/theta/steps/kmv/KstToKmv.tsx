@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Typography, BottomNavigation, BottomNavigationAction, Container, Divider, Paper } from '@mui/material';
 import * as Functions from '@mui/icons-material/Functions';
@@ -50,11 +50,17 @@ const Navigation = ({
     );
 };
 
-export default function KstToKmv() {
+export default function KstToKmv({ setDisabled }: { setDisabled: (disabled: boolean) => void }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const components = [KthSmallestEstimation, KmvImplementation];
     const CurrentComponent = components[currentIndex];
+
+    useEffect(() => {
+        if (currentIndex === 1) {
+            setDisabled(false);
+        }
+    }, [currentIndex]);
 
     return (
         <FloatingBox>

@@ -14,7 +14,7 @@ const Location = styled(Box)(({ }) => ({
 const steps = [
     'Order Statistics',
     'K-th Smallest Estimation',
-    'KMV',
+    'K Minimum Value',
     'Set Operations',
     'Theta Sketch',
 ];

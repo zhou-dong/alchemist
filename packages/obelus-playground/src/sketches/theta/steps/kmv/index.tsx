@@ -7,23 +7,18 @@ import { buildPlayerSteps, type PlayableStep } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
 import { DualScene, textStyle, latex, type StepSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
-import PlayButton from '../../components/PlayButton';
 import { AnimationController } from '../../../../utils/animation-controller';
-import KthSmallestEstimation from './KthSmallestEstimation';
-import ThetaSketchEvolution from './ThetaSketchEvolution';
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
-import KmvImplementation from './KmvImplementation';
+import { Button } from '@mui/material';
+import KstToKmv from './KstToKmv';
+import * as PlayArrow from '@mui/icons-material/PlayArrow';
+import * as ArrowForward from '@mui/icons-material/ArrowForward';
+import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
+import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
 
-const FloatingBox = styled(Box)({
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: 1000,
-    width: '100%',
-    // maxWidth: 800,
-});
+const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
+const ArrowForwardIcon = ArrowForward.default as unknown as React.ElementType;
+const RocketLaunchIcon = RocketLaunch.default as unknown as React.ElementType;
+const TipsAndUpdatesIcon = TipsAndUpdates.default as unknown as React.ElementType;
 
 const stepScene: StepSceneThree = {
     objects: [
@@ -33,7 +28,6 @@ const stepScene: StepSceneThree = {
 
     ],
 }
-
 
 const renderer = createDualRenderer();
 const camera = createOrthographicCamera();
@@ -48,7 +42,7 @@ let steps: PlayableStep[] = buildPlayerSteps(
     animationController.stopAnimation
 );
 
-let index = -1;
+let index = -2;
 
 function ThetaSketchPageContent({
     setShowStepper,
@@ -62,7 +56,7 @@ function ThetaSketchPageContent({
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     React.useEffect(() => {
-        if (index > -1) {
+        if (index > -2) {
             setShowStepper(false);
             return;
         }
@@ -73,8 +67,14 @@ function ThetaSketchPageContent({
     }, []);
 
     const onClick = async () => {
-        if (index === -1) {
+        if (index === -2) {
             setShowStepper(false);
+            index = -1;
+            setDisabled(true);
+            return;
+        }
+
+        if (index === -1) {
             index = 0;
             return;
         }
@@ -93,20 +93,35 @@ function ThetaSketchPageContent({
 
     return (
         <>
-            {/* <FloatingBox>
-                <KthSmallestEstimation />
-            </FloatingBox> */}
 
-            <FloatingBox>
-                <KmvImplementation />
-            </FloatingBox>
-            {/* <ThetaSketchEvolution
-                kmvEstimate={1000}
-                thetaSketchEstimate={1050}
-                accuracy={15}
-                memoryUsage={25}
-            />
-            <PlayButton index={index} steps={steps} disabled={disabled} nextPage="Set Operations" onClick={onClick} /> */}
+            {index === -1 && <KstToKmv setDisabled={setDisabled} />}
+
+            <Button
+                variant='contained'
+                size="large"
+                sx={{
+                    position: 'fixed',
+                    bottom: 100,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 1300,
+                }}
+                startIcon={
+                    index === -2 ? <TipsAndUpdatesIcon /> :
+                        index === -1 ? <RocketLaunchIcon /> :
+                            index === steps.length ? <ArrowForwardIcon /> :
+                                <PlayArrowIcon />
+                }
+                onClick={onClick}
+                disabled={disabled}
+            >
+                {
+                    index === -2 ? "KST -> KMV" :
+                        index === -1 ? "Start" :
+                            index === steps.length ? "Set Operations" :
+                                "Next"
+                }
+            </Button>
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );

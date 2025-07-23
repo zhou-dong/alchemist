@@ -24,7 +24,7 @@ const PlayButton = ({ index, steps, disabled, nextPage, onClick }: PlayButtonPro
             size="large"
             sx={{
                 position: 'fixed',
-                bottom: 50,
+                bottom: 100,
                 left: '50%',
                 transform: 'translateX(-50%)',
                 zIndex: 1300,
