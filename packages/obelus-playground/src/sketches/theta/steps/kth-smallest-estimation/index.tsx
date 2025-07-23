@@ -151,11 +151,11 @@ function KmvPageContent(
     );
 }
 
-export default function KmvPage() {
+export default function KthSmallestEstimationPage() {
     const [showStepper, setShowStepper] = React.useState(true);
 
     return (
-        <WrapperProvider title="K Minimum Value (KMV)" activeStep={1} showStepper={showStepper} setShowStepper={setShowStepper}>
+        <WrapperProvider title="K-th Smallest Estimation" activeStep={1} showStepper={showStepper} setShowStepper={setShowStepper}>
             <KmvPageContent setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
