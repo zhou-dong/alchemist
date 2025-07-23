@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Typography, BottomNavigation, BottomNavigationAction, Container, Divider, Paper } from '@mui/material';
-import * as Functions from '@mui/icons-material/Functions';
-import * as Storage from '@mui/icons-material/Storage';
 import KthSmallestEstimation from './Kst';
 import KmvImplementation from './Kmv';
 
+import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
+import * as Functions from '@mui/icons-material/Functions';
+import * as Storage from '@mui/icons-material/Storage';
+
 const FunctionsIcon = Functions.default as unknown as React.ElementType;
 const StorageIcon = Storage.default as unknown as React.ElementType;
+const RocketLaunchIcon = RocketLaunch.default as unknown as React.ElementType;
 
 const FloatingBox = styled(Box)({
     position: 'fixed',
@@ -46,19 +49,28 @@ const Navigation = ({
                 value={1}
                 icon={<StorageIcon />}
             />
+            <BottomNavigationAction
+                label="Start"
+                value={2}
+                icon={<RocketLaunchIcon />}
+            />
         </BottomNavigation>
     );
 };
 
-export default function KstToKmv({ setDisabled }: { setDisabled: (disabled: boolean) => void }) {
+export default function KstToKmv({
+    setDisabled,
+    setDisplayIntroduction
+}: {
+    setDisabled: (disabled: boolean) => void,
+    setDisplayIntroduction: (displayIntroduction: boolean) => void
+}) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const components = [KthSmallestEstimation, KmvImplementation];
-    const CurrentComponent = components[currentIndex];
-
     useEffect(() => {
-        if (currentIndex === 1) {
+        if (currentIndex === 2) {
             setDisabled(false);
+            setDisplayIntroduction(false);
         }
     }, [currentIndex]);
 
@@ -74,7 +86,8 @@ export default function KstToKmv({ setDisabled }: { setDisabled: (disabled: bool
 
                     <Divider sx={{ my: 2 }} />
 
-                    <CurrentComponent />
+                    {currentIndex === 0 && <KthSmallestEstimation />}
+                    {currentIndex === 1 && <KmvImplementation />}
 
                     <Divider sx={{ my: 2 }} />
 
