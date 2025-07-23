@@ -3,11 +3,15 @@ import { Box, Typography, Paper, Stack, Divider, Container } from '@mui/material
 export default function KthSmallestEstimation() {
     return (
         <Container sx={{ p: 4, mx: 'auto' }}>
-            <Typography variant="h4" gutterBottom align="center">
-                K-th Smallest Estimation
-            </Typography>
 
-            <Paper elevation={2} sx={{ p: 4, mt: 4 }}>
+            <Paper elevation={2} sx={{ p: 4, mt: 4, width: '100%' }}>
+
+                <Typography variant="h5" gutterBottom align="center">
+                    K-th Smallest Estimation
+                </Typography>
+
+                <Divider sx={{ mb: 4, mt: 4 }} />
+
                 <Stack spacing={4}>
                     {/* Requirements Section */}
                     <Box>
