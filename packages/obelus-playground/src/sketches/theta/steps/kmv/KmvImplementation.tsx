@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Stack, Divider, Container, Alert, AlertTitle } from '@mui/material';
+import { Box, Typography, Paper, Stack, Divider, Container } from '@mui/material';
 
 export default function KmvImplementation() {
     return (
@@ -20,6 +20,16 @@ export default function KmvImplementation() {
                         </Typography>
                     </Box>
 
+                    {/* Key Factor */}
+                    <Box>
+                        <Typography variant="h6" gutterBottom color="secondary" sx={{ mb: 2 }}>
+                            Key Factor
+                        </Typography>
+                        <Typography variant="body1" sx={{ lineHeight: 1.6 }}>
+                            KMV maintains only K hash values in memory, regardless of stream size.
+                        </Typography>
+                    </Box>
+
                     {/* Algorithm Steps */}
                     <Box>
                         <Typography variant="h6" gutterBottom color="secondary" sx={{ mb: 2 }}>
@@ -37,13 +47,6 @@ export default function KmvImplementation() {
                             </Typography>
                         </Stack>
                     </Box>
-
-                    {/* Key Factor */}
-                    <Alert severity="info" sx={{ mb: 2 }}>
-                        <Typography variant="body1" sx={{ lineHeight: 1.6 }}>
-                            Key Factor: KMV maintains only K hash values in memory, regardless of stream size.
-                        </Typography>
-                    </Alert>
                 </Stack>
             </Paper>
         </Container>
