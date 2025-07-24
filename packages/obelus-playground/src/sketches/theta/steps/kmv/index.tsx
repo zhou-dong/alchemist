@@ -10,16 +10,17 @@ import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
 import { DualScene, textStyle, latex, type TimelineSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
 import { AnimationController } from '../../../../utils/animation-controller';
 import KseToKmv from './KseToKmv';
-import PlayButton from '../../components/PlayButton';
 import TimelinePlayer from '../../components/TimelinePlayer';
 import { Container, Button, Box, Tooltip, Fab } from '@mui/material';
 
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Settings from '@mui/icons-material/Settings';
+import * as Lightbulb from '@mui/icons-material/Lightbulb';
 import KmvConfigDialog from './KmvConfigDialog';
 
 const SettingsIcon = Settings.default as unknown as React.ElementType;
 const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
+const LightbulbIcon = Lightbulb.default as unknown as React.ElementType;
 
 const axisWidth = window.innerWidth / 2;
 
@@ -64,20 +65,17 @@ function ThetaSketchPageContent({
     const navigate = useNavigate();
     const [disabled, setDisabled] = React.useState(false);
     const [displayIntroduction, setDisplayIntroduction] = React.useState(false);
-
+    const [openKmvConfigDialog, setOpenKmvConfigDialog] = React.useState(false);
+    const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(false);
 
     const defaultK = 5;
     const defaultStreamSize = 100;
     const defaultAnimationSpeed = 1;
 
-
     const [k, setK] = React.useState(defaultK);
     const [streamSize, setStreamSize] = React.useState(defaultStreamSize);
     const [animationSpeed, setAnimationSpeed] = React.useState(defaultAnimationSpeed);
 
-
-    const [openKmvConfigDialog, setOpenKmvConfigDialog] = React.useState(true);
-    const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(true);
 
     const { containerRef } = useThreeContainer(renderer);
     useThreeAutoResize(containerRef, renderer, scene, camera);
@@ -130,6 +128,22 @@ function ThetaSketchPageContent({
         </Tooltip>
     );
 
+    const IntroductionToggle = () => (
+        <Tooltip title={displayIntroduction ? 'Hide Introduction' : 'Show Introduction'} placement="left">
+            <Fab
+                onClick={() => setDisplayIntroduction(!displayIntroduction)}
+                sx={{
+                    position: 'fixed',
+                    bottom: 312,
+                    right: 24,
+                    zIndex: 1000
+                }}
+            >
+                <LightbulbIcon />
+            </Fab>
+        </Tooltip>
+    );
+
     const TimelineToggle = () => (
         <Tooltip title={showTimelinePlayer ? 'Hide Timeline' : 'Show Timeline'} placement="left">
             <Fab
@@ -161,6 +175,7 @@ function ThetaSketchPageContent({
             {showTimelinePlayer && <TimelinePlayerContainer />}
             <KmvSettings />
             <TimelineToggle />
+            <IntroductionToggle />
 
             <Container maxWidth="xs">
                 <KmvConfigDialog
