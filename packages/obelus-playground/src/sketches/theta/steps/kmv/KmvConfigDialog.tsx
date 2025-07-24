@@ -110,7 +110,7 @@ export default function KmvConfigDialog({
       }}
     >
       <DialogTitle sx={{ pb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6">
+        <Typography>
           KMV Animation Configuration
         </Typography>
         <IconButton onClick={onClose}>
