@@ -10,16 +10,20 @@ import { DualScene, type TimelineSceneThree, render, axis, text, circle, default
 import { AnimationController } from '../../../../utils/animation-controller';
 import KseToKmv from './KseToKmv';
 import TimelinePlayer from '../../components/TimelinePlayer';
-import { Container, Tooltip, Fab } from '@mui/material';
+import { Container, Tooltip, Fab, Button } from '@mui/material';
 import KmvConfigDialog from './KmvConfigDialog';
 
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Settings from '@mui/icons-material/Settings';
 import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
+import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
+import * as SportsEsports from '@mui/icons-material/SportsEsports';
 
+const RocketLaunchIcon = RocketLaunch.default as unknown as React.ElementType;
 const SettingsIcon = Settings.default as unknown as React.ElementType;
 const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
 const TipsAndUpdatesIcon = TipsAndUpdates.default as unknown as React.ElementType;
+const SportsEsportsIcon = SportsEsports.default as unknown as React.ElementType;
 
 const { axisStyle, textStyle, circleStyle, lineStyle } = defaultTheme;
 
@@ -162,15 +166,16 @@ let timeline = buildAnimateTimeline(
     animationController.stopAnimation
 );
 
-let index = -1;
+let componentLevelShowStepper: boolean = true;
 
 function ThetaSketchPageContent({
+    showStepper,
     setShowStepper,
 }: {
+    showStepper: boolean;
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const navigate = useNavigate();
-    const [disabled, setDisabled] = React.useState(false);
     const [displayIntroduction, setDisplayIntroduction] = React.useState(false);
     const [openKmvConfigDialog, setOpenKmvConfigDialog] = React.useState(false);
     const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(false);
@@ -187,52 +192,19 @@ function ThetaSketchPageContent({
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     React.useEffect(() => {
-        if (index > -1) {
-            setShowStepper(false);
-            return;
-        }
+        setShowStepper(componentLevelShowStepper);
 
         return () => {
             animationController.stopAnimation();
         };
     }, []);
 
+    //  navigate('/sketches/theta/set-operations');
     const onClick = async () => {
-        if (index === -1) {
-            setShowStepper(false);
-            setDisabled(true);
-            setDisplayIntroduction(true);
-            index = 0;
-            return;
-        }
-
-        // if (index === steps.length) {
-        navigate('/sketches/theta/set-operations');
-        // return;
-        // }
-
-        setDisabled(true);
-        // await steps[index].play();
-
-        index = index + 1;
-        setDisabled(false);
+        setShowStepper(false);
+        componentLevelShowStepper = false;
+        setDisplayIntroduction(true);
     };
-
-    const KmvSettings = () => (
-        <Tooltip title={openKmvConfigDialog ? 'Close Config' : 'KMV Config'} placement="left">
-            <Fab
-                onClick={() => setOpenKmvConfigDialog(!openKmvConfigDialog)}
-                sx={{
-                    position: 'fixed',
-                    bottom: 168,
-                    right: 24,
-                    zIndex: 1000
-                }}
-            >
-                <SettingsIcon />
-            </Fab>
-        </Tooltip>
-    );
 
     const IntroductionToggle = () => (
         <Tooltip title={displayIntroduction ? 'Hide Introduction' : 'Show Introduction'} placement="left">
@@ -250,10 +222,10 @@ function ThetaSketchPageContent({
         </Tooltip>
     );
 
-    const TimelineToggle = () => (
-        <Tooltip title={showTimelinePlayer ? 'Hide Timeline' : 'Show Timeline'} placement="left">
+    const KmvSettingsToggle = () => (
+        <Tooltip title={openKmvConfigDialog ? 'Close Config' : 'KMV Config'} placement="left">
             <Fab
-                onClick={() => setShowTimelinePlayer(!showTimelinePlayer)}
+                onClick={() => setOpenKmvConfigDialog(!openKmvConfigDialog)}
                 sx={{
                     position: 'fixed',
                     bottom: 240,
@@ -261,7 +233,23 @@ function ThetaSketchPageContent({
                     zIndex: 1000
                 }}
             >
-                < PlayArrowIcon sx={{ fontSize: 28 }} />
+                <SettingsIcon />
+            </Fab>
+        </Tooltip>
+    );
+
+    const TimelinePlayerToggle = () => (
+        <Tooltip title={showTimelinePlayer ? 'Hide Timeline' : 'Show Timeline'} placement="left">
+            <Fab
+                onClick={() => setShowTimelinePlayer(!showTimelinePlayer)}
+                sx={{
+                    position: 'fixed',
+                    bottom: 168,
+                    right: 24,
+                    zIndex: 1000
+                }}
+            >
+                < SportsEsportsIcon sx={{ fontSize: 28 }} />
             </Fab>
         </Tooltip>
     );
@@ -269,7 +257,13 @@ function ThetaSketchPageContent({
     const TimelinePlayerContainer = () => (
         <Container
             maxWidth="sm"
-            sx={{ position: 'fixed', bottom: 100, left: 0, right: 0, }}
+            sx={{
+                position: 'fixed',
+                bottom: 100,
+                left: 0,
+                right: 0,
+                zIndex: 1000,
+            }}
         >
             <TimelinePlayer
                 timeline={timeline}
@@ -279,13 +273,40 @@ function ThetaSketchPageContent({
         </Container>
     );
 
+    const StartButton = () => (
+        <Button
+            variant='contained'
+            size="large"
+            sx={{
+                position: 'fixed',
+                bottom: 100,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 1300,
+            }}
+            startIcon={<RocketLaunchIcon />}
+            onClick={() => {
+                setShowStepper(false);
+                componentLevelShowStepper = false;
+                setDisplayIntroduction(true);
+            }}
+        >
+            Start
+        </Button>
+    );
+
     return (
         <>
-            {displayIntroduction && <KseToKmv setDisabled={setDisabled} setDisplayIntroduction={setDisplayIntroduction} />}
+            {displayIntroduction && <KseToKmv onClose={() => {
+                setDisplayIntroduction(false);
+                setOpenKmvConfigDialog(true);
+            }} />}
             {showTimelinePlayer && <TimelinePlayerContainer />}
-            <KmvSettings />
-            <TimelineToggle />
+            <KmvSettingsToggle />
+            <TimelinePlayerToggle />
             <IntroductionToggle />
+
+            {showStepper && <StartButton />}
 
             <Container maxWidth="xs">
                 <KmvConfigDialog
@@ -314,7 +335,7 @@ export default function ThetaSketchPage() {
 
     return (
         <WrapperProvider title="K Minimum Value (KMV)" activeStep={2} showStepper={showStepper} setShowStepper={setShowStepper}>
-            <ThetaSketchPageContent setShowStepper={setShowStepper} />
+            <ThetaSketchPageContent setShowStepper={setShowStepper} showStepper={showStepper} />
         </WrapperProvider>
     );
 };
