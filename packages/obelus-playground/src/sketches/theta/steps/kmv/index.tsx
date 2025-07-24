@@ -109,15 +109,14 @@ const buildTimeline = (entries: TimelineEntry[]) => {
 }
 
 const entries = buildTimelineEntries(50, 5);
-const circles = entries.map(entry => entry.circle);
 
 const stepScene: TimelineSceneThree = {
     objects: [
         ...buildAxis(),
-        ...circles,
+        ...entries.map(entry => entry.circle),
     ],
     timeline: [
-        ...buildTimeline(),
+        ...buildTimeline(entries),
     ],
 }
 
