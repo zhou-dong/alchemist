@@ -46,27 +46,29 @@ interface TimelineEntry {
 }
 
 const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
-    const entries: TimelineEntry[] = [];
     const radius = 3;
     const xAlign = -axisWidth / 2;
 
-    const hashValues = new Set<number>();
+    const buildHashValues = (size: number): number[] => {
+        const set = new Set<number>();
+        while (set.size < size) {
+            const hash: number = Math.random();
+            set.add(hash);
+        }
+        const shuffledArray = [...set].sort(() => Math.random() - 0.5);
+        return shuffledArray;
+    }
 
-    for (let i = 0; i < size; i++) {
-        const hash: number = Math.random();
+    const hashValues = buildHashValues(size);
+
+    return hashValues.map((hash, index) => {
         const x = hash * axisWidth + xAlign;
-        const id = "circle" + i;
+        const id = "circle_" + index;
         const newCircle = circle(id, radius, { x, y: axisY }, circleStyle);
-
-        hashValues.add(hash);
-
-        const sortedHashes = [...hashValues].sort((a, b) => a - b);
-
-        const expectedN: number = hashValues.size;
-
-        const theta: number = k > hashValues.size ? 1 : sortedHashes[k - 1];
-
-        const actualN: number = k > hashValues.size ? hashValues.size : k / theta - 1;
+        const sortedHashes = hashValues.slice(0, index + 1).sort((a, b) => a - b);
+        const expectedN: number = index + 1;
+        const theta: number = k > expectedN ? 1 : sortedHashes[k - 1];
+        const actualN: number = k > expectedN ? expectedN : k / theta - 1;
 
         const item: TimelineEntry = {
             id,
@@ -77,10 +79,8 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
             circle: newCircle
         };
 
-        entries.push(item);
-    }
-
-    return entries;
+        return item;
+    });
 }
 
 const buildTimeline = (entries: TimelineEntry[]) => {
