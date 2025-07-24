@@ -13,7 +13,7 @@ export default function StepperToggleFab({
     onToggle: () => void;
 }) {
     return (
-        <Tooltip title={visible ? 'Hide Stepper' : 'Show Stepper'}>
+        <Tooltip title={visible ? 'Hide Stepper' : 'Show Stepper'} placement="left">
             <Fab
                 color="secondary"
                 onClick={onToggle}
