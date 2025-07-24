@@ -6,7 +6,7 @@ import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
 import { buildAnimateTimeline } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
-import { DualScene, type TimelineSceneThree, render, axis, text, circle, defaultTheme, line } from 'obelus-three-render';
+import { DualScene, type TimelineSceneThree, render, axis, text, circle, defaultTheme, latex, line } from 'obelus-three-render';
 import { AnimationController } from '../../../../utils/animation-controller';
 import KseToKmv from './KseToKmv';
 import TimelinePlayer from '../../components/TimelinePlayer';
@@ -24,16 +24,40 @@ const LightbulbIcon = Lightbulb.default as unknown as React.ElementType;
 const { axisStyle, textStyle, circleStyle, lineStyle } = defaultTheme;
 
 const axisWidth = window.innerWidth / 2;
+const xAlign = -axisWidth / 2;
 
 const axisY = window.innerHeight / 10 - window.innerHeight;
 
 const buildAxis = () => {
     const start = { x: -axisWidth / 2, y: axisY };
     const end = { x: axisWidth / 2, y: axisY };
-    const axisLine = axis("axis", start, end, { ...axisStyle, dotCount: 2 });
-    const axisStart = text("axis_start", "0", { ...start, y: axisY - 15 }, textStyle);
-    const axisEnd = text("axis_end", "1", { ...end, y: axisY - 15 }, textStyle);
-    return [axisLine, axisStart, axisEnd];
+    return [
+        axis("axis", start, end, { ...axisStyle, dotCount: 2 }),
+        text("axis_start", "0", { ...start, y: axisY - 15 }, textStyle),
+        text("axis_end", "1", { ...end, y: axisY - 15 }, textStyle),
+    ]
+};
+
+//    K = 5
+//      θ
+// ---- | ----
+//     0.5
+//   N = 100
+// Estimated = (K / θ) - 1
+const buildDashboard = (k: number) => {
+    return [
+        text("k_value", `K = ${k}`, { y: window.innerHeight / 10 * 2 - window.innerHeight, x: 0 }, textStyle),
+        latex("theta_latex", "\\theta", { x: axisWidth + xAlign, y: axisY + 30 }, textStyle),
+        line("theta_line", { x: axisWidth + xAlign, y: axisY + 15 }, { x: axisWidth + xAlign, y: axisY }, 2, lineStyle),
+        text("theta_value", "1", { x: axisWidth + xAlign, y: axisY - 15 }, textStyle),
+        text("n_value", `N(Expected) = 0`, { y: -window.innerHeight }, textStyle),
+        text("estimated", "Estimated = (K / θ) - 1", { y: -window.innerHeight - 30 }, textStyle),
+    ]
+};
+
+const displayAxisAndDashboard = () => {
+    const steps = ["axis", "axis_start", "axis_end", "theta_line", "theta_latex", "theta_value", "estimated", "k_value", "n_value"];
+    return steps.map((id) => at(0).animate(id, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }));
 }
 
 interface TimelineEntry {
@@ -43,12 +67,12 @@ interface TimelineEntry {
     n: number;
     estimated: number;
     circle: any;
-    updatedX: number;
+    updatedThetaX: number;
 }
 
 const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
     const radius = 3;
-    const xAlign = -axisWidth / 2;
+
 
     const buildHashValues = (size: number): number[] => {
         const set = new Set<number>();
@@ -62,8 +86,7 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
 
     const hashValues = buildHashValues(size);
 
-    let previousX = 0;
-    let previousTheta = 0;
+    let previousThetaX = axisWidth + xAlign;
     return hashValues.map((hash, index) => {
         const x = hash * axisWidth + xAlign;
         const id = "circle_" + index;
@@ -73,8 +96,10 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
         const theta: number = k > n ? 1 : sortedHashes[k - 1];
         const estimated: number = k > n ? n : (k / theta) - 1;
 
-        const updatedX = x - previousX;
-        previousX = x;
+        const thetaX = theta * axisWidth + xAlign;
+
+        let updatedThetaX = thetaX - previousThetaX;
+        previousThetaX = thetaX;
 
         const item: TimelineEntry = {
             id,
@@ -83,7 +108,7 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
             n,
             estimated,
             circle: newCircle,
-            updatedX
+            updatedThetaX
         };
 
         return item;
@@ -91,45 +116,30 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
 }
 
 const buildTimeline = (entries: TimelineEntry[]) => {
-    const timeline = [];
-
-    timeline.push(
-        at(0).animate('axis', { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
-    );
-
-    timeline.push(
-        at(0).animate('axis_start', { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
-    );
-
-    timeline.push(
-        at(0).animate('axis_end', { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
-    );
-
-    timeline.push(
-        at(0).animate('theta_line', { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
-    );
+    const timeline: any[] = [];
 
     entries.forEach((entry, index) => {
-        const { id, k, theta, n, estimated, updatedX } = entry;
+        const { id, k, theta, n, estimated, updatedThetaX } = entry;
         timeline.push(
             at(index + 1).animate(id, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
         );
-
         timeline.push(
-            at(index + 1).animate("k", { element: { textContent: `K = ${k}` } }, { duration: 0 })
+            at(index + 1).animate("n_value", { element: { textContent: `N(Expected) = ${n}` } }, { duration: 0 })
         );
         timeline.push(
-            at(index + 1).animate("n", { element: { textContent: `N = ${n}` } }, { duration: 0 })
+            at(index + 1).animate("estimated", { element: { textContent: `Estimated = (K / θ) - 1 = (${k} / ${theta.toFixed(2)}) - 1 = ${estimated.toFixed(2)}` } }, { duration: 0 })
         );
         timeline.push(
-            at(index + 1).animate("theta", { element: { textContent: `theta = ${theta.toFixed(2)}` } }, { duration: 0 })
+            at(index + 1).animate("theta_line", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
         );
         timeline.push(
-            at(index + 1).animate("estimated", { element: { textContent: `Estimated = ${estimated.toFixed(2)}` } }, { duration: 0 })
+            at(index + 1).animate("theta_latex", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
         );
-
         timeline.push(
-            at(index + 1).animate("theta_line", { position: { x: `+=${updatedX}` } }, { duration: 1 })
+            at(index + 1).animate("theta_value", { element: { textContent: `${theta.toFixed(2)}` } }, { duration: 0 })
+        );
+        timeline.push(
+            at(index + 1).animate("theta_value", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
         );
     });
 
@@ -138,22 +148,14 @@ const buildTimeline = (entries: TimelineEntry[]) => {
 
 const entries = buildTimelineEntries(50, 5);
 
-
-const dashboardWidth = axisWidth;
-const dashboardItemWidth = dashboardWidth / 4;
-
 const stepScene: TimelineSceneThree = {
     objects: [
-        text("k", "K", { x: 0 - dashboardItemWidth / 2 * 1.5, y: 0 }, textStyle),
-        text("n", "N", { x: 0 - dashboardItemWidth / 2 * 0.5, y: 0 }, textStyle),
-        text("theta", "theta", { x: 0 + dashboardItemWidth / 2 * 0.5, y: 0 }, textStyle),
-        text("estimated", "Estimated", { x: 0 + dashboardItemWidth / 2 * 1.5, y: 0 }, textStyle),
-        line("theta_line", { x: 0, y: axisY + 10 }, { x: 0, y: axisY - 10 }, 1, lineStyle),
+        ...buildDashboard(5),
         ...buildAxis(),
         ...entries.map(entry => entry.circle),
     ],
     timeline: [
-        at(1).animate("title", { element: { textContent: `K = ${entries[0].k}` } }, { duration: 1 }),
+        ...displayAxisAndDashboard(),
         ...buildTimeline(entries),
     ],
 }
