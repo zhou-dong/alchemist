@@ -1,17 +1,16 @@
 import React from 'react';
-import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
 import { at } from 'obelus';
 import { createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
-import { buildAnimateTimeline, type PlayableStep } from 'obelus-gsap-player';
+import { buildAnimateTimeline } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
-import { DualScene, textStyle, latex, type TimelineSceneThree, render, axisStyle, axis, text } from 'obelus-three-render';
+import { DualScene, latex, type TimelineSceneThree, render, axis, text, circle, defaultTheme } from 'obelus-three-render';
 import { AnimationController } from '../../../../utils/animation-controller';
 import KseToKmv from './KseToKmv';
 import TimelinePlayer from '../../components/TimelinePlayer';
-import { Container, Button, Box, Tooltip, Fab } from '@mui/material';
+import { Container, Tooltip, Fab } from '@mui/material';
 
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Settings from '@mui/icons-material/Settings';
@@ -22,24 +21,67 @@ const SettingsIcon = Settings.default as unknown as React.ElementType;
 const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
 const LightbulbIcon = Lightbulb.default as unknown as React.ElementType;
 
+const { axisStyle, textStyle, circleStyle } = defaultTheme;
+
 const axisWidth = window.innerWidth / 2;
 
+const axisY = window.innerHeight / 10 - window.innerHeight;
+
 const buildAxis = () => {
-    const y = window.innerHeight / 10;
-    const start = { x: -axisWidth / 2, y };
-    const end = { x: axisWidth / 2, y };
+    const start = { x: -axisWidth / 2, y: axisY };
+    const end = { x: axisWidth / 2, y: axisY };
     const axisLine = axis("axis", start, end, { ...axisStyle, dotCount: 2 });
-    const axisStart = text("axis_start", "0", { ...start, y: y - 15 }, textStyle);
-    const axisEnd = text("axis_end", "1", { ...end, y: y - 15 }, textStyle);
+    const axisStart = text("axis_start", "0", { ...start, y: axisY - 15 }, textStyle);
+    const axisEnd = text("axis_end", "1", { ...end, y: axisY - 15 }, textStyle);
     return [axisLine, axisStart, axisEnd];
+}
+
+const buildCircles = (size: number) => {
+    const circles = [];
+    const radius = 3;
+    const xAlign = -axisWidth / 2;
+
+    for (let i = 0; i < size; i++) {
+        const hash: number = Math.random();
+        const x = hash * axisWidth + xAlign;
+        const newCircle = circle("circle" + i, radius, { x, y: axisY }, circleStyle);
+        circles.push(newCircle);
+    }
+
+    return circles;
+}
+
+const buildTimeline = () => {
+    const timeline = [];
+
+    timeline.push(
+        at(0).animate('axis', { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
+    );
+
+    timeline.push(
+        at(0).animate('axis_start', { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
+    );
+
+    timeline.push(
+        at(0).animate('axis_end', { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
+    );
+
+    for (let i = 0; i < 50; i++) {
+        timeline.push(
+            at(i + 1).animate('circle' + i, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
+        );
+    }
+
+    return timeline;
 }
 
 const stepScene: TimelineSceneThree = {
     objects: [
         ...buildAxis(),
+        ...buildCircles(50),
     ],
     timeline: [
-        // at(0.1).animate('circle1', { position: { y: 200 } }, { duration: 1 }),
+        ...buildTimeline(),
     ],
 }
 
@@ -49,8 +91,8 @@ const scene = new DualScene();
 const animationController = new AnimationController(renderer, scene, camera);
 
 const record = render(stepScene.objects, scene as any);
-let timeline: gsap.core.Timeline = buildAnimateTimeline(
-    [], //stepScene.steps,
+let timeline = buildAnimateTimeline(
+    stepScene.timeline,
     record,
     animationController.startAnimation,
     animationController.stopAnimation
@@ -165,7 +207,11 @@ function ThetaSketchPageContent({
             maxWidth="sm"
             sx={{ position: 'fixed', bottom: 100, left: 0, right: 0, }}
         >
-            <TimelinePlayer timeline={timeline} />
+            <TimelinePlayer
+                timeline={timeline}
+                startAnimation={animationController.startAnimation}
+                stopAnimation={animationController.stopAnimation}
+            />
         </Container>
     );
 
