@@ -10,10 +10,6 @@ import {
   Typography,
   Box,
   Stack,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Chip,
   Alert,
   useTheme,
@@ -145,12 +141,12 @@ export default function KmvConfigDialog({ open, onClose, onStart }: KmvConfigDia
               color="secondary"
               variant="outlined"
             />
-                          <Typography variant="caption" color="text.secondary">
-                {config.streamSize > config.k * 100 ?
-                  `Note: Accuracy converges to ~${Math.round((1 - 1 / Math.sqrt(config.k)) * 100)}% when N >> K` :
-                  'Accuracy improves as K increases relative to N'
-                }
-              </Typography>
+            <Typography variant="caption" color="text.secondary">
+              {config.streamSize > config.k * 100 ?
+                `Note: Accuracy converges to ~${Math.round((1 - 1 / Math.sqrt(config.k)) * 100)}% when N >> K` :
+                'Accuracy improves as K increases relative to N'
+              }
+            </Typography>
           </Stack>
 
           {/* Animation Speed */}
