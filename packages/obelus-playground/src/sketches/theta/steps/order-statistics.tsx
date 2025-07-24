@@ -6,9 +6,11 @@ import { WrapperProvider } from '../components/wrapper/WrapperProvider';
 import { buildAnimateSteps, type PlayableStep } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../hooks/useThreeContainer';
 import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
-import { type StepSceneThree, render, axis, latex, axisStyle, textStyle, ringStyle, ring, text, DualScene } from 'obelus-three-render';
+import { type StepSceneThree, render, axis, latex, defaultTheme, ring, text, DualScene } from 'obelus-three-render';
 import { AnimationController } from '../../../utils/animation-controller';
 import PlayButton from '../components/PlayButton';
+
+const { axisStyle, textStyle, ringStyle } = defaultTheme;
 
 const y = 0 - window.innerHeight / 2 - 30;
 const axisStart = () => ({ x: 0 - window.innerWidth / 4, y, z: 0, });
