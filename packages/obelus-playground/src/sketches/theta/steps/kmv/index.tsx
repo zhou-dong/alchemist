@@ -66,6 +66,16 @@ function ThetaSketchPageContent({
     const [displayIntroduction, setDisplayIntroduction] = React.useState(false);
 
 
+    const defaultK = 5;
+    const defaultStreamSize = 100;
+    const defaultAnimationSpeed = 1;
+
+
+    const [k, setK] = React.useState(defaultK);
+    const [streamSize, setStreamSize] = React.useState(defaultStreamSize);
+    const [animationSpeed, setAnimationSpeed] = React.useState(defaultAnimationSpeed);
+
+
     const [openKmvConfigDialog, setOpenKmvConfigDialog] = React.useState(true);
     const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(true);
 
@@ -148,15 +158,28 @@ function ThetaSketchPageContent({
     return (
         <>
             {displayIntroduction && <KseToKmv setDisabled={setDisabled} setDisplayIntroduction={setDisplayIntroduction} />}
-
+            {showTimelinePlayer && <TimelinePlayerContainer />}
             <KmvSettings />
             <TimelineToggle />
 
             <Container maxWidth="xs">
-                <KmvConfigDialog open={openKmvConfigDialog} onClose={() => { setOpenKmvConfigDialog(false) }} onStart={() => { }} />
+                <KmvConfigDialog
+                    open={openKmvConfigDialog}
+                    onClose={() => { setOpenKmvConfigDialog(false) }}
+                    onStart={() => { }}
+                    k={k}
+                    animationSpeed={animationSpeed}
+                    streamSize={streamSize}
+                    setK={setK}
+                    setAnimationSpeed={setAnimationSpeed}
+                    setStreamSize={setStreamSize}
+                    defaultK={defaultK}
+                    defaultAnimationSpeed={defaultAnimationSpeed}
+                    defaultStreamSize={defaultStreamSize}
+                />
             </Container>
 
-            {showTimelinePlayer && <TimelinePlayerContainer />}
+
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );

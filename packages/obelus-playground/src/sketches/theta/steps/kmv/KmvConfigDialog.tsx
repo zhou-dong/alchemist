@@ -26,37 +26,48 @@ const RestartAltIcon = RestartAlt.default as unknown as React.ElementType;
 interface KmvConfigDialogProps {
   open: boolean;
   onClose: () => void;
-  onStart: (config: KmvConfig) => void;
-}
-
-export interface KmvConfig {
+  onStart: () => void;
   k: number;
   animationSpeed: number;
   streamSize: number;
+  setK: (k: number) => void;
+  setAnimationSpeed: (animationSpeed: number) => void;
+  setStreamSize: (streamSize: number) => void;
+  defaultK: number;
+  defaultAnimationSpeed: number;
+  defaultStreamSize: number;
 }
 
-export default function KmvConfigDialog({ open, onClose, onStart }: KmvConfigDialogProps) {
+export default function KmvConfigDialog({
+  open,
+  onClose,
+  onStart,
+  k,
+  animationSpeed,
+  streamSize,
+  setK,
+  setAnimationSpeed,
+  setStreamSize,
+  defaultK,
+  defaultAnimationSpeed,
+  defaultStreamSize
+}: KmvConfigDialogProps) {
   const theme = useTheme();
-  const [config, setConfig] = useState<KmvConfig>({
-    k: 5,
-    animationSpeed: 1,
-    streamSize: 100
-  });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateConfig = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    if (config.k < 1 || config.k > 50) {
+    if (k < 1 || k > 50) {
       newErrors.k = 'K must be between 1 and 50';
     }
 
-    if (config.streamSize < 10 || config.streamSize > 10000) {
+    if (streamSize < 10 || streamSize > 10000) {
       newErrors.streamSize = 'Stream size must be between 10 and 10,000';
     }
 
-    if (config.k >= config.streamSize) {
+    if (k >= streamSize) {
       newErrors.k = 'K must be less than stream size';
     }
 
@@ -66,17 +77,15 @@ export default function KmvConfigDialog({ open, onClose, onStart }: KmvConfigDia
 
   const handleStart = () => {
     if (validateConfig()) {
-      onStart(config);
+      onStart();
       onClose();
     }
   };
 
   const handleReset = () => {
-    setConfig({
-      k: 5,
-      animationSpeed: 1,
-      streamSize: 100
-    });
+    setK(defaultK);
+    setAnimationSpeed(defaultAnimationSpeed);
+    setStreamSize(defaultStreamSize);
     setErrors({});
   };
 
@@ -116,8 +125,8 @@ export default function KmvConfigDialog({ open, onClose, onStart }: KmvConfigDia
           <TextField
             fullWidth
             type="number"
-            value={config.k}
-            onChange={(e) => setConfig({ ...config, k: parseInt(e.target.value) || 0 })}
+            value={k}
+            onChange={(e) => setK(parseInt(e.target.value) || 0)}
             error={!!errors.k}
             helperText={errors.k || "K: Number of smallest hash values to keep"}
             size="small"
@@ -126,8 +135,8 @@ export default function KmvConfigDialog({ open, onClose, onStart }: KmvConfigDia
           <TextField
             fullWidth
             type="number"
-            value={config.streamSize}
-            onChange={(e) => setConfig({ ...config, streamSize: parseInt(e.target.value) || 0 })}
+            value={streamSize}
+            onChange={(e) => setStreamSize(parseInt(e.target.value) || 0)}
             error={!!errors.streamSize}
             helperText={errors.streamSize || "Stream Size: Number of elements to process"}
             size="small"
@@ -136,14 +145,14 @@ export default function KmvConfigDialog({ open, onClose, onStart }: KmvConfigDia
           {/* Stream Size Configuration */}
           <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 0 }}>
             <Chip
-              label={`Estimated accuracy: ${Math.round((1 - Math.sqrt(1 / config.k - 1 / config.streamSize)) * 100)}%)`}
+              label={`Estimated accuracy: ${Math.round((1 - Math.sqrt(1 / k - 1 / streamSize)) * 100)}%)`}
               size="small"
               color="secondary"
               variant="outlined"
             />
             <Typography variant="caption" color="text.secondary">
-              {config.streamSize > config.k * 100 ?
-                `Note: Accuracy converges to ~${Math.round((1 - 1 / Math.sqrt(config.k)) * 100)}% when N >> K` :
+              {streamSize > k * 100 ?
+                `Note: Accuracy converges to ~${Math.round((1 - 1 / Math.sqrt(k)) * 100)}% when N >> K` :
                 'Accuracy improves as K increases relative to N'
               }
             </Typography>
@@ -156,8 +165,8 @@ export default function KmvConfigDialog({ open, onClose, onStart }: KmvConfigDia
             </Typography>
             <Box sx={{ px: 2 }}>
               <Slider
-                value={config.animationSpeed}
-                onChange={(_, value) => setConfig({ ...config, animationSpeed: value as number })}
+                value={animationSpeed}
+                onChange={(_, value) => setAnimationSpeed(value as number)}
                 min={0.1}
                 max={3}
                 step={0.1}
@@ -171,8 +180,8 @@ export default function KmvConfigDialog({ open, onClose, onStart }: KmvConfigDia
               />
             </Box>
             <Typography variant="caption" color="text.secondary">
-              {config.animationSpeed < 1 ? 'Slower - Good for learning' :
-                config.animationSpeed > 1 ? 'Faster - Quick overview' :
+              {animationSpeed < 1 ? 'Slower - Good for learning' :
+                animationSpeed > 1 ? 'Faster - Quick overview' :
                   'Normal speed - Balanced view'}
             </Typography>
           </Box>
