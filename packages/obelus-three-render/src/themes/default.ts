@@ -1,12 +1,12 @@
 import * as THREE from "three";
 import { AxisProps } from "../dsl/animatable";
 
-const lineStyle: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({ color: '#9C27B0' });
+const lineStyle: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({ color: '#00BCD4' });
 
 const axisStyle: AxisProps = {
     dotCount: 3,
     lineWidth: 1.5,
-    lineMaterial: lineStyle,
+    lineMaterial: new THREE.LineBasicMaterial({ color: '#9C27B0' }),
     dotMaterial: new THREE.MeshBasicMaterial({ color: '#00BCD4' }),
     dotRadius: 4
 }
