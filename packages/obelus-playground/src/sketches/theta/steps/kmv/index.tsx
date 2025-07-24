@@ -11,11 +11,11 @@ import { AnimationController } from '../../../../utils/animation-controller';
 import KseToKmv from './KseToKmv';
 import TimelinePlayer from '../../components/TimelinePlayer';
 import { Container, Tooltip, Fab } from '@mui/material';
+import KmvConfigDialog from './KmvConfigDialog';
 
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Settings from '@mui/icons-material/Settings';
 import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
-import KmvConfigDialog from './KmvConfigDialog';
 
 const SettingsIcon = Settings.default as unknown as React.ElementType;
 const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
@@ -100,9 +100,7 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
         let updatedThetaX = thetaX - previousThetaX;
         previousThetaX = thetaX;
 
-        const item: TimelineEntry = { id, k, theta, n, estimated, updatedThetaX, circle: newCircle };
-
-        return item;
+        return { id, k, theta, n, estimated, updatedThetaX, circle: newCircle };
     });
 }
 
