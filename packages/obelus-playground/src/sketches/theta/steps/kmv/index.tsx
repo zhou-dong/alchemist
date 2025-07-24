@@ -43,7 +43,7 @@ interface TimelineEntry {
     n: number;
     estimated: number;
     circle: any;
-    updatedThetaX: number;
+    updatedX: number;
 }
 
 const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
@@ -62,9 +62,8 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
 
     const hashValues = buildHashValues(size);
 
+    let previousX = 0;
     let previousTheta = 0;
-    let previousThetaX = 0;
-    let updatedThetaX = 0;
     return hashValues.map((hash, index) => {
         const x = hash * axisWidth + xAlign;
         const id = "circle_" + index;
@@ -74,11 +73,8 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
         const theta: number = k > n ? 1 : sortedHashes[k - 1];
         const estimated: number = k > n ? n : (k / theta) - 1;
 
-        if (previousTheta !== theta) {
-            updatedThetaX = previousThetaX - x;
-            previousThetaX = x;
-            previousTheta = theta;
-        }
+        const updatedX = x - previousX;
+        previousX = x;
 
         const item: TimelineEntry = {
             id,
@@ -87,7 +83,7 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
             n,
             estimated,
             circle: newCircle,
-            updatedThetaX
+            updatedX
         };
 
         return item;
@@ -114,7 +110,7 @@ const buildTimeline = (entries: TimelineEntry[]) => {
     );
 
     entries.forEach((entry, index) => {
-        const { id, k, theta, n, estimated, updatedThetaX } = entry;
+        const { id, k, theta, n, estimated, updatedX } = entry;
         timeline.push(
             at(index + 1).animate(id, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
         );
@@ -133,7 +129,7 @@ const buildTimeline = (entries: TimelineEntry[]) => {
         );
 
         timeline.push(
-            at(index + 1).animate("theta_line", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
+            at(index + 1).animate("theta_line", { position: { x: `+=${updatedX}` } }, { duration: 1 })
         );
     });
 
