@@ -19,3 +19,5 @@ export const textStyle: Partial<CSSStyleDeclaration> = {
 }
 
 export const ringStyle: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: '#9C27B0' });
+
+export const circleStyle: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: '#9C27B0' });
