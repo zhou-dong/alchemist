@@ -4,13 +4,13 @@ import { Box, Typography, BottomNavigation, BottomNavigationAction, Container, D
 import KthSmallestEstimation from './Kse';
 import KmvImplementation from './Kmv';
 
-import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
 import * as Functions from '@mui/icons-material/Functions';
 import * as Storage from '@mui/icons-material/Storage';
+import * as Settings from '@mui/icons-material/Settings';
 
 const FunctionsIcon = Functions.default as unknown as React.ElementType;
 const StorageIcon = Storage.default as unknown as React.ElementType;
-const RocketLaunchIcon = RocketLaunch.default as unknown as React.ElementType;
+const SettingsIcon = Settings.default as unknown as React.ElementType;
 
 const FloatingBox = styled(Box)({
     position: 'fixed',
@@ -52,7 +52,7 @@ const Navigation = ({
             <BottomNavigationAction
                 label="Start"
                 value={2}
-                icon={<RocketLaunchIcon />}
+                icon={<SettingsIcon />}
             />
         </BottomNavigation>
     );
