@@ -58,19 +58,12 @@ const Navigation = ({
     );
 };
 
-export default function KstToKmv({
-    setDisabled,
-    setDisplayIntroduction
-}: {
-    setDisabled: (disabled: boolean) => void,
-    setDisplayIntroduction: (displayIntroduction: boolean) => void
-}) {
+export default function KstToKmv({ onClose }: { onClose: () => void }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         if (currentIndex === 2) {
-            setDisabled(false);
-            setDisplayIntroduction(false);
+            onClose();
         }
     }, [currentIndex]);
 
