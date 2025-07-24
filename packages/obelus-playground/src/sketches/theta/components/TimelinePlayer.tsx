@@ -37,6 +37,8 @@ interface TimelinePlayerProps {
   showProgress?: boolean;
   showSpeed?: boolean;
   size?: 'small' | 'medium' | 'large';
+  startAnimation: () => void;
+  stopAnimation: () => void;
 }
 
 export default function TimelinePlayer({
@@ -45,7 +47,9 @@ export default function TimelinePlayer({
   onStepChange,
   showProgress = true,
   showSpeed = false,
-  size = 'medium'
+  size = 'medium',
+  startAnimation,
+  stopAnimation,
 }: TimelinePlayerProps) {
   const theme = useTheme();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -58,13 +62,20 @@ export default function TimelinePlayer({
   useEffect(() => {
     if (!timeline) return;
 
+    // Pause timeline initially to prevent auto-start
+    timeline.pause();
+    stopAnimation();
+
     const updateProgress = () => {
       setProgress(timeline.progress() * 100);
       setIsPlaying(!timeline.paused());
     };
 
     timeline.eventCallback('onUpdate', updateProgress);
-    timeline.eventCallback('onComplete', () => setIsPlaying(false));
+    timeline.eventCallback('onComplete', () => {
+      stopAnimation();
+      setIsPlaying(false);
+    });
 
     return () => {
       timeline.eventCallback('onUpdate', null);
@@ -75,8 +86,10 @@ export default function TimelinePlayer({
   const handlePlayPause = () => {
     if (isPlaying) {
       timeline.pause();
+      stopAnimation();
     } else {
       timeline.play();
+      startAnimation();
     }
     setIsPlaying(!isPlaying);
   };
@@ -104,6 +117,7 @@ export default function TimelinePlayer({
   };
 
   const handleRestart = () => {
+    // startAnimation();
     timeline.restart();
     setCurrentStep(0);
     setIsPlaying(false);
@@ -148,10 +162,10 @@ export default function TimelinePlayer({
             }
           }}
         />
-        <Typography 
-          variant="caption" 
-          color="text.secondary" 
-          sx={{ 
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{
             margin: 0,
             padding: 0,
             lineHeight: 1,
@@ -176,7 +190,7 @@ export default function TimelinePlayer({
         background: 'transparent',
         color: theme.palette.text.primary
       }}
-      // variant="outlined"
+    // variant="outlined"
     >
       <Stack spacing={1.5}>
         {/* Progress Bar */}
