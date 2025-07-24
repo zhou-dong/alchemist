@@ -36,22 +36,54 @@ const buildAxis = () => {
     return [axisLine, axisStart, axisEnd];
 }
 
-const buildCircles = (size: number) => {
-    const circles = [];
+interface TimelineEntry {
+    id: string;
+    k: number;
+    theta: number;
+    expectedN: number;
+    actualN: number;
+    circle: any;
+}
+
+const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
+    const entries: TimelineEntry[] = [];
     const radius = 3;
     const xAlign = -axisWidth / 2;
+
+    const hashValues = new Set<number>();
 
     for (let i = 0; i < size; i++) {
         const hash: number = Math.random();
         const x = hash * axisWidth + xAlign;
-        const newCircle = circle("circle" + i, radius, { x, y: axisY }, circleStyle);
-        circles.push(newCircle);
+        const id = "circle" + i;
+        const newCircle = circle(id, radius, { x, y: axisY }, circleStyle);
+
+        hashValues.add(hash);
+
+        const sortedHashes = [...hashValues].sort((a, b) => a - b);
+
+        const expectedN: number = hashValues.size;
+
+        const theta: number = k > hashValues.size ? 1 : sortedHashes[k - 1];
+
+        const actualN: number = k > hashValues.size ? hashValues.size : k / theta - 1;
+
+        const item: TimelineEntry = {
+            id,
+            k,
+            theta,
+            expectedN,
+            actualN,
+            circle: newCircle
+        };
+
+        entries.push(item);
     }
 
-    return circles;
+    return entries;
 }
 
-const buildTimeline = () => {
+const buildTimeline = (entries: TimelineEntry[]) => {
     const timeline = [];
 
     timeline.push(
@@ -66,19 +98,23 @@ const buildTimeline = () => {
         at(0).animate('axis_end', { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
     );
 
-    for (let i = 0; i < 50; i++) {
+
+    entries.forEach((entry, index) => {
         timeline.push(
-            at(i + 1).animate('circle' + i, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
+            at(index + 1).animate(entry.id, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
         );
-    }
+    });
 
     return timeline;
 }
 
+const entries = buildTimelineEntries(50, 5);
+const circles = entries.map(entry => entry.circle);
+
 const stepScene: TimelineSceneThree = {
     objects: [
         ...buildAxis(),
-        ...buildCircles(50),
+        ...circles,
     ],
     timeline: [
         ...buildTimeline(),
