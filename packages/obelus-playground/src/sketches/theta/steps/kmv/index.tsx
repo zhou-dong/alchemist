@@ -40,8 +40,8 @@ interface TimelineEntry {
     id: string;
     k: number;
     theta: number;
-    expectedN: number;
-    actualN: number;
+    n: number;
+    estimated: number;
     circle: any;
 }
 
@@ -66,16 +66,16 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
         const id = "circle_" + index;
         const newCircle = circle(id, radius, { x, y: axisY }, circleStyle);
         const sortedHashes = hashValues.slice(0, index + 1).sort((a, b) => a - b);
-        const expectedN: number = index + 1;
-        const theta: number = k > expectedN ? 1 : sortedHashes[k - 1];
-        const actualN: number = k > expectedN ? expectedN : k / theta - 1;
+        const n: number = index + 1;
+        const theta: number = k > n ? 1 : sortedHashes[k - 1];
+        const estimated: number = k > n ? n : k / theta - 1;
 
         const item: TimelineEntry = {
             id,
             k,
             theta,
-            expectedN,
-            actualN,
+            n,
+            estimated,
             circle: newCircle
         };
 
@@ -112,10 +112,12 @@ const entries = buildTimelineEntries(50, 5);
 
 const stepScene: TimelineSceneThree = {
     objects: [
+        latex("title", "K Minimum Value (KMV)", { x: 0, y: 0 }, textStyle),
         ...buildAxis(),
         ...entries.map(entry => entry.circle),
     ],
     timeline: [
+        at(1).animate("title", { element: { textContent: `K = ${entries[0].k}` } }, { duration: 1 }),
         ...buildTimeline(entries),
     ],
 }
