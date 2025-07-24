@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { DualRenderer } from 'obelus-three-render';
+import { DualRenderer, DualScene } from 'obelus-three-render';
 
 export function createOrthographicCamera(
     width: number = window.innerWidth,
@@ -67,4 +67,18 @@ export function useDualRenderer(
     const renderer = createDualRenderer(width, height);
     const camera = createOrthographicCamera(width, height);
     return { renderer, camera };
+};
+
+export function clearScene(scene: DualScene) {
+    // Remove all objects from Three.js scene
+    while (scene.threeScene.children.length > 0) {
+        console.log("removing three scene child", scene.threeScene.children[0]);
+        scene.threeScene.remove(scene.threeScene.children[0]);
+    }
+
+    // Remove all objects from CSS3D scene
+    while (scene.css3dScene.children.length > 0) {
+        console.log("removing css3d scene child", scene.css3dScene.children[0]);
+        scene.css3dScene.remove(scene.css3dScene.children[0]);
+    }
 };
