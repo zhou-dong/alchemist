@@ -14,12 +14,12 @@ import { Container, Tooltip, Fab } from '@mui/material';
 
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Settings from '@mui/icons-material/Settings';
-import * as Lightbulb from '@mui/icons-material/Lightbulb';
+import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
 import KmvConfigDialog from './KmvConfigDialog';
 
 const SettingsIcon = Settings.default as unknown as React.ElementType;
 const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
-const LightbulbIcon = Lightbulb.default as unknown as React.ElementType;
+const TipsAndUpdatesIcon = TipsAndUpdates.default as unknown as React.ElementType;
 
 const { axisStyle, textStyle, circleStyle, lineStyle } = defaultTheme;
 
@@ -73,7 +73,7 @@ interface TimelineEntry {
 const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
     const radius = 3;
 
-
+    // build hash values and sort them randomly
     const buildHashValues = (size: number): number[] => {
         const set = new Set<number>();
         while (set.size < size) {
@@ -97,19 +97,10 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
         const estimated: number = k > n ? n : (k / theta) - 1;
 
         const thetaX = theta * axisWidth + xAlign;
-
         let updatedThetaX = thetaX - previousThetaX;
         previousThetaX = thetaX;
 
-        const item: TimelineEntry = {
-            id,
-            k,
-            theta,
-            n,
-            estimated,
-            circle: newCircle,
-            updatedThetaX
-        };
+        const item: TimelineEntry = { id, k, theta, n, estimated, updatedThetaX, circle: newCircle };
 
         return item;
     });
@@ -121,25 +112,25 @@ const buildTimeline = (entries: TimelineEntry[]) => {
     entries.forEach((entry, index) => {
         const { id, k, theta, n, estimated, updatedThetaX } = entry;
         timeline.push(
-            at(index + 1).animate(id, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
+            at(index + 2).animate(id, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
         );
         timeline.push(
-            at(index + 1).animate("n_value", { element: { textContent: `N(Expected) = ${n}` } }, { duration: 0 })
+            at(index + 2).animate("n_value", { element: { textContent: `N(Expected) = ${n}` } }, { duration: 0 })
         );
         timeline.push(
-            at(index + 1).animate("estimated", { element: { textContent: `Estimated = (K / θ) - 1 = (${k} / ${theta.toFixed(2)}) - 1 = ${estimated.toFixed(2)}` } }, { duration: 0 })
+            at(index + 2).animate("estimated", { element: { textContent: `Estimated = (K / θ) - 1 = (${k} / ${theta.toFixed(2)}) - 1 = ${estimated.toFixed(2)}` } }, { duration: 0 })
         );
         timeline.push(
-            at(index + 1).animate("theta_line", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
+            at(index + 2).animate("theta_line", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
         );
         timeline.push(
-            at(index + 1).animate("theta_latex", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
+            at(index + 2).animate("theta_latex", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
         );
         timeline.push(
-            at(index + 1).animate("theta_value", { element: { textContent: `${theta.toFixed(2)}` } }, { duration: 0 })
+            at(index + 2).animate("theta_value", { element: { textContent: `${theta.toFixed(2)}` } }, { duration: 0 })
         );
         timeline.push(
-            at(index + 1).animate("theta_value", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
+            at(index + 2).animate("theta_value", { position: { x: `+=${updatedThetaX}` } }, { duration: 1 })
         );
     });
 
@@ -256,7 +247,7 @@ function ThetaSketchPageContent({
                     zIndex: 1000
                 }}
             >
-                <LightbulbIcon />
+                <TipsAndUpdatesIcon />
             </Fab>
         </Tooltip>
     );
