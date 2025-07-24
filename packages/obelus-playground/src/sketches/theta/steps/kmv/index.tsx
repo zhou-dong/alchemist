@@ -25,11 +25,12 @@ const LightbulbIcon = Lightbulb.default as unknown as React.ElementType;
 const axisWidth = window.innerWidth / 2;
 
 const buildAxis = () => {
-    const start = { x: -axisWidth / 2 };
-    const end = { x: axisWidth / 2 };
+    const y = window.innerHeight / 10;
+    const start = { x: -axisWidth / 2, y };
+    const end = { x: axisWidth / 2, y };
     const axisLine = axis("axis", start, end, { ...axisStyle, dotCount: 2 });
-    const axisStart = text("axis_start", "0", { ...start, y: -15 }, textStyle);
-    const axisEnd = text("axis_end", "1", { ...end, y: -15 }, textStyle);
+    const axisStart = text("axis_start", "0", { ...start, y: y - 15 }, textStyle);
+    const axisEnd = text("axis_end", "1", { ...end, y: y - 15 }, textStyle);
     return [axisLine, axisStart, axisEnd];
 }
 
@@ -75,7 +76,6 @@ function ThetaSketchPageContent({
     const [k, setK] = React.useState(defaultK);
     const [streamSize, setStreamSize] = React.useState(defaultStreamSize);
     const [animationSpeed, setAnimationSpeed] = React.useState(defaultAnimationSpeed);
-
 
     const { containerRef } = useThreeContainer(renderer);
     useThreeAutoResize(containerRef, renderer, scene, camera);
@@ -193,7 +193,6 @@ function ThetaSketchPageContent({
                     defaultStreamSize={defaultStreamSize}
                 />
             </Container>
-
 
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
