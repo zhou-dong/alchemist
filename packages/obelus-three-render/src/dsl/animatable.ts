@@ -21,8 +21,17 @@ function getPosition(position: Partial<Position>): Position {
     };
 }
 
-export function circle(id: string, geometry: THREE.CircleGeometry, material: THREE.Material): Animatable<THREE.Mesh> {
-    return { id, target: new THREE.Mesh(geometry, material) };
+export function circle(
+    id: string,
+    radius: number,
+    position: Partial<Position>,
+    material: THREE.Material
+): Animatable<THREE.Mesh> {
+    const geometry = new THREE.CircleGeometry(radius, 32);
+    const mesh = new THREE.Mesh(geometry, material);
+    const { x, y, z } = getPosition(position);
+    mesh.position.set(x, y, z);
+    return { id, target: mesh };
 };
 
 export function line(
