@@ -38,7 +38,11 @@ export function buildAnimateTimeline(
     onComplete: Callback,
 ): gsap.core.Timeline {
 
-    const timeline = gsap.timeline({ onStart, onComplete });
+    const timeline = gsap.timeline({
+        paused: true,  // Prevents auto-start
+        onStart,
+        onComplete
+    });
 
     for (const event of events) {
         const target = objectMap[event.targetId];
