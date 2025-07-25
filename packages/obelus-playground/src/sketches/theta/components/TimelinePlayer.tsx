@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import gsap from 'gsap';
 import {
   Box,
   IconButton,
@@ -29,12 +28,12 @@ const VisibilityIcon = Visibility.default as unknown as React.ElementType;
 const VisibilityOffIcon = VisibilityOff.default as unknown as React.ElementType;
 
 interface TimelinePlayerProps {
-  timeline: gsap.core.Timeline; // GSAP Timeline
+  timeline: any; // GSAP Timeline
   showProgress?: boolean;
   showSpeed?: boolean;
   size?: 'small' | 'medium' | 'large';
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  onStart: () => void;
+  onPause: () => void;
   onComplete: () => void;
 }
 
@@ -43,8 +42,8 @@ export default function TimelinePlayer({
   showProgress = true,
   showSpeed = true,
   size = 'medium',
-  startAnimation,
-  stopAnimation,
+  onStart,
+  onPause,
   onComplete,
 }: TimelinePlayerProps) {
   const theme = useTheme();
@@ -63,7 +62,7 @@ export default function TimelinePlayer({
 
     // Pause timeline initially to prevent auto-start
     timeline.pause();
-    stopAnimation();
+    onPause();
 
     const updateProgress = () => {
       setProgress(timeline.progress() * 100);
@@ -72,7 +71,6 @@ export default function TimelinePlayer({
 
     timeline.eventCallback('onUpdate', updateProgress);
     timeline.eventCallback('onComplete', () => {
-      stopAnimation();
       setIsPlaying(false);
       onComplete();
     });
@@ -86,16 +84,15 @@ export default function TimelinePlayer({
   const handlePlayPause = () => {
     if (isPlaying) {
       timeline.pause();
-      stopAnimation();
+      onPause();
     } else {
       timeline.play();
-      startAnimation();
+      onStart();
     }
     setIsPlaying(!isPlaying);
   };
 
   const handleRestart = () => {
-    // startAnimation();
     timeline.restart();
     setIsPlaying(true);
   };
@@ -188,7 +185,6 @@ export default function TimelinePlayer({
               onClick={handleRestart}
               size={buttonSize}
               sx={{ color: theme.palette.text.secondary }}
-              // disabled //todo: fix this later
             >
               <RestartIcon sx={{ fontSize: iconSize }} />
             </IconButton>
