@@ -244,9 +244,10 @@ export default function TimelinePlayer({
           <Tooltip title="Next">
             <IconButton
               onClick={handleNext}
-              disabled={labels.length > 0 ? currentStep === labels.length - 1 : false}
+              // disabled={labels.length > 0 ? currentStep === labels.length - 1 : false}
               size={buttonSize}
               sx={{ color: theme.palette.text.secondary }}
+              disabled //todo: fix this later
             >
               <NextIcon sx={{ fontSize: iconSize }} />
             </IconButton>
