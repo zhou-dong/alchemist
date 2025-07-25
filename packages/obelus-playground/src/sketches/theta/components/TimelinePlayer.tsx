@@ -203,6 +203,7 @@ export default function TimelinePlayer({
               onClick={handleRestart}
               size={buttonSize}
               sx={{ color: theme.palette.text.secondary }}
+              disabled //todo: fix this later
             >
               <RestartIcon sx={{ fontSize: iconSize }} />
             </IconButton>
@@ -211,9 +212,10 @@ export default function TimelinePlayer({
           <Tooltip title="Previous">
             <IconButton
               onClick={handlePrevious}
-              disabled={currentStep === 0}
+              // disabled={currentStep === 0}
               size={buttonSize}
               sx={{ color: theme.palette.text.secondary }}
+              disabled //todo: fix this later
             >
               <PrevIcon sx={{ fontSize: iconSize }} />
             </IconButton>
