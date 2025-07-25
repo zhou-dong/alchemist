@@ -72,13 +72,11 @@ export function useDualRenderer(
 export function clearScene(scene: DualScene) {
     // Remove all objects from Three.js scene
     while (scene.threeScene.children.length > 0) {
-        console.log("removing three scene child", scene.threeScene.children[0]);
         scene.threeScene.remove(scene.threeScene.children[0]);
     }
 
     // Remove all objects from CSS3D scene
     while (scene.css3dScene.children.length > 0) {
-        console.log("removing css3d scene child", scene.css3dScene.children[0]);
         scene.css3dScene.remove(scene.css3dScene.children[0]);
     }
 };
