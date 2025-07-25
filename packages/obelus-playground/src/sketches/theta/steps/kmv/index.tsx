@@ -144,6 +144,7 @@ const scene = new DualScene();
 const animationController = new AnimationController(renderer, scene, camera);
 
 let componentLevelShowStepper: boolean = true;
+let componentLevelShowClickToNextPage: boolean = false;
 
 function ThetaSketchPageContent({
     showStepper,
@@ -171,6 +172,7 @@ function ThetaSketchPageContent({
 
     React.useEffect(() => {
         setShowStepper(componentLevelShowStepper);
+        setShowClickToNextPage(componentLevelShowClickToNextPage);
         return () => {
             animationController.stopAnimation();
             // gsap.globalTimeline.clear();
@@ -276,6 +278,7 @@ function ThetaSketchPageContent({
                 }}
                 onComplete={() => {
                     setShowClickToNextPage(true);
+                    componentLevelShowClickToNextPage = true;
                     animationController.stopAnimation();
                 }}
             />
