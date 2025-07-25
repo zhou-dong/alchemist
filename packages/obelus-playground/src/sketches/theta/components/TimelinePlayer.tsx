@@ -39,6 +39,7 @@ interface TimelinePlayerProps {
   size?: 'small' | 'medium' | 'large';
   startAnimation: () => void;
   stopAnimation: () => void;
+  onComplete: () => void;
 }
 
 export default function TimelinePlayer({
@@ -50,6 +51,7 @@ export default function TimelinePlayer({
   size = 'medium',
   startAnimation,
   stopAnimation,
+  onComplete,
 }: TimelinePlayerProps) {
   const theme = useTheme();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -75,6 +77,7 @@ export default function TimelinePlayer({
     timeline.eventCallback('onComplete', () => {
       stopAnimation();
       setIsPlaying(false);
+      onComplete();
     });
 
     return () => {
