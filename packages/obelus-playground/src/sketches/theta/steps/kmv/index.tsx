@@ -154,7 +154,7 @@ function ThetaSketchPageContent({
     const [displayIntroduction, setDisplayIntroduction] = React.useState(false);
     const [openKmvConfigDialog, setOpenKmvConfigDialog] = React.useState(false);
     const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(false);
-    const [showClickToNextPage, setShowClickToNextPage] = React.useState(true);
+    const [showClickToNextPage, setShowClickToNextPage] = React.useState(false);
 
     const defaultK = 5;
     const defaultStreamSize = 50;
