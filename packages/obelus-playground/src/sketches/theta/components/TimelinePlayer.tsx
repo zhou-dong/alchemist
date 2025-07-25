@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import gsap from 'gsap';
 import {
   Box,
   IconButton,
@@ -6,34 +7,29 @@ import {
   Typography,
   Paper,
   Stack,
-  Chip,
   Tooltip,
-  useTheme
+  useTheme,
+  Menu,
+  MenuItem,
+  ListItemText
 } from '@mui/material';
 
 import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Pause from '@mui/icons-material/Pause';
-import * as SkipPrevious from '@mui/icons-material/SkipPrevious';
-import * as SkipNext from '@mui/icons-material/SkipNext';
 import * as RestartAlt from '@mui/icons-material/RestartAlt';
 import * as Speed from '@mui/icons-material/Speed';
 import * as Visibility from '@mui/icons-material/Visibility';
 import * as VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-
 const PlayIcon = PlayArrow.default as unknown as React.ElementType;
 const PauseIcon = Pause.default as unknown as React.ElementType;
-const PrevIcon = SkipPrevious.default as unknown as React.ElementType;
-const NextIcon = SkipNext.default as unknown as React.ElementType;
 const RestartIcon = RestartAlt.default as unknown as React.ElementType;
 const SpeedIcon = Speed.default as unknown as React.ElementType;
 const VisibilityIcon = Visibility.default as unknown as React.ElementType;
 const VisibilityOffIcon = VisibilityOff.default as unknown as React.ElementType;
 
 interface TimelinePlayerProps {
-  timeline: any; // GSAP Timeline
-  labels?: string[];
-  onStepChange?: (step: number) => void;
+  timeline: gsap.core.Timeline; // GSAP Timeline
   showProgress?: boolean;
   showSpeed?: boolean;
   size?: 'small' | 'medium' | 'large';
@@ -44,10 +40,8 @@ interface TimelinePlayerProps {
 
 export default function TimelinePlayer({
   timeline,
-  labels = [],
-  onStepChange,
   showProgress = true,
-  showSpeed = false,
+  showSpeed = true,
   size = 'medium',
   startAnimation,
   stopAnimation,
@@ -56,9 +50,12 @@ export default function TimelinePlayer({
   const theme = useTheme();
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [currentStep, setCurrentStep] = useState(0);
   const [speed, setSpeed] = useState(1);
   const [showProgressBar, setShowProgressBar] = useState(showProgress);
+  const [speedMenuAnchor, setSpeedMenuAnchor] = useState<null | HTMLElement>(null);
+
+  // Speed options
+  const speedOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 3];
 
   // Update progress when timeline changes
   useEffect(() => {
@@ -97,34 +94,10 @@ export default function TimelinePlayer({
     setIsPlaying(!isPlaying);
   };
 
-  const handlePrevious = () => {
-    if (labels.length > 0) {
-      const newStep = Math.max(0, currentStep - 1);
-      setCurrentStep(newStep);
-      timeline.tweenTo(labels[newStep]);
-      onStepChange?.(newStep);
-    } else {
-      timeline.previous();
-    }
-  };
-
-  const handleNext = () => {
-    if (labels.length > 0) {
-      const newStep = Math.min(labels.length - 1, currentStep + 1);
-      setCurrentStep(newStep);
-      timeline.tweenTo(labels[newStep]);
-      onStepChange?.(newStep);
-    } else {
-      timeline.next();
-    }
-  };
-
   const handleRestart = () => {
     // startAnimation();
     timeline.restart();
-    setCurrentStep(0);
-    setIsPlaying(false);
-    onStepChange?.(0);
+    setIsPlaying(true);
   };
 
   const handleProgressChange = (value: number) => {
@@ -135,10 +108,19 @@ export default function TimelinePlayer({
   const handleSpeedChange = (newSpeed: number) => {
     setSpeed(newSpeed);
     timeline.timeScale(newSpeed);
+    setSpeedMenuAnchor(null);
   };
 
   const handleToggleProgress = () => {
     setShowProgressBar(!showProgressBar);
+  };
+
+  const handleSpeedMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setSpeedMenuAnchor(event.currentTarget);
+  };
+
+  const handleSpeedMenuClose = () => {
+    setSpeedMenuAnchor(null);
   };
 
   const iconSize = size === 'small' ? 20 : size === 'large' ? 28 : 24;
@@ -206,21 +188,9 @@ export default function TimelinePlayer({
               onClick={handleRestart}
               size={buttonSize}
               sx={{ color: theme.palette.text.secondary }}
-              disabled //todo: fix this later
+              // disabled //todo: fix this later
             >
               <RestartIcon sx={{ fontSize: iconSize }} />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Previous">
-            <IconButton
-              onClick={handlePrevious}
-              // disabled={currentStep === 0}
-              size={buttonSize}
-              sx={{ color: theme.palette.text.secondary }}
-              disabled //todo: fix this later
-            >
-              <PrevIcon sx={{ fontSize: iconSize }} />
             </IconButton>
           </Tooltip>
 
@@ -244,28 +214,41 @@ export default function TimelinePlayer({
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Next">
-            <IconButton
-              onClick={handleNext}
-              // disabled={labels.length > 0 ? currentStep === labels.length - 1 : false}
-              size={buttonSize}
-              sx={{ color: theme.palette.text.secondary }}
-              disabled //todo: fix this later
-            >
-              <NextIcon sx={{ fontSize: iconSize }} />
-            </IconButton>
-          </Tooltip>
-
           {showSpeed && (
-            <Tooltip title="Speed">
-              <IconButton
-                onClick={() => handleSpeedChange(speed === 1 ? 0.5 : speed === 0.5 ? 2 : 1)}
-                size={buttonSize}
-                sx={{ color: theme.palette.text.secondary }}
+            <>
+              <Tooltip title="Speed Settings">
+                <IconButton
+                  onClick={handleSpeedMenuOpen}
+                  size={buttonSize}
+                  sx={{ color: theme.palette.text.secondary }}
+                >
+                  <SpeedIcon sx={{ fontSize: iconSize }} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                anchorEl={speedMenuAnchor}
+                open={Boolean(speedMenuAnchor)}
+                onClose={handleSpeedMenuClose}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
               >
-                <SpeedIcon sx={{ fontSize: iconSize }} />
-              </IconButton>
-            </Tooltip>
+                {speedOptions.map((speedOption) => (
+                  <MenuItem
+                    key={speedOption}
+                    onClick={() => handleSpeedChange(speedOption)}
+                    selected={speed === speedOption}
+                  >
+                    <ListItemText>{speedOption}x</ListItemText>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
           )}
 
           <Tooltip title={showProgressBar ? 'Hide Progress' : 'Show Progress'}>
@@ -283,37 +266,6 @@ export default function TimelinePlayer({
           </Tooltip>
         </Stack>
 
-        {/* Speed Indicator */}
-        {showSpeed && speed !== 1 && (
-          <Chip
-            label={`${speed}x`}
-            size="small"
-            color="primary"
-            variant="outlined"
-            sx={{ alignSelf: 'center' }}
-          />
-        )}
-
-        {/* Step Labels */}
-        {labels.length > 0 && (
-          <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap">
-            {labels.map((label, index) => (
-              <Chip
-                key={label}
-                label={label}
-                size="small"
-                color={index === currentStep ? 'primary' : 'default'}
-                variant={index === currentStep ? 'filled' : 'outlined'}
-                onClick={() => {
-                  setCurrentStep(index);
-                  timeline.tweenTo(label);
-                  onStepChange?.(index);
-                }}
-                sx={{ cursor: 'pointer' }}
-              />
-            ))}
-          </Stack>
-        )}
       </Stack>
     </Paper>
   );
