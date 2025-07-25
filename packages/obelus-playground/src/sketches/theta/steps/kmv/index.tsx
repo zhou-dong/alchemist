@@ -1,7 +1,8 @@
 import React from 'react';
+import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
 import { at } from 'obelus';
-import { createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
+import { clearScene, createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
 import { buildAnimateTimeline } from 'obelus-gsap-player';
 import { useThreeContainer } from '../../../../hooks/useThreeContainer';
@@ -13,15 +14,11 @@ import TimelinePlayer from '../../components/TimelinePlayer';
 import { Container, Tooltip, Fab, Button } from '@mui/material';
 import KmvConfigDialog from './KmvConfigDialog';
 
-import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Settings from '@mui/icons-material/Settings';
 import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
-import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
 import * as SportsEsports from '@mui/icons-material/SportsEsports';
 
-const RocketLaunchIcon = RocketLaunch.default as unknown as React.ElementType;
 const SettingsIcon = Settings.default as unknown as React.ElementType;
-const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
 const TipsAndUpdatesIcon = TipsAndUpdates.default as unknown as React.ElementType;
 const SportsEsportsIcon = SportsEsports.default as unknown as React.ElementType;
 
@@ -139,32 +136,10 @@ const buildTimeline = (entries: TimelineEntry[]) => {
     return timeline;
 }
 
-const entries = buildTimelineEntries(50, 5);
-
-const stepScene: TimelineSceneThree = {
-    objects: [
-        ...buildDashboard(5),
-        ...buildAxis(),
-        ...entries.map(entry => entry.circle),
-    ],
-    timeline: [
-        ...displayAxisAndDashboard(),
-        ...buildTimeline(entries),
-    ],
-}
-
 const renderer = createDualRenderer();
 const camera = createOrthographicCamera();
 const scene = new DualScene();
 const animationController = new AnimationController(renderer, scene, camera);
-
-const record = render(stepScene.objects, scene as any);
-let timeline = buildAnimateTimeline(
-    stepScene.timeline,
-    record,
-    animationController.startAnimation,
-    animationController.stopAnimation
-);
 
 let componentLevelShowStepper: boolean = true;
 
@@ -181,31 +156,58 @@ function ThetaSketchPageContent({
     const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(false);
 
     const defaultK = 5;
-    const defaultStreamSize = 100;
+    const defaultStreamSize = 50;
     const defaultAnimationSpeed = 1;
 
     const [k, setK] = React.useState(defaultK);
     const [streamSize, setStreamSize] = React.useState(defaultStreamSize);
     const [animationSpeed, setAnimationSpeed] = React.useState(defaultAnimationSpeed);
 
+    const [timeline, setTimeline] = React.useState<any>(null);
+
     const { containerRef } = useThreeContainer(renderer);
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     React.useEffect(() => {
         setShowStepper(componentLevelShowStepper);
-
         return () => {
             animationController.stopAnimation();
         };
     }, []);
 
-    //  navigate('/sketches/theta/set-operations');
-    const onClick = async () => {
-        setShowStepper(false);
-        componentLevelShowStepper = false;
-        setDisplayIntroduction(true);
-    };
+    const handleBuildTimeline = () => {
+        animationController.stopAnimation();
+        gsap.globalTimeline.clear();
+        clearScene(scene);
+        animationController.renderAnimationOnce();
 
+        console.log("cleared scene");
+
+        const entries = buildTimelineEntries(streamSize, k);
+
+        const stepScene: TimelineSceneThree = {
+            objects: [
+                ...buildDashboard(k),
+                ...buildAxis(),
+                ...entries.map(entry => entry.circle),
+            ],
+            timeline: [
+                ...displayAxisAndDashboard(),
+                ...buildTimeline(entries),
+            ],
+        }
+
+        const record = render(stepScene.objects, scene as any);
+        let timeline = buildAnimateTimeline(
+            stepScene.timeline,
+            record,
+            animationController.startAnimation,
+            animationController.stopAnimation
+        );
+        setTimeline(timeline);
+    }
+
+    //  navigate('/sketches/theta/set-operations');
     const IntroductionToggle = () => (
         <Tooltip title={displayIntroduction ? 'Hide Introduction' : 'Show Introduction'} placement="left">
             <Fab
@@ -284,7 +286,7 @@ function ThetaSketchPageContent({
                 transform: 'translateX(-50%)',
                 zIndex: 1300,
             }}
-            startIcon={<RocketLaunchIcon />}
+            startIcon={<TipsAndUpdatesIcon />}
             onClick={() => {
                 setShowStepper(false);
                 componentLevelShowStepper = false;
@@ -311,8 +313,13 @@ function ThetaSketchPageContent({
             <Container maxWidth="xs">
                 <KmvConfigDialog
                     open={openKmvConfigDialog}
-                    onClose={() => { setOpenKmvConfigDialog(false) }}
-                    onStart={() => { }}
+                    onClose={() => {
+                        setOpenKmvConfigDialog(false);
+                    }}
+                    onStart={() => {
+                        setShowTimelinePlayer(true);
+                        handleBuildTimeline();
+                    }}
                     k={k}
                     animationSpeed={animationSpeed}
                     streamSize={streamSize}
