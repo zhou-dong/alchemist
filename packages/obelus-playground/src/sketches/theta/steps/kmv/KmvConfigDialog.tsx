@@ -28,13 +28,10 @@ interface KmvConfigDialogProps {
   onClose: () => void;
   onStart: () => void;
   k: number;
-  animationSpeed: number;
   streamSize: number;
   setK: (k: number) => void;
-  setAnimationSpeed: (animationSpeed: number) => void;
   setStreamSize: (streamSize: number) => void;
   defaultK: number;
-  defaultAnimationSpeed: number;
   defaultStreamSize: number;
 }
 
@@ -43,13 +40,10 @@ export default function KmvConfigDialog({
   onClose,
   onStart,
   k,
-  animationSpeed,
   streamSize,
   setK,
-  setAnimationSpeed,
   setStreamSize,
   defaultK,
-  defaultAnimationSpeed,
   defaultStreamSize
 }: KmvConfigDialogProps) {
   const theme = useTheme();
@@ -84,7 +78,6 @@ export default function KmvConfigDialog({
 
   const handleReset = () => {
     setK(defaultK);
-    setAnimationSpeed(defaultAnimationSpeed);
     setStreamSize(defaultStreamSize);
     setErrors({});
   };
@@ -157,34 +150,6 @@ export default function KmvConfigDialog({
               }
             </Typography>
           </Stack>
-
-          {/* Animation Speed */}
-          <Box>
-            <Typography variant="subtitle1" gutterBottom>
-              Animation Speed
-            </Typography>
-            <Box sx={{ px: 2 }}>
-              <Slider
-                value={animationSpeed}
-                onChange={(_, value) => setAnimationSpeed(value as number)}
-                min={0.1}
-                max={3}
-                step={0.1}
-                marks={[
-                  { value: 0.1, label: '0.1x' },
-                  { value: 1, label: '1x' },
-                  { value: 3, label: '3x' }
-                ]}
-                valueLabelDisplay="auto"
-                valueLabelFormat={(value) => `${value}x`}
-              />
-            </Box>
-            <Typography variant="caption" color="text.secondary">
-              {animationSpeed < 1 ? 'Slower - Good for learning' :
-                animationSpeed > 1 ? 'Faster - Quick overview' :
-                  'Normal speed - Balanced view'}
-            </Typography>
-          </Box>
 
           {/* Validation Alert */}
           {Object.keys(errors).length > 0 && (
