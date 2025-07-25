@@ -58,7 +58,6 @@ function SetOperationsPageContent({
         </Button>
     );
 
-
     return (
         <>
             {showStepper && <StartButton />}
