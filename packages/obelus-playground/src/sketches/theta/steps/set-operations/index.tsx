@@ -33,7 +33,7 @@ function SetOperationsPageContent({
     React.useEffect(() => {
         setShowStepper(componentLevelShowStepper);
         return () => {
-            //todo: stop animation
+            animationController.stopAnimation();
         };
     }, []);
 
