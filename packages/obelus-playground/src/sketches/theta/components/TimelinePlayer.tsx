@@ -17,15 +17,11 @@ import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Pause from '@mui/icons-material/Pause';
 import * as RestartAlt from '@mui/icons-material/RestartAlt';
 import * as Speed from '@mui/icons-material/Speed';
-import * as Visibility from '@mui/icons-material/Visibility';
-import * as VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const PlayIcon = PlayArrow.default as unknown as React.ElementType;
 const PauseIcon = Pause.default as unknown as React.ElementType;
 const RestartIcon = RestartAlt.default as unknown as React.ElementType;
 const SpeedIcon = Speed.default as unknown as React.ElementType;
-const VisibilityIcon = Visibility.default as unknown as React.ElementType;
-const VisibilityOffIcon = VisibilityOff.default as unknown as React.ElementType;
 
 interface TimelinePlayerProps {
   timeline: any; // GSAP Timeline
@@ -39,7 +35,6 @@ interface TimelinePlayerProps {
 
 export default function TimelinePlayer({
   timeline,
-  showProgress = true,
   showSpeed = true,
   size = 'medium',
   onStart,
@@ -50,7 +45,6 @@ export default function TimelinePlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [speed, setSpeed] = useState(1);
-  const [showProgressBar, setShowProgressBar] = useState(showProgress);
   const [speedMenuAnchor, setSpeedMenuAnchor] = useState<null | HTMLElement>(null);
 
   // Speed options
@@ -106,10 +100,6 @@ export default function TimelinePlayer({
     setSpeed(newSpeed);
     timeline.timeScale(newSpeed);
     setSpeedMenuAnchor(null);
-  };
-
-  const handleToggleProgress = () => {
-    setShowProgressBar(!showProgressBar);
   };
 
   const handleSpeedMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -176,7 +166,7 @@ export default function TimelinePlayer({
     >
       <Stack spacing={1.5}>
         {/* Progress Bar */}
-        {showProgressBar && <ProgressBar />}
+        <ProgressBar />
 
         {/* Control Buttons */}
         <Stack direction="row" spacing={1} justifyContent="center" alignItems="center" sx={{ py: 0.5 }}>
@@ -247,19 +237,6 @@ export default function TimelinePlayer({
             </>
           )}
 
-          <Tooltip title={showProgressBar ? 'Hide Progress' : 'Show Progress'}>
-            <IconButton
-              onClick={handleToggleProgress}
-              size={buttonSize}
-              sx={{ color: theme.palette.text.secondary }}
-            >
-              {showProgressBar ? (
-                <VisibilityOffIcon sx={{ fontSize: iconSize }} />
-              ) : (
-                <VisibilityIcon sx={{ fontSize: iconSize }} />
-              )}
-            </IconButton>
-          </Tooltip>
         </Stack>
 
       </Stack>
