@@ -15,13 +15,13 @@ import {
   useTheme,
   IconButton
 } from '@mui/material';
-import * as PlayArrow from '@mui/icons-material/PlayArrow';
 import * as Close from '@mui/icons-material/Close';
 import * as RestartAlt from '@mui/icons-material/RestartAlt';
+import * as SportsEsports from '@mui/icons-material/SportsEsports';
 
-const PlayIcon = PlayArrow.default as unknown as React.ElementType;
 const CloseIcon = Close.default as unknown as React.ElementType;
 const RestartAltIcon = RestartAlt.default as unknown as React.ElementType;
+const SportsEsportsIcon = SportsEsports.default as unknown as React.ElementType;
 
 interface KmvConfigDialogProps {
   open: boolean;
@@ -208,10 +208,10 @@ export default function KmvConfigDialog({
         <Button
           onClick={handleStart}
           variant="contained"
-          startIcon={<PlayIcon />}
+          startIcon={<SportsEsportsIcon />}
           disabled={Object.keys(errors).length > 0}
         >
-          Start Animation
+          Start
         </Button>
       </DialogActions>
     </Dialog>
