@@ -158,11 +158,9 @@ function ThetaSketchPageContent({
 
     const defaultK = 5;
     const defaultStreamSize = 50;
-    const defaultAnimationSpeed = 1;
 
     const [k, setK] = React.useState(defaultK);
     const [streamSize, setStreamSize] = React.useState(defaultStreamSize);
-    const [animationSpeed, setAnimationSpeed] = React.useState(defaultAnimationSpeed);
 
     const [timeline, setTimeline] = React.useState<any>(null);
 
@@ -268,8 +266,12 @@ function ThetaSketchPageContent({
         >
             <TimelinePlayer
                 timeline={timeline}
-                startAnimation={animationController.startAnimation}
-                stopAnimation={animationController.stopAnimation}
+                onStart={() => {
+                    animationController.startAnimation();
+                }}
+                onPause={() => {
+                    animationController.stopAnimation();
+                }}
                 onComplete={() => {
                     setShowClickToNextPage(true);
                 }}
@@ -323,13 +325,10 @@ function ThetaSketchPageContent({
                         handleBuildTimeline();
                     }}
                     k={k}
-                    animationSpeed={animationSpeed}
                     streamSize={streamSize}
                     setK={setK}
-                    setAnimationSpeed={setAnimationSpeed}
                     setStreamSize={setStreamSize}
                     defaultK={defaultK}
-                    defaultAnimationSpeed={defaultAnimationSpeed}
                     defaultStreamSize={defaultStreamSize}
                 />
             </Container>
