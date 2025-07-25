@@ -17,10 +17,12 @@ import KmvConfigDialog from './KmvConfigDialog';
 import * as Settings from '@mui/icons-material/Settings';
 import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
 import * as SportsEsports from '@mui/icons-material/SportsEsports';
+import * as ArrowForward from '@mui/icons-material/ArrowForward';
 
 const SettingsIcon = Settings.default as unknown as React.ElementType;
 const TipsAndUpdatesIcon = TipsAndUpdates.default as unknown as React.ElementType;
 const SportsEsportsIcon = SportsEsports.default as unknown as React.ElementType;
+const ArrowForwardIcon = ArrowForward.default as unknown as React.ElementType;
 
 const { axisStyle, textStyle, circleStyle, lineStyle } = defaultTheme;
 
@@ -274,6 +276,7 @@ function ThetaSketchPageContent({
                 }}
                 onComplete={() => {
                     setShowClickToNextPage(true);
+                    animationController.stopAnimation();
                 }}
             />
         </Container>
@@ -334,24 +337,24 @@ function ThetaSketchPageContent({
             </Container>
 
             {showClickToNextPage && (
-                <Button
-                    variant='contained'
-                    size="large"
-                    sx={{
-                        position: 'fixed',
-                        top: 100,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        zIndex: 1300,
-                    }}
-                    onClick={() => {
-                        animationController.stopAnimation();
-                        gsap.globalTimeline.clear();
-                        navigate('/sketches/theta/set-operations');
-                    }}
-                >
-                    Go to Set Operations
-                </Button>
+                <Tooltip title="Go to Set Operations" placement="left">
+                    <Fab
+                        color='secondary'
+                        sx={{
+                            position: 'fixed',
+                            top: '50%',
+                            right: 24,
+                            transform: 'translateY(-50%)',
+                            zIndex: 1300,
+                        }}
+                        onClick={() => {
+                            animationController.stopAnimation();
+                            navigate('/sketches/theta/set-operations');
+                        }}
+                    >
+                        <ArrowForwardIcon />
+                    </Fab>
+                </Tooltip>
             )}
 
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
