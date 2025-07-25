@@ -173,7 +173,7 @@ function ThetaSketchPageContent({
         setShowStepper(componentLevelShowStepper);
         return () => {
             animationController.stopAnimation();
-            gsap.globalTimeline.clear();
+            // gsap.globalTimeline.clear();
         };
     }, []);
 
