@@ -181,8 +181,6 @@ function ThetaSketchPageContent({
         clearScene(scene);
         animationController.renderAnimationOnce();
 
-        console.log("cleared scene");
-
         const entries = buildTimelineEntries(streamSize, k);
 
         const stepScene: TimelineSceneThree = {
