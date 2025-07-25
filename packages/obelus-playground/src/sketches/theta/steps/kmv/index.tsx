@@ -154,6 +154,7 @@ function ThetaSketchPageContent({
     const [displayIntroduction, setDisplayIntroduction] = React.useState(false);
     const [openKmvConfigDialog, setOpenKmvConfigDialog] = React.useState(false);
     const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(false);
+    const [showClickToNextPage, setShowClickToNextPage] = React.useState(true);
 
     const defaultK = 5;
     const defaultStreamSize = 50;
@@ -172,6 +173,7 @@ function ThetaSketchPageContent({
         setShowStepper(componentLevelShowStepper);
         return () => {
             animationController.stopAnimation();
+            gsap.globalTimeline.clear();
         };
     }, []);
 
@@ -205,7 +207,6 @@ function ThetaSketchPageContent({
         setTimeline(timeline);
     }
 
-    //  navigate('/sketches/theta/set-operations');
     const IntroductionToggle = () => (
         <Tooltip title={displayIntroduction ? 'Hide Introduction' : 'Show Introduction'} placement="left">
             <Fab
@@ -269,6 +270,9 @@ function ThetaSketchPageContent({
                 timeline={timeline}
                 startAnimation={animationController.startAnimation}
                 stopAnimation={animationController.stopAnimation}
+                onComplete={() => {
+                    setShowClickToNextPage(true);
+                }}
             />
         </Container>
     );
@@ -329,6 +333,27 @@ function ThetaSketchPageContent({
                     defaultStreamSize={defaultStreamSize}
                 />
             </Container>
+
+            {showClickToNextPage && (
+                <Button
+                    variant='contained'
+                    size="large"
+                    sx={{
+                        position: 'fixed',
+                        top: 100,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        zIndex: 1300,
+                    }}
+                    onClick={() => {
+                        animationController.stopAnimation();
+                        gsap.globalTimeline.clear();
+                        navigate('/sketches/theta/set-operations');
+                    }}
+                >
+                    Go to Set Operations
+                </Button>
+            )}
 
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
