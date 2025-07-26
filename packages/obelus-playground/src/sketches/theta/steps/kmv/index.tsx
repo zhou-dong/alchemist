@@ -154,16 +154,16 @@ function ThetaSketchPageContent({
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const navigate = useNavigate();
+
+    const defaultK = 5;
+    const defaultStreamSize = 50;
+    const [k, setK] = React.useState(defaultK);
+    const [streamSize, setStreamSize] = React.useState(defaultStreamSize);
+
     const [displayIntroduction, setDisplayIntroduction] = React.useState(false);
     const [openKmvConfigDialog, setOpenKmvConfigDialog] = React.useState(false);
     const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(false);
     const [showClickToNextPage, setShowClickToNextPage] = React.useState(false);
-
-    const defaultK = 5;
-    const defaultStreamSize = 50;
-
-    const [k, setK] = React.useState(defaultK);
-    const [streamSize, setStreamSize] = React.useState(defaultStreamSize);
 
     const [timeline, setTimeline] = React.useState<any>(null);
 
