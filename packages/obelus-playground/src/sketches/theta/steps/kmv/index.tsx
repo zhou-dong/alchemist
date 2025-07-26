@@ -12,7 +12,7 @@ import { AnimationController } from '../../../../utils/animation-controller';
 import KseToKmv from './KseToKmv';
 import TimelinePlayer from '../../components/TimelinePlayer';
 import { Container, Tooltip, Fab, Button } from '@mui/material';
-import KmvConfigDialog from './KmvConfigDialog';
+import KmvConfigDialog from '../../components/KmvConfigDialog';
 
 import * as Settings from '@mui/icons-material/Settings';
 import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
