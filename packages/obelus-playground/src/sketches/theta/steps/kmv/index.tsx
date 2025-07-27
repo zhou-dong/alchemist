@@ -282,6 +282,12 @@ function ThetaSketchPageContent({
         </Container>
     );
 
+    const handleStart = () => {
+        setShowStepper(false);
+        componentLevelShowStepper = false;
+        setDisplayIntroduction(true);
+    }
+
     return (
         <>
             {displayIntroduction && <KseToKmv onClose={() => {
@@ -293,11 +299,7 @@ function ThetaSketchPageContent({
             <TimelinePlayerToggle />
             <IntroductionToggle />
 
-            {showStepper && <StartButton onStart={() => {
-                setShowStepper(false);
-                componentLevelShowStepper = false;
-                setDisplayIntroduction(true);
-            }} />}
+            {showStepper && <StartButton onStart={handleStart} />}
 
             <Container maxWidth="xs">
                 <KmvConfigDialog
