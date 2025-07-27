@@ -142,6 +142,7 @@ function SetOperationsPageContent({
             }}
             onStart={() => {
                 buildAnimatableSteps();
+                setShowPlayerButton(true);
             }}
             k={k}
             streamASize={streamASize}
@@ -176,8 +177,18 @@ function SetOperationsPageContent({
             return;
         }
 
+        setDisabled(true);
+        await steps[index].play();
 
-    }
+        if (index === steps.length - 1) {
+            setShowNextPageButton(true);
+            componentLevelShowNextPageButton = true;
+        } else {
+            setDisabled(false);
+        }
+
+        setIndex(index + 1);
+    };
 
     return (
         <>
