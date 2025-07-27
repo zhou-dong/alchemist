@@ -234,10 +234,9 @@ function OrderStatisticsPageContent({
     showStepper: boolean;
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>
 }) {
+    const [disabled, setDisabled] = React.useState(false);
     const [showNextPageButton, setShowNextPageButton] = React.useState(false);
     const [showPlayerButton, setShowPlayerButton] = React.useState(false);
-
-    const [disabled, setDisabled] = React.useState(false);
 
     const { containerRef } = useThreeContainer(renderer);
     useThreeAutoResize(containerRef, renderer, scene, camera);
