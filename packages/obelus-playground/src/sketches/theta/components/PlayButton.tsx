@@ -1,11 +1,9 @@
 import React from 'react';
-import * as PlayArrow from '@mui/icons-material/PlayArrow';
-import * as ArrowForward from '@mui/icons-material/ArrowForward';
-import * as RocketLaunch from '@mui/icons-material/RocketLaunch';
+import * as Mouse from '@mui/icons-material/Mouse';
+import * as Done from '@mui/icons-material/Done';
 
-const PlayArrowIcon = PlayArrow.default as unknown as React.ElementType;
-const ArrowForwardIcon = ArrowForward.default as unknown as React.ElementType;
-const RocketLaunchIcon = RocketLaunch.default as unknown as React.ElementType;
+const MouseIcon = Mouse.default as unknown as React.ElementType;
+const DoneIcon = Done.default as unknown as React.ElementType;
 
 import { Button } from '@mui/material';
 
@@ -13,29 +11,26 @@ type PlayButtonProps = {
     index: number;
     steps: any[];
     disabled: boolean;
-    nextPage: string;
     onClick: () => void;
 };
 
-const PlayButton = ({ index, steps, disabled, nextPage, onClick }: PlayButtonProps) => {
-    return (
-        <Button
-            variant='contained'
-            size="large"
-            sx={{
-                position: 'fixed',
-                bottom: 100,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 1300,
-            }}
-            startIcon={index === -1 ? <RocketLaunchIcon /> : index === steps.length ? <ArrowForwardIcon /> : <PlayArrowIcon />}
-            onClick={onClick}
-            disabled={disabled}
-        >
-            {index === -1 ? "Start" : index === steps.length ? nextPage : "Next"}
-        </Button>
-    );
-};
+const PlayButton = ({ index, steps, disabled, onClick }: PlayButtonProps) => (
+    <Button
+        variant='contained'
+        size="large"
+        sx={{
+            position: 'fixed',
+            bottom: 100,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1300,
+        }}
+        startIcon={index === steps.length ? <DoneIcon /> : <MouseIcon />}
+        onClick={onClick}
+        disabled={disabled}
+    >
+        {index === steps.length ? "Done" : "Next"}
+    </Button>
+);
 
 export default PlayButton;
