@@ -172,7 +172,6 @@ function ThetaSketchPageContent({
         setShowNextPageButton(componentLevelShowNextPageButton);
         return () => {
             animationController.stopAnimation();
-            // gsap.globalTimeline.clear();
         };
     }, []);
 
