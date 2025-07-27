@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { animate, parallel, } from 'obelus';
 import { createDualRenderer, createOrthographicCamera } from '../../../utils/threeUtils';
 import { WrapperProvider } from '../components/wrapper/WrapperProvider';
@@ -9,6 +8,8 @@ import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
 import { type StepSceneThree, render, axis, latex, defaultTheme, ring, text, DualScene } from 'obelus-three-render';
 import { AnimationController } from '../../../utils/animation-controller';
 import PlayButton from '../components/PlayButton';
+import NextPageButton from '../components/NextPageButton';
+import StartButton from '../components/StartButton';
 
 const { axisStyle, textStyle, ringStyle } = defaultTheme;
 
@@ -222,14 +223,19 @@ let steps: PlayableStep[] = buildAnimateSteps(
     animationController.stopAnimation
 );
 
-let index = -1;
+let index = 0;
+let componentLevelShowStepper: boolean = true;
+let componentLevelShowNextPageButton: boolean = false;
 
 function OrderStatisticsPageContent({
+    showStepper,
     setShowStepper,
 }: {
+    showStepper: boolean;
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-    const navigate = useNavigate();
+    const [showNextPageButton, setShowNextPageButton] = React.useState(false);
+    const [showPlayerButton, setShowPlayerButton] = React.useState(false);
 
     const [disabled, setDisabled] = React.useState(false);
 
@@ -237,38 +243,42 @@ function OrderStatisticsPageContent({
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     React.useEffect(() => {
-        if (index > -1) {
-            setShowStepper(false);
-            return;
-        }
-
+        setShowStepper(componentLevelShowStepper);
+        setShowNextPageButton(componentLevelShowNextPageButton);
         return () => {
             animationController.stopAnimation();
         };
     }, []);
 
     const onClick = async () => {
-        if (index === -1) {
-            setShowStepper(false);
-            index = 0;
-            return;
-        }
-
         if (index === steps.length) {
-            navigate('/sketches/theta/kse');
             return;
         }
 
         setDisabled(true);
         await steps[index].play();
 
+        if (index === steps.length - 1) {
+            setShowNextPageButton(true);
+            componentLevelShowNextPageButton = true;
+        } else {
+            setDisabled(false);
+        }
+
         index = index + 1;
-        setDisabled(false);
+    };
+
+    const handleStart = () => {
+        setShowStepper(false);
+        componentLevelShowStepper = false;
+        setShowPlayerButton(true);
     };
 
     return (
         <>
-            <PlayButton index={index} steps={steps} disabled={disabled} nextPage="KSE" onClick={onClick} />
+            {showStepper && <StartButton onStart={handleStart} />}
+            {showNextPageButton && <NextPageButton nextPagePath="/sketches/theta/kse" title="Go to KSE" />}
+            {showPlayerButton && <PlayButton index={index} steps={steps} disabled={disabled} onClick={onClick} />}
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );
@@ -279,7 +289,7 @@ export default function OrderStatisticsPage() {
 
     return (
         <WrapperProvider title="Order Statistics" activeStep={0} showStepper={showStepper} setShowStepper={setShowStepper}>
-            <OrderStatisticsPageContent setShowStepper={setShowStepper} />
+            <OrderStatisticsPageContent showStepper={showStepper} setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
 }
