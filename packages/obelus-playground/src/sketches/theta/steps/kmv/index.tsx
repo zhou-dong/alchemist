@@ -11,13 +11,14 @@ import { DualScene, type TimelineSceneThree, render, axis, text, circle, default
 import { AnimationController } from '../../../../utils/animation-controller';
 import KseToKmv from './KseToKmv';
 import TimelinePlayer from '../../components/TimelinePlayer';
-import { Container, Tooltip, Fab, Button } from '@mui/material';
+import { Container, Tooltip, Fab } from '@mui/material';
 import KmvConfigDialog from '../../components/KmvConfigDialog';
 
 import * as Settings from '@mui/icons-material/Settings';
 import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
 import * as SportsEsports from '@mui/icons-material/SportsEsports';
 import NextPageButton from '../../components/NextPageButton';
+import StartButton from '../../components/StartButton';
 
 const SettingsIcon = Settings.default as unknown as React.ElementType;
 const TipsAndUpdatesIcon = TipsAndUpdates.default as unknown as React.ElementType;
@@ -284,28 +285,6 @@ function ThetaSketchPageContent({
         </Container>
     );
 
-    const StartButton = () => (
-        <Button
-            variant='contained'
-            size="large"
-            sx={{
-                position: 'fixed',
-                bottom: 100,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 1300,
-            }}
-            startIcon={<TipsAndUpdatesIcon />}
-            onClick={() => {
-                setShowStepper(false);
-                componentLevelShowStepper = false;
-                setDisplayIntroduction(true);
-            }}
-        >
-            Start
-        </Button>
-    );
-
     return (
         <>
             {displayIntroduction && <KseToKmv onClose={() => {
@@ -317,7 +296,11 @@ function ThetaSketchPageContent({
             <TimelinePlayerToggle />
             <IntroductionToggle />
 
-            {showStepper && <StartButton />}
+            {showStepper && <StartButton onStart={() => {
+                setShowStepper(false);
+                componentLevelShowStepper = false;
+                setDisplayIntroduction(true);
+            }} />}
 
             <Container maxWidth="xs">
                 <KmvConfigDialog
