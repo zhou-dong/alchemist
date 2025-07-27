@@ -101,8 +101,7 @@ let steps: PlayableStep[] = buildAnimateSteps(
     animationController.stopAnimation
 );
 
-let index = -1;
-
+let index = 0;
 let componentLevelShowStepper: boolean = true;
 let componentLevelShowNextPageButton: boolean = false;
 
