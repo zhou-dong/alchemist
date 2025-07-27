@@ -17,12 +17,11 @@ import KmvConfigDialog from '../../components/KmvConfigDialog';
 import * as Settings from '@mui/icons-material/Settings';
 import * as TipsAndUpdates from '@mui/icons-material/TipsAndUpdates';
 import * as SportsEsports from '@mui/icons-material/SportsEsports';
-import * as ArrowForward from '@mui/icons-material/ArrowForward';
+import NextPageButton from '../../components/NextPageButton';
 
 const SettingsIcon = Settings.default as unknown as React.ElementType;
 const TipsAndUpdatesIcon = TipsAndUpdates.default as unknown as React.ElementType;
 const SportsEsportsIcon = SportsEsports.default as unknown as React.ElementType;
-const ArrowForwardIcon = ArrowForward.default as unknown as React.ElementType;
 
 const { axisStyle, textStyle, circleStyle, lineStyle } = defaultTheme;
 
@@ -144,7 +143,7 @@ const scene = new DualScene();
 const animationController = new AnimationController(renderer, scene, camera);
 
 let componentLevelShowStepper: boolean = true;
-let componentLevelShowClickToNextPage: boolean = false;
+let componentLevelShowNextPageButton: boolean = false;
 
 function ThetaSketchPageContent({
     showStepper,
@@ -163,7 +162,7 @@ function ThetaSketchPageContent({
     const [displayIntroduction, setDisplayIntroduction] = React.useState(false);
     const [openKmvConfigDialog, setOpenKmvConfigDialog] = React.useState(false);
     const [showTimelinePlayer, setShowTimelinePlayer] = React.useState(false);
-    const [showClickToNextPage, setShowClickToNextPage] = React.useState(false);
+    const [showNextPageButton, setShowNextPageButton] = React.useState(false);
 
     const [timeline, setTimeline] = React.useState<any>(null);
 
@@ -172,7 +171,7 @@ function ThetaSketchPageContent({
 
     React.useEffect(() => {
         setShowStepper(componentLevelShowStepper);
-        setShowClickToNextPage(componentLevelShowClickToNextPage);
+        setShowNextPageButton(componentLevelShowNextPageButton);
         return () => {
             animationController.stopAnimation();
             // gsap.globalTimeline.clear();
@@ -277,8 +276,8 @@ function ThetaSketchPageContent({
                     animationController.stopAnimation();
                 }}
                 onComplete={() => {
-                    setShowClickToNextPage(true);
-                    componentLevelShowClickToNextPage = true;
+                    setShowNextPageButton(true);
+                    componentLevelShowNextPageButton = true;
                     animationController.stopAnimation();
                 }}
             />
@@ -339,26 +338,7 @@ function ThetaSketchPageContent({
                 />
             </Container>
 
-            {showClickToNextPage && (
-                <Tooltip title="Go to Set Operations" placement="left">
-                    <Fab
-                        color='secondary'
-                        sx={{
-                            position: 'fixed',
-                            top: '50%',
-                            right: 24,
-                            transform: 'translateY(-50%)',
-                            zIndex: 1300,
-                        }}
-                        onClick={() => {
-                            animationController.stopAnimation();
-                            navigate('/sketches/theta/set-operations');
-                        }}
-                    >
-                        <ArrowForwardIcon />
-                    </Fab>
-                </Tooltip>
-            )}
+            {showNextPageButton && <NextPageButton nextPagePath="/sketches/theta/set-operations" title="Go to Set Operations" />}
 
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
