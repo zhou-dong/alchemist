@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { animate, parallel, } from 'obelus';
 import { createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
@@ -10,6 +9,8 @@ import { DualScene, defaultTheme, latex, type StepSceneThree, render, axis, text
 import PlayButton from '../../components/PlayButton';
 import { AnimationController } from '../../../../utils/animation-controller';
 import { ORDER_STATISTICS_TO_KMV_FORMULAS } from './order-statistics-to-kth-smallest-estimation-latex';
+import NextPageButton from '../../components/NextPageButton';
+import StartButton from '../../components/StartButton';
 
 const { axisStyle, textStyle } = defaultTheme;
 
@@ -102,52 +103,62 @@ let steps: PlayableStep[] = buildAnimateSteps(
 
 let index = -1;
 
+let componentLevelShowStepper: boolean = true;
+let componentLevelShowNextPageButton: boolean = false;
+
 function KmvPageContent(
     {
+        showStepper,
         setShowStepper,
     }: {
+        showStepper: boolean;
         setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
     }
 ) {
-    const navigate = useNavigate();
     const [disabled, setDisabled] = React.useState(false);
+    const [showNextPageButton, setShowNextPageButton] = React.useState(false);
+    const [showPlayerButton, setShowPlayerButton] = React.useState(false);
 
     const { containerRef } = useThreeContainer(renderer);
     useThreeAutoResize(containerRef, renderer, scene, camera);
 
     React.useEffect(() => {
-        if (index > -1) {
-            setShowStepper(false);
-            return;
-        }
-
+        setShowStepper(componentLevelShowStepper);
+        setShowNextPageButton(componentLevelShowNextPageButton);
         return () => {
             animationController.stopAnimation();
         };
     }, []);
 
     const onClick = async () => {
-        if (index === -1) {
-            setShowStepper(false);
-            index = 0;
-            return;
-        }
-
         if (index === steps.length) {
-            navigate('/sketches/theta/kmv');
             return;
         }
 
         setDisabled(true);
         await steps[index].play();
 
+        if (index === steps.length - 1) {
+            setShowNextPageButton(true);
+            componentLevelShowNextPageButton = true;
+        } else {
+            setDisabled(false);
+        }
+
         index = index + 1;
-        setDisabled(false);
+    };
+
+    const handleStart = () => {
+        setShowStepper(false);
+        componentLevelShowStepper = false;
+        setShowPlayerButton(true);
     };
 
     return (
         <>
-            <PlayButton index={index} steps={steps} disabled={disabled} nextPage="KMV" onClick={onClick} />
+            {showStepper && <StartButton onStart={handleStart} />}
+            {showNextPageButton && <NextPageButton nextPagePath="/sketches/theta/kse" title="Go to KSE" />}
+            {showPlayerButton && <PlayButton index={index} steps={steps} disabled={disabled} onClick={onClick} />}
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>
     );
@@ -158,7 +169,7 @@ export default function KthSmallestEstimationPage() {
 
     return (
         <WrapperProvider title="K-th Smallest Estimation" activeStep={1} showStepper={showStepper} setShowStepper={setShowStepper}>
-            <KmvPageContent setShowStepper={setShowStepper} />
+            <KmvPageContent showStepper={showStepper} setShowStepper={setShowStepper} />
         </WrapperProvider>
     );
 }
