@@ -1,6 +1,5 @@
 import React from 'react';
 import gsap from 'gsap';
-import { useNavigate } from 'react-router-dom';
 import { at } from 'obelus';
 import { clearScene, createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
@@ -153,8 +152,6 @@ function ThetaSketchPageContent({
     showStepper: boolean;
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-    const navigate = useNavigate();
-
     const defaultK = 5;
     const defaultStreamSize = 50;
     const [k, setK] = React.useState(defaultK);
