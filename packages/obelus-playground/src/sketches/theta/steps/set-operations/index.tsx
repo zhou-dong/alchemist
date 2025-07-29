@@ -1,7 +1,8 @@
 import React from 'react';
 import * as THREE from 'three';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
-import { createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
+import { clearScene, createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
+import { animate, parallel } from 'obelus';
 import { axis, circle, DualScene, line, render, text, type StepSceneThree } from 'obelus-three-render';
 import { defaultTheme } from 'obelus-three-render';
 import { AnimationController } from '../../../../utils/animation-controller';
@@ -17,7 +18,7 @@ import PlayButton from '../../components/PlayButton';
 
 const SettingsIcon = Settings.default as unknown as React.ElementType;
 
-const { axisStyle, circleStyle, lineStyle, textStyle } = defaultTheme;
+const { axisStyle, lineStyle, textStyle } = defaultTheme;
 
 const renderer = createDualRenderer();
 const camera = createOrthographicCamera();
@@ -39,11 +40,23 @@ const buildAxis = (id: string, y: number, width: number) => {
 
 const buildThetaMarker = (id: string, x: number, y: number, value: number) => {
     return [
-        line(`${id}_theta_line`, { x, y: y + 15 }, { x, y }, 2, lineStyle),
-        text(`${id}_theta_sign`, 'θ', { x, y: y + 25 }, textStyle),
-        text(`${id}_theta_value`, value.toFixed(2), { x, y: y - 15 }, textStyle),
+        line(`${id}_theta_line`, { x, y: y + 20 }, { x, y }, 2, lineStyle),
+        text(`${id}_theta_sign`, 'θ', { x, y: y + 30 }, textStyle),
+        text(`${id}_theta_value`, value.toFixed(2), { x, y: y - 25 }, textStyle),
     ];
 };
+
+const moveThetaMarkers = (id: string) => {
+    const moveLine = animate(`${id}_theta_line`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 });
+    const moveSign = animate(`${id}_theta_sign`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 });
+    const moveValue = animate(`${id}_theta_value`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 });
+    return parallel([moveLine, moveSign, moveValue]);
+};
+
+const green = '#4CAF50';
+const yellow = '#FFEB3B';
+const blue = '#2196F3';
+const radius = 4;
 
 const buildHashes = (size: number, max: number, align: number): { value: number, location: number }[] => {
     const hashes = new Set<number>();
@@ -100,8 +113,9 @@ function SetOperationsPageContent({
         };
     }, []);
 
-
     const buildScene = (): StepSceneThree => {
+        animationController.stopAnimation();
+        clearScene(scene);
 
         const axisWidth = window.innerWidth / 2;
         const height = window.innerHeight / 8;
@@ -114,6 +128,18 @@ function SetOperationsPageContent({
 
         const smallKth = kthHashA.value < kthHashB.value ? kthHashA : kthHashB;
 
+        const hashesACircles = hashesA.map((hash, index) => {
+            const { location } = hash;
+            const style = new THREE.MeshBasicMaterial({ color: green });
+            return circle(`a_circle_${index}`, radius, { x: location, y: height * 2, z: 1 }, style as any);
+        });
+
+        const hashesBCircles = hashesB.map((hash, index) => {
+            const { location } = hash;
+            const style = new THREE.MeshBasicMaterial({ color: blue });
+            return circle(`b_circle_${index}`, radius, { x: location, y: height, z: 1 }, style as any);
+        });
+
         const kthUnionHash = () => {
 
             const unionHashes = [...hashesA, ...hashesB];
@@ -124,6 +150,7 @@ function SetOperationsPageContent({
             const kthIndex = unionHashes.findIndex((hash) => hash.value === kthValue);
             return { value: kthValue, location: unionHashes[kthIndex].location };
         }
+
         const kthUnion = kthUnionHash();
 
         const unionCircles = () => {
@@ -132,26 +159,32 @@ function SetOperationsPageContent({
             hashesA
                 .filter((hash) => hash.value <= kthHashA.value)
                 .map((hash, index) => {
-                    const { location, value } = hash;
-                    let style = new THREE.MeshBasicMaterial({ color: 'darkgreen' });
-                    if (value > kthUnion.value) {
-                        style = new THREE.MeshBasicMaterial({ color: 'darkgray' });
-                    }
-                    result.push(circle(`union_a_circle_${index}`, 4, { x: location, y: 5, z: 1 }, style as any));
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: green });
+                    result.push(circle(`union_a_circle_${index}`, radius, { x: location, y: height * 2, z: 1 }, style as any));
                 });
 
             hashesB
                 .filter((hash) => hash.value <= kthHashB.value)
                 .map((hash, index) => {
-                    const { location, value } = hash;
-                    let style = new THREE.MeshBasicMaterial({ color: 'blue' });
-                    if (value > kthUnion.value) {
-                        style = new THREE.MeshBasicMaterial({ color: 'darkgray' });
-                    }
-                    result.push(circle(`union_b_circle_${index}`, 4, { x: location, y: -5, z: 1 }, style as any));
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: blue });
+                    result.push(circle(`union_b_circle_${index}`, radius, { x: location, y: height, z: 1 }, style as any));
                 });
 
             return result;
+        }
+
+        const moveUnionCircles = () => {
+            const moveAHashes = hashesA
+                .filter((hash) => hash.value <= kthHashA.value)
+                .map((_, index) => animate(`union_a_circle_${index}`, { position: { y: `-=${height * 2}` } }, { duration: 1 }));
+
+            const moveBHashes = hashesB
+                .filter((hash) => hash.value <= kthHashB.value)
+                .map((_, index) => animate(`union_b_circle_${index}`, { position: { y: `-=${height}` } }, { duration: 1 }));
+
+            return [parallel(moveAHashes), parallel(moveBHashes)];
         }
 
         const intersectionCircles = () => {
@@ -160,25 +193,18 @@ function SetOperationsPageContent({
             hashesA
                 .filter((hash) => hash.value <= smallKth.value)
                 .map((hash, index) => {
-                    const { location, value } = hash;
-                    let style = new THREE.MeshBasicMaterial({ color: 'darkgreen' });
-                    if (value > smallKth.value) {
-                        style = new THREE.MeshBasicMaterial({ color: 'darkgray' });
-                    }
-                    result.push(circle(`intersection_a_circle_${index}`, 4, { x: location, y: -height + 15, z: 1 }, style as any));
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: green });
+                    result.push(circle(`intersection_a_circle_${index}`, radius, { x: location, y: height * 2, z: 1 }, style as any));
                 });
 
             hashesB
                 .filter((hash) => hash.value <= smallKth.value)
                 .map((hash, index) => {
-                    const { location, value } = hash;
-                    let style = new THREE.MeshBasicMaterial({ color: 'blue' });
-                    if (value > smallKth.value) {
-                        style = new THREE.MeshBasicMaterial({ color: 'darkgray' });
-                    }
-                    result.push(circle(`intersection_b_circle_${index}`, 4, { x: location, y: -height - 15, z: 1 }, style as any));
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: blue });
+                    result.push(circle(`intersection_b_circle_${index}`, radius, { x: location, y: height, z: 1 }, style as any));
                 });
-
 
             const intersections = () => {
                 const a = hashesA.filter((hash) => hash.value <= smallKth.value);
@@ -188,8 +214,9 @@ function SetOperationsPageContent({
                 const intersection = b.filter(item => set.has(item.value));
 
                 intersection.map((hash, index) => {
-                    const { location, value } = hash;
-                    result.push(circle(`intersection_theta_${index}`, 4, { x: location, y: -height, z: 1 }, new THREE.MeshBasicMaterial({ color: 'red' }) as any));
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: yellow });
+                    result.push(circle(`intersection_theta_${index}`, radius, { x: location, y: -height - window.innerHeight, z: 1 }, style as any));
                 });
             }
 
@@ -198,31 +225,46 @@ function SetOperationsPageContent({
             return result;
         }
 
+        const moveIntersectionCircles = () => {
+            const moveAHashes = hashesA
+                .filter((hash) => hash.value <= smallKth.value)
+                .map((_, index) => animate(`intersection_a_circle_${index}`, { position: { y: `-=${height * 3 - 10}` } }, { duration: 1 }));
+
+            const moveBHashes = hashesB
+                .filter((hash) => hash.value <= smallKth.value)
+                .map((_, index) => animate(`intersection_b_circle_${index}`, { position: { y: `-=${height * 2 + 10}` } }, { duration: 1 }));
+
+            const a = hashesA.filter((hash) => hash.value <= smallKth.value);
+            const b = hashesB.filter((hash) => hash.value <= smallKth.value);
+
+            const set = new Set(a.map((hash) => hash.value));
+            const intersection = b.filter(item => set.has(item.value));
+
+            const moveIntersectionThetas = intersection.map((_, index) => {
+                return animate(`intersection_theta_${index}`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 });
+            });
+
+            return [parallel(moveAHashes), parallel(moveBHashes), parallel(moveIntersectionThetas)];
+        }
+
         const differenceCircles = () => {
             const result: any[] = [];
 
             hashesA
                 .filter((hash) => hash.value <= smallKth.value)
                 .map((hash, index) => {
-                    const { location, value } = hash;
-                    let style = new THREE.MeshBasicMaterial({ color: 'darkgreen' });
-                    if (value > smallKth.value) {
-                        style = new THREE.MeshBasicMaterial({ color: 'darkgray' });
-                    }
-                    result.push(circle(`difference_a_circle_${index}`, 4, { x: location, y: -height * 2 + 15, z: 1 }, style as any));
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: green });
+                    result.push(circle(`difference_a_circle_${index}`, radius, { x: location, y: height * 2, z: 1 }, style as any));
                 });
 
             hashesB
                 .filter((hash) => hash.value <= smallKth.value)
                 .map((hash, index) => {
-                    const { location, value } = hash;
-                    let style = new THREE.MeshBasicMaterial({ color: 'blue' });
-                    if (value > smallKth.value) {
-                        style = new THREE.MeshBasicMaterial({ color: 'darkgray' });
-                    }
-                    result.push(circle(`difference_b_circle_${index}`, 4, { x: location, y: -height * 2 - 15, z: 1 }, style as any));
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: blue });
+                    result.push(circle(`difference_b_circle_${index}`, radius, { x: location, y: height, z: 1 }, style as any));
                 });
-
 
             const differences = () => {
                 const a = hashesA.filter((hash) => hash.value <= smallKth.value);
@@ -231,10 +273,10 @@ function SetOperationsPageContent({
                 const difference = a.filter(item => !set.has(item.value));
 
                 difference.map((hash, index) => {
-                    const { location, value } = hash;
-                    result.push(circle(`difference_theta_${index}`, 4, { x: location, y: -height * 2, z: 1 }, new THREE.MeshBasicMaterial({ color: 'red' }) as any));
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: yellow });
+                    result.push(circle(`difference_theta_${index}`, radius, { x: location, y: -height * 2 - window.innerHeight, z: 1 }, style as any));
                 });
-
             }
 
             differences();
@@ -242,27 +284,26 @@ function SetOperationsPageContent({
             return result;
         }
 
-        const hashesACircles = hashesA.map((hash, index) => {
-            const { location, value } = hash;
+        const moveDifferenceCircles = () => {
+            const moveAHashes = hashesA
+                .filter((hash) => hash.value <= smallKth.value)
+                .map((_, index) => animate(`difference_a_circle_${index}`, { position: { y: `-=${height * 4 - 10}` } }, { duration: 1 }));
 
-            let style = new THREE.MeshBasicMaterial({ color: 'darkgreen' });
+            const moveBHashes = hashesB
+                .filter((hash) => hash.value <= smallKth.value)
+                .map((_, index) => animate(`difference_b_circle_${index}`, { position: { y: `-=${height * 3 + 10}` } }, { duration: 1 }));
 
-            if (value > kthHashA.value) {
-                style = new THREE.MeshBasicMaterial({ color: 'darkgray' });
-            }
+            const a = hashesA.filter((hash) => hash.value <= smallKth.value);
+            const b = hashesB.filter((hash) => hash.value <= smallKth.value);
+            const set = new Set(b.map((hash) => hash.value));
+            const difference = a.filter(item => !set.has(item.value));
 
-            return circle(`a_circle_${index}`, 4, { x: location, y: height * 2, z: 1 }, style as any);
-        });
+            const moveDifferenceThetas = difference.map((_, index) => {
+                return animate(`difference_theta_${index}`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 })
+            });
 
-
-        const hashesBCircles = hashesB.map((hash, index) => {
-            const { location, value } = hash;
-            let style = new THREE.MeshBasicMaterial({ color: 'blue' });
-            if (value > kthHashB.value) {
-                style = new THREE.MeshBasicMaterial({ color: 'darkgray' });
-            }
-            return circle(`b_circle_${index}`, 4, { x: location, y: height, z: 1 }, style as any);
-        });
+            return [parallel(moveAHashes), parallel(moveBHashes), parallel(moveDifferenceThetas)];
+        }
 
         return {
             objects: [
@@ -276,13 +317,20 @@ function SetOperationsPageContent({
                 ...hashesACircles,
                 ...hashesBCircles,
                 ...unionCircles(),
-                ...buildThetaMarker("union_theta", kthUnion.location, 0, kthUnion.value),
+                ...buildThetaMarker("union_theta", kthUnion.location, 0 - window.innerHeight, kthUnion.value),
                 ...intersectionCircles(),
-                ...buildThetaMarker("intersection_theta", smallKth.location, -height, smallKth.value),
+                ...buildThetaMarker("intersection_theta", smallKth.location, 0 - window.innerHeight - height, smallKth.value),
                 ...differenceCircles(),
-                ...buildThetaMarker("difference_theta", smallKth.location, -height * 2, smallKth.value),
+                ...buildThetaMarker("difference_theta", smallKth.location, 0 - window.innerHeight - height * 2, smallKth.value),
             ],
-            steps: [],
+            steps: [
+                ...moveUnionCircles(),
+                moveThetaMarkers("union_theta"),
+                moveThetaMarkers("intersection_theta"),
+                ...moveIntersectionCircles(),
+                moveThetaMarkers("difference_theta"),
+                ...moveDifferenceCircles(),
+            ],
         };
     };
 
