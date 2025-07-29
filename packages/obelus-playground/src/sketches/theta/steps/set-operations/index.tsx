@@ -180,7 +180,7 @@ function SetOperationsPageContent({
                 });
 
 
-            const intersectionTheta = () => {
+            const intersections = () => {
                 const a = hashesA.filter((hash) => hash.value <= smallKth.value);
                 const b = hashesB.filter((hash) => hash.value <= smallKth.value);
 
@@ -193,7 +193,7 @@ function SetOperationsPageContent({
                 });
             }
 
-            intersectionTheta();
+            intersections();
 
             return result;
         }
@@ -222,6 +222,22 @@ function SetOperationsPageContent({
                     }
                     result.push(circle(`difference_b_circle_${index}`, 4, { x: location, y: -height * 2 - 15, z: 1 }, style as any));
                 });
+
+
+            const differences = () => {
+                const a = hashesA.filter((hash) => hash.value <= smallKth.value);
+                const b = hashesB.filter((hash) => hash.value <= smallKth.value);
+                const set = new Set(b.map((hash) => hash.value));
+                const difference = a.filter(item => !set.has(item.value));
+
+                difference.map((hash, index) => {
+                    const { location, value } = hash;
+                    result.push(circle(`difference_theta_${index}`, 4, { x: location, y: -height * 2, z: 1 }, new THREE.MeshBasicMaterial({ color: 'red' }) as any));
+                });
+
+            }
+
+            differences();
 
             return result;
         }
