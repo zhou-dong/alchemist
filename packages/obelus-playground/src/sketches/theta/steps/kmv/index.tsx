@@ -152,7 +152,7 @@ function ThetaSketchPageContent({
     showStepper: boolean;
     setShowStepper: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-    const defaultK = 10;
+    const defaultK = 15;
     const defaultStreamSize = 50;
     const [k, setK] = React.useState(defaultK);
     const [streamSize, setStreamSize] = React.useState(defaultStreamSize);
