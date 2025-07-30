@@ -344,6 +344,7 @@ function SetOperationsPageContent({
             animationController.stopAnimation
         );
         setSteps(animatableSteps);
+        setIndex(0);
     }
 
     const handleStart = () => {
