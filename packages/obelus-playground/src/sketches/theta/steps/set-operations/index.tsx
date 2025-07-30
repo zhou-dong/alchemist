@@ -61,10 +61,17 @@ const buildAxis = (id: string, y: number, width: number) => {
     const leftX = -width / 2;
     const rightX = width / 2;
     return [
-        axis(id, { x: leftX, y }, { x: rightX, y }, { ...axisStyle, dotCount: 2 }),
+        axis(`${id}_axis`, { x: leftX, y }, { x: rightX, y }, { ...axisStyle, dotCount: 2 }),
         text(`${id}_start`, "0", { x: leftX, y: y - 15 }, textStyle),
         text(`${id}_end`, "1", { x: rightX, y: y - 15 }, textStyle),
     ];
+};
+
+const moveAxis = (id: string) => {
+    const moveAxis = animate(`${id}_axis`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 });
+    const moveStart = animate(`${id}_start`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 });
+    const moveEnd = animate(`${id}_end`, { position: { y: `+=${window.innerHeight}` } }, { duration: 1 });
+    return parallel([moveAxis, moveStart, moveEnd]);
 };
 
 const buildThetaMarker = (id: string, x: number, y: number, value: number) => {
@@ -334,39 +341,42 @@ function SetOperationsPageContent({
             return [parallel(moveAHashes), parallel(moveBHashes), parallel(moveDifferenceThetas)];
         }
 
-        const unionFormulaLatex = latex("union_formula", unionFormula, { x: window.innerWidth / 8 * 2.5, y: 0 - window.innerHeight }, textStyle);
-        const intersectionFormulaLatex = latex("intersection_formula", intersectionFormula, { x: 0 - window.innerWidth / 8 * 2.5, y: -height - window.innerHeight }, textStyle);
-        const differenceFormulaLatex = latex("difference_formula", differenceFormula, { x: window.innerWidth / 8 * 2.5, y: -height * 2 - window.innerHeight }, textStyle);
+        const unionFormulaLatex = latex("union_formula", unionFormula, { x: -window.innerWidth / 8 * 2.5, y: 0 - window.innerHeight }, textStyle);
+        const intersectionFormulaLatex = latex("intersection_formula", intersectionFormula, { x: window.innerWidth / 8 * 2.5, y: -height - window.innerHeight }, textStyle);
+        const differenceFormulaLatex = latex("difference_formula", differenceFormula, { x: -window.innerWidth / 8 * 2.5, y: -height * 2 - window.innerHeight }, textStyle);
 
         return {
             objects: [
-                unionFormulaLatex,
-                intersectionFormulaLatex,
-                differenceFormulaLatex,
                 ...buildAxis("sketch_a", height * 2, axisWidth),
                 ...buildAxis("sketch_b", height, axisWidth),
-                ...buildAxis("union", 0, axisWidth),
-                ...buildAxis("intersection", -height, axisWidth),
-                ...buildAxis("difference", -height * 2, axisWidth),
+                ...buildAxis("union", 0 - window.innerHeight, axisWidth),
+                ...buildAxis("intersection", -height - window.innerHeight, axisWidth),
+                ...buildAxis("difference", -height * 2 - window.innerHeight, axisWidth),
                 ...buildThetaMarker("hashes_a", kthHashA.location, height * 2, kthHashA.value),
                 ...buildThetaMarker("hashes_b", kthHashB.location, height, kthHashB.value),
                 ...hashesACircles,
                 ...hashesBCircles,
+                unionFormulaLatex,
                 ...unionCircles(),
                 ...buildThetaMarker("union_theta", kthUnion.location, 0 - window.innerHeight, kthUnion.value),
+                intersectionFormulaLatex,
                 ...intersectionCircles(),
                 ...buildThetaMarker("intersection_theta", smallKth.location, 0 - window.innerHeight - height, smallKth.value),
+                differenceFormulaLatex,
                 ...differenceCircles(),
                 ...buildThetaMarker("difference_theta", smallKth.location, 0 - window.innerHeight - height * 2, smallKth.value),
             ],
             steps: [
                 animate("union_formula", { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }),
+                moveAxis("union"),
                 ...moveUnionCircles(),
                 moveThetaMarkers("union_theta"),
                 animate("intersection_formula", { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }),
+                moveAxis("intersection"),
                 moveThetaMarkers("intersection_theta"),
                 ...moveIntersectionCircles(),
                 animate("difference_formula", { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }),
+                moveAxis("difference"),
                 moveThetaMarkers("difference_theta"),
                 ...moveDifferenceCircles(),
             ],
