@@ -62,11 +62,11 @@ export default function KmvConfigDialog({
       newErrors.k = 'K must be between 1 and 50';
     }
 
-    if (streamASize < 10 || streamASize > 800) {
+    if (streamASize < 10 || streamASize > 200) {
       newErrors.streamASize = 'Stream size must be between 10 and 10,000';
     }
 
-    if (streamBSize < 10 || streamBSize > 800) {
+    if (streamBSize < 10 || streamBSize > 200) {
       newErrors.streamBSize = 'Stream size must be between 10 and 10,000';
     }
 
