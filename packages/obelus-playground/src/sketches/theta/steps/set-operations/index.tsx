@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
 import { clearScene, createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
 import { animate, parallel } from 'obelus';
-import { axis, circle, DualScene, line, render, text, type StepSceneThree } from 'obelus-three-render';
+import { axis, circle, DualScene, latex, line, render, text, type StepSceneThree } from 'obelus-three-render';
 import { defaultTheme } from 'obelus-three-render';
 import { AnimationController } from '../../../../utils/animation-controller';
 import { useThreeContainer } from '../../../../hooks/useThreeContainer';
@@ -27,6 +27,35 @@ const animationController = new AnimationController(renderer, scene, camera);
 
 let componentLevelShowStepper: boolean = true;
 let componentLevelShowNextPageButton: boolean = false;
+
+const unionFormula = `
+\\text{Union} \\\\
+
+\\text{sort}(A \\cup B)[:k]
+`;
+
+const intersectionFormula = `
+\\text{Intersection} \\\\
+
+\\begin{align*}
+
+1. & \\quad \\theta = \\min(\\theta_A, \\theta_B) \\\\ 
+2. & \\quad h_1 = \\{v \\in A \\mid v < \\theta\\} \\\\ 
+3. & \\quad h_2 = \\{v \\in B \\mid v < \\theta\\} \\\\ 
+4. & \\quad \\text{result} = \\frac{|h_1 \\cap h_2|}{\\theta} 
+\\end{align*}
+`;
+
+const differenceFormula = `
+\\text{Difference} \\\\
+
+\\begin{align*}
+1. &\\quad \\theta = \\min(\\theta_A, \\theta_B) \\\\ 
+2. &\\quad h_1 = \\{v \\in A \\mid v < \\theta\\} \\\\ 
+3. &\\quad h_2 = \\{v \\in B \\mid v < \\theta\\} \\\\ 
+4. &\\quad \\text{result} = \\frac{|h_1 \\setminus h_2|}{\\theta} 
+\\end{align*}
+`;
 
 const buildAxis = (id: string, y: number, width: number) => {
     const leftX = -width / 2;
@@ -305,8 +334,15 @@ function SetOperationsPageContent({
             return [parallel(moveAHashes), parallel(moveBHashes), parallel(moveDifferenceThetas)];
         }
 
+        const unionFormulaLatex = latex("union_formula", unionFormula, { x: window.innerWidth / 8 * 2.5, y: 0 - window.innerHeight }, textStyle);
+        const intersectionFormulaLatex = latex("intersection_formula", intersectionFormula, { x: 0 - window.innerWidth / 8 * 2.5, y: -height - window.innerHeight }, textStyle);
+        const differenceFormulaLatex = latex("difference_formula", differenceFormula, { x: window.innerWidth / 8 * 2.5, y: -height * 2 - window.innerHeight }, textStyle);
+
         return {
             objects: [
+                unionFormulaLatex,
+                intersectionFormulaLatex,
+                differenceFormulaLatex,
                 ...buildAxis("sketch_a", height * 2, axisWidth),
                 ...buildAxis("sketch_b", height, axisWidth),
                 ...buildAxis("union", 0, axisWidth),
@@ -324,10 +360,13 @@ function SetOperationsPageContent({
                 ...buildThetaMarker("difference_theta", smallKth.location, 0 - window.innerHeight - height * 2, smallKth.value),
             ],
             steps: [
+                animate("union_formula", { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }),
                 ...moveUnionCircles(),
                 moveThetaMarkers("union_theta"),
+                animate("intersection_formula", { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }),
                 moveThetaMarkers("intersection_theta"),
                 ...moveIntersectionCircles(),
+                animate("difference_formula", { position: { y: `+=${window.innerHeight}` } }, { duration: 1 }),
                 moveThetaMarkers("difference_theta"),
                 ...moveDifferenceCircles(),
             ],
