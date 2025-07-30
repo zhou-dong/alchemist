@@ -344,7 +344,6 @@ function SetOperationsPageContent({
             animationController.stopAnimation
         );
         setSteps(animatableSteps);
-        setIndex(0);
     }
 
     const handleStart = () => {
@@ -362,6 +361,8 @@ function SetOperationsPageContent({
             onStart={() => {
                 buildAnimatableSteps();
                 setShowPlayerButton(true);
+                setIndex(0);
+                setDisabled(false);
             }}
             k={k}
             streamASize={streamASize}
