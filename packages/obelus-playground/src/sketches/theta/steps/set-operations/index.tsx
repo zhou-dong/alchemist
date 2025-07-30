@@ -59,18 +59,18 @@ const blue = '#2196F3';
 const radius = 4;
 
 const buildHashes = (size: number, max: number, align: number): { value: number, location: number }[] => {
+    const hashesSize = Math.min(size, 200);
     const hashes = new Set<number>();
-    while (hashes.size < size) {
-        const randomInt = Math.floor(Math.random() * max);
-        hashes.add(randomInt);
+    while (hashes.size < hashesSize) {
+        const random = Math.round(Math.random() * 200) / 200;
+        hashes.add(random);
     }
     const sortedHashes = [...hashes].sort((a, b) => a - b);
-    const locations = sortedHashes.map((hash) => hash + align);
-    const originalHashes = sortedHashes.map((hash) => hash / max);
+    const locations = sortedHashes.map((hash) => hash * max + align);
 
     const result = [];
     for (let i = 0; i < size; i++) {
-        const value = originalHashes[i];
+        const value = sortedHashes[i];
         const location = locations[i];
         result.push({ value, location });
     }
