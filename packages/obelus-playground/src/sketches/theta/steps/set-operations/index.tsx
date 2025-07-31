@@ -341,9 +341,9 @@ function SetOperationsPageContent({
             return [parallel(moveAHashes), parallel(moveBHashes), parallel(moveDifferenceThetas)];
         }
 
-        const unionFormulaLatex = latex("union_formula", unionFormula, { x: -window.innerWidth / 8 * 2.5, y: 0 - window.innerHeight }, textStyle);
-        const intersectionFormulaLatex = latex("intersection_formula", intersectionFormula, { x: window.innerWidth / 8 * 2.5, y: -height - window.innerHeight }, textStyle);
-        const differenceFormulaLatex = latex("difference_formula", differenceFormula, { x: -window.innerWidth / 8 * 2.5, y: -height * 2 - window.innerHeight }, textStyle);
+        const unionFormulaLatex = latex("union_formula", unionFormula, { x: -window.innerWidth / 8 * 3, y: 0 - window.innerHeight }, textStyle);
+        const intersectionFormulaLatex = latex("intersection_formula", intersectionFormula, { x: window.innerWidth / 8 * 3, y: -height - window.innerHeight }, textStyle);
+        const differenceFormulaLatex = latex("difference_formula", differenceFormula, { x: -window.innerWidth / 8 * 3, y: -height * 2 - window.innerHeight }, textStyle);
 
         return {
             objects: [
