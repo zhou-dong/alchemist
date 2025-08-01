@@ -64,13 +64,6 @@ const differenceFormula = (differenceSize: number, theta: number) => {
 `;
 };
 
-interface AxisFormula {
-    title: string;
-    expected: number;
-    k: number;
-    theta: number;
-}
-
 const buildAxis = (id: string, y: number, width: number) => {
     const leftX = -width / 2;
     const rightX = width / 2;
@@ -81,7 +74,21 @@ const buildAxis = (id: string, y: number, width: number) => {
     ];
 };
 
-const buildBaseAxis = (id: string, y: number, width: number, { title, expected, k, theta }: AxisFormula) => {
+const buildBaseAxis = (
+    id: string,
+    y: number,
+    width: number,
+    {
+        title,
+        expected,
+        k,
+        theta,
+    }: {
+        title: string;
+        expected: number;
+        k: number;
+        theta: number;
+    }) => {
     const leftX = -width / 2;
     const rightX = width / 2;
 
