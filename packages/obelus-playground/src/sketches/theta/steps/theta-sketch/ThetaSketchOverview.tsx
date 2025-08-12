@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Stack, Divider, Container, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Typography, Paper, Stack, Container } from '@mui/material';
 
 export default function ThetaSketchOverview() {
     return (
