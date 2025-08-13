@@ -29,6 +29,16 @@ export default function ThetaSketchOverview() {
                                 </Typography>
                                 <Stack spacing={2}>
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • Hash value is double type between 0 and 1
+                                    </Typography>
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • θ = Hash
+                                    </Typography>
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • Estimate: k / θ - 1
+                                    </Typography>
+
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                                         • Fixed K
                                     </Typography>
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
@@ -36,6 +46,10 @@ export default function ThetaSketchOverview() {
                                     </Typography>
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                                         • Full set operations (requires same K)
+                                    </Typography>
+
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • Confidence support (optional)
                                     </Typography>
                                 </Stack>
                             </Paper>
@@ -47,6 +61,16 @@ export default function ThetaSketchOverview() {
                                 </Typography>
                                 <Stack spacing={2}>
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • Hash value is long type (64 bits)
+                                    </Typography>
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • θ = Hash / Long.max
+                                    </Typography>
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • Estimate: k / θ - 1
+                                    </Typography>
+
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                                         • Adaptive K
                                     </Typography>
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
@@ -54,6 +78,10 @@ export default function ThetaSketchOverview() {
                                     </Typography>
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                                         • Full set operations (no need to have same K)
+                                    </Typography>
+
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • Confidence support
                                     </Typography>
                                 </Stack>
                             </Paper>
