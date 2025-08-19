@@ -9,6 +9,20 @@ import CategoryTree from "./pages/categories/tree/index";
 import CategoryTreeIntro from "./pages/categories/tree/intro";
 import CategoryTreeBasics from "./pages/categories/tree/basics";
 
+// New category imports
+import DPCategory from "./pages/categories/dp";
+import LinkedListCategory from "./pages/categories/linked-list";
+import SortingCategory from "./pages/categories/sorting";
+import GraphCategory from "./pages/categories/graph";
+import MathCategory from "./pages/categories/math";
+import BinarySearchCategory from "./pages/categories/binary-search";
+import HashTableCategory from "./pages/categories/hash-table";
+import StackQueueCategory from "./pages/categories/stack-queue";
+import TwoPointersCategory from "./pages/categories/two-pointers";
+import SlidingWindowCategory from "./pages/categories/sliding-window";
+import GreedyCategory from "./pages/categories/greedy";
+import StatisticsCategory from "./pages/categories/statistics";
+
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import BubbleSortAnimationInfo from "./games/sorting/bubble-sort/info";
 import SelectionSortAnimation from "./games/sorting/selection-sort/Animation";
@@ -282,6 +296,20 @@ const App = () => (
         <Route path="pages/categories/tree" element={<CategoryTreeIntro />} />
         <Route path="pages/categories/tree/basics" element={<CategoryTreeBasics />} />
         <Route path="pages/categories/tree/challenges" element={<CategoryTree />} />
+        
+        {/* New category routes */}
+        <Route path="pages/categories/dp" element={<DPCategory />} />
+        <Route path="pages/categories/linked-list" element={<LinkedListCategory />} />
+        <Route path="pages/categories/sorting" element={<SortingCategory />} />
+        <Route path="pages/categories/graph" element={<GraphCategory />} />
+        <Route path="pages/categories/math" element={<MathCategory />} />
+        <Route path="pages/categories/binary-search" element={<BinarySearchCategory />} />
+        <Route path="pages/categories/hash-table" element={<HashTableCategory />} />
+        <Route path="pages/categories/stack-queue" element={<StackQueueCategory />} />
+        <Route path="pages/categories/two-pointers" element={<TwoPointersCategory />} />
+        <Route path="pages/categories/sliding-window" element={<SlidingWindowCategory />} />
+        <Route path="pages/categories/greedy" element={<GreedyCategory />} />
+        <Route path="pages/categories/statistics" element={<StatisticsCategory />} />
 
         <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
