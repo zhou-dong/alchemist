@@ -14,7 +14,10 @@ import {
     Calculate,
     Code,
     Psychology,
-    PlayArrow
+    PlayArrow,
+    SentimentVerySatisfied,
+    SentimentSatisfied,
+    SentimentVeryDissatisfied
 } from "@mui/icons-material";
 import { useGames } from "../../games/commons/GamesContext";
 import React from "react";
@@ -38,7 +41,7 @@ interface AlgorithmProps extends Props {
 const getCategoryInfo = (title: string, path: string) => {
     const lowerTitle = title.toLowerCase();
     const lowerPath = path.toLowerCase();
-    
+
     if (lowerTitle.includes('sort') || lowerPath.includes('sort')) {
         return {
             icon: <Sort sx={{ fontSize: 18, color: '#D4A017' }} />,
@@ -134,18 +137,30 @@ const getCategoryInfo = (title: string, path: string) => {
 // Function to get difficulty styling
 const getDifficulty = (difficulty?: string) => {
     const difficultyMap = {
-        easy: { level: 'Easy', color: '#4CAF50' },
-        medium: { level: 'Medium', color: '#FF9800' },
-        hard: { level: 'Hard', color: '#F44336' }
+        easy: {
+            level: 'Easy',
+            color: '#4CAF50',
+            icon: <SentimentVerySatisfied sx={{ fontSize: "20px" }} style={{ color: '#4CAF50' }} />
+        },
+        medium: {
+            level: 'Medium',
+            color: '#FF9800',
+            icon: <SentimentSatisfied sx={{ fontSize: "20px" }} style={{ color: '#FF9800' }} />
+        },
+        hard: {
+            level: 'Hard',
+            color: '#F44336',
+            icon: <SentimentVeryDissatisfied sx={{ fontSize: "20px" }} style={{ color: '#F44336' }} />
+        }
     };
 
-    return difficultyMap[difficulty as keyof typeof difficultyMap] || difficultyMap.medium;
+    return difficultyMap[difficulty?.toLocaleLowerCase() as keyof typeof difficultyMap] || difficultyMap.medium;
 };
 
 const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmProps) => {
     const categoryInfo = getCategoryInfo(title, path);
     const difficultyInfo = getDifficulty(difficulty);
-    
+
     return (
         <Grid
             item
@@ -155,18 +170,21 @@ const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmPro
             lg={lg}
             xl={xl}
         >
-            <Card 
-                sx={{ 
+            <Card
+                sx={{
                     height: '100%',
                     transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                    border: '1px solid #e0e0e0',
+                    boxShadow: 'none',
                     '&:hover': {
                         transform: 'translateY(-4px)',
-                        boxShadow: 4
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                        border: '1px solid #e0e0e0'
                     }
                 }}
             >
-                <CardActionArea 
-                    component={RouterLink} 
+                <CardActionArea
+                    component={RouterLink}
                     to={path}
                     sx={{ height: '100%', textDecoration: 'none' }}
                 >
@@ -175,19 +193,6 @@ const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmPro
                             <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
                                 {title}
                             </Typography>
-                            <Box
-                                sx={{
-                                    px: 2,
-                                    py: 0.5,
-                                    borderRadius: 1,
-                                    backgroundColor: difficultyInfo.color,
-                                    color: 'white',
-                                    fontSize: '0.75rem',
-                                    fontWeight: 500
-                                }}
-                            >
-                                {difficultyInfo.level}
-                            </Box>
                         </Box>
                         <Box component="div" sx={{ mb: 2 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -196,7 +201,6 @@ const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmPro
                                         width: 20,
                                         height: 20,
                                         borderRadius: '50%',
-                                        backgroundColor: categoryInfo.color,
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
@@ -210,9 +214,29 @@ const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmPro
                                 </Typography>
                             </Box>
                         </Box>
-                        <Typography variant="caption" color="primary" sx={{ fontWeight: 500 }}>
-                            Start solving →
-                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Box
+                                    sx={{
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: '50%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        opacity: 0.9
+                                    }}
+                                >
+                                    {difficultyInfo.icon}
+                                </Box>
+                                <Typography variant="body2" color="text.secondary">
+                                    {difficultyInfo.level}
+                                </Typography>
+                            </Box>
+                            <Typography variant="caption" color="primary" sx={{ fontWeight: 500 }}>
+                                Start solving →
+                            </Typography>
+                        </Box>
                     </CardContent>
                 </CardActionArea>
             </Card>
@@ -230,6 +254,7 @@ const Sorting = ({ xs, sm, md, lg, xl }: Props) => {
                     key={index}
                     title={game.name}
                     path={game.path}
+                    difficulty={game.difficulty}
                     xs={xs}
                     sm={sm}
                     md={md}
