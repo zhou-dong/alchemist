@@ -190,7 +190,7 @@ const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmPro
                 >
                     <CardContent sx={{ p: 3, height: '100%' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                            <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
+                            <Typography variant="h6" component="h3" sx={{ fontWeight: 400, fontSize: '1.2rem' }}>
                                 {title}
                             </Typography>
                         </Box>
