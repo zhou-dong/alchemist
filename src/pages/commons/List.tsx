@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Paper, CardActionArea, Grid, Typography, Box, Chip } from "@mui/material";
+import { Card, CardContent, CardActionArea, Grid, Typography, Box, Chip } from "@mui/material";
 import {
     Functions,
     AccountTree,
@@ -17,6 +17,7 @@ import {
     PlayArrow
 } from "@mui/icons-material";
 import { useGames } from "../../games/commons/GamesContext";
+import React from "react";
 
 interface Props {
     xs: number;
@@ -37,7 +38,7 @@ interface AlgorithmProps extends Props {
 const getCategoryInfo = (title: string, path: string) => {
     const lowerTitle = title.toLowerCase();
     const lowerPath = path.toLowerCase();
-
+    
     if (lowerTitle.includes('sort') || lowerPath.includes('sort')) {
         return {
             icon: <Sort sx={{ fontSize: 18, color: '#D4A017' }} />,
@@ -126,26 +127,25 @@ const getCategoryInfo = (title: string, path: string) => {
     return {
         icon: <Functions sx={{ fontSize: 18, color: '#D32F2F' }} />,
         color: '#FFEBEE',
-        category: 'DP'
+        category: 'Dynamic Programming'
     };
 };
 
-// Function to estimate difficulty based on title
-const getDifficulty = (title: string) => {
-    const lowerTitle = title.toLowerCase();
-    if (lowerTitle.includes('easy') || lowerTitle.includes('simple') || lowerTitle.includes('basic')) {
-        return { level: 'Easy', color: '#4CAF50' };
-    }
-    if (lowerTitle.includes('hard') || lowerTitle.includes('complex') || lowerTitle.includes('advanced')) {
-        return { level: 'Hard', color: '#F44336' };
-    }
-    return { level: 'Medium', color: '#FF9800' };
+// Function to get difficulty styling
+const getDifficulty = (difficulty?: string) => {
+    const difficultyMap = {
+        easy: { level: 'Easy', color: '#4CAF50' },
+        medium: { level: 'Medium', color: '#FF9800' },
+        hard: { level: 'Hard', color: '#F44336' }
+    };
+
+    return difficultyMap[difficulty as keyof typeof difficultyMap] || difficultyMap.medium;
 };
 
-const Algorithm = ({ title, path, xs, sm, md, lg, xl }: AlgorithmProps) => {
+const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmProps) => {
     const categoryInfo = getCategoryInfo(title, path);
-    const difficulty = getDifficulty(title);
-
+    const difficultyInfo = getDifficulty(difficulty);
+    
     return (
         <Grid
             item
@@ -155,34 +155,46 @@ const Algorithm = ({ title, path, xs, sm, md, lg, xl }: AlgorithmProps) => {
             lg={lg}
             xl={xl}
         >
-            <Paper
-                elevation={1}
-                sx={{
-                    borderRadius: 2,
+            <Card 
+                sx={{ 
                     height: '100%',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    overflow: 'hidden',
+                    transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
                     '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-                        elevation: 4,
+                        transform: 'translateY(-4px)',
+                        boxShadow: 4
                     }
                 }}
             >
-                <CardActionArea component={RouterLink} to={path} sx={{ height: '100%' }}>
-                    <Box sx={{ p: 3.5, height: '100%' }}>
-                        {/* Header with Icon and Category */}
-                        <Box sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'space-between',
-                            mb: 3
-                        }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                <Box 
-                                    sx={{ 
-                                        width: 40, 
-                                        height: 40, 
+                <CardActionArea 
+                    component={RouterLink} 
+                    to={path}
+                    sx={{ height: '100%', textDecoration: 'none' }}
+                >
+                    <CardContent sx={{ p: 3, height: '100%' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                            <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
+                                {title}
+                            </Typography>
+                            <Box
+                                sx={{
+                                    px: 2,
+                                    py: 0.5,
+                                    borderRadius: 1,
+                                    backgroundColor: difficultyInfo.color,
+                                    color: 'white',
+                                    fontSize: '0.75rem',
+                                    fontWeight: 500
+                                }}
+                            >
+                                {difficultyInfo.level}
+                            </Box>
+                        </Box>
+                        <Box component="div" sx={{ mb: 2 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Box
+                                    sx={{
+                                        width: 20,
+                                        height: 20,
                                         borderRadius: '50%',
                                         backgroundColor: categoryInfo.color,
                                         display: 'flex',
@@ -191,88 +203,19 @@ const Algorithm = ({ title, path, xs, sm, md, lg, xl }: AlgorithmProps) => {
                                         opacity: 0.9
                                     }}
                                 >
-                                    {categoryInfo.icon}
+                                    {React.cloneElement(categoryInfo.icon, { fontSize: "12px" })}
                                 </Box>
-                                <Typography 
-                                    variant="body1" 
-                                    sx={{ 
-                                        color: 'text.secondary',
-                                        fontWeight: 500,
-                                        fontSize: '0.85rem',
-                                        textTransform: 'uppercase',
-                                        letterSpacing: '0.5px'
-                                    }}
-                                >
+                                <Typography variant="body2" color="text.secondary">
                                     {categoryInfo.category}
                                 </Typography>
                             </Box>
-                            
-                            <Chip 
-                                label={difficulty.level}
-                                size="small"
-                                sx={{ 
-                                    backgroundColor: difficulty.color,
-                                    color: 'white',
-                                    fontWeight: 500,
-                                    fontSize: '0.75rem',
-                                    height: 24
-                                }}
-                            />
                         </Box>
-                        
-                        {/* Title */}
-                        <Typography 
-                            variant="h5" 
-                            component="h3" 
-                            sx={{ 
-                                fontWeight: 600,
-                                color: 'text.primary',
-                                lineHeight: 1.3,
-                                fontSize: '1.1rem',
-                                mb: 2.5
-                            }}
-                        >
-                            {title}
+                        <Typography variant="caption" color="primary" sx={{ fontWeight: 500 }}>
+                            Start solving →
                         </Typography>
-                        
-                        {/* Action Button */}
-                        <Box sx={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'space-between'
-                        }}>
-                            <Typography 
-                                variant="body1" 
-                                color="text.secondary" 
-                                sx={{ 
-                                    fontSize: '0.9rem',
-                                    opacity: 0.8
-                                }}
-                            >
-                                Click to start solving
-                            </Typography>
-                            <Box 
-                                sx={{ 
-                                    width: 28, 
-                                    height: 28, 
-                                    borderRadius: '50%',
-                                    backgroundColor: categoryInfo.color,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    transition: 'transform 0.2s ease',
-                                    opacity: 0.8,
-                                    '&:hover': {
-                                        transform: 'scale(1.1)'
-                                    }
-                                }}
-                            >
-                                <PlayArrow sx={{ fontSize: 16, color: 'text.primary' }} />
-                            </Box>
-                        </Box>
-                    </Box>
+                    </CardContent>
                 </CardActionArea>
-            </Paper>
+            </Card>
         </Grid>
     );
 };
@@ -281,7 +224,7 @@ const Sorting = ({ xs, sm, md, lg, xl }: Props) => {
     const { games } = useGames();
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
             {games.map((game, index) => (
                 <Algorithm
                     key={index}
