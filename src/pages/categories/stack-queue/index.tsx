@@ -10,42 +10,42 @@ const StackQueueCategory = () => {
         {
             title: 'Valid Parentheses',
             description: 'Check if a string of parentheses is valid',
-            path: '/valid-parentheses',
+            path: '/algorithms/valid-parentheses',
             difficulty: 'Easy',
             dataStructure: 'Stack'
         },
         {
             title: 'Implement Queue using Stacks',
             description: 'Implement a queue using only stack operations',
-            path: '/implement-queue-using-stacks',
+            path: '/algorithms/implement-queue-using-stacks',
             difficulty: 'Medium',
             dataStructure: 'Stack + Queue'
         },
         {
             title: 'Implement Stack using Queues',
             description: 'Implement a stack using only queue operations',
-            path: '/implement-stack-using-queues',
+            path: '/algorithms/implement-stack-using-queues',
             difficulty: 'Medium',
             dataStructure: 'Queue + Stack'
         },
         {
             title: 'Implement Stack using Queue',
             description: 'Implement a stack using a single queue',
-            path: '/implement-stack-using-queue',
+            path: '/algorithms/implement-stack-using-queue',
             difficulty: 'Medium',
             dataStructure: 'Queue + Stack'
         },
         {
             title: 'Basic Calculator',
             description: 'Implement a basic calculator to evaluate a simple expression string',
-            path: '/basic-calculator',
+            path: '/algorithms/basic-calculator',
             difficulty: 'Hard',
             dataStructure: 'Stack'
         },
         {
             title: 'Basic Calculator II',
             description: 'Implement a basic calculator to evaluate a simple expression string with +, -, *, /',
-            path: '/basic-calculator-ii',
+            path: '/algorithms/basic-calculator-ii',
             difficulty: 'Medium',
             dataStructure: 'Stack'
         }

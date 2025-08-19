@@ -10,35 +10,35 @@ const MathCategory = () => {
         {
             title: 'Palindrome Number',
             description: 'Determine whether an integer is a palindrome',
-            path: '/palindrome-number',
+            path: '/algorithms/palindrome-number',
             difficulty: 'Easy',
             concept: 'Number Theory'
         },
         {
             title: 'Reverse Integer',
             description: 'Reverse digits of an integer',
-            path: '/reverse-integer',
+            path: '/algorithms/reverse-integer',
             difficulty: 'Easy',
             concept: 'Number Manipulation'
         },
         {
             title: 'String to Integer (atoi)',
             description: 'Convert string to integer following specific rules',
-            path: '/string-to-integer-atoi',
+            path: '/algorithms/string-to-integer-atoi',
             difficulty: 'Medium',
             concept: 'String Parsing'
         },
         {
             title: 'Roman to Integer',
             description: 'Convert Roman numeral to integer',
-            path: '/roman-to-integer',
+            path: '/algorithms/roman-to-integer',
             difficulty: 'Easy',
             concept: 'Roman Numerals'
         },
         {
             title: 'Plus One',
             description: 'Increment a large integer represented as an array',
-            path: '/plus-one',
+            path: '/algorithms/plus-one',
             difficulty: 'Easy',
             concept: 'Array Math'
         }

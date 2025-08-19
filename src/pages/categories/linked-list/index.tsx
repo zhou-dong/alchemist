@@ -10,97 +10,97 @@ const LinkedListCategory = () => {
         {
             title: 'Swap Nodes in Pairs',
             description: 'Swap every two adjacent nodes in a linked list',
-            path: '/swap-nodes-in-pairs',
+            path: '/algorithms/swap-nodes-in-pairs',
             difficulty: 'Medium'
         },
         {
             title: 'Remove Duplicates from Sorted List',
             description: 'Remove all duplicates from a sorted linked list',
-            path: '/remove-duplicates-from-sorted-list',
+            path: '/algorithms/remove-duplicates-from-sorted-list',
             difficulty: 'Easy'
         },
         {
             title: 'Remove Duplicates from Sorted List II',
             description: 'Remove all nodes that have duplicate numbers',
-            path: '/remove-duplicates-from-sorted-list-ii',
+            path: '/algorithms/remove-duplicates-from-sorted-list-ii',
             difficulty: 'Medium'
         },
         {
             title: 'Rotate List',
             description: 'Rotate the list to the right by k places',
-            path: '/rotate-list',
+            path: '/algorithms/rotate-list',
             difficulty: 'Medium'
         },
         {
             title: 'Partition List',
             description: 'Partition list around a value x',
-            path: '/partition-list',
+            path: '/algorithms/partition-list',
             difficulty: 'Medium'
         },
         {
             title: 'Reverse Linked List',
             description: 'Reverse a singly linked list',
-            path: '/reverse-linked-list',
+            path: '/algorithms/reverse-linked-list',
             difficulty: 'Easy'
         },
         {
             title: 'Reverse Linked List II',
             description: 'Reverse a linked list from position m to n',
-            path: '/reverse-linked-list-ii',
+            path: '/algorithms/reverse-linked-list-ii',
             difficulty: 'Medium'
         },
         {
             title: 'Insertion Sort List',
             description: 'Sort a linked list using insertion sort',
-            path: '/insertion-sort-list',
+            path: '/algorithms/insertion-sort-list',
             difficulty: 'Medium'
         },
         {
             title: 'Remove Linked List Elements',
             description: 'Remove all elements from a linked list of integers that have value val',
-            path: '/remove-linked-list-elements',
+            path: '/algorithms/remove-linked-list-elements',
             difficulty: 'Easy'
         },
         {
             title: 'Intersection of Two Linked Lists',
             description: 'Find the node at which the intersection of two singly linked lists begins',
-            path: '/intersection-of-two-linked-lists',
+            path: '/algorithms/intersection-of-two-linked-lists',
             difficulty: 'Easy'
         },
         {
             title: 'Palindrome Linked List',
             description: 'Check if a singly linked list is a palindrome',
-            path: '/palindrome-linked-list',
+            path: '/algorithms/palindrome-linked-list',
             difficulty: 'Easy'
         },
         {
             title: 'Odd Even Linked List',
             description: 'Group all odd nodes together followed by the even nodes',
-            path: '/odd-even-linked-list',
+            path: '/algorithms/odd-even-linked-list',
             difficulty: 'Medium'
         },
         {
             title: 'Sort List',
             description: 'Sort a linked list in O(n log n) time using constant space complexity',
-            path: '/sort-list',
+            path: '/algorithms/sort-list',
             difficulty: 'Medium'
         },
         {
             title: 'Linked List Random Node',
             description: 'Return a random node\'s value from the linked list',
-            path: '/linked-list-random-node',
+            path: '/algorithms/linked-list-random-node',
             difficulty: 'Medium'
         },
         {
             title: 'Middle of the Linked List',
             description: 'Return the middle node of the linked list',
-            path: '/middle-of-the-linked-list',
+            path: '/algorithms/middle-of-the-linked-list',
             difficulty: 'Easy'
         },
         {
             title: 'Delete Node in a Linked List',
             description: 'Delete a node (except the tail) in a singly linked list',
-            path: '/delete-node-in-a-linked-list',
+            path: '/algorithms/delete-node-in-a-linked-list',
             difficulty: 'Easy'
         }
     ];

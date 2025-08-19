@@ -10,49 +10,49 @@ const GraphCategory = () => {
         {
             title: 'Course Schedule',
             description: 'Check if it is possible to finish all courses given prerequisites',
-            path: '/course-schedule',
+            path: '/algorithms/course-schedule',
             difficulty: 'Medium',
             algorithm: 'Topological Sort'
         },
         {
             title: 'Course Schedule II',
             description: 'Find the order of courses to finish all courses',
-            path: '/course-schedule-ii',
+            path: '/algorithms/course-schedule-ii',
             difficulty: 'Medium',
             algorithm: 'Topological Sort'
         },
         {
             title: 'Number of Islands',
             description: 'Count the number of islands in a 2D grid',
-            path: '/number-of-islands',
+            path: '/algorithms/number-of-islands',
             difficulty: 'Medium',
             algorithm: 'DFS/BFS'
         },
         {
             title: 'Surrounded Regions',
             description: 'Capture surrounded regions in a 2D board',
-            path: '/surrounded-regions',
+            path: '/algorithms/surrounded-regions',
             difficulty: 'Medium',
             algorithm: 'DFS/BFS'
         },
         {
             title: 'Number of Provinces',
             description: 'Find the number of connected components in a graph',
-            path: '/number-of-provinces',
+            path: '/algorithms/number-of-provinces',
             difficulty: 'Medium',
             algorithm: 'DFS/BFS'
         },
         {
             title: 'Max Area of Island',
             description: 'Find the maximum area of an island in a 2D grid',
-            path: '/max-area-of-island',
+            path: '/algorithms/max-area-of-island',
             difficulty: 'Medium',
             algorithm: 'DFS/BFS'
         },
         {
             title: 'Redundant Connection',
             description: 'Find the edge that can be removed to make a tree',
-            path: '/redundant-connection',
+            path: '/algorithms/redundant-connection',
             difficulty: 'Medium',
             algorithm: 'Union Find'
         }

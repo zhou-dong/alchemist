@@ -41,7 +41,7 @@ interface AlgorithmProps extends Props {
 const getCategoryInfo = (title: string, path: string) => {
     const lowerTitle = title.toLowerCase();
     const lowerPath = path.toLowerCase();
-
+    
     if (lowerTitle.includes('sort') || lowerPath.includes('sort')) {
         return {
             icon: <Sort sx={{ fontSize: 18, color: '#D4A017' }} />,

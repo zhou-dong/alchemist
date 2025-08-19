@@ -10,7 +10,7 @@ const GreedyCategory = () => {
         {
             title: 'Integer to Roman',
             description: 'Convert an integer to a Roman numeral',
-            path: '/integer-to-roman',
+            path: '/algorithms/integer-to-roman',
             difficulty: 'Medium',
             technique: 'Greedy'
         }

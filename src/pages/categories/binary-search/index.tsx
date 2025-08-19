@@ -10,21 +10,21 @@ const BinarySearchCategory = () => {
         {
             title: 'Sqrt(x)',
             description: 'Compute and return the square root of x',
-            path: '/sqrtx',
+            path: '/algorithms/sqrtx',
             difficulty: 'Easy',
             complexity: 'O(log x)'
         },
         {
             title: 'Search Insert Position',
             description: 'Find the index where a target should be inserted in a sorted array',
-            path: '/search-insert-position',
+            path: '/algorithms/search-insert-position',
             difficulty: 'Easy',
             complexity: 'O(log n)'
         },
         {
             title: 'First Bad Version',
             description: 'Find the first bad version using binary search',
-            path: '/first-bad-version',
+            path: '/algorithms/first-bad-version',
             difficulty: 'Easy',
             complexity: 'O(log n)'
         }

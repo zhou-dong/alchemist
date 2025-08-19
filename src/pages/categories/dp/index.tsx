@@ -10,139 +10,139 @@ const DPCategory = () => {
         {
             title: 'Edit Distance',
             description: 'Find the minimum number of operations required to convert one string to another',
-            path: '/edit-distance',
+            path: '/algorithms/edit-distance',
             difficulty: 'Hard'
         },
         {
             title: 'Coin Change - Fewest Number',
             description: 'Find the minimum number of coins needed to make up a given amount',
-            path: '/coin-change-fewest-number',
+            path: '/algorithms/coin-change',
             difficulty: 'Medium'
         },
         {
             title: 'Coin Change - How Many Ways',
             description: 'Find the number of different ways to make up a given amount',
-            path: '/coin-change-how-many-ways',
+            path: '/algorithms/coin-change-ii',
             difficulty: 'Medium'
         },
         {
             title: 'Longest Common Subsequence',
             description: 'Find the length of the longest common subsequence of two strings',
-            path: '/longest-common-subsequence',
+            path: '/algorithms/longest-common-subsequence',
             difficulty: 'Medium'
         },
         {
             title: 'Longest Common Substring',
             description: 'Find the length of the longest common substring of two strings',
-            path: '/longest-common-substring',
+            path: '/algorithms/longest-common-substring',
             difficulty: 'Medium'
         },
         {
             title: 'Is Subsequence',
             description: 'Check if one string is a subsequence of another',
-            path: '/is-subsequence',
+            path: '/algorithms/is-subsequence',
             difficulty: 'Easy'
         },
         {
             title: 'Is Substring',
             description: 'Check if one string is a substring of another',
-            path: '/is-substring',
+            path: '/algorithms/is-substring',
             difficulty: 'Easy'
         },
         {
             title: 'Minimum Path Sum',
             description: 'Find the minimum path sum from top-left to bottom-right in a grid',
-            path: '/minimum-path-sum',
+            path: '/algorithms/minimum-path-sum',
             difficulty: 'Medium'
         },
         {
             title: 'Rod Cutting Problem',
             description: 'Find the maximum value obtainable by cutting a rod of given length',
-            path: '/rod-cutting-problem',
+            path: '/algorithms/rod-cutting-problem',
             difficulty: 'Medium'
         },
         {
             title: 'Wildcard Matching',
             description: 'Implement wildcard pattern matching with support for ? and *',
-            path: '/wildcard-matching',
+            path: '/algorithms/wildcard-matching',
             difficulty: 'Hard'
         },
         {
             title: 'Regular Expression',
             description: 'Implement regular expression matching with support for . and *',
-            path: '/regular-expression',
+            path: '/algorithms/regular-expression',
             difficulty: 'Hard'
         },
         {
             title: 'Word Break',
             description: 'Determine if a string can be segmented into space-separated words',
-            path: '/word-break',
+            path: '/algorithms/word-break',
             difficulty: 'Medium'
         },
         {
             title: 'Knapsack Problem',
             description: 'Classic 0/1 knapsack problem with dynamic programming',
-            path: '/knapsack-problem',
+            path: '/algorithms/knapsack-problem',
             difficulty: 'Medium'
         },
         {
             title: 'Subset Sum Problem',
             description: 'Check if there exists a subset with given sum',
-            path: '/subset-sum-problem',
+            path: '/algorithms/subset-sum-problem',
             difficulty: 'Medium'
         },
         {
             title: 'Minimum Jumps to Reach End',
             description: 'Find minimum number of jumps to reach the end of array',
-            path: '/minimum-number-of-jumps-to-reach-end',
+            path: '/algorithms/minimum-jumps-to-end',
             difficulty: 'Medium'
         },
         {
             title: 'Longest Increasing Subsequence',
             description: 'Find the length of longest strictly increasing subsequence',
-            path: '/longest-increasing-subsequence',
+            path: '/algorithms/longest-increasing-subsequence',
             difficulty: 'Medium'
         },
         {
             title: 'Maximum Subarray Problem',
             description: 'Find the contiguous subarray with the largest sum',
-            path: '/maximum-subarray-problem',
+            path: '/algorithms/maximum-subarray-problem',
             difficulty: 'Medium'
         },
         {
             title: 'Longest Palindromic Subsequence',
             description: 'Find the length of longest palindromic subsequence',
-            path: '/longest-palindromic-subsequence',
+            path: '/algorithms/longest-palindromic-subsequence',
             difficulty: 'Medium'
         },
         {
             title: 'Longest Palindromic Substring',
             description: 'Find the longest palindromic substring in a string',
-            path: '/longest-palindromic-substring',
+            path: '/algorithms/longest-palindromic-substring',
             difficulty: 'Medium'
         },
         {
             title: 'Palindrome Partitioning',
             description: 'Partition a string into palindrome substrings',
-            path: '/palindrome-partitioning',
+            path: '/algorithms/palindrome-partitioning',
             difficulty: 'Medium'
         },
         {
             title: 'House Robber',
             description: 'Rob houses to maximize profit without alerting police',
-            path: '/house-robber',
+            path: '/algorithms/house-robber',
             difficulty: 'Medium'
         },
         {
             title: 'Egg Dropping Problem',
             description: 'Find minimum number of attempts to determine critical floor',
-            path: '/egg-dropping-problem',
+            path: '/algorithms/egg-dropping-problem',
             difficulty: 'Hard'
         },
         {
             title: 'Trapping Rain Water',
             description: 'Calculate how much water can be trapped between bars',
-            path: '/trapping-rain-water',
+            path: '/algorithms/trapping-rain-water',
             difficulty: 'Hard'
         }
     ];
@@ -181,12 +181,12 @@ const DPCategory = () => {
                             Master optimization problems with memoization and recursive solutions
                         </Typography>
                     </Box>
-                    
+
                     <Grid container spacing={3}>
                         {dpProblems.map((problem, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>
-                                <Card 
-                                    sx={{ 
+                                <Card
+                                    sx={{
                                         height: '100%',
                                         transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
                                         '&:hover': {
@@ -195,8 +195,8 @@ const DPCategory = () => {
                                         }
                                     }}
                                 >
-                                    <CardActionArea 
-                                        component={Link} 
+                                    <CardActionArea
+                                        component={Link}
                                         to={problem.path}
                                         sx={{ height: '100%', textDecoration: 'none' }}
                                     >

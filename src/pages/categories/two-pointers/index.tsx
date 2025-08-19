@@ -10,63 +10,63 @@ const TwoPointersCategory = () => {
         {
             title: 'Container With Most Water',
             description: 'Find two lines that together with the x-axis forms a container that would hold the greatest amount of water',
-            path: '/container-with-most-water',
+            path: '/algorithms/container-with-most-water',
             difficulty: 'Medium',
             technique: 'Two Pointers'
         },
         {
             title: 'Remove Element',
             description: 'Remove all instances of a value in-place and return the new length',
-            path: '/remove-element',
+            path: '/algorithms/remove-element',
             difficulty: 'Easy',
             technique: 'Two Pointers'
         },
         {
             title: 'Remove Duplicates from Sorted Array',
             description: 'Remove duplicates in-place such that each element appears only once',
-            path: '/remove-duplicates-from-sorted-array',
+            path: '/algorithms/remove-duplicates-from-sorted-array',
             difficulty: 'Easy',
             technique: 'Two Pointers'
         },
         {
             title: 'Merge Two Sorted Lists',
             description: 'Merge two sorted linked lists and return it as a sorted list',
-            path: '/merge-two-sorted-lists',
+            path: '/algorithms/merge-two-sorted-lists',
             difficulty: 'Easy',
             technique: 'Two Pointers'
         },
         {
             title: 'Remove Nth Node From End of List',
             description: 'Remove the nth node from the end of the list and return its head',
-            path: '/remove-nth-node-from-end-of-list',
+            path: '/algorithms/remove-nth-node-from-end-of-list',
             difficulty: 'Medium',
             technique: 'Two Pointers'
         },
         {
             title: 'Linked List Cycle',
             description: 'Detect if there is a cycle in the linked list',
-            path: '/linked-list-cycle',
+            path: '/algorithms/linked-list-cycle',
             difficulty: 'Easy',
             technique: 'Two Pointers (Fast/Slow)'
         },
         {
             title: 'Linked List Cycle II',
             description: 'Find the node where the cycle begins',
-            path: '/linked-list-cycle-ii',
+            path: '/algorithms/linked-list-cycle-ii',
             difficulty: 'Medium',
             technique: 'Two Pointers (Fast/Slow)'
         },
         {
             title: 'Find the Index of the First Occurrence in a String',
             description: 'Find the index of the first occurrence of needle in haystack',
-            path: '/find-the-index-of-the-first-occurrence-in-a-string',
+            path: '/algorithms/find-the-index-of-the-first-occurrence-in-a-string',
             difficulty: 'Easy',
             technique: 'Two Pointers'
         },
         {
             title: 'Longest Common Prefix',
             description: 'Find the longest common prefix string amongst an array of strings',
-            path: '/longest-common-prefix',
+            path: '/algorithms/longest-common-prefix',
             difficulty: 'Easy',
             technique: 'Two Pointers'
         }

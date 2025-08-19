@@ -10,63 +10,63 @@ const SortingCategory = () => {
         {
             title: 'Bubble Sort',
             description: 'Simple comparison-based sorting algorithm with O(n²) complexity',
-            path: '/bubble-sort',
+            path: '/algorithms/bubble-sort',
             difficulty: 'Easy',
             complexity: 'O(n²)'
         },
         {
             title: 'Selection Sort',
             description: 'In-place comparison sorting algorithm with O(n²) complexity',
-            path: '/selection-sort',
+            path: '/algorithms/selection-sort',
             difficulty: 'Easy',
             complexity: 'O(n²)'
         },
         {
             title: 'Insertion Sort',
             description: 'Simple sorting algorithm that builds the final array one item at a time',
-            path: '/insertion-sort',
+            path: '/algorithms/insertion-sort',
             difficulty: 'Easy',
             complexity: 'O(n²)'
         },
         {
             title: 'Merge Sort',
             description: 'Divide and conquer algorithm with O(n log n) complexity',
-            path: '/merge-sort',
+            path: '/algorithms/merge-sort',
             difficulty: 'Medium',
             complexity: 'O(n log n)'
         },
         {
             title: 'Quick Sort',
             description: 'Efficient, in-place sorting algorithm with O(n log n) average complexity',
-            path: '/quick-sort',
+            path: '/algorithms/quick-sort',
             difficulty: 'Medium',
             complexity: 'O(n log n)'
         },
         {
             title: 'Heap Sort',
             description: 'Comparison-based sorting algorithm using heap data structure',
-            path: '/heap-sort',
+            path: '/algorithms/heap-sort',
             difficulty: 'Medium',
             complexity: 'O(n log n)'
         },
         {
             title: 'Counting Sort',
             description: 'Non-comparison based sorting algorithm for integers',
-            path: '/counting-sort',
+            path: '/algorithms/counting-sort',
             difficulty: 'Medium',
             complexity: 'O(n + k)'
         },
         {
             title: 'Bucket Sort',
             description: 'Distribution sort that works by distributing elements into buckets',
-            path: '/bucket-sort',
+            path: '/algorithms/bucket-sort',
             difficulty: 'Medium',
             complexity: 'O(n + k)'
         },
         {
             title: 'Radix Sort',
             description: 'Non-comparative integer sorting algorithm',
-            path: '/radix-sort',
+            path: '/algorithms/radix-sort',
             difficulty: 'Medium',
             complexity: 'O(nk)'
         }

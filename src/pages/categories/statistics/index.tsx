@@ -10,70 +10,70 @@ const StatisticsCategory = () => {
         {
             title: 'Find Median from Data Stream',
             description: 'Design a data structure that supports finding the median of a stream of integers',
-            path: '/find-median-from-data-stream',
+            path: '/algorithms/find-median-from-data-stream',
             difficulty: 'Hard',
             concept: 'Median Finding'
         },
         {
             title: 'Sliding Window Median',
             description: 'Find the median for each window of size k in an array',
-            path: '/sliding-window-median',
+            path: '/algorithms/sliding-window-median',
             difficulty: 'Hard',
             concept: 'Sliding Window + Median'
         },
         {
             title: 'Kth Largest Element in an Array',
             description: 'Find the kth largest element in an unsorted array',
-            path: '/kth-largest-element-in-an-array',
+            path: '/algorithms/kth-largest-element-in-an-array',
             difficulty: 'Medium',
             concept: 'Order Statistics'
         },
         {
             title: 'Top K Frequent Elements',
             description: 'Find the k most frequent elements in an array',
-            path: '/top-k-frequent-elements',
+            path: '/algorithms/top-k-frequent-elements',
             difficulty: 'Medium',
             concept: 'Frequency Analysis'
         },
         {
             title: 'Top K Frequent Words',
             description: 'Return the k most frequent words in a list',
-            path: '/top-k-frequent-words',
+            path: '/algorithms/top-k-frequent-words',
             difficulty: 'Medium',
             concept: 'Frequency Analysis'
         },
         {
             title: 'Kth Largest Element in a Stream',
             description: 'Design a class to find the kth largest element in a stream',
-            path: '/kth-largest-element-in-a-stream',
+            path: '/algorithms/kth-largest-element-in-a-stream',
             difficulty: 'Medium',
             concept: 'Stream Processing'
         },
         {
             title: 'Linked List Random Node',
             description: 'Return a random node from a linked list with equal probability',
-            path: '/linked-list-random-node',
+            path: '/algorithms/linked-list-random-node',
             difficulty: 'Medium',
             concept: 'Random Sampling'
         },
         {
             title: 'Kth Smallest Element in a BST',
             description: 'Find the kth smallest element in a binary search tree',
-            path: '/kth-smallest-element-in-a-bst',
+            path: '/algorithms/kth-smallest-element-in-a-bst',
             difficulty: 'Medium',
             concept: 'Order Statistics + BST'
         },
         {
             title: 'Kth Smallest Element in a Sorted Matrix',
             description: 'Find the kth smallest element in a sorted matrix',
-            path: '/kth-smallest-element-in-a-sorted-matrix',
+            path: '/algorithms/kth-smallest-element-in-a-sorted-matrix',
             difficulty: 'Medium',
             concept: 'Matrix + Order Statistics'
         },
         {
             title: 'Find K Pairs with Smallest Sums',
             description: 'Find k pairs with the smallest sums from two sorted arrays',
-            path: '/find-k-pairs-with-smallest-sums',
+            path: '/algorithms/find-k-pairs-with-smallest-sums',
             difficulty: 'Medium',
             concept: 'K-Smallest Elements'
         }
@@ -113,12 +113,12 @@ const StatisticsCategory = () => {
                             Master statistical concepts, order statistics, and probability algorithms
                         </Typography>
                     </Box>
-                    
+
                     <Grid container spacing={3}>
                         {statisticsProblems.map((problem, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>
-                                <Card 
-                                    sx={{ 
+                                <Card
+                                    sx={{
                                         height: '100%',
                                         transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
                                         '&:hover': {
@@ -127,8 +127,8 @@ const StatisticsCategory = () => {
                                         }
                                     }}
                                 >
-                                    <CardActionArea 
-                                        component={Link} 
+                                    <CardActionArea
+                                        component={Link}
                                         to={problem.path}
                                         sx={{ height: '100%', textDecoration: 'none' }}
                                     >

@@ -10,14 +10,14 @@ const HashTableCategory = () => {
         {
             title: 'Two Sum',
             description: 'Find two numbers in an array that add up to a target value',
-            path: '/two-sum',
+            path: '/algorithms/two-sum',
             difficulty: 'Easy',
             complexity: 'O(n)'
         },
         {
             title: 'LRU Cache',
             description: 'Design and implement a data structure for Least Recently Used cache',
-            path: '/lru-cache',
+            path: '/algorithms/lru-cache',
             difficulty: 'Medium',
             complexity: 'O(1)'
         }

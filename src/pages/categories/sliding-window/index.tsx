@@ -10,7 +10,7 @@ const SlidingWindowCategory = () => {
         {
             title: 'Longest Substring Without Repeating Characters',
             description: 'Find the length of the longest substring without repeating characters',
-            path: '/longest-substring-without-repeating-characters',
+            path: '/algorithms/longest-substring-without-repeating-characters',
             difficulty: 'Medium',
             technique: 'Sliding Window'
         }
