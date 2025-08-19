@@ -1,13 +1,13 @@
 import React from 'react';
 import * as THREE from 'three';
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
-import { clearScene, createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
+import { clearScene, createDualRenderer, createOrthographicCamera } from "../../../../../../utils/threeUtils";
 import { animate, parallel } from 'obelus';
 import { axis, circle, DualScene, latex, line, render, text, type StepSceneThree } from 'obelus-three-render';
 import { defaultTheme } from 'obelus-three-render';
-import { AnimationController } from '../../../../utils/animation-controller';
-import { useThreeContainer } from '../../../../hooks/useThreeContainer';
-import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
+import { AnimationController } from "../../../../../../utils/animation-controller";
+import { useThreeContainer } from "../../../../../../hooks/useThreeContainer";
+import { useThreeAutoResize } from "../../../../../../hooks/useThreeAutoResize";
 import { buildAnimateSteps, type PlayableStep } from 'obelus-gsap-player';
 import NextPageButton from '../../components/NextPageButton';
 import StartButton from '../../components/StartButton';
@@ -144,7 +144,7 @@ const buildHashes = (size: number, max: number, align: number): { value: number,
         const random = Math.round(Math.random() * 200) / 200;
         hashes.add(random);
     }
-    const sortedHashes = [...hashes].sort((a, b) => a - b);
+    const sortedHashes = Array.from(hashes).sort((a, b) => a - b);
     const locations = sortedHashes.map((hash) => hash * max + align);
 
     const result = [];

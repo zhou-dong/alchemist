@@ -1,13 +1,13 @@
 import React from 'react';
 import gsap from 'gsap';
 import { at } from 'obelus';
-import { clearScene, createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
+import { clearScene, createDualRenderer, createOrthographicCamera } from "../../../../../../utils/threeUtils";
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
 import { buildAnimateTimeline } from 'obelus-gsap-player';
-import { useThreeContainer } from '../../../../hooks/useThreeContainer';
-import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
+import { useThreeContainer } from "../../../../../../hooks/useThreeContainer";
+import { useThreeAutoResize } from "../../../../../../hooks/useThreeAutoResize";
 import { DualScene, type TimelineSceneThree, render, axis, text, circle, defaultTheme, latex, line } from 'obelus-three-render';
-import { AnimationController } from '../../../../utils/animation-controller';
+import { AnimationController } from "../../../../../../utils/animation-controller";
 import KseToKmv from './KseToKmv';
 import TimelinePlayer from '../../components/TimelinePlayer';
 import { Container, Tooltip, Fab } from '@mui/material';
@@ -82,7 +82,7 @@ const buildTimelineEntries = (size: number, k: number): TimelineEntry[] => {
             const hash: number = Math.random();
             set.add(hash);
         }
-        const shuffledArray = [...set].sort(() => Math.random() - 0.5);
+        const shuffledArray = Array.from(set).sort(() => Math.random() - 0.5);
         return shuffledArray;
     }
 

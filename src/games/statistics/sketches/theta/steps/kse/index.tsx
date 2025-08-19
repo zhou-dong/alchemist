@@ -1,13 +1,13 @@
 import React from 'react';
 import { animate, parallel, } from 'obelus';
-import { createDualRenderer, createOrthographicCamera } from '../../../../utils/threeUtils';
+import { createDualRenderer, createOrthographicCamera } from "../../../../../../utils/threeUtils";
 import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
 import { buildAnimateSteps, type PlayableStep } from 'obelus-gsap-player';
-import { useThreeContainer } from '../../../../hooks/useThreeContainer';
-import { useThreeAutoResize } from '../../../../hooks/useThreeAutoResize';
+import { useThreeContainer } from "../../../../../../hooks/useThreeContainer";
+import { useThreeAutoResize } from "../../../../../../hooks/useThreeAutoResize";
 import { DualScene, defaultTheme, latex, type StepSceneThree, render, axis, text } from 'obelus-three-render';
 import PlayButton from '../../components/PlayButton';
-import { AnimationController } from '../../../../utils/animation-controller';
+import { AnimationController } from "../../../../../../utils/animation-controller";
 import { ORDER_STATISTICS_TO_KMV_FORMULAS } from './order-statistics-to-kth-smallest-estimation-latex';
 import NextPageButton from '../../components/NextPageButton';
 import StartButton from '../../components/StartButton';

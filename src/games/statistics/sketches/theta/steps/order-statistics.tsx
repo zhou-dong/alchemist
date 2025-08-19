@@ -1,12 +1,12 @@
 import React from 'react';
 import { animate, parallel, } from 'obelus';
-import { createDualRenderer, createOrthographicCamera } from '../../../utils/threeUtils';
+import { createDualRenderer, createOrthographicCamera } from "../../../../../utils/threeUtils";
 import { WrapperProvider } from '../components/wrapper/WrapperProvider';
 import { buildAnimateSteps, type PlayableStep } from 'obelus-gsap-player';
-import { useThreeContainer } from '../../../hooks/useThreeContainer';
-import { useThreeAutoResize } from '../../../hooks/useThreeAutoResize';
+import { useThreeContainer } from "../../../../../hooks/useThreeContainer";
+import { useThreeAutoResize } from "../../../../../hooks/useThreeAutoResize";
 import { type StepSceneThree, render, axis, latex, defaultTheme, ring, text, DualScene } from 'obelus-three-render';
-import { AnimationController } from '../../../utils/animation-controller';
+import { AnimationController } from "../../../../../utils/animation-controller";
 import PlayButton from '../components/PlayButton';
 import NextPageButton from '../components/NextPageButton';
 import StartButton from '../components/StartButton';
