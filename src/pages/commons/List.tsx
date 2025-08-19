@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Card, CardContent, CardActionArea, Grid, Typography, Box, Chip } from "@mui/material";
+import { Card, CardContent, CardActionArea, Grid, Typography, Box, Chip, IconButton } from "@mui/material";
 import {
     Functions,
     AccountTree,
@@ -14,10 +14,10 @@ import {
     Calculate,
     Code,
     Psychology,
-    PlayArrow,
     SentimentVerySatisfied,
     SentimentSatisfied,
-    SentimentVeryDissatisfied
+    SentimentVeryDissatisfied,
+    RocketLaunch,
 } from "@mui/icons-material";
 import { useGames } from "../../games/commons/GamesContext";
 import React from "react";
@@ -233,9 +233,14 @@ const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmPro
                                     {difficultyInfo.level}
                                 </Typography>
                             </Box>
-                            <Typography variant="caption" color="primary" sx={{ fontWeight: 500 }}>
-                                Start solving →
-                            </Typography>
+                            <IconButton
+                                sx={{
+                                    borderRadius: '50%',
+                                    border: '1px solid #e0e0e0',
+                                }}
+                            >
+                                <RocketLaunch sx={{ fontSize: "14px" }} color="primary" />
+                            </IconButton>
                         </Box>
                     </CardContent>
                 </CardActionArea>
