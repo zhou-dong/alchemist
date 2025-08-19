@@ -1,15 +1,12 @@
 import React from 'react';
-import { 
-    Container, 
-    Typography, 
-    Box, 
-    Paper, 
-    Grid, 
-    ThemeProvider, 
-    Divider,
+import {
+    Container,
+    Typography,
+    Box,
+    Grid,
+    ThemeProvider,
     Card,
     CardContent,
-    Avatar,
     Chip,
     Button
 } from '@mui/material';
@@ -93,7 +90,7 @@ const AboutUs: React.FC = () => {
                 sx={{ backgroundColor: '#fafafa' }}
             >
                 <Header />
-                
+
                 {/* Hero Section */}
                 <Box
                     sx={{
@@ -131,8 +128,8 @@ const AboutUs: React.FC = () => {
                             <Chip
                                 icon={<RocketLaunch />}
                                 label="Interactive Learning"
-                                sx={{ 
-                                    backgroundColor: 'rgba(255,255,255,0.2)', 
+                                sx={{
+                                    backgroundColor: 'rgba(255,255,255,0.2)',
                                     color: 'white',
                                     fontSize: '1rem',
                                     py: 1
@@ -141,8 +138,8 @@ const AboutUs: React.FC = () => {
                             <Chip
                                 icon={<Star />}
                                 label="Visual Mastery"
-                                sx={{ 
-                                    backgroundColor: 'rgba(255,255,255,0.2)', 
+                                sx={{
+                                    backgroundColor: 'rgba(255,255,255,0.2)',
                                     color: 'white',
                                     fontSize: '1rem',
                                     py: 1
@@ -151,8 +148,8 @@ const AboutUs: React.FC = () => {
                             <Chip
                                 icon={<CheckCircle />}
                                 label="Practical Skills"
-                                sx={{ 
-                                    backgroundColor: 'rgba(255,255,255,0.2)', 
+                                sx={{
+                                    backgroundColor: 'rgba(255,255,255,0.2)',
                                     color: 'white',
                                     fontSize: '1rem',
                                     py: 1
@@ -185,8 +182,8 @@ const AboutUs: React.FC = () => {
                                 lineHeight: 1.8
                             }}
                         >
-                            At Alchemist, we believe that understanding complex algorithms is best achieved by seeing them in action. 
-                            Our platform transforms abstract concepts into clear, visual insights, providing an interactive and engaging 
+                            At Alchemist, we believe that understanding complex algorithms is best achieved by seeing them in action.
+                            Our platform transforms abstract concepts into clear, visual insights, providing an interactive and engaging
                             way to master algorithms and enhance problem-solving skills.
                         </Typography>
                     </Box>
