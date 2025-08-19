@@ -16,7 +16,7 @@ const Home = () => {
     const sm = 4;
     const md = 4;
     const lg = 3;
-    const xl = 2.4;
+    const xl = 3;
 
     return (
         <ThemeProvider theme={theme}>
