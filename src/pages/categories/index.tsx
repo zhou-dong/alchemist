@@ -13,7 +13,7 @@ const Main = () => {
             path: '/pages/categories/dp',
             color: '#FF6B6B',
             count: 25,
-            icon: <Functions sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <Functions sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%)'
         },
         {
@@ -22,7 +22,7 @@ const Main = () => {
             path: '/pages/categories/tree',
             color: '#4ECDC4',
             count: 35,
-            icon: <AccountTree sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <AccountTree sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #4ECDC4 0%, #6EDDD6 100%)'
         },
         {
@@ -31,7 +31,7 @@ const Main = () => {
             path: '/pages/categories/linked-list',
             color: '#45B7D1',
             count: 15,
-            icon: <DataObject sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <DataObject sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #45B7D1 0%, #67C5DB 100%)'
         },
         {
@@ -40,7 +40,7 @@ const Main = () => {
             path: '/pages/categories/graph',
             color: '#96CEB4',
             count: 8,
-            icon: <TrendingUp sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <TrendingUp sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #96CEB4 0%, #A8D8C0 100%)'
         },
         {
@@ -49,7 +49,7 @@ const Main = () => {
             path: '/pages/categories/sorting',
             color: '#FFEAA7',
             count: 7,
-            icon: <Sort sx={{ fontSize: 28, color: '#D4A017' }} />,
+            icon: <Sort sx={{ fontSize: 24, color: '#D4A017' }} />,
             gradient: 'linear-gradient(135deg, #FFEAA7 0%, #FFD93D 100%)'
         },
         {
@@ -58,7 +58,7 @@ const Main = () => {
             path: '/pages/categories/stack-queue',
             color: '#DDA0DD',
             count: 6,
-            icon: <Queue sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <Queue sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #DDA0DD 0%, #E6B3E6 100%)'
         },
         {
@@ -67,7 +67,7 @@ const Main = () => {
             path: '/pages/categories/hash-table',
             color: '#F8BBD9',
             count: 2,
-            icon: <Storage sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <Storage sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #F8BBD9 0%, #FAD0E6 100%)'
         },
         {
@@ -76,7 +76,7 @@ const Main = () => {
             path: '/pages/categories/binary-search',
             color: '#B39DDB',
             count: 3,
-            icon: <Search sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <Search sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #B39DDB 0%, #C5AEE4 100%)'
         },
         {
@@ -85,7 +85,7 @@ const Main = () => {
             path: '/pages/categories/two-pointers',
             color: '#FFCC80',
             count: 8,
-            icon: <TouchApp sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <TouchApp sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #FFCC80 0%, #FFD699 100%)'
         },
         {
@@ -94,7 +94,7 @@ const Main = () => {
             path: '/pages/categories/sliding-window',
             color: '#A5D6A7',
             count: 1,
-            icon: <Window sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <Window sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #A5D6A7 0%, #B8E0B9 100%)'
         },
         {
@@ -103,7 +103,7 @@ const Main = () => {
             path: '/pages/categories/math',
             color: '#FFAB91',
             count: 5,
-            icon: <Calculate sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <Calculate sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #FFAB91 0%, #FFC4A8 100%)'
         },
         {
@@ -112,7 +112,7 @@ const Main = () => {
             path: '/pages/categories/greedy',
             color: '#9FA8DA',
             count: 1,
-            icon: <Code sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <Code sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #9FA8DA 0%, #B3BEE5 100%)'
         },
         {
@@ -121,7 +121,7 @@ const Main = () => {
             path: '/pages/categories/statistics',
             color: '#FF7043',
             count: 10,
-            icon: <Psychology sx={{ fontSize: 28, color: 'white' }} />,
+            icon: <Psychology sx={{ fontSize: 24, color: 'white' }} />,
             gradient: 'linear-gradient(135deg, #FF7043 0%, #FF8A65 100%)'
         }
     ];
@@ -140,8 +140,8 @@ const Main = () => {
                     <Paper 
                         elevation={0}
                         sx={{ 
-                            p: 6, 
-                            mb: 6, 
+                            p: 5, 
+                            mb: 5, 
                             textAlign: 'center',
                             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                             color: 'white',
@@ -149,19 +149,19 @@ const Main = () => {
                         }}
                     >
                         <Typography 
-                            variant="h2" 
+                            variant="h3" 
                             component="h1" 
                             gutterBottom 
                             sx={{ 
                                 fontWeight: 700,
-                                mb: 3,
+                                mb: 2,
                                 textShadow: '0 2px 4px rgba(0,0,0,0.1)'
                             }}
                         >
                             Algorithm Categories
                         </Typography>
                         <Typography 
-                            variant="h5" 
+                            variant="h6" 
                             component="p" 
                             sx={{ 
                                 opacity: 0.9,
@@ -176,7 +176,7 @@ const Main = () => {
                     </Paper>
                     
                     {/* Categories Grid */}
-                    <Grid container spacing={4}>
+                    <Grid container spacing={3}>
                         {categories.map((category, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>
                                 <Card 
@@ -186,10 +186,10 @@ const Main = () => {
                                         borderRadius: 3,
                                         overflow: 'hidden',
                                         '&:hover': {
-                                            transform: 'translateY(-8px)',
-                                            boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
+                                            transform: 'translateY(-6px)',
+                                            boxShadow: '0 16px 32px rgba(0,0,0,0.12)',
                                             '& .category-icon': {
-                                                transform: 'scale(1.1) rotate(5deg)',
+                                                transform: 'scale(1.1) rotate(3deg)',
                                             }
                                         }
                                     }}
@@ -203,7 +203,7 @@ const Main = () => {
                                             {/* Header with Icon and Count */}
                                             <Box 
                                                 sx={{ 
-                                                    p: 4,
+                                                    p: 3,
                                                     background: category.gradient,
                                                     position: 'relative',
                                                     overflow: 'hidden'
@@ -213,10 +213,10 @@ const Main = () => {
                                                     className="category-icon"
                                                     sx={{ 
                                                         position: 'absolute',
-                                                        top: -10,
-                                                        right: -10,
-                                                        width: 80,
-                                                        height: 80,
+                                                        top: -8,
+                                                        right: -8,
+                                                        width: 60,
+                                                        height: 60,
                                                         borderRadius: '50%',
                                                         backgroundColor: 'rgba(255,255,255,0.2)',
                                                         display: 'flex',
@@ -231,7 +231,7 @@ const Main = () => {
                                                 
                                                 <Box sx={{ position: 'relative', zIndex: 1 }}>
                                                     <Typography 
-                                                        variant="h4" 
+                                                        variant="h5" 
                                                         component="h2" 
                                                         sx={{ 
                                                             fontWeight: 700,
@@ -242,38 +242,40 @@ const Main = () => {
                                                     >
                                                         {category.title}
                                                     </Typography>
-                                                    <Typography 
-                                                        variant="h2" 
-                                                        component="span" 
-                                                        sx={{ 
-                                                            fontWeight: 800,
-                                                            color: 'white',
-                                                            textShadow: '0 1px 2px rgba(0,0,0,0.1)'
-                                                        }}
-                                                    >
-                                                        {category.count}
-                                                    </Typography>
-                                                    <Typography 
-                                                        variant="body2" 
-                                                        sx={{ 
-                                                            color: 'rgba(255,255,255,0.9)',
-                                                            fontWeight: 500
-                                                        }}
-                                                    >
-                                                        problems available
-                                                    </Typography>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                        <Typography 
+                                                            variant="h6" 
+                                                            component="span" 
+                                                            sx={{ 
+                                                                fontWeight: 700,
+                                                                color: 'white',
+                                                                textShadow: '0 1px 2px rgba(0,0,0,0.1)'
+                                                            }}
+                                                        >
+                                                            {category.count}
+                                                        </Typography>
+                                                        <Typography 
+                                                            variant="body2" 
+                                                            sx={{ 
+                                                                color: 'rgba(255,255,255,0.9)',
+                                                                fontWeight: 500
+                                                            }}
+                                                        >
+                                                            problems
+                                                        </Typography>
+                                                    </Box>
                                                 </Box>
                                             </Box>
                                             
                                             {/* Content */}
-                                            <Box sx={{ p: 4 }}>
+                                            <Box sx={{ p: 3 }}>
                                                 <Typography 
-                                                    variant="body1" 
+                                                    variant="body2" 
                                                     color="text.secondary" 
                                                     sx={{ 
-                                                        mb: 3,
-                                                        lineHeight: 1.6,
-                                                        fontSize: '1rem'
+                                                        mb: 2,
+                                                        lineHeight: 1.5,
+                                                        fontSize: '0.9rem'
                                                     }}
                                                 >
                                                     {category.description}
@@ -285,8 +287,7 @@ const Main = () => {
                                                 <Box sx={{ 
                                                     display: 'flex', 
                                                     alignItems: 'center', 
-                                                    justifyContent: 'space-between',
-                                                    mt: 2
+                                                    justifyContent: 'space-between'
                                                 }}>
                                                     <Typography 
                                                         variant="body2" 
@@ -297,8 +298,8 @@ const Main = () => {
                                                     </Typography>
                                                     <Box 
                                                         sx={{ 
-                                                            width: 32, 
-                                                            height: 32, 
+                                                            width: 28, 
+                                                            height: 28, 
                                                             borderRadius: '50%',
                                                             backgroundColor: category.color,
                                                             display: 'flex',
@@ -310,7 +311,7 @@ const Main = () => {
                                                             }
                                                         }}
                                                     >
-                                                        <ArrowForward sx={{ fontSize: 18, color: 'white' }} />
+                                                        <ArrowForward sx={{ fontSize: 16, color: 'white' }} />
                                                     </Box>
                                                 </Box>
                                             </Box>
@@ -326,7 +327,7 @@ const Main = () => {
                         elevation={0}
                         sx={{ 
                             p: 4, 
-                            mt: 6, 
+                            mt: 5, 
                             textAlign: 'center',
                             backgroundColor: 'primary.main',
                             color: 'white',
