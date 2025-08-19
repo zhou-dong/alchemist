@@ -135,24 +135,24 @@ const Main = () => {
                 sx={{ backgroundColor: '#fafafa' }}
             >
                 <Header />
-                <Container maxWidth="lg" sx={{ flex: 1, py: 6 }}>
+                <Container maxWidth="xl" sx={{ flex: 1, py: 6 }}>
                     {/* Hero Section */}
-                    <Paper 
+                    <Paper
                         elevation={0}
-                        sx={{ 
-                            p: 5, 
-                            mb: 5, 
+                        sx={{
+                            p: 5,
+                            mb: 5,
                             textAlign: 'center',
                             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                             color: 'white',
                             borderRadius: 4
                         }}
                     >
-                        <Typography 
-                            variant="h3" 
-                            component="h1" 
-                            gutterBottom 
-                            sx={{ 
+                        <Typography
+                            variant="h3"
+                            component="h1"
+                            gutterBottom
+                            sx={{
                                 fontWeight: 700,
                                 mb: 2,
                                 textShadow: '0 2px 4px rgba(0,0,0,0.1)'
@@ -160,27 +160,27 @@ const Main = () => {
                         >
                             Algorithm Categories
                         </Typography>
-                        <Typography 
-                            variant="h6" 
-                            component="p" 
-                            sx={{ 
+                        <Typography
+                            variant="h6"
+                            component="p"
+                            sx={{
                                 opacity: 0.9,
                                 maxWidth: 600,
                                 mx: 'auto',
                                 lineHeight: 1.6
                             }}
                         >
-                            Master the fundamentals of computer science through our comprehensive collection of algorithm problems. 
+                            Master the fundamentals of computer science through our comprehensive collection of algorithm problems.
                             Choose your path and start your journey to becoming an algorithm expert.
                         </Typography>
                     </Paper>
-                    
+
                     {/* Categories Grid */}
                     <Grid container spacing={3}>
                         {categories.map((category, index) => (
-                            <Grid item xs={12} sm={6} md={4} key={index}>
-                                <Card 
-                                    sx={{ 
+                            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                                <Card
+                                    sx={{
                                         height: '100%',
                                         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                         borderRadius: 3,
@@ -194,24 +194,24 @@ const Main = () => {
                                         }
                                     }}
                                 >
-                                    <CardActionArea 
-                                        component={Link} 
+                                    <CardActionArea
+                                        component={Link}
                                         to={category.path}
                                         sx={{ height: '100%', textDecoration: 'none' }}
                                     >
                                         <CardContent sx={{ p: 0, height: '100%' }}>
                                             {/* Header with Icon and Count */}
-                                            <Box 
-                                                sx={{ 
+                                            <Box
+                                                sx={{
                                                     p: 3,
                                                     background: category.gradient,
                                                     position: 'relative',
                                                     overflow: 'hidden'
                                                 }}
                                             >
-                                                <Box 
+                                                <Box
                                                     className="category-icon"
-                                                    sx={{ 
+                                                    sx={{
                                                         position: 'absolute',
                                                         top: -8,
                                                         right: -8,
@@ -228,12 +228,12 @@ const Main = () => {
                                                 >
                                                     {category.icon}
                                                 </Box>
-                                                
+
                                                 <Box sx={{ position: 'relative', zIndex: 1 }}>
-                                                    <Typography 
-                                                        variant="h5" 
-                                                        component="h2" 
-                                                        sx={{ 
+                                                    <Typography
+                                                        variant="h5"
+                                                        component="h2"
+                                                        sx={{
                                                             fontWeight: 700,
                                                             color: 'white',
                                                             mb: 1,
@@ -243,10 +243,10 @@ const Main = () => {
                                                         {category.title}
                                                     </Typography>
                                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                        <Typography 
-                                                            variant="h6" 
-                                                            component="span" 
-                                                            sx={{ 
+                                                        <Typography
+                                                            variant="h6"
+                                                            component="span"
+                                                            sx={{
                                                                 fontWeight: 700,
                                                                 color: 'white',
                                                                 textShadow: '0 1px 2px rgba(0,0,0,0.1)'
@@ -254,9 +254,9 @@ const Main = () => {
                                                         >
                                                             {category.count}
                                                         </Typography>
-                                                        <Typography 
-                                                            variant="body2" 
-                                                            sx={{ 
+                                                        <Typography
+                                                            variant="body2"
+                                                            sx={{
                                                                 color: 'rgba(255,255,255,0.9)',
                                                                 fontWeight: 500
                                                             }}
@@ -266,13 +266,13 @@ const Main = () => {
                                                     </Box>
                                                 </Box>
                                             </Box>
-                                            
+
                                             {/* Content */}
                                             <Box sx={{ p: 3 }}>
-                                                <Typography 
-                                                    variant="body2" 
-                                                    color="text.secondary" 
-                                                    sx={{ 
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                    sx={{
                                                         mb: 2,
                                                         lineHeight: 1.5,
                                                         fontSize: '0.9rem'
@@ -280,26 +280,26 @@ const Main = () => {
                                                 >
                                                     {category.description}
                                                 </Typography>
-                                                
+
                                                 <Divider sx={{ my: 2 }} />
-                                                
+
                                                 {/* Action Button */}
-                                                <Box sx={{ 
-                                                    display: 'flex', 
-                                                    alignItems: 'center', 
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
                                                     justifyContent: 'space-between'
                                                 }}>
-                                                    <Typography 
-                                                        variant="body2" 
+                                                    <Typography
+                                                        variant="body2"
                                                         color="text.secondary"
                                                         sx={{ fontWeight: 500 }}
                                                     >
                                                         Start Learning
                                                     </Typography>
-                                                    <Box 
-                                                        sx={{ 
-                                                            width: 28, 
-                                                            height: 28, 
+                                                    <Box
+                                                        sx={{
+                                                            width: 28,
+                                                            height: 28,
                                                             borderRadius: '50%',
                                                             backgroundColor: category.color,
                                                             display: 'flex',
@@ -321,13 +321,13 @@ const Main = () => {
                             </Grid>
                         ))}
                     </Grid>
-                    
+
                     {/* Call to Action */}
-                    <Paper 
+                    <Paper
                         elevation={0}
-                        sx={{ 
-                            p: 4, 
-                            mt: 5, 
+                        sx={{
+                            p: 4,
+                            mt: 5,
                             textAlign: 'center',
                             backgroundColor: 'primary.main',
                             color: 'white',
@@ -340,12 +340,12 @@ const Main = () => {
                         <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
                             Choose a category above and start solving problems to improve your algorithmic thinking skills.
                         </Typography>
-                        <Button 
+                        <Button
                             component={Link}
                             to="/pages/games"
-                            variant="contained" 
+                            variant="contained"
                             size="large"
-                            sx={{ 
+                            sx={{
                                 backgroundColor: 'white',
                                 color: 'primary.main',
                                 px: 4,
