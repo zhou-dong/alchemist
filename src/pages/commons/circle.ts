@@ -129,16 +129,26 @@ export class Dragger<T> {
     clickThresholdDistance = 5; // pixels
     drawCanvas: (width: number, height: number) => void;
     handleClick: (circle: ContentCircle<T>) => void;
+    disabled: boolean = false; // Add disabled property
 
     constructor(
         drawCanvas: (width: number, height: number) => void,
         handleClick: (circle: ContentCircle<T>) => void,
+        disabled: boolean = false, // Add disabled parameter
     ) {
         this.drawCanvas = drawCanvas;
         this.handleClick = handleClick;
+        this.disabled = disabled;
+    }
+
+    // Method to enable/disable drag functionality
+    public setDisabled(disabled: boolean): void {
+        this.disabled = disabled;
     }
 
     public handleMouseDown(e: MouseEvent, circles: ContentCircle<T>[]): void {
+        // if (this.disabled) return; // Early return if disabled
+        
         const { offsetX, offsetY } = e;
         this.dragStartX = offsetX;
         this.dragStartY = offsetY;
@@ -158,7 +168,7 @@ export class Dragger<T> {
         containerWidth: number,
         containerHeight: number,
     ): void {
-        if (!this.dragTarget) {
+        if (this.disabled || !this.dragTarget) { // Check if disabled
             return;
         }
         const { offsetX, offsetY } = e;
@@ -178,6 +188,8 @@ export class Dragger<T> {
     }
 
     public handleMouseUp(e: MouseEvent, circles: ContentCircle<T>[]): void {
+        // if (this.disabled) return; // Early return if disabled
+        
         const { offsetX, offsetY } = e;
         const endTime = new Date().getTime();
 

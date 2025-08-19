@@ -67,7 +67,7 @@ const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> =
         drawCanvas(containerWidth, containerHeight);
     }
 
-    const draggable = new Dragger<Category>(drawCanvas, handleClick);
+    const draggable = new Dragger<Category>(drawCanvas, handleClick, true);
 
     React.useEffect(() => {
         const canvas = canvasRef.current;
@@ -143,10 +143,10 @@ const Main = () => {
     const algoContainerRef = React.useRef<HTMLDivElement>(null);
 
     const xs = 12;
-    const sm = 6;
-    const md = 4;
+    const sm = 12;
+    const md = 6;
     const lg = 6;
-    const xl = 3;
+    const xl = 4;
 
     return (
         <ThemeProvider theme={theme}>
