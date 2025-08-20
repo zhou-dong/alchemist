@@ -1,31 +1,26 @@
 import CategoryType from "../../../games/commons/segments/category";
+import { Content } from "../../commons/circle";
 
-export interface Category {
-    categoryType: CategoryType;
-    emoji: string;
-    selected: boolean;
-}
-
-export const categories: Category[] = [
-    { categoryType: CategoryType.Heap, emoji: "⏳", selected: false },
-    { categoryType: CategoryType.Stack, emoji: "📚", selected: false },
-    { categoryType: CategoryType.Queue, emoji: "🚶‍♂️🚶‍♂️", selected: false },
-    { categoryType: CategoryType.Sorting, emoji: "🔄", selected: false },
-    { categoryType: CategoryType.Tree, emoji: "🌳", selected: false },
-    { categoryType: CategoryType.SegmentTree, emoji: "🌲", selected: false },
-    { categoryType: CategoryType.UnionFind, emoji: "🔗", selected: false },
-    { categoryType: CategoryType.BinarySearch, emoji: "🔍", selected: false },
-    { categoryType: CategoryType.TwoPointers, emoji: "➡️➡️", selected: false },
-    { categoryType: CategoryType.DynamicProgramming, emoji: "🧩", selected: false },
-    { categoryType: CategoryType.Graph, emoji: "🌐", selected: false },
-    { categoryType: CategoryType.Recursion, emoji: "🌀", selected: false },
-    { categoryType: CategoryType.LinkedList, emoji: "🖇️", selected: false },
-    { categoryType: CategoryType.HashTable, emoji: "🗂️", selected: false },
-    { categoryType: CategoryType.TopologicalSort, emoji: "🔣", selected: false },
+export const categories: Content<CategoryType>[] = [
+    { value: CategoryType.Heap, emoji: "⏳", selected: false, text: CategoryType.Heap.toString() },
+    { value: CategoryType.Stack, emoji: "📚", selected: false, text: CategoryType.Stack.toString() },
+    { value: CategoryType.Queue, emoji: "🚶‍♂️🚶‍♂️", selected: false, text: CategoryType.Queue.toString() },
+    { value: CategoryType.Sorting, emoji: "🔄", selected: false, text: CategoryType.Sorting.toString() },
+    { value: CategoryType.Tree, emoji: "🌳", selected: false, text: CategoryType.Tree.toString() },
+    { value: CategoryType.SegmentTree, emoji: "🌲", selected: false, text: CategoryType.SegmentTree.toString() },
+    { value: CategoryType.UnionFind, emoji: "🔗", selected: false, text: CategoryType.UnionFind.toString() },
+    { value: CategoryType.BinarySearch, emoji: "🔍", selected: false, text: CategoryType.BinarySearch.toString() },
+    { value: CategoryType.TwoPointers, emoji: "➡️➡️", selected: false, text: CategoryType.TwoPointers.toString() },
+    { value: CategoryType.DynamicProgramming, emoji: "🧩", selected: false, text: CategoryType.DynamicProgramming.toString() },
+    { value: CategoryType.Graph, emoji: "🌐", selected: false, text: CategoryType.Graph.toString() },
+    { value: CategoryType.Recursion, emoji: "🌀", selected: false, text: CategoryType.Recursion.toString() },
+    { value: CategoryType.LinkedList, emoji: "🖇️", selected: false, text: CategoryType.LinkedList.toString() },
+    { value: CategoryType.HashTable, emoji: "🗂️", selected: false, text: CategoryType.HashTable.toString() },
+    { value: CategoryType.TopologicalSort, emoji: "🔣", selected: false, text: CategoryType.TopologicalSort.toString() },
 ];
 
-export const categoryMap: Map<CategoryType, Category> = new Map<CategoryType, Category>(
-    categories.map(category => [category.categoryType, category])
+export const categoryMap: Map<CategoryType, Content<CategoryType>> = new Map<CategoryType, Content<CategoryType>>(
+    categories.map(category => [category.value, category])
 );
 
 export const connections: CategoryType[][] = [

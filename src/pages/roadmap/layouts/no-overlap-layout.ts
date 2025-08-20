@@ -1,4 +1,4 @@
-import { Circle, isOverlap } from "./circle";
+import { Circle, isOverlap } from "../../commons/circle";
 
 function isOverlapWithOthers(circle: Circle, others: Circle[]): boolean {
     for (let other of others) {

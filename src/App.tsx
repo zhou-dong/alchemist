@@ -2,6 +2,26 @@ import { Route, Routes } from 'react-router-dom';
 
 import Games from './pages/games';
 import Roadmap from "./pages/roadmap";
+import AboutUs from './pages/about';
+
+import Categories from "./pages/categories";
+import CategoryTree from "./pages/categories/tree/index";
+import CategoryTreeIntro from "./pages/categories/tree/intro";
+import CategoryTreeBasics from "./pages/categories/tree/basics";
+
+// New category imports
+import DPCategory from "./pages/categories/dp";
+import LinkedListCategory from "./pages/categories/linked-list";
+import SortingCategory from "./pages/categories/sorting";
+import GraphCategory from "./pages/categories/graph";
+import MathCategory from "./pages/categories/math";
+import BinarySearchCategory from "./pages/categories/binary-search";
+import HashTableCategory from "./pages/categories/hash-table";
+import StackQueueCategory from "./pages/categories/stack-queue";
+import TwoPointersCategory from "./pages/categories/two-pointers";
+import SlidingWindowCategory from "./pages/categories/sliding-window";
+import GreedyCategory from "./pages/categories/greedy";
+import StatisticsCategory from "./pages/categories/statistics";
 
 import BubbleSortAnimation from "./games/sorting/bubble-sort/Animation";
 import BubbleSortAnimationInfo from "./games/sorting/bubble-sort/info";
@@ -259,7 +279,13 @@ import LongestCommonPrefixInfo from "./games/two-pointers/longest-common-prefix/
 import LongestCommonPrefix from "./games/two-pointers/longest-common-prefix";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
-import AboutUs from './pages/about';
+import HllPage from './games/statistics/sketches/hll';
+import ThetaSketchPage from './games/statistics/sketches/theta/steps/theta-sketch';
+import OrderStatisticsPage from './games/statistics/sketches/theta/steps/order-statistics';
+import SetOperationsPage from './games/statistics/sketches/theta/steps/set-operations';
+import KmvPage from './games/statistics/sketches/theta/steps/kmv';
+import KsePage from './games/statistics/sketches/theta/steps/kse';
+import ThetaSketchWelcomePage from './games/statistics/sketches/theta/components/welcome/WelcomePage';
 
 const renderer = createRenderer();
 const camera = createCamera();
@@ -272,6 +298,26 @@ const App = () => (
         <Route path="pages/games" element={<Games />} />
         <Route path="pages/roadmap" element={<Roadmap />} />
         <Route path="pages/about-us" element={<AboutUs />} />
+
+        <Route path="pages/categories" element={<Categories />} />
+        <Route path="pages/categories/tree" element={<CategoryTreeIntro />} />
+        <Route path="pages/categories/tree/basics" element={<CategoryTreeBasics />} />
+        <Route path="pages/categories/tree/challenges" element={<CategoryTree />} />
+
+        {/* New category routes */}
+        <Route path="pages/categories/dp" element={<DPCategory />} />
+        <Route path="pages/categories/linked-list" element={<LinkedListCategory />} />
+        <Route path="pages/categories/sorting" element={<SortingCategory />} />
+        <Route path="pages/categories/graph" element={<GraphCategory />} />
+        <Route path="pages/categories/math" element={<MathCategory />} />
+        <Route path="pages/categories/binary-search" element={<BinarySearchCategory />} />
+        <Route path="pages/categories/hash-table" element={<HashTableCategory />} />
+        <Route path="pages/categories/stack-queue" element={<StackQueueCategory />} />
+        <Route path="pages/categories/two-pointers" element={<TwoPointersCategory />} />
+        <Route path="pages/categories/sliding-window" element={<SlidingWindowCategory />} />
+        <Route path="pages/categories/greedy" element={<GreedyCategory />} />
+        <Route path="pages/categories/statistics" element={<StatisticsCategory />} />
+
         <Route path={BubbleSortAnimationInfo.path} element={<BubbleSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={SelectionSortAnimationInfo.path} element={<SelectionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
         <Route path={InsertionSortAnimationInfo.path} element={<InsertionSortAnimation renderer={renderer} camera={camera} scene={createScene()} values={[6, 5, 4, 3, 2, 1]} />} />
@@ -405,6 +451,15 @@ const App = () => (
         <Route path={DeleteNodeInALinkedListInfo.path} element={<DeleteNodeInALinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={FindTheIndexOfTheFirstOccurrenceInAStringInfo.path} element={<FindTheIndexOfTheFirstOccurrenceInAString />} />
         <Route path={LongestCommonPrefixInfo.path} element={<LongestCommonPrefix />} />
+
+        <Route path="algorithms/statistics/sketches/hll" element={<HllPage />} />
+        <Route path="algorithms/statistics/sketches/theta" element={<ThetaSketchWelcomePage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/welcome" element={<ThetaSketchWelcomePage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/order-statistics" element={<OrderStatisticsPage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/kse" element={<KsePage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/kmv" element={<KmvPage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/set-operations" element={<SetOperationsPage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/theta-sketch" element={<ThetaSketchPage />} />
     </Routes>
 );
 

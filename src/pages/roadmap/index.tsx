@@ -1,15 +1,17 @@
 import * as React from 'react';
-import Footer from '../commons/Footer';
+import Footer, { footerHeight } from '../commons/Footer';
 import { Box, Grid, styled, ThemeProvider } from '@mui/material';
 import theme from '../../commons/theme';
 import { connections } from './layouts/category';
-import { CategoryCircle, Circle, drawArrow, drawCircle, isInsideCircle } from './layouts/circle';
+import { ContentCircle, drawArrow, drawCircle, Dragger } from '../commons/circle';
 import { getFixedTreeLayout } from './layouts/fixed-position-layout';
 import Divider from '@mui/material/Divider';
 import Algorithms from "../commons/List";
 import Slogan from './Slogan';
 import { useGames } from '../../games/commons/GamesContext';
 import Header from '../commons/Header';
+import { resetCanvas } from '../commons/canvas';
+import Category from '../../games/commons/segments/category';
 
 const updateSegments = <T,>(segments: T[], segment: T, selected: boolean): T[] => {
     const set = new Set(segments);
@@ -17,24 +19,8 @@ const updateSegments = <T,>(segments: T[], segment: T, selected: boolean): T[] =
     return Array.from(set);
 }
 
-const scaleCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D, width: number, height: number) => {
-    const scale = window.devicePixelRatio || 1;
-
-    canvas.width = width * scale;
-    canvas.height = height * scale;
-
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-
-    context.scale(scale, scale);
-}
-
-const clearCanvas = (canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) => {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[]) => {
-    const map = new Map(circles.map(circle => [circle.categoryType, circle]));
+const drawCircles = (context: CanvasRenderingContext2D, circles: ContentCircle<Category>[]) => {
+    const map = new Map(circles.map(circle => [circle.value, circle]));
 
     circles.forEach(categoryCircle => {
         drawCircle(context, categoryCircle);
@@ -51,17 +37,9 @@ const drawCircles = (context: CanvasRenderingContext2D, circles: CategoryCircle[
 
 let containerWidth = 0;
 let containerHeight = 0;
-const footerHeight = 64;
 const mainPadding = 10;
 
-let circles: CategoryCircle[] = [];
-let dragTarget: Circle | null = null;
-let isDragging = false;
-let dragStartTime: number | null = null;
-let dragStartX: number | null = null;
-let dragStartY: number | null = null;
-const clickThresholdTime = 200; // milliseconds
-const clickThresholdDistance = 5; // pixels
+let circles: ContentCircle<Category>[] = [];
 
 /**
  * To differentiate between a drag and a click, you can use a combination of mouse events and a time threshold. 
@@ -78,85 +56,32 @@ const Roadmap: React.FC<{ algoContainerRef: React.RefObject<HTMLDivElement> }> =
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (canvas && context) {
-            scaleCanvas(canvas, context, width, height);
-            clearCanvas(canvas, context);
+            resetCanvas(canvas, context, width, height);
             drawCircles(context, circles);
         }
     }
 
+    const handleClick = (circle: ContentCircle<Category>) => {
+        circle.selected = !circle.selected;
+        setCategories(items => updateSegments(items, circle.value, circle.selected));
+        drawCanvas(containerWidth, containerHeight);
+    }
+
+    const draggable = new Dragger<Category>(drawCanvas, handleClick, true);
+
     React.useEffect(() => {
-        function handleMouseDown(e: MouseEvent): void {
-            const { offsetX, offsetY } = e;
-            dragStartX = offsetX;
-            dragStartY = offsetY;
-            dragStartTime = new Date().getTime();
-            isDragging = false;
-            for (const circle of circles) {
-                if (isInsideCircle(offsetX, offsetY, circle)) {
-                    dragTarget = circle;
-                    break;
-                }
-            }
-        }
-
-        function handleMouseMove(e: MouseEvent): void {
-            if (!dragTarget) {
-                return;
-            }
-            const { offsetX, offsetY } = e;
-
-            const dx = Math.abs(offsetX - (dragStartX ?? 0));
-            const dy = Math.abs(offsetY - (dragStartY ?? 0));
-
-            if (dx > clickThresholdDistance || dy > clickThresholdDistance) {
-                isDragging = true;
-            }
-
-            if (isDragging) {
-                dragTarget.x = offsetX;
-                dragTarget.y = offsetY;
-                drawCanvas(containerWidth, containerHeight);
-            }
-        }
-
-        const handleClick = (circle: CategoryCircle) => {
-            circle.selected = !circle.selected;
-            setCategories(items => updateSegments(items, circle.categoryType, circle.selected));
-            drawCanvas(containerWidth, containerHeight);
-        }
-
-        function handleMouseUp(e: MouseEvent): void {
-            const { offsetX, offsetY } = e;
-            const endTime = new Date().getTime();
-
-            if (dragTarget && !isDragging && endTime - (dragStartTime ?? 0) < clickThresholdTime) {
-                for (const circle of circles) {
-                    if (isInsideCircle(offsetX, offsetY, circle)) {
-                        handleClick(circle);
-                        break;
-                    }
-                }
-            }
-
-            dragTarget = null;
-            isDragging = false;
-            dragStartTime = null;
-            dragStartX = null;
-            dragStartY = null;
-        }
-
         const canvas = canvasRef.current;
-        if (canvas) {
-            canvas.addEventListener('mousedown', (e) => handleMouseDown(e));
-            canvas.addEventListener('mousemove', (e) => handleMouseMove(e));
-            canvas.addEventListener('mouseup', (e) => handleMouseUp(e));
-        }
+
+        if (!canvas) return;
+
+        canvas.addEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
+        canvas.addEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
+        canvas.addEventListener('mouseup', (e) => draggable.handleMouseUp(e, circles));
+
         return () => {
-            if (canvas) {
-                canvas.removeEventListener('mousedown', (e) => handleMouseDown(e));
-                canvas.removeEventListener('mousemove', (e) => handleMouseMove(e));
-                canvas.removeEventListener('mouseup', (e) => handleMouseUp(e));
-            }
+            canvas.removeEventListener('mousedown', (e) => draggable.handleMouseDown(e, circles));
+            canvas.removeEventListener('mousemove', (e) => draggable.handleMouseMove(e, containerWidth, containerHeight));
+            canvas.removeEventListener('mouseup', (e) => draggable.handleMouseUp(e, circles));
         };
     }, [canvasRef, setCategories]);
 
@@ -218,10 +143,10 @@ const Main = () => {
     const algoContainerRef = React.useRef<HTMLDivElement>(null);
 
     const xs = 12;
-    const sm = 6;
-    const md = 4;
+    const sm = 12;
+    const md = 6;
     const lg = 6;
-    const xl = 3;
+    const xl = 4;
 
     return (
         <ThemeProvider theme={theme}>
@@ -233,10 +158,14 @@ const Main = () => {
                 <Header />
                 <Slogan />
                 <Divider />
-                <Grid container spacing={1} style={{
-                    paddingTop: mainPadding + "px",
-                    paddingRight: "20px",
-                }}>
+                <Grid
+                    container
+                    spacing={1}
+                    style={{
+                        paddingTop: mainPadding + "px",
+                        paddingRight: "20px",
+                    }}
+                >
                     <Grid item xs={12} md={12} lg={7} xl={6.5} >
                         <Roadmap algoContainerRef={algoContainerRef} />
                     </Grid>

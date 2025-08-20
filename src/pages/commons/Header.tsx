@@ -5,6 +5,7 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Logo from '../commons/Logo';
 import BusinessIcon from '@mui/icons-material/Business';
 import { green } from "@mui/material/colors";
+import LanIcon from '@mui/icons-material/Lan';
 import Search from "./Search";
 
 const Main = () => {
@@ -50,6 +51,24 @@ const Main = () => {
                             Games
                         </Typography>
                     </MaterialLink>
+
+                    <MaterialLink
+                        component={RouterLink}
+                        sx={{
+                            textDecoration: 'none',
+                            fontWeight: "normal",
+                            display: 'flex',
+                            alignItems: 'center',
+                            color: "#fff",
+                        }}
+                        to="/pages/categories"
+                    >
+                        <LanIcon sx={{ marginRight: 1 }} />
+                        <Typography variant="body1">
+                            Categories
+                        </Typography>
+                    </MaterialLink>
+
                     <Search />
                 </Stack>
 

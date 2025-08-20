@@ -1,13 +1,13 @@
 import CategoryType from "../../../games/commons/segments/category";
-import { Category, categoryMap } from "./category";
-import { CategoryCircle } from "./circle";
+import { categoryMap } from "./category";
+import { Content, ContentCircle } from "../../commons/circle";
 
 const buildCategoryCircle = (radius: number, categoryType: CategoryType, x: number, y: number) => {
-    const category: Category = categoryMap.get(categoryType)!;
+    const category: Content<CategoryType> = categoryMap.get(categoryType)!;
     return { ...category, x, y, radius };
 }
 
-export const getFixedTreeLayout = (canvasWidth: number, canvasHeight: number): CategoryCircle[] => {
+export const getFixedTreeLayout = (canvasWidth: number, canvasHeight: number): ContentCircle<CategoryType>[] => {
     const marginTop = 10;
     const radius: number = (canvasHeight - 2 * marginTop) / 14;
     const centerX = canvasWidth / 2;
@@ -31,7 +31,7 @@ export const getFixedTreeLayout = (canvasWidth: number, canvasHeight: number): C
     ];
 }
 
-export const getFixedcompactLayout = (canvasWidth: number, canvasHeight: number): CategoryCircle[] => {
+export const getFixedcompactLayout = (canvasWidth: number, canvasHeight: number): ContentCircle<CategoryType>[] => {
     const marginTop = 5;
     const radius: number = (canvasHeight - 2 * marginTop) / 14;
     const centerX = canvasWidth / 2;

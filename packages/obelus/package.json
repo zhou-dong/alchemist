@@ -1,0 +1,24 @@
+{
+    "name": "obelus",
+    "version": "0.0.10",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "scripts": {
+        "clean": "node -e \"if (require('fs').existsSync('dist')) require('fs').rmSync('dist', { recursive: true })\"",
+        "build": "npm run clean && tsc",
+        "release": "npm publish --access public"
+    },
+    "devDependencies": {
+        "typescript": "^5.8.3"
+    }
+}
