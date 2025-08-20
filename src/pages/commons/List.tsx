@@ -21,6 +21,7 @@ import {
 } from "@mui/icons-material";
 import { useGames } from "../../games/commons/GamesContext";
 import React from "react";
+import Category from "../../games/commons/segments/category";
 
 interface Props {
     xs: number;
@@ -35,95 +36,101 @@ interface AlgorithmProps extends Props {
     path: string;
     difficulty?: string;
     category?: string;
+    categories: string[];
 }
 
 // Function to get category icon and color based on title or path
-const getCategoryInfo = (title: string, path: string) => {
-    const lowerTitle = title.toLowerCase();
-    const lowerPath = path.toLowerCase();
-
-    if (lowerTitle.includes('sort') || lowerPath.includes('sort')) {
+const getCategoryInfo = (categories: string[]) => {
+    if (categories.includes(Category.Sorting)) {
         return {
             icon: <Sort sx={{ fontSize: 18, color: '#D4A017' }} />,
             color: '#FFF3E0',
             category: 'Sorting'
         };
     }
-    if (lowerTitle.includes('tree') || lowerPath.includes('tree') || lowerTitle.includes('bst') || lowerTitle.includes('binary')) {
+    if (categories.includes(Category.Tree)) {
         return {
             icon: <AccountTree sx={{ fontSize: 18, color: '#2E7D32' }} />,
             color: '#E8F5E8',
             category: 'Tree'
         };
     }
-    if (lowerTitle.includes('linked') || lowerTitle.includes('list') || lowerPath.includes('linked')) {
+    if (categories.includes(Category.LinkedList)) {
         return {
             icon: <DataObject sx={{ fontSize: 18, color: '#1976D2' }} />,
             color: '#E3F2FD',
             category: 'Linked List'
         };
     }
-    if (lowerTitle.includes('graph') || lowerPath.includes('graph') || lowerTitle.includes('island') || lowerTitle.includes('course')) {
+    if (categories.includes(Category.Graph)) {
         return {
             icon: <TrendingUp sx={{ fontSize: 18, color: '#388E3C' }} />,
             color: '#E8F5E8',
             category: 'Graph'
         };
     }
-    if (lowerTitle.includes('stack') || lowerTitle.includes('queue') || lowerPath.includes('stack') || lowerPath.includes('queue')) {
+    if (categories.includes(Category.Stack) || categories.includes(Category.Queue)) {
         return {
             icon: <Queue sx={{ fontSize: 18, color: '#7B1FA2' }} />,
             color: '#F3E5F5',
             category: 'Stack & Queue'
         };
     }
-    if (lowerTitle.includes('hash') || lowerTitle.includes('lru') || lowerTitle.includes('two sum') || lowerPath.includes('hash')) {
+    if (categories.includes(Category.HashTable)) {
         return {
             icon: <Storage sx={{ fontSize: 18, color: '#C2185B' }} />,
             color: '#FCE4EC',
             category: 'Hash Table'
         };
     }
-    if (lowerTitle.includes('binary search') || lowerTitle.includes('sqrt') || lowerPath.includes('binary')) {
+    if (categories.includes(Category.BinarySearch)) {
         return {
             icon: <Search sx={{ fontSize: 18, color: '#5E35B1' }} />,
             color: '#EDE7F6',
             category: 'Binary Search'
         };
     }
-    if (lowerTitle.includes('pointer') || lowerTitle.includes('window') || lowerPath.includes('pointer')) {
+    if (categories.includes(Category.TwoPointers)) {
         return {
             icon: <TouchApp sx={{ fontSize: 18, color: '#F57C00' }} />,
             color: '#FFF3E0',
             category: 'Two Pointers'
         };
     }
-    if (lowerTitle.includes('sliding') || lowerPath.includes('sliding')) {
+    if (categories.includes(Category.SlidingWindow)) {
         return {
             icon: <Window sx={{ fontSize: 18, color: '#388E3C' }} />,
             color: '#E8F5E8',
             category: 'Sliding Window'
         };
     }
-    if (lowerTitle.includes('math') || lowerTitle.includes('roman') || lowerTitle.includes('palindrome') || lowerTitle.includes('integer')) {
+    if (categories.includes(Category.Math)) {
         return {
             icon: <Calculate sx={{ fontSize: 18, color: '#D84315' }} />,
             color: '#FBE9E7',
             category: 'Math'
         };
     }
-    if (lowerTitle.includes('greedy') || lowerPath.includes('greedy')) {
+    if (categories.includes(Category.Greedy)) {
         return {
             icon: <Code sx={{ fontSize: 18, color: '#3949AB' }} />,
             color: '#E8EAF6',
             category: 'Greedy'
         };
     }
-    if (lowerTitle.includes('median') || lowerTitle.includes('kth') || lowerTitle.includes('top k') || lowerTitle.includes('frequency')) {
+    if (categories.includes(Category.Statistics)) {
         return {
             icon: <Psychology sx={{ fontSize: 18, color: '#E64A19' }} />,
             color: '#FBE9E7',
             category: 'Statistics'
+        };
+    }
+
+    if (categories.includes(Category.DynamicProgramming)) {
+        return {
+            icon: <Functions sx={{ fontSize: 18, color: '#D32F2F' }} />,
+            color: '#FFEBEE',
+            category: 'Dynamic Programming'
         };
     }
     // Default to Dynamic Programming for most other cases
@@ -157,8 +164,8 @@ const getDifficulty = (difficulty?: string) => {
     return difficultyMap[difficulty?.toLocaleLowerCase() as keyof typeof difficultyMap] || difficultyMap.medium;
 };
 
-const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty }: AlgorithmProps) => {
-    const categoryInfo = getCategoryInfo(title, path);
+const Algorithm = ({ title, path, xs, sm, md, lg, xl, difficulty, categories }: AlgorithmProps) => {
+    const categoryInfo = getCategoryInfo(categories);
     const difficultyInfo = getDifficulty(difficulty);
 
     return (
@@ -260,6 +267,7 @@ const Sorting = ({ xs, sm, md, lg, xl }: Props) => {
                     title={game.name}
                     path={game.path}
                     difficulty={game.difficulty}
+                    categories={game.categories}
                     xs={xs}
                     sm={sm}
                     md={md}

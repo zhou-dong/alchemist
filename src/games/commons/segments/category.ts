@@ -18,7 +18,8 @@ enum Category {
     UnionFind = "Union Find", // (Disjoint Set)
     BinarySearch = "Binary Search",
     Recursion = "Recursion",
-    LinkedList = "Linked List"
+    LinkedList = "Linked List",
+    Statistics = "Statistics"
 }
 
 export default Category;

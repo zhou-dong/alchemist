@@ -1,6 +1,6 @@
 {
   "name": "alchemist",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": true,
   "homepage": "https://alchemist-al.com",
   "dependencies": {
