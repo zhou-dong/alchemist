@@ -22,7 +22,7 @@
     "graphology-layout-noverlap": "^0.4.2",
     "graphology-types": "^0.24.7",
     "gsap": "^3.10.4",
-    "obelus": "^0.0.9",
+    "obelus": "^0.0.10",
     "obelus-gsap-player": "^0.0.3",
     "obelus-three-render": "^0.0.3",
     "react": "^18.1.0",
