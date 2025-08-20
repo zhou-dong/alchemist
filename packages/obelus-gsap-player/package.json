@@ -1,6 +1,6 @@
 {
   "name": "obelus-gsap-player",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "gsap": "^3.13.0",
-    "obelus": "file:../obelus"
+    "obelus": "^0.0.10"
   }
 }
