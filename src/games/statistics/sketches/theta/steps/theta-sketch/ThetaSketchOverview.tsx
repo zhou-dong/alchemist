@@ -42,10 +42,11 @@ export default function ThetaSketchOverview() {
                                         • Fixed K
                                     </Typography>
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                                        • Priority queue to keep K smallest hash values
-                                    </Typography>
-                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                                         • Full set operations (requires same K)
+                                    </Typography>
+
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • Priority queue to keep K smallest hash values
                                     </Typography>
 
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
@@ -74,10 +75,11 @@ export default function ThetaSketchOverview() {
                                         • Adaptive K
                                     </Typography>
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                                        • Keep all hash values &lt; θ in an array
-                                    </Typography>
-                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                                         • Full set operations (no need to have same K)
+                                    </Typography>
+
+                                    <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                                        • Keep all hash values &lt; θ in an array
                                     </Typography>
 
                                     <Typography variant="body1" sx={{ color: 'text.secondary' }}>
