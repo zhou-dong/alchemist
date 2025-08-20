@@ -276,7 +276,7 @@ function OrderStatisticsPageContent({
     return (
         <>
             {showStepper && <StartButton onStart={handleStart} />}
-            {showNextPageButton && <NextPageButton nextPagePath="/sketches/theta/kse" title="Go to KSE" />}
+            {showNextPageButton && <NextPageButton nextPagePath="/algorithms/statistics/sketches/theta/steps/kse" title="Go to KSE" />}
             {showPlayerButton && <PlayButton index={index} steps={steps} disabled={disabled} onClick={onClick} />}
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>

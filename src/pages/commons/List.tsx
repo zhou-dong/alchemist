@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Card, CardContent, CardActionArea, Grid, Typography, Box, Chip, IconButton } from "@mui/material";
+import { Card, CardContent, CardActionArea, Grid, Typography, Box, IconButton } from "@mui/material";
 import {
     Functions,
     AccountTree,
@@ -41,7 +41,7 @@ interface AlgorithmProps extends Props {
 const getCategoryInfo = (title: string, path: string) => {
     const lowerTitle = title.toLowerCase();
     const lowerPath = path.toLowerCase();
-    
+
     if (lowerTitle.includes('sort') || lowerPath.includes('sort')) {
         return {
             icon: <Sort sx={{ fontSize: 18, color: '#D4A017' }} />,

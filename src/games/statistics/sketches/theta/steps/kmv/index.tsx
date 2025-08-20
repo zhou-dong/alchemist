@@ -319,7 +319,7 @@ function ThetaSketchPageContent({
                 />
             </Container>
 
-            {showNextPageButton && <NextPageButton nextPagePath="/sketches/theta/set-operations" title="Go to Set Operations" />}
+            {showNextPageButton && <NextPageButton nextPagePath="/algorithms/statistics/sketches/theta/steps/set-operations" title="Go to Set Operations" />}
 
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>

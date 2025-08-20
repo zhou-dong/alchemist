@@ -279,6 +279,13 @@ import LongestCommonPrefixInfo from "./games/two-pointers/longest-common-prefix/
 import LongestCommonPrefix from "./games/two-pointers/longest-common-prefix";
 
 import { createRenderer, createCamera, createScene, onWindowResize } from "./games/sorting/_commons/three";
+import HllPage from './games/statistics/sketches/hll';
+import ThetaSketchPage from './games/statistics/sketches/theta/steps/theta-sketch';
+import OrderStatisticsPage from './games/statistics/sketches/theta/steps/order-statistics';
+import SetOperationsPage from './games/statistics/sketches/theta/steps/set-operations';
+import KmvPage from './games/statistics/sketches/theta/steps/kmv';
+import KsePage from './games/statistics/sketches/theta/steps/kse';
+import ThetaSketchWelcomePage from './games/statistics/sketches/theta/components/welcome/WelcomePage';
 
 const renderer = createRenderer();
 const camera = createCamera();
@@ -296,7 +303,7 @@ const App = () => (
         <Route path="pages/categories/tree" element={<CategoryTreeIntro />} />
         <Route path="pages/categories/tree/basics" element={<CategoryTreeBasics />} />
         <Route path="pages/categories/tree/challenges" element={<CategoryTree />} />
-        
+
         {/* New category routes */}
         <Route path="pages/categories/dp" element={<DPCategory />} />
         <Route path="pages/categories/linked-list" element={<LinkedListCategory />} />
@@ -444,6 +451,15 @@ const App = () => (
         <Route path={DeleteNodeInALinkedListInfo.path} element={<DeleteNodeInALinkedList renderer={renderer} camera={camera} scene={createScene()} />} />
         <Route path={FindTheIndexOfTheFirstOccurrenceInAStringInfo.path} element={<FindTheIndexOfTheFirstOccurrenceInAString />} />
         <Route path={LongestCommonPrefixInfo.path} element={<LongestCommonPrefix />} />
+
+        <Route path="algorithms/statistics/sketches/hll" element={<HllPage />} />
+        <Route path="algorithms/statistics/sketches/theta" element={<ThetaSketchWelcomePage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/welcome" element={<ThetaSketchWelcomePage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/order-statistics" element={<OrderStatisticsPage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/kse" element={<KsePage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/kmv" element={<KmvPage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/set-operations" element={<SetOperationsPage />} />
+        <Route path="algorithms/statistics/sketches/theta/steps/theta-sketch" element={<ThetaSketchPage />} />
     </Routes>
 );
 

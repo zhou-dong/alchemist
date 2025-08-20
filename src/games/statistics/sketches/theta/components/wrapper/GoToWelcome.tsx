@@ -16,7 +16,7 @@ export default function GoToWelcome() {
                     right: 24,
                     zIndex: 1300,
                 }}
-                onClick={() => navigate('/sketches/theta/welcome')}
+                onClick={() => navigate('/algorithms/statistics/sketches/theta/steps/welcome')}
             >
                 <HomeIcon sx={{ fontSize: 28 }} />
             </Fab>

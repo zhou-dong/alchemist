@@ -8,6 +8,13 @@ import Footer from '../../commons/Footer';
 const StatisticsCategory = () => {
     const statisticsProblems = [
         {
+            title: 'Theta Sketch',
+            description: 'A data structure that supports finding the median of a stream of integers',
+            path: '/algorithms/statistics/sketches/theta/steps/welcome',
+            difficulty: 'Medium',
+            concept: 'Theta Sketch'
+        },
+        {
             title: 'Find Median from Data Stream',
             description: 'Design a data structure that supports finding the median of a stream of integers',
             path: '/algorithms/find-median-from-data-stream',

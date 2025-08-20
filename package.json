@@ -23,8 +23,8 @@
     "graphology-types": "^0.24.7",
     "gsap": "^3.10.4",
     "obelus": "^0.0.10",
-    "obelus-gsap-player": "^0.0.3",
-    "obelus-three-render": "^0.0.3",
+    "obelus-gsap-player": "^0.0.4",
+    "obelus-three-render": "^0.0.4",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-draggable": "^4.4.6",
@@ -40,9 +40,9 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -65,8 +65,12 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
     "@types/react-syntax-highlighter": "^15.5.2",
     "@types/three": "^0.140.0",
     "gh-pages": "^4.0.0"
+  },
+  "overrides": {
+    "three": "^0.142.0"
   }
 }

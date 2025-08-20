@@ -1,9 +1,9 @@
 import * as THREE from "three";
 import { AxisProps } from "obelus-three-render";
 
-const lineStyle: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({ color: '#9C27B0' });
+export const lineStyle: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({ color: '#9C27B0' });
 
-const axisStyle: AxisProps = {
+export const axisStyle: AxisProps = {
     dotCount: 3,
     lineWidth: 1.5,
     lineMaterial: new THREE.LineBasicMaterial({ color: '#9C27B0' }),
@@ -11,18 +11,18 @@ const axisStyle: AxisProps = {
     dotRadius: 4
 }
 
-const textStyle: Partial<CSSStyleDeclaration> = {
+export const textStyle: Partial<CSSStyleDeclaration> = {
     color: '#4285F4',
     fontSize: '16px',
     fontWeight: 'normal',
     fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
 }
 
-const ringStyle: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: '#4285F4' });
+export const ringStyle: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: '#4285F4' });
 
-const circleStyle: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: '#4285F4' });
+export const circleStyle: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: '#4285F4' });
 
-export const theme = {
+export const obelusTheme = {
     lineStyle,
     axisStyle,
     textStyle,

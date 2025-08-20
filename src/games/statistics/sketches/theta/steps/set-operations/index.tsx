@@ -4,7 +4,6 @@ import { WrapperProvider } from '../../components/wrapper/WrapperProvider';
 import { clearScene, createDualRenderer, createOrthographicCamera } from "../../../../../../utils/threeUtils";
 import { animate, parallel } from 'obelus';
 import { axis, circle, DualScene, latex, line, render, text, type StepSceneThree } from 'obelus-three-render';
-import { defaultTheme } from 'obelus-three-render';
 import { AnimationController } from "../../../../../../utils/animation-controller";
 import { useThreeContainer } from "../../../../../../hooks/useThreeContainer";
 import { useThreeAutoResize } from "../../../../../../hooks/useThreeAutoResize";
@@ -13,12 +12,9 @@ import NextPageButton from '../../components/NextPageButton';
 import StartButton from '../../components/StartButton';
 import KmvConfigDialogComponent from './KmvConfigDialog';
 import { Fab, Tooltip } from '@mui/material';
-import * as Settings from '@mui/icons-material/Settings';
+import SettingsIcon from '@mui/icons-material/Settings';
 import PlayButton from '../../components/PlayButton';
-
-const SettingsIcon = Settings.default as unknown as React.ElementType;
-
-const { axisStyle, lineStyle, textStyle } = defaultTheme;
+import { axisStyle, lineStyle, textStyle } from '../../../../../../theme/obelusTheme';
 
 const renderer = createDualRenderer();
 const camera = createOrthographicCamera();
@@ -190,7 +186,7 @@ function SetOperationsPageContent({
         return () => {
             animationController.stopAnimation();
         };
-    }, []);
+    }, [setShowStepper, setShowNextPageButton]);
 
     const buildScene = (): StepSceneThree => {
         animationController.stopAnimation();
@@ -237,7 +233,7 @@ function SetOperationsPageContent({
 
             hashesA
                 .filter((hash) => hash.value <= kthHashA.value)
-                .map((hash, index) => {
+                .forEach((hash, index) => {
                     const { location } = hash;
                     const style = new THREE.MeshBasicMaterial({ color: green });
                     result.push(circle(`union_a_circle_${index}`, radius, { x: location, y: height * 2, z: 1 }, style as any));
@@ -245,7 +241,7 @@ function SetOperationsPageContent({
 
             hashesB
                 .filter((hash) => hash.value <= kthHashB.value)
-                .map((hash, index) => {
+                .forEach((hash, index) => {
                     const { location } = hash;
                     const style = new THREE.MeshBasicMaterial({ color: blue });
                     result.push(circle(`union_b_circle_${index}`, radius, { x: location, y: height, z: 1 }, style as any));
@@ -277,20 +273,20 @@ function SetOperationsPageContent({
             const result: any[] = [];
 
             hashesAWithSmallerKth
-                .map((hash, index) => {
+                .forEach((hash, index) => {
                     const { location } = hash;
                     const style = new THREE.MeshBasicMaterial({ color: green });
                     result.push(circle(`intersection_a_circle_${index}`, radius, { x: location, y: height * 2, z: 1 }, style as any));
                 });
 
             hashesBWithSmallerKth
-                .map((hash, index) => {
+                .forEach((hash, index) => {
                     const { location } = hash;
                     const style = new THREE.MeshBasicMaterial({ color: blue });
                     result.push(circle(`intersection_b_circle_${index}`, radius, { x: location, y: height, z: 1 }, style as any));
                 });
 
-            intersections.map((hash, index) => {
+            intersections.forEach((hash, index) => {
                 const { location } = hash;
                 const style = new THREE.MeshBasicMaterial({ color: yellow });
                 result.push(circle(`intersection_theta_${index}`, radius, { x: location, y: -height - window.innerHeight, z: 1 }, style as any));
@@ -320,24 +316,25 @@ function SetOperationsPageContent({
             const result: any[] = [];
 
             hashesAWithSmallerKth
-                .map((hash, index) => {
+                .forEach((hash, index) => {
                     const { location } = hash;
                     const style = new THREE.MeshBasicMaterial({ color: green });
                     result.push(circle(`difference_a_circle_${index}`, radius, { x: location, y: height * 2, z: 1 }, style as any));
                 });
 
             hashesBWithSmallerKth
-                .map((hash, index) => {
+                .forEach((hash, index) => {
                     const { location } = hash;
                     const style = new THREE.MeshBasicMaterial({ color: blue });
                     result.push(circle(`difference_b_circle_${index}`, radius, { x: location, y: height, z: 1 }, style as any));
                 });
 
-            differences.map((hash, index) => {
-                const { location } = hash;
-                const style = new THREE.MeshBasicMaterial({ color: yellow });
-                result.push(circle(`difference_theta_${index}`, radius, { x: location, y: -height * 2 - window.innerHeight, z: 1 }, style as any));
-            });
+            differences
+                .forEach((hash, index) => {
+                    const { location } = hash;
+                    const style = new THREE.MeshBasicMaterial({ color: yellow });
+                    result.push(circle(`difference_theta_${index}`, radius, { x: location, y: -height * 2 - window.innerHeight, z: 1 }, style as any));
+                });
 
             return result;
         }
@@ -494,7 +491,7 @@ function SetOperationsPageContent({
             <KmvSettingsToggle />
             <KmvConfigDialog />
             {showStepper && <StartButton onStart={handleStart} />}
-            {showNextPageButton && <NextPageButton nextPagePath="/sketches/theta/theta-sketch" title="Go to Theta Sketch" />}
+            {showNextPageButton && <NextPageButton nextPagePath="/algorithms/statistics/sketches/theta/steps/theta-sketch" title="Go to Theta Sketch" />}
             {showPlayerButton && <PlayButton index={index} steps={steps} disabled={disabled} onClick={onClick} />}
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>

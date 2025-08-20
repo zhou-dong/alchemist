@@ -156,7 +156,7 @@ function KmvPageContent(
     return (
         <>
             {showStepper && <StartButton onStart={handleStart} />}
-            {showNextPageButton && <NextPageButton nextPagePath="/sketches/theta/kmv" title="Go to KMV" />}
+            {showNextPageButton && <NextPageButton nextPagePath="/algorithms/statistics/sketches/theta/steps/kmv" title="Go to KMV" />}
             {showPlayerButton && <PlayButton index={index} steps={steps} disabled={disabled} onClick={onClick} />}
             <div ref={containerRef} style={{ width: '100vw', height: '100vh', }} />
         </>

@@ -55,7 +55,7 @@ export default function WelcomePage() {
                         borderRadius: 3,
                         boxShadow: 3,
                     }}
-                    onClick={() => navigate('/sketches/theta/order-statistics')}
+                    onClick={() => navigate('/algorithms/statistics/sketches/theta/steps/order-statistics')}
                 >
                     Dive In
                 </Button>

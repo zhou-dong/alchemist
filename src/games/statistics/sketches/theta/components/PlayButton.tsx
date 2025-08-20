@@ -1,11 +1,10 @@
 import React from 'react';
 import * as Mouse from '@mui/icons-material/Mouse';
 import * as Done from '@mui/icons-material/Done';
+import { Button } from '@mui/material';
 
 const MouseIcon = Mouse.default as unknown as React.ElementType;
 const DoneIcon = Done.default as unknown as React.ElementType;
-
-import { Button } from '@mui/material';
 
 type PlayButtonProps = {
     index: number;
