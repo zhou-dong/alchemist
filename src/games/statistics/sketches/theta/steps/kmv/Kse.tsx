@@ -44,7 +44,7 @@ export default function KthSmallestEstimation() {
                 </Typography>
                 <Typography variant="body1" sx={{ lineHeight: 1.6 }}>
                     With a uniform hash function and sufficiently large N, we can assume the hash values are evenly distributed in the interval (0,1).
-                    Based on this assumption, (K/θ + 1) provides an estimation of the total distinct count (N).
+                    Based on this assumption, (K/θ - 1) provides an estimation of the total distinct count (N).
                 </Typography>
             </Box>
         </Stack>
