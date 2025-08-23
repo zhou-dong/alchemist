@@ -2,12 +2,13 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import * as BarChart from '@mui/icons-material/BarChart';
 import * as Psychology from '@mui/icons-material/Psychology';
 import { useNavigate } from 'react-router-dom';
+import { ColorModeProvider } from '../../../../../../theme/ColorModeContext';
+import ThemeToggleFab from '../../../../../../theme/ThemeToggleFab';
 
 const BarChartIcon = BarChart.default as unknown as React.ElementType;
 const PsychologyIcon = Psychology.default as unknown as React.ElementType;
 
-export default function WelcomePage() {
-
+const WelcomePageContent = () => {
     const navigate = useNavigate();
 
     return (
@@ -61,5 +62,15 @@ export default function WelcomePage() {
                 </Button>
             </Stack>
         </Box>
+    );
+}
+
+
+export default function WelcomePage() {
+    return (
+        <ColorModeProvider>
+            <WelcomePageContent />
+            <ThemeToggleFab />
+        </ColorModeProvider>
     );
 }
