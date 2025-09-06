@@ -1,8 +1,8 @@
-import { Box, Button, Card, Grid, ThemeProvider, Typography } from "@mui/material";
-import { grey } from '@mui/material/colors';
+import { Box, Button, Card, Grid, ThemeProvider, Typography, Container } from "@mui/material";
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
 import Footer, { footerHeight } from "../../../commons/Footer";
@@ -39,11 +39,26 @@ const Tree = () => {
 
         refreshCanvas();
 
-        const resizeObserver = new ResizeObserver(() => refreshCanvas());
+        let resizeTimeout: NodeJS.Timeout;
+        const resizeObserver = new ResizeObserver(() => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                try {
+                    refreshCanvas();
+                } catch (error) {
+                    // Ignore ResizeObserver loop errors
+                    if (error instanceof Error && error.message.includes('ResizeObserver loop')) {
+                        return;
+                    }
+                    throw error;
+                }
+            }, 16); // ~60fps
+        });
 
         resizeObserver.observe(container);
 
         return () => {
+            clearTimeout(resizeTimeout);
             resizeObserver.unobserve(container);
         };
 
@@ -69,56 +84,170 @@ const Introduction = () => {
     const navigate = useNavigate();
 
     return (
-        <Box
-            sx={{
-                mx: 'auto',
-                my: 6,
-                p: 4,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-            }}
-        >
-            <Typography variant="h3" align="center" gutterBottom>
-                🌳 Tree
-            </Typography>
-
-            <Card
-                variant="outlined"
+        <Container maxWidth="lg">
+            <Box
                 sx={{
-                    p: 3,
-                    border: "0px",
-                    backgroundColor: grey[100],
+                    display: "flex",
+                    flexDirection: "column",
+                    py: 8,
+                    px: 2,
                 }}
             >
-                <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
-                    <span style={{ color: 'green' }}>A tree is a special data structure used to represent hierarchical relationships.</span>
-                    &nbsp;At the top, there’s a single starting point called the
-                    <span style={{ color: 'green' }}> root</span>, and from there, branches grow to form <span style={{ color: 'green' }}>nodes</span>.
-                </Typography>
+                {/* Airbnb-style header */}
+                <Box sx={{ textAlign: 'left', mb: 6 }}>
+                    <Typography
+                        variant="h2"
+                        sx={{
+                            color: '#222222',
+                            fontWeight: 600,
+                            fontSize: { xs: '2.5rem', md: '3.5rem' },
+                            lineHeight: 1.1,
+                            mb: 2,
+                            letterSpacing: '-0.02em'
+                        }}
+                    >
+                        🌳 Tree Data Structures
+                    </Typography>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            color: '#717171',
+                            fontWeight: 400,
+                            fontSize: { xs: '1.1rem', md: '1.25rem' },
+                            lineHeight: 1.4,
+                            maxWidth: '600px'
+                        }}
+                    >
+                        Master hierarchical data organization through interactive learning and hands-on practice.
+                    </Typography>
+                </Box>
 
-                <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
-                    Each <span style={{ color: 'green' }}>node</span> can have <span style={{ color: 'green' }}>child nodes</span>, and the connections between them are called
-                    <span style={{ color: 'green' }}> edges</span>. Nodes with no children are called <span style={{ color: 'green' }}>leaf nodes</span>.
-                </Typography>
+                {/* Airbnb-style content cards */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, mb: 6 }}>
+                    <Card
+                        sx={{
+                            p: 0,
+                            borderRadius: 3,
+                            backgroundColor: 'white',
+                            border: 'none',
+                            boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        <Box sx={{ p: 5 }}>
+                            <Typography
+                                variant="h4"
+                                sx={{
+                                    color: '#222222',
+                                    fontWeight: 600,
+                                    mb: 4,
+                                    fontSize: '1.5rem'
+                                }}
+                            >
+                                What is a Tree?
+                            </Typography>
 
-                <Typography align="center" variant="body1" fontSize={22} sx={{ marginBottom: "20px" }} gutterBottom>
-                    <span style={{ color: 'green' }}>A tree has no cycles</span> — you can never go back to a node by following the edges.
-                    This makes it a kind of <span style={{ color: 'green' }}>directed acyclic graph (DAG)</span>, where each node flows in one direction, from parent to children.
-                </Typography>
-            </Card>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        fontSize: '1.1rem',
+                                        lineHeight: 1.6,
+                                        color: '#222222',
+                                        fontWeight: 400
+                                    }}
+                                >
+                                    A <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>tree</Box> is a special data structure used to represent hierarchical relationships.
+                                    At the top, there's a single starting point called the <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>root</Box>,
+                                    and from there, branches grow to form <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>nodes</Box>.
+                                </Typography>
 
-            <Button
-                startIcon={<SportsEsportsIcon />}
-                sx={{ color: "#fff" }}
-                size="large"
-                variant="contained"
-                onClick={() => navigate("/pages/categories/tree/basics")}
-            >
-                Next
-            </Button>
-        </Box>
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        fontSize: '1.1rem',
+                                        lineHeight: 1.6,
+                                        color: '#222222',
+                                        fontWeight: 400
+                                    }}
+                                >
+                                    Each <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>node</Box> can have <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>child nodes</Box>,
+                                    and the connections between them are called <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>edges</Box>.
+                                    Nodes with no children are called <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>leaf nodes</Box>.
+                                </Typography>
+
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        fontSize: '1.1rem',
+                                        lineHeight: 1.6,
+                                        color: '#222222',
+                                        fontWeight: 400
+                                    }}
+                                >
+                                    A tree has <Box component="span" sx={{ fontWeight: 600, color: '#222222' }}>no cycles</Box> — you can never go back to a node by following the edges.
+                                    This makes it a kind of <Box component="span" sx={{ fontWeight: 600, color: '#222222' }}>directed acyclic graph (DAG)</Box>,
+                                    where each node flows in one direction, from parent to children.
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Card>
+                </Box>
+
+                {/* Airbnb-style action buttons */}
+                <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+                    <Button
+                        startIcon={<SportsEsportsIcon />}
+                        size="large"
+                        variant="contained"
+                        onClick={() => navigate("/pages/categories/tree/basics")}
+                        sx={{
+                            backgroundColor: '#4CAF50',
+                            color: 'white',
+                            px: 4,
+                            py: 2,
+                            borderRadius: 2,
+                            fontSize: '1rem',
+                            fontWeight: 600,
+                            textTransform: 'none',
+                            boxShadow: 'none',
+                            '&:hover': {
+                                backgroundColor: '#45A049',
+                                boxShadow: '0 4px 12px rgba(76, 175, 80, 0.4)',
+                            },
+                            transition: 'all 0.2s ease',
+                        }}
+                    >
+                        Learn Basics
+                    </Button>
+                    <Button
+                        startIcon={<RocketLaunchIcon />}
+                        size="large"
+                        variant="outlined"
+                        onClick={() => navigate("/pages/categories/tree/challenges")}
+                        sx={{
+                            borderColor: '#222222',
+                            color: '#222222',
+                            px: 4,
+                            py: 2,
+                            borderRadius: 2,
+                            fontSize: '1rem',
+                            fontWeight: 600,
+                            textTransform: 'none',
+                            borderWidth: '1px',
+                            '&:hover': {
+                                backgroundColor: '#222222',
+                                color: 'white',
+                                borderColor: '#222222',
+                            },
+                            transition: 'all 0.2s ease',
+                        }}
+                    >
+                        Jump to Challenges
+                    </Button>
+                </Box>
+            </Box>
+        </Container>
     );
 };
 
@@ -127,6 +256,7 @@ const Main = () => (
         container
         sx={{
             flex: 1,
+            backgroundColor: '#FFFFFF',
         }}
     >
         <Grid
@@ -138,7 +268,8 @@ const Main = () => (
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                backgroundColor: grey[100],
+                backgroundColor: '#FFFFFF',
+                borderRight: { md: '1px solid #DDDDDD' },
             }}
         >
             <Introduction />
@@ -147,6 +278,10 @@ const Main = () => (
             item
             xs={12}
             md={6}
+            sx={{
+                backgroundColor: '#F7F7F7',
+                position: 'relative',
+            }}
         >
             <Tree />
         </Grid>

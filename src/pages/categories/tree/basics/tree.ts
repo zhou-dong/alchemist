@@ -1,4 +1,7 @@
 import { ContentCircle, drawArrow, drawCircle } from "../../../commons/circle";
+import { resetCanvas } from "../../../commons/canvas";
+import { footerHeight } from "../../../commons/Footer";
+import React from "react";
 
 interface Node extends ContentCircle<string> { }
 
@@ -91,4 +94,22 @@ export const drawTreeBasics = (context: CanvasRenderingContext2D) => {
             drawArrow(context, node, right);
         }
     });
+}
+
+export const refreshCanvas = (
+    containerRef: React.RefObject<HTMLDivElement>,
+    canvasRef: React.RefObject<HTMLCanvasElement>,
+): void => {
+    const container = containerRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+
+    if (!container || !canvas || !context) return;
+
+    const { width, top } = container.getBoundingClientRect();
+    const height = window.innerHeight - top - footerHeight;
+
+    setBasicTreePosition(width, height);
+    resetCanvas(canvas, context, width, height);
+    drawTreeBasics(context);
 }

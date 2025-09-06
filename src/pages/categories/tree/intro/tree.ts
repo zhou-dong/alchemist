@@ -32,7 +32,7 @@ tree.forEach((node) => {
 export const setBasicTreePosition = (width: number, height: number) => {
     const r1 = height / 16;
     const r2 = width / 16;
-    const radius = Math.min(r1, r2);
+    const radius = Math.max(10, Math.min(r1, r2)); // Ensure minimum radius of 10px
 
     const adjustX: number = width / 2;
     const adjustY: number = height / 2 - 4 * radius;
