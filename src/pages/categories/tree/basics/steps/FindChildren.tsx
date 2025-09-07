@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { StepProps, Step } from "./types";
-import { Basics } from "./components";
 import { TreeVisualization } from "./TreeVisualization";
 import { StepsIndicator } from "./StepsIndicator";
 import { treeNodes } from "../tree";
@@ -35,7 +34,7 @@ const StyledButton = styled(ToggleButton)({
     transition: 'all 0.2s ease',
 });
 
-const FindChildren = ({ containerRef, canvasRef, setStep }: StepProps) => {
+const FindChildren = ({ containerRef, canvasRef, setStep, showStepsIndicator = true }: StepProps) => {
     const [selectedNode, setSelectedNode] = React.useState<number | null>(null);
     const [selectedChildren, setSelectedChildren] = React.useState<number[]>([]);
     const [correctChildren, setCorrectChildren] = React.useState<number[]>([]);
@@ -83,8 +82,7 @@ const FindChildren = ({ containerRef, canvasRef, setStep }: StepProps) => {
     return (
         <Box>
             <Stack spacing={6}>
-                <Basics currentStep={Step.FIND_CHILDREN} />
-                <StepsIndicator currentStep={Step.FIND_CHILDREN} />
+                {showStepsIndicator && <StepsIndicator currentStep={Step.FIND_CHILDREN} />}
 
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>

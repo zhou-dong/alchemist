@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { StepProps, Step } from "./types";
-import { Basics } from "./components";
 import { TreeVisualization } from "./TreeVisualization";
 import { StepsIndicator } from "./StepsIndicator";
 import { treeNodes, refreshCanvas } from "../tree";
@@ -35,7 +34,7 @@ const StyledButton = styled(ToggleButton)({
     transition: 'all 0.2s ease',
 });
 
-const FindRoot = ({ containerRef, canvasRef, setStep }: StepProps) => {
+const FindRoot = ({ containerRef, canvasRef, setStep, showStepsIndicator = true }: StepProps) => {
     const delay = 2000;
 
     const [rootIndicator, setRootIndicator] = React.useState<string>();
@@ -60,7 +59,7 @@ const FindRoot = ({ containerRef, canvasRef, setStep }: StepProps) => {
         }
         setClickedNodeIndex(nodeIndex);
         setErrorIndicator(undefined);
-        
+
         if (nodeValue === "root") {
             setRootIndicator(nodeValue);
             setShowSuccess(true);
@@ -90,8 +89,9 @@ const FindRoot = ({ containerRef, canvasRef, setStep }: StepProps) => {
     return (
         <Box>
             <Stack spacing={6}>
-                <Basics currentStep={Step.FIND_ROOT} />
-                <StepsIndicator currentStep={Step.FIND_ROOT} />
+
+                {showStepsIndicator && <StepsIndicator currentStep={Step.FIND_ROOT} />}
+
 
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
@@ -208,7 +208,7 @@ const FindRoot = ({ containerRef, canvasRef, setStep }: StepProps) => {
                             >
                                 Interactive Tree
                             </Typography>
-                            
+
                             <Typography
                                 variant="body2"
                                 sx={{

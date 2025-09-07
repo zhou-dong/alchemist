@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Stepper, Step, StepLabel } from "@mui/material";
-import { Step as StepEnum, stepNames, stepNumber, totalSteps } from "./types";
+import { Step as StepEnum, stepNames, stepNumber } from "./types";
 
 interface StepsIndicatorProps {
     currentStep: StepEnum;

@@ -1,14 +1,12 @@
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
-import { Box, Grid, Container, Button } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { grey } from '@mui/material/colors';
 import theme from "../../../../commons/theme";
 import Footer, { footerHeight } from "../../../commons/Footer";
 import Header from "../../../commons/Header";
 import { drawTreeBasics, setBasicTreePosition } from "./tree";
 import { resetCanvas } from "../../../commons/canvas";
-import { useNavigate } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
     FindRoot,
     FindLeafs,
@@ -19,8 +17,9 @@ import {
     InorderTraversal,
     PostorderTraversal,
     Step,
-    StepProps
+    StepsIndicatorFab
 } from "./steps";
+import { BackToMainFab } from "./steps/BackToMainFab";
 
 function refreshCanvas(
     containerRef: React.RefObject<HTMLDivElement>,
@@ -46,41 +45,24 @@ const Game: React.FC<{
     canvasRef: React.RefObject<HTMLCanvasElement>,
     step: Step,
     setStep: React.Dispatch<React.SetStateAction<Step>>,
+    showStepsIndicator: boolean,
 }> = ({
     containerRef,
     canvasRef,
     step,
-    setStep
+    setStep,
+    showStepsIndicator
 }) => {
-        const navigate = useNavigate();
         return (
             <>
-                {step === Step.FIND_ROOT && <FindRoot containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
-                {step === Step.FIND_LEAFS && <FindLeafs containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
-                {step === Step.FIND_PARENT && <FindParent containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
-                {step === Step.FIND_CHILDREN && <FindChildren containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
-                {step === Step.TREE_HEIGHT && <TreeHeight containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
-                {step === Step.PREORDER_TRAVERSAL && <PreorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
-                {step === Step.INORDER_TRAVERSAL && <InorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
-                {step === Step.POSTORDER_TRAVERSAL && <PostorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} />}
-
-                <Container maxWidth="lg" sx={{ marginTop: 4 }}>
-                    <Button
-                        startIcon={<ArrowBackIcon />}
-                        onClick={() => navigate("/pages/categories/tree")}
-                        sx={{
-                            color: '#717171',
-                            textTransform: 'none',
-                            fontWeight: 600,
-                            mb: 3,
-                            '&:hover': {
-                                backgroundColor: '#F7F7F7',
-                            },
-                        }}
-                    >
-                        Back to Tree
-                    </Button>
-                </Container>
+                {step === Step.FIND_ROOT && <FindRoot containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} showStepsIndicator={showStepsIndicator} />}
+                {step === Step.FIND_LEAFS && <FindLeafs containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} showStepsIndicator={showStepsIndicator} />}
+                {step === Step.FIND_PARENT && <FindParent containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} showStepsIndicator={showStepsIndicator} />}
+                {step === Step.FIND_CHILDREN && <FindChildren containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} showStepsIndicator={showStepsIndicator} />}
+                {step === Step.TREE_HEIGHT && <TreeHeight containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} showStepsIndicator={showStepsIndicator} />}
+                {step === Step.PREORDER_TRAVERSAL && <PreorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} showStepsIndicator={showStepsIndicator} />}
+                {step === Step.INORDER_TRAVERSAL && <InorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} showStepsIndicator={showStepsIndicator} />}
+                {step === Step.POSTORDER_TRAVERSAL && <PostorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} showStepsIndicator={showStepsIndicator} />}
             </>
         );
     }
@@ -139,11 +121,29 @@ const Main = () => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
     const [step, setStep] = React.useState<Step>(Step.FIND_ROOT);
+    const [showStepsIndicator, setShowStepsIndicator] = React.useState(true);
+
+    const toggleStepsIndicator = () => {
+        setShowStepsIndicator(!showStepsIndicator);
+    };
 
     return (
-        <Container maxWidth="xl" sx={{ marginTop: 4 }}>
-            <Game containerRef={containerRef} canvasRef={canvasRef} step={step} setStep={setStep} />
-        </Container>
+        <>
+            <Container maxWidth="xl" sx={{ marginTop: 4 }}>
+                <Game 
+                    containerRef={containerRef} 
+                    canvasRef={canvasRef} 
+                    step={step} 
+                    setStep={setStep}
+                    showStepsIndicator={showStepsIndicator}
+                />
+            </Container>
+            <StepsIndicatorFab 
+                showStepsIndicator={showStepsIndicator}
+                onToggle={toggleStepsIndicator}
+            />
+            <BackToMainFab />
+        </>
     );
 };
 

@@ -4,6 +4,7 @@ export interface StepProps {
     containerRef: React.RefObject<HTMLDivElement>;
     canvasRef: React.RefObject<HTMLCanvasElement>;
     setStep: React.Dispatch<React.SetStateAction<Step>>;
+    showStepsIndicator?: boolean;
 }
 
 export enum Step {

@@ -3,7 +3,6 @@ import { Box, Card, Stack, Typography, ToggleButton, Fade, Button, Grid } from "
 import { styled } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { StepProps, Step } from "./types";
-import { Basics } from "./components";
 import { TreeVisualization } from "./TreeVisualization";
 import { StepsIndicator } from "./StepsIndicator";
 import { treeNodes } from "../tree";
@@ -34,7 +33,7 @@ const StyledButton = styled(ToggleButton)({
     transition: 'all 0.2s ease',
 });
 
-const PostorderTraversal = ({ containerRef, canvasRef, setStep }: StepProps) => {
+const PostorderTraversal = ({ containerRef, canvasRef, setStep, showStepsIndicator = true }: StepProps) => {
     const [selectedOrder, setSelectedOrder] = React.useState<number[]>([]);
     const [showSuccess, setShowSuccess] = React.useState(false);
     const [completed, setCompleted] = React.useState(false);
@@ -75,8 +74,7 @@ const PostorderTraversal = ({ containerRef, canvasRef, setStep }: StepProps) => 
     return (
         <Box>
             <Stack spacing={6}>
-                <Basics currentStep={Step.POSTORDER_TRAVERSAL} />
-                <StepsIndicator currentStep={Step.POSTORDER_TRAVERSAL} />
+                {showStepsIndicator && <StepsIndicator currentStep={Step.POSTORDER_TRAVERSAL} />}
 
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
