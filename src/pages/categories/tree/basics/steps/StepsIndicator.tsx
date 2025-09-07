@@ -1,6 +1,15 @@
 import React from "react";
-import { Box, Stepper, Step, StepLabel } from "@mui/material";
+import { Stepper, Step, StepLabel, styled } from "@mui/material";
 import { Step as StepEnum, stepNames, stepNumber } from "./types";
+
+const StepsPosition = styled('div')({
+    position: 'fixed',
+    top: 80,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    zIndex: 1100,
+    width: '100%',
+});
 
 interface StepsIndicatorProps {
     currentStep: StepEnum;
@@ -10,7 +19,7 @@ export const StepsIndicator: React.FC<StepsIndicatorProps> = ({ currentStep }) =
     const currentStepNumber = stepNumber(currentStep);
 
     return (
-        <Box sx={{ mb: 4 }}>
+        <StepsPosition>
             <Stepper
                 activeStep={currentStepNumber - 1}
                 alternativeLabel
@@ -52,6 +61,9 @@ export const StepsIndicator: React.FC<StepsIndicatorProps> = ({ currentStep }) =
                         height: '3.5rem',
                         '&.Mui-active': {
                             color: '#4CAF50',
+                            '& .MuiStepIcon-text': {
+                                fill: 'white',
+                            }
                         },
                         '&.Mui-completed': {
                             color: '#4CAF50',
@@ -68,6 +80,6 @@ export const StepsIndicator: React.FC<StepsIndicatorProps> = ({ currentStep }) =
                 ))}
             </Stepper>
 
-        </Box>
+        </StepsPosition>
     );
 };
