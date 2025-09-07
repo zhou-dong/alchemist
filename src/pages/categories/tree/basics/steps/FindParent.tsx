@@ -9,29 +9,35 @@ import { StepsIndicator } from "./StepsIndicator";
 import { treeNodes } from "../tree";
 
 const StyledButton = styled(ToggleButton)({
-    width: "60px",
-    height: "60px",
-    minWidth: "60px",
-    minHeight: "60px",
+    width: "70px",
+    height: "70px",
+    minWidth: "70px",
+    minHeight: "70px",
     borderRadius: "50%",
     textTransform: 'none',
-    border: '2px solid #E0E0E0',
+    border: '3px solid #E0E0E0',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     '&:hover, &.Mui-focusVisible': {
         color: "#000",
         borderColor: '#4CAF50',
+        boxShadow: '0 6px 12px rgba(76, 175, 80, 0.3)',
+        transform: 'translateY(-2px)',
     },
     "&.Mui-selected": {
         backgroundColor: '#4CAF50',
         color: "#fff",
         borderColor: '#4CAF50',
+        boxShadow: '0 6px 12px rgba(76, 175, 80, 0.4)',
         '&:hover, &.Mui-focusVisible': {
             backgroundColor: '#45A049',
             borderColor: '#45A049',
+            transform: 'translateY(-2px)',
         },
     },
-    fontSize: "18px",
-    fontWeight: 600,
-    transition: 'all 0.2s ease',
+    fontSize: "20px",
+    fontWeight: 700,
+    transition: 'all 0.3s ease',
+    cursor: 'pointer',
 });
 
 const FindParent = ({ containerRef, canvasRef, setStep, showStepsIndicator = true }: StepProps) => {
@@ -80,44 +86,91 @@ const FindParent = ({ containerRef, canvasRef, setStep, showStepsIndicator = tru
             <Stack spacing={6}>
                 {showStepsIndicator && <StepsIndicator currentStep={Step.FIND_PARENT} />}
 
-                <Grid container spacing={4}>
+                <Box sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                        <Box sx={{
+                            backgroundColor: '#4CAF50',
+                            color: 'white',
+                            borderRadius: '50%',
+                            width: 40,
+                            height: 40,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '1.2rem',
+                            fontWeight: 600
+                        }}>
+                            3
+                        </Box>
+                        <Typography
+                            variant="h2"
+                            sx={{
+                                color: '#222222',
+                                fontWeight: 600,
+                                fontSize: { xs: '2.5rem', md: '3rem' },
+                                lineHeight: 1.1,
+                                letterSpacing: '-0.02em'
+                            }}
+                        >
+                            👨‍👩‍👧‍👦 Find the Parent Node
+                        </Typography>
+                    </Box>
+                    
+                    <Box sx={{
+                        backgroundColor: '#F0F8FF',
+                        border: '2px solid #4CAF50',
+                        borderRadius: 2,
+                        p: 3,
+                        mb: 4
+                    }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                color: '#4CAF50',
+                                fontWeight: 600,
+                                mb: 2,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1
+                            }}
+                        >
+                            🎮 Mission Objective
+                        </Typography>
+                        <Typography
+                            variant="body1"
+                            sx={{
+                                color: '#222222',
+                                fontWeight: 400,
+                                fontSize: '1rem',
+                                lineHeight: 1.6
+                            }}
+                        >
+                            A <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>parent node</Box> is the direct ancestor of another node.
+                            First select a node, then find its parent!
+                        </Typography>
+                    </Box>
+                </Box>
+
+                <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
                         <Card
                             sx={{
-                                p: 4,
+                                p: 0,
                                 borderRadius: 3,
                                 backgroundColor: 'white',
                                 border: 'none',
                                 boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
                                 overflow: 'hidden',
-                                height: '100%'
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: '100%',
+                                textAlign: 'left',
                             }}
                         >
-                    <Box sx={{ textAlign: 'center', mb: 4 }}>
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                color: '#222222',
-                                fontWeight: 600,
-                                mb: 2,
-                                fontSize: '1.5rem'
-                            }}
-                        >
-                            👨‍👩‍👧‍👦 Find the Parent Node
-                        </Typography>
-
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                fontSize: '1.1rem',
-                                lineHeight: 1.6,
-                                color: '#717171',
-                                mb: 3
-                            }}
-                        >
-                            A <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>parent node</Box> is the direct ancestor of another node.
-                            First select a node, then find its parent.
-                        </Typography>
+                    <Box sx={{ p: 5 }}>
 
                         {showSuccess && (
                             <Fade in>
