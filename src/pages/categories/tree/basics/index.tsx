@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "@emotion/react";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import { grey } from '@mui/material/colors';
 import theme from "../../../../commons/theme";
 import Footer, { footerHeight } from "../../../commons/Footer";
@@ -129,16 +129,48 @@ const Main = () => {
 
     return (
         <>
-            <Container maxWidth="xl" sx={{ marginTop: 4 }}>
-                <Game 
-                    containerRef={containerRef} 
-                    canvasRef={canvasRef} 
-                    step={step} 
-                    setStep={setStep}
-                    showStepsIndicator={showStepsIndicator}
-                />
-            </Container>
-            <StepsIndicatorFab 
+            <Grid
+                container
+                sx={{
+                    flex: 1,
+                    backgroundColor: '#FFFFFF',
+                }}
+            >
+                <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                        backgroundColor: '#FFFFFF',
+                        borderRight: { md: '1px solid #DDDDDD' },
+                        overflowY: 'auto',
+                    }}
+                >
+                    <Game
+                        containerRef={containerRef}
+                        canvasRef={canvasRef}
+                        step={step}
+                        setStep={setStep}
+                        showStepsIndicator={showStepsIndicator}
+                    />
+                </Grid>
+                <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    sx={{
+                        backgroundColor: '#F7F7F7',
+                        position: 'relative',
+                    }}
+                >
+                    <Tree containerRef={containerRef} canvasRef={canvasRef} />
+                </Grid>
+            </Grid>
+            <StepsIndicatorFab
                 showStepsIndicator={showStepsIndicator}
                 onToggle={toggleStepsIndicator}
             />
