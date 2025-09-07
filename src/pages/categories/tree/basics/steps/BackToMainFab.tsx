@@ -18,7 +18,7 @@ export const BackToMainFab = () => {
                 onClick={() => navigate("/pages/categories/tree")}
                 sx={{
                     position: 'fixed',
-                    top: 80,
+                    bottom: 80,
                     left: 24,
                     color: 'white',
                     zIndex: 1000,
