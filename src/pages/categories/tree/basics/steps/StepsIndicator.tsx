@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stepper, Step, StepLabel, Typography } from "@mui/material";
+import { Box, Stepper, Step, StepLabel } from "@mui/material";
 import { Step as StepEnum, stepNames, stepNumber, totalSteps } from "./types";
 
 interface StepsIndicatorProps {
@@ -31,8 +31,12 @@ export const StepsIndicator: React.FC<StepsIndicatorProps> = ({ currentStep }) =
                         }
                     },
                     '& .MuiStepConnector-root': {
+                        top: '1.75rem',
                         '& .MuiStepConnector-line': {
                             borderColor: '#E0E0E0',
+                            borderTopWidth: '3px',
+                            marginLeft: '1.75rem',
+                            marginRight: '1.75rem',
                         },
                         '&.Mui-active .MuiStepConnector-line': {
                             borderColor: '#4CAF50',
@@ -43,6 +47,9 @@ export const StepsIndicator: React.FC<StepsIndicatorProps> = ({ currentStep }) =
                     },
                     '& .MuiStepIcon-root': {
                         color: '#E0E0E0',
+                        fontSize: '2.5rem',
+                        width: '3.5rem',
+                        height: '3.5rem',
                         '&.Mui-active': {
                             color: '#4CAF50',
                         },
