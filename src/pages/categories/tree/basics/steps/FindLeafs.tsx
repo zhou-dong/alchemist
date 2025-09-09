@@ -1,173 +1,144 @@
 import React from "react";
-import { Box, Card, Stack, Typography, ToggleButton, Fade, Button, Grid } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { Box, Stack, Typography, Fade, Grid } from "@mui/material";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import { StepProps, Step } from "./types";
 import { TreeVisualization } from "./TreeVisualization";
-import { treeNodes } from "../tree";
 
-const StyledButton = styled(ToggleButton)({
-    width: "70px",
-    height: "70px",
-    minWidth: "70px",
-    minHeight: "70px",
-    borderRadius: "50%",
-    textTransform: 'none',
-    border: '3px solid #E0E0E0',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-    '&:hover, &.Mui-focusVisible': {
-        color: "#000",
-        borderColor: '#4CAF50',
-        boxShadow: '0 6px 12px rgba(76, 175, 80, 0.3)',
-        transform: 'translateY(-2px)',
-    },
-    "&.Mui-selected": {
-        backgroundColor: '#4CAF50',
-        color: "#fff",
-        borderColor: '#4CAF50',
-        boxShadow: '0 6px 12px rgba(76, 175, 80, 0.4)',
-        '&:hover, &.Mui-focusVisible': {
-            backgroundColor: '#45A049',
-            borderColor: '#45A049',
-            transform: 'translateY(-2px)',
-        },
-    },
-    fontSize: "20px",
-    fontWeight: 700,
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
-});
-
-const FindLeafs = ({ containerRef, canvasRef, setStep }: StepProps) => {
+const FindLeafs = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: StepProps) => {
     const [selected, setSelected] = React.useState<number[]>([]);
     const [errorIndicator, setErrorIndicator] = React.useState<number>();
     const [showSuccess, setShowSuccess] = React.useState(false);
     const [completed, setCompleted] = React.useState(false);
     const [clickedNodeIndex, setClickedNodeIndex] = React.useState<number | null>(null);
+    const [lastClickedNode, setLastClickedNode] = React.useState<number | null>(null);
+    const [lastClickResult, setLastClickResult] = React.useState<'correct' | 'incorrect' | null>(null);
 
     const leafNodes = [3, 4, 5]; // Indices of leaf nodes (4, 5, 6 in 1-based indexing)
 
     const handleNodeClick = (nodeIndex: number, nodeValue: string) => {
         if (completed) return;
-        
+
+        setShowStepsIndicator(false);
         setClickedNodeIndex(nodeIndex);
         setErrorIndicator(undefined);
+        setLastClickedNode(nodeIndex);
 
         if (nodeValue === "leaf") {
             if (!selected.includes(nodeIndex)) {
-                setSelected(prev => [...prev, nodeIndex]);
-            }
-            
-            if (selected.length + 1 === leafNodes.length) {
-                setCompleted(true);
-                setShowSuccess(true);
-                setTimeout(() => setStep(Step.FIND_PARENT), 2000);
-            }
-        } else {
-            setErrorIndicator(nodeIndex);
-        }
-    };
-
-    const handleClick = (i: number, value: string | null | undefined) => {
-        if (completed) return;
-
-        setErrorIndicator(undefined);
-
-        if (value === "leaf") {
-            if (!selected.includes(i)) {
-                const newSelected = [...selected, i];
+                const newSelected = [...selected, nodeIndex];
                 setSelected(newSelected);
+                setLastClickResult('correct');
 
                 // Check if all leaf nodes are selected
                 const selectedLeafs = newSelected.filter(idx => leafNodes.includes(idx));
                 if (selectedLeafs.length === leafNodes.length) {
-                    setShowSuccess(true);
                     setCompleted(true);
-                    setTimeout(() => {
-                        setStep(Step.FIND_PARENT);
-                    }, 2000);
+                    setShowSuccess(true);
+                    setTimeout(() => setStep(Step.FIND_PARENT), 2000);
                 }
             }
         } else {
-            setErrorIndicator(i);
+            setErrorIndicator(nodeIndex);
+            setLastClickResult('incorrect');
         }
     };
 
     return (
-        <Box>
-            <Stack spacing={4} direction="column">
-                <Box sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                        <Typography
-                            variant="h2"
-                            sx={{
-                                color: '#222222',
-                                fontWeight: 600,
-                                fontSize: { xs: '2.5rem', md: '3rem' },
-                                lineHeight: 1.1,
-                                letterSpacing: '-0.02em'
-                            }}
-                        >
-                            🍃 Find the Leaf Nodes
-                        </Typography>
-                    </Box>
-                    
-                    <Box sx={{
-                        backgroundColor: '#F0F8FF',
-                        border: '2px solid #4CAF50',
-                        borderRadius: 2,
-                        p: 3,
-                        mb: 4
-                    }}>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                color: '#4CAF50',
-                                fontWeight: 600,
-                                mb: 2,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1
-                            }}
-                        >
-                            🎮 Mission Objective
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                color: '#222222',
-                                fontWeight: 400,
-                                fontSize: '1rem',
-                                lineHeight: 1.6
-                            }}
-                        >
-                            Identify and click all <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>leaf nodes</Box> - 
-                            nodes with no children. These are the endpoints of the tree!
-                        </Typography>
-                    </Box>
-                </Box>
-
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
-                        <Card
-                            sx={{
-                                p: 0,
-                                borderRadius: 3,
-                                backgroundColor: 'white',
-                                border: 'none',
-                                boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
-                                overflow: 'hidden',
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: '100%',
-                                textAlign: 'left',
-                            }}
-                        >
+        <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+                <Box
+                    sx={{
+                        p: 0,
+                        boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
+                        overflow: 'hidden',
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '100%',
+                        textAlign: 'left',
+                    }}
+                >
                     <Box sx={{ p: 5 }}>
+                        <Stack spacing={6} direction="column" sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                                <Typography
+                                    variant="h2"
+                                    sx={{
+                                        color: '#222222',
+                                        fontWeight: 600,
+                                        fontSize: { xs: '2.5rem', md: '3rem' },
+                                        lineHeight: 1.1,
+                                        letterSpacing: '-0.02em'
+                                    }}
+                                >
+                                    🍃 Find the Leaf Nodes
+                                </Typography>
+                            </Box>
+
+                            <Box sx={{
+                                backgroundColor: '#F0F8FF',
+                                border: '2px solid #4CAF50',
+                                borderRadius: 2,
+                                p: 3,
+                                mb: 4
+                            }}>
+                                <Stack direction="row" spacing={1} display="flex" alignItems="center" sx={{ mb: 2 }}>
+                                    <SportsEsportsIcon color="primary" fontSize="large" />
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 600,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1
+                                        }}
+                                    >
+                                        Mission Objective
+                                    </Typography>
+                                </Stack>
+                                <Typography
+                                    variant="body1"
+                                    sx={{
+                                        color: '#222222',
+                                        fontWeight: 400,
+                                        fontSize: '1rem',
+                                        lineHeight: 1.6
+                                    }}
+                                >
+                                    Identify and click <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>all leaf nodes</Box> -
+                                    nodes with no children. These are the endpoints of the tree!
+                                </Typography>
+                            </Box>
+
+                            <Box sx={{
+                                backgroundColor: '#F5F5F5',
+                                borderRadius: 2,
+                                p: 3,
+                                mb: 4,
+                                border: '1px solid #E0E0E0'
+                            }}>
+                                <Stack direction="row" spacing={1} display="flex" alignItems="center" sx={{ mb: 2 }}>
+                                    <TipsAndUpdatesIcon color="warning" fontSize="large" />
+                                    <Typography variant="h6" sx={{
+                                        color: '#222222',
+                                        fontWeight: 600,
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}>
+                                        Hint
+                                    </Typography>
+                                </Stack>
+                                <Typography variant="body1" sx={{ color: '#717171', lineHeight: 1.6 }}>
+                                    Leaf nodes are at the <strong>bottom</strong> of the tree and have <strong>no children</strong>.
+                                    They are the endpoints of tree branches!
+                                </Typography>
+                            </Box>
+                        </Stack>
 
                         {showSuccess && (
                             <Fade in>
@@ -215,147 +186,23 @@ const FindLeafs = ({ containerRef, canvasRef, setStep }: StepProps) => {
                             </Fade>
                         )}
 
-                        <Box sx={{
-                            backgroundColor: '#F5F5F5',
-                            borderRadius: 2,
-                            p: 3,
-                            mb: 4,
-                            border: '1px solid #E0E0E0'
-                        }}>
-                            <Typography variant="h6" sx={{
-                                color: '#222222',
-                                fontWeight: 600,
-                                mb: 2,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1
-                            }}>
-                                💡 Hint
-                            </Typography>
-                            <Typography variant="body1" sx={{ color: '#717171', lineHeight: 1.6 }}>
-                                Leaf nodes are at the <strong>bottom</strong> of the tree and have <strong>no children</strong>. 
-                                They are the endpoints of tree branches!
-                            </Typography>
-                        </Box>
-
-                        <Typography variant="h5" sx={{
-                            mb: 3,
-                            color: '#222222',
-                            fontWeight: 600,
-                            textAlign: 'center'
-                        }}>
-                            🎮 Click All Leaf Nodes
-                        </Typography>
                     </Box>
+                </Box>
+            </Grid>
 
-                    <Stack
-                        direction="row"
-                        spacing={2}
-                        justifyContent="center"
-                        flexWrap="wrap"
-                    >
-                        {
-                            treeNodes
-                                .filter(node => node !== null)
-                                .map((node, i) =>
-                                    <StyledButton
-                                        key={i}
-                                        value={node?.value}
-                                        sx={{
-                                            backgroundColor: (errorIndicator === i) ? '#F44336' :
-                                                (selected.includes(i)) ? '#4CAF50' : "#fff",
-                                            color: (errorIndicator === i) ? "#fff" :
-                                                (selected.includes(i)) ? "#fff" : "#000",
-                                            borderColor: (errorIndicator === i) ? '#F44336' :
-                                                (selected.includes(i)) ? '#4CAF50' : '#E0E0E0',
-                                        }}
-                                        disabled={i === 0 || completed} // Disable root node
-                                        selected={selected.includes(i)}
-                                        onClick={() => handleClick(i, node?.value)}
-                                    >
-                                        {node?.text}
-                                    </StyledButton>
-                                )
-                        }
-                    </Stack>
-
-                    {completed && (
-                        <Fade in>
-                            <Box sx={{ textAlign: 'center', mt: 4 }}>
-                                <Button
-                                    variant="contained"
-                                    size="large"
-                                    onClick={() => setStep(Step.FIND_ROOT)}
-                                    sx={{
-                                        backgroundColor: '#4CAF50',
-                                        color: 'white',
-                                        px: 4,
-                                        py: 2,
-                                        borderRadius: 2,
-                                        fontSize: '1rem',
-                                        fontWeight: 600,
-                                        textTransform: 'none',
-                                        '&:hover': {
-                                            backgroundColor: '#45A049',
-                                        },
-                                    }}
-                                >
-                                    Start Over
-                                </Button>
-                            </Box>
-                        </Fade>
-                    )}
-                        </Card>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                        <Card
-                            sx={{
-                                p: 4,
-                                borderRadius: 3,
-                                backgroundColor: 'white',
-                                border: 'none',
-                                boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
-                                overflow: 'hidden',
-                                height: '100%'
-                            }}
-                        >
-                            <Typography
-                                variant="h5"
-                                sx={{
-                                    color: '#222222',
-                                    fontWeight: 600,
-                                    mb: 3,
-                                    textAlign: 'center'
-                                }}
-                            >
-                                Interactive Tree
-                            </Typography>
-                            
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    color: '#717171',
-                                    mb: 3,
-                                    textAlign: 'center'
-                                }}
-                            >
-                                Click on the leaf nodes in the tree below
-                            </Typography>
-
-                            <TreeVisualization
-                                containerRef={containerRef}
-                                canvasRef={canvasRef}
-                                onNodeClick={handleNodeClick}
-                                highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
-                                selectedNodes={selected}
-                                disabledNodes={[0]} // Disable root node
-                            />
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Stack>
-        </Box>
+            <Grid item sm={12} md={6}>
+                <TreeVisualization
+                    containerRef={containerRef}
+                    canvasRef={canvasRef}
+                    onNodeClick={handleNodeClick}
+                    highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
+                    selectedNodes={selected}
+                    disabledNodes={[]}
+                    lastClickedNode={lastClickedNode}
+                    lastClickResult={lastClickResult}
+                />
+            </Grid>
+        </Grid>
     );
 };
 
