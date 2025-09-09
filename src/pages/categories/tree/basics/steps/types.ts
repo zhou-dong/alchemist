@@ -4,12 +4,12 @@ export interface StepProps {
     containerRef: React.RefObject<HTMLDivElement>;
     canvasRef: React.RefObject<HTMLCanvasElement>;
     setStep: React.Dispatch<React.SetStateAction<Step>>;
-    showStepsIndicator?: boolean;
+    setShowStepsIndicator: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export enum Step {
     FIND_ROOT = "FIND_ROOT",
-    FIND_LEAFS = "FIND_LEAFS", 
+    FIND_LEAFS = "FIND_LEAFS",
     FIND_PARENT = "FIND_PARENT",
     FIND_CHILDREN = "FIND_CHILDREN",
     TREE_HEIGHT = "TREE_HEIGHT",
@@ -20,7 +20,7 @@ export enum Step {
 
 export const stepNames = {
     [Step.FIND_ROOT]: "Find Root",
-    [Step.FIND_LEAFS]: "Find Leaves", 
+    [Step.FIND_LEAFS]: "Find Leaves",
     [Step.FIND_PARENT]: "Find Parent",
     [Step.FIND_CHILDREN]: "Find Children",
     [Step.TREE_HEIGHT]: "Tree Height",

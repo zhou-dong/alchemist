@@ -9,7 +9,8 @@ interface TreeVisualizationProps {
     highlightedNodes?: number[];
     selectedNodes?: number[];
     disabledNodes?: number[];
-    showLabels?: boolean;
+    lastClickedNode?: number | null;
+    lastClickResult?: 'correct' | 'incorrect' | null;
 }
 
 export const TreeVisualization: React.FC<TreeVisualizationProps> = ({
@@ -19,7 +20,8 @@ export const TreeVisualization: React.FC<TreeVisualizationProps> = ({
     highlightedNodes = [],
     selectedNodes = [],
     disabledNodes = [],
-    showLabels = true
+    lastClickedNode = null,
+    lastClickResult = null,
 }) => {
     const [isInitialized, setIsInitialized] = React.useState(false);
 
@@ -68,6 +70,7 @@ export const TreeVisualization: React.FC<TreeVisualizationProps> = ({
             if (node) {
                 node.selected = false;
                 node.emoji = "";
+                node.color = 'default';
             }
         });
 
@@ -98,22 +101,29 @@ export const TreeVisualization: React.FC<TreeVisualizationProps> = ({
             }
         });
 
+        // Apply last clicked node color (this should override other states)
+        if (lastClickedNode !== null && lastClickResult) {
+            const node = treeNodes[lastClickedNode];
+            if (node) {
+                node.color = lastClickResult;
+                node.selected = false; // Override selected state for color feedback
+                if (lastClickResult === 'correct') {
+                    node.emoji = "✓";
+                } else if (lastClickResult === 'incorrect') {
+                    node.emoji = "✗";
+                }
+            }
+        }
+
         // Refresh canvas
         refreshCanvas(containerRef, canvasRef);
-    }, [highlightedNodes, selectedNodes, disabledNodes, isInitialized, containerRef, canvasRef]);
+    }, [highlightedNodes, selectedNodes, disabledNodes, lastClickedNode, lastClickResult, isInitialized, containerRef, canvasRef]);
 
     return (
         <Box
             ref={containerRef}
             sx={{
-                width: "100%",
-                height: "400px",
-                position: "relative",
-                border: "2px solid #E0E0E0",
-                borderRadius: "12px",
-                backgroundColor: "#FAFAFA",
-                overflow: "hidden",
-                cursor: onNodeClick ? "pointer" : "default"
+                cursor: onNodeClick ? "pointer" : "default",
             }}
         >
             <canvas
@@ -124,22 +134,6 @@ export const TreeVisualization: React.FC<TreeVisualizationProps> = ({
                     display: "block"
                 }}
             />
-            {showLabels && (
-                <Box
-                    sx={{
-                        position: "absolute",
-                        top: 8,
-                        left: 8,
-                        backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        padding: "4px 8px",
-                        borderRadius: "4px",
-                        fontSize: "12px",
-                        color: "#666"
-                    }}
-                >
-                    Click on nodes to interact
-                </Box>
-            )}
         </Box>
     );
 };

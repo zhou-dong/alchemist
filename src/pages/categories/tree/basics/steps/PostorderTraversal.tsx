@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { StepProps, Step } from "./types";
 import { TreeVisualization } from "./TreeVisualization";
-import { StepsIndicator } from "./StepsIndicator";
 import { treeNodes } from "../tree";
 
 const StyledButton = styled(ToggleButton)({
@@ -33,7 +32,7 @@ const StyledButton = styled(ToggleButton)({
     transition: 'all 0.2s ease',
 });
 
-const PostorderTraversal = ({ containerRef, canvasRef, setStep, showStepsIndicator = true }: StepProps) => {
+const PostorderTraversal = ({ containerRef, canvasRef, setStep }: StepProps) => {
     const [selectedOrder, setSelectedOrder] = React.useState<number[]>([]);
     const [showSuccess, setShowSuccess] = React.useState(false);
     const [completed, setCompleted] = React.useState(false);
@@ -74,8 +73,6 @@ const PostorderTraversal = ({ containerRef, canvasRef, setStep, showStepsIndicat
     return (
         <Box>
             <Stack spacing={6}>
-                {showStepsIndicator && <StepsIndicator currentStep={Step.POSTORDER_TRAVERSAL} />}
-
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
                         <Card
@@ -243,7 +240,6 @@ const PostorderTraversal = ({ containerRef, canvasRef, setStep, showStepsIndicat
                                 onNodeClick={handleTreeNodeClick}
                                 highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
                                 selectedNodes={selectedOrder}
-                                showLabels={true}
                             />
                         </Card>
                     </Grid>

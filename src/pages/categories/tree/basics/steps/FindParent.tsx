@@ -5,7 +5,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { StepProps, Step } from "./types";
 import { TreeVisualization } from "./TreeVisualization";
-import { StepsIndicator } from "./StepsIndicator";
 import { treeNodes } from "../tree";
 
 const StyledButton = styled(ToggleButton)({
@@ -40,7 +39,7 @@ const StyledButton = styled(ToggleButton)({
     cursor: 'pointer',
 });
 
-const FindParent = ({ containerRef, canvasRef, setStep, showStepsIndicator = true }: StepProps) => {
+const FindParent = ({ containerRef, canvasRef, setStep }: StepProps) => {
     const [selectedNode, setSelectedNode] = React.useState<number | null>(null);
     const [correctAnswer, setCorrectAnswer] = React.useState<number | null>(null);
     const [showSuccess, setShowSuccess] = React.useState(false);
@@ -84,24 +83,8 @@ const FindParent = ({ containerRef, canvasRef, setStep, showStepsIndicator = tru
     return (
         <Box>
             <Stack spacing={6}>
-                {showStepsIndicator && <StepsIndicator currentStep={Step.FIND_PARENT} />}
-
                 <Box sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                        <Box sx={{
-                            backgroundColor: '#4CAF50',
-                            color: 'white',
-                            borderRadius: '50%',
-                            width: 40,
-                            height: 40,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '1.2rem',
-                            fontWeight: 600
-                        }}>
-                            3
-                        </Box>
                         <Typography
                             variant="h2"
                             sx={{
@@ -316,7 +299,6 @@ const FindParent = ({ containerRef, canvasRef, setStep, showStepsIndicator = tru
                                 highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
                                 selectedNodes={selectedNode !== null ? [selectedNode] : []}
                                 disabledNodes={[0]} // Disable root node for parent selection
-                                showLabels={true}
                             />
                         </Card>
                     </Grid>

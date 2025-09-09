@@ -1,4 +1,4 @@
-import { green } from '@mui/material/colors';
+import { green, red, orange } from '@mui/material/colors';
 import { grey } from '@mui/material/colors';
 
 export interface Circle {
@@ -12,6 +12,7 @@ export interface Content<T> {
     text: string;
     emoji: string;
     selected: boolean;
+    color?: 'correct' | 'incorrect' | 'default';
 }
 
 export interface ContentCircle<T> extends Content<T>, Circle { };
@@ -32,16 +33,30 @@ export function isInsideCircle(x: number, y: number, circle: Circle): boolean {
 
 export const drawCircle = <T,>(context: CanvasRenderingContext2D, categoryCircle: ContentCircle<T>) => {
 
-    const { x, y, radius, emoji, text, selected } = categoryCircle;
+    const { x, y, radius, emoji, text, selected, color } = categoryCircle;
 
     // Safety check: don't draw circles with invalid radius
     if (radius <= 0 || !isFinite(radius)) {
         return;
     }
 
-    const backgroundColor = selected ? green[300] : "#fff";
-    const textColor = selected ? "#fff" : "#000";
-    const fontWeight = selected ? 400 : 200;
+    let backgroundColor = "#fff";
+    let textColor = "#000";
+    let fontWeight = 200;
+
+    if (selected) {
+        backgroundColor = green[300];
+        textColor = "#fff";
+        fontWeight = 400;
+    } else if (color === 'correct') {
+        backgroundColor = green[200];
+        textColor = "#fff";
+        fontWeight = 400;
+    } else if (color === 'incorrect') {
+        backgroundColor = red[200];
+        textColor = "#fff";
+        fontWeight = 400;
+    }
 
     context.shadowColor = 'rgba(0, 0, 0, 0.5)';
     context.shadowBlur = 10;

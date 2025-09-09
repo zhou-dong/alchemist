@@ -3,7 +3,9 @@ import { resetCanvas } from "../../../commons/canvas";
 import { footerHeight } from "../../../commons/Footer";
 import React from "react";
 
-interface Node extends ContentCircle<string> { }
+interface Node extends ContentCircle<string> {
+    color?: 'correct' | 'incorrect' | 'default';
+}
 
 const base: Node = {
     x: 0,

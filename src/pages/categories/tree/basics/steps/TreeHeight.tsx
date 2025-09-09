@@ -5,7 +5,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { StepProps, Step } from "./types";
 import { TreeVisualization } from "./TreeVisualization";
-import { StepsIndicator } from "./StepsIndicator";
 import { treeNodes } from "../tree";
 
 const StyledButton = styled(ToggleButton)({
@@ -34,7 +33,7 @@ const StyledButton = styled(ToggleButton)({
     transition: 'all 0.2s ease',
 });
 
-const TreeHeight = ({ containerRef, canvasRef, setStep, showStepsIndicator = true }: StepProps) => {
+const TreeHeight = ({ containerRef, canvasRef, setStep }: StepProps) => {
     const [selectedAnswer, setSelectedAnswer] = React.useState<number | null>(null);
     const [showSuccess, setShowSuccess] = React.useState(false);
     const [errorIndicator, setErrorIndicator] = React.useState<number | null>(null);
@@ -62,8 +61,6 @@ const TreeHeight = ({ containerRef, canvasRef, setStep, showStepsIndicator = tru
     return (
         <Box>
             <Stack spacing={6}>
-                {showStepsIndicator && <StepsIndicator currentStep={Step.TREE_HEIGHT} />}
-
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
                         <Card
@@ -205,7 +202,6 @@ const TreeHeight = ({ containerRef, canvasRef, setStep, showStepsIndicator = tru
                                 onNodeClick={handleTreeNodeClick}
                                 highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
                                 selectedNodes={[]}
-                                showLabels={true}
                             />
                         </Card>
                     </Grid>
