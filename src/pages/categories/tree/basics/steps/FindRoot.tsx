@@ -9,7 +9,6 @@ import { TreeVisualization } from "./TreeVisualization";
 import { treeNodes, refreshCanvas } from "../tree";
 
 const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: StepProps) => {
-    const delay = 2000;
 
     const [rootIndicator, setRootIndicator] = React.useState<string>();
     const [errorIndicator, setErrorIndicator] = React.useState<number>();
@@ -18,6 +17,10 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
     const [selectedNodes, setSelectedNodes] = React.useState<number[]>([]);
     const [lastClickedNode, setLastClickedNode] = React.useState<number | null>(null);
     const [lastClickResult, setLastClickResult] = React.useState<'correct' | 'incorrect' | null>(null);
+
+    setTimeout(() => {
+        setShowStepsIndicator(false);
+    }, 3000);
 
     const enableRootNode = () => {
         treeNodes
@@ -31,7 +34,6 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
     }
 
     const handleTreeNodeClick = (nodeIndex: number, nodeValue: string) => {
-        setShowStepsIndicator(false);
         setClickedNodeIndex(nodeIndex);
         handleClick(nodeIndex, nodeValue);
     };
@@ -51,11 +53,17 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
             setShowSuccess(true);
             enableRootNode();
             refreshCanvas(containerRef, canvasRef);
-            setTimeout(() => setStep(Step.FIND_LEAFS), delay);
+            setTimeout(() => {
+                setStep(Step.FIND_LEAFS);
+                setShowStepsIndicator(true);
+            }, 3000);
         } else {
             setErrorIndicator(i);
             setSelectedNodes([]);
             setLastClickResult('incorrect');
+            setTimeout(() => {
+                setErrorIndicator(undefined);
+            }, 2000);
         };
     }
 
@@ -85,7 +93,7 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
                                     sx={{
                                         color: '#222222',
                                         fontWeight: 600,
-                                        fontSize: { xs: '2.5rem', md: '3rem' },
+                                        fontSize: { xs: '2rem', md: '2.5rem' },
                                         lineHeight: 1.1,
                                         letterSpacing: '-0.02em'
                                     }}
@@ -95,8 +103,7 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
                             </Box>
 
                             <Box sx={{
-                                backgroundColor: '#F0F8FF',
-                                border: '2px solid #4CAF50',
+                                border: '1px solid #4CAF50',
                                 borderRadius: 2,
                                 p: 3,
                                 mb: 4
