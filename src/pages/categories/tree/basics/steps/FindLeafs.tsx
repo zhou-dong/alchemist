@@ -71,7 +71,7 @@ const FindLeafs = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: 
                                     sx={{
                                         color: '#222222',
                                         fontWeight: 600,
-                                        fontSize: { xs: '2.5rem', md: '3rem' },
+                                        fontSize: { xs: '2rem', md: '2.5rem' },
                                         lineHeight: 1.1,
                                         letterSpacing: '-0.02em'
                                     }}
