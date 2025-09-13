@@ -16,14 +16,19 @@ const FindLeafs = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: 
     const [lastClickedNode, setLastClickedNode] = React.useState<number | null>(null);
     const [lastClickResult, setLastClickResult] = React.useState<'correct' | 'incorrect' | null>(null);
 
-    const leafNodes = [3, 4, 5]; // Indices of leaf nodes (4, 5, 6 in 1-based indexing)
+    const leafNodes = [3, 4, 6]; // Indices of leaf nodes (4, 5, 6 in 1-based indexing)
 
     const handleNodeClick = (nodeIndex: number, nodeValue: string) => {
         if (completed) return;
 
         setShowStepsIndicator(false);
-        setClickedNodeIndex(nodeIndex);
         setErrorIndicator(undefined);
+
+        if (nodeValue === "leaf" && selected.includes(nodeIndex)) {
+            return;
+        }
+
+        setClickedNodeIndex(nodeIndex);
         setLastClickedNode(nodeIndex);
 
         if (nodeValue === "leaf") {
