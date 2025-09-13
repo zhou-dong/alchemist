@@ -204,14 +204,14 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
             setTimeout(() => {
                 setStep(Step.FIND_LEAFS);
                 setShowStepsIndicator(true);
-            }, 3000);
+            }, 2000);
         } else {
             setErrorIndicator(i);
             setSelectedNodes([]);
             setLastClickResult('incorrect');
             setTimeout(() => {
                 setErrorIndicator(undefined);
-            }, 3000);
+            }, 2000);
         };
     }
 
