@@ -8,8 +8,12 @@ import { StepProps, Step } from "./types";
 import { TreeVisualization } from "./TreeVisualization";
 import { treeNodes, refreshCanvas } from "../tree";
 
-const SuccessMessage = () => (
-    <Fade in>
+const SuccessMessage: React.FC<{ showSuccess: boolean }> = ({ showSuccess }) => (
+    <Fade
+        in={showSuccess}
+        timeout={{ enter: 600, exit: 300 }}
+        easing={{ enter: 'cubic-bezier(0.34, 1.56, 0.64, 1)', exit: 'ease-in' }}
+    >
         <Box sx={{
             position: 'fixed',
             top: '20%',
@@ -37,8 +41,12 @@ const SuccessMessage = () => (
     </Fade>
 );
 
-const ErrorMessage = () => (
-    <Fade in>
+const ErrorMessage: React.FC<{ showError: boolean }> = ({ showError }) => (
+    <Fade
+        in={showError}
+        timeout={{ enter: 300, exit: 200 }}
+        easing={{ enter: 'ease-out', exit: 'ease-in' }}
+    >
         <Box sx={{
             position: 'fixed',
             top: '20%',
@@ -209,13 +217,13 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
 
     return (
         <>
-            {showSuccess && <SuccessMessage />}
-            {errorIndicator !== undefined && <ErrorMessage />}
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+            {showSuccess && <SuccessMessage showSuccess={showSuccess} />}
+            <ErrorMessage showError={errorIndicator !== undefined} />
+            <Grid container>
+                <Grid item sm={12} md={6}>
                     <Box
                         sx={{
-                            p: 5,
+                            p: 0,
                             boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
                             overflow: 'hidden',
                             width: '100%',
@@ -227,11 +235,13 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
                             textAlign: 'left',
                         }}
                     >
-                        <Stack spacing={6} direction="column" sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
-                            <SubTitle />
-                            <MissionObjective />
-                            <Hint />
-                        </Stack>
+                        <Box sx={{ p: 5 }}>
+                            <Stack spacing={6} direction="column" sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
+                                <SubTitle />
+                                <MissionObjective />
+                                <Hint />
+                            </Stack>
+                        </Box>
                     </Box>
                 </Grid>
 
