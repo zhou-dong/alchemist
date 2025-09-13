@@ -217,7 +217,7 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
 
     return (
         <>
-            {showSuccess && <SuccessMessage showSuccess={showSuccess} />}
+            <SuccessMessage showSuccess={showSuccess} />
             <ErrorMessage showError={errorIndicator !== undefined} />
             <Grid container>
                 <Grid item sm={12} md={6}>
