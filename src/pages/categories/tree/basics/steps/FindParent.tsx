@@ -1,310 +1,286 @@
 import React from "react";
-import { Box, Card, Stack, Typography, ToggleButton, Fade, Grid } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { Box, Stack, Typography, Fade, Grid } from "@mui/material";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { StepProps, Step } from "./types";
 import { TreeVisualization } from "./TreeVisualization";
 import { treeNodes } from "../tree";
 
-const StyledButton = styled(ToggleButton)({
-    width: "70px",
-    height: "70px",
-    minWidth: "70px",
-    minHeight: "70px",
-    borderRadius: "50%",
-    textTransform: 'none',
-    border: '3px solid #E0E0E0',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-    '&:hover, &.Mui-focusVisible': {
-        color: "#000",
-        borderColor: '#4CAF50',
-        boxShadow: '0 6px 12px rgba(76, 175, 80, 0.3)',
-        transform: 'translateY(-2px)',
-    },
-    "&.Mui-selected": {
-        backgroundColor: '#4CAF50',
-        color: "#fff",
-        borderColor: '#4CAF50',
-        boxShadow: '0 6px 12px rgba(76, 175, 80, 0.4)',
-        '&:hover, &.Mui-focusVisible': {
-            backgroundColor: '#45A049',
-            borderColor: '#45A049',
-            transform: 'translateY(-2px)',
-        },
-    },
-    fontSize: "20px",
-    fontWeight: 700,
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
-});
+const SuccessMessage: React.FC<{ showSuccess: boolean }> = ({ showSuccess }) => (
+    <Fade
+        in={showSuccess}
+        timeout={{ enter: 600, exit: 300 }}
+        easing={{ enter: 'cubic-bezier(0.34, 1.56, 0.64, 1)', exit: 'ease-in' }}
+    >
+        <Box sx={{
+            position: 'fixed',
+            top: '20%',
+            left: '50%',
+            transform: 'translate(-50%, -20%)',
+            backgroundColor: '#E8F5E8',
+            border: '2px solid #4CAF50',
+            borderRadius: 2,
+            p: 4,
+            textAlign: 'center',
+            zIndex: 1000,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+            minWidth: '300px'
+        }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 2 }}>
+                <CheckCircleIcon sx={{ color: '#4CAF50', fontSize: 32 }} />
+                <Typography variant="h5" sx={{ color: '#4CAF50', fontWeight: 600 }}>
+                    🎉 Excellent Work!
+                </Typography>
+            </Box>
+            <Typography sx={{ color: '#4CAF50', fontWeight: 500 }}>
+                You found the parent node!
+            </Typography>
+        </Box>
+    </Fade>
+);
 
-const FindParent = ({ containerRef, canvasRef, setStep }: StepProps) => {
+const ErrorMessage: React.FC<{ showError: boolean }> = ({ showError }) => (
+    <Fade
+        in={showError}
+        timeout={{ enter: 300, exit: 200 }}
+        easing={{ enter: 'ease-out', exit: 'ease-in' }}
+    >
+        <Box sx={{
+            position: 'fixed',
+            top: '20%',
+            left: '50%',
+            transform: 'translate(-50%, -20%)',
+            backgroundColor: '#FFEBEE',
+            border: '2px solid #F44336',
+            borderRadius: 2,
+            p: 4,
+            textAlign: 'center',
+            zIndex: 1000,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+            minWidth: '300px'
+        }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 2 }}>
+                <ErrorIcon sx={{ color: '#F44336', fontSize: 32 }} />
+                <Typography variant="h5" sx={{ color: '#F44336', fontWeight: 600 }}>
+                    ❌ Try Again!
+                </Typography>
+            </Box>
+            <Typography sx={{ color: '#F44336', fontWeight: 500 }}>
+                That's not the parent node. Try again!
+            </Typography>
+        </Box>
+    </Fade>
+);
+
+const SubTitle = () => (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+        <Typography
+            variant="h2"
+            sx={{
+                color: '#222222',
+                fontWeight: 600,
+                fontSize: { xs: '2rem', md: '2.5rem' },
+                lineHeight: 1.1,
+                letterSpacing: '-0.02em'
+            }}
+        >
+            👨‍👩‍👧‍👦 Find the Parent Node
+        </Typography>
+    </Box>
+);
+
+const MissionObjective = () => (
+    <Box sx={{
+        border: '1px solid #4CAF50',
+        borderRadius: 2,
+        p: 3,
+        mb: 4
+    }}>
+        <Stack direction="row" spacing={1} display="flex" alignItems="center" sx={{ mb: 2 }}>
+            <SportsEsportsIcon color="primary" fontSize="large" />
+            <Typography
+                variant="h6"
+                sx={{
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
+                }}
+            >
+                Mission Objective
+            </Typography>
+        </Stack>
+        <Typography
+            variant="body1"
+            sx={{
+                color: '#222222',
+                fontWeight: 400,
+                fontSize: '1rem',
+                lineHeight: 1.6
+            }}
+        >
+            A <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>parent node</Box> is the direct ancestor of another node.
+            First select a node, then find its parent!
+        </Typography>
+    </Box>
+);
+
+const Hint = () => (
+    <Box sx={{
+        backgroundColor: '#F5F5F5',
+        borderRadius: 2,
+        p: 3,
+        mb: 4,
+        border: '1px solid #E0E0E0'
+    }}>
+        <Stack direction="row" spacing={1} display="flex" alignItems="center" sx={{ mb: 2 }}>
+            <TipsAndUpdatesIcon color="warning" fontSize="large" />
+            <Typography variant="h6" sx={{
+                color: '#222222',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center'
+            }}>
+                Hint
+            </Typography>
+        </Stack>
+        <Typography variant="body1" sx={{ color: '#717171', lineHeight: 1.6 }}>
+            The <strong>parent node</strong> is the direct ancestor of another node.
+            Click on a node first, then click on its parent!
+        </Typography>
+    </Box>
+);
+
+const StepInstruction: React.FC<{ selectedNode: number | null }> = ({ selectedNode }) => (
+    <Box sx={{
+        borderRadius: 2,
+        p: 3,
+        mb: 4,
+        border: '1px solid #FFB74D'
+    }}>
+        <Stack direction="row" spacing={1} display="flex" alignItems="center" sx={{ mb: 2 }}>
+            <AssignmentIcon color="warning" fontSize="large" />
+            <Typography variant="h6" sx={{
+                color: '#222222',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1
+            }}>
+                Step: {selectedNode === null ? 1 : 2}
+            </Typography>
+        </Stack>
+        <Typography variant="body1" sx={{ color: '#E65100', lineHeight: 1.6, fontWeight: 500 }}>
+            {selectedNode === null
+                ? 'Click on a node to find its parent'
+                : `Now click on the parent of node ${treeNodes[selectedNode]?.text}`
+            }
+        </Typography>
+    </Box>
+);
+
+const FindParent = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: StepProps) => {
     const [selectedNode, setSelectedNode] = React.useState<number | null>(null);
     const [correctAnswer, setCorrectAnswer] = React.useState<number | null>(null);
     const [showSuccess, setShowSuccess] = React.useState(false);
     const [errorIndicator, setErrorIndicator] = React.useState<number | null>(null);
     const [clickedNodeIndex, setClickedNodeIndex] = React.useState<number | null>(null);
+    const [lastClickedNode, setLastClickedNode] = React.useState<number | null>(null);
+    const [lastClickResult, setLastClickResult] = React.useState<'correct' | 'incorrect' | null>(null);
 
-    const handleTreeNodeClick = (nodeIndex: number, nodeValue: string) => {
-        setClickedNodeIndex(nodeIndex);
-        handleNodeClick(nodeIndex, nodeValue);
-    };
-
-    const handleNodeClick = (i: number, value: string | null | undefined) => {
-        if (value === "root") {
-            setErrorIndicator(i);
+    const handleStep1 = (nodeIndex: number, nodeValue: string) => {
+        if (nodeValue === "root") {
+            setErrorIndicator(nodeIndex);
+            setLastClickResult('incorrect');
             return;
         }
-        
-        setSelectedNode(i);
-        setErrorIndicator(null);
-        
-        // Find the parent of the selected node
-        let parentIndex = -1;
-        if (i === 1 || i === 2) parentIndex = 0; // Nodes 2 and 3 have parent 1
-        else if (i === 3 || i === 4) parentIndex = 1; // Nodes 4 and 5 have parent 2
-        else if (i === 5) parentIndex = 2; // Node 6 has parent 3
-        
-        setCorrectAnswer(parentIndex);
-    };
 
-    const handleParentClick = (i: number) => {
-        if (selectedNode === null || correctAnswer === null) return;
-        
-        if (i === correctAnswer) {
+        setSelectedNode(nodeIndex);
+        setLastClickResult('correct');
+
+        // Calculate parent index using binary tree formula
+        // For a binary tree, parent of node at index i is at Math.floor((i - 1) / 2)
+        const parentIndex = Math.floor((nodeIndex - 1) / 2);
+        setCorrectAnswer(parentIndex);
+    }
+
+    const handleStep2 = (nodeIndex: number, nodeValue: string) => {
+        if (nodeIndex === correctAnswer) {
             setShowSuccess(true);
+            setLastClickResult('correct');
             setTimeout(() => setStep(Step.FIND_CHILDREN), 2000);
         } else {
-            setErrorIndicator(i);
+            setErrorIndicator(nodeIndex);
+            setLastClickResult('incorrect');
+        }
+    }
+
+    const handleTreeNodeClick = (nodeIndex: number, nodeValue: string) => {
+        setErrorIndicator(null);
+        setShowStepsIndicator(false);
+        setClickedNodeIndex(nodeIndex);
+        setLastClickedNode(nodeIndex);
+
+        setTimeout(() => {
+            setErrorIndicator(null);
+        }, 2000);
+
+        if (selectedNode === null) {
+            handleStep1(nodeIndex, nodeValue);
+        } else {
+            handleStep2(nodeIndex, nodeValue);
         }
     };
 
     return (
-        <Box>
-            <Stack spacing={6}>
-                <Box sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                        <Typography
-                            variant="h2"
-                            sx={{
-                                color: '#222222',
-                                fontWeight: 600,
-                                fontSize: { xs: '2.5rem', md: '3rem' },
-                                lineHeight: 1.1,
-                                letterSpacing: '-0.02em'
-                            }}
-                        >
-                            👨‍👩‍👧‍👦 Find the Parent Node
-                        </Typography>
-                    </Box>
-                    
-                    <Box sx={{
-                        backgroundColor: '#F0F8FF',
-                        border: '2px solid #4CAF50',
-                        borderRadius: 2,
-                        p: 3,
-                        mb: 4
-                    }}>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                color: '#4CAF50',
-                                fontWeight: 600,
-                                mb: 2,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1
-                            }}
-                        >
-                            🎮 Mission Objective
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                color: '#222222',
-                                fontWeight: 400,
-                                fontSize: '1rem',
-                                lineHeight: 1.6
-                            }}
-                        >
-                            A <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>parent node</Box> is the direct ancestor of another node.
-                            First select a node, then find its parent!
-                        </Typography>
-                    </Box>
-                </Box>
+        <>
+            <SuccessMessage showSuccess={showSuccess} />
+            <ErrorMessage showError={errorIndicator !== null} />
 
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
-                        <Card
-                            sx={{
-                                p: 0,
-                                borderRadius: 3,
-                                backgroundColor: 'white',
-                                border: 'none',
-                                boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
-                                overflow: 'hidden',
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: '100%',
-                                textAlign: 'left',
-                            }}
-                        >
-                    <Box sx={{ p: 5 }}>
-
-                        {showSuccess && (
-                            <Fade in>
-                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 3 }}>
-                                    <CheckCircleIcon sx={{ color: '#4CAF50', fontSize: 24 }} />
-                                    <Typography sx={{ color: '#4CAF50', fontWeight: 600 }}>
-                                        Correct! You found the parent node.
-                                    </Typography>
-                                </Box>
-                            </Fade>
-                        )}
-
-                        {errorIndicator !== undefined && (
-                            <Fade in>
-                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 3 }}>
-                                    <ErrorIcon sx={{ color: '#F44336', fontSize: 24 }} />
-                                    <Typography sx={{ color: '#F44336', fontWeight: 600 }}>
-                                        Not the parent! Try again.
-                                    </Typography>
-                                </Box>
-                            </Fade>
-                        )}
-
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                color: '#717171',
-                                fontStyle: 'italic'
-                            }}
-                        >
-                            {selectedNode === null ? 'Step 1: Select a node to find its parent' : 'Step 2: Now select the parent node'}
-                        </Typography>
-                    </Box>
-
-                    <Stack spacing={3}>
-                        <Box>
-                            <Typography variant="h6" sx={{ mb: 2, textAlign: 'center', color: '#222222' }}>
-                                Select a Node:
-                            </Typography>
-                            <Stack
-                                direction="row"
-                                spacing={2}
-                                justifyContent="center"
-                                flexWrap="wrap"
-                            >
-                                {treeNodes
-                                    .filter(node => node !== null)
-                                    .map((node, i) => (
-                                        <StyledButton
-                                            key={i}
-                                            value={node?.value}
-                                            sx={{
-                                                backgroundColor: selectedNode === i ? '#4CAF50' : "#fff",
-                                                color: selectedNode === i ? "#fff" : "#000",
-                                                borderColor: selectedNode === i ? '#4CAF50' : '#E0E0E0',
-                                            }}
-                                            selected={selectedNode === i}
-                                            onClick={() => handleNodeClick(i, node?.value)}
-                                        >
-                                            {node?.text}
-                                        </StyledButton>
-                                    ))}
+            <Grid container>
+                <Grid item sm={12} md={6}>
+                    <Box
+                        sx={{
+                            p: 0,
+                            boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
+                            overflow: 'hidden',
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: '100%',
+                            textAlign: 'left',
+                        }}
+                    >
+                        <Box sx={{ p: 5 }}>
+                            <Stack spacing={6} direction="column" sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
+                                <SubTitle />
+                                <MissionObjective />
+                                <StepInstruction selectedNode={selectedNode} />
+                                <Hint />
                             </Stack>
                         </Box>
-
-                        {selectedNode !== null && (
-                            <Box>
-                                <Typography variant="h6" sx={{ mb: 2, textAlign: 'center', color: '#222222' }}>
-                                    Now find the parent of node {treeNodes[selectedNode]?.text}:
-                                </Typography>
-                                <Stack
-                                    direction="row"
-                                    spacing={2}
-                                    justifyContent="center"
-                                    flexWrap="wrap"
-                                >
-                                    {treeNodes
-                                        .filter(node => node !== null)
-                                        .map((node, i) => (
-                                            <StyledButton
-                                                key={i}
-                                                value={node?.value}
-                                                sx={{
-                                                    backgroundColor: (errorIndicator === i) ? '#F44336' :
-                                                        (i === correctAnswer) ? '#4CAF50' : "#fff",
-                                                    color: (errorIndicator === i) ? "#fff" :
-                                                        (i === correctAnswer) ? "#fff" : "#000",
-                                                    borderColor: (errorIndicator === i) ? '#F44336' :
-                                                        (i === correctAnswer) ? '#4CAF50' : '#E0E0E0',
-                                                }}
-                                                selected={i === correctAnswer}
-                                                onClick={() => handleParentClick(i)}
-                                            >
-                                                {node?.text}
-                                            </StyledButton>
-                                        ))}
-                                </Stack>
-                            </Box>
-                        )}
-                    </Stack>
-                        </Card>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                        <Card
-                            sx={{
-                                p: 4,
-                                borderRadius: 3,
-                                backgroundColor: 'white',
-                                border: 'none',
-                                boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
-                                overflow: 'hidden',
-                                height: '100%'
-                            }}
-                        >
-                            <Typography
-                                variant="h5"
-                                sx={{
-                                    color: '#222222',
-                                    fontWeight: 600,
-                                    mb: 3,
-                                    textAlign: 'center'
-                                }}
-                            >
-                                Interactive Tree
-                            </Typography>
-                            
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    color: '#717171',
-                                    mb: 3,
-                                    textAlign: 'center'
-                                }}
-                            >
-                                Click on nodes in the tree below to select them
-                            </Typography>
-
-                            <TreeVisualization
-                                containerRef={containerRef}
-                                canvasRef={canvasRef}
-                                onNodeClick={handleTreeNodeClick}
-                                highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
-                                selectedNodes={selectedNode !== null ? [selectedNode] : []}
-                                disabledNodes={[0]} // Disable root node for parent selection
-                            />
-                        </Card>
-                    </Grid>
+                    </Box>
                 </Grid>
-            </Stack>
-        </Box>
+
+                <Grid item sm={12} md={6}>
+                    <TreeVisualization
+                        containerRef={containerRef}
+                        canvasRef={canvasRef}
+                        onNodeClick={handleTreeNodeClick}
+                        highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
+                        selectedNodes={selectedNode !== null ? [selectedNode] : []}
+                        disabledNodes={[]}
+                        lastClickedNode={lastClickedNode}
+                        lastClickResult={lastClickResult}
+                    />
+                </Grid>
+            </Grid>
+        </>
     );
 };
 
