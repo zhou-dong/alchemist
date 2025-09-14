@@ -208,7 +208,7 @@ const TreeHeight = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }:
                                     borderRadius: 2,
                                     p: 3,
                                     mb: 4,
-                                    border: '1px solid #FFB74D',
+                                    border: '1px solid #4CAF50',
                                     textAlign: 'center',
                                 }}
                                 >
