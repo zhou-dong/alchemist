@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Typography, Fade, Grid, Button } from "@mui/material";
+import { Box, Stack, Typography, Fade, Grid } from "@mui/material";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
@@ -8,6 +8,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { StepProps, Step } from "./types";
 import { TreeVisualization } from "./TreeVisualization";
 import { treeNodes } from "../tree";
+import { StyledButton } from "../../../../../games/two-pointers/longest-common-prefix/game/Component";
 
 const SuccessMessage: React.FC<{ showSuccess: boolean }> = ({ showSuccess }) => (
     <Fade
@@ -156,80 +157,90 @@ const Hint = () => (
     </Box>
 );
 
-const StepInstruction: React.FC<{ selectedOrder: number[] }> = ({ selectedOrder }) => (
-    <Box sx={{
-        borderRadius: 2,
-        p: 3,
-        mb: 4,
-        border: '1px solid #FFB74D'
-    }}>
-        <Stack direction="row" spacing={1} display="flex" alignItems="center" sx={{ mb: 2 }}>
-            <AssignmentIcon color="warning" fontSize="large" />
-            <Typography variant="h6" sx={{
-                color: '#222222',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1
-            }}>
-                Step: Click nodes in preorder sequence
-            </Typography>
-        </Stack>
-        <Typography variant="body1" sx={{ color: '#E65100', lineHeight: 1.6, fontWeight: 500 }}>
-            Current order: {selectedOrder.length > 0 ? selectedOrder.map(i => treeNodes[i]?.text).join(' → ') : 'Click nodes to start'}
-        </Typography>
-    </Box>
-);
-
 const PreorderTraversal = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: StepProps) => {
     const [selectedOrder, setSelectedOrder] = React.useState<number[]>([]);
     const [showSuccess, setShowSuccess] = React.useState(false);
     const [completed, setCompleted] = React.useState(false);
     const [clickedNodeIndex, setClickedNodeIndex] = React.useState<number | null>(null);
     const [showError, setShowError] = React.useState(false);
-    const [lastClickedNode, setLastClickedNode] = React.useState<number | null>(null);
-    const [lastClickResult, setLastClickResult] = React.useState<'correct' | 'incorrect' | null>(null);
 
     // Preorder traversal: Root, Left, Right
-    const correctPreorder = [0, 1, 3, 4, 2, 5]; // 1, 2, 4, 5, 3, 6
+    const correctPreorder = [0, 1, 3, 4, 2, 6]; // 1, 2, 4, 5, 3, 6
 
     const handleTreeNodeClick = (nodeIndex: number, nodeValue: string) => {
-        setClickedNodeIndex(nodeIndex);
-        setLastClickedNode(nodeIndex);
-        handleNodeClick(nodeIndex);
-    };
 
-    const handleNodeClick = (i: number) => {
-        if (completed) return;
-        
-        if (!selectedOrder.includes(i)) {
-            const newOrder = [...selectedOrder, i];
-            setSelectedOrder(newOrder);
-            setLastClickResult('correct');
-            
-            // Check if the order matches preorder traversal
-            if (newOrder.length === correctPreorder.length) {
-                const isCorrect = newOrder.every((node, index) => node === correctPreorder[index]);
+        setTimeout(() => {
+            setShowStepsIndicator(false);
+            setShowError(false);
+        }, 2000);
+
+        if (selectedOrder.includes(nodeIndex)) {
+            // remove the node from the selected order
+            setSelectedOrder(selectedOrder.filter(index => index !== nodeIndex));
+            setTimeout(() => setShowError(true), 2000);
+        } else {
+            // add the node to the selected order
+            const newSelectedOrder = [...selectedOrder, nodeIndex];
+            setSelectedOrder(newSelectedOrder);
+
+            console.log(newSelectedOrder);
+
+            if (newSelectedOrder.length === correctPreorder.length) {
+                const isCorrect = newSelectedOrder.every((node, index) => node === correctPreorder[index]);
                 if (isCorrect) {
                     setShowSuccess(true);
                     setCompleted(true);
-                    setTimeout(() => setStep(Step.INORDER_TRAVERSAL), 2000);
+                    setTimeout(() => setStep(Step.POSTORDER_TRAVERSAL), 2000);
                 } else {
                     setShowError(true);
-                    setLastClickResult('incorrect');
                     setTimeout(() => setShowError(false), 2000);
                 }
             }
         }
-    };
+    }
 
-    const resetOrder = () => {
-        setSelectedOrder([]);
-        setShowSuccess(false);
-        setCompleted(false);
-        setShowError(false);
-        setLastClickResult(null);
-    };
+    const DisplayTraversal = () => (
+        <Box sx={{
+            borderRadius: 2,
+            p: 3,
+            mb: 4,
+            border: '1px solid #E0E0E0',
+            textAlign: 'center',
+            mt: 4
+        }}>
+            <Stack direction="row" spacing={1} display="flex" alignItems="center" justifyContent="center" sx={{ mb: 3 }}>
+                <AssignmentIcon color="primary" fontSize="large" />
+                <Typography variant="h6" sx={{ color: '#222222', fontWeight: 600 }}>
+                    Traversal Steps
+                </Typography>
+            </Stack>
+
+            <Stack
+                direction="row"
+                spacing={2}
+                justifyContent="center"
+                flexWrap="wrap"
+            >
+                {
+                    selectedOrder
+                        .filter(node => node !== null)
+                        .map((node, i) => (
+                            <StyledButton
+                                key={i}
+                                value={treeNodes[node]?.text}
+                                sx={{
+                                    backgroundColor: '#4CAF50',
+                                    color: "#fff",
+                                    borderColor: '#4CAF50',
+                                }}
+                            >
+                                {treeNodes[node]?.text}
+                            </StyledButton>
+                        ))
+                }
+            </Stack>
+        </Box>
+    );
 
     return (
         <>
@@ -255,81 +266,9 @@ const PreorderTraversal = ({ containerRef, canvasRef, setStep, setShowStepsIndic
                             <Stack spacing={6} direction="column" sx={{ textAlign: 'left', mb: 6, width: '100%' }}>
                                 <SubTitle />
                                 <MissionObjective />
-                                <StepInstruction selectedOrder={selectedOrder} />
+                                <DisplayTraversal />
                                 <Hint />
                             </Stack>
-
-                            <Box sx={{ textAlign: 'center', mt: 4 }}>
-                                <Typography variant="h6" sx={{ mb: 3, color: '#222222', fontWeight: 600 }}>
-                                    Click nodes in preorder sequence:
-                                </Typography>
-                                
-                                <Stack
-                                    direction="row"
-                                    spacing={2}
-                                    justifyContent="center"
-                                    flexWrap="wrap"
-                                    sx={{ mb: 3 }}
-                                >
-                                    {treeNodes
-                                        .filter(node => node !== null)
-                                        .map((node, i) => (
-                                            <Box
-                                                key={i}
-                                                onClick={() => handleNodeClick(i)}
-                                                sx={{
-                                                    width: 60,
-                                                    height: 60,
-                                                    borderRadius: '50%',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    cursor: completed ? 'default' : 'pointer',
-                                                    backgroundColor: selectedOrder.includes(i) ? '#4CAF50' : "#fff",
-                                                    color: selectedOrder.includes(i) ? "#fff" : "#000",
-                                                    border: selectedOrder.includes(i) ? '2px solid #4CAF50' : '2px solid #E0E0E0',
-                                                    fontSize: '18px',
-                                                    fontWeight: 600,
-                                                    transition: 'all 0.2s ease',
-                                                    opacity: completed ? 0.6 : 1,
-                                                    '&:hover': {
-                                                        borderColor: completed ? '#E0E0E0' : '#4CAF50',
-                                                        transform: completed ? 'none' : 'scale(1.05)',
-                                                    }
-                                                }}
-                                            >
-                                                {node?.text}
-                                            </Box>
-                                        ))}
-                                </Stack>
-
-                                {completed && (
-                                    <Fade in>
-                                        <Box sx={{ textAlign: 'center', mt: 4 }}>
-                                            <Button
-                                                variant="contained"
-                                                size="large"
-                                                onClick={resetOrder}
-                                                sx={{
-                                                    backgroundColor: '#4CAF50',
-                                                    color: 'white',
-                                                    px: 4,
-                                                    py: 2,
-                                                    borderRadius: 2,
-                                                    fontSize: '1rem',
-                                                    fontWeight: 600,
-                                                    textTransform: 'none',
-                                                    '&:hover': {
-                                                        backgroundColor: '#45A049',
-                                                    },
-                                                }}
-                                            >
-                                                Try Again
-                                            </Button>
-                                        </Box>
-                                    </Fade>
-                                )}
-                            </Box>
                         </Box>
                     </Box>
                 </Grid>
@@ -342,8 +281,8 @@ const PreorderTraversal = ({ containerRef, canvasRef, setStep, setShowStepsIndic
                         highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
                         selectedNodes={selectedOrder}
                         disabledNodes={[]}
-                        lastClickedNode={lastClickedNode}
-                        lastClickResult={lastClickResult}
+                        lastClickedNode={null}
+                        lastClickResult={null}
                     />
                 </Grid>
             </Grid>
