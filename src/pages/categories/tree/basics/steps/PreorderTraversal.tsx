@@ -190,7 +190,7 @@ const PreorderTraversal = ({ containerRef, canvasRef, setStep, setShowStepsIndic
                 if (isCorrect) {
                     setShowSuccess(true);
                     setCompleted(true);
-                    setTimeout(() => setStep(Step.POSTORDER_TRAVERSAL), 2000);
+                    setTimeout(() => setStep(Step.INORDER_TRAVERSAL), 2000);
                 } else {
                     setShowError(true);
                     setTimeout(() => setShowError(false), 2000);

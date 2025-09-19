@@ -17,6 +17,7 @@ import {
     StepsIndicatorFab,
     StepsIndicator
 } from "./steps";
+import CelebrationSuccess from "./steps/CelebrationSuccess";
 import { BackToMainFab } from "./steps/BackToMainFab";
 
 
@@ -43,6 +44,7 @@ const Game: React.FC<{
                 {step === Step.PREORDER_TRAVERSAL && <PreorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} setShowStepsIndicator={setShowStepsIndicator} />}
                 {step === Step.INORDER_TRAVERSAL && <InorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} setShowStepsIndicator={setShowStepsIndicator} />}
                 {step === Step.POSTORDER_TRAVERSAL && <PostorderTraversal containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} setShowStepsIndicator={setShowStepsIndicator} />}
+                {step === Step.SUCCESS && <CelebrationSuccess containerRef={containerRef} canvasRef={canvasRef} setStep={setStep} setShowStepsIndicator={setShowStepsIndicator} />}
             </>
         );
     }

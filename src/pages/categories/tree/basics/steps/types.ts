@@ -16,6 +16,7 @@ export enum Step {
     PREORDER_TRAVERSAL = "PREORDER_TRAVERSAL",
     INORDER_TRAVERSAL = "INORDER_TRAVERSAL",
     POSTORDER_TRAVERSAL = "POSTORDER_TRAVERSAL",
+    SUCCESS = "SUCCESS",
 }
 
 export const stepNames = {
@@ -26,7 +27,8 @@ export const stepNames = {
     [Step.TREE_HEIGHT]: "Tree Height",
     [Step.PREORDER_TRAVERSAL]: "Preorder Traversal",
     [Step.INORDER_TRAVERSAL]: "Inorder Traversal",
-    [Step.POSTORDER_TRAVERSAL]: "Postorder Traversal"
+    [Step.POSTORDER_TRAVERSAL]: "Postorder Traversal",
+    [Step.SUCCESS]: "Success"
 };
 
 export const stepNumber = (currentStep: Step): number => {
