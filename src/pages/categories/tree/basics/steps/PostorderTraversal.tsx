@@ -168,9 +168,9 @@ const PostorderTraversal = ({ containerRef, canvasRef, setStep, setShowStepsIndi
     const correctPostorder = [3, 4, 1, 6, 2, 0]; // 4, 5, 2, 6, 3, 1
 
     const handleTreeNodeClick = (nodeIndex: number, nodeValue: string) => {
+        setShowStepsIndicator(false);
 
         setTimeout(() => {
-            setShowStepsIndicator(false);
             setShowError(false);
         }, 2000);
 
@@ -190,8 +190,9 @@ const PostorderTraversal = ({ containerRef, canvasRef, setStep, setShowStepsIndi
                 if (isCorrect) {
                     setShowSuccess(true);
                     setCompleted(true);
-                    setTimeout(() => setStep(Step.SUCCESS), 2000);
-                
+                    setTimeout(() => {
+                        setStep(Step.SUCCESS);
+                    }, 2000);
                 } else {
                     setShowError(true);
                     setTimeout(() => setShowError(false), 2000);

@@ -123,7 +123,7 @@ const MissionObjective = () => (
                 lineHeight: 1.6
             }}
         >
-            Identify and click the <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>root node</Box> -
+            Identify and <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>click</Box> the <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>root</Box> node -
             the topmost node with no parent. This is your starting point for tree traversal!
         </Typography>
     </Box>
@@ -166,10 +166,6 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
     const [lastClickedNode, setLastClickedNode] = React.useState<number | null>(null);
     const [lastClickResult, setLastClickResult] = React.useState<'correct' | 'incorrect' | null>(null);
 
-    setTimeout(() => {
-        setShowStepsIndicator(false);
-    }, 3000);
-
     const enableRootNode = () => {
         treeNodes
             .filter(node => node?.value === "root")
@@ -182,6 +178,7 @@ const FindRoot = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: S
     }
 
     const handleTreeNodeClick = (nodeIndex: number, nodeValue: string) => {
+        setShowStepsIndicator(false);
         setClickedNodeIndex(nodeIndex);
         handleClick(nodeIndex, nodeValue);
     };

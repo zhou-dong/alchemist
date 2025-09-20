@@ -168,9 +168,8 @@ const PreorderTraversal = ({ containerRef, canvasRef, setStep, setShowStepsIndic
     const correctPreorder = [0, 1, 3, 4, 2, 6]; // 1, 2, 4, 5, 3, 6
 
     const handleTreeNodeClick = (nodeIndex: number, nodeValue: string) => {
-
+        setShowStepsIndicator(false);
         setTimeout(() => {
-            setShowStepsIndicator(false);
             setShowError(false);
         }, 2000);
 
@@ -190,7 +189,10 @@ const PreorderTraversal = ({ containerRef, canvasRef, setStep, setShowStepsIndic
                 if (isCorrect) {
                     setShowSuccess(true);
                     setCompleted(true);
-                    setTimeout(() => setStep(Step.INORDER_TRAVERSAL), 2000);
+                    setTimeout(() => {
+                        setStep(Step.INORDER_TRAVERSAL);
+                        setShowStepsIndicator(true);
+                    }, 2000);
                 } else {
                     setShowError(true);
                     setTimeout(() => setShowError(false), 2000);

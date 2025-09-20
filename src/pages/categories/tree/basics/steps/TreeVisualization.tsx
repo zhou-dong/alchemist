@@ -106,7 +106,10 @@ export const TreeVisualization: React.FC<TreeVisualizationProps> = ({
             const node = treeNodes[lastClickedNode];
             if (node) {
                 node.color = lastClickResult;
-                node.selected = false; // Override selected state for color feedback
+                // Only override selected state if this node wasn't already selected
+                if (!selectedNodes.includes(lastClickedNode)) {
+                    node.selected = false;
+                }
                 if (lastClickResult === 'correct') {
                     node.emoji = "✓";
                 } else if (lastClickResult === 'incorrect') {

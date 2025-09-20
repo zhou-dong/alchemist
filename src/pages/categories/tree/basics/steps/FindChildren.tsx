@@ -238,7 +238,10 @@ const FindChildren = ({ containerRef, canvasRef, setStep, setShowStepsIndicator 
 
                 if (newSelected.length === correctChildren.length) {
                     setShowSuccess(true);
-                    setTimeout(() => setStep(Step.TREE_HEIGHT), 2000);
+                    setTimeout(() => {
+                        setStep(Step.TREE_HEIGHT);
+                        setShowStepsIndicator(true);
+                    }, 2000);
                 }
             }
         } else {
@@ -301,7 +304,10 @@ const FindChildren = ({ containerRef, canvasRef, setStep, setShowStepsIndicator 
                         canvasRef={canvasRef}
                         onNodeClick={handleTreeNodeClick}
                         highlightedNodes={clickedNodeIndex !== null ? [clickedNodeIndex] : []}
-                        selectedNodes={selectedNode !== null ? [selectedNode] : []}
+                        selectedNodes={[
+                            ...(selectedNode !== null ? [selectedNode] : []),
+                            ...selectedChildren
+                        ]}
                         disabledNodes={[]}
                         lastClickedNode={lastClickedNode}
                         lastClickResult={lastClickResult}

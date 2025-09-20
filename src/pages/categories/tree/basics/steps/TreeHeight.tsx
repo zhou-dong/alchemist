@@ -160,9 +160,7 @@ const TreeHeight = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }:
     const correctHeight = 3; // The tree has height 3 (root -> level 1 -> level 2 -> level 3)
 
     const handleAnswerClick = (height: number) => {
-        setTimeout(() => {
-            setShowStepsIndicator(false);
-        }, 2000);
+        setShowStepsIndicator(false);
 
         setTimeout(() => {
             setErrorIndicator(null);
@@ -173,7 +171,10 @@ const TreeHeight = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }:
 
         if (height === correctHeight) {
             setShowSuccess(true);
-            setTimeout(() => setStep(Step.PREORDER_TRAVERSAL), 2000);
+            setTimeout(() => {
+                setStep(Step.PREORDER_TRAVERSAL);
+                setShowStepsIndicator(true);
+            }, 2000);
         } else {
             setErrorIndicator(height);
         }

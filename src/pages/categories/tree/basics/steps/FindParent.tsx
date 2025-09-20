@@ -211,7 +211,10 @@ const FindParent = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }:
         if (nodeIndex === correctAnswer) {
             setShowSuccess(true);
             setLastClickResult('correct');
-            setTimeout(() => setStep(Step.FIND_CHILDREN), 2000);
+            setTimeout(() => {
+                setStep(Step.FIND_CHILDREN);
+                setShowStepsIndicator(true);
+            }, 2000);
         } else {
             setErrorIndicator(nodeIndex);
             setLastClickResult('incorrect');

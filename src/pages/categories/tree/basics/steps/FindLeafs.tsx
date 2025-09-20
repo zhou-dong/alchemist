@@ -121,7 +121,7 @@ const MissionObjective = () => (
                 lineHeight: 1.6
             }}
         >
-            Identify and click <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>all leaf nodes</Box> -
+            Identify and <Box component="span" sx={{ fontWeight: 600, color: '#4CAF50' }}>click all leaf</Box> nodes -
             nodes with no children. These are the endpoints of the tree!
         </Typography>
     </Box>
@@ -188,7 +188,10 @@ const FindLeafs = ({ containerRef, canvasRef, setStep, setShowStepsIndicator }: 
                 if (selectedLeafs.length === leafNodes.length) {
                     setCompleted(true);
                     setShowSuccess(true);
-                    setTimeout(() => setStep(Step.FIND_PARENT), 2000);
+                    setTimeout(() => {
+                        setStep(Step.FIND_PARENT);
+                        setShowStepsIndicator(true);
+                    }, 2000);
                 }
             }
         } else {
