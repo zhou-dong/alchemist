@@ -1,14 +1,16 @@
 import { AnimateEvent } from "./animateEvent";
+import { CallEvent } from "./callEvent";
 
 export type StepEvent =
     | AnimateStepEvent
+    | CallStepEvent
     | WaitStepEvent
     | SequenceStepsEvent
     | ParallelStepsEvent;
 
-export type AnimateStepEvent = AnimateEvent & {
-    type: 'animate';
-};
+export type AnimateStepEvent = AnimateEvent;
+
+export type CallStepEvent = CallEvent;
 
 export type WaitStepEvent = {
     type: 'wait';

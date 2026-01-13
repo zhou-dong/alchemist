@@ -2,9 +2,9 @@
 export * from './types/animatable';
 
 // events
-export * from './types/timelineEvent';
+export * from './types/timelineEvents';
 export * from './types/stepEvents';
-export * from './dsl/timelineEvent';
+export * from './dsl/timelineEvents';
 export * from './dsl/stepEvents';
 
 // scenes
